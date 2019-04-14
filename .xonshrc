@@ -1,0 +1,40 @@
+# tabではなく空白4つ
+$INDENT = "    "
+
+# 補完時に大小区別しない
+$CASE_SENSITIVE_COMPLETIONS = False
+
+# 補完選択Enterで即実行しない
+$COMPLETIONS_CONFIRM = True
+
+# 連続重複コマンドを保存しない
+$HISTCONTROL = 'ignoredups'
+
+# 括弧を補完
+$XONSH_AUTOPAIR = True
+
+# ディレクトリ名を入力すればcdできる
+$AUTO_CD = True
+
+# エラー全て吐くように
+$XONSH_SHOW_TRACEBACK = True
+
+# プロンプトの設定タイムアウトのメッセージ抑制
+$SUPPRESS_BRANCH_TIMEOUT_MESSAGE = True
+
+# Look & Feel inspired by oh-my-fish/theme-yimmy
+# Go http://xon.sh/tutorial.html#customizing-the-prompt for help
+
+$PROMPT = "\n{RED}┌{INTENSE_GREEN}[ {cwd} ] {gitstatus}\n{RED}└{INTENSE_GREEN}> "
+$RIGHT_PROMPT = "\n{user}@{hostname}"
+
+## lsコマンドの結果の見た目
+$LS_COLORS="di=34:ln=35:so=32:pi=33:ex=31:bd=46;34:cd=43;34:su=41;30:sg=46;30:tw=42;30:ow=43;30"
+
+
+# aliases
+
+aliases['ls'] = "ls --color=auto"
+aliases["la"] = "ls -a"
+aliases["ll"] = "ls -l"
+aliases["lla"] = "ls -la"
