@@ -1,34 +1,37 @@
-# tabではなく空白4つ
+# Color style. See choices and the chosen by `xonfig styles`
+$XONSH_COLOR_STYLE = "monokai"
+
+# Indent with 4 spaces
 $INDENT = "    "
 
-# 補完時に大小区別しない
+# Auto complete neglecting upper/lower cases
 $CASE_SENSITIVE_COMPLETIONS = False
 
-# 補完選択Enterで即実行しない
+# Auto complete without running
 $COMPLETIONS_CONFIRM = True
 
-# 連続重複コマンドを保存しない
+# Do not save duplicated history
 $HISTCONTROL = 'ignoredups'
 
-# 括弧を補完
+# Complete braces
 $XONSH_AUTOPAIR = True
 
-# ディレクトリ名を入力すればcdできる
+# Input only path to `cd` wihtou `cd`
 $AUTO_CD = True
 
-# エラー全て吐くように
+# Show traceback
 $XONSH_SHOW_TRACEBACK = True
 
-# プロンプトの設定タイムアウトのメッセージ抑制
+# Suppress branch timeout message
 $SUPPRESS_BRANCH_TIMEOUT_MESSAGE = True
 
 # Look & Feel inspired by oh-my-fish/theme-yimmy
-# Go http://xon.sh/tutorial.html#customizing-the-prompt for help
+# http://xon.sh/tutorial.html#customizing-the-prompt
 
-$PROMPT = "\n{RED}┌{INTENSE_GREEN}[ {cwd} ] {gitstatus}\n{RED}└{INTENSE_GREEN}> "
+$PROMPT = "\n{RED}┌{INTENSE_GREEN}[ {cwd} ] {gitstatus}\n{RED}└{INTENSE_GREEN}>{NO_COLOR} "
 $RIGHT_PROMPT = "\n{user}@{hostname}"
 
-## lsコマンドの結果の見た目
+## Look & Feel for ls
 $LS_COLORS="di=34:ln=35:so=32:pi=33:ex=31:bd=46;34:cd=43;34:su=41;30:sg=46;30:tw=42;30:ow=43;30"
 
 
