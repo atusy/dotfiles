@@ -1,43 +1,61 @@
-# Color style. See choices and the chosen by `xonfig styles`
-$XONSH_COLOR_STYLE = "monokai"
+# ENV VARS
 
-# Indent with 4 spaces
-$INDENT = "    "
+# Auto completions
 
-# Auto complete neglecting upper/lower cases
+$UPDATE_COMPLETIONS_ON_KEYPRESS = True
+$AUTO_SUGGEST_IN_COMPLETIONS = True
+$FUZZY_PATH_COMPLETION = True
+$AUTO_SUGGEST = True
+
+## Neglecting upper/lower cases
 $CASE_SENSITIVE_COMPLETIONS = False
 
-# Auto complete without running
-$COMPLETIONS_CONFIRM = True
-
-# Do not save duplicated history
-$HISTCONTROL = 'ignoredups'
-
-# Complete braces
+## Complete braces
 $XONSH_AUTOPAIR = True
 
-# Input only path to `cd` wihtou `cd`
-$AUTO_CD = True
+## Run after completion
+$COMPLETIONS_CONFIRM = False
 
-# Show traceback
-$XONSH_SHOW_TRACEBACK = True
 
-# Suppress branch timeout message
-$SUPPRESS_BRANCH_TIMEOUT_MESSAGE = True
 
 # Look & Feel inspired by oh-my-fish/theme-yimmy
-# http://xon.sh/tutorial.html#customizing-the-prompt
+## http://xon.sh/tutorial.html#customizing-the-prompt
 
-$PROMPT = "\n{RED}┌{INTENSE_GREEN}[ {cwd} ] {gitstatus}\n{RED}└{INTENSE_GREEN}>{NO_COLOR} "
-$RIGHT_PROMPT = "\n{user}@{hostname}"
+$TITLE = '{current_job:{} | }{short_cwd}'
+$PROMPT = "{RED}┌{INTENSE_GREEN}[ {cwd} ] {gitstatus}\n{RED}└{INTENSE_GREEN}>{NO_COLOR} "
+$RIGHT_PROMPT = "{user}@{hostname}"
+$XONSH_APPEND_NEWLINE = True
 
-## Look & Feel for ls
+## Indent with 4 spaces
+$INDENT = "    "
+
+## Color style in basic. Check `xonfig styles`
+$XONSH_COLOR_STYLE = "monokai"
+
+## Color style for `ls`
 $LS_COLORS="di=34:ln=35:so=32:pi=33:ex=31:bd=46;34:cd=43;34:su=41;30:sg=46;30:tw=42;30:ow=43;30"
 
 
-# aliases
+# and more
+## Do not save duplicated history
+$HISTCONTROL = 'ignoredups'
+
+## Input only path to `cd` wihtou `cd`
+$AUTO_CD = True
+
+## Show traceback
+$XONSH_SHOW_TRACEBACK = True
+
+## Suppress branch timeout message
+$SUPPRESS_BRANCH_TIMEOUT_MESSAGE = True
+
+
+
+# ALIASES
 
 aliases['ls'] = "ls --color=auto"
 aliases["la"] = "ls -a"
 aliases["ll"] = "ls -l"
 aliases["lla"] = "ls -la"
+
+aliases["cd.atusyverse"] = "cd ~/Documents/R/pkg/atusyverse"
