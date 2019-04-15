@@ -58,4 +58,21 @@ aliases["la"] = "ls -a"
 aliases["ll"] = "ls -l"
 aliases["lla"] = "ls -la"
 
-aliases["cd.atusyverse"] = "cd ~/Documents/R/pkg/atusyverse"
+# FUNC ± ALIASES
+
+def _sands() :
+    killall xcape
+    xmodmap -e 'keycode 255=space'
+    xmodmap -e 'keycode 65=Shift_L'
+    xcape -e '#65=space'
+
+aliases["sands"] = _sands
+
+def _hhk() :
+    xmodmap -e "clear mod4"
+    xmodmap -e "keycode 100 = Super_R"
+    xmodmap -e "keycode 102 = Super_L"
+    xmodmap -e "add mod4 = Super_R Super_L"
+    _sands()
+
+aliases["hhk"] = _hhk
