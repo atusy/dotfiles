@@ -46,7 +46,7 @@ snippets:
     keyword: rgp
     snippet: 'rg -p {{args}} | nvimpager'
 
-  # Some aliases that I often forget roots
+  # Some aliases that I often forget their real names 
   - name: htop
     keyword: top
     snippet: 'bash -c "command -v top > /dev/null && echo htop || echo top"'
