@@ -1,0 +1,33 @@
+export XDG_CONFIG_DIR=$HOME/.config
+
+if [[ -d /usr/local/bin ]]
+then
+  if echo "$PATH" | grep -q '/usr/local/bin'
+  then
+    :
+  else
+    export PATH="/usr/local/bin:$PATH"
+  fi
+fi
+
+# GO
+export GOPATH="${GOPATH:-"${HOME}/go"}"
+export PATH="$GOPATH/bin:$PATH"
+mkdir -p "$GOPATH"
+
+# Python
+if [[ -d "$HOME/.pyenv" ]]; then
+  export PYENV_ROOT="$HOME/.pyenv"
+  export PATH="$PYENV_ROOT/bin:$PATH"
+  eval "$(pyenv init --path)"
+fi
+export PIPENV_VENV_IN_PROJECT=true
+
+# linuxbrew
+if [[ -d "$HOME/.linuxbrew" ]]
+then
+  eval "$($HOME/.linuxbrew/bin/brew shellenv)"
+fi
+
+export TMUX_SHELL="$( command -v zsh || echo "$SHELL" )"
+

@@ -1,0 +1,18 @@
+setopt no_global_rcs
+typeset -U path fpath
+
+if command -v nvim > /dev/null
+then
+  export MANPAGER='nvim -c Man! -M -c"set nu rnu"'
+  export EDITOR='nvim'
+elif command -v vim > /dev/null
+then
+  export EDITOR='vim'
+fi
+
+export QT_QPA_PLATFORMTHEME="qt5ct"
+_byobu_sourced=1 . /usr/bin/byobu-launch 2>/dev/null || true
+export GIT_MERGE_AUTOEDIT=no
+export NNN_FCOLORS='c1e2272e006033f7c6d6abc4'
+unset BROWSER
+
