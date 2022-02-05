@@ -21,12 +21,12 @@ snippets:
     keyword: gh
     snippet: ghf
     context:
-      lbuffer: '^(.*\|\s)?'
+      buffer: '^((.+\|\s+gh)|gh)$'
   - name: glab fzf
     keyword: gl
     snippet: glabf
     context:
-      lbuffer: '^(.*\|\s)?'
+      buffer: '^((.+\|\s+gl)|gl)$'
   - name: fzf
     keyword: fzf
     snippet: fzf --ansi
