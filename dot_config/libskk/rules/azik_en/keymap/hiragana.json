@@ -1,0 +1,16 @@
+{
+    "include": [
+        "common",
+        "default/hiragana"
+    ],
+    "define": {
+        "keymap": {
+            "Escape": "set-input-mode-latin",
+            "C-l": "set-input-mode-latin",
+            "l": null,
+            "'": "set-input-mode-katakana",
+            "q": null,
+            "Q": "start-preedit insert-kana-ん"
+        }
+    }
+}
