@@ -38,8 +38,6 @@ else
   zinit light-mode for "agkozak/zsh-z"
 fi
 
-PROMPT='%F{${PROMPT_ACCENT_COLOR}}┌[ %3~ ]%F{white}$(gitprompt)
-%F{${PROMPT_ACCENT_COLOR}}└ ' # set before autswitch-virtualenv
 zinit ice depth"1" wait lucid
 zinit light-mode for \
   mafredri/zsh-async \
@@ -345,8 +343,8 @@ ZSH_THEME_GIT_PROMPT_UNMERGED="%{$fg[red]%}x"
 ZSH_THEME_GIT_PROMPT_STAGED="%{$fg[green]%}o"
 ZSH_THEME_GIT_PROMPT_UNSTAGED="%{$fg[red]%}+"
 PROMPT_ACCENT_COLOR="112"
-PROMPT='%F{${PROMPT_ACCENT_COLOR}}┌[ %3~ ]%F{white}$(gitprompt)
-%F{${PROMPT_ACCENT_COLOR}}└ '
+PROMPT='%F{${PROMPT_ACCENT_COLOR}}[ %3~ ]%F{white}$(gitprompt)
+%F{${PROMPT_ACCENT_COLOR}}❯ '
 # zeno
 if [[ -n $ZENO_LOADED ]]; then
   bindkey ' '  zeno-auto-snippet
