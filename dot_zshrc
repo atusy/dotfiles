@@ -1,3 +1,10 @@
+# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
+# Initialization code that may require console input (password prompts, [y/n]
+# confirmations, etc.) must go above this block; everything else may go below.
+if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+fi
+
 # Zinit
 ## Init
 if ! test -d "$HOME/.zinit/bin"; then
@@ -38,15 +45,13 @@ else
   zinit light-mode for "agkozak/zsh-z"
 fi
 
-PROMPT='%F{${PROMPT_ACCENT_COLOR}}┌[ %3~ ]%F{white}$(gitprompt)
-%F{${PROMPT_ACCENT_COLOR}}└ ' # set before autswitch-virtualenv
 zinit ice depth"1" wait lucid
 zinit light-mode for \
+  romkatv/powerlevel10k \
   mafredri/zsh-async \
   zsh-users/zsh-completions \
   jeffreytse/zsh-vi-mode \
   chrissicool/zsh-256color \
-  woefe/git-prompt.zsh \
   mollifier/cd-gitroot \
   yuki-yano/zeno.zsh \
   zsh-users/zsh-autosuggestions \
@@ -337,16 +342,6 @@ function via() {
 # Options
 ZSH_AUTOSUGGEST_USE_ASYNC=1
 
-# Prompt: requires woefe/git-prompt.zsh
-ZSH_THEME_GIT_PROMPT_PREFIX=" "
-ZSH_THEME_GIT_PROMPT_SUFFIX=""
-ZSH_THEME_GIT_PROMPT_UNTRACKED=".."
-ZSH_THEME_GIT_PROMPT_UNMERGED="%{$fg[red]%}x"
-ZSH_THEME_GIT_PROMPT_STAGED="%{$fg[green]%}o"
-ZSH_THEME_GIT_PROMPT_UNSTAGED="%{$fg[red]%}+"
-PROMPT_ACCENT_COLOR="112"
-PROMPT='%F{${PROMPT_ACCENT_COLOR}}┌[ %3~ ]%F{white}$(gitprompt)
-%F{${PROMPT_ACCENT_COLOR}}└ '
 # zeno
 if [[ -n $ZENO_LOADED ]]; then
   bindkey ' '  zeno-auto-snippet
@@ -393,3 +388,6 @@ zinit light-mode for \
     zdharma-continuum/zinit-annex-rust
 
 ### End of Zinit's installer chunk
+
+# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
+[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
