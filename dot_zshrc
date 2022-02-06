@@ -42,7 +42,6 @@ zinit ice depth"1" wait lucid
 zinit light-mode for \
   mafredri/zsh-async \
   zsh-users/zsh-completions \
-  jeffreytse/zsh-vi-mode \
   chrissicool/zsh-256color \
   woefe/git-prompt.zsh \
   mollifier/cd-gitroot \
@@ -50,6 +49,8 @@ zinit light-mode for \
   zsh-users/zsh-autosuggestions \
   zdharma-continuum/fast-syntax-highlighting \
   atusy/gh-fzf
+zinit ice ver"c1480b4a96dfe9ff5ca28f482a7417db25bdd797" wait lucid # https://github.com/jeffreytse/zsh-vi-mode/issues/122#issuecomment-966591236
+zinit light jeffreytse/zsh-vi-mode
 if command -v fzf > /dev/null; then
   zinit ice depth"1" wait lucid cp"shell/key-bindings.zsh -> key-bindings.plugin.zsh" 
   zinit light junegunn/fzf
