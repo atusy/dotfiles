@@ -112,7 +112,6 @@ zstyle ':completion:*' special-dirs true
 zstyle ':completion:*' auto-description 'Specify: %d'
 zstyle ':completion:*' select-prompt %SScrolling Active: Current selection at %p%s
 zstyle ':completion:*' list-prompt %SAt %p: Hit TAB for more, or the character to insert%s
-zstyle ':completion:*:sudo:*' command-path $path
 zstyle ':completion:*:options'         description 'yes'
 zstyle ':completion:*:*:-subscript-:*' tag-order indexes parameters
 
@@ -133,8 +132,8 @@ zstyle ':completion:*' cache-path "$HOME/.zsh/cache"
 
 ### Others
 zstyle ':completion:*' remote-access false
-zstyle ':completion:*:sudo:*' command-path /usr/local/sbin /usr/local/bin /usr/sbin /usr/bin /sbin /bin
 zstyle :compinstall filename '/home/atusy/.zshrc'
+zstyle ':completion:*:sudo:*' command-path $path
 zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
 zstyle ':completion::complete:*' use-cache true
 
