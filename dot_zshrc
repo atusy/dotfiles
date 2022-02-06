@@ -210,15 +210,7 @@ if command -v xdg-open > /dev/null; then
   }
 fi
 
-
-alias Less="less -r"
-alias Cp="cp -i"       # confirm before overwriting something
-alias gh='ghf'
-alias gl='glabf'
 alias gd='cd-gitroot'
-alias Ping='ping -c 5' # limit number of trials
-alias Fzf='fzf --ansi'
-alias Fzf-tmux='fzf-tmux --ansi'
 
 function gi() {
   # fuzzy cd in git project.
