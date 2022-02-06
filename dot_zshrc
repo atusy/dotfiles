@@ -132,12 +132,12 @@ zstyle ':completion:*' cache-path "$HOME/.zsh/cache"
 
 ### Others
 zstyle ':completion:*' remote-access false
-zstyle :compinstall filename '/home/atusy/.zshrc'
 zstyle ':completion:*:sudo:*' command-path $path
 zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
 zstyle ':completion::complete:*' use-cache true
 
 ## Enable completions
+zstyle ':compinstall' filename "$HOME/.zshrc"
 autoload -Uz compinit
 compinit
 
