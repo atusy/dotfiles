@@ -18,3 +18,5 @@ export GIT_MERGE_AUTOEDIT=no
 export NNN_FCOLORS='c1e2272e006033f7c6d6abc4'
 unset BROWSER
 
+[[ -f "$HOME/.config/zsh/local.zshenv" ]] && source "$HOME/.config/zsh/local.zshenv"
+

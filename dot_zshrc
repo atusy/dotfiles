@@ -382,4 +382,6 @@ zinit light-mode for \
     zdharma-continuum/zinit-annex-patch-dl \
     zdharma-continuum/zinit-annex-rust
 
+[[ -f "$HOME/.config/zsh/local.zshrc" ]] && source "$HOME/.config/zsh/local.zshrc"
+
 ### End of Zinit's installer chunk
