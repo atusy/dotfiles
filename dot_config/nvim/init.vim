@@ -44,42 +44,42 @@ command! -nargs=* T split | wincmd j | resize 20 | terminal <args>
 
 
 " PLUGIN SETTINGS
-call plug#begin('~/.config/nvim/plugged')
-Plug 'vim-airline/vim-airline'
-Plug 'vim-airline/vim-airline-themes'
-Plug 'tpope/vim-commentary'
-Plug 'neoclide/coc.nvim', {'branch': 'release'}
-Plug 'preservim/nerdtree'
-Plug 'ryanoasis/vim-devicons'
-Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
-Plug 'airblade/vim-gitgutter'
-Plug 'easymotion/vim-easymotion'
-call plug#end()
+call jetpack#begin()
+Jetpack 'vim-airline/vim-airline'
+Jetpack 'vim-airline/vim-airline-themes'
+Jetpack 'tpope/vim-commentary'
+Jetpack 'neoclide/coc.nvim', {'branch': 'release'}
+Jetpack 'preservim/nerdtree'
+Jetpack 'ryanoasis/vim-devicons'
+Jetpack 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+Jetpack 'airblade/vim-gitgutter'
+Jetpack 'easymotion/vim-easymotion'
+call jetpack#end()
 
 " NERDTree SETTINGS
 nmap <C-f> :NERDTreeToggle<CR>
 let g:airline#extensions#tabline#enabled = 1
-nmap <C-p> <Plug>AirlineSelectPrevTab
-nmap <C-n> <Plug>AirlineSelectNextTab
+nmap <C-p> <Jetpack>AirlineSelectPrevTab
+nmap <C-n> <Jetpack>AirlineSelectNextTab
 
 " Airline SETTINGS
 let g:airline_powerline_fonts = 1
 
 " Easymotion SETTINGS
 " <Leader>f{char} to move to {char}
-map  <Leader>f <Plug>(easymotion-bd-f)
-nmap <Leader>f <Plug>(easymotion-overwin-f)
+map  <Leader>f <Jetpack>(easymotion-bd-f)
+nmap <Leader>f <Jetpack>(easymotion-overwin-f)
 
 " s{char}{char} to move to {char}{char}
-nmap <Leader>s <Plug>(easymotion-overwin-f2)
+nmap <Leader>s <Jetpack>(easymotion-overwin-f2)
 
 " Move to line
-map <Leader>l <Plug>(easymotion-bd-jk)
-nmap <Leader>l <Plug>(easymotion-overwin-line)
+map <Leader>l <Jetpack>(easymotion-bd-jk)
+nmap <Leader>l <Jetpack>(easymotion-overwin-line)
 
 " Move to word
-map  <Leader>w <Plug>(easymotion-bd-w)
-nmap <Leader>w <Plug>(easymotion-overwin-w)
+map  <Leader>w <Jetpack>(easymotion-bd-w)
+nmap <Leader>w <Jetpack>(easymotion-overwin-w)
 
 " Esc SETTINGS
 inoremap jk <Esc>
