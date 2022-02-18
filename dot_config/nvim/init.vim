@@ -44,6 +44,11 @@ command! -nargs=* T split | wincmd j | resize 20 | terminal <args>
 
 
 " PLUGIN SETTINGS
+let data_dir = has('nvim') ? stdpath('data') . '/site' : '~/.vim'
+if empty(glob(data_dir . '/autoload/jetpack.vim'))
+  silent execute '!curl -fLo '.data_dir.'/autoload/jetpack.vim --create-dirs  https://raw.githubusercontent.com/tani/vim-jetpack/master/autoload/jetpack.vim'
+  autocmd VimEnter * JetpackSync | source $MYVIMRC
+endif
 call jetpack#begin()
 Jetpack 'vim-airline/vim-airline'
 Jetpack 'vim-airline/vim-airline-themes'
