@@ -54,21 +54,21 @@ Jetpack 'vim-airline/vim-airline'
 Jetpack 'vim-airline/vim-airline-themes'
 Jetpack 'tpope/vim-commentary'
 Jetpack 'neoclide/coc.nvim', {'branch': 'release'}
-Jetpack 'preservim/nerdtree'
+Jetpack 'lambdalisue/fern.vim'
 Jetpack 'ryanoasis/vim-devicons'
 Jetpack 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 Jetpack 'airblade/vim-gitgutter'
 Jetpack 'easymotion/vim-easymotion'
 call jetpack#end()
 
-" NERDTree SETTINGS
-nmap <C-f> :NERDTreeToggle<CR>
+" Airline SETTINGS
+let g:airline_powerline_fonts = 1
 let g:airline#extensions#tabline#enabled = 1
 nmap <C-p> <Jetpack>AirlineSelectPrevTab
 nmap <C-n> <Jetpack>AirlineSelectNextTab
 
-" Airline SETTINGS
-let g:airline_powerline_fonts = 1
+" Fern SETTINGS
+nmap <C-f> :Fern . -drawer<CR>
 
 " Easymotion SETTINGS
 " <Leader>f{char} to move to {char}
