@@ -21,6 +21,7 @@ set guifontwide=Cica "DroidSansMono\ Nerd\ Font\ 13
 set pumheight=10 "Upper limit of completion list
 set mouse=a
 set termguicolors
+set hidden " Allow switching buffers without writing
 
 set autoindent
 set incsearch
@@ -52,6 +53,7 @@ if empty(glob(data_dir . '/autoload/jetpack.vim'))
 endif
 call jetpack#begin()
 Jetpack 'feline-nvim/feline.nvim'
+Jetpack 'zefei/vim-wintabs'
 Jetpack 'tpope/vim-commentary'
 Jetpack 'neoclide/coc.nvim', {'branch': 'release'}
 Jetpack 'lambdalisue/fern.vim'
@@ -67,6 +69,16 @@ require('feline').setup({
   preset = 'noicon'
 })
 EOF
+
+" wintabs SETTINGS
+" :help wintabs-commands
+map <C-H> <Plug>(wintabs_next)
+map <C-L> <Plug>(wintabs_previous)
+map <C-T>c <Plug>(wintabs_close)
+map <C-T>u <Plug>(wintabs_undo)
+map <C-T>o <Plug>(wintabs_only)
+map <C-W>c <Plug>(wintabs_close_window)
+map <C-W>o <Plug>(wintabs_only_window)
 
 " Fern SETTINGS
 nmap <C-f> :Fern . -drawer<CR>
