@@ -73,19 +73,19 @@ nmap <C-f> :Fern . -drawer<CR>
 
 " Easymotion SETTINGS
 " <Leader>f{char} to move to {char}
-map  <Leader>f <Jetpack>(easymotion-bd-f)
-nmap <Leader>f <Jetpack>(easymotion-overwin-f)
+map  <Leader>f <Plug>(easymotion-bd-f)
+nmap <Leader>f <Plug>(easymotion-overwin-f)
 
 " s{char}{char} to move to {char}{char}
-nmap <Leader>s <Jetpack>(easymotion-overwin-f2)
+nmap <Leader>s <Plug>(easymotion-overwin-f2)
 
 " Move to line
-map <Leader>l <Jetpack>(easymotion-bd-jk)
-nmap <Leader>l <Jetpack>(easymotion-overwin-line)
+map <Leader>l <Plug>(easymotion-bd-jk)
+nmap <Leader>l <Plug>(easymotion-overwin-line)
 
 " Move to word
-map  <Leader>w <Jetpack>(easymotion-bd-w)
-nmap <Leader>w <Jetpack>(easymotion-overwin-w)
+map  <Leader>w <Plug>(easymotion-bd-w)
+nmap <Leader>w <Plug>(easymotion-overwin-w)
 
 " Esc SETTINGS
 inoremap jk <Esc>
