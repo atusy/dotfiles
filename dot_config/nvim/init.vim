@@ -19,7 +19,7 @@ set matchtime=1 "showmatch within matchtime * 0.1 sec
 set guifont=Cica "DroidSansMono\ Nerd\ Font\ 13
 set guifontwide=Cica "DroidSansMono\ Nerd\ Font\ 13
 set pumheight=10 "Upper limit of completion list
-
+set mouse=a
 
 set autoindent
 set incsearch
