@@ -57,10 +57,11 @@ Jetpack 'zefei/vim-wintabs'
 Jetpack 'tpope/vim-commentary'
 Jetpack 'neoclide/coc.nvim', {'branch': 'release'}
 Jetpack 'lambdalisue/fern.vim'
-Jetpack 'ryanoasis/vim-devicons'
 Jetpack 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 Jetpack 'airblade/vim-gitgutter'
 Jetpack 'easymotion/vim-easymotion'
+Jetpack 'haya14busa/vim-edgemotion'
+Jetpack 'simeji/winresizer'
 call jetpack#end()
 
 " feline SETTINGS
@@ -102,6 +103,10 @@ nmap <Leader>w <Plug>(easymotion-overwin-w)
 " Esc SETTINGS
 inoremap jk <Esc>
 inoremap jj <Esc>
+
+" Edgemotion SETTINGS
+map <C-j> <Plug>(edgemotion-j)
+map <C-k> <Plug>(edgemotion-k)
 
 " /// Enable Netrw (default file browser)
 " filetype plugin on
