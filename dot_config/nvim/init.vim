@@ -20,6 +20,7 @@ set guifont=Cica "DroidSansMono\ Nerd\ Font\ 13
 set guifontwide=Cica "DroidSansMono\ Nerd\ Font\ 13
 set pumheight=10 "Upper limit of completion list
 set mouse=a
+set termguicolors
 
 set autoindent
 set incsearch
@@ -50,8 +51,7 @@ if empty(glob(data_dir . '/autoload/jetpack.vim'))
   autocmd VimEnter * JetpackSync | source $MYVIMRC
 endif
 call jetpack#begin()
-Jetpack 'vim-airline/vim-airline'
-Jetpack 'vim-airline/vim-airline-themes'
+Jetpack 'feline-nvim/feline.nvim'
 Jetpack 'tpope/vim-commentary'
 Jetpack 'neoclide/coc.nvim', {'branch': 'release'}
 Jetpack 'lambdalisue/fern.vim'
@@ -61,11 +61,12 @@ Jetpack 'airblade/vim-gitgutter'
 Jetpack 'easymotion/vim-easymotion'
 call jetpack#end()
 
-" Airline SETTINGS
-let g:airline_powerline_fonts = 1
-let g:airline#extensions#tabline#enabled = 1
-nmap <C-p> <Jetpack>AirlineSelectPrevTab
-nmap <C-n> <Jetpack>AirlineSelectNextTab
+" feline SETTINGS
+lua << EOF
+require('feline').setup({
+  preset = 'noicon'
+})
+EOF
 
 " Fern SETTINGS
 nmap <C-f> :Fern . -drawer<CR>
