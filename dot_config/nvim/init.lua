@@ -37,15 +37,16 @@ require('jetpack').startup(function(use)
   use 'tpope/vim-commentary'
   use 'easymotion/vim-easymotion'
   use 'haya14busa/vim-edgemotion'
-  if vim.g.vscode then
-    use 'feline-nvim/feline.nvim'
-    use 'zefei/vim-wintabs'
-    use {'neoclide/coc.nvim', branch = 'release'}
-    use 'lambdalisue/fern.vim'
-    use {'nvim-treesitter/nvim-treesitter', ['do'] = ':TSUpdate'}
-    use 'airblade/vim-gitgutter'
-    use 'simeji/winresizer'
-  end
+
+  if vim.g.vscode then return end
+
+  use 'feline-nvim/feline.nvim'
+  use 'zefei/vim-wintabs'
+  use {'neoclide/coc.nvim', branch = 'release'}
+  use 'lambdalisue/fern.vim'
+  use {'nvim-treesitter/nvim-treesitter', ['do'] = ':TSUpdate'}
+  use 'airblade/vim-gitgutter'
+  use 'simeji/winresizer'
 end)
 
 -- Easymotion SETTINGS
