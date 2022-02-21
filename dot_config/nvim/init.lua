@@ -25,8 +25,9 @@ vim.api.nvim_set_keymap('n', 'X', '"_X', { noremap = true} )
 vim.api.nvim_exec([[
 let data_dir = has('nvim') ? stdpath('data') . '/site' : '~/.vim'
 if empty(glob(data_dir . '/autoload/jetpack.vim'))
-  silent execute '!curl -fLo '.data_dir.'/autoload/jetpack.vim --create-dirs  https://raw.githubusercontent.com/tani/vim-jetpack/master/autoload/jetpack.vim'
   autocmd VimEnter * JetpackSync | source $MYVIMRC
+  silent execute '!curl -fLo '.data_dir.'/autoload/jetpack.vim --create-dirs  https://raw.githubusercontent.com/tani/vim-jetpack/master/autoload/jetpack.vim'
+  silent execute '!curl -fLo ~/.config/nvim/lua/jetpack.lua --create-dirs https://raw.githubusercontent.com/tani/vim-jetpack/master/lua/jetpack.lua'
 endif
 ]],
 false)
