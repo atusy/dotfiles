@@ -27,27 +27,45 @@ let data_dir = has('nvim') ? stdpath('data') . '/site' : '~/.vim'
 if empty(glob(data_dir . '/autoload/jetpack.vim'))
   autocmd VimEnter * JetpackSync | source $MYVIMRC
   silent execute '!curl -fLo '.data_dir.'/autoload/jetpack.vim --create-dirs  https://raw.githubusercontent.com/tani/vim-jetpack/master/autoload/jetpack.vim'
-  silent execute '!curl -fLo ~/.config/nvim/lua/jetpack.lua --create-dirs https://raw.githubusercontent.com/tani/vim-jetpack/master/lua/jetpack.lua'
+  silent execute '!curl -fLo "$HOME/.config/nvim/lua/jetpack.lua" --create-dirs https://raw.githubusercontent.com/tani/vim-jetpack/master/lua/jetpack.lua'
 endif
 ]],
 false)
 require('jetpack').startup(function(use)
-  use 'feline-nvim/feline.nvim'
-  use 'zefei/vim-wintabs'
   use 'tpope/vim-commentary'
-  use {'neoclide/coc.nvim', branch = 'release'}
-  use 'lambdalisue/fern.vim'
-  use {'nvim-treesitter/nvim-treesitter', ['do'] = ':TSUpdate'}
-  use 'airblade/vim-gitgutter'
   use 'easymotion/vim-easymotion'
   use 'haya14busa/vim-edgemotion'
-  use 'simeji/winresizer'
+  if vim.g.vscode then
+    use 'feline-nvim/feline.nvim'
+    use 'zefei/vim-wintabs'
+    use {'neoclide/coc.nvim', branch = 'release'}
+    use 'lambdalisue/fern.vim'
+    use {'nvim-treesitter/nvim-treesitter', ['do'] = ':TSUpdate'}
+    use 'airblade/vim-gitgutter'
+    use 'simeji/winresizer'
+  end
 end)
+
+-- Easymotion SETTINGS
+vim.api.nvim_set_keymap('', '<Leader>f', '<Plug>(easymotion-bd-f)', {})
+vim.api.nvim_set_keymap('n', '<Leader>f', '<Plug>(easymotion-overwin-f)', {})
+vim.api.nvim_set_keymap('n', '<Leader>s', '<Plug>(easymotion-overwin-f2)', {})
+
+-- Edgemotion SETTINGS
+vim.api.nvim_set_keymap('', '<Leader>j', '<Plug>(edgemotion-j)', {})
+vim.api.nvim_set_keymap('', '<Leader>k', '<Plug>(edgemotion-k)', {})
+
+
+-- EARLY RETURN FOR VSCODE
+if vim.g.vscode then return end
 
 -- feline SETTINGS
 require('feline').setup({
   preset = 'noicon'
 })
+
+-- Fern SETTINGS
+vim.api.nvim_set_keymap('n', '<C-F>', ':Fern . -drawer<CR>', {})
 
 -- wintabs SETTINGS
 for k, v in pairs({
@@ -68,20 +86,9 @@ for k, v in pairs({
   vim.api.nvim_set_keymap('', k, v, {})
 end
 
--- Fern SETTINGS
-vim.api.nvim_set_keymap('n', '<C-F>', ':Fern . -drawer<CR>', {})
-
--- Easymotion SETTINGS
-vim.api.nvim_set_keymap('', '<Leader>f', '<Plug>(easymotion-bd-f)', {})
-vim.api.nvim_set_keymap('n', '<Leader>f', '<Plug>(easymotion-overwin-f)', {})
-vim.api.nvim_set_keymap('n', '<Leader>s', '<Plug>(easymotion-overwin-f2)', {})
-
--- Edgemotion SETTINGS
-vim.api.nvim_set_keymap('', '<Leader>j', '<Plug>(edgemotion-j)', {})
-vim.api.nvim_set_keymap('', '<Leader>k', '<Plug>(edgemotion-k)', {})
-
 require('nvim-treesitter.configs').setup({
   highlight = { enable = true },
   indent = { enable = true },
   ensure_installed = 'all'
 })
+
