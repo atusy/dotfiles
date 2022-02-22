@@ -38,7 +38,7 @@ vim.api.nvim_exec(
 end
 require('jetpack').startup(function(use)
   use 'tpope/vim-commentary'
-  use 'easymotion/vim-easymotion'
+  use 'phaazon/hop.nvim'
   use 'haya14busa/vim-edgemotion'
 
   if vim.g.vscode == 1 then return end
@@ -54,15 +54,16 @@ require('jetpack').startup(function(use)
   use 'simeji/winresizer'
 end)
 
--- Easymotion SETTINGS
-vim.api.nvim_set_keymap('', '<Leader>f', '<Plug>(easymotion-bd-f)', {})
-vim.api.nvim_set_keymap('n', '<Leader>f', '<Plug>(easymotion-overwin-f)', {})
-vim.api.nvim_set_keymap('n', '<Leader>s', '<Plug>(easymotion-overwin-f2)', {})
+-- Hop (Easymotion) SETTINGS
+require('hop').setup()
+vim.api.nvim_set_keymap('', '<Leader>f', "<cmd>lua require'hop'.hint_char1({ direction = require'hop.hint'.HintDirection.AFTER_CURSOR, current_line_only = true })<cr>", {})
+vim.api.nvim_set_keymap('', '<Leader>F', "<cmd>lua require'hop'.hint_char1({ direction = require'hop.hint'.HintDirection.BEFORE_CURSOR, current_line_only = true })<cr>", {})
+vim.api.nvim_set_keymap('', '<Leader>s', "<cmd>lua require'hop'.hint_char2({ direction = require'hop.hint'.HintDirection.AFTER_CURSOR, current_line_only = true })<cr>", {})
+vim.api.nvim_set_keymap('', '<Leader>S', "<cmd>lua require'hop'.hint_char2({ direction = require'hop.hint'.HintDirection.BEFORE_CURSOR, current_line_only = true })<cr>", {})
 
 -- Edgemotion SETTINGS
 vim.api.nvim_set_keymap('', '<Leader>j', '<Plug>(edgemotion-j)', {})
 vim.api.nvim_set_keymap('', '<Leader>k', '<Plug>(edgemotion-k)', {})
-
 
 -- EARLY RETURN FOR VSCODE
 if vim.g.vscode == 1 then return end
