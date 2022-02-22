@@ -43,12 +43,14 @@ require('jetpack').startup(function(use)
 
   if vim.g.vscode then return end
 
+  use "nathom/filetype.nvim"
   use 'feline-nvim/feline.nvim'
   use 'zefei/vim-wintabs'
   use {'neoclide/coc.nvim', branch = 'release'}
   use 'lambdalisue/fern.vim'
   use {'nvim-treesitter/nvim-treesitter', ['do'] = ':TSUpdate'}
-  use 'airblade/vim-gitgutter'
+  use 'nvim-lua/plenary.nvim' -- required by gitsigns
+  use 'lewis6991/gitsigns.nvim'
   use 'simeji/winresizer'
 end)
 
@@ -92,9 +94,13 @@ for k, v in pairs({
   vim.api.nvim_set_keymap('', k, v, {})
 end
 
+-- treesitter SETTINGS
 require('nvim-treesitter.configs').setup({
   highlight = { enable = true },
   indent = { enable = true },
   ensure_installed = 'all'
 })
+
+-- gitsigns SETTINGS
+require('gitsigns').setup()
 
