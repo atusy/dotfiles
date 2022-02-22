@@ -14,7 +14,10 @@ vim.opt.clipboard:append('unnamedplus')
 
 vim.opt_local.softtabstop = 2
 vim.opt_local.shiftwidth = 2
-vim.opt_local.expandtab = false
+vim.opt_local.expandtab = false 
+vim.opt_local.autoindent = true
+vim.opt_local.smartindent = true
+vim.opt_local.autoread = true
 
 vim.g.mapleader = ' '
 
