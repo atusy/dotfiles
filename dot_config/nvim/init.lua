@@ -41,7 +41,7 @@ require('jetpack').startup(function(use)
   use 'easymotion/vim-easymotion'
   use 'haya14busa/vim-edgemotion'
 
-  if vim.g.vscode then return end
+  if vim.g.vscode == 1 then return end
 
   use "nathom/filetype.nvim"
   use 'feline-nvim/feline.nvim'
@@ -65,7 +65,7 @@ vim.api.nvim_set_keymap('', '<Leader>k', '<Plug>(edgemotion-k)', {})
 
 
 -- EARLY RETURN FOR VSCODE
-if vim.g.vscode then return end
+if vim.g.vscode == 1 then return end
 
 -- feline SETTINGS
 require('feline').setup({
