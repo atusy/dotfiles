@@ -59,6 +59,9 @@ require('jetpack').startup(function(use)
   use 'simeji/winresizer'
 end)
 
+-- EARLY RETURN FOR VSCODE
+if vim.g.vscode == 1 then return end
+
 -- Hop (Easymotion) SETTINGS
 require('hop').setup()
 vim.api.nvim_set_keymap('', '<Leader>f', "<cmd>lua require'hop'.hint_char1({ direction = require'hop.hint'.HintDirection.AFTER_CURSOR, current_line_only = true })<cr>", {})
@@ -69,9 +72,6 @@ vim.api.nvim_set_keymap('', '<Leader>S', "<cmd>lua require'hop'.hint_char2({ dir
 -- Edgemotion SETTINGS
 vim.api.nvim_set_keymap('', '<Leader>j', '<Plug>(edgemotion-j)', {})
 vim.api.nvim_set_keymap('', '<Leader>k', '<Plug>(edgemotion-k)', {})
-
--- EARLY RETURN FOR VSCODE
-if vim.g.vscode == 1 then return end
 
 -- feline SETTINGS
 require('feline').setup({
