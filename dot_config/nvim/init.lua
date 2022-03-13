@@ -59,6 +59,7 @@ require('jetpack').startup(function(use)
   use 'lewis6991/gitsigns.nvim'
   use 'simeji/winresizer'
   use 'akinsho/toggleterm.nvim'
+  use 'machakann/vim-sandwich'
 end)
 
 -- EARLY RETURN FOR VSCODE
@@ -122,3 +123,5 @@ function _lazygit_toggle()
 end
 vim.api.nvim_set_keymap("n", "<leader>g", "<cmd>lua _lazygit_toggle()<CR>", {noremap = true, silent = true})
 
+-- sandwich SETTINGS
+vim.api.nvim_exec([[let g:sandwich#recipes = deepcopy(g:sandwich#default_recipes)]], false)
