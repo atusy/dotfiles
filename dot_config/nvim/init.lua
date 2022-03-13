@@ -11,6 +11,7 @@ vim.opt.pumheight = 10
 vim.opt.mouse = 'a'
 vim.opt.termguicolors = true
 vim.opt.clipboard:append('unnamedplus')
+vim.opt.shell = 'zsh'
 
 vim.opt.softtabstop = 2
 vim.opt.shiftwidth = 2
@@ -57,6 +58,7 @@ require('jetpack').startup(function(use)
   use 'nvim-lua/plenary.nvim' -- required by gitsigns
   use 'lewis6991/gitsigns.nvim'
   use 'simeji/winresizer'
+  use 'akinsho/toggleterm.nvim'
 end)
 
 -- EARLY RETURN FOR VSCODE
@@ -103,4 +105,20 @@ require('nvim-treesitter.configs').setup({
 
 -- gitsigns SETTINGS
 require('gitsigns').setup()
+
+--toggleterm SETTINGS
+require("toggleterm").setup{
+  open_mapping = [[<c-\>]]
+}
+
+local Terminal  = require('toggleterm.terminal').Terminal
+local lazygit = Terminal:new({
+  cmd = "lazygit",
+  hidden = true,
+  direction = "float"
+})
+function _lazygit_toggle()
+  lazygit:toggle()
+end
+vim.api.nvim_set_keymap("n", "<leader>g", "<cmd>lua _lazygit_toggle()<CR>", {noremap = true, silent = true})
 
