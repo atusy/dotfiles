@@ -12,12 +12,12 @@ vim.opt.mouse = 'a'
 vim.opt.termguicolors = true
 vim.opt.clipboard:append('unnamedplus')
 
-vim.opt_local.softtabstop = 2
-vim.opt_local.shiftwidth = 2
-vim.opt_local.expandtab = false 
-vim.opt_local.autoindent = true
-vim.opt_local.smartindent = true
-vim.opt_local.autoread = true
+vim.opt.softtabstop = 2
+vim.opt.shiftwidth = 2
+vim.opt.expandtab = false
+vim.opt.autoindent = true
+vim.opt.smartindent = true
+vim.opt.autoread = true
 
 vim.g.mapleader = ' '
 
