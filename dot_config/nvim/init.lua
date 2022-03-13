@@ -61,6 +61,7 @@ require('jetpack').startup(function(use)
   use 'simeji/winresizer'
   use 'akinsho/toggleterm.nvim'
   use 'machakann/vim-sandwich'
+  use 'AndrewRadev/bufferize.vim'
 end)
 
 -- EARLY RETURN FOR VSCODE
