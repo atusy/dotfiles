@@ -38,11 +38,16 @@ vim.api.nvim_exec(
 end
 require('jetpack').startup(function(use)
   use 'tpope/vim-commentary'
+
+  if vim.g.vscode == 1 then
+    use 'asvetliakov/vim-easymotion'
+    vim.api.nvim_set_keymap('', '<Leader>f', "<Plug>(easymotion-f)", {})
+    vim.api.nvim_set_keymap('', '<Leader>F', "<Plug>(easymotion-f)", {})
+    return
+  end
+
   use 'phaazon/hop.nvim'
   use 'haya14busa/vim-edgemotion'
-
-  if vim.g.vscode == 1 then return end
-
   use "nathom/filetype.nvim"
   use 'feline-nvim/feline.nvim'
   use 'zefei/vim-wintabs'
