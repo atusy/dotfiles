@@ -25,6 +25,7 @@ vim.g.mapleader = ' '
 vim.api.nvim_set_keymap('n', 'x', '"_x', { noremap = true} )
 vim.api.nvim_set_keymap('n', 'X', '"_X', { noremap = true} )
 vim.api.nvim_set_keymap('n', '<ESC><ESC>', ':nohlsearch<CR>', { noremap = true })
+vim.api.nvim_set_keymap('t', '<C-w>', "'<Cmd>wincmd ' .. getcharstr() .. '<CR>'", { expr = true })
 
 -- PLUGIN SETTINGS
 if vim.fn.empty(vim.fn.glob(vim.fn.stdpath('data') .. '/site/autoload/jetpack.vim')) == 1 then
