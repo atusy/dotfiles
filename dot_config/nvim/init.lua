@@ -27,6 +27,8 @@ vim.api.nvim_set_keymap('n', 'X', '"_X', { noremap = true} )
 vim.api.nvim_set_keymap('n', '<ESC><ESC>', ':nohlsearch<CR>', { noremap = true })
 vim.api.nvim_set_keymap('t', '<C-w>', "'<Cmd>wincmd ' .. getcharstr() .. '<CR>'", { expr = true })
 
+vim.cmd([[autocmd TermOpen * startinsert]])
+
 -- PLUGIN SETTINGS
 if vim.fn.empty(vim.fn.glob(vim.fn.stdpath('data') .. '/site/autoload/jetpack.vim')) == 1 then
 vim.api.nvim_exec(
