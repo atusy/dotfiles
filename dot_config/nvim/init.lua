@@ -58,7 +58,7 @@ require('jetpack').startup(function(use)
   use 'zefei/vim-wintabs'
   use {'neoclide/coc.nvim', branch = 'release'}
   use 'lambdalisue/fern.vim'
-  use {'nvim-treesitter/nvim-treesitter', ['do'] = ':TSUpdate'}
+  use {'nvim-treesitter/nvim-treesitter', run = ':TSUpdate'}
   use 'nvim-lua/plenary.nvim' -- required by gitsigns
   use 'lewis6991/gitsigns.nvim'
   use 'simeji/winresizer'
