@@ -2,15 +2,15 @@
 	email = 30277794+atusy@users.noreply.github.com
 	name = atusy
 [core]
-pager = delta
+	pager = delta
 	quotepath = false
 	editor = nvim
 [interactive]
-  diffFilter = delta --color-only --features=interactive
+ 	diffFilter = delta --color-only --features=interactive
 [delta]
 	features = line-numbers decorations
 	whitespace-error-style = 22 reverse
-  max-line-length = 0
+	max-line-length = 0
 [delta "decorations"]
 	commit-decoration-style = bold yellow box ul
 	file-style = bold yellow ul
@@ -31,7 +31,7 @@ pager = delta
 	unstage = reset HEAD
 	stage = add
 	ff = merge --ff
-  amend = commit --amend
+	amend = commit --amend
 [init]
 	templatedir = /home/atusy/.config/git/template
 	defaultBranch = main
