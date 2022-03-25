@@ -32,9 +32,6 @@ pager = delta
 	stage = add
 	ff = merge --ff
   amend = commit --amend
-  sw = "!f() {\
-          git switch $(git branch | /bin/grep -v HEAD | fzf); \
-        }; f"
 [init]
 	templatedir = /home/atusy/.config/git/template
 	defaultBranch = main
