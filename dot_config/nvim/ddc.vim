@@ -1,4 +1,4 @@
-call ddc#custom#patch_global('sources', ['around', 'nextword'])
+call ddc#custom#patch_global('sources', ['around'])
 call ddc#custom#patch_global('sourceOptions', {
       \ 'around': {'mark': 'around', 'maxSize': 500},
       \ 'nextword': {'mark': 'nextword'},
