@@ -1,10 +1,16 @@
-call ddc#custom#patch_global('sources', ['around'])
+call ddc#custom#patch_global('sources', ['nvim-lsp', 'around', 'file'])
 call ddc#custom#patch_global('sourceOptions', {
-      \ 'around': {'mark': 'around', 'maxSize': 500},
-      \ 'nextword': {'mark': 'nextword'},
+      \ 'around': {'mark': 'aroun', 'maxSize': 500},
+      \ 'nvim-lsp': {'mark': 'lsp'},
+      \ 'file': {
+      \   'mark': 'F',
+      \   'isVolatile': v:true,
+      \   'forceCompletionPattern': '\S/\S*',
+      \ },
       \ '_': {
       \   'matchers': ['matcher_head'],
       \   'sorters': ['sorter_rank']},
+      \   'converters': ['converter_remove_overlap'],
       \ })
 call ddc#custom#patch_global('completionMenu', 'pum.vim')
 
@@ -37,7 +43,7 @@ function! CommandlinePre() abort
   " Overwrite sources
   let s:prev_buffer_config = ddc#custom#get_buffer()
   call ddc#custom#patch_buffer('sources',
-          \ ['cmdline', 'cmdline-history', 'around'])
+          \ ['cmdline', 'cmdline-history', 'around', 'file'])
 
   autocmd User DDCCmdlineLeave ++once call CommandlinePost()
 

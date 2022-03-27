@@ -75,6 +75,7 @@ require('jetpack').startup(function(use)
   use 'Shougo/ddc-cmdline-history'
   --use 'Shougo/ddc-nextword'
   use 'Shougo/ddc-matcher_head'  -- 入力中の単語を補完
+  use 'Shougo/ddc-nvim-lsp'  -- 入力中の単語を補完
   use 'LumaKernel/ddc-file'  -- Suggest file paths
   use 'Shougo/ddc-converter_remove_overlap' -- remove duplicates
   use 'Shougo/ddc-sorter_rank'  -- Sort suggestions
