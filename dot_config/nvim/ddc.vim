@@ -1,7 +1,9 @@
+call signature_help#enable()
+call popup_preview#enable()
 call ddc#custom#patch_global('sources', ['nvim-lsp', 'around', 'file'])
 call ddc#custom#patch_global('sourceOptions', {
-      \ 'around': {'mark': 'aroun', 'maxSize': 500},
-      \ 'nvim-lsp': {'mark': 'lsp'},
+      \ 'around': {'mark': 'A', 'maxSize': 500},
+      \ 'nvim-lsp': {'mark': 'L'},
       \ 'file': {
       \   'mark': 'F',
       \   'isVolatile': v:true,
