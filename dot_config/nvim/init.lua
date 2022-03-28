@@ -15,7 +15,7 @@ vim.opt.shell = 'zsh'
 
 vim.opt.softtabstop = 2
 vim.opt.shiftwidth = 2
-vim.opt.expandtab = false
+vim.opt.expandtab = true
 vim.opt.autoindent = true
 vim.opt.smartindent = true
 vim.opt.autoread = true
@@ -81,6 +81,8 @@ require('jetpack').startup(function(use)
   use 'Shougo/ddc-converter_remove_overlap' -- remove duplicates
   use 'Shougo/ddc-sorter_rank'  -- Sort suggestions
   use 'Shougo/pum.vim'  -- Show popup window
+  use 'matsui54/denops-signature_help'
+  use 'matsui54/denops-popup-preview.vim'
 end)
 
 -- EARLY RETURN FOR VSCODE
