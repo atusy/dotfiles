@@ -197,15 +197,21 @@ end
 
 -- Use a loop to conveniently call 'setup' on multiple servers and
 -- map buffer local keybindings when the language server attaches
-local servers = { 'pyright', 'r_language_server', 'tsserver' }
-for _, lsp in pairs(servers) do
-  require('lspconfig')[lsp].setup {
-    on_attach = on_attach,
-    flags = {
-      -- This will be the default in neovim 0.7+
-      debounce_text_changes = 150,
-    }
-  }
+local function lspsetup(lsp, config)
+  local config2 = { on_attach = on_attach, flags = { debounce_text_changes = 150 } }
+  for k, v in pairs(config or {}) do
+    config2[k] = v
+  end
+  require('lspconfig')[lsp].setup(config2)
+end
+
+for lsp, config in pairs{ 
+  pyright = {},
+  --r_language_server = { cmd = {"R", "--slave", "-e", "options(languageserver.rich_documentation = FALSE); languageserver::run()" } },
+  r_language_server = {},
+  tsserver = {},
+} do
+  lspsetup(lsp, config)
 end
 
 -- ddc SETTINGS
