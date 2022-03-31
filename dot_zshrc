@@ -254,6 +254,8 @@ if [[ -n $ZENO_LOADED ]]; then
   bindkey '^m' zeno-auto-snippet-and-accept-line
   bindkey '^i' zeno-completion
   bindkey '^r' zeno-history-selection
+  bindkey '^x^s' zeno-insert-snippet
+  bindkey '^x^f' zeno-ghq-cd
   ZSH_AUTOSUGGEST_CLEAR_WIDGETS+=(zeno-auto-snippet-and-accept-line)
 fi
 
