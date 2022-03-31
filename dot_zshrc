@@ -250,6 +250,7 @@ function pyset() {
 
 # Options
 ZSH_AUTOSUGGEST_USE_ASYNC=1
+ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=244'
 
 # zeno
 if [[ -n $ZENO_LOADED ]]; then
