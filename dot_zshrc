@@ -31,18 +31,21 @@ zinit light-mode for \
     zdharma-continuum/zinit-annex-patch-dl \
     zdharma-continuum/zinit-annex-rust
 
-zinit ice lucid wait"!0" depth"1" atinit"zpcompinit; zpcdreplay" atload"set_fast_theme"
-zinit light zdharma-continuum/fast-syntax-highlighting
+zinit wait lucid for \
+ atinit"ZINIT[COMPINIT_OPTS]=-C; zicompinit; zicdreplay" \
+    zdharma-continuum/fast-syntax-highlighting \
+ blockf \
+    zsh-users/zsh-completions \
+ atload"!_zsh_autosuggest_start" \
+    zsh-users/zsh-autosuggestions
 
 zinit ice depth"1" wait lucid
 zinit light-mode for \
   mafredri/zsh-async \
-  zsh-users/zsh-completions \
   chrissicool/zsh-256color \
   woefe/git-prompt.zsh \
   mollifier/cd-gitroot \
   yuki-yano/zeno.zsh \
-  zsh-users/zsh-autosuggestions \
   junegunn/fzf \
   atusy/gh-fzf
 
@@ -248,9 +251,10 @@ ZSH_AUTOSUGGEST_USE_ASYNC=1
 # zeno
 if [[ -n $ZENO_LOADED ]]; then
   bindkey ' '  zeno-auto-snippet
-  # bindkey '^m' zeno-auto-snippet-and-accept-line
+  bindkey '^m' zeno-auto-snippet-and-accept-line
   bindkey '^i' zeno-completion
   bindkey '^r' zeno-history-selection
+  ZSH_AUTOSUGGEST_CLEAR_WIDGETS+=(zeno-auto-snippet-and-accept-line)
 fi
 
 # local configurations
