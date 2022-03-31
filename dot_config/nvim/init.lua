@@ -25,7 +25,6 @@ vim.g.mapleader = ' '
 vim.api.nvim_set_keymap('n', 'x', '"_x', { noremap = true} )
 vim.api.nvim_set_keymap('n', 'X', '"_X', { noremap = true} )
 vim.api.nvim_set_keymap('n', '<ESC><ESC>', ':nohlsearch<CR>', { noremap = true })
-vim.api.nvim_set_keymap('t', '<ESC>', '<C-\\><C-N>', { noremap = true} )
 vim.api.nvim_set_keymap('c', '<C-A>', '<Home>', { noremap = true} )
 vim.api.nvim_set_keymap('c', '<C-E>', '<End>', { noremap = true} )
 
