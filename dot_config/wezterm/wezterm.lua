@@ -7,9 +7,9 @@ wezterm.on("trigger-nvim-with-scrollback", function(window, pane)
   f:flush()
   f:close()
   window:perform_action(
-    wezterm.action({ SpawnCommandInNewTab = {
-      args = { "nvim", name },
-    } }),
+    wezterm.action({SpawnCommandInNewTab = {
+      args = {"nvim", name},
+    }}),
     pane
   )
   wezterm.sleep_ms(1000)
@@ -19,21 +19,21 @@ end)
 return {
   default_prog = {"/usr/bin/env", "zsh"},
   font = wezterm.font_with_fallback({
-    { family = "UDEV Gothic" },
-    { family = "Noto Color Emoji" },
+    {family = "UDEV Gothic"},
+    {family = "Noto Color Emoji"},
   }),
   font_size = 12,
   keys = {
-    { key = "e", mods = "ALT", action = wezterm.action { EmitEvent = "trigger-nvim-with-scrollback" } },
-    { key = "v", mods = "ALT", action = wezterm.action { SplitHorizontal = { domain = "CurrentPaneDomain" } } },
-    { key = "s", mods = "ALT", action = wezterm.action { SplitVertical = { domain = "CurrentPaneDomain" } } },
-    { key = "h", mods = "ALT",
+    {key = "e", mods = "ALT", action = wezterm.action {EmitEvent = "trigger-nvim-with-scrollback"}},
+    {key = "v", mods = "ALT", action = wezterm.action {SplitHorizontal = {domain = "CurrentPaneDomain"}}},
+    {key = "s", mods = "ALT", action = wezterm.action {SplitVertical = {domain = "CurrentPaneDomain"}}},
+    {key = "h", mods = "ALT",
       action = wezterm.action{ActivatePaneDirection = "Left"}},
-    { key = "l", mods = "ALT",
+    {key = "l", mods = "ALT",
       action = wezterm.action{ActivatePaneDirection = "Right"}},
-    { key = "k", mods = "ALT",
+    {key = "k", mods = "ALT",
       action = wezterm.action{ActivatePaneDirection = "Up"}},
-    { key = "j", mods = "ALT",
+    {key = "j", mods = "ALT",
       action = wezterm.action{ActivatePaneDirection = "Down"}},
   },
   color_scheme = "Afterglow",
