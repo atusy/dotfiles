@@ -65,8 +65,9 @@ require('jetpack').startup(function(use)
   use 'haya14busa/vim-edgemotion'
   use "nathom/filetype.nvim"
   use 'feline-nvim/feline.nvim'
-  use 'zefei/vim-wintabs'
   use {'neoclide/coc.nvim', branch = 'release'}
+  use 'kyazdani42/nvim-web-devicons'
+  use 'romgrk/barbar.nvim'
   use 'lambdalisue/fern.vim'
   use {'nvim-treesitter/nvim-treesitter', run = ':TSUpdate'}
   use 'nvim-lua/plenary.nvim' -- required by gitsigns
@@ -102,17 +103,15 @@ require('feline').setup({
 -- Fern SETTINGS
 vim.api.nvim_set_keymap('n', '<C-F>', ':Fern . -drawer<CR>', {})
 
--- wintabs SETTINGS
+-- barbar SETTINGS
 for k, v in pairs({
-  ['<C-L>'] = '<Plug>(wintabs_next)',
-  ['<C-H>'] = '<Plug>(wintabs_previous)',
-  ['<C-T>c'] = '<Plug>(wintabs_close)',
-  ['<C-T>u'] = '<Plug>(wintabs_undo)',
-  ['<C-T>o'] = '<Plug>(wintabs_only)',
-  ['<C-W>c'] = '<Plug>(wintabs_close_window)',
-  ['<C-W>o'] = '<Plug>(wintabs_only_window)',
+  ['<C-H>'] = ':BufferPrevious<CR>',
+  ['<C-L>'] = ':BufferNext<CR>',
+  ['<C-T>t'] = ':BufferPick<CR>',
+  ['<C-T>c'] = ':BufferClose<CR>',
+  ['<C-T>o'] = ':BufferCloseAllButCurrent<CR>',
 }) do
-  vim.api.nvim_set_keymap('', k, v, {})
+  vim.api.nvim_set_keymap('', k, v, {noremap = true, silent=true})
 end
 
 -- treesitter SETTINGS
