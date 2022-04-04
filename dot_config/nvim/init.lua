@@ -60,6 +60,7 @@ require('jetpack').startup(function(use)
     return
   end
 
+  use 'ulwlu/elly.vim'
   use 'phaazon/hop.nvim'
   use 'haya14busa/vim-edgemotion'
   use "nathom/filetype.nvim"
@@ -78,6 +79,9 @@ end)
 
 -- EARLY RETURN FOR VSCODE
 if vim.g.vscode == 1 then return end
+
+-- Elly SETTINGS
+vim.cmd([[colorscheme elly]])
 
 -- Hop (Easymotion) SETTINGS
 require('hop').setup()
