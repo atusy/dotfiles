@@ -30,6 +30,14 @@ vim.api.nvim_set_keymap('c', '<C-E>', '<End>', { noremap = true} )
 
 vim.cmd([[autocmd TermOpen * startinsert]])
 
+function _init_lua()
+  vim.cmd '!chezmoi apply'
+  vim.cmd 'source $MYVIMRC'
+end
+vim.api.nvim_exec([[
+  command! -nargs=0 InitLua :lua _init_lua()
+]], false)
+
 -- PLUGIN SETTINGS
 if vim.fn.empty(vim.fn.glob(vim.fn.stdpath('data') .. '/site/autoload/jetpack.vim')) == 1 then
 vim.api.nvim_exec(
