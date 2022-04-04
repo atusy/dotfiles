@@ -69,7 +69,7 @@ require('jetpack').startup(function(use)
   use 'kyazdani42/nvim-web-devicons'
   use 'romgrk/barbar.nvim'
   use 'lambdalisue/fern.vim'
-  use {'nvim-treesitter/nvim-treesitter', run = ':TSUpdate'}
+  use 'nvim-treesitter/nvim-treesitter'
   use 'nvim-lua/plenary.nvim' -- required by gitsigns
   use 'lewis6991/gitsigns.nvim'
   use 'simeji/winresizer'
