@@ -69,6 +69,7 @@ require('jetpack').startup(function(use)
   use 'kyazdani42/nvim-web-devicons'
   use 'romgrk/barbar.nvim'
   use 'lambdalisue/fern.vim'
+  use 'lambdalisue/gin.vim'
   use 'nvim-treesitter/nvim-treesitter'
   use 'nvim-lua/plenary.nvim' -- required by gitsigns
   use 'lewis6991/gitsigns.nvim'
