@@ -140,6 +140,12 @@ for k, v in pairs({
 }) do
   vim.api.nvim_set_keymap('', k, v, {noremap = true, silent=true})
 end
+vim.api.nvim_exec([[
+  let bufferline = get(g:, 'bufferline', {})
+  let bufferline.icon_separator_inactive = ' '
+  hi default link BufferVisible BufferCurrent
+  hi default link BufferVisibleSign BufferCurrent
+]], false)
 
 -- treesitter SETTINGS
 require('nvim-treesitter.configs').setup({
