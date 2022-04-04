@@ -101,6 +101,17 @@ require('feline').setup({
 
 -- Fern SETTINGS
 vim.api.nvim_set_keymap('n', '<C-F>', ':Fern . -drawer<CR>', {})
+vim.api.nvim_exec([[
+function! s:init_fern() abort
+  set nornu
+  set nonu
+endfunction
+
+augroup fern-custom
+  autocmd! *
+  autocmd FileType fern call s:init_fern()
+augroup END
+]], false)
 
 -- barbar SETTINGS
 for k, v in pairs({
