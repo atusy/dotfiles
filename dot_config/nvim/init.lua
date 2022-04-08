@@ -108,8 +108,8 @@ vim.api.nvim_set_keymap('', '<Leader>f', "<cmd>lua require'hop'.hint_char1({ dir
 vim.api.nvim_set_keymap('', '<Leader>F', "<cmd>lua require'hop'.hint_char1({ direction = require'hop.hint'.HintDirection.BEFORE_CURSOR, current_line_only = true })<cr>", {})
 
 -- Edgemotion SETTINGS
-vim.api.nvim_set_keymap('', '<Leader>j', '<Plug>(edgemotion-j)', {})
-vim.api.nvim_set_keymap('', '<Leader>k', '<Plug>(edgemotion-k)', {})
+vim.api.nvim_set_keymap('', '<Leader>]', '<Plug>(edgemotion-j)', {})
+vim.api.nvim_set_keymap('', '<Leader>[', '<Plug>(edgemotion-k)', {})
 
 -- feline SETTINGS
 require('feline').setup({
