@@ -263,6 +263,11 @@ if [[ -n $ZENO_LOADED ]]; then
   ZSH_AUTOSUGGEST_CLEAR_WIDGETS+=(zeno-auto-snippet-and-accept-line)
 fi
 
+# Edit command line by $EDITOR
+autoload -Uz edit-command-line
+zle -N edit-command-line
+bindkey "^x^e" edit-command-line
+
 # local configurations
 [[ -f "$HOME/.config/zsh/local.zshrc" ]] && . "$HOME/.config/zsh/local.zshrc"
 
