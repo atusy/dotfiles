@@ -146,7 +146,9 @@ for k, v in pairs({
 end
 vim.api.nvim_exec([[
   let bufferline = get(g:, 'bufferline', {})
-  let bufferline.icon_separator_inactive = ' '
+  let bufferline.icon_separator_active = ' ❯❯'
+  let bufferline.icon_separator_inactive = ''
+  let bufferline.icon_close_tab = '×'
   hi default link BufferVisible BufferCurrent
   hi default link BufferVisibleSign BufferCurrent
 ]], false)
