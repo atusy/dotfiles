@@ -1,7 +1,4 @@
 snippets:
-  - name: cp 
-    keyword: Cp
-    snippet: cp -i
   - name: cd gitroot
     keyword: gd
     snippet: cd-gitroot 
