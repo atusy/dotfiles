@@ -20,17 +20,23 @@ vim.opt.autoindent = true
 vim.opt.smartindent = true
 vim.opt.autoread = true
 
-vim.g.mapleader = ' '
+local _nvim_set_keymap = vim.api.nvim_set_keymap
+local function _set_keymap(mode, lhs, rhs, ops)
+  _nvim_set_keymap(mode, lhs, rhs, ops or {noremap = true})
+end
 
-vim.api.nvim_set_keymap('n', '<ESC><ESC>', ':nohlsearch<CR>', {noremap = true })
-vim.api.nvim_set_keymap('n', 'x', '"_x', {noremap = true} )
-vim.api.nvim_set_keymap('n', 'X', '"_X', {noremap = true} )
-vim.api.nvim_set_keymap('n', 'gy', '"+y', {noremap = true} )
-vim.api.nvim_set_keymap('n', 'gY', '"+Y', {noremap = true} )
-vim.api.nvim_set_keymap('v', 'gy', '"+y', {noremap = true} )
-vim.api.nvim_set_keymap('v', 'gY', '"+Y', {noremap = true} )
-vim.api.nvim_set_keymap('c', '<C-A>', '<Home>', {noremap = true} )
-vim.api.nvim_set_keymap('c', '<C-E>', '<End>', {noremap = true} )
+vim.g.mapleader = ' '
+_set_keymap('n', '<ESC><ESC>', ':nohlsearch<CR>')
+_set_keymap('n', 'x', '"_x')
+_set_keymap('n', 'X', '"_X')
+_set_keymap('n', 'gy', '"+y')
+_set_keymap('n', 'gY', '"+Y')
+_set_keymap('v', 'gy', '"+y')
+_set_keymap('v', 'gY', '"+Y')
+_set_keymap('c', '<C-A>', '<Home>')
+_set_keymap('c', '<C-E>', '<End>')
+_set_keymap('n', '<Leader>bd', ':up | bd<CR>')
+_set_keymap('n', '<Leader>bD', ':bd!<CR>')
 
 vim.cmd([[autocmd TermOpen * startinsert]])
 
@@ -59,8 +65,8 @@ require('jetpack').startup(function(use)
 
   if vim.g.vscode == 1 then
     use 'asvetliakov/vim-easymotion'
-    vim.api.nvim_set_keymap('', '<Leader>f', "<Plug>(easymotion-f)", {})
-    vim.api.nvim_set_keymap('', '<Leader>F', "<Plug>(easymotion-f)", {})
+    _set_keymap('', '<Leader>f', "<Plug>(easymotion-f)", {})
+    _set_keymap('', '<Leader>F', "<Plug>(easymotion-f)", {})
     return
   end
 
@@ -108,12 +114,12 @@ vim.cmd([[colorscheme elly]])
 
 -- Hop (Easymotion) SETTINGS
 require('hop').setup()
-vim.api.nvim_set_keymap('', '<Leader>f', "<cmd>lua require'hop'.hint_char1({ direction = require'hop.hint'.HintDirection.AFTER_CURSOR, current_line_only = true })<cr>", {})
-vim.api.nvim_set_keymap('', '<Leader>F', "<cmd>lua require'hop'.hint_char1({ direction = require'hop.hint'.HintDirection.BEFORE_CURSOR, current_line_only = true })<cr>", {})
+_set_keymap('', '<Leader>f', "<cmd>lua require'hop'.hint_char1({ direction = require'hop.hint'.HintDirection.AFTER_CURSOR, current_line_only = true })<cr>", {})
+_set_keymap('', '<Leader>F', "<cmd>lua require'hop'.hint_char1({ direction = require'hop.hint'.HintDirection.BEFORE_CURSOR, current_line_only = true })<cr>", {})
 
 -- Edgemotion SETTINGS
-vim.api.nvim_set_keymap('', '<Leader>]', '<Plug>(edgemotion-j)', {})
-vim.api.nvim_set_keymap('', '<Leader>[', '<Plug>(edgemotion-k)', {})
+_set_keymap('', '<Leader>]', '<Plug>(edgemotion-j)', {})
+_set_keymap('', '<Leader>[', '<Plug>(edgemotion-k)', {})
 
 -- feline SETTINGS
 require('feline').setup({
@@ -121,7 +127,7 @@ require('feline').setup({
 })
 
 -- Fern SETTINGS
-vim.api.nvim_set_keymap('n', '<C-F>', ':Fern . -drawer<CR>', {})
+_set_keymap('n', '<C-F>', ':Fern . -drawer<CR>', {})
 vim.api.nvim_exec([[
 function! s:init_fern() abort
   set nornu
@@ -135,15 +141,12 @@ augroup END
 ]], false)
 
 -- barbar SETTINGS
-for k, v in pairs({
-  ['<C-H>'] = ':BufferPrevious<CR>',
-  ['<C-L>'] = ':BufferNext<CR>',
-  ['<C-T>t'] = ':BufferPick<CR>',
-  ['<C-T>c'] = ':BufferClose<CR>',
-  ['<C-T>o'] = ':BufferCloseAllButCurrent<CR>',
-}) do
-  vim.api.nvim_set_keymap('', k, v, {noremap = true, silent=true})
-end
+_set_keymap('n', '<C-H>', ':BufferPrevious<CR>', {noremap = true, silent = true})
+_set_keymap('n', '<C-L>', ':BufferNext<CR>', {noremap = true, silent = true})
+_set_keymap('n', '<Leader>bc', ':up | BufferClose<CR>')
+_set_keymap('n', '<Leader>bC', ':BufferClose!<CR>')
+_set_keymap('n', '<Leader>bp', ':BufferPick<CR>')
+_set_keymap('n', '<Leader>bo', ':wa | BufferCloseAllButCurrent<CR>')
 vim.api.nvim_exec([[
   let bufferline = get(g:, 'bufferline', {})
   let bufferline.icon_separator_active = ' ❯❯'
@@ -172,8 +175,8 @@ function _toggleterm_run()
   vim.cmd("ToggleTermSendCurrentLine")
   vim.cmd(winnr .. "wincmd w")
 end
-vim.api.nvim_set_keymap('n', '<Leader>j', '<cmd>lua _toggleterm_run()<CR>', { noremap = true} )
-vim.api.nvim_set_keymap('v', '<Leader>j', ":ToggleTermSendVisualLines<CR>", { noremap = true} )
+_set_keymap('n', '<Leader>j', '<cmd>lua _toggleterm_run()<CR>', { noremap = true} )
+_set_keymap('v', '<Leader>j', ":ToggleTermSendVisualLines<CR>", { noremap = true} )
 
 local Terminal  = require('toggleterm.terminal').Terminal
 local lazygit = Terminal:new({
@@ -184,7 +187,7 @@ local lazygit = Terminal:new({
 function _lazygit_toggle()
   lazygit:toggle()
 end
-vim.api.nvim_set_keymap("n", "<leader>g", "<cmd>lua _lazygit_toggle()<CR>", {noremap = true, silent = true})
+_set_keymap("n", "<leader>g", "<cmd>lua _lazygit_toggle()<CR>", {noremap = true, silent = true})
 
 -- sandwich SETTINGS
 vim.api.nvim_exec([[let g:sandwich#recipes = deepcopy(g:sandwich#default_recipes)]], false)
@@ -193,10 +196,10 @@ vim.api.nvim_exec([[let g:sandwich#recipes = deepcopy(g:sandwich#default_recipes
 -- Mappings.
 -- See `:help vim.diagnostic.*` for documentation on any of the below functions
 local opts = { noremap=true, silent=true }
-vim.api.nvim_set_keymap('n', '<space>e', '<cmd>lua vim.diagnostic.open_float()<CR>', opts)
-vim.api.nvim_set_keymap('n', '[d', '<cmd>lua vim.diagnostic.goto_prev()<CR>', opts)
-vim.api.nvim_set_keymap('n', ']d', '<cmd>lua vim.diagnostic.goto_next()<CR>', opts)
-vim.api.nvim_set_keymap('n', '<space>q', '<cmd>lua vim.diagnostic.setloclist()<CR>', opts)
+_set_keymap('n', '<Leader>e', '<cmd>lua vim.diagnostic.open_float()<CR>', opts)
+_set_keymap('n', '[d', '<cmd>lua vim.diagnostic.goto_prev()<CR>', opts)
+_set_keymap('n', ']d', '<cmd>lua vim.diagnostic.goto_next()<CR>', opts)
+_set_keymap('n', '<Leader>q', '<cmd>lua vim.diagnostic.setloclist()<CR>', opts)
 
 -- Use an on_attach function to only map the following keys
 -- after the language server attaches to the current buffer
@@ -211,14 +214,14 @@ local on_attach = function(client, bufnr)
   vim.api.nvim_buf_set_keymap(bufnr, 'n', 'K', '<cmd>lua vim.lsp.buf.hover()<CR>', opts)
   vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<CR>', opts)
   vim.api.nvim_buf_set_keymap(bufnr, 'n', '<C-k>', '<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
-  vim.api.nvim_buf_set_keymap(bufnr, 'n', '<space>wa', '<cmd>lua vim.lsp.buf.add_workspace_folder()<CR>', opts)
-  vim.api.nvim_buf_set_keymap(bufnr, 'n', '<space>wr', '<cmd>lua vim.lsp.buf.remove_workspace_folder()<CR>', opts)
-  vim.api.nvim_buf_set_keymap(bufnr, 'n', '<space>wl', '<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>', opts)
-  vim.api.nvim_buf_set_keymap(bufnr, 'n', '<space>D', '<cmd>lua vim.lsp.buf.type_definition()<CR>', opts)
-  vim.api.nvim_buf_set_keymap(bufnr, 'n', '<space>rn', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
-  vim.api.nvim_buf_set_keymap(bufnr, 'n', '<space>ca', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
+  vim.api.nvim_buf_set_keymap(bufnr, 'n', '<Leader>wa', '<cmd>lua vim.lsp.buf.add_workspace_folder()<CR>', opts)
+  vim.api.nvim_buf_set_keymap(bufnr, 'n', '<Leader>wr', '<cmd>lua vim.lsp.buf.remove_workspace_folder()<CR>', opts)
+  vim.api.nvim_buf_set_keymap(bufnr, 'n', '<Leader>wl', '<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>', opts)
+  vim.api.nvim_buf_set_keymap(bufnr, 'n', '<Leader>D', '<cmd>lua vim.lsp.buf.type_definition()<CR>', opts)
+  vim.api.nvim_buf_set_keymap(bufnr, 'n', '<Leader>rn', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
+  vim.api.nvim_buf_set_keymap(bufnr, 'n', '<Leader>ca', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
   vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>', opts)
-  vim.api.nvim_buf_set_keymap(bufnr, 'n', '<space>f', '<cmd>lua vim.lsp.buf.formatting()<CR>', opts)
+  vim.api.nvim_buf_set_keymap(bufnr, 'n', '<Leader>f', '<cmd>lua vim.lsp.buf.formatting()<CR>', opts)
 end
 
 -- Use a loop to conveniently call 'setup' on multiple servers and
