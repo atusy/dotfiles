@@ -239,6 +239,7 @@ for lsp, config in pairs{
   --r_language_server = { cmd = {"R", "--slave", "-e", "options(languageserver.rich_documentation = FALSE); languageserver::run()" } },
   r_language_server = {},
   tsserver = {},
+  bashls = {filetypes = {"sh", "bash", "zsh"}}, -- npm i -g bash-language-server
 } do
   lspsetup(lsp, config)
 end
