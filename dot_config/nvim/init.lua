@@ -71,6 +71,7 @@ require('jetpack').startup(function(use)
   end
 
   use 'ulwlu/elly.vim'
+  use 'ctrlpvim/ctrlp.vim'
   use 'phaazon/hop.nvim'
   use 'haya14busa/vim-edgemotion'
   use "nathom/filetype.nvim"
