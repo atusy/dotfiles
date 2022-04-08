@@ -42,6 +42,9 @@ snippets:
   - name: ripgrep paged
     keyword: rgp
     snippet: 'rg -p {{args}} | nvimpager'
+  - name: microk8s kubectl
+    keyword: ukc
+    snippet: microk8s kubectl
 
   # Some aliases that I often forget their real names 
   - name: htop
