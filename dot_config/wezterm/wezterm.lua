@@ -27,6 +27,7 @@ return {
     {key = "e", mods = "ALT", action = wezterm.action {EmitEvent = "trigger-nvim-with-scrollback"}},
     {key = "v", mods = "ALT", action = wezterm.action {SplitHorizontal = {domain = "CurrentPaneDomain"}}},
     {key = "s", mods = "ALT", action = wezterm.action {SplitVertical = {domain = "CurrentPaneDomain"}}},
+    {key = "w", mods = "ALT", action = wezterm.action {CloseCurrentPane = {confirm = true}}},
     {key = "h", mods = "ALT",
       action = wezterm.action{ActivatePaneDirection = "Left"}},
     {key = "l", mods = "ALT",
