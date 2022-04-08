@@ -27,6 +27,10 @@ vim.api.nvim_set_keymap('n', 'X', '"_X', { noremap = true} )
 vim.api.nvim_set_keymap('n', '<ESC><ESC>', ':nohlsearch<CR>', { noremap = true })
 vim.api.nvim_set_keymap('c', '<C-A>', '<Home>', { noremap = true} )
 vim.api.nvim_set_keymap('c', '<C-E>', '<End>', { noremap = true} )
+vim.api.nvim_set_keymap('n', 'gy', '"+y', {noremap = true} )
+vim.api.nvim_set_keymap('n', 'gY', '"+Y', {noremap = true} )
+vim.api.nvim_set_keymap('v', 'gy', '"+y', {noremap = true} )
+vim.api.nvim_set_keymap('v', 'gY', '"+Y', {noremap = true} )
 
 vim.cmd([[autocmd TermOpen * startinsert]])
 
