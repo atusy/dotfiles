@@ -166,8 +166,8 @@ function _toggleterm_run()
   vim.cmd("ToggleTermSendCurrentLine")
   vim.cmd(winnr .. "wincmd w")
 end
-vim.api.nvim_set_keymap('n', '<Leader>r', '<cmd>lua _toggleterm_run()<CR>', { noremap = true} )
-vim.api.nvim_set_keymap('v', '<Leader>r', ":ToggleTermSendVisualLines<CR>", { noremap = true} )
+vim.api.nvim_set_keymap('n', '<Leader>j', '<cmd>lua _toggleterm_run()<CR>', { noremap = true} )
+vim.api.nvim_set_keymap('v', '<Leader>j', ":ToggleTermSendVisualLines<CR>", { noremap = true} )
 
 local Terminal  = require('toggleterm.terminal').Terminal
 local lazygit = Terminal:new({
