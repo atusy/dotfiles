@@ -3,7 +3,7 @@ typeset -U path fpath
 
 if [[ ! -z "$NVIM_LISTEN_ADDRESS" ]] && command -v nvr > /dev/null
 then
-  export EDITOR='nvr -cc split --remote-wait-silent'
+  export EDITOR='nvr -cc "below split" --remote-wait-silent'
 elif command -v nvim > /dev/null
 then
   export MANPAGER='nvim -c Man! -M -c"set nu rnu"'
