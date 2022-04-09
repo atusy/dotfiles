@@ -10,7 +10,6 @@ vim.opt.guifontwide = vim.opt.guifont:get()
 vim.opt.pumheight = 10
 vim.opt.mouse = 'a'
 vim.opt.termguicolors = true
-vim.opt.clipboard:append('unnamedplus')
 vim.opt.shell = 'zsh'
 
 vim.opt.softtabstop = 2
