@@ -1,6 +1,7 @@
 vim.opt.relativenumber = true
 vim.opt.number = true
 vim.opt.splitright = true
+vim.opt.splitbelow = true
 vim.opt.hlsearch = true
 vim.opt.backspace = {'indent', 'eol', 'start'}
 vim.opt.showmatch = true
