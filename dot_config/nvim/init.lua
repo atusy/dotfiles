@@ -38,6 +38,8 @@ _set_keymap('c', '<C-A>', '<Home>')
 _set_keymap('c', '<C-E>', '<End>')
 _set_keymap('n', '<Leader>bd', ':up | bd<CR>')
 _set_keymap('n', '<Leader>bD', ':bd!<CR>')
+--_set_keymap('t', '<ESC>', '<C-\\><C-N>')  -- conflicts with some TUIs such as lazygit
+_set_keymap('t', '<C-W>', "'<Cmd>wincmd ' .. getcharstr() .. '<CR>'", { expr = true })
 
 vim.cmd([[autocmd TermOpen * startinsert]])
 
