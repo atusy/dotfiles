@@ -29,6 +29,7 @@ vim.g.mapleader = ' '
 _set_keymap('n', '<ESC><ESC>', ':nohlsearch<CR>')
 _set_keymap('n', 'x', '"_x')
 _set_keymap('n', 'X', '"_X')
+_set_keymap('n', 'gf', 'gF')
 _set_keymap('n', 'gy', '"+y')
 _set_keymap('n', 'gY', '"+Y')
 _set_keymap('v', 'gy', '"+y')
