@@ -172,7 +172,7 @@ require('gitsigns').setup()
 
 --toggleterm SETTINGS
 require("toggleterm").setup{
-  open_mapping = '<C-S>'
+  open_mapping = '<C-I>'
 }
 function _toggleterm_run() 
   local winnr = vim.fn.winnr()
