@@ -250,6 +250,11 @@ function pyset() {
   pyenv "$SCOPE" 
 }
 
+function rename_wezterm_title {
+  local TITLE="${1:-$(basename "$( pwd )")}"
+  echo "\x1b]1337;SetUserVar=panetitle=$(echo "$TITLE" | base64)\x07"
+}
+
 # Options
 ZSH_AUTOSUGGEST_USE_ASYNC=1
 ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=244'
