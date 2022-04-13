@@ -92,6 +92,8 @@ require('jetpack').startup(function(use)
   use '4513ECHO/vim-colors-hatsunemiku'
   -- use 'ulwlu/elly.vim'
 
+  -- highlight
+  use 'RRethy/vim-illuminate'
   use 'norcalli/nvim-colorizer.lua'
 
   -- statusline
@@ -259,6 +261,13 @@ _set_keymap("n", "<Leader>gl", "<cmd>lua _lazygit_toggle()<CR>", {noremap = true
 vim.api.nvim_exec([[let g:sandwich#recipes = deepcopy(g:sandwich#default_recipes)]], false)
 
 -- lsp SETTINGS
+-- Highlights.
+vim.api.nvim_exec([[
+  hi def link LspReferenceText CursorLine
+  hi def link LspReferenceWrite CursorLine
+  hi def link LspReferenceRead CursorLine
+]], false)
+
 -- Mappings.
 -- See `:help vim.diagnostic.*` for documentation on any of the below functions
 local opts = { noremap=true, silent=true }
@@ -288,6 +297,8 @@ local on_attach = function(client, bufnr)
   vim.api.nvim_buf_set_keymap(bufnr, 'n', '<Leader>ca', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
   vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>', opts)
   vim.api.nvim_buf_set_keymap(bufnr, 'n', '<Leader>f', '<cmd>lua vim.lsp.buf.formatting()<CR>', opts)
+  -- Highlighting
+  require'illuminate'.on_attach(client)
 end
 
 -- Use a loop to conveniently call 'setup' on multiple servers and
