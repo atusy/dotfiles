@@ -36,8 +36,6 @@ _set_keymap('v', 'gy', '"+y')
 _set_keymap('v', 'gY', '"+Y')
 _set_keymap('c', '<C-A>', '<Home>')
 _set_keymap('c', '<C-E>', '<End>')
-_set_keymap('n', '<Leader>bd', ':up | bd<CR>')
-_set_keymap('n', '<Leader>bD', ':bd!<CR>')
 --_set_keymap('t', '<ESC>', '<C-\\><C-N>')  -- conflicts with some TUIs such as lazygit
 _set_keymap('t', '<C-W>', "'<Cmd>wincmd ' .. getcharstr() .. '<CR>'", { expr = true })
 
@@ -68,8 +66,8 @@ require('jetpack').startup(function(use)
 
   if vim.g.vscode == 1 then
     use 'asvetliakov/vim-easymotion'
-    _set_keymap('', '<Leader>f', "<Plug>(easymotion-f)", {})
-    _set_keymap('', '<Leader>F', "<Plug>(easymotion-f)", {})
+    _set_keymap('', 'f', "<Plug>(easymotion-f)", {})
+    _set_keymap('', 'F', "<Plug>(easymotion-f)", {})
     return
   end
 
@@ -118,8 +116,8 @@ vim.cmd([[colorscheme elly]])
 
 -- Hop (Easymotion) SETTINGS
 require('hop').setup()
-_set_keymap('', '<Leader>f', "<cmd>lua require'hop'.hint_char1({ direction = require'hop.hint'.HintDirection.AFTER_CURSOR, current_line_only = true })<cr>", {})
-_set_keymap('', '<Leader>F', "<cmd>lua require'hop'.hint_char1({ direction = require'hop.hint'.HintDirection.BEFORE_CURSOR, current_line_only = true })<cr>", {})
+_set_keymap('', 'f', "<cmd>lua require'hop'.hint_char1({ direction = require'hop.hint'.HintDirection.AFTER_CURSOR, current_line_only = true })<cr>", {})
+_set_keymap('', 'F', "<cmd>lua require'hop'.hint_char1({ direction = require'hop.hint'.HintDirection.BEFORE_CURSOR, current_line_only = true })<cr>", {})
 
 -- Edgemotion SETTINGS
 _set_keymap('', '<Leader>]', '<Plug>(edgemotion-j)', {})
@@ -147,8 +145,9 @@ augroup END
 -- barbar SETTINGS
 _set_keymap('n', '<C-H>', ':BufferPrevious<CR>', {noremap = true, silent = true})
 _set_keymap('n', '<C-L>', ':BufferNext<CR>', {noremap = true, silent = true})
-_set_keymap('n', '<Leader>bc', ':up | BufferClose<CR>')
-_set_keymap('n', '<Leader>bC', ':BufferClose!<CR>')
+_set_keymap('n', '<Leader>bd', ':up | BufferClose<CR>')
+_set_keymap('n', '<Leader>bD', ':BufferClose!<CR>')
+_set_keymap('n', '<Leader>bD', ':bd!<CR>')
 _set_keymap('n', '<Leader>bp', ':BufferPick<CR>')
 _set_keymap('n', '<Leader>bo', ':wa | BufferCloseAllButCurrent<CR>')
 vim.api.nvim_exec([[
@@ -191,7 +190,7 @@ local lazygit = Terminal:new({
 function _lazygit_toggle()
   lazygit:toggle()
 end
-_set_keymap("n", "<Leader>g", "<cmd>lua _lazygit_toggle()<CR>", {noremap = true, silent = true})
+_set_keymap("n", "<Leader>gl", "<cmd>lua _lazygit_toggle()<CR>", {noremap = true, silent = true})
 
 -- sandwich SETTINGS
 vim.api.nvim_exec([[let g:sandwich#recipes = deepcopy(g:sandwich#default_recipes)]], false)
