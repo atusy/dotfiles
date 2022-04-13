@@ -73,7 +73,6 @@ require('jetpack').startup(function(use)
     return
   end
 
-  use 'ulwlu/elly.vim'
   use 'ctrlpvim/ctrlp.vim'
   use 'phaazon/hop.nvim'
   use 'haya14busa/vim-edgemotion'
@@ -92,6 +91,9 @@ require('jetpack').startup(function(use)
   use 'AndrewRadev/bufferize.vim'
   use 'vim-denops/denops.vim'
 
+  -- colorscheme
+  use '4513ECHO/vim-colors-hatsunemiku'
+  -- use 'ulwlu/elly.vim'
   use 'tanvirtin/vgit.nvim'
   use 'neovim/nvim-lspconfig'
   use 'williamboman/nvim-lsp-installer'
@@ -115,7 +117,8 @@ end)
 if vim.g.vscode == 1 then return end
 
 -- Elly SETTINGS
-vim.cmd([[colorscheme elly]])
+--vim.cmd([[colorscheme elly]])
+vim.cmd("colorscheme hatsunemiku")
 
 -- Hop (Easymotion) SETTINGS
 require('hop').setup()
