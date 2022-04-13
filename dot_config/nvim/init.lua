@@ -66,6 +66,7 @@ end
 require('jetpack').startup(function(use)
   -- used also in VS Code
   use 'tpope/vim-commentary'
+  use 'jghauser/mkdir.nvim'
 
   if vim.g.vscode == 1 then
     use 'asvetliakov/vim-easymotion'
