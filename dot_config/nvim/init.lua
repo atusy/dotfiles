@@ -1,3 +1,5 @@
+local vim = vim -- minimize LSP warning
+
 vim.opt.relativenumber = true
 vim.opt.number = true
 vim.opt.splitright = true
