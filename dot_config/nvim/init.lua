@@ -84,7 +84,6 @@ require('jetpack').startup(function(use)
   use 'lambdalisue/gin.vim'
   use 'nvim-treesitter/nvim-treesitter'
   use 'nvim-lua/plenary.nvim' -- required by gitsigns
-  use 'lewis6991/gitsigns.nvim'
   use 'simeji/winresizer'
   use 'akinsho/toggleterm.nvim'
   use 'machakann/vim-sandwich'
