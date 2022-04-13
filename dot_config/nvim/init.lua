@@ -317,6 +317,7 @@ for lsp, config in pairs{
   r_language_server = {},
   tsserver = {},
   bashls = {filetypes = {"sh", "bash", "zsh"}}, -- npm i -g bash-language-server
+  sumneko_lua = {}, -- pacman -S lua-language-server
 } do
   lspsetup(lsp, config)
 end
