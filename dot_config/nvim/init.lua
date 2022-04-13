@@ -94,6 +94,9 @@ require('jetpack').startup(function(use)
   use '4513ECHO/vim-colors-hatsunemiku'
   -- use 'ulwlu/elly.vim'
   use 'tanvirtin/vgit.nvim'
+  use 'yioneko/nvim-yati'
+  use 'haringsrob/nvim_context_vt'
+  use 'm-demare/hlargs.nvim'
   use 'neovim/nvim-lspconfig'
   use 'williamboman/nvim-lsp-installer'
 
@@ -175,7 +178,12 @@ require('nvim-treesitter.configs').setup({
   },
   highlight = { enable = true },
   indent = { enable = true },
+  yati = { enable = true },
 })
+require('nvim_context_vt').setup({
+  enabled = true,
+})
+require('hlargs').setup()
 
 -- gitsigns SETTINGS
 -- require('gitsigns').setup()
