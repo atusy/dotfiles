@@ -312,9 +312,9 @@ local function lspsetup(lsp, config)
 end
 
 for lsp, config in pairs{ 
-  pyright = {},
+  pyright = {}, -- pip install --user pyright
   --r_language_server = { cmd = {"R", "--slave", "-e", "options(languageserver.rich_documentation = FALSE); languageserver::run()" } },
-  r_language_server = {},
+  r_language_server = {}, -- R -e "remotes::install_github('languageservre')"
   tsserver = {},
   bashls = {filetypes = {"sh", "bash", "zsh"}}, -- npm i -g bash-language-server
   sumneko_lua = {}, -- pacman -S lua-language-server
