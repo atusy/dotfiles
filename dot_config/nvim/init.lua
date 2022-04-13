@@ -159,8 +159,9 @@ vim.api.nvim_exec([[
   let bufferline.icon_separator_active = ' ❯❯'
   let bufferline.icon_separator_inactive = ''
   let bufferline.icon_close_tab = '×'
-  hi default link BufferVisible BufferCurrent
-  hi default link BufferVisibleSign BufferCurrent
+  "Used in colorscheme elly
+  "hi default link BufferVisible BufferCurrent
+  "hi default link BufferVisibleSign BufferCurrent
 ]], false)
 
 -- treesitter SETTINGS
