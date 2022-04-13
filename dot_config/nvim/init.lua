@@ -92,6 +92,8 @@ require('jetpack').startup(function(use)
   use '4513ECHO/vim-colors-hatsunemiku'
   -- use 'ulwlu/elly.vim'
 
+  use 'norcalli/nvim-colorizer.lua'
+
   -- statusline
   use 'feline-nvim/feline.nvim'
 
@@ -213,6 +215,9 @@ require('nvim_context_vt').setup({
   enabled = true,
 })
 require('hlargs').setup()
+
+-- colorizer SETTINGS
+require'colorizer'.setup()
 
 -- gitsigns SETTINGS
 -- require('gitsigns').setup()
