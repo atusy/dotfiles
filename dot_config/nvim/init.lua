@@ -12,6 +12,8 @@ vim.opt.pumheight = 10
 vim.opt.mouse = 'a'
 vim.opt.termguicolors = true
 vim.opt.shell = 'zsh'
+vim.opt.updatetime = 300 -- recommended by vgit
+vim.opt.incsearch = true -- false reccomended by vgit
 
 vim.opt.softtabstop = 2
 vim.opt.shiftwidth = 2
@@ -90,6 +92,7 @@ require('jetpack').startup(function(use)
   use 'AndrewRadev/bufferize.vim'
   use 'vim-denops/denops.vim'
 
+  use 'tanvirtin/vgit.nvim'
   use 'neovim/nvim-lspconfig'
   use 'williamboman/nvim-lsp-installer'
 
@@ -167,7 +170,17 @@ require('nvim-treesitter.configs').setup({
 })
 
 -- gitsigns SETTINGS
-require('gitsigns').setup()
+-- require('gitsigns').setup()
+
+-- vgit SETTINGS
+require('vgit').setup({
+  keymaps = {
+    ['n <leader>gj'] = 'hunk_down',
+    ['n <leader>gk'] = 'hunk_up',
+    ['n <leader>gs'] = 'buffer_hunk_stage',
+    ['n <leader>gr'] = 'buffer_hunk_reset',
+  }
+})
 
 --toggleterm SETTINGS
 require("toggleterm").setup{
