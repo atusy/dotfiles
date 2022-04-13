@@ -164,9 +164,15 @@ vim.api.nvim_exec([[
 
 -- treesitter SETTINGS
 require('nvim-treesitter.configs').setup({
+  ensure_installed = {
+    'bash', 'bibtex', 'c', 'c_sharp', 'cmake', 'cpp', 'css', 'dockerfile',
+    'dot', 'go', 'gomod', 'gowork', 'graphql', 'haskell', 'help', 'html',
+    'http', 'java', 'javascript', 'json', 'json5', 'julia', 'latex', 'lua',
+    'make', 'markdown', 'ninja', 'nix', 'python', 'r', 'regex', 'ruby', 'rust',
+    'scss', 'teal', 'toml', 'tsx', 'typescript', 'vala', 'vim', 'vue', 'yaml'
+  },
   highlight = { enable = true },
   indent = { enable = true },
-  ensure_installed = 'maintained'
 })
 
 -- gitsigns SETTINGS
