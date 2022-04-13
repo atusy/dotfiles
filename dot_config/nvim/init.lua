@@ -64,6 +64,7 @@ vim.api.nvim_exec(
 )
 end
 require('jetpack').startup(function(use)
+  -- used also in VS Code
   use 'tpope/vim-commentary'
 
   if vim.g.vscode == 1 then
@@ -73,38 +74,63 @@ require('jetpack').startup(function(use)
     return
   end
 
-  use 'ctrlpvim/ctrlp.vim'
-  use 'phaazon/hop.nvim'
-  use 'haya14busa/vim-edgemotion'
-  use "nathom/filetype.nvim"
-  use 'feline-nvim/feline.nvim'
-  use 'kyazdani42/nvim-web-devicons'
-  use 'romgrk/barbar.nvim'
-  use 'lambdalisue/fern.vim'
-  use 'lambdalisue/gin.vim'
-  use 'nvim-treesitter/nvim-treesitter'
-  use 'nvim-lua/plenary.nvim' -- required by gitsigns
-  use 'simeji/winresizer'
-  use 'akinsho/toggleterm.nvim'
-  use 'machakann/vim-sandwich'
-  use 'AndrewRadev/bufferize.vim'
+  -- basic dependencies
+  use 'kyazdani42/nvim-web-devicons' -- for lualine
+  use 'nvim-lua/plenary.nvim' -- for gitsigns, vgit
   use 'vim-denops/denops.vim'
+
+  -- utils
+  use "nathom/filetype.nvim"
+  use 'lambdalisue/fern.vim'
+  use 'simeji/winresizer'
+  use 'AndrewRadev/bufferize.vim'
 
   -- colorscheme
   use '4513ECHO/vim-colors-hatsunemiku'
   -- use 'ulwlu/elly.vim'
+
+  -- statusline
+  use 'feline-nvim/feline.nvim'
+
+  -- bufferlien
+  use 'romgrk/barbar.nvim'
+
+  -- motion
+  use 'haya14busa/vim-edgemotion'
+  use 'phaazon/hop.nvim'
+
+  -- fuzzy finder
+  use 'ctrlpvim/ctrlp.vim'
+
+  -- git
+  use 'knsh14/vim-github-link'
+  use 'lambdalisue/gin.vim'
   use 'tanvirtin/vgit.nvim'
+  -- use 'lewis6991/gitsigns.nvim'
+
+  -- treesitter
+  use 'nvim-treesitter/nvim-treesitter'
   use 'yioneko/nvim-yati'
   use 'haringsrob/nvim_context_vt'
   use 'm-demare/hlargs.nvim'
+
+  -- text object
+  use 'machakann/vim-sandwich'
+
+  -- terminal
+  use 'akinsho/toggleterm.nvim'
+  use 'Shougo/deol.nvim'
+
+  -- lsp
   use 'neovim/nvim-lspconfig'
   use 'williamboman/nvim-lsp-installer'
 
+  -- ddc
   use 'Shougo/ddc.vim'
   use 'Shougo/ddc-around'
   use 'Shougo/ddc-cmdline'
   use 'Shougo/ddc-cmdline-history'
-  --use 'Shougo/ddc-nextword'
+  -- use 'Shougo/ddc-nextword'
   use 'Shougo/ddc-matcher_head'  -- 入力中の単語を補完
   use 'Shougo/ddc-nvim-lsp'  -- 入力中の単語を補完
   use 'LumaKernel/ddc-file'  -- Suggest file paths
