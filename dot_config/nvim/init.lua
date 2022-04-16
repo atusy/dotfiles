@@ -313,7 +313,7 @@ _set_keymap('n', '<Leader>fr', '<Cmd>lua require"telescope.builtin".lsp_referenc
 -- Highlights.
 require("lsp-colors").setup()
 vim.api.nvim_exec([[
-  hi illuminatedWordDefault guibg=#282C33
+  hi illuminatedWordDefault guibg=#383D47
   hi link illuminatedWord illuminatedWordDefault
   hi link LspReferenceText illuminatedWord
   hi link LspReferenceWrite illuminatedWord
