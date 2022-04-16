@@ -16,6 +16,7 @@ vim.opt.termguicolors = true
 vim.opt.shell = 'zsh'
 vim.opt.updatetime = 300 -- recommended by vgit
 vim.opt.incsearch = true -- false reccomended by vgit
+vim.opt.signcolumn = 'yes'
 
 vim.opt.softtabstop = 2
 vim.opt.shiftwidth = 2
