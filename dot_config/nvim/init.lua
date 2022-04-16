@@ -154,6 +154,7 @@ require('jetpack').startup(function(use)
   -- lsp
   use 'neovim/nvim-lspconfig'
   use 'williamboman/nvim-lsp-installer'
+  use 'folke/lsp-colors.nvim'
 
   -- ddc
   use 'Shougo/ddc.vim'
@@ -310,10 +311,17 @@ _set_keymap('n', '<Leader>fr', '<Cmd>lua require"telescope.builtin".lsp_referenc
 
 -- lsp SETTINGS
 -- Highlights.
+require("lsp-colors").setup()
 vim.api.nvim_exec([[
-  hi def link LspReferenceText CursorLine
-  hi def link LspReferenceWrite CursorLine
-  hi def link LspReferenceRead CursorLine
+  hi illuminatedWordDefault guibg=#282C33
+  hi link illuminatedWord illuminatedWordDefault
+  hi link LspReferenceText illuminatedWord
+  hi link LspReferenceWrite illuminatedWord
+  hi link LspReferenceRead illuminatedWord
+  augroup illuminate-by-mode
+    autocmd ModeChanged *:[ivV\x16]* hi illuminatedWord guibg=#00000000
+    autocmd ModeChanged [ivV\x16]*:* hi link illuminatedWord illuminatedWordDefault
+  augroup END
 ]], false)
 
 -- Mappings.
@@ -323,6 +331,8 @@ _set_keymap('n', '<Leader>e', '<cmd>lua vim.diagnostic.open_float()<CR>', opts)
 _set_keymap('n', '[d', '<cmd>lua vim.diagnostic.goto_prev()<CR>', opts)
 _set_keymap('n', ']d', '<cmd>lua vim.diagnostic.goto_next()<CR>', opts)
 _set_keymap('n', '<Leader>q', '<cmd>lua vim.diagnostic.setloclist()<CR>', opts)
+_set_keymap('n', '<a-l>', '<cmd>lua require"illuminate".next_reference{wrap=true}<cr>', {noremap=true})
+_set_keymap('n', '<a-h>', '<cmd>lua require"illuminate".next_reference{reverse=true,wrap=true}<cr>', {noremap=true})
 
 -- Use an on_attach function to only map the following keys
 -- after the language server attaches to the current buffer
@@ -344,7 +354,7 @@ local on_attach = function(client, bufnr)
   vim.api.nvim_buf_set_keymap(bufnr, 'n', '<Leader>rn', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
   vim.api.nvim_buf_set_keymap(bufnr, 'n', '<Leader>ca', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
   vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>', opts)
-  vim.api.nvim_buf_set_keymap(bufnr, 'n', '<Leader>f', '<cmd>lua vim.lsp.buf.formatting()<CR>', opts)
+  vim.api.nvim_buf_set_keymap(bufnr, 'n', '<Leader>fo', '<cmd>lua vim.lsp.buf.formatting()<CR>', opts)
 
   -- Highlighting
   require'illuminate'.on_attach(client)
