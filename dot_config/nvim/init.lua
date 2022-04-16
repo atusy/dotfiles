@@ -177,7 +177,6 @@ end)
 if vim.g.vscode == 1 then return end
 
 -- colorscheme SETTINGS
---vim.cmd([[colorscheme elly]])
 vim.cmd("colorscheme hatsunemiku")
 vim.g.illuminate_ftblacklist = {'fern'}
 
@@ -222,9 +221,6 @@ vim.api.nvim_exec([[
   let bufferline.icon_separator_active = ' ❯❯'
   let bufferline.icon_separator_inactive = ''
   let bufferline.icon_close_tab = '×'
-  "Used in colorscheme elly
-  "hi default link BufferVisible BufferCurrent
-  "hi default link BufferVisibleSign BufferCurrent
 ]], false)
 
 -- treesitter SETTINGS
