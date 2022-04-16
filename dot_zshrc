@@ -272,8 +272,9 @@ fi
 
 # Edit command line by $EDITOR
 autoload -Uz edit-command-line
-zle -N edit-command-line
-bindkey "^x^e" edit-command-line
+function edit-command-line2() EDITOR="${EDITOR_CMD:-$EDITOR}" edit-command-line
+zle -N edit-command-line2
+bindkey "^x^e" edit-command-line2
 
 # local configurations
 [[ -f "$HOME/.config/zsh/local.zshrc" ]] && . "$HOME/.config/zsh/local.zshrc"
