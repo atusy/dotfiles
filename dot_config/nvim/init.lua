@@ -64,12 +64,12 @@ _set_keymap('t', '<C-W>', "'<Cmd>wincmd ' .. getcharstr() .. '<CR>'", { expr = t
 
 vim.cmd([[autocmd TermOpen * startinsert]])
 
-function _init_lua()
+function Init_lua()
   vim.cmd '!chezmoi apply'
   vim.cmd 'source $MYVIMRC'
 end
 vim.api.nvim_exec([[
-  command! -nargs=0 InitLua :lua _init_lua()
+  command! -nargs=0 InitLua :lua Init_lua()
 ]], false)
 
 -- PLUGIN SETTINGS
