@@ -139,6 +139,9 @@ require('jetpack').startup(function(use)
   use 'yioneko/nvim-yati'
   use 'haringsrob/nvim_context_vt'
   use 'm-demare/hlargs.nvim'
+  use 'romgrk/nvim-treesitter-context'
+  use 'mfussenegger/nvim-treehopper'
+  use 'David-Kunz/treesitter-unit'
 
   -- text object
   use 'machakann/vim-sandwich'
@@ -232,10 +235,19 @@ require('nvim-treesitter.configs').setup({
   indent = { enable = true },
   yati = { enable = true },
 })
+local ft_to_parser = require"nvim-treesitter.parsers".filetype_to_parsername
+ft_to_parser.zsh = "bash"
 require('nvim_context_vt').setup({
   enabled = true,
 })
 require('hlargs').setup()
+require('treesitter-context').setup()
+_set_keymap('o', 'm', ":<C-U>lua require('tsht').nodes()<CR>", {noremap=true, silent=true})
+_set_keymap('v', 'm', ":lua require('tsht').nodes()<CR>", {noremap=true, silent=true})
+_set_keymap('x', 'iu', ':lua require"treesitter-unit".select()<CR>', {noremap=true})
+_set_keymap('x', 'au', ':lua require"treesitter-unit".select(true)<CR>', {noremap=true})
+_set_keymap('o', 'iu', ':<c-u>lua require"treesitter-unit".select()<CR>', {noremap=true})
+_set_keymap('o', 'au', ':<c-u>lua require"treesitter-unit".select(true)<CR>', {noremap=true})
 
 -- colorizer SETTINGS
 require'colorizer'.setup()
