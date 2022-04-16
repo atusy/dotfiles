@@ -128,6 +128,7 @@ require('jetpack').startup(function(use)
   -- fuzzy finder
   use 'ctrlpvim/ctrlp.vim'
   use 'nvim-telescope/telescope.nvim'
+  use {'nvim-telescope/telescope-fzf-native.nvim', run = 'make' }
 
   -- git
   use 'knsh14/vim-github-link'
@@ -304,6 +305,7 @@ require('telescope').setup {
     }
   }
 }
+require('telescope').load_extension('fzf')
 _set_keymap('n', '<Leader>ff', '<Cmd>Telescope find_files<CR>')
 _set_keymap('n', '<Leader>fg', '<Cmd>Telescope live_grep<CR>')
 _set_keymap('n', '<Leader>fb', '<Cmd>Telescope buffers<CR>')
