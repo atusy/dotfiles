@@ -175,9 +175,10 @@ end)
 -- EARLY RETURN FOR VSCODE
 if vim.g.vscode == 1 then return end
 
--- Elly SETTINGS
+-- colorscheme SETTINGS
 --vim.cmd([[colorscheme elly]])
 vim.cmd("colorscheme hatsunemiku")
+vim.g.illuminate_ftblacklist = {'fern'}
 
 -- Hop (Easymotion) SETTINGS
 require('hop').setup()
@@ -195,6 +196,7 @@ require('feline').setup({
 
 -- Fern SETTINGS
 _set_keymap('n', '<C-F>', ':Fern . -drawer -reveal=%<CR>', {})
+vim.cmd [[autocmd FileType fern nnoremap <buffer> <C-F> <C-W>p]]
 vim.api.nvim_exec([[
 function! s:init_fern() abort
   set nornu nonu cursorline signcolumn=auto
