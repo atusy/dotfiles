@@ -25,6 +25,24 @@ vim.opt.autoindent = true
 vim.opt.smartindent = true
 vim.opt.autoread = true
 
+-- nvim-remote for edit-commandline zle
+-- <Space>bd will update, wipe buffer, and go back to the caller terminal
+if vim.fn.executable('nvr') == 1 then
+  function Write_and_bufferwipe()
+    local winnr = vim.b.zsh_cmdline_parent_winnr
+    vim.cmd("w | bw | " .. winnr .. "wincmd w")
+  end
+  vim.env.EDITOR_CMD = 'nvr -cc "below 5split" -c "set filetype=zsh_cmdline" --remote-wait-silent'
+  vim.api.nvim_exec([[
+    augroup zsh-cmdline
+      autocmd! *
+      autocmd FileType zsh_cmdline let b:zsh_cmdline_parent_winnr = get(b:, 'zsh_cmdline_parent_winnr', winnr('#'))
+      autocmd FileType zsh_cmdline nnoremap <buffer> <Space>bd <Cmd>lua Write_and_bufferwipe()<CR>
+      autocmd FileType zsh_cmdline set filetype=zsh
+    augroup END
+  ]], false)
+end
+
 local _nvim_set_keymap = vim.api.nvim_set_keymap
 local function _set_keymap(mode, lhs, rhs, ops)
   _nvim_set_keymap(mode, lhs, rhs, ops or {noremap = true})
