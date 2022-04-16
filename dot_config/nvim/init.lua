@@ -127,6 +127,7 @@ require('jetpack').startup(function(use)
 
   -- fuzzy finder
   use 'ctrlpvim/ctrlp.vim'
+  use 'nvim-telescope/telescope.nvim'
 
   -- git
   use 'knsh14/vim-github-link'
@@ -290,6 +291,22 @@ _set_keymap("n", "<Leader>gl", "<cmd>lua _lazygit_toggle()<CR>", {noremap = true
 
 -- sandwich SETTINGS
 vim.api.nvim_exec([[let g:sandwich#recipes = deepcopy(g:sandwich#default_recipes)]], false)
+
+-- telescope SETTINGS
+require('telescope').setup {
+  extensions = {
+    fzf_writer = {
+      minimum_grep_characters = 2,
+      minimum_files_characters = 2,
+    }
+  }
+}
+_set_keymap('n', '<Leader>ff', '<Cmd>Telescope find_files<CR>')
+_set_keymap('n', '<Leader>fg', '<Cmd>Telescope live_grep<CR>')
+_set_keymap('n', '<Leader>fb', '<Cmd>Telescope buffers<CR>')
+_set_keymap('n', '<Leader>fh', '<Cmd>Telescope help_tags<CR>')
+_set_keymap('n', '<Leader>ft', '<Cmd>lua require"telescope.builtin".treesitter()<CR>')
+_set_keymap('n', '<Leader>fr', '<Cmd>lua require"telescope.builtin".lsp_references()<CR>')
 
 -- lsp SETTINGS
 -- Highlights.
