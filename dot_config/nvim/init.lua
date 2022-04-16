@@ -109,7 +109,6 @@ require('jetpack').startup(function(use)
 
   -- colorscheme
   use '4513ECHO/vim-colors-hatsunemiku'
-  -- use 'ulwlu/elly.vim'
 
   -- highlight
   use 'RRethy/vim-illuminate'
