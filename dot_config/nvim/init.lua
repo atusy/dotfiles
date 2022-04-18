@@ -180,7 +180,6 @@ vim.cmd("colorscheme " .. default_colorscheme)
 require'colorizer'.setup()
 vim.g.illuminate_ftblacklist = {'fern'}
 
--- Hop (Easymotion) SETTINGS
 -- Hop SETTINGS
 require('hop').setup()
 local function hopper(direction)
@@ -259,9 +258,6 @@ _set_keymap('x', 'iu', ':lua require"treesitter-unit".select()<CR>', {noremap=tr
 _set_keymap('x', 'au', ':lua require"treesitter-unit".select(true)<CR>', {noremap=true})
 _set_keymap('o', 'iu', ':<c-u>lua require"treesitter-unit".select()<CR>', {noremap=true})
 _set_keymap('o', 'au', ':<c-u>lua require"treesitter-unit".select(true)<CR>', {noremap=true})
-
--- gitsigns SETTINGS
--- require('gitsigns').setup()
 
 -- vgit SETTINGS
 require('vgit').setup({
