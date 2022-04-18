@@ -266,8 +266,14 @@ require('vgit').setup({
     ['n <leader>gk'] = 'hunk_up',
     ['n <leader>gs'] = 'buffer_hunk_stage',
     ['n <leader>gr'] = 'buffer_hunk_reset',
+  },
+  settings = {
+    live_blame = {
+      enabled = false
+    }
   }
 })
+vim.api.nvim_create_user_command("ToggleBlame", [[: lua require'vgit'.toggle_live_blame()]], {})
 
 --toggleterm SETTINGS
 require("toggleterm").setup{
