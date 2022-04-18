@@ -105,6 +105,7 @@ require('jetpack').startup(function(use)
   use 'lambdalisue/fern.vim'
   use 'simeji/winresizer'
   use 'AndrewRadev/bufferize.vim'
+  use 'moll/vim-bbye'
 
   -- colorscheme
   use '4513ECHO/vim-colors-hatsunemiku'
@@ -116,8 +117,8 @@ require('jetpack').startup(function(use)
   -- statusline
   use 'feline-nvim/feline.nvim'
 
-  -- bufferlien
-  use 'romgrk/barbar.nvim'
+  -- bufferline
+  -- use 'romgrk/barbar.nvim'
 
   -- motion
   use 'haya14busa/vim-edgemotion'
@@ -205,20 +206,23 @@ augroup fern-custom
 augroup END
 ]], false)
 
+-- Bbye SETTINGS
+_set_keymap('n', '<Leader>bd', ':up | Bdelete<CR>')
+_set_keymap('n', '<Leader>bD', ':Bdelete!<CR>')
+
 -- barbar SETTINGS
-_set_keymap('n', '<C-H>', ':BufferPrevious<CR>', {noremap = true, silent = true})
-_set_keymap('n', '<C-L>', ':BufferNext<CR>', {noremap = true, silent = true})
-_set_keymap('n', '<Leader>bd', ':up | BufferClose<CR>')
-_set_keymap('n', '<Leader>bD', ':BufferClose!<CR>')
-_set_keymap('n', '<Leader>bD', ':bd!<CR>')
-_set_keymap('n', '<Leader>bp', ':BufferPick<CR>')
-_set_keymap('n', '<Leader>bo', ':wa | BufferCloseAllButCurrent<CR>')
-vim.api.nvim_exec([[
-  let bufferline = get(g:, 'bufferline', {})
-  let bufferline.icon_separator_active = ' ❯❯'
-  let bufferline.icon_separator_inactive = ''
-  let bufferline.icon_close_tab = '×'
-]], false)
+-- _set_keymap('n', '<C-H>', ':BufferPrevious<CR>', {noremap = true, silent = true})
+-- _set_keymap('n', '<C-L>', ':BufferNext<CR>', {noremap = true, silent = true})
+-- _set_keymap('n', '<Leader>bd', ':up | BufferClose<CR>')
+-- _set_keymap('n', '<Leader>bD', ':BufferClose!<CR>')
+-- _set_keymap('n', '<Leader>bp', ':BufferPick<CR>')
+-- _set_keymap('n', '<Leader>bo', ':wa | BufferCloseAllButCurrent<CR>')
+-- vim.api.nvim_exec([[
+--   let bufferline = get(g:, 'bufferline', {})
+--   let bufferline.icon_separator_active = ' ❯❯'
+--   let bufferline.icon_separator_inactive = ''
+--   let bufferline.icon_close_tab = '×'
+-- ]], false)
 
 -- treesitter SETTINGS
 require('nvim-treesitter.configs').setup({
