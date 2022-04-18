@@ -181,9 +181,18 @@ require'colorizer'.setup()
 vim.g.illuminate_ftblacklist = {'fern'}
 
 -- Hop (Easymotion) SETTINGS
+-- Hop SETTINGS
 require('hop').setup()
-_set_keymap('', 'f', "<cmd>lua require'hop'.hint_char1({ direction = require'hop.hint'.HintDirection.AFTER_CURSOR, current_line_only = true })<cr>", {})
-_set_keymap('', 'F', "<cmd>lua require'hop'.hint_char1({ direction = require'hop.hint'.HintDirection.BEFORE_CURSOR, current_line_only = true })<cr>", {})
+local function hopper(direction)
+  return function()
+    require'hop'.hint_char1 {
+      direction = require'hop.hint'.HintDirection[direction],
+      current_line_only = true
+    }
+  end
+end
+_set_keymap('', 'f', '', {callback = hopper('AFTER_CURSOR'), desc = 'Hop after'})
+_set_keymap('', 'F', '', {callback = hopper('BEFORE_CURSOR'), desc = 'Hop before'})
 
 -- Edgemotion SETTINGS
 _set_keymap('', '<Leader>]', '<Plug>(edgemotion-j)', {})
