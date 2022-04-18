@@ -195,15 +195,15 @@ require('feline').setup({
 -- Fern SETTINGS
 _set_keymap('n', '<C-F>', ':Fern . -drawer -reveal=%<CR>')
 vim.api.nvim_exec([[
-function! s:init_fern() abort
-  set nornu nonu cursorline signcolumn=auto
-  nnoremap <buffer> <C-F> <C-W>p
-endfunction
+  function! s:init_fern() abort
+    setlocal nornu nonu cursorline signcolumn=auto
+    nnoremap <buffer> <C-F> <C-W>p
+  endfunction
 
-augroup fern-custom
-  autocmd! *
-  autocmd FileType fern call s:init_fern()
-augroup END
+  augroup fern-custom
+    autocmd! *
+    autocmd FileType fern call s:init_fern()
+  augroup END
 ]], false)
 
 -- Bbye SETTINGS
