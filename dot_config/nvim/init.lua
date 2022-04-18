@@ -280,24 +280,25 @@ require("toggleterm").setup{
   open_mapping = "<C-T>",
   insert_mappings = false,
 }
-function _toggleterm_run() 
+local function _toggleterm_run()
   local winnr = vim.fn.winnr()
   vim.cmd("ToggleTermSendCurrentLine")
   vim.cmd(winnr .. "wincmd w")
 end
-_set_keymap('n', '<Leader>j', '<cmd>lua _toggleterm_run()<CR>', { noremap = true} )
-_set_keymap('v', '<Leader>j', ":ToggleTermSendVisualLines<CR>", { noremap = true} )
+_set_keymap('n', '<Leader>j', '', {callback = _toggleterm_run, desc = 'ToggleTermSendCurrentLine', noremap = true})
 
-local Terminal  = require('toggleterm.terminal').Terminal
-local lazygit = Terminal:new({
+local lazygit = require'toggleterm.terminal'.Terminal:new {
   cmd = "lazygit",
   hidden = true,
   direction = "float"
-})
-function _lazygit_toggle()
+}
+local function lazygit_toggle()
   lazygit:toggle()
 end
-_set_keymap("n", "<Leader>gl", "<cmd>lua _lazygit_toggle()<CR>", {noremap = true, silent = true})
+_set_keymap(
+  "n", "<Leader>gl", '',
+  {callback = lazygit_toggle, desc = 'lazygit', noremap = true, silent = true}
+)
 
 -- sandwich SETTINGS
 vim.api.nvim_exec([[let g:sandwich#recipes = deepcopy(g:sandwich#default_recipes)]], false)
