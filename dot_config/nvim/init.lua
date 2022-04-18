@@ -235,6 +235,20 @@ vim.api.nvim_create_autocmd(
   }
 )
 
+
+--[[ Buffer settings ]]
+-- Bbye
+_set_keymap('n', '<Leader>bd', ':up | Bdelete<CR>')
+_set_keymap('n', '<Leader>bD', ':Bdelete!<CR>')
+
+
+--[[ textobj settings ]]
+-- sandwich
+vim.cmd [[let g:sandwich#recipes = deepcopy(g:sandwich#default_recipes)]]
+
+
+--[[ motion settings ]]
+-- Hop
 require('hop').setup()
 local function hopper(direction)
   return function()
@@ -247,16 +261,17 @@ end
 _set_keymap('', 'f', '', {callback = hopper('AFTER_CURSOR'), desc = 'Hop after'})
 _set_keymap('', 'F', '', {callback = hopper('BEFORE_CURSOR'), desc = 'Hop before'})
 
--- Edgemotion SETTINGS
+-- Edgemotion
 _set_keymap('', '<Leader>]', '<Plug>(edgemotion-j)', {})
 _set_keymap('', '<Leader>[', '<Plug>(edgemotion-k)', {})
 
--- feline SETTINGS
-require('feline').setup({
-  preset = 'noicon'
-})
 
--- Fern SETTINGS
+--[[ statusline settings ]]
+-- feline
+require('feline').setup{reset = 'noicon'}
+
+--[[ filer settings ]]
+-- fern
 _set_keymap('n', '<C-F>', ':Fern . -drawer -reveal=%<CR>')
 vim.api.nvim_exec([[
   function! s:init_fern() abort
@@ -270,25 +285,8 @@ vim.api.nvim_exec([[
   augroup END
 ]], false)
 
--- Bbye SETTINGS
-_set_keymap('n', '<Leader>bd', ':up | Bdelete<CR>')
-_set_keymap('n', '<Leader>bD', ':Bdelete!<CR>')
 
--- barbar SETTINGS
--- _set_keymap('n', '<C-H>', ':BufferPrevious<CR>', {noremap = true, silent = true})
--- _set_keymap('n', '<C-L>', ':BufferNext<CR>', {noremap = true, silent = true})
--- _set_keymap('n', '<Leader>bd', ':up | BufferClose<CR>')
--- _set_keymap('n', '<Leader>bD', ':BufferClose!<CR>')
--- _set_keymap('n', '<Leader>bp', ':BufferPick<CR>')
--- _set_keymap('n', '<Leader>bo', ':wa | BufferCloseAllButCurrent<CR>')
--- vim.api.nvim_exec([[
---   let bufferline = get(g:, 'bufferline', {})
---   let bufferline.icon_separator_active = ' ❯❯'
---   let bufferline.icon_separator_inactive = ''
---   let bufferline.icon_close_tab = '×'
--- ]], false)
-
--- treesitter SETTINGS
+--[[ treesitter settings ]]
 require('nvim-treesitter.configs').setup({
   ensure_installed = {
     'bash', 'bibtex', 'c', 'c_sharp', 'cmake', 'cpp', 'css', 'dockerfile',
@@ -313,7 +311,9 @@ _set_keymap('x', 'au', ':lua require"treesitter-unit".select(true)<CR>', {norema
 _set_keymap('o', 'iu', ':<c-u>lua require"treesitter-unit".select()<CR>', {noremap=true})
 _set_keymap('o', 'au', ':<c-u>lua require"treesitter-unit".select(true)<CR>', {noremap=true})
 
--- vgit SETTINGS
+
+--[[ git settings ]]
+-- vgit
 require('vgit').setup({
   keymaps = {
     ['n <leader>gj'] = 'hunk_down',
@@ -329,7 +329,9 @@ require('vgit').setup({
 })
 vim.api.nvim_create_user_command("ToggleBlame", [[: lua require'vgit'.toggle_live_blame()]], {})
 
---toggleterm SETTINGS
+
+--[[ terminal settings ]]
+-- toggleterm:general
 require("toggleterm").setup{
   open_mapping = "<C-T>",
   insert_mappings = false,
@@ -341,6 +343,7 @@ local function _toggleterm_run()
 end
 _set_keymap('n', '<Leader>j', '', {callback = _toggleterm_run, desc = 'ToggleTermSendCurrentLine', noremap = true})
 
+-- toggleterm:lazygit
 local lazygit = require'toggleterm.terminal'.Terminal:new {
   cmd = "lazygit",
   hidden = true,
@@ -354,13 +357,13 @@ _set_keymap(
   {callback = lazygit_toggle, desc = 'lazygit', noremap = true, silent = true}
 )
 
--- sandwich SETTINGS
-vim.cmd [[let g:sandwich#recipes = deepcopy(g:sandwich#default_recipes)]]
 
--- telescope SETTINGS
+--[[ fuzzyfinder settings ]]
+-- telescope
 require('telescope').setup()
 require('telescope').load_extension('fzf')
 for key, callback in pairs({
+  b = 'buffers', -- shortcut
   fb = 'buffers',
   fc = 'commands',
   ff = 'find_files',
@@ -381,9 +384,9 @@ for key, callback in pairs({
   )
 end
 
--- lsp SETTINGS
 
--- See `:help vim.diagnostic.*` for documentation on any of the below functions
+--[[ LSP settings ]]
+-- Mappings. See `:help vim.diagnostic.*` for documentation on any of the below functions
 local opts = { noremap=true, silent=true }
 _set_keymap('n', '<Leader>e', '<cmd>lua vim.diagnostic.open_float()<CR>', opts)
 _set_keymap('n', '[d', '<cmd>lua vim.diagnostic.goto_prev()<CR>', opts)
@@ -418,8 +421,6 @@ local on_attach = function(client, bufnr)
   require'illuminate'.on_attach(client)
 end
 
--- Use a loop to conveniently call 'setup' on multiple servers and
--- map buffer local keybindings when the language server attaches
 local function lspsetup(lsp, config)
   local config2 = { on_attach = on_attach, flags = { debounce_text_changes = 150 } }
   for k, v in pairs(config or {}) do
@@ -439,5 +440,7 @@ for lsp, config in pairs{
   lspsetup(lsp, config)
 end
 
--- ddc SETTINGS
+
+--[[ autocompletion settings ]]
+-- ddc
 vim.cmd('source ' .. vim.fn.stdpath('config') .. '/ddc.vim')
