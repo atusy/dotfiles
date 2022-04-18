@@ -304,14 +304,7 @@ _set_keymap(
 vim.cmd [[let g:sandwich#recipes = deepcopy(g:sandwich#default_recipes)]]
 
 -- telescope SETTINGS
-require('telescope').setup {
-  extensions = {
-    fzf_writer = {
-      minimum_grep_characters = 2,
-      minimum_files_characters = 2,
-    }
-  }
-}
+require('telescope').setup()
 require('telescope').load_extension('fzf')
 _set_keymap('n', '<Leader>ff', '<Cmd>Telescope find_files<CR>')
 _set_keymap('n', '<Leader>fg', '<Cmd>Telescope live_grep<CR>')
