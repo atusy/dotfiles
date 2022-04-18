@@ -277,7 +277,8 @@ vim.api.nvim_create_user_command("ToggleBlame", [[: lua require'vgit'.toggle_liv
 
 --toggleterm SETTINGS
 require("toggleterm").setup{
-  open_mapping = '<C-I>'
+  open_mapping = "<C-T>",
+  insert_mappings = false,
 }
 function _toggleterm_run() 
   local winnr = vim.fn.winnr()
