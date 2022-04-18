@@ -174,8 +174,10 @@ end)
 -- EARLY RETURN FOR VSCODE
 if vim.g.vscode == 1 then return end
 
--- colorscheme SETTINGS
-vim.cmd("colorscheme hatsunemiku")
+--[[ colorscheme SETTINGS ]]
+local default_colorscheme = "hatsunemiku"
+vim.cmd("colorscheme " .. default_colorscheme)
+require'colorizer'.setup()
 vim.g.illuminate_ftblacklist = {'fern'}
 
 -- Hop (Easymotion) SETTINGS
@@ -248,9 +250,6 @@ _set_keymap('x', 'iu', ':lua require"treesitter-unit".select()<CR>', {noremap=tr
 _set_keymap('x', 'au', ':lua require"treesitter-unit".select(true)<CR>', {noremap=true})
 _set_keymap('o', 'iu', ':<c-u>lua require"treesitter-unit".select()<CR>', {noremap=true})
 _set_keymap('o', 'au', ':<c-u>lua require"treesitter-unit".select(true)<CR>', {noremap=true})
-
--- colorizer SETTINGS
-require'colorizer'.setup()
 
 -- gitsigns SETTINGS
 -- require('gitsigns').setup()
