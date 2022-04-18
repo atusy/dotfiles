@@ -1,29 +1,74 @@
+--[[
+deps: fzf, rg, npm (to be completed)
+--]]
 local vim = vim -- minimize LSP warning
 
+
+--[[ options ]]
+-- signcolumn
+vim.opt.signcolumn = 'yes'
 vim.opt.relativenumber = true
 vim.opt.number = true
+
+-- window
 vim.opt.splitright = true
 vim.opt.splitbelow = true
-vim.opt.hlsearch = true
 vim.opt.backspace = {'indent', 'eol', 'start'}
-vim.opt.showmatch = true
-vim.opt.matchtime = 1
-vim.opt.guifont = {'UDEV Gothic', 'PlemolJP Console', 'Cica'}
-vim.opt.guifontwide = vim.opt.guifont:get()
-vim.opt.pumheight = 10
-vim.opt.mouse = 'a'
-vim.opt.termguicolors = true
-vim.opt.shell = 'zsh'
-vim.opt.updatetime = 300 -- recommended by vgit
-vim.opt.incsearch = true -- false reccomended by vgit
-vim.opt.signcolumn = 'yes'
 
+-- buffer
+vim.opt.autoread = true
+vim.opt.matchtime = 1
+vim.opt.mouse = 'a'
+vim.opt.pumheight = 10
+vim.opt.termguicolors = true
+vim.opt.updatetime = 300 -- recommended by vgit
+
+-- search
+vim.opt.hlsearch = true
+vim.opt.showmatch = true
+vim.opt.incsearch = true -- false reccomended by vgit
+
+-- tab and indent
 vim.opt.softtabstop = 2
 vim.opt.shiftwidth = 2
 vim.opt.expandtab = true
 vim.opt.autoindent = true
 vim.opt.smartindent = true
-vim.opt.autoread = true
+
+-- others
+vim.opt.shell = 'zsh'
+
+
+--[[ keymap settings ]]
+local _nvim_set_keymap = vim.api.nvim_set_keymap
+local function _set_keymap(mode, lhs, rhs, opts)
+  _nvim_set_keymap(mode, lhs, rhs, opts or {noremap = true})
+end
+vim.g.mapleader = ' '
+_set_keymap('n', '<ESC><ESC>', ':nohlsearch<CR>')
+_set_keymap('n', 'x', '"_x')
+_set_keymap('n', 'X', '"_X')
+_set_keymap('n', 'gf', 'gF')
+_set_keymap('n', 'gy', '"+y')
+_set_keymap('n', 'gY', '"+Y')
+_set_keymap('v', 'gy', '"+y')
+_set_keymap('v', 'gY', '"+Y')
+_set_keymap('c', '<C-A>', '<Home>')
+_set_keymap('c', '<C-E>', '<End>')
+_set_keymap('t', '<C-W>', "'<Cmd>wincmd ' .. getcharstr() .. '<CR>'", { expr = true })
+-- _set_keymap('t', '<ESC>', '<C-\\><C-N>')  -- conflicts with some TUIs such as lazygit
+
+
+--[[ personal utilities ]]
+-- Apply MYVIMRC
+vim.api.nvim_create_user_command(
+  'ApplyMYVIMRC',
+  function()
+    vim.cmd '!chezmoi apply'
+    vim.cmd 'source $MYVIMRC'
+  end,
+  {}
+)
 
 -- nvim-remote for edit-commandline zle
 -- <Space>bd will update, wipe buffer, and go back to the caller terminal
@@ -43,38 +88,8 @@ if vim.fn.executable('nvr') == 1 then
   ]], false)
 end
 
-local _nvim_set_keymap = vim.api.nvim_set_keymap
-local function _set_keymap(mode, lhs, rhs, opts)
-  _nvim_set_keymap(mode, lhs, rhs, opts or {noremap = true})
-end
 
-vim.g.mapleader = ' '
-_set_keymap('n', '<ESC><ESC>', ':nohlsearch<CR>')
-_set_keymap('n', 'x', '"_x')
-_set_keymap('n', 'X', '"_X')
-_set_keymap('n', 'gf', 'gF')
-_set_keymap('n', 'gy', '"+y')
-_set_keymap('n', 'gY', '"+Y')
-_set_keymap('v', 'gy', '"+y')
-_set_keymap('v', 'gY', '"+Y')
-_set_keymap('c', '<C-A>', '<Home>')
-_set_keymap('c', '<C-E>', '<End>')
---_set_keymap('t', '<ESC>', '<C-\\><C-N>')  -- conflicts with some TUIs such as lazygit
-_set_keymap('t', '<C-W>', "'<Cmd>wincmd ' .. getcharstr() .. '<CR>'", { expr = true })
-
-vim.api.nvim_create_augroup('termopen', {clear = true})
-vim.api.nvim_create_autocmd({'TermOpen'}, {pattern = '*', command = 'startinsert'})
-
-vim.api.nvim_create_user_command(
-  'ApplyMYVIMRC',
-  function()
-    vim.cmd '!chezmoi apply'
-    vim.cmd 'source $MYVIMRC'
-  end,
-  {}
-)
-
--- PLUGIN SETTINGS
+--[[ PLUGIN SETTINGS ]]
 if vim.fn.empty(vim.fn.glob(vim.fn.stdpath('data') .. '/site/autoload/jetpack.vim')) == 1 then
   vim.api.nvim_exec([[
     let jetpack = stdpath('data') . '/site/autoload/jetpack.vim'
@@ -155,6 +170,10 @@ require('jetpack').startup(function(use)
   use 'neovim/nvim-lspconfig'
   use 'williamboman/nvim-lsp-installer'
   use 'folke/lsp-colors.nvim'
+  -- use 'JoosepAlviste/nvim-ts-context-commentstring' -- TODO:
+  -- use 'tamago324/nlsp-settings.nvim' -- TODO: on configuring project
+  -- use {'tami5/lspsaga.nvim', branch = 'nvim6.0'} -- TODO
+  -- use 'folke/trouble.nvim' -- TODO
 
   -- ddc
   use 'Shougo/ddc.vim'
@@ -272,6 +291,7 @@ require('feline').setup{reset = 'noicon'}
 
 --[[ filer settings ]]
 -- fern
+-- TODO: using nvim api currently fails to show file list
 _set_keymap('n', '<C-F>', ':Fern . -drawer -reveal=%<CR>')
 vim.api.nvim_exec([[
   function! s:init_fern() abort
@@ -331,6 +351,9 @@ vim.api.nvim_create_user_command("ToggleBlame", [[: lua require'vgit'.toggle_liv
 
 
 --[[ terminal settings ]]
+vim.api.nvim_create_augroup('termopen', {clear = true})
+vim.api.nvim_create_autocmd({'TermOpen'}, {pattern = '*', command = 'startinsert'})
+
 -- toggleterm:general
 require("toggleterm").setup{
   open_mapping = "<C-T>",
