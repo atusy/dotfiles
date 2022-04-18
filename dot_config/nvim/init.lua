@@ -1,6 +1,5 @@
---[[
-deps: fzf, rg, npm (to be completed)
---]]
+--[[ tricks ]]
+-- TODO: set up diagnostics based on https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md#sumneko_lua
 local vim = vim -- minimize LSP warning
 
 
