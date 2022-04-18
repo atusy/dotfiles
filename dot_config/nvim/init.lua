@@ -306,12 +306,26 @@ vim.cmd [[let g:sandwich#recipes = deepcopy(g:sandwich#default_recipes)]]
 -- telescope SETTINGS
 require('telescope').setup()
 require('telescope').load_extension('fzf')
-_set_keymap('n', '<Leader>ff', '<Cmd>Telescope find_files<CR>')
-_set_keymap('n', '<Leader>fg', '<Cmd>Telescope live_grep<CR>')
-_set_keymap('n', '<Leader>fb', '<Cmd>Telescope buffers<CR>')
-_set_keymap('n', '<Leader>fh', '<Cmd>Telescope help_tags<CR>')
-_set_keymap('n', '<Leader>ft', '<Cmd>lua require"telescope.builtin".treesitter()<CR>')
-_set_keymap('n', '<Leader>fr', '<Cmd>lua require"telescope.builtin".lsp_references()<CR>')
+for key, callback in pairs({
+  fb = 'buffers',
+  fc = 'commands',
+  ff = 'find_files',
+  fg = 'live_grep',
+  fh = 'help_tags',
+  fm = 'keymaps',
+  fr = 'lsp_references',
+  ft = 'treesitter',
+  ['f"'] = 'registers',
+  ['f/'] = 'current_buffer_fuzzy_find',
+}) do
+  _set_keymap(
+    'n', '<Leader>' .. key, '',
+    {
+      callback=require("telescope.builtin")[callback],
+      desc = 'telescope.builtin.' .. callback
+    }
+  )
+end
 
 -- lsp SETTINGS
 -- Highlights.
