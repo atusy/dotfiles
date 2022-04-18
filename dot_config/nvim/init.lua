@@ -301,7 +301,7 @@ _set_keymap(
 )
 
 -- sandwich SETTINGS
-vim.api.nvim_exec([[let g:sandwich#recipes = deepcopy(g:sandwich#default_recipes)]], false)
+vim.cmd [[let g:sandwich#recipes = deepcopy(g:sandwich#default_recipes)]]
 
 -- telescope SETTINGS
 require('telescope').setup {
