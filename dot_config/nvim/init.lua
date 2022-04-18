@@ -39,24 +39,22 @@ vim.opt.smartindent = true
 vim.opt.shell = 'zsh'
 
 
---[[ keymap settings ]]
-local _nvim_set_keymap = vim.api.nvim_set_keymap
-local function _set_keymap(mode, lhs, rhs, opts)
-  _nvim_set_keymap(mode, lhs, rhs, opts or {noremap = true})
+--[[ mappings ]]
+local _set_keymap = vim.keymap.set
+local function set_keymap(mode, lhs, rhs, opts)
+  _set_keymap(mode, lhs, rhs, opts or {noremap = true})
 end
 vim.g.mapleader = ' '
-_set_keymap('n', '<ESC><ESC>', ':nohlsearch<CR>')
-_set_keymap('n', 'x', '"_x')
-_set_keymap('n', 'X', '"_X')
-_set_keymap('n', 'gf', 'gF')
-_set_keymap('n', 'gy', '"+y')
-_set_keymap('n', 'gY', '"+Y')
-_set_keymap('v', 'gy', '"+y')
-_set_keymap('v', 'gY', '"+Y')
-_set_keymap('c', '<C-A>', '<Home>')
-_set_keymap('c', '<C-E>', '<End>')
-_set_keymap('t', '<C-W>', "'<Cmd>wincmd ' .. getcharstr() .. '<CR>'", { expr = true })
--- _set_keymap('t', '<ESC>', '<C-\\><C-N>')  -- conflicts with some TUIs such as lazygit
+set_keymap('n', '<ESC><ESC>', ':nohlsearch<CR>')
+set_keymap('n', 'x', '"_x')
+set_keymap('n', 'X', '"_X')
+set_keymap('n', 'gf', 'gF')
+set_keymap({'n', 'v'}, 'gy', '"+y')
+set_keymap({'n', 'v'}, 'gY', '"+Y')
+set_keymap('c', '<C-A>', '<Home>')
+set_keymap('c', '<C-E>', '<End>')
+set_keymap('t', '<C-W>', "'<Cmd>wincmd ' .. getcharstr() .. '<CR>'", {expr = true})
+-- set_keymap('t', '<ESC>', '<C-\\><C-N>')  -- conflicts with some TUIs such as lazygit
 
 
 --[[ personal utilities ]]
@@ -257,8 +255,8 @@ vim.api.nvim_create_autocmd(
 
 --[[ Buffer settings ]]
 -- Bbye
-_set_keymap('n', '<Leader>bd', ':up | Bdelete<CR>')
-_set_keymap('n', '<Leader>bD', ':Bdelete!<CR>')
+set_keymap('n', '<Leader>bd', ':up | Bdelete<CR>')
+set_keymap('n', '<Leader>bD', ':Bdelete!<CR>')
 
 
 --[[ textobj settings ]]
@@ -277,12 +275,12 @@ local function hopper(direction)
     }
   end
 end
-_set_keymap('', 'f', '', {callback = hopper('AFTER_CURSOR'), desc = 'Hop after'})
-_set_keymap('', 'F', '', {callback = hopper('BEFORE_CURSOR'), desc = 'Hop before'})
+set_keymap('', 'f', hopper('AFTER_CURSOR'), {desc = 'Hop after'})
+set_keymap('', 'F', hopper('BEFORE_CURSOR'), {desc = 'Hop before'})
 
 -- Edgemotion
-_set_keymap('', '<Leader>]', '<Plug>(edgemotion-j)', {})
-_set_keymap('', '<Leader>[', '<Plug>(edgemotion-k)', {})
+set_keymap('', '<Leader>]', '<Plug>(edgemotion-j)', {})
+set_keymap('', '<Leader>[', '<Plug>(edgemotion-k)', {})
 
 
 --[[ statusline settings ]]
@@ -292,7 +290,7 @@ require('feline').setup{reset = 'noicon'}
 --[[ filer settings ]]
 -- fern
 -- TODO: using nvim api currently fails to show file list
-_set_keymap('n', '<C-F>', ':Fern . -drawer -reveal=%<CR>')
+set_keymap('n', '<C-F>', ':Fern . -drawer -reveal=%<CR>')
 vim.api.nvim_exec([[
   function! s:init_fern() abort
     setlocal nornu nonu cursorline signcolumn=auto
@@ -324,12 +322,12 @@ ft_to_parser.zsh = "bash"
 require('nvim_context_vt').setup({enabled = true})
 require('hlargs').setup()
 require('treesitter-context').setup()
-_set_keymap('o', 'm', ":<C-U>lua require('tsht').nodes()<CR>", {noremap=true, silent=true})
-_set_keymap('v', 'm', ":lua require('tsht').nodes()<CR>", {noremap=true, silent=true})
-_set_keymap('x', 'iu', ':lua require"treesitter-unit".select()<CR>', {noremap=true})
-_set_keymap('x', 'au', ':lua require"treesitter-unit".select(true)<CR>', {noremap=true})
-_set_keymap('o', 'iu', ':<c-u>lua require"treesitter-unit".select()<CR>', {noremap=true})
-_set_keymap('o', 'au', ':<c-u>lua require"treesitter-unit".select(true)<CR>', {noremap=true})
+set_keymap('o', 'm', ":<C-U>lua require('tsht').nodes()<CR>", {noremap = true, silent = true})
+set_keymap('v', 'm', ":lua require('tsht').nodes()<CR>", {noremap = true, silent = true})
+set_keymap('x', 'iu', ':lua require"treesitter-unit".select()<CR>')
+set_keymap('x', 'au', ':lua require"treesitter-unit".select(true)<CR>')
+set_keymap('o', 'iu', ':<c-u>lua require"treesitter-unit".select()<CR>')
+set_keymap('o', 'au', ':<c-u>lua require"treesitter-unit".select(true)<CR>')
 
 
 --[[ git settings ]]
@@ -364,7 +362,7 @@ local function _toggleterm_run()
   vim.cmd("ToggleTermSendCurrentLine")
   vim.cmd(winnr .. "wincmd w")
 end
-_set_keymap('n', '<Leader>j', '', {callback = _toggleterm_run, desc = 'ToggleTermSendCurrentLine', noremap = true})
+set_keymap('n', '<Leader>j', _toggleterm_run, {desc = 'ToggleTermSendCurrentLine'})
 
 -- toggleterm:lazygit
 local lazygit = require'toggleterm.terminal'.Terminal:new {
@@ -375,9 +373,10 @@ local lazygit = require'toggleterm.terminal'.Terminal:new {
 local function lazygit_toggle()
   lazygit:toggle()
 end
-_set_keymap(
-  "n", "<Leader>gl", '',
-  {callback = lazygit_toggle, desc = 'lazygit', noremap = true, silent = true}
+set_keymap(
+  "n", "<Leader>gl",
+  lazygit_toggle,
+  {desc = 'lazygit', silent = true}
 )
 
 
@@ -398,12 +397,10 @@ for key, callback in pairs({
   ['f"'] = 'registers',
   ['f/'] = 'current_buffer_fuzzy_find',
 }) do
-  _set_keymap(
-    'n', '<Leader>' .. key, '',
-    {
-      callback=require("telescope.builtin")[callback],
-      desc = 'telescope.builtin.' .. callback
-    }
+  vim.keymap.set(
+    'n', '<Leader>' .. key,
+    require("telescope.builtin")[callback],
+    {desc = 'telescope.builtin.' .. callback, noremap=true}
   )
 end
 
@@ -411,12 +408,12 @@ end
 --[[ LSP settings ]]
 -- Mappings. See `:help vim.diagnostic.*` for documentation on any of the below functions
 local opts = { noremap=true, silent=true }
-_set_keymap('n', '<Leader>e', '<cmd>lua vim.diagnostic.open_float()<CR>', opts)
-_set_keymap('n', '[d', '<cmd>lua vim.diagnostic.goto_prev()<CR>', opts)
-_set_keymap('n', ']d', '<cmd>lua vim.diagnostic.goto_next()<CR>', opts)
-_set_keymap('n', '<Leader>q', '<cmd>lua vim.diagnostic.setloclist()<CR>', opts)
-_set_keymap('n', '<a-l>', '<cmd>lua require"illuminate".next_reference{wrap=true}<cr>', {noremap=true})
-_set_keymap('n', '<a-h>', '<cmd>lua require"illuminate".next_reference{reverse=true,wrap=true}<cr>', {noremap=true})
+set_keymap('n', '<Leader>e', vim.diagnostic.open_float, opts)
+set_keymap('n', '[d', vim.diagnostic.goto_prev, opts)
+set_keymap('n', ']d', vim.diagnostic.goto_next, opts)
+set_keymap('n', '<Leader>q',vim.diagnostic.setloclist, opts)
+set_keymap('n', '<a-l>', '<cmd>lua require"illuminate".next_reference{wrap=true}<cr>', {noremap=true})
+set_keymap('n', '<a-h>', '<cmd>lua require"illuminate".next_reference{reverse=true,wrap=true}<cr>', {noremap=true})
 
 -- Use an on_attach function to only map the following keys
 -- after the language server attaches to the current buffer
