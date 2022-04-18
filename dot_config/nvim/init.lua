@@ -109,6 +109,7 @@ require('jetpack').startup(function(use)
 
   -- colorscheme
   use '4513ECHO/vim-colors-hatsunemiku'
+  use 'morhetz/gruvbox'
 
   -- highlight
   use 'RRethy/vim-illuminate'
@@ -174,13 +175,66 @@ end)
 -- EARLY RETURN FOR VSCODE
 if vim.g.vscode == 1 then return end
 
---[[ colorscheme SETTINGS ]]
+
+--[[ colorscheme/highlight ]]
 local default_colorscheme = "hatsunemiku"
 vim.cmd("colorscheme " .. default_colorscheme)
 require'colorizer'.setup()
+require'lsp-colors'.setup()
 vim.g.illuminate_ftblacklist = {'fern'}
 
--- Hop SETTINGS
+-- Illumination for modes other than ivV
+local function illuminate()
+  vim.api.nvim_exec([[
+    hi illuminatedWord guibg=#383D47
+    hi link LspReferenceText illuminatedWord
+    hi link LspReferenceWrite illuminatedWord
+    hi link LspReferenceRead illuminatedWord
+  ]], false)
+end
+illuminate()
+vim.api.nvim_exec([[
+  augroup illumination
+    autocmd! *
+    autocmd ModeChanged *:[ivV\x16]* hi illuminatedWord guibg=#00000000
+    autocmd ModeChanged [ivV\x16]*:* hi illuminatedWord guibg=#383D47
+  augroup END
+]], false)
+
+-- Update theme when buffer is outside of cwd
+vim.api.nvim_create_augroup("theme-by-buffer", {clear = true})
+vim.api.nvim_create_autocmd(
+  "BufEnter",
+  {
+    pattern = "*",
+    group = "theme-by-buffer",
+    nested = true,
+    callback = function(args)
+      -- Do nothing if unneeded
+      if (
+        (args.file == "") or
+        (vim.api.nvim_exec("echo &buftype", true) ~= "")
+      ) then
+        return nil
+      end
+
+      -- Determine colorscheme
+      local wd = vim.fn.getcwd()
+      local colorscheme = wd == string.sub(args.file, 1, string.len(wd))
+                          and default_colorscheme
+                          or "gruvbox"
+
+      -- Apply colorscheme and some highlight settings
+      if colorscheme ~= vim.api.nvim_exec("colorscheme", true) then
+        vim.cmd("colorscheme " .. colorscheme)
+        require('hlargs').setup()
+        require("lsp-colors").setup()
+        illuminate()
+      end
+    end
+  }
+)
+
 require('hop').setup()
 local function hopper(direction)
   return function()
@@ -328,22 +382,7 @@ for key, callback in pairs({
 end
 
 -- lsp SETTINGS
--- Highlights.
-require("lsp-colors").setup()
-vim.api.nvim_exec([[
-  hi illuminatedWordDefault guibg=#383D47
-  hi link illuminatedWord illuminatedWordDefault
-  hi link LspReferenceText illuminatedWord
-  hi link LspReferenceWrite illuminatedWord
-  hi link LspReferenceRead illuminatedWord
-  augroup illuminate-by-mode
-    autocmd! *
-    autocmd ModeChanged *:[ivV\x16]* hi illuminatedWord guibg=#00000000
-    autocmd ModeChanged [ivV\x16]*:* hi link illuminatedWord illuminatedWordDefault
-  augroup END
-]], false)
 
--- Mappings.
 -- See `:help vim.diagnostic.*` for documentation on any of the below functions
 local opts = { noremap=true, silent=true }
 _set_keymap('n', '<Leader>e', '<cmd>lua vim.diagnostic.open_float()<CR>', opts)
