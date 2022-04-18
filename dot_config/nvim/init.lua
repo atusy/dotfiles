@@ -62,15 +62,17 @@ _set_keymap('c', '<C-E>', '<End>')
 --_set_keymap('t', '<ESC>', '<C-\\><C-N>')  -- conflicts with some TUIs such as lazygit
 _set_keymap('t', '<C-W>', "'<Cmd>wincmd ' .. getcharstr() .. '<CR>'", { expr = true })
 
-vim.cmd([[autocmd TermOpen * startinsert]])
+vim.api.nvim_create_augroup('termopen', {clear = true})
+vim.api.nvim_create_autocmd({'TermOpen'}, {pattern = '*', command = 'startinsert'})
 
-function Init_lua()
-  vim.cmd '!chezmoi apply'
-  vim.cmd 'source $MYVIMRC'
-end
-vim.api.nvim_exec([[
-  command! -nargs=0 InitLua :lua Init_lua()
-]], false)
+vim.api.nvim_create_user_command(
+  'ApplyMYVIMRC',
+  function()
+    vim.cmd '!chezmoi apply'
+    vim.cmd 'source $MYVIMRC'
+  end,
+  {}
+)
 
 -- PLUGIN SETTINGS
 if vim.fn.empty(vim.fn.glob(vim.fn.stdpath('data') .. '/site/autoload/jetpack.vim')) == 1 then
