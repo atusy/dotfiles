@@ -389,7 +389,7 @@ local function lspsetup(lsp, config)
   require('lspconfig')[lsp].setup(config2)
 end
 
-for lsp, config in pairs{ 
+for lsp, config in pairs{
   pyright = {}, -- pip install --user pyright
   --r_language_server = { cmd = {"R", "--slave", "-e", "options(languageserver.rich_documentation = FALSE); languageserver::run()" } },
   r_language_server = {}, -- R -e "remotes::install_github('languageservre')"
