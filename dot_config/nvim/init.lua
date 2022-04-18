@@ -44,8 +44,8 @@ if vim.fn.executable('nvr') == 1 then
 end
 
 local _nvim_set_keymap = vim.api.nvim_set_keymap
-local function _set_keymap(mode, lhs, rhs, ops)
-  _nvim_set_keymap(mode, lhs, rhs, ops or {noremap = true})
+local function _set_keymap(mode, lhs, rhs, opts)
+  _nvim_set_keymap(mode, lhs, rhs, opts or {noremap = true})
 end
 
 vim.g.mapleader = ' '
