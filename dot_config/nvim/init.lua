@@ -239,9 +239,7 @@ require('nvim-treesitter.configs').setup({
 })
 local ft_to_parser = require"nvim-treesitter.parsers".filetype_to_parsername
 ft_to_parser.zsh = "bash"
-require('nvim_context_vt').setup({
-  enabled = true,
-})
+require('nvim_context_vt').setup({enabled = true})
 require('hlargs').setup()
 require('treesitter-context').setup()
 _set_keymap('o', 'm', ":<C-U>lua require('tsht').nodes()<CR>", {noremap=true, silent=true})
