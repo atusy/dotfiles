@@ -132,7 +132,6 @@ require('jetpack').startup(function(use)
   use 'knsh14/vim-github-link'
   use 'lambdalisue/gin.vim'
   use 'tanvirtin/vgit.nvim'
-  -- use 'lewis6991/gitsigns.nvim'
 
   -- treesitter
   use 'nvim-treesitter/nvim-treesitter'
