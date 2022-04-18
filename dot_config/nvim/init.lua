@@ -337,6 +337,7 @@ vim.api.nvim_exec([[
   hi link LspReferenceWrite illuminatedWord
   hi link LspReferenceRead illuminatedWord
   augroup illuminate-by-mode
+    autocmd! *
     autocmd ModeChanged *:[ivV\x16]* hi illuminatedWord guibg=#00000000
     autocmd ModeChanged [ivV\x16]*:* hi link illuminatedWord illuminatedWordDefault
   augroup END
