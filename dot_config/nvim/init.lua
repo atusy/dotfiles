@@ -284,7 +284,7 @@ set_keymap('', '<Leader>[', '<Plug>(edgemotion-k)', {})
 
 --[[ statusline settings ]]
 -- feline
-require('feline').setup{reset = 'noicon'}
+require('feline').setup{preset = 'noicon'}
 
 --[[ filer settings ]]
 -- fern
