@@ -118,6 +118,7 @@ require('jetpack').startup(function(use)
   use 'simeji/winresizer'
   use 'AndrewRadev/bufferize.vim'
   use 'moll/vim-bbye'
+  use 'haya14busa/vim-asterisk'
 
   -- colorscheme
   use '4513ECHO/vim-colors-hatsunemiku'
@@ -270,10 +271,13 @@ vim.api.nvim_create_autocmd(
 )
 
 
---[[ Buffer settings ]]
+--[[ buffer settings ]]
 -- Bbye
 set_keymap('n', '<Leader>bd', ':up | Bdelete<CR>')
 set_keymap('n', '<Leader>bD', ':Bdelete!<CR>')
+-- asterisk
+set_keymap('n', '*', '<Plug>(asterisk-z*)')
+set_keymap('v', '*', '<Plug>(asterisk-gz*)')
 
 
 --[[ textobj settings ]]
