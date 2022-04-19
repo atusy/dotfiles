@@ -191,22 +191,44 @@ if vim.g.vscode == 1 then return end
 
 
 --[[ colorscheme/highlight ]]
-local default_colorscheme = "hatsunemiku"
-vim.cmd("colorscheme " .. default_colorscheme)
-require'colorizer'.setup()
-require'lsp-colors'.setup()
+-- params
 vim.g.illuminate_ftblacklist = {'fern'}
+local DEFAULT_COLORSCHEME = "hatsunemiku"
+local ALTERNATIVE_COLORSCHEME = "gruvbox"
+local CMD_ILLUMINATION = [[hi illuminatedWord guibg=#383D47]]
 
--- Illumination for modes other than ivV
-local function illuminate()
+-- set colorscheme
+local function set_colorscheme(nm)
+  vim.cmd("colorscheme " .. nm)
+  require'colorizer'.setup()
+  require'lsp-colors'.setup()
+  vim.cmd(CMD_ILLUMINATION)
   vim.api.nvim_exec([[
-    hi illuminatedWord guibg=#383D47
     hi link LspReferenceText illuminatedWord
     hi link LspReferenceWrite illuminatedWord
     hi link LspReferenceRead illuminatedWord
   ]], false)
 end
-illuminate()
+set_colorscheme(DEFAULT_COLORSCHEME)
+
+-- Illumination for modes other than ivV
+vim.api.nvim_create_augroup("illumination-by-mode", {clear = true})
+vim.api.nvim_create_autocmd(
+  "ModeChanged",
+  {
+    pattern = '*:[ivV\x16]*',
+    group = 'illumination-by-mode',
+    command = 'hi clear illuminatedWord'
+  }
+)
+vim.api.nvim_create_autocmd(
+  "ModeChanged",
+  {
+    pattern = '[ivV\x16]*:*',
+    group = 'illumination-by-mode',
+    command = CMD_ILLUMINATION
+  }
+)
 vim.api.nvim_exec([[
   augroup illumination
     autocmd! *
@@ -215,7 +237,7 @@ vim.api.nvim_exec([[
   augroup END
 ]], false)
 
--- Update theme when buffer is outside of cwd
+-- Update colorscheme when buffer is outside of cwd
 vim.api.nvim_create_augroup("theme-by-buffer", {clear = true})
 vim.api.nvim_create_autocmd(
   "BufEnter",
@@ -223,6 +245,7 @@ vim.api.nvim_create_autocmd(
     pattern = "*",
     group = "theme-by-buffer",
     nested = true,
+    desc = "Change theme by the path of the current buffer.",
     callback = function(args)
       -- Do nothing if unneeded
       if (
@@ -235,15 +258,12 @@ vim.api.nvim_create_autocmd(
       -- Determine colorscheme
       local wd = vim.fn.getcwd()
       local colorscheme = wd == string.sub(args.file, 1, string.len(wd))
-                          and default_colorscheme
-                          or "gruvbox"
+                          and DEFAULT_COLORSCHEME
+                          or ALTERNATIVE_COLORSCHEME
 
       -- Apply colorscheme and some highlight settings
       if colorscheme ~= vim.api.nvim_exec("colorscheme", true) then
-        vim.cmd("colorscheme " .. colorscheme)
-        require('hlargs').setup()
-        require("lsp-colors").setup()
-        illuminate()
+        set_colorscheme(colorscheme)
       end
     end
   }
