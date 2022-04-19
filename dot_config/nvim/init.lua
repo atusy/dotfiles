@@ -164,9 +164,9 @@ require('jetpack').startup(function(use)
   use 'neovim/nvim-lspconfig'
   use 'williamboman/nvim-lsp-installer'
   use 'folke/lsp-colors.nvim'
-  -- use 'JoosepAlviste/nvim-ts-context-commentstring' -- TODO:
+  -- use 'JoosepAlviste/nvim-ts-context-commentstring' -- TODO
   -- use 'tamago324/nlsp-settings.nvim' -- TODO: on configuring project
-  -- use {'tami5/lspsaga.nvim', branch = 'nvim6.0'} -- TODO
+  -- use 'tami5/lspsaga.nvim' -- TODO
   -- use 'folke/trouble.nvim' -- TODO
 
   -- ddc
