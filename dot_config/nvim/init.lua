@@ -211,7 +211,7 @@ local function set_colorscheme(nm)
 end
 set_colorscheme(DEFAULT_COLORSCHEME)
 
--- Illumination for modes other than ivV
+-- illumination for modes other than ivV
 vim.api.nvim_create_augroup("illumination-by-mode", {clear = true})
 vim.api.nvim_create_autocmd(
   "ModeChanged",
