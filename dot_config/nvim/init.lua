@@ -203,6 +203,7 @@ local CMD_ILLUMINATION = [[hi illuminatedWord guibg=#383D47]]
 -- set colorscheme
 local function set_colorscheme(nm)
   vim.cmd("colorscheme " .. nm)
+  require'hlargs'.setup()
   require'colorizer'.setup()
   require'lsp-colors'.setup()
   vim.cmd(CMD_ILLUMINATION)
