@@ -130,9 +130,6 @@ require('jetpack').startup(function(use)
   -- statusline
   use 'feline-nvim/feline.nvim'
 
-  -- bufferline
-  -- use 'romgrk/barbar.nvim'
-
   -- motion
   use 'haya14busa/vim-edgemotion'
   use 'phaazon/hop.nvim'
