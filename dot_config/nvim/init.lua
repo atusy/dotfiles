@@ -188,7 +188,8 @@ require('jetpack').startup(function(use)
   use 'matsui54/denops-popup-preview.vim'
 end)
 
--- EARLY RETURN FOR VSCODE
+
+--[[ EARLY RETURN FOR VSCODE ]]
 if vim.g.vscode == 1 then return end
 
 
