@@ -251,23 +251,24 @@ vim.api.nvim_create_autocmd(
     nested = true,
     desc = "Change theme by the path of the current buffer.",
     callback = function(args)
+      local FILE = args.file
       -- Do nothing if unneeded
       if (
-        (args.file == "") or
+        (FILE == "") or
         (vim.api.nvim_exec("echo &buftype", true) ~= "")
       ) then
         return nil
       end
 
       -- Determine colorscheme
-      local wd = vim.fn.getcwd()
-      local colorscheme = wd == string.sub(args.file, 1, string.len(wd))
+      local CWD = vim.fn.getcwd()
+      local COLORSCHEME = CWD == string.sub(FILE, 1, string.len(CWD))
                           and DEFAULT_COLORSCHEME
                           or ALTERNATIVE_COLORSCHEME
 
       -- Apply colorscheme and some highlight settings
-      if colorscheme ~= vim.api.nvim_exec("colorscheme", true) then
-        set_colorscheme(colorscheme)
+      if COLORSCHEME ~= vim.api.nvim_exec("colorscheme", true) then
+        set_colorscheme(COLORSCHEME)
       end
     end
   }
