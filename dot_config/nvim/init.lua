@@ -72,7 +72,7 @@ vim.api.nvim_create_user_command(
 if vim.fn.executable('nvr') == 1 then
   function Write_and_bufferwipe()
     local winnr = vim.b.zsh_cmdline_parent_winnr
-    vim.cmd("w | bw | " .. winnr .. "wincmd w")
+    vim.cmd("w | bw | " .. winnr .. "wincmd w | startinsert")
   end
   vim.env.EDITOR_CMD = 'nvr -cc "below 5split" -c "set filetype=zsh_cmdline" --remote-wait-silent'
   vim.api.nvim_exec([[
