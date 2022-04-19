@@ -102,8 +102,8 @@ require('jetpack').startup(function(use)
 
   if vim.g.vscode == 1 then
     use 'asvetliakov/vim-easymotion'
-    _set_keymap('', 'f', "<Plug>(easymotion-f)", {})
-    _set_keymap('', 'F', "<Plug>(easymotion-f)", {})
+    set_keymap('', 'f', "<Plug>(easymotion-f)")
+    set_keymap('', 'F', "<Plug>(easymotion-f)")
     return
   end
 
