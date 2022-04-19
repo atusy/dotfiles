@@ -110,6 +110,7 @@ require('jetpack').startup(function(use)
   -- basic dependencies
   use 'kyazdani42/nvim-web-devicons' -- for lualine
   use 'nvim-lua/plenary.nvim' -- for gitsigns, vgit
+  use 'tami5/sqlite.lua' -- for telescope-frecency
   use 'vim-denops/denops.vim'
 
   -- utils
@@ -138,6 +139,7 @@ require('jetpack').startup(function(use)
   -- fuzzy finder
   use 'ctrlpvim/ctrlp.vim'
   use 'nvim-telescope/telescope.nvim'
+  use 'nvim-telescope/telescope-frecency.nvim'
   use {'nvim-telescope/telescope-fzf-native.nvim', run = 'make' }
 
   -- git
@@ -404,24 +406,27 @@ set_keymap(
 --[[ fuzzyfinder settings ]]
 -- telescope
 require('telescope').setup()
+require"telescope".load_extension("frecency")
 require('telescope').load_extension('fzf')
+local BUILTIN_PICKERS = require("telescope.builtin")
 for key, callback in pairs({
-  b = 'buffers', -- shortcut
-  fb = 'buffers',
-  fc = 'commands',
-  ff = 'find_files',
-  fg = 'live_grep',
-  fh = 'help_tags',
-  fm = 'keymaps',
-  fr = 'lsp_references',
-  ft = 'treesitter',
-  ['f"'] = 'registers',
-  ['f/'] = 'current_buffer_fuzzy_find',
+  b = {'buffers'}, -- shortcut
+  fb = {'buffers'},
+  fc = {'commands'},
+  ff = {'find_files'},
+  fg = {'live_grep'},
+  fh = {'help_tags'},
+  fk = {'keymaps'},
+  fm = {'frecency', require('telescope').extensions.frecency},
+  fr = {'lsp_references'},
+  ft = {'treesitter'},
+  ['f"'] = {'registers'},
+  ['f/'] = {'current_buffer_fuzzy_find'},
 }) do
-  vim.keymap.set(
+  set_keymap(
     'n', '<Leader>' .. key,
-    require("telescope.builtin")[callback],
-    {desc = 'telescope.builtin.' .. callback, noremap=true}
+    (callback[2] or BUILTIN_PICKERS)[callback[1]],
+    {desc = 'telescope ' .. callback[1], noremap=true}
   )
 end
 
