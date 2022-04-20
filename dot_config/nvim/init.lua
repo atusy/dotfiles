@@ -61,8 +61,8 @@ set_keymap('t', '<C-W>', "'<Cmd>wincmd ' .. getcharstr() .. '<CR>'", {expr = tru
 vim.api.nvim_create_user_command(
   'ApplyMYVIMRC',
   function()
-    vim.cmd '!chezmoi apply'
-    vim.cmd 'source $MYVIMRC'
+    vim.cmd('!chezmoi apply')
+    vim.cmd('source $MYVIMRC')
   end,
   {}
 )
@@ -290,12 +290,12 @@ set_keymap('v', '*', '<Plug>(asterisk-gz*)')
 
 --[[ textobj settings ]]
 -- sandwich
-vim.cmd [[let g:sandwich#recipes = deepcopy(g:sandwich#default_recipes)]]
+vim.cmd('let g:sandwich#recipes = deepcopy(g:sandwich#default_recipes)')
 
 
 --[[ motion settings ]]
 -- Hop
-require('hop').setup()
+require'hop'.setup()
 local function hopper(direction)
   return function()
     require'hop'.hint_char1 {
@@ -327,7 +327,7 @@ end
 local LUALINE_FILE_INFO = {
   {'filetype', icon_only = true}, {'filename'},
 }
-require('lualine').setup {
+require'lualine'.setup {
   options = {
     theme = 'nord',
     component_separators = '',
@@ -365,7 +365,7 @@ vim.api.nvim_exec([[
 
 
 --[[ treesitter settings ]]
-require('nvim-treesitter.configs').setup({
+require'nvim-treesitter.configs'.setup {
   ensure_installed = {
     'bash', 'bibtex', 'c', 'c_sharp', 'cmake', 'cpp', 'css', 'dockerfile',
     'dot', 'go', 'gomod', 'gowork', 'graphql', 'haskell', 'help', 'html',
@@ -376,12 +376,12 @@ require('nvim-treesitter.configs').setup({
   highlight = { enable = true },
   indent = { enable = true },
   yati = { enable = true },
-})
+}
 local ft_to_parser = require'nvim-treesitter.parsers'.filetype_to_parsername
 ft_to_parser.zsh = 'bash'
-require('nvim_context_vt').setup({enabled = true})
-require('hlargs').setup()
-require('treesitter-context').setup()
+require'nvim_context_vt'.setup {enabled = true}
+require'hlargs'.setup()
+require'treesitter-context'.setup()
 set_keymap('o', 'm', ':<C-U>lua require("tsht").nodes()<CR>', {noremap = true, silent = true})
 set_keymap('v', 'm', ':lua require("tsht").nodes()<CR>', {noremap = true, silent = true})
 set_keymap('x', 'iu', ':lua require"treesitter-unit".select()<CR>')
@@ -392,7 +392,7 @@ set_keymap('o', 'au', ':<C-U>lua require"treesitter-unit".select(true)<CR>')
 
 --[[ git settings ]]
 -- vgit
-require('vgit').setup({
+require'vgit'.setup {
   keymaps = {
     ['n <leader>gj'] = 'hunk_down',
     ['n <leader>gk'] = 'hunk_up',
@@ -404,7 +404,7 @@ require('vgit').setup({
       enabled = false
     }
   }
-})
+}
 vim.api.nvim_create_user_command('ToggleBlame', require'vgit'.toggle_live_blame, {})
 
 
@@ -413,7 +413,7 @@ vim.api.nvim_create_augroup('termopen', {clear = true})
 vim.api.nvim_create_autocmd({'TermOpen'}, {pattern = '*', command = 'startinsert'})
 
 -- toggleterm:general
-require('toggleterm').setup{
+require'toggleterm'.setup {
   open_mapping = '<C-T>',
   insert_mappings = false,
 }
@@ -442,11 +442,11 @@ set_keymap(
 
 --[[ fuzzyfinder settings ]]
 -- telescope
-require('telescope').setup()
+require'telescope'.setup()
 require'telescope'.load_extension('frecency')
 require('telescope').load_extension('fzf')
 local BUILTIN_PICKERS = require('telescope.builtin')
-for key, callback in pairs({
+for key, callback in pairs {
   b = {'buffers'}, -- shortcut
   fb = {'buffers'},
   fc = {'commands'},
@@ -459,7 +459,7 @@ for key, callback in pairs({
   ft = {'treesitter'},
   ['f"'] = {'registers'},
   ['f/'] = {'current_buffer_fuzzy_find'},
-}) do
+} do
   set_keymap(
     'n', '<Leader>' .. key,
     (callback[2] or BUILTIN_PICKERS)[callback[1]],
