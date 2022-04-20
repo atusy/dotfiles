@@ -131,7 +131,7 @@ require'jetpack'.startup(function(use)
   use 'ctrlpvim/ctrlp.vim'
   use 'nvim-telescope/telescope.nvim'
   use 'nvim-telescope/telescope-frecency.nvim'
-  use {'nvim-telescope/telescope-fzf-native.nvim', run = 'make' }
+  use {'nvim-telescope/telescope-fzf-native.nvim', run = 'make'}
 
   -- git
   use 'knsh14/vim-github-link'
@@ -362,9 +362,9 @@ require'nvim-treesitter.configs'.setup {
     'make', 'markdown', 'ninja', 'nix', 'python', 'r', 'regex', 'ruby', 'rust',
     'scss', 'teal', 'toml', 'tsx', 'typescript', 'vala', 'vim', 'vue', 'yaml'
   },
-  highlight = { enable = true },
-  indent = { enable = true },
-  yati = { enable = true },
+  highlight = {enable = true},
+  indent = {enable = true},
+  yati = {enable = true},
 }
 local ft_to_parser = require'nvim-treesitter.parsers'.filetype_to_parsername
 ft_to_parser.zsh = 'bash'
@@ -461,7 +461,7 @@ end
 --[[ LSP settings ]]
 -- Mappings. See `:help vim.diagnostic.*` for documentation on any of the below functions
 local ILLUMINATE = require'illuminate'
-local OPTS = {silent=true }
+local OPTS = {silent=true}
 set_keymap('n', '<Leader>e', vim.diagnostic.open_float, OPTS)
 set_keymap('n', '[d', vim.diagnostic.goto_prev, OPTS)
 set_keymap('n', ']d', vim.diagnostic.goto_next, OPTS)
@@ -497,7 +497,7 @@ end
 
 local LSPCONFIG = require'lspconfig'
 local function lspsetup(lsp, config)
-  local config2 = { on_attach = on_attach, flags = { debounce_text_changes = 150 } }
+  local config2 = {on_attach = on_attach, flags = {debounce_text_changes = 150}}
   for k, v in pairs(config or {}) do
     config2[k] = v
   end
@@ -506,7 +506,6 @@ end
 
 for lsp, config in pairs{
   pyright = {}, -- pip install --user pyright
-  --r_language_server = { cmd = {"R", "--slave", "-e", "options(languageserver.rich_documentation = FALSE); languageserver::run()" } },
   r_language_server = {}, -- R -e "remotes::install_github('languageservre')"
   tsserver = {},
   bashls = {filetypes = {'sh', 'bash', 'zsh'}}, -- npm i -g bash-language-server
