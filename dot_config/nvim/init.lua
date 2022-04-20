@@ -95,7 +95,7 @@ if vim.fn.empty(vim.fn.glob(vim.fn.stdpath('data') .. '/site/autoload/jetpack.vi
     silent execute '!curl -fLo "$HOME/.config/nvim/lua/jetpack.lua" --create-dirs https://raw.githubusercontent.com/tani/vim-jetpack/master/lua/jetpack.lua'
   ]], false)
 end
-require('jetpack').startup(function(use)
+require'jetpack'.startup(function(use)
   -- used also in VS Code
   use 'tpope/vim-commentary'
   use 'jghauser/mkdir.nvim'
@@ -277,7 +277,7 @@ vim.api.nvim_create_autocmd(
 
 --[[ window settings ]]
 -- chowcho
-set_keymap({'', 't'}, '<C-W><C-W>', require('chowcho').run)
+set_keymap({'', 't'}, '<C-W><C-W>', require'chowcho'.run)
 
 --[[ buffer settings ]]
 -- Bbye
@@ -382,8 +382,8 @@ ft_to_parser.zsh = 'bash'
 require'nvim_context_vt'.setup {enabled = true}
 require'hlargs'.setup()
 require'treesitter-context'.setup()
-set_keymap('o', 'm', ':<C-U>lua require("tsht").nodes()<CR>', {noremap = true, silent = true})
-set_keymap('v', 'm', ':lua require("tsht").nodes()<CR>', {noremap = true, silent = true})
+set_keymap('o', 'm', ':<C-U>lua require"tsht".nodes()<CR>', {noremap = true, silent = true})
+set_keymap('v', 'm', ':lua require"tsht".nodes()<CR>', {noremap = true, silent = true})
 set_keymap('x', 'iu', ':lua require"treesitter-unit".select()<CR>')
 set_keymap('x', 'au', ':lua require"treesitter-unit".select(true)<CR>')
 set_keymap('o', 'iu', ':<C-U>lua require"treesitter-unit".select()<CR>')
@@ -444,8 +444,8 @@ set_keymap(
 -- telescope
 require'telescope'.setup()
 require'telescope'.load_extension('frecency')
-require('telescope').load_extension('fzf')
-local BUILTIN_PICKERS = require('telescope.builtin')
+require'telescope'.load_extension('fzf')
+local BUILTIN_PICKERS = require'telescope.builtin'
 for key, callback in pairs {
   b = {'buffers'}, -- shortcut
   fb = {'buffers'},
@@ -454,7 +454,7 @@ for key, callback in pairs {
   fg = {'live_grep'},
   fh = {'help_tags'},
   fk = {'keymaps'},
-  fm = {'frecency', require('telescope').extensions.frecency},
+  fm = {'frecency', require'telescope'.extensions.frecency},
   fr = {'lsp_references'},
   ft = {'treesitter'},
   ['f"'] = {'registers'},
@@ -490,7 +490,7 @@ local on_attach = function(client, bufnr)
   vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gd', '<cmd>lua vim.lsp.buf.definition()<CR>', opts)
   vim.api.nvim_buf_set_keymap(bufnr, 'n', 'K', '<cmd>lua vim.lsp.buf.hover()<CR>', opts)
   vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<CR>', opts)
-  vim.api.nvim_buf_set_keymap(bufnr, 'n', '<C-k>', '<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
+  vim.api.nvim_buf_set_keymap(bufnr, 'n', '<C-K>', '<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
   vim.api.nvim_buf_set_keymap(bufnr, 'n', '<Leader>wa', '<cmd>lua vim.lsp.buf.add_workspace_folder()<CR>', opts)
   vim.api.nvim_buf_set_keymap(bufnr, 'n', '<Leader>wr', '<cmd>lua vim.lsp.buf.remove_workspace_folder()<CR>', opts)
   vim.api.nvim_buf_set_keymap(bufnr, 'n', '<Leader>wl', '<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>', opts)
@@ -509,7 +509,7 @@ local function lspsetup(lsp, config)
   for k, v in pairs(config or {}) do
     config2[k] = v
   end
-  require('lspconfig')[lsp].setup(config2)
+  require'lspconfig'[lsp].setup(config2)
 end
 
 for lsp, config in pairs{
