@@ -72,7 +72,7 @@ vim.api.nvim_create_user_command(
 if vim.fn.executable('nvr') == 1 then
   function Write_and_bufferwipe()
     local winnr = vim.b.zsh_cmdline_parent_winnr
-    vim.cmd("w | bw | " .. winnr .. "wincmd w | startinsert")
+    vim.cmd('w | bw | ' .. winnr .. 'wincmd w | startinsert')
   end
   vim.env.EDITOR_CMD = 'nvr -cc "below 5split" -c "set filetype=zsh_cmdline" --remote-wait-silent'
   vim.api.nvim_exec([[
@@ -102,8 +102,8 @@ require('jetpack').startup(function(use)
 
   if vim.g.vscode == 1 then
     use 'asvetliakov/vim-easymotion'
-    set_keymap('', 'f', "<Plug>(easymotion-f)")
-    set_keymap('', 'F', "<Plug>(easymotion-f)")
+    set_keymap('', 'f', '<Plug>(easymotion-f)')
+    set_keymap('', 'F', '<Plug>(easymotion-f)')
     return
   end
 
@@ -114,7 +114,7 @@ require('jetpack').startup(function(use)
   use 'vim-denops/denops.vim'
 
   -- utils
-  use "nathom/filetype.nvim"
+  use 'nathom/filetype.nvim'
   use 'lambdalisue/fern.vim'
   use 'simeji/winresizer'
   use 'tkmpypy/chowcho.nvim'
@@ -149,7 +149,7 @@ require('jetpack').startup(function(use)
   use 'tanvirtin/vgit.nvim'
 
   -- treesitter
-  use {'nvim-treesitter/nvim-treesitter', commit = "6a437db0124823f9fe89c1de9a3b536ce1f103f3"}
+  use {'nvim-treesitter/nvim-treesitter', commit = '6a437db0124823f9fe89c1de9a3b536ce1f103f3'}
   use 'yioneko/nvim-yati'
   use 'haringsrob/nvim_context_vt'
   use 'm-demare/hlargs.nvim'
@@ -197,13 +197,13 @@ if vim.g.vscode == 1 then return end
 --[[ colorscheme/highlight ]]
 -- params
 vim.g.illuminate_ftblacklist = {'fern'}
-local DEFAULT_COLORSCHEME = "hatsunemiku"
-local ALTERNATIVE_COLORSCHEME = "gruvbox"
+local DEFAULT_COLORSCHEME = 'hatsunemiku'
+local ALTERNATIVE_COLORSCHEME = 'gruvbox'
 local CMD_ILLUMINATION = [[hi illuminatedWord guibg=#383D47]]
 
 -- set colorscheme
 local function set_colorscheme(nm)
-  vim.cmd("colorscheme " .. nm)
+  vim.cmd('colorscheme ' .. nm)
   require'hlargs'.setup()
   require'colorizer'.setup()
   require'lsp-colors'.setup()
@@ -217,9 +217,9 @@ end
 set_colorscheme(DEFAULT_COLORSCHEME)
 
 -- illumination for modes other than ivV
-vim.api.nvim_create_augroup("illumination-by-mode", {clear = true})
+vim.api.nvim_create_augroup('illumination-by-mode', {clear = true})
 vim.api.nvim_create_autocmd(
-  "ModeChanged",
+  'ModeChanged',
   {
     pattern = '*:[ivV\x16]*',
     group = 'illumination-by-mode',
@@ -227,7 +227,7 @@ vim.api.nvim_create_autocmd(
   }
 )
 vim.api.nvim_create_autocmd(
-  "ModeChanged",
+  'ModeChanged',
   {
     pattern = '[ivV\x16]*:*',
     group = 'illumination-by-mode',
@@ -243,20 +243,20 @@ vim.api.nvim_exec([[
 ]], false)
 
 -- Update colorscheme when buffer is outside of cwd
-vim.api.nvim_create_augroup("theme-by-buffer", {clear = true})
+vim.api.nvim_create_augroup('theme-by-buffer', {clear = true})
 vim.api.nvim_create_autocmd(
-  "BufEnter",
+  'BufEnter',
   {
-    pattern = "*",
-    group = "theme-by-buffer",
+    pattern = '*',
+    group = 'theme-by-buffer',
     nested = true,
-    desc = "Change theme by the path of the current buffer.",
+    desc = 'Change theme by the path of the current buffer.',
     callback = function(args)
       local FILE = args.file
       -- Do nothing if unneeded
       if (
-        (FILE == "") or
-        (vim.api.nvim_exec("echo &buftype", true) ~= "")
+        (FILE == '') or
+        (vim.api.nvim_exec('echo &buftype', true) ~= '')
       ) then
         return nil
       end
@@ -268,7 +268,7 @@ vim.api.nvim_create_autocmd(
                           or ALTERNATIVE_COLORSCHEME
 
       -- Apply colorscheme and some highlight settings
-      if COLORSCHEME ~= vim.api.nvim_exec("colorscheme", true) then
+      if COLORSCHEME ~= vim.api.nvim_exec('colorscheme', true) then
         set_colorscheme(COLORSCHEME)
       end
     end
@@ -377,13 +377,13 @@ require('nvim-treesitter.configs').setup({
   indent = { enable = true },
   yati = { enable = true },
 })
-local ft_to_parser = require"nvim-treesitter.parsers".filetype_to_parsername
-ft_to_parser.zsh = "bash"
+local ft_to_parser = require'nvim-treesitter.parsers'.filetype_to_parsername
+ft_to_parser.zsh = 'bash'
 require('nvim_context_vt').setup({enabled = true})
 require('hlargs').setup()
 require('treesitter-context').setup()
-set_keymap('o', 'm', ":<C-U>lua require('tsht').nodes()<CR>", {noremap = true, silent = true})
-set_keymap('v', 'm', ":lua require('tsht').nodes()<CR>", {noremap = true, silent = true})
+set_keymap('o', 'm', ':<C-U>lua require("tsht").nodes()<CR>', {noremap = true, silent = true})
+set_keymap('v', 'm', ':lua require("tsht").nodes()<CR>', {noremap = true, silent = true})
 set_keymap('x', 'iu', ':lua require"treesitter-unit".select()<CR>')
 set_keymap('x', 'au', ':lua require"treesitter-unit".select(true)<CR>')
 set_keymap('o', 'iu', ':<C-U>lua require"treesitter-unit".select()<CR>')
@@ -405,7 +405,7 @@ require('vgit').setup({
     }
   }
 })
-vim.api.nvim_create_user_command("ToggleBlame", require'vgit'.toggle_live_blame, {})
+vim.api.nvim_create_user_command('ToggleBlame', require'vgit'.toggle_live_blame, {})
 
 
 --[[ terminal settings ]]
@@ -413,28 +413,28 @@ vim.api.nvim_create_augroup('termopen', {clear = true})
 vim.api.nvim_create_autocmd({'TermOpen'}, {pattern = '*', command = 'startinsert'})
 
 -- toggleterm:general
-require("toggleterm").setup{
-  open_mapping = "<C-T>",
+require('toggleterm').setup{
+  open_mapping = '<C-T>',
   insert_mappings = false,
 }
 local function _toggleterm_run()
   local winnr = vim.fn.winnr()
-  vim.cmd("ToggleTermSendCurrentLine")
-  vim.cmd(winnr .. "wincmd w")
+  vim.cmd('ToggleTermSendCurrentLine')
+  vim.cmd(winnr .. 'wincmd w')
 end
 set_keymap('n', '<Leader>j', _toggleterm_run, {desc = 'ToggleTermSendCurrentLine'})
 
 -- toggleterm:lazygit
 local lazygit = require'toggleterm.terminal'.Terminal:new {
-  cmd = "lazygit",
+  cmd = 'lazygit',
   hidden = true,
-  direction = "float"
+  direction = 'float'
 }
 local function lazygit_toggle()
   lazygit:toggle()
 end
 set_keymap(
-  "n", "<Leader>gl",
+  'n', '<Leader>gl',
   lazygit_toggle,
   {desc = 'lazygit', silent = true}
 )
@@ -443,9 +443,9 @@ set_keymap(
 --[[ fuzzyfinder settings ]]
 -- telescope
 require('telescope').setup()
-require"telescope".load_extension("frecency")
+require'telescope'.load_extension('frecency')
 require('telescope').load_extension('fzf')
-local BUILTIN_PICKERS = require("telescope.builtin")
+local BUILTIN_PICKERS = require('telescope.builtin')
 for key, callback in pairs({
   b = {'buffers'}, -- shortcut
   fb = {'buffers'},
@@ -517,7 +517,7 @@ for lsp, config in pairs{
   --r_language_server = { cmd = {"R", "--slave", "-e", "options(languageserver.rich_documentation = FALSE); languageserver::run()" } },
   r_language_server = {}, -- R -e "remotes::install_github('languageservre')"
   tsserver = {},
-  bashls = {filetypes = {"sh", "bash", "zsh"}}, -- npm i -g bash-language-server
+  bashls = {filetypes = {'sh', 'bash', 'zsh'}}, -- npm i -g bash-language-server
   sumneko_lua = {}, -- pacman -S lua-language-server
 } do
   lspsetup(lsp, config)
