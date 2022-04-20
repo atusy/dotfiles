@@ -405,7 +405,7 @@ require('vgit').setup({
     }
   }
 })
-vim.api.nvim_create_user_command("ToggleBlame", [[: lua require'vgit'.toggle_live_blame()]], {})
+vim.api.nvim_create_user_command("ToggleBlame", require'vgit'.toggle_live_blame, {})
 
 
 --[[ terminal settings ]]
