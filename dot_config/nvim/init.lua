@@ -117,6 +117,7 @@ require('jetpack').startup(function(use)
   use "nathom/filetype.nvim"
   use 'lambdalisue/fern.vim'
   use 'simeji/winresizer'
+  use 'tkmpypy/chowcho.nvim'
   use 'AndrewRadev/bufferize.vim'
   use 'moll/vim-bbye'
   use 'haya14busa/vim-asterisk'
@@ -276,6 +277,8 @@ vim.api.nvim_create_autocmd(
 
 
 --[[ buffer settings ]]
+-- chowcho
+set_keymap({'', 't'}, '<C-W><C-W>', require('chowcho').run)
 -- Bbye
 set_keymap('n', '<Leader>bd', ':up | Bdelete<CR>')
 set_keymap('n', '<Leader>bD', ':Bdelete!<CR>')
