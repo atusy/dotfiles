@@ -199,7 +199,7 @@ if vim.g.vscode == 1 then return end
 vim.g.illuminate_ftblacklist = {'fern'}
 local DEFAULT_COLORSCHEME = 'hatsunemiku'
 local ALTERNATIVE_COLORSCHEME = 'gruvbox'
-local CMD_ILLUMINATION = [[hi illuminatedWord guibg=#383D47]]
+local CMD_ILLUMINATION = 'hi illuminatedWord guibg=#383D47'
 
 -- set colorscheme
 local function set_colorscheme(nm)
@@ -475,8 +475,8 @@ set_keymap('n', '<Leader>e', vim.diagnostic.open_float, opts)
 set_keymap('n', '[d', vim.diagnostic.goto_prev, opts)
 set_keymap('n', ']d', vim.diagnostic.goto_next, opts)
 set_keymap('n', '<Leader>q',vim.diagnostic.setloclist, opts)
-set_keymap('n', '<a-l>', '<cmd>lua require"illuminate".next_reference{wrap=true}<cr>', {noremap=true})
-set_keymap('n', '<a-h>', '<cmd>lua require"illuminate".next_reference{reverse=true,wrap=true}<cr>', {noremap=true})
+set_keymap('n', '<C-H>', '<cmd>lua require"illuminate".next_reference{reverse=true,wrap=true}<cr>')
+set_keymap('n', '<C-L>', '<cmd>lua require"illuminate".next_reference{wrap=true}<cr>')
 
 -- Use an on_attach function to only map the following keys
 -- after the language server attaches to the current buffer
