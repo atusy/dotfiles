@@ -386,8 +386,8 @@ set_keymap('o', 'm', ":<C-U>lua require('tsht').nodes()<CR>", {noremap = true, s
 set_keymap('v', 'm', ":lua require('tsht').nodes()<CR>", {noremap = true, silent = true})
 set_keymap('x', 'iu', ':lua require"treesitter-unit".select()<CR>')
 set_keymap('x', 'au', ':lua require"treesitter-unit".select(true)<CR>')
-set_keymap('o', 'iu', ':<c-u>lua require"treesitter-unit".select()<CR>')
-set_keymap('o', 'au', ':<c-u>lua require"treesitter-unit".select(true)<CR>')
+set_keymap('o', 'iu', ':<C-U>lua require"treesitter-unit".select()<CR>')
+set_keymap('o', 'au', ':<C-U>lua require"treesitter-unit".select(true)<CR>')
 
 
 --[[ git settings ]]
