@@ -295,13 +295,13 @@ vim.cmd('let g:sandwich#recipes = deepcopy(g:sandwich#default_recipes)')
 
 --[[ motion settings ]]
 -- Hop
-require'hop'.setup()
+local HOP = require'hop'
+HOP.setup()
 local function hopper(direction)
+  local hint_char1 = HOP.hint_char1
+  local hint_direction = require'hop.hint'.HintDirection[direction]
   return function()
-    require'hop'.hint_char1 {
-      direction = require'hop.hint'.HintDirection[direction],
-      current_line_only = true
-    }
+    hint_char1({direction = hint_direction, current_line_only = true})
   end
 end
 set_keymap('', 'f', hopper('AFTER_CURSOR'), {desc = 'Hop after'})
@@ -392,7 +392,8 @@ set_keymap('o', 'au', ':<C-U>lua require"treesitter-unit".select(true)<CR>')
 
 --[[ git settings ]]
 -- vgit
-require'vgit'.setup {
+local VGIT = require'vgit'
+VGIT.setup {
   keymaps = {
     ['n <leader>gj'] = 'hunk_down',
     ['n <leader>gk'] = 'hunk_up',
@@ -405,7 +406,7 @@ require'vgit'.setup {
     }
   }
 }
-vim.api.nvim_create_user_command('ToggleBlame', require'vgit'.toggle_live_blame, {})
+vim.api.nvim_create_user_command('ToggleBlame', VGIT.toggle_live_blame, {})
 
 
 --[[ terminal settings ]]
@@ -442,10 +443,11 @@ set_keymap(
 
 --[[ fuzzyfinder settings ]]
 -- telescope
-require'telescope'.setup()
-require'telescope'.load_extension('frecency')
-require'telescope'.load_extension('fzf')
+local TELESCOPE = require'telescope'
 local BUILTIN_PICKERS = require'telescope.builtin'
+TELESCOPE.setup()
+TELESCOPE.load_extension('frecency')
+TELESCOPE.load_extension('fzf')
 for key, callback in pairs {
   b = {'buffers'}, -- shortcut
   fb = {'buffers'},
@@ -454,7 +456,7 @@ for key, callback in pairs {
   fg = {'live_grep'},
   fh = {'help_tags'},
   fk = {'keymaps'},
-  fm = {'frecency', require'telescope'.extensions.frecency},
+  fm = {'frecency', TELESCOPE.extensions.frecency},
   fr = {'lsp_references'},
   ft = {'treesitter'},
   ['f"'] = {'registers'},
@@ -470,13 +472,14 @@ end
 
 --[[ LSP settings ]]
 -- Mappings. See `:help vim.diagnostic.*` for documentation on any of the below functions
-local opts = { noremap=true, silent=true }
-set_keymap('n', '<Leader>e', vim.diagnostic.open_float, opts)
-set_keymap('n', '[d', vim.diagnostic.goto_prev, opts)
-set_keymap('n', ']d', vim.diagnostic.goto_next, opts)
-set_keymap('n', '<Leader>q',vim.diagnostic.setloclist, opts)
-set_keymap('n', '<C-H>', '<cmd>lua require"illuminate".next_reference{reverse=true,wrap=true}<cr>')
-set_keymap('n', '<C-L>', '<cmd>lua require"illuminate".next_reference{wrap=true}<cr>')
+local ILLUMINATE = require'illuminate'
+local OPTS = { noremap=true, silent=true }
+set_keymap('n', '<Leader>e', vim.diagnostic.open_float, OPTS)
+set_keymap('n', '[d', vim.diagnostic.goto_prev, OPTS)
+set_keymap('n', ']d', vim.diagnostic.goto_next, OPTS)
+set_keymap('n', '<Leader>q',vim.diagnostic.setloclist, OPTS)
+set_keymap('n', '<C-H>', function() ILLUMINATE.next_reference({reverse=true, wrap=true}) end)
+set_keymap('n', '<C-L>', function() ILLUMINATE.next_reference({wrap=true}) end)
 
 -- Use an on_attach function to only map the following keys
 -- after the language server attaches to the current buffer
@@ -486,30 +489,31 @@ local on_attach = function(client, bufnr)
 
   -- Mappings.
   -- See `:help vim.lsp.*` for documentation on any of the below functions
-  vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gD', '<cmd>lua vim.lsp.buf.declaration()<CR>', opts)
-  vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gd', '<cmd>lua vim.lsp.buf.definition()<CR>', opts)
-  vim.api.nvim_buf_set_keymap(bufnr, 'n', 'K', '<cmd>lua vim.lsp.buf.hover()<CR>', opts)
-  vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<CR>', opts)
-  vim.api.nvim_buf_set_keymap(bufnr, 'n', '<C-K>', '<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
-  vim.api.nvim_buf_set_keymap(bufnr, 'n', '<Leader>wa', '<cmd>lua vim.lsp.buf.add_workspace_folder()<CR>', opts)
-  vim.api.nvim_buf_set_keymap(bufnr, 'n', '<Leader>wr', '<cmd>lua vim.lsp.buf.remove_workspace_folder()<CR>', opts)
-  vim.api.nvim_buf_set_keymap(bufnr, 'n', '<Leader>wl', '<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>', opts)
-  vim.api.nvim_buf_set_keymap(bufnr, 'n', '<Leader>D', '<cmd>lua vim.lsp.buf.type_definition()<CR>', opts)
-  vim.api.nvim_buf_set_keymap(bufnr, 'n', '<Leader>rn', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
-  vim.api.nvim_buf_set_keymap(bufnr, 'n', '<Leader>ca', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
-  vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>', opts)
-  vim.api.nvim_buf_set_keymap(bufnr, 'n', '<Leader>fo', '<cmd>lua vim.lsp.buf.formatting()<CR>', opts)
+  vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gD', '<cmd>lua vim.lsp.buf.declaration()<CR>', OPTS)
+  vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gd', '<cmd>lua vim.lsp.buf.definition()<CR>', OPTS)
+  vim.api.nvim_buf_set_keymap(bufnr, 'n', 'K', '<cmd>lua vim.lsp.buf.hover()<CR>', OPTS)
+  vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<CR>', OPTS)
+  vim.api.nvim_buf_set_keymap(bufnr, 'n', '<C-K>', '<cmd>lua vim.lsp.buf.signature_help()<CR>', OPTS)
+  vim.api.nvim_buf_set_keymap(bufnr, 'n', '<Leader>wa', '<cmd>lua vim.lsp.buf.add_workspace_folder()<CR>', OPTS)
+  vim.api.nvim_buf_set_keymap(bufnr, 'n', '<Leader>wr', '<cmd>lua vim.lsp.buf.remove_workspace_folder()<CR>', OPTS)
+  vim.api.nvim_buf_set_keymap(bufnr, 'n', '<Leader>wl', '<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>', OPTS)
+  vim.api.nvim_buf_set_keymap(bufnr, 'n', '<Leader>D', '<cmd>lua vim.lsp.buf.type_definition()<CR>', OPTS)
+  vim.api.nvim_buf_set_keymap(bufnr, 'n', '<Leader>rn', '<cmd>lua vim.lsp.buf.rename()<CR>', OPTS)
+  vim.api.nvim_buf_set_keymap(bufnr, 'n', '<Leader>ca', '<cmd>lua vim.lsp.buf.code_action()<CR>', OPTS)
+  vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>', OPTS)
+  vim.api.nvim_buf_set_keymap(bufnr, 'n', '<Leader>fo', '<cmd>lua vim.lsp.buf.formatting()<CR>', OPTS)
 
   -- Highlighting
-  require'illuminate'.on_attach(client)
+  ILLUMINATE.on_attach(client)
 end
 
+local LSPCONFIG = require'lspconfig'
 local function lspsetup(lsp, config)
   local config2 = { on_attach = on_attach, flags = { debounce_text_changes = 150 } }
   for k, v in pairs(config or {}) do
     config2[k] = v
   end
-  require'lspconfig'[lsp].setup(config2)
+  LSPCONFIG[lsp].setup(config2)
 end
 
 for lsp, config in pairs{
