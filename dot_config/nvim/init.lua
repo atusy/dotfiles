@@ -100,13 +100,6 @@ require'jetpack'.startup(function(use)
   use 'tpope/vim-commentary'
   use 'jghauser/mkdir.nvim'
 
-  if vim.g.vscode == 1 then
-    use 'asvetliakov/vim-easymotion'
-    set_keymap('', 'f', '<Plug>(easymotion-f)')
-    set_keymap('', 'F', '<Plug>(easymotion-f)')
-    return
-  end
-
   -- basic dependencies
   use 'kyazdani42/nvim-web-devicons' -- for lualine
   use 'nvim-lua/plenary.nvim' -- for gitsigns, vgit
@@ -188,10 +181,6 @@ require'jetpack'.startup(function(use)
   use 'matsui54/denops-signature_help'
   use 'matsui54/denops-popup-preview.vim'
 end)
-
-
---[[ EARLY RETURN FOR VSCODE ]]
-if vim.g.vscode == 1 then return end
 
 
 --[[ colorscheme/highlight ]]
