@@ -34,7 +34,7 @@ end)
 return {
   default_prog = {"/usr/bin/env", "zsh"},
   font = wezterm.font_with_fallback({
-    {family = "UDEV Gothic"},
+    {family = "UDEV Gothic NF"},
     {family = "Noto Color Emoji"},
   }),
   font_size = 12,
