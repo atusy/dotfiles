@@ -206,7 +206,7 @@ end
 set_colorscheme(DEFAULT_COLORSCHEME)
 
 -- illumination for modes other than ivV
-vim.api.nvim_create_augroup('illumination-by-mode')
+vim.api.nvim_create_augroup('illumination-by-mode', {})
 vim.api.nvim_create_autocmd(
   'ModeChanged',
   {
@@ -232,7 +232,7 @@ vim.api.nvim_exec([[
 ]], false)
 
 -- Update colorscheme when buffer is outside of cwd
-vim.api.nvim_create_augroup('theme-by-buffer')
+vim.api.nvim_create_augroup('theme-by-buffer', {})
 vim.api.nvim_create_autocmd(
   'BufEnter',
   {
@@ -398,7 +398,7 @@ vim.api.nvim_create_user_command('ToggleBlame', VGIT.toggle_live_blame, {})
 
 
 --[[ terminal settings ]]
-vim.api.nvim_create_augroup('termopen')
+vim.api.nvim_create_augroup('termopen', {})
 vim.api.nvim_create_autocmd({'TermOpen'}, {pattern = '*', command = 'startinsert'})
 
 -- toggleterm:general
