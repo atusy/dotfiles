@@ -130,7 +130,7 @@ require('jetpack').startup(function(use)
   use 'norcalli/nvim-colorizer.lua'
 
   -- statusline
-  use 'feline-nvim/feline.nvim'
+  use 'nvim-lualine/lualine.nvim'
 
   -- motion
   use 'haya14busa/vim-edgemotion'
@@ -309,8 +309,41 @@ set_keymap('', '<Leader>[', '<Plug>(edgemotion-k)', {})
 
 
 --[[ statusline settings ]]
--- feline
-require('feline').setup{preset = 'noicon'}
+-- lualine
+local lualine_file_info = {
+  {'filetype', icon_only = true},
+  {'filename'},
+}
+require('lualine').setup {
+  options = {
+    theme = 'nord',
+    component_separators = '',
+  },
+  sections = {
+    lualine_a = {},
+    lualine_b = {},
+    lualine_c = lualine_file_info,
+    lualine_x = {},
+    lualine_y = {},
+    lualine_z = {},
+  },
+  inactive_sections = {
+    lualine_a = {},
+    lualine_b = {},
+    lualine_c = lualine_file_info,
+    lualine_x = {},
+    lualine_y = {},
+    lualine_z = {},
+  },
+  tabline = {
+    lualine_a = {'mode'},
+    lualine_b = {},
+    lualine_c = {},
+    lualine_x = {},
+    lualine_y = {'diagnostics', 'branch', 'diff'},
+    lualine_z = {'tabs'},
+  }
+}
 
 --[[ filer settings ]]
 -- fern
