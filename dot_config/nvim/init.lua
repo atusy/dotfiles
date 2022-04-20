@@ -39,10 +39,7 @@ vim.opt.shell = 'zsh'
 
 
 --[[ mappings ]]
-local _set_keymap = vim.keymap.set
-local function set_keymap(mode, lhs, rhs, opts)
-  _set_keymap(mode, lhs, rhs, opts or {noremap = true})
-end
+local set_keymap = vim.keymap.set -- default: remap = false
 vim.g.mapleader = ' '
 set_keymap('n', '<ESC><ESC>', ':nohlsearch<CR>')
 set_keymap('n', 'x', '"_x')
@@ -191,11 +188,14 @@ local ALTERNATIVE_COLORSCHEME = 'gruvbox'
 local CMD_ILLUMINATION = 'hi illuminatedWord guibg=#383D47'
 
 -- set colorscheme
+local setup_hlargs = require'hlargs'.setup
+local setup_colorizer = require'colorizer'.setup
+local setup_lsp_colors = require'lsp-colors'.setup
 local function set_colorscheme(nm)
   vim.cmd('colorscheme ' .. nm)
-  require'hlargs'.setup()
-  require'colorizer'.setup()
-  require'lsp-colors'.setup()
+  setup_hlargs()
+  setup_colorizer()
+  setup_lsp_colors()
   vim.cmd(CMD_ILLUMINATION)
   vim.api.nvim_exec([[
     hi link LspReferenceText illuminatedWord
@@ -206,7 +206,7 @@ end
 set_colorscheme(DEFAULT_COLORSCHEME)
 
 -- illumination for modes other than ivV
-vim.api.nvim_create_augroup('illumination-by-mode', {clear = true})
+vim.api.nvim_create_augroup('illumination-by-mode')
 vim.api.nvim_create_autocmd(
   'ModeChanged',
   {
@@ -232,7 +232,7 @@ vim.api.nvim_exec([[
 ]], false)
 
 -- Update colorscheme when buffer is outside of cwd
-vim.api.nvim_create_augroup('theme-by-buffer', {clear = true})
+vim.api.nvim_create_augroup('theme-by-buffer')
 vim.api.nvim_create_autocmd(
   'BufEnter',
   {
@@ -371,8 +371,8 @@ ft_to_parser.zsh = 'bash'
 require'nvim_context_vt'.setup {enabled = true}
 require'hlargs'.setup()
 require'treesitter-context'.setup()
-set_keymap('o', 'm', ':<C-U>lua require"tsht".nodes()<CR>', {noremap = true, silent = true})
-set_keymap('v', 'm', ':lua require"tsht".nodes()<CR>', {noremap = true, silent = true})
+set_keymap('o', 'm', ':<C-U>lua require"tsht".nodes()<CR>', {silent = true})
+set_keymap('v', 'm', ':lua require"tsht".nodes()<CR>', {silent = true})
 set_keymap('x', 'iu', ':lua require"treesitter-unit".select()<CR>')
 set_keymap('x', 'au', ':lua require"treesitter-unit".select(true)<CR>')
 set_keymap('o', 'iu', ':<C-U>lua require"treesitter-unit".select()<CR>')
@@ -399,7 +399,7 @@ vim.api.nvim_create_user_command('ToggleBlame', VGIT.toggle_live_blame, {})
 
 
 --[[ terminal settings ]]
-vim.api.nvim_create_augroup('termopen', {clear = true})
+vim.api.nvim_create_augroup('termopen')
 vim.api.nvim_create_autocmd({'TermOpen'}, {pattern = '*', command = 'startinsert'})
 
 -- toggleterm:general
@@ -454,7 +454,7 @@ for key, callback in pairs {
   set_keymap(
     'n', '<Leader>' .. key,
     (callback[2] or BUILTIN_PICKERS)[callback[1]],
-    {desc = 'telescope ' .. callback[1], noremap=true}
+    {desc = 'telescope ' .. callback[1]}
   )
 end
 
@@ -462,7 +462,7 @@ end
 --[[ LSP settings ]]
 -- Mappings. See `:help vim.diagnostic.*` for documentation on any of the below functions
 local ILLUMINATE = require'illuminate'
-local OPTS = { noremap=true, silent=true }
+local OPTS = {silent=true }
 set_keymap('n', '<Leader>e', vim.diagnostic.open_float, OPTS)
 set_keymap('n', '[d', vim.diagnostic.goto_prev, OPTS)
 set_keymap('n', ']d', vim.diagnostic.goto_next, OPTS)
