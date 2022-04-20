@@ -275,10 +275,11 @@ vim.api.nvim_create_autocmd(
   }
 )
 
-
---[[ buffer settings ]]
+--[[ window settings ]]
 -- chowcho
 set_keymap({'', 't'}, '<C-W><C-W>', require('chowcho').run)
+
+--[[ buffer settings ]]
 -- Bbye
 set_keymap('n', '<Leader>bd', ':up | Bdelete<CR>')
 set_keymap('n', '<Leader>bD', ':Bdelete!<CR>')
