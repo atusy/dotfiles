@@ -50,7 +50,6 @@ set_keymap({'n', 'v'}, 'gY', '"+Y')
 set_keymap('c', '<C-A>', '<Home>')
 set_keymap('c', '<C-E>', '<End>')
 set_keymap('t', '<C-W>', "'<Cmd>wincmd ' .. getcharstr() .. '<CR>'", {expr = true})
--- set_keymap('t', '<ESC>', '<C-\\><C-N>')  -- conflicts with some TUIs such as lazygit
 
 
 --[[ personal utilities ]]
