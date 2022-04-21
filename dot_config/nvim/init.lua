@@ -111,6 +111,7 @@ require'jetpack'.startup(function(use)
   use 'tpope/vim-commentary'
   use 'nathom/filetype.nvim'
   use 'lambdalisue/fern.vim'
+  use 'segeljakt/vim-silicon'  -- pacman -S silicon
 
   -- windows and buffers
   use 'simeji/winresizer'
@@ -119,6 +120,7 @@ require'jetpack'.startup(function(use)
   use 'AndrewRadev/bufferize.vim'
 
   -- better something
+  use 'wsdjeg/vim-fetch'         -- :e with linenumber
   use 'jghauser/mkdir.nvim'      -- :w with mkdir
   use 'haya14busa/vim-asterisk'  -- *
 
