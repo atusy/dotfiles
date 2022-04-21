@@ -164,8 +164,6 @@ require'jetpack'.startup(function(use)
   use 'neovim/nvim-lspconfig'
   use 'williamboman/nvim-lsp-installer'
   use 'folke/lsp-colors.nvim'
-  -- use 'tami5/lspsaga.nvim' -- TODO
-  -- use 'folke/trouble.nvim' -- TODO
   use 'tamago324/nlsp-settings.nvim'
 
   -- ddc
@@ -173,7 +171,6 @@ require'jetpack'.startup(function(use)
   use 'Shougo/ddc-around'
   use 'Shougo/ddc-cmdline'
   use 'Shougo/ddc-cmdline-history'
-  -- use 'Shougo/ddc-nextword'
   use 'Shougo/ddc-matcher_head'  -- 入力中の単語を補完
   use 'Shougo/ddc-nvim-lsp'  -- 入力中の単語を補完
   use 'LumaKernel/ddc-file'  -- Suggest file paths
