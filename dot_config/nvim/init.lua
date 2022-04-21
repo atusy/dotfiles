@@ -223,13 +223,6 @@ vim.api.nvim_create_autocmd(
     command = CMD_ILLUMINATION
   }
 )
-vim.api.nvim_exec([[
-  augroup illumination
-    autocmd! *
-    autocmd ModeChanged *:[ivV\x16]* hi illuminatedWord guibg=#00000000
-    autocmd ModeChanged [ivV\x16]*:* hi illuminatedWord guibg=#383D47
-  augroup END
-]], false)
 
 -- Update colorscheme when buffer is outside of cwd
 vim.api.nvim_create_augroup('theme-by-buffer', {})
