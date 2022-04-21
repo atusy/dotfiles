@@ -284,10 +284,10 @@ vim.cmd('let g:sandwich#recipes = deepcopy(g:sandwich#default_recipes)')
 
 --[[ motion settings ]]
 -- Hop
-local HOP = require'hop'
-HOP.setup()
+local Hop = require'hop'
+Hop.setup()
 local function hopper(direction)
-  local hint_char1 = HOP.hint_char1
+  local hint_char1 = Hop.hint_char1
   local hint_direction = require'hop.hint'.HintDirection[direction]
   return function()
     hint_char1({direction = hint_direction, current_line_only = true})
@@ -380,8 +380,8 @@ set_keymap('o', 'au', ':<C-U>lua require"treesitter-unit".select(true)<CR>')
 
 --[[ git settings ]]
 -- vgit
-local VGIT = require'vgit'
-VGIT.setup {
+local Vgit = require'vgit'
+Vgit.setup {
   keymaps = {
     ['n <leader>gj'] = 'hunk_down',
     ['n <leader>gk'] = 'hunk_up',
@@ -394,7 +394,7 @@ VGIT.setup {
     }
   }
 }
-vim.api.nvim_create_user_command('ToggleBlame', VGIT.toggle_live_blame, {})
+vim.api.nvim_create_user_command('ToggleBlame', Vgit.toggle_live_blame, {})
 
 
 --[[ terminal settings ]]
@@ -431,11 +431,11 @@ set_keymap(
 
 --[[ fuzzyfinder settings ]]
 -- telescope
-local TELESCOPE = require'telescope'
-local BUILTIN_PICKERS = require'telescope.builtin'
-TELESCOPE.setup()
-TELESCOPE.load_extension('frecency')
-TELESCOPE.load_extension('fzf')
+local Telescope = require'telescope'
+local TelescopeBuiltin = require'telescope.builtin'
+Telescope.setup()
+Telescope.load_extension('frecency')
+Telescope.load_extension('fzf')
 for key, callback in pairs {
   b = {'buffers'}, -- shortcut
   fb = {'buffers'},
@@ -444,7 +444,7 @@ for key, callback in pairs {
   fg = {'live_grep'},
   fh = {'help_tags'},
   fk = {'keymaps'},
-  fm = {'frecency', TELESCOPE.extensions.frecency},
+  fm = {'frecency', Telescope.extensions.frecency},
   fr = {'lsp_references'},
   ft = {'treesitter'},
   ['f"'] = {'registers'},
@@ -452,7 +452,7 @@ for key, callback in pairs {
 } do
   set_keymap(
     'n', '<Leader>' .. key,
-    (callback[2] or BUILTIN_PICKERS)[callback[1]],
+    (callback[2] or TelescopeBuiltin)[callback[1]],
     {desc = 'telescope ' .. callback[1]}
   )
 end
@@ -460,14 +460,14 @@ end
 
 --[[ LSP settings ]]
 -- Mappings. See `:help vim.diagnostic.*` for documentation on any of the below functions
-local ILLUMINATE = require'illuminate'
+local Illuminate = require'illuminate'
 local OPTS = {silent=true}
 set_keymap('n', '<Leader>e', vim.diagnostic.open_float, OPTS)
 set_keymap('n', '[d', vim.diagnostic.goto_prev, OPTS)
 set_keymap('n', ']d', vim.diagnostic.goto_next, OPTS)
 set_keymap('n', '<Leader>q',vim.diagnostic.setloclist, OPTS)
-set_keymap('n', '<C-H>', function() ILLUMINATE.next_reference({reverse=true, wrap=true}) end)
-set_keymap('n', '<C-L>', function() ILLUMINATE.next_reference({wrap=true}) end)
+set_keymap('n', '<C-H>', function() Illuminate.next_reference({reverse=true, wrap=true}) end)
+set_keymap('n', '<C-L>', function() Illuminate.next_reference({wrap=true}) end)
 
 -- Use an on_attach function to only map the following keys
 -- after the language server attaches to the current buffer
@@ -492,16 +492,16 @@ local on_attach = function(client, bufnr)
   vim.api.nvim_buf_set_keymap(bufnr, 'n', '<Leader>fo', '<cmd>lua vim.lsp.buf.formatting()<CR>', OPTS)
 
   -- Highlighting
-  ILLUMINATE.on_attach(client)
+  Illuminate.on_attach(client)
 end
 
-local LSPCONFIG = require'lspconfig'
-local function lspsetup(lsp, config)
+local Lspconfig = require'lspconfig'
+local function setup_lsp(lsp, config)
   local config2 = {on_attach = on_attach, flags = {debounce_text_changes = 150}}
   for k, v in pairs(config or {}) do
     config2[k] = v
   end
-  LSPCONFIG[lsp].setup(config2)
+  Lspconfig[lsp].setup(config2)
 end
 
 for lsp, config in pairs{
@@ -511,7 +511,7 @@ for lsp, config in pairs{
   bashls = {filetypes = {'sh', 'bash', 'zsh'}}, -- npm i -g bash-language-server
   sumneko_lua = {}, -- pacman -S lua-language-server
 } do
-  lspsetup(lsp, config)
+  setup_lsp(lsp, config)
 end
 
 
