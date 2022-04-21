@@ -285,7 +285,7 @@ set_keymap('v', '*', '<Plug>(asterisk-gz*)')
 
 --[[ textobj settings ]]
 -- sandwich
-vim.cmd('let g:sandwich#recipes = deepcopy(g:sandwich#default_recipes)')
+vim.g['sandwich#recipes'] = vim.deepcopy(vim.g['sandwich#default_recipes'])
 
 
 --[[ motion settings ]]
