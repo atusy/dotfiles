@@ -266,7 +266,13 @@ vim.api.nvim_create_autocmd(
 
 --[[ window settings ]]
 -- chowcho
-set_keymap({'', 't'}, '<C-W><C-W>', require'chowcho'.run)
+set_keymap({'', 't'}, '<C-W><C-W>', function()
+  if vim.fn.winnr('$') > 2 then
+    require'chowcho'.run()
+  else
+    vim.cmd('wincmd w')
+  end
+end)
 
 --[[ buffer settings ]]
 -- Bbye
