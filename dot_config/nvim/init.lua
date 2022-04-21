@@ -309,33 +309,29 @@ set_keymap('', '<Leader>[', '<Plug>(edgemotion-k)', {})
 
 --[[ statusline settings ]]
 -- lualine
-local function lualine_components(args)
-  local ret = {
-    lualine_a = {}, lualine_b = {}, lualine_c = {},
-    lualine_x = {}, lualine_y = {}, lualine_z = {},
-  }
-  for k, v in pairs(args) do
-    ret[k] = v
-  end
-  return ret
-end
-local LUALINE_FILE_INFO = {
-  {'filetype', icon_only = true}, {'filename'},
-}
 require'lualine'.setup {
-  options = {
-    theme = 'nord',
-    component_separators = '',
+  options = {theme = 'nord', component_separators = ''},
+  sections = {
+    lualine_a = {},
+    lualine_b = {},
+    lualine_c = {{'filetype', icon_only = true}, 'filename'},
+    lualine_x = {'location'},
+    lualine_y = {},
+    lualine_z = {},
   },
-  sections = lualine_components {
-    lualine_c = LUALINE_FILE_INFO,
-    lualine_x = {'location'}
+  inactive_sections = {
+    lualine_a = {},
+    lualine_b = {},
+    lualine_c = {{'filetype', icon_only = true}, 'filename'},
+    lualine_x = {},
+    lualine_y = {},
+    lualine_z = {},
   },
-  inactive_sections = lualine_components {
-    lualine_c = LUALINE_FILE_INFO,
-  },
-  tabline = lualine_components {
+  tabline = {
     lualine_a = {'mode'},
+    lualine_b = {},
+    lualine_c = {},
+    lualine_x = {},
     lualine_y = {'diagnostics', 'branch', 'diff'},
     lualine_z = {'tabs'},
   },
