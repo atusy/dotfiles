@@ -100,17 +100,16 @@ if vim.fn.empty(vim.fn.glob(vim.fn.stdpath('data') .. '/site/autoload/jetpack.vi
   ]], false)
 end
 require'jetpack'.startup(function(use)
-  -- used also in VS Code
-  use 'tpope/vim-commentary'
-  use 'jghauser/mkdir.nvim'
-
   -- basic dependencies
+  use 'tpope/vim-repeat'
   use 'kyazdani42/nvim-web-devicons' -- for lualine
   use 'nvim-lua/plenary.nvim' -- for gitsigns, vgit
   use 'tami5/sqlite.lua' -- for telescope-frecency
   use 'vim-denops/denops.vim'
 
   -- utils
+  use 'tpope/vim-commentary'
+  use 'jghauser/mkdir.nvim'
   use 'nathom/filetype.nvim'
   use 'lambdalisue/fern.vim'
   use 'simeji/winresizer'
@@ -153,22 +152,21 @@ require'jetpack'.startup(function(use)
   use 'romgrk/nvim-treesitter-context'
   use 'mfussenegger/nvim-treehopper'
   use 'David-Kunz/treesitter-unit'
+  use 'JoosepAlviste/nvim-ts-context-commentstring'
 
   -- text object
   use 'machakann/vim-sandwich'
 
   -- terminal
   use 'akinsho/toggleterm.nvim'
-  use 'Shougo/deol.nvim'
 
   -- lsp
   use 'neovim/nvim-lspconfig'
   use 'williamboman/nvim-lsp-installer'
   use 'folke/lsp-colors.nvim'
-  -- use 'JoosepAlviste/nvim-ts-context-commentstring' -- TODO
-  -- use 'tamago324/nlsp-settings.nvim' -- TODO: on configuring project
   -- use 'tami5/lspsaga.nvim' -- TODO
   -- use 'folke/trouble.nvim' -- TODO
+  use 'tamago324/nlsp-settings.nvim'
 
   -- ddc
   use 'Shougo/ddc.vim'
@@ -364,6 +362,7 @@ require'nvim-treesitter.configs'.setup {
     'make', 'markdown', 'ninja', 'nix', 'python', 'r', 'regex', 'ruby', 'rust',
     'scss', 'teal', 'toml', 'tsx', 'typescript', 'vala', 'vim', 'vue', 'yaml'
   },
+  context_commentstring = {enable = true},
   highlight = {enable = true},
   indent = {enable = true},
   yati = {enable = true},
