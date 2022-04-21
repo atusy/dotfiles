@@ -72,14 +72,22 @@ if vim.fn.executable('nvr') == 1 then
     vim.cmd('w | bw | ' .. winnr .. 'wincmd w | startinsert')
   end
   vim.env.EDITOR_CMD = 'nvr -cc "below 5split" -c "set filetype=zsh_cmdline" --remote-wait-silent'
-  vim.api.nvim_exec([[
-    augroup zsh-cmdline
-      autocmd! *
-      autocmd FileType zsh_cmdline let b:zsh_cmdline_parent_winnr = get(b:, 'zsh_cmdline_parent_winnr', winnr('#'))
-      autocmd FileType zsh_cmdline nnoremap <buffer> <Space>bd <Cmd>lua Write_and_bufferwipe()<CR>
-      autocmd FileType zsh_cmdline set filetype=zsh
-    augroup END
-  ]], false)
+  vim.api.nvim_create_augroup('zsh-cmdline', {})
+  vim.api.nvim_create_autocmd(
+    'Filetype',
+    {
+      pattern = 'zsh_cmdline',
+      group = 'zsh-cmdline',
+      callback = function()
+        vim.opt.filetype = 'zsh'
+        set_keymap(
+          'n', '<Space>bd',
+          '<Cmd>w | bw | ' .. vim.fn.winnr('#') .. 'wincmd w | startinsert<CR>',
+          {buffer = true}
+        )
+      end
+    }
+  )
 end
 
 
