@@ -109,14 +109,18 @@ require'jetpack'.startup(function(use)
 
   -- utils
   use 'tpope/vim-commentary'
-  use 'jghauser/mkdir.nvim'
   use 'nathom/filetype.nvim'
   use 'lambdalisue/fern.vim'
+
+  -- windows and buffers
   use 'simeji/winresizer'
   use 'tkmpypy/chowcho.nvim'
-  use 'AndrewRadev/bufferize.vim'
   use 'moll/vim-bbye'
-  use 'haya14busa/vim-asterisk'
+  use 'AndrewRadev/bufferize.vim'
+
+  -- better something
+  use 'jghauser/mkdir.nvim'      -- :w with mkdir
+  use 'haya14busa/vim-asterisk'  -- *
 
   -- colorscheme
   use '4513ECHO/vim-colors-hatsunemiku'
