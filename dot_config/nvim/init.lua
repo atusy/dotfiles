@@ -405,7 +405,9 @@ vim.api.nvim_create_user_command('ToggleBlame', Vgit.toggle_live_blame, {})
 
 --[[ terminal settings ]]
 vim.api.nvim_create_augroup('termopen', {})
-vim.api.nvim_create_autocmd({'TermOpen'}, {pattern = '*', command = 'startinsert'})
+vim.api.nvim_create_autocmd(
+  'TermOpen', {pattern = '*', group = 'termopen', command = 'startinsert'}
+)
 
 -- toggleterm:general
 require'toggleterm'.setup {
@@ -467,13 +469,12 @@ end
 --[[ LSP settings ]]
 -- Mappings. See `:help vim.diagnostic.*` for documentation on any of the below functions
 local Illuminate = require'illuminate'
-local OPTS = {silent=true}
-set_keymap('n', '<Leader>e', vim.diagnostic.open_float, OPTS)
-set_keymap('n', '[d', vim.diagnostic.goto_prev, OPTS)
-set_keymap('n', ']d', vim.diagnostic.goto_next, OPTS)
-set_keymap('n', '<Leader>q',vim.diagnostic.setloclist, OPTS)
-set_keymap('n', '<C-H>', function() Illuminate.next_reference({reverse=true, wrap=true}) end)
-set_keymap('n', '<C-L>', function() Illuminate.next_reference({wrap=true}) end)
+set_keymap('n', '<Leader>e', vim.diagnostic.open_float, {silent = true, desc = 'float diagnostic'})
+set_keymap('n', '[d', vim.diagnostic.goto_prev, {silent = true, desc = 'previous diagnostic'})
+set_keymap('n', ']d', vim.diagnostic.goto_next, {silent = true, desc = 'next diagnositc'})
+set_keymap('n', '<Leader>q', vim.diagnostic.setloclist, {silent = true, desc = 'add buffer diagnositcs to the location list'})
+set_keymap('n', '<C-H>', function() Illuminate.next_reference({reverse=true, wrap=true}) end, {desc = 'previous references'})
+set_keymap('n', '<C-L>', function() Illuminate.next_reference({wrap=true}) end, {desc = 'next reference'})
 
 -- Use an on_attach function to only map the following keys
 -- after the language server attaches to the current buffer
@@ -483,6 +484,7 @@ local on_attach = function(client, bufnr)
 
   -- Mappings.
   -- See `:help vim.lsp.*` for documentation on any of the below functions
+  local OPTS = {silent=true}
   vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gD', '<cmd>lua vim.lsp.buf.declaration()<CR>', OPTS)
   vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gd', '<cmd>lua vim.lsp.buf.definition()<CR>', OPTS)
   vim.api.nvim_buf_set_keymap(bufnr, 'n', 'K', '<cmd>lua vim.lsp.buf.hover()<CR>', OPTS)
