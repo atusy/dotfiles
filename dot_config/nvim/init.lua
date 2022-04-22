@@ -39,7 +39,11 @@ vim.opt.shell = 'zsh'
 
 
 --[[ mappings ]]
-local set_keymap = vim.keymap.set -- default: remap = false
+local function set_keymap(lhs, rhs, cmd, opts)
+  opts = opts or {}
+  opts.desc = nil  -- desc breaks Fern actions
+  vim.keymap.set(lhs, rhs, cmd, opts)
+end
 vim.g.mapleader = ' '
 set_keymap('n', '<ESC><ESC>', ':nohlsearch<CR>')
 set_keymap('n', 'x', '"_x')
