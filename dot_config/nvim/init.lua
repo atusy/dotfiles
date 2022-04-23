@@ -448,16 +448,19 @@ Telescope.setup()
 Telescope.load_extension('frecency')
 Telescope.load_extension('fzf')
 for key, callback in pairs {
-  b = {'buffers'}, -- shortcut
+  ab = {'buffers'},
+  b = {'buffers'},
   ac = {'commands'},
   af = {'find_files'},
   ag = {'live_grep'},
   ah = {'help_tags'},
   ak = {'keymaps'},
   am = {'frecency', Telescope.extensions.frecency},
+  ap = {'registers'},
   p = {'registers'},
   ar = {'lsp_references'},
   at = {'treesitter'},
+  ['a/'] = {'current_buffer_fuzzy_find'},
   ['/'] = {'current_buffer_fuzzy_find'},
 } do
   set_keymap(
