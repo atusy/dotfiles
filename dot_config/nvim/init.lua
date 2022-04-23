@@ -519,7 +519,7 @@ end
 
 for lsp, config in pairs{
   pyright = {}, -- pip install --user pyright
-  r_language_server = {}, -- R -e "remotes::install_github('languageservre')"
+  r_language_server = {}, -- R -e "remotes::install_github('languageserver')"
   tsserver = {},
   bashls = {filetypes = {'sh', 'bash', 'zsh'}}, -- npm i -g bash-language-server
   sumneko_lua = {}, -- pacman -S lua-language-server
