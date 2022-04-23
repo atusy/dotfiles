@@ -142,6 +142,7 @@ require'jetpack'.startup(function(use)
   -- motion
   use 'haya14busa/vim-edgemotion'
   use 'phaazon/hop.nvim'
+  use 'unblevable/quick-scope'
 
   -- fuzzy finder
   use 'ctrlpvim/ctrlp.vim'
@@ -294,7 +295,11 @@ vim.g['sandwich#recipes'] = vim.deepcopy(vim.g['sandwich#default_recipes'])
 
 
 --[[ motion settings ]]
--- Hop
+-- quick-scope
+-- TODO: improve visibility by clearing highlight from the current line
+vim.g.qs_highlight_on_keys = {'f', 'F', 't', 'T'}
+
+-- hop
 local Hop = require'hop'
 Hop.setup()
 local function hopper(direction)
@@ -307,7 +312,7 @@ end
 set_keymap('', '<Leader>f', hopper('AFTER_CURSOR'), {desc = 'Hop after'})
 set_keymap('', '<Leader>F', hopper('BEFORE_CURSOR'), {desc = 'Hop before'})
 
--- Edgemotion
+-- edgemotion
 set_keymap('', '<Leader>]', '<Plug>(edgemotion-j)', {})
 set_keymap('', '<Leader>[', '<Plug>(edgemotion-k)', {})
 
@@ -449,7 +454,7 @@ Telescope.load_extension('fzf')
 for key, callback in pairs {
   b = {'buffers'}, -- shortcut
   ac = {'commands'},
-  ae = {'find_files'},
+  af = {'find_files'},
   ag = {'live_grep'},
   ah = {'help_tags'},
   ak = {'keymaps'},
