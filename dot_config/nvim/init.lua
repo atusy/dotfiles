@@ -304,8 +304,8 @@ local function hopper(direction)
     hint_char1({direction = hint_direction, current_line_only = true})
   end
 end
-set_keymap('', 'f', hopper('AFTER_CURSOR'), {desc = 'Hop after'})
-set_keymap('', 'F', hopper('BEFORE_CURSOR'), {desc = 'Hop before'})
+set_keymap('', '<Leader>f', hopper('AFTER_CURSOR'), {desc = 'Hop after'})
+set_keymap('', '<Leader>F', hopper('BEFORE_CURSOR'), {desc = 'Hop before'})
 
 -- Edgemotion
 set_keymap('', '<Leader>]', '<Plug>(edgemotion-j)', {})
@@ -448,17 +448,16 @@ Telescope.load_extension('frecency')
 Telescope.load_extension('fzf')
 for key, callback in pairs {
   b = {'buffers'}, -- shortcut
-  fb = {'buffers'},
-  fc = {'commands'},
-  ff = {'find_files'},
-  fg = {'live_grep'},
-  fh = {'help_tags'},
-  fk = {'keymaps'},
-  fm = {'frecency', Telescope.extensions.frecency},
-  fr = {'lsp_references'},
-  ft = {'treesitter'},
-  ['f"'] = {'registers'},
-  ['f/'] = {'current_buffer_fuzzy_find'},
+  ac = {'commands'},
+  ae = {'find_files'},
+  ag = {'live_grep'},
+  ah = {'help_tags'},
+  ak = {'keymaps'},
+  am = {'frecency', Telescope.extensions.frecency},
+  p = {'registers'},
+  ar = {'lsp_references'},
+  at = {'treesitter'},
+  ['/'] = {'current_buffer_fuzzy_find'},
 } do
   set_keymap(
     'n', '<Leader>' .. key,
@@ -499,7 +498,7 @@ local on_attach = function(client, bufnr)
   set_keymap('n', '<Leader>rn', '<cmd>lua vim.lsp.buf.rename()<CR>', OPTS)
   set_keymap('n', '<Leader>ca', '<cmd>lua vim.lsp.buf.code_action()<CR>', OPTS)
   set_keymap('n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>', OPTS)
-  set_keymap('n', '<Leader>fo', '<cmd>lua vim.lsp.buf.formatting()<CR>', OPTS)
+  set_keymap('n', '<Leader>lf', '<cmd>lua vim.lsp.buf.formatting()<CR>', OPTS)
 
   -- Highlighting
   Illuminate.on_attach(client)
