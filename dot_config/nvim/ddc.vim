@@ -65,6 +65,9 @@ function! CommandlinePost() abort
   " Restore sources
   call ddc#custom#set_buffer(s:prev_buffer_config)
   cunmap <Tab>
+  cunmap <S-Tab>
+  cunmap <C-y>
+  cunmap <C-e>
 endfunction
 
 call ddc#enable()
