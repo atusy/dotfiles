@@ -449,7 +449,6 @@ Telescope.load_extension('frecency')
 Telescope.load_extension('fzf')
 for key, callback in pairs {
   ab = {'buffers'},
-  b = {'buffers'},
   ac = {'commands'},
   af = {'find_files'},
   ag = {'live_grep'},
