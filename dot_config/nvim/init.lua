@@ -21,6 +21,18 @@ vim.opt.mouse = 'a'
 vim.opt.pumheight = 10
 vim.opt.termguicolors = true
 vim.opt.updatetime = 300 -- recommended by vgit
+vim.opt.list = true
+vim.opt.listchars = {
+    tab = "▸▹┊",
+    trail = "▫",
+    extends = "❯",
+    precedes = "❮",
+}
+vim.opt.guicursor = {
+  [[n-v-c:block,i-ci-ve:ver25,r-cr:hor20,o:hor50]],
+  [[a:blinkwait700-blinkoff400-blinkon250-Cursor/lCursor]],
+  [[sm:block-blinkwait175-blinkoff150-blinkon175]],
+}
 
 -- search
 vim.opt.hlsearch = true
@@ -36,6 +48,10 @@ vim.opt.smartindent = true
 
 -- others
 vim.opt.shell = 'zsh'
+if vim.fn.executable('rg') == 1 then
+  vim.opt.grepprg = [[rg --glob "!.git" --no-heading --vimgrep --follow $*]]
+  vim.opt.grepformat = vim.opt.grepformat ^ { '%f:%l:%c:%m' }
+end
 
 
 --[[ mappings ]]
