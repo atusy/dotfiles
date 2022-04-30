@@ -126,6 +126,7 @@ require'jetpack'.startup(function(use)
   -- utils
   use 'tpope/vim-commentary'
   use 'nathom/filetype.nvim'
+  use 'lambdalisue/guise.vim'
   use 'lambdalisue/fern.vim'
   use 'segeljakt/vim-silicon'  -- pacman -S silicon
 
