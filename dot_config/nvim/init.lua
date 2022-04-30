@@ -86,25 +86,8 @@ vim.api.nvim_create_user_command(
 -- nvim-remote for edit-commandline zle
 -- <Space>bd will update, wipe buffer, and go back to the caller terminal
 if vim.fn.executable('nvr') == 1 then
-  vim.env.EDITOR_CMD = 'nvr -cc "below 5split" -c "set filetype=zsh_cmdline" --remote-wait-silent'
-  vim.api.nvim_create_augroup('zsh-cmdline', {})
-  vim.api.nvim_create_autocmd(
-    'Filetype',
-    {
-      pattern = 'zsh_cmdline',
-      group = 'zsh-cmdline',
-      callback = function()
-        vim.opt.filetype = 'zsh'
-        set_keymap(
-          'n', '<Space>bd',
-          '<Cmd>w | bw | ' .. vim.fn.winnr('#') .. 'wincmd w | startinsert<CR>',
-          {buffer = true}
-        )
-      end
-    }
-  )
+  vim.env.EDITOR_CMD = 'nvr -cc "below 5split" --remote-wait-silent +"set bufhidden=wipe"'
 end
-
 
 --[[ PLUGIN SETTINGS ]]
 if vim.fn.empty(vim.fn.glob(vim.fn.stdpath('data') .. '/site/autoload/jetpack.vim')) == 1 then
