@@ -14,12 +14,18 @@ if echo "$GIT_COMMIT_TITLE" | grep -Pq "^$REGEX_EMOJI"; then
 fi
 
 readonly EMOJI="$(
-  grep -P "$REGEX_EMOJI" -- "$GIT_MESSAGE" | fzf | grep -Po "$REGEX_EMOJI" | head -n 1
+  (
+    grep -P "$REGEX_EMOJI" -- "$GIT_MESSAGE"
+    echo "SKIP"
+  ) | fzf | grep -Po "$REGEX_EMOJI" | head -n 1
 )"
 
-echo -e "$EMOJI $( git log -n 1 --format=format:"%B")" | git commit --amend --file=-
 if [[ -z "$EMOJI" ]]
 then
   exit 1
 fi
 
+if [[ ! "$EMOJI" == "SKIP" ]]
+then
+  echo -e "$EMOJI $( git log -n 1 --format=format:"%B")" | git commit --amend --file=-
+fi
