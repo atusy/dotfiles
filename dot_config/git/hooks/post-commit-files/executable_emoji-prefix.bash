@@ -1,4 +1,5 @@
 #!/bin/env bash
+# REQUIRE: fzf, GNU grep
 set -euo pipefail
 
 readonly GIT_ROOT="$( git rev-parse --show-toplevel )"
@@ -27,5 +28,5 @@ fi
 
 if [[ ! "$EMOJI" == "SKIP" ]]
 then
-  echo -e "$EMOJI $( git log -n 1 --format=format:"%B")" | git commit --amend --file=-
+  echo -e "$EMOJI $( git log -n 1 --format=format:"%B")" | git commit --amend --no-verify --file=-
 fi
