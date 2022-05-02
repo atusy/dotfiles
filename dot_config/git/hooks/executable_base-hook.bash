@@ -4,6 +4,8 @@ readonly HOOKDIR="$( cd "$( dirname "$0" )" && pwd )"
 readonly HOOKNAME="$1"
 shift 1
 
+GIT_HOOK_VERBOSE="${GIT_HOOK_VERBOSE:-0}"
+
 
 # Skip if requested by ENV var (e.g., SKIP_POST_COMMIT=1)
 SKIP_VARNAME="$(
@@ -32,7 +34,7 @@ then
   do
     if [[ -x "${fname}" ]]
     then
-      echo "${HOOKNAME}: $fname" 1>&2
+      [[ $GIT_HOOK_VERBOSE -eq 1 ]] && echo "${HOOKNAME}: $fname" 1>&2
       nonrecursive "${fname}" "$@"
     fi
   done
@@ -44,7 +46,7 @@ readonly GIT_DIR="$( git rev-parse --git-common-dir )"
 readonly LOCAL_HOOK="${GIT_DIR}/.git/hooks/${HOOKNAME}"
 if [[ -x "${LOCAL_HOOK}" ]]
 then
-  echo "${HOOKNAME}: ${LOCAL_HOOK}" 1>&2
+  [[ $GIT_HOOK_VERBOSE -eq 1 ]] && echo "${HOOKNAME}: ${LOCAL_HOOK}" 1>&2
   nonrecursive "${LOCAL_HOOK}" "$@"
 fi
 

@@ -1,5 +1,4 @@
 #!/usr/bin/env bash
-# REQUIRE: fzf, GNU grep
 set -euo pipefail
 
 
@@ -15,6 +14,7 @@ then
   echo "ERROR: BSD grep is not supported by $0. Install GNU grep." 1>&2
   exit 1
 fi
+
 
 # CONSTANTS
 readonly GIT_ROOT="$( git rev-parse --show-toplevel )"
@@ -45,6 +45,7 @@ if [[ -z "$EMOJI_CHOICE" ]]
 then
   exit 0
 fi
+
 
 # Skip if emoji is satisfied
 # TODO: Actually requires valid emoji from $EMOJI_CHOICE
