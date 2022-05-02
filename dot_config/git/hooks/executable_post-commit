@@ -1,0 +1,28 @@
+#!/bin/env bash
+set -euo pipefail
+
+
+readonly HOOKNAME="$( basename "$0" )"
+readonly HOOKDIR="$( cd "$( dirname "$0" )" && pwd )"
+
+
+# Run global hooks
+find "${HOOKDIR}/${HOOKNAME}-files" -type f -name '*.bash' | while read -r fname
+do
+  if [[ -x "${fname}" ]]
+  then
+    echo "${HOOKNAME}: $fname" 1>&2
+    eval "${fname}"
+  fi
+done
+
+
+# Run local hooks
+readonly GIT_DIR="$( git rev-parse --git-common-dir )"
+readonly LOCAL_HOOK="${GIT_DIR}/.git/hooks/${HOOKNAME}"
+if [[ -x "${LOCAL_HOOK}" ]]
+then
+  echo "${HOOKNAME}: ${LOCAL_HOOK}" 1>&2
+  eval "${LOCAL_HOOK}"
+fi
+
