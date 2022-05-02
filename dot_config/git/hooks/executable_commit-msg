@@ -1,23 +1,28 @@
 #!/bin/env bash
-if [[ $SKIP_POST_COMMIT -eq 1 ]]
-then
-  exit 0
-fi
-set -euo pipefail
-
 readonly HOOKNAME="$( basename "$0" )"
 readonly HOOKDIR="$( cd "$( dirname "$0" )" && pwd )"
 
+SKIP_HOOK="$(
+  eval "echo \"\${SKIP_HOOK_${HOOKNAME^^}:-0}\""
+)"
+
+if [[ $SKIP_HOOK -eq 0 ]]
+then
+  exit 0
+fi
 
 # Run global hooks
-command find "${HOOKDIR}/${HOOKNAME}-files" -type f -name '*.bash' | while read -r fname
-do
-  if [[ -x "${fname}" ]]
-  then
-    echo "${HOOKNAME}: $fname" 1>&2
-    SKIP_POST_COMMIT=1 "${fname}" "$@"
-  fi
-done
+if [[ -d "${HOOKDIR}/${HOOKNAME}-files" ]]
+then
+  command find "${HOOKDIR}/${HOOKNAME}-files" -type f -name '*.bash' | while read -r fname
+  do
+    if [[ -x "${fname}" ]]
+    then
+      echo "${HOOKNAME}: $fname" 1>&2
+      SKIP_HOOK=1 "${fname}" "$@"
+    fi
+  done
+fi
 
 
 # Run local hooks
@@ -26,6 +31,6 @@ readonly LOCAL_HOOK="${GIT_DIR}/.git/hooks/${HOOKNAME}"
 if [[ -x "${LOCAL_HOOK}" ]]
 then
   echo "${HOOKNAME}: ${LOCAL_HOOK}" 1>&2
-  SKIP_POST_COMMIT=1 "${LOCAL_HOOK}" "$@"
+  SKIP_HOOK=1 "${LOCAL_HOOK}" "$@"
 fi
 
