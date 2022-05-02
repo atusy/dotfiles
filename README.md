@@ -2,7 +2,9 @@
 
 Version controlled by chezmoi
 
-# dot_config/git/hooks
+## Git
+
+### Git Hooks
 
 `executable_*` are copied from `template.bash`
 
