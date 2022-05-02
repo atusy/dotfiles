@@ -46,5 +46,5 @@ fi
 
 
 ## Run local hooks
-hook "$( git rev-parse --git-common-dir )/.git/hooks/${HOOKNAME}" "$@"
+hook "$( git rev-parse --git-common-dir )/hooks/${HOOKNAME}" "$@"
 
