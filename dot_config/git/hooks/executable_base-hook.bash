@@ -1,5 +1,8 @@
 #!/usr/bin/env bash
 set -euo pipefail
+
+
+# Constants
 readonly HOOKDIR="$( cd "$( dirname "$0" )" && pwd )"
 readonly HOOKNAME="$1"
 shift 1
@@ -9,6 +12,7 @@ readonly SKIP_GIT_HOOKS="${SKIP_GIT_HOOKS:-0}"
 readonly SKIP_VARNAME="$(
   echo "SKIP_${HOOKNAME^^}" | sed -e 's/-/_/g'
 )"
+
 
 # Skip if requested by ENV var (e.g., SKIP_POST_COMMIT=1)
 if [[ "$SKIP_GIT_HOOKS" -eq 1 ]] \
