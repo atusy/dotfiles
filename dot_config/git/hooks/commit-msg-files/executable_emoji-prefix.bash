@@ -17,7 +17,7 @@ fi
 readonly EMOJI="$(
   (
     command grep -P "$REGEX_EMOJI" -- "$GIT_MESSAGE"
-    echo "SKIP"
+    echo ":SKIP:"
   ) | fzf | command grep -Po "$REGEX_EMOJI" | head -n 1
 )"
 
@@ -26,7 +26,7 @@ then
   exit 1
 fi
 
-if [[ ! "$EMOJI" == "SKIP" ]]
+if [[ ! "$EMOJI" == ":SKIP:" ]]
 then
   echo -e "$EMOJI $1" > "$1"
 fi
