@@ -1,7 +1,6 @@
 [user]
 	email = 30277794+atusy@users.noreply.github.com
 	name = atusy
-	hookPath = ~/.config/git/hooks 
 [core]
 	pager = delta
 	quotepath = false
