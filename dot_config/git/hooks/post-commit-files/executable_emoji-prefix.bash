@@ -18,3 +18,8 @@ readonly EMOJI="$(
 )"
 
 echo -e "$EMOJI $( git log -n 1 --format=format:"%B")" | git commit --amend --file=-
+if [[ -z "$EMOJI" ]]
+then
+  exit 1
+fi
+
