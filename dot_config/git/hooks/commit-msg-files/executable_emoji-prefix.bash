@@ -55,7 +55,8 @@ fi
 readonly EMOJI="$(
   echo -e "${EMOJI_CHOICE}\n:SKIP:" \
     | fzf --prompt="Select an emoji prefix > "\
-    | "$GREP" -Po "$EMOJI_RE" | head -n 1
+    | "$GREP" -Po "$EMOJI_RE" \
+    | head -n 1
 )"
 
 if [[ -z "$EMOJI" ]]
