@@ -6,7 +6,7 @@
 	pager = delta
 	quotepath = false
 	editor = nvim
-	hooksPath = /home/atusy/.config/git/hooks
+	hooksPath = ~/.config/git/hooks
 [interactive]
  	diffFilter = delta --color-only --features=interactive
 [delta]
@@ -35,7 +35,7 @@
 	ff = merge --ff
 	amend = commit --amend
 [init]
-	templatedir = /home/atusy/.config/git/template
+	templatedir = ~/.config/git/template
 	defaultBranch = main
 [pull]
 	ff = only
