@@ -7,7 +7,7 @@ readonly HOOKDIR="$( cd "$( dirname "$0" )" && pwd )"
 
 
 # Run global hooks
-find "${HOOKDIR}/${HOOKNAME}-files" -type f -name '*.bash' | while read -r fname
+command find "${HOOKDIR}/${HOOKNAME}-files" -type f -name '*.bash' | while read -r fname
 do
   if [[ -x "${fname}" ]]
   then
