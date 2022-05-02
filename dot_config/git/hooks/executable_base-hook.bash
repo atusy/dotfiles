@@ -1,4 +1,4 @@
-#!/bin/env bash
+#!/usr/bin/env bash
 set -euo pipefail
 readonly HOOKDIR="$( cd "$( dirname "$0" )" && pwd )"
 readonly HOOKNAME="$1"

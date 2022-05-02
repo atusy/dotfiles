@@ -1,4 +1,4 @@
-#!/bin/env bash
+#!/usr/bin/env bash
 # REQUIRE: fzf, GNU grep
 set -euo pipefail
 
