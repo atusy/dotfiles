@@ -134,6 +134,7 @@ require'jetpack'.startup(function(use)
 
   -- statusline
   use 'nvim-lualine/lualine.nvim'
+  -- use 'b0o/incline.nvim' -- TODO
 
   -- motion
   use 'haya14busa/vim-edgemotion'
