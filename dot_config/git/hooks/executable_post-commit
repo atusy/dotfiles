@@ -12,7 +12,7 @@ do
   if [[ -x "${fname}" ]]
   then
     echo "${HOOKNAME}: $fname" 1>&2
-    eval "${fname}"
+    "${fname}"
   fi
 done
 
@@ -23,6 +23,6 @@ readonly LOCAL_HOOK="${GIT_DIR}/.git/hooks/${HOOKNAME}"
 if [[ -x "${LOCAL_HOOK}" ]]
 then
   echo "${HOOKNAME}: ${LOCAL_HOOK}" 1>&2
-  eval "${LOCAL_HOOK}"
+  "${LOCAL_HOOK}"
 fi
 
