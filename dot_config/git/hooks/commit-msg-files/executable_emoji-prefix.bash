@@ -66,5 +66,5 @@ fi
 
 if [[ ! "$EMOJI" == ":SKIP:" ]]
 then
-  echo -e "$EMOJI $1" > "$1"
+  echo -e "$EMOJI $( cat $1 )" > "$1"
 fi
