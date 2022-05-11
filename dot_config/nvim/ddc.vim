@@ -69,12 +69,12 @@ function! CommandlinePre() abort
   call ddc#enable_cmdline_completion()
 endfunction
 function! CommandlinePost() abort
-  cunmap <Tab>
-  cunmap <S-Tab>
-  cunmap <C-n>
-  cunmap <C-p>
-  cunmap <C-y>
-  cunmap <C-e>
+  silent! cunmap <Tab>
+  silent! cunmap <S-Tab>
+  silent! cunmap <C-n>
+  silent! cunmap <C-p>
+  silent! cunmap <C-y>
+  silent! cunmap <C-e>
 
   " Restore sources
   if exists('b:prev_buffer_config')
