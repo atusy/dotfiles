@@ -383,12 +383,14 @@ require'nvim_context_vt'.setup {enabled = true}
 require'treesitter-context'.setup({
   patterns = {
     css = {
-      'rule_set'
+      'media_statement',
+      'rule_set',
     },
     scss = {
-      'rule_set'
+      'media_statement',
+      'rule_set',
     },
-  }
+  },
 })
 set_keymap('o', 'm', ':<C-U>lua require"tsht".nodes()<CR>', {silent = true})
 set_keymap('v', 'm', ':lua require"tsht".nodes()<CR>', {silent = true})
