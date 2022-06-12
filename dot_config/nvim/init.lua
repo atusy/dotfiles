@@ -40,6 +40,7 @@ vim.opt.showmatch = true
 vim.opt.incsearch = true -- false reccomended by vgit
 
 -- tab and indent
+vim.opt.tabstop = 2
 vim.opt.softtabstop = 2
 vim.opt.shiftwidth = 2
 vim.opt.expandtab = true
