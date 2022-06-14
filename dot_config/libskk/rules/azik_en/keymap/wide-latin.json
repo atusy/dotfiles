@@ -4,8 +4,6 @@
     ],
     "define": {
         "keymap": {
-            "Escape": "set-input-mode-latin",
-            "C-l": "set-input-mode-latin",
             "C-j": "set-input-mode-hiragana"
         }
     }
