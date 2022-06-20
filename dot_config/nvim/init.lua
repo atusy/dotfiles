@@ -189,6 +189,10 @@ require'jetpack'.startup(function(use)
   use 'Shougo/pum.vim'  -- Show popup window
   use 'matsui54/denops-signature_help'
   use 'matsui54/denops-popup-preview.vim'
+
+  -- language specific
+  -- go
+  use 'mattn/vim-goimports'
 end)
 
 
