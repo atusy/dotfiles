@@ -91,14 +91,14 @@ if vim.fn.executable('nvr') == 1 then
 end
 
 --[[ PLUGIN SETTINGS ]]
-if vim.fn.empty(vim.fn.glob(vim.fn.stdpath('data') .. '/site/autoload/jetpack.vim')) == 1 then
+if vim.fn.empty(vim.fn.glob(vim.fn.stdpath('config') .. '/plugin/jetpack.vim')) == 1 then
   vim.api.nvim_exec([[
-    let jetpack = stdpath('data') . '/site/autoload/jetpack.vim'
+    let jetpack = stdpath('config') . '/plugin/jetpack.vim'
     autocmd VimEnter * JetpackSync | source $MYVIMRC
     silent execute '!curl -fLo '.jetpack.' --create-dirs  https://raw.githubusercontent.com/tani/vim-jetpack/master/autoload/jetpack.vim'
-    silent execute '!curl -fLo "$HOME/.config/nvim/lua/jetpack.lua" --create-dirs https://raw.githubusercontent.com/tani/vim-jetpack/master/lua/jetpack.lua'
   ]], false)
 end
+vim.cmd('runtime */jetpack.vim')
 require'jetpack'.startup(function(use)
   -- basic dependencies
   use 'tpope/vim-repeat'
