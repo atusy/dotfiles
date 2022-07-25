@@ -172,7 +172,7 @@ require'jetpack'.startup(function(use)
 
   -- lsp
   use 'neovim/nvim-lspconfig'
-  use 'williamboman/nvim-lsp-installer'
+  use 'williamboman/mason.nvim'
   use 'folke/lsp-colors.nvim'
   use 'tamago324/nlsp-settings.nvim'
 
@@ -490,6 +490,7 @@ end
 
 --[[ LSP settings ]]
 -- Mappings. See `:help vim.diagnostic.*` for documentation on any of the below functions
+require("mason").setup()
 local Illuminate = require'illuminate'
 set_keymap('n', '<Leader>e', vim.diagnostic.open_float, {silent = true, desc = 'float diagnostic'})
 set_keymap('n', '[d', vim.diagnostic.goto_prev, {silent = true, desc = 'previous diagnostic'})
