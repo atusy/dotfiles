@@ -91,15 +91,10 @@ if vim.fn.executable('nvr') == 1 then
 end
 
 --[[ PLUGIN SETTINGS ]]
-if vim.fn.empty(vim.fn.glob(vim.fn.stdpath('config') .. '/plugin/jetpack.vim')) == 1 then
-  vim.api.nvim_exec([[
-    let jetpack = stdpath('config') . '/plugin/jetpack.vim'
-    autocmd VimEnter * JetpackSync | source $MYVIMRC
-    silent execute '!curl -fLo '.jetpack.' --create-dirs  https://raw.githubusercontent.com/tani/vim-jetpack/master/autoload/jetpack.vim'
-  ]], false)
-end
-vim.cmd('runtime */jetpack.vim')
+vim.cmd('packadd vim-jetpack')
 require'jetpack'.startup(function(use)
+  use { 'tani/vim-jetpack', opt = 1 } -- bootstrap
+
   -- basic dependencies
   use 'tpope/vim-repeat'
   use 'kyazdani42/nvim-web-devicons' -- for lualine
