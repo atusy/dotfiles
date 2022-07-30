@@ -273,13 +273,14 @@ vim.api.nvim_create_autocmd(
 local _chowcho_run = require'chowcho'.run
 local _chowcho_bufnr = function(winid)
   return vim.api.nvim_win_call(winid, function()
-    return vim.fn.bufnr('%'), vim.opt_local.readonly._value
+    return vim.fn.bufnr('%'), vim.opt_local
   end)
 end
-local _chowcho_buffer = function(winid, bufnr, ro)
+local _chowcho_buffer = function(winid, bufnr, opt_local)
   return vim.api.nvim_win_call(winid, function()
     local old = _chowcho_bufnr(0)
-    vim.cmd("buffer " .. bufnr .. (ro and [[ +set\ readonly]] or ""))
+    vim.cmd("buffer " .. bufnr)
+    vim.opt_local = opt_local
     return old
   end)
 end
@@ -299,8 +300,8 @@ end)
 set_keymap({'', 't'}, '<C-W>e', function()
   if vim.fn.winnr('$') <= 1 then return end
   _chowcho_run(function(n)
-    local bufnr, ro = _chowcho_bufnr(n)
-    _chowcho_buffer(0, bufnr, ro)
+    local bufnr, opt_local = _chowcho_bufnr(n)
+    _chowcho_buffer(0, bufnr, opt_local)
   end)
 end)
 
@@ -310,9 +311,9 @@ set_keymap({'', 't'}, '<C-W>x', function()
       vim.cmd("wincmd x")
       return
     end
-    local bufnr0, ro0 = _chowcho_bufnr(0)
-    local bufnrn, ron = _chowcho_buffer(n, bufnr0, ro0)
-    _chowcho_buffer(0, bufnrn, ron)
+    local bufnr0, opt_local0 = _chowcho_bufnr(0)
+    local bufnrn, opt_localn = _chowcho_buffer(n, bufnr0, opt_local0)
+    _chowcho_buffer(0, bufnrn, opt_localn)
   end)
 end)
 
