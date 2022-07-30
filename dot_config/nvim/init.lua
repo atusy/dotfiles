@@ -270,13 +270,52 @@ vim.api.nvim_create_autocmd(
 
 --[[ window settings ]]
 -- chowcho
-set_keymap({'', 't'}, '<C-W><C-W>', function()
+local _chowcho_run = require'chowcho'.run
+local _chowcho_bufnr = function(winid)
+  return vim.api.nvim_win_call(winid, function()
+    return vim.fn.bufnr('%'), vim.opt_local.readonly._value
+  end)
+end
+local _chowcho_buffer = function(winid, bufnr, ro)
+  return vim.api.nvim_win_call(winid, function()
+    local old = _chowcho_bufnr(0)
+    vim.cmd("buffer " .. bufnr .. (ro and [[ +set\ readonly]] or ""))
+    return old
+  end)
+end
+
+set_keymap({'', 't'}, '<C-W>w', function()
   if vim.fn.winnr('$') > 2 then
-    require'chowcho'.run()
+    _chowcho_run()
   else
     vim.cmd('wincmd w')
   end
 end)
+
+set_keymap({'', 't'}, '<C-W>c', function()
+  _chowcho_run(vim.api.nvim_win_hide)
+end)
+
+set_keymap({'', 't'}, '<C-W>e', function()
+  if vim.fn.winnr('$') <= 1 then return end
+  _chowcho_run(function(n)
+    local bufnr, ro = _chowcho_bufnr(n)
+    _chowcho_buffer(0, bufnr, ro)
+  end)
+end)
+
+set_keymap({'', 't'}, '<C-W>x', function()
+  _chowcho_run(function(n)
+    if vim.fn.winnr('$') <= 2 then
+      vim.cmd("wincmd x")
+      return
+    end
+    local bufnr0, ro0 = _chowcho_bufnr(0)
+    local bufnrn, ron = _chowcho_buffer(n, bufnr0, ro0)
+    _chowcho_buffer(0, bufnrn, ron)
+  end)
+end)
+
 
 --[[ buffer settings ]]
 -- Bbye
