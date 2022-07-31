@@ -138,7 +138,6 @@ require'jetpack'.startup(function(use)
   use 'unblevable/quick-scope'
 
   -- fuzzy finder
-  use 'ctrlpvim/ctrlp.vim'
   use 'nvim-telescope/telescope.nvim'
   use 'nvim-telescope/telescope-frecency.nvim'
   use {'nvim-telescope/telescope-fzf-native.nvim', run = 'make'}
@@ -500,25 +499,25 @@ local TelescopeBuiltin = require'telescope.builtin'
 Telescope.setup()
 Telescope.load_extension('frecency')
 Telescope.load_extension('fzf')
-for key, callback in pairs {
-  ab = {'buffers'},
-  ac = {'commands'},
-  af = {'find_files'},
-  ag = {'live_grep'},
-  ah = {'help_tags'},
-  ak = {'keymaps'},
-  am = {'frecency', Telescope.extensions.frecency},
-  ap = {'registers'},
-  p = {'registers'},
-  ar = {'lsp_references'},
-  at = {'treesitter'},
-  ['a/'] = {'current_buffer_fuzzy_find'},
-  ['/'] = {'current_buffer_fuzzy_find'},
+set_keymap('n', '<C-P>', '<Nop>')
+for key, val in pairs {
+  ['<C-P>b'] = {'buffers'},
+  ['<C-P>c'] = {'commands'},
+  ['<C-P>ff'] = {'find_files'},
+  ['<C-P>fg'] = {'git_files'},
+  ['<C-P>g'] = {'live_grep'},
+  ['<C-P>h'] = {'help_tags'},
+  ['<C-P>k'] = {'keymaps'},
+  ['<C-P>m'] = {'mru', Telescope.extensions.frecency.frecency},
+  ['<C-P>p'] = {'registers'},
+  ['<C-P>r'] = {'resume'},
+  ['<C-P>t'] = {'treesitter'},
+  ['<C-P>/'] = {'current_buffer_fuzzy_find'},
 } do
   set_keymap(
-    'n', '<Leader>' .. key,
-    (callback[2] or TelescopeBuiltin)[callback[1]],
-    {desc = 'telescope ' .. callback[1]}
+    'n', key,
+    val[2] or TelescopeBuiltin[val[1]],
+    {desc = 'telescope ' .. val[1]}
   )
 end
 
@@ -544,9 +543,11 @@ local on_attach = function(client, bufnr)
   -- See `:help vim.lsp.*` for documentation on any of the below functions
   local OPTS = {silent = true, buffer = bufnr}
   set_keymap('n', 'gD', '<cmd>lua vim.lsp.buf.declaration()<CR>', OPTS)
-  set_keymap('n', 'gd', '<cmd>lua vim.lsp.buf.definition()<CR>', OPTS)
+  set_keymap('n', 'gd', TelescopeBuiltin.lsp_definitions, OPTS)
+  -- set_keymap('n', 'gd', '<cmd>lua vim.lsp.buf.definition()<CR>', OPTS)
   set_keymap('n', 'K', '<cmd>lua vim.lsp.buf.hover()<CR>', OPTS)
-  set_keymap('n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<CR>', OPTS)
+  set_keymap('n', 'gi', TelescopeBuiltin.lsp_implementations, OPTS)
+  -- set_keymap('n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<CR>', OPTS)
   set_keymap('n', '<C-K>', '<cmd>lua vim.lsp.buf.signature_help()<CR>', OPTS)
   set_keymap('n', '<Leader>wa', '<cmd>lua vim.lsp.buf.add_workspace_folder()<CR>', OPTS)
   set_keymap('n', '<Leader>wr', '<cmd>lua vim.lsp.buf.remove_workspace_folder()<CR>', OPTS)
@@ -554,7 +555,8 @@ local on_attach = function(client, bufnr)
   set_keymap('n', '<Leader>D', '<cmd>lua vim.lsp.buf.type_definition()<CR>', OPTS)
   set_keymap('n', '<Leader>rn', '<cmd>lua vim.lsp.buf.rename()<CR>', OPTS)
   set_keymap('n', '<Leader>ca', '<cmd>lua vim.lsp.buf.code_action()<CR>', OPTS)
-  set_keymap('n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>', OPTS)
+  set_keymap('n', 'gr', TelescopeBuiltin.lsp_references, OPTS)
+  -- set_keymap('n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>', OPTS)
   set_keymap('n', '<Leader>lf', '<cmd>lua vim.lsp.buf.formatting()<CR>', OPTS)
 
   -- Highlighting
