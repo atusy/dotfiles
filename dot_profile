@@ -23,8 +23,7 @@ fi
 export PIPENV_VENV_IN_PROJECT=true
 
 # linuxbrew
-if [[ -d "$HOME/.linuxbrew" ]]
-then
+if [[ -d "$HOME/.linuxbrew" ]]; then
   eval "$($HOME/.linuxbrew/bin/brew shellenv)"
 fi
 
