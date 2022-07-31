@@ -166,6 +166,7 @@ require'jetpack'.startup(function(use)
 
   -- lsp
   use 'neovim/nvim-lspconfig'
+  use 'glepnir/lspsaga.nvim'
   use 'williamboman/mason.nvim'
   use 'folke/lsp-colors.nvim'
   use 'tamago324/nlsp-settings.nvim'
@@ -525,6 +526,8 @@ end
 --[[ LSP settings ]]
 -- Mappings. See `:help vim.diagnostic.*` for documentation on any of the below functions
 require("mason").setup()
+local LspSaga = require'lspsaga'
+LspSaga.init_lsp_saga()
 local Illuminate = require'illuminate'
 set_keymap('n', '<Leader>e', vim.diagnostic.open_float, {silent = true, desc = 'float diagnostic'})
 set_keymap('n', '[d', vim.diagnostic.goto_prev, {silent = true, desc = 'previous diagnostic'})
@@ -553,7 +556,8 @@ local on_attach = function(client, bufnr)
   set_keymap('n', '<Leader>wr', '<cmd>lua vim.lsp.buf.remove_workspace_folder()<CR>', OPTS)
   set_keymap('n', '<Leader>wl', '<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>', OPTS)
   set_keymap('n', '<Leader>D', '<cmd>lua vim.lsp.buf.type_definition()<CR>', OPTS)
-  set_keymap('n', '<Leader>rn', '<cmd>lua vim.lsp.buf.rename()<CR>', OPTS)
+  set_keymap('n', '<Leader>rn', require'lspsaga.rename'.lsp_rename, OPTS)
+  -- set_keymap('n', '<Leader>rn', '<cmd>lua vim.lsp.buf.rename()<CR>', OPTS)
   set_keymap('n', '<Leader>ca', '<cmd>lua vim.lsp.buf.code_action()<CR>', OPTS)
   set_keymap('n', 'gr', TelescopeBuiltin.lsp_references, OPTS)
   -- set_keymap('n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>', OPTS)
