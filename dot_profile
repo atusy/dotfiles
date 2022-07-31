@@ -27,5 +27,10 @@ if [[ -d "$HOME/.linuxbrew" ]]; then
   eval "$($HOME/.linuxbrew/bin/brew shellenv)"
 fi
 
+# local
+export PATH="$(
+  find "$HOME/.local/extra" -maxdepth 2 -type d -name bin -printf '%p:'
+)$PATH"
+
 export TMUX_SHELL="$( command -v zsh || echo "$SHELL" )"
 
