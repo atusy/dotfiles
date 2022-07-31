@@ -1,13 +1,8 @@
 export XDG_CONFIG_DIR="$HOME/.config"
+mkdir -p "$XDG_CONFIG_DIR"
 
-if [[ -d /usr/local/bin ]]
-then
-  if echo "$PATH" | grep -q '/usr/local/bin'
-  then
-    :
-  else
-    export PATH="/usr/local/bin:$PATH"
-  fi
+if test -d /usr/local/bin && ! ( echo "$PATH" | grep -q '/usr/local/bin' ); then
+  export PATH="/usr/local/bin:$PATH"
 fi
 
 # GO
