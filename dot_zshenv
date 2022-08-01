@@ -3,6 +3,7 @@ typeset -U path fpath
 
 if [[ ! -z "${NVIM:-$NVIM_LISTEN_ADDRESS}" ]] && command -v nvr > /dev/null
 then
+  export NVIM_LISTEN_ADDRESS="${NVIM_LISTEN_ADDRESS:-$NVIM}"
   export EDITOR='nvr -cc "below split" --remote-wait-silent'
 elif command -v nvim > /dev/null
 then
