@@ -504,11 +504,11 @@ set_keymap('n', '<C-P>', '<Nop>')
 for key, val in pairs {
   ['<C-P>b'] = {'buffers'},
   ['<C-P>c'] = {'commands'},
-  ['<C-P>ff'] = {'find_files'},
-  ['<C-P>fg'] = {'git_files'},
+  ['<C-P>f'] = {'find_files'},
   ['<C-P>g'] = {'live_grep'},
   ['<C-P>h'] = {'help_tags'},
   ['<C-P>k'] = {'keymaps'},
+  ['<C-P>l'] = {'git_files'},
   ['<C-P>m'] = {'mru', Telescope.extensions.frecency.frecency},
   ['<C-P>p'] = {'registers'},
   ['<C-P>r'] = {'resume'},
