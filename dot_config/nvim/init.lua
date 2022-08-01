@@ -527,7 +527,9 @@ end
 -- Mappings. See `:help vim.diagnostic.*` for documentation on any of the below functions
 require("mason").setup()
 local LspSaga = require'lspsaga'
-LspSaga.init_lsp_saga()
+LspSaga.init_lsp_saga({
+  code_action_lightbulb = { virtual_text = false, sign = false }
+})
 local Illuminate = require'illuminate'
 set_keymap('n', '<Leader>e', vim.diagnostic.open_float, {silent = true, desc = 'float diagnostic'})
 set_keymap('n', '[d', vim.diagnostic.goto_prev, {silent = true, desc = 'previous diagnostic'})
