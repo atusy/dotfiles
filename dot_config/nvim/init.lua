@@ -469,9 +469,9 @@ require'toggleterm'.setup {
   insert_mappings = false,
 }
 local function _toggleterm_run()
-  local winnr = vim.fn.winnr()
+  local winid = vim.fn.win_getid()
   vim.cmd('ToggleTermSendCurrentLine')
-  vim.cmd(winnr .. 'wincmd w')
+  vim.api.nvim_set_current_win(winid)
 end
 set_keymap('n', '<Leader>j', _toggleterm_run, {desc = 'ToggleTermSendCurrentLine'})
 
