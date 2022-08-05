@@ -443,8 +443,10 @@ set_keymap('o', 'au', ':<C-U>lua require"treesitter-unit".select(true)<CR>')
 local Vgit = require'vgit'
 Vgit.setup {
   keymaps = {
-    ['n <leader>gj'] = 'hunk_down',
-    ['n <leader>gk'] = 'hunk_up',
+    ['n <Down>'] = 'hunk_down',
+    ['n <Up>'] = 'hunk_up',
+    ['n <leader>ga'] = 'buffer_stage',
+    ['n <leader>gp'] = 'buffer_hunk_preview',
     ['n <leader>gs'] = 'buffer_hunk_stage',
     ['n <leader>gr'] = 'buffer_hunk_reset',
   },
