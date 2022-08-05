@@ -351,8 +351,8 @@ set_keymap('', 'f', hopper('AFTER_CURSOR'), {desc = 'Hop after'})
 set_keymap('', 'F', hopper('BEFORE_CURSOR'), {desc = 'Hop before'})
 
 -- edgemotion
-set_keymap('', '<Leader>]', '<Plug>(edgemotion-j)', {})
-set_keymap('', '<Leader>[', '<Plug>(edgemotion-k)', {})
+set_keymap('', '<A-]>', '<Plug>(edgemotion-j)', {})
+set_keymap('', '<A-[>', '<Plug>(edgemotion-k)', {})
 
 
 --[[ statusline settings ]]
