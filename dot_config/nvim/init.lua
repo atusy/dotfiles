@@ -488,12 +488,9 @@ local lazygit = require'toggleterm.terminal'.Terminal:new {
   hidden = true,
   direction = 'float'
 }
-local function lazygit_toggle()
-  lazygit:toggle()
-end
 set_keymap(
-  'n', '<Leader>gl',
-  lazygit_toggle,
+  'n', '<C-g><C-l>',
+  function() lazygit:toggle() end,
   {desc = 'lazygit', silent = true}
 )
 
