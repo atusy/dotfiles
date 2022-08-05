@@ -15,9 +15,9 @@ call ddc#custom#patch_global('sourceOptions', {
       \ 'cmdline': { 'mark': 'CMD' },
       \ 'cmdline-history': { 'mark': 'CMD' },
       \ '_': {
-      \   'matchers': ['matcher_head'],
-      \   'sorters': ['sorter_rank'],
-      \   'converters': ['converter_remove_overlap'],
+      \   'matchers': ['matcher_fuzzy'],
+      \   'sorters': ['sorter_fuzzy'],
+      \   'converters': ['converter_fuzzy'],
       \ },
 \ })
 call ddc#custom#patch_global('completionMenu', 'pum.vim')
