@@ -524,6 +524,9 @@ for _, v in pairs {
   {'n', 'm.', 'resume'},
   {'n', 'mt', 'treesitter'},
   {'n', 'm/', 'current_buffer_fuzzy_find'},
+  {'n', 'q;', 'command_history'},
+  {'n', 'q:', 'command_history'},
+  {'n', 'q/', 'search_history'},
 } do
   set_keymap(v[1], v[2], v[4] or TelescopeBuiltin[v[3]], {desc = 'telescope ' .. v[3]})
 end
