@@ -139,7 +139,6 @@ require'jetpack'.startup(function(use)
   -- motion
   use 'haya14busa/vim-edgemotion'
   use 'phaazon/hop.nvim'
-  use 'unblevable/quick-scope'
 
   -- fuzzy finder
   use 'nvim-telescope/telescope.nvim'
@@ -333,10 +332,6 @@ vim.g['sandwich#recipes'] = vim.deepcopy(vim.g['sandwich#default_recipes'])
 
 
 --[[ motion settings ]]
--- quick-scope
--- TODO: improve visibility by clearing highlight from the current line
-vim.g.qs_highlight_on_keys = {'f', 'F', 't', 'T'}
-
 -- hop
 local Hop = require'hop'
 Hop.setup()
