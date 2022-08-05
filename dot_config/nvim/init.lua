@@ -510,7 +510,7 @@ for _, v in pairs {
   {'n', 'mc', 'commands'},
   {'n', 'mf', 'find_files'},
   {'n', 'mg', 'live_grep'},
-  {'n', '<F1>', 'help_tags'},
+  {'n', 'mh', 'help_tags'},
   {'n', 'mm', 'keymaps'},
   {'n', '<C-P>m', 'keymaps'},
   {'i', '<C-P>m', 'keymaps', function() TelescopeBuiltin.keymaps({modes = {'i'}}) end},
