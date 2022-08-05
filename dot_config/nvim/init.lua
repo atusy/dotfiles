@@ -63,9 +63,12 @@ local function set_keymap(lhs, rhs, cmd, opts)
 end
 vim.g.mapleader = ' '
 set_keymap('n', '<ESC><ESC>', ':nohlsearch<CR>')
+set_keymap('n', 's', '<Nop>')
 set_keymap('n', 'x', '"_x')
 set_keymap('n', 'X', '"_X')
 set_keymap('n', 'gf', 'gF')
+set_keymap('n', '<C-g>', '<Nop>')
+set_keymap('n', '<C-g><C-g>', '<C-g>')
 set_keymap({'n', 'v'}, 'gy', '"+y')
 set_keymap({'n', 'v'}, 'gY', '"+Y')
 set_keymap('c', '<C-A>', '<Home>')
