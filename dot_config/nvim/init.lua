@@ -102,7 +102,6 @@ require'jetpack'.startup(function(use)
   use 'tpope/vim-repeat'
   use 'kyazdani42/nvim-web-devicons' -- for lualine
   use 'nvim-lua/plenary.nvim' -- for gitsigns, vgit
-  use 'tami5/sqlite.lua' -- for telescope-frecency
   use 'vim-denops/denops.vim'
 
   -- utils
@@ -142,7 +141,6 @@ require'jetpack'.startup(function(use)
 
   -- fuzzy finder
   use 'nvim-telescope/telescope.nvim'
-  use 'nvim-telescope/telescope-frecency.nvim'
   use {'nvim-telescope/telescope-fzf-native.nvim', run = 'make'}
 
   -- git
