@@ -67,6 +67,8 @@ set_keymap('n', 's', '<Nop>')
 set_keymap('n', 'x', '"_x')
 set_keymap('n', 'X', '"_X')
 set_keymap('n', 'gf', 'gF')
+set_keymap('n', '<Left>', '^')
+set_keymap('n', '<Right>', '$')
 set_keymap('n', '<C-g>', '<Nop>')
 set_keymap('n', '<C-g><C-g>', '<C-g>')
 set_keymap({'n', 'v'}, 'gy', '"+y')
@@ -465,6 +467,8 @@ Vgit.setup {
 }
 vim.api.nvim_create_user_command('ToggleBlame', Vgit.toggle_live_blame, {})
 
+-- gin
+set_keymap('n', '<C-g><C-Space>', '<Cmd>Gin commit<CR>')
 
 --[[ terminal settings ]]
 vim.api.nvim_create_augroup('termopen', {})
