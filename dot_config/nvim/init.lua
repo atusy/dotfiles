@@ -345,8 +345,10 @@ local function hopper(direction)
     hint_char1({direction = hint_direction, current_line_only = true})
   end
 end
-set_keymap('', '<Leader>f', hopper('AFTER_CURSOR'), {desc = 'Hop after'})
-set_keymap('', '<Leader>F', hopper('BEFORE_CURSOR'), {desc = 'Hop before'})
+set_keymap('', '<A-f>', 'f')
+set_keymap('', '<A-C-f>', 'F')
+set_keymap('', 'f', hopper('AFTER_CURSOR'), {desc = 'Hop after'})
+set_keymap('', 'F', hopper('BEFORE_CURSOR'), {desc = 'Hop before'})
 
 -- edgemotion
 set_keymap('', '<Leader>]', '<Plug>(edgemotion-j)', {})
