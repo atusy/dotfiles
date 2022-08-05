@@ -468,7 +468,7 @@ Vgit.setup {
 vim.api.nvim_create_user_command('ToggleBlame', Vgit.toggle_live_blame, {})
 
 -- gin
-set_keymap('n', '<C-g><C-Space>', '<Cmd>Gin commit<CR>')
+set_keymap('n', '<C-g><C-Space>', '<Cmd>Gin commit<CR>i')
 
 --[[ terminal settings ]]
 vim.api.nvim_create_augroup('termopen', {})
