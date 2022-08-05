@@ -539,6 +539,11 @@ for _, v in pairs {
 } do
   set_keymap(v[1], v[2], v[4] or TelescopeBuiltin[v[3]], {desc = 'telescope ' .. v[3]})
 end
+for k, v in pairs(TelescopeBuiltin) do
+  if type(v) == "function" then
+    vim.api.nvim_create_user_command('Telescope' .. pascalcase(k), v, {desc = k:gsub("_", " ")})
+  end
+end
 
 
 --[[ LSP settings ]]
