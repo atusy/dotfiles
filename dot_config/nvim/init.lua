@@ -264,6 +264,7 @@ vim.api.nvim_create_autocmd(
 
 --[[ window settings ]]
 -- chowcho
+require'chowcho'.setup({exclude = function(...) local _ = ...; return false end})
 local _chowcho_run = require'chowcho'.run
 local _chowcho_bufnr = function(winid)
   return vim.api.nvim_win_call(winid, function()
