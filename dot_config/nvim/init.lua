@@ -389,6 +389,7 @@ vim.api.nvim_exec([[
   function! s:init_fern() abort
     setlocal nornu nonu cursorline signcolumn=auto
     nnoremap <buffer> <C-F> <C-W>p
+    nnoremap <buffer> <C-P>m <Cmd>lua require'telescope.builtin'.keymaps(); vim.cmd("normal i'fern-action ")<CR>
   endfunction
 
   augroup fern-custom
@@ -499,28 +500,26 @@ set_keymap(
 local Telescope = require'telescope'
 local TelescopeBuiltin = require'telescope.builtin'
 Telescope.setup()
-Telescope.load_extension('frecency')
 Telescope.load_extension('fzf')
-set_keymap('n', '<C-P>', '<Nop>')
-for key, val in pairs {
-  ['<C-P>b'] = {'buffers'},
-  ['<C-P>c'] = {'commands'},
-  ['<C-P>f'] = {'find_files'},
-  ['<C-P>g'] = {'live_grep'},
-  ['<C-P>h'] = {'help_tags'},
-  ['<C-P>k'] = {'keymaps'},
-  ['<C-P>l'] = {'git_files'},
-  ['<C-P>m'] = {'mru', Telescope.extensions.frecency.frecency},
-  ['<C-P>p'] = {'registers'},
-  ['<C-P>r'] = {'resume'},
-  ['<C-P>t'] = {'treesitter'},
-  ['<C-P>/'] = {'current_buffer_fuzzy_find'},
+set_keymap('n', 'm', '<Nop>')
+for _, v in pairs {
+  {'n', 'mb', 'buffers'},
+  {'n', 'mc', 'commands'},
+  {'n', 'mf', 'find_files'},
+  {'n', 'mg', 'live_grep'},
+  {'n', '<F1>', 'help_tags'},
+  {'n', 'mm', 'keymaps'},
+  {'n', '<C-P>m', 'keymaps'},
+  {'i', '<C-P>m', 'keymaps', function() TelescopeBuiltin.keymaps({modes = {'i'}}) end},
+  {'n', 'ml', 'git_files'},
+  {'n', 'mr', 'registers'},
+  {'n', '<C-P>r', 'registers'},
+  {'i', '<C-P>r', 'registers'},
+  {'n', 'm.', 'resume'},
+  {'n', 'mt', 'treesitter'},
+  {'n', 'm/', 'current_buffer_fuzzy_find'},
 } do
-  set_keymap(
-    'n', key,
-    val[2] or TelescopeBuiltin[val[1]],
-    {desc = 'telescope ' .. val[1]}
-  )
+  set_keymap(v[1], v[2], v[4] or TelescopeBuiltin[v[3]], {desc = 'telescope ' .. v[3]})
 end
 
 
