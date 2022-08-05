@@ -316,8 +316,10 @@ end)
 
 --[[ buffer settings ]]
 -- Bbye
-set_keymap('n', '<Leader>bd', ':up | Bdelete<CR>')
-set_keymap('n', '<Leader>bD', ':Bdelete!<CR>')
+set_keymap('n', '<C-b><C-d>', ':up | Bdelete<CR>')
+set_keymap('n', '<C-b><C-w>', ':up | Bwipeout<CR>')
+set_keymap('n', '<C-b>d', ':Bdelete!<CR>')
+set_keymap('n', '<C-b>w', ':Bwipeout!<CR>')
 -- asterisk
 set_keymap('n', '*', '<Plug>(asterisk-z*)')
 set_keymap('v', '*', '<Plug>(asterisk-gz*)')
