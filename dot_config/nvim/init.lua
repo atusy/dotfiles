@@ -71,7 +71,7 @@ end
 set_keymap('n', 's', '<Nop>')     -- be prefix for sandwich
 set_keymap('n', ',', ':<UP>')
 set_keymap('n', ';', ':')
-set_keymap('n', '<C-g><C-g>', '<C-g>')
+set_keymap('n', '<C-G><C-G>', '<C-G>')
 set_keymap('', '-', '"_')         -- shortcut to blackhole register
 set_keymap('n', '<ESC><ESC>', ':nohlsearch<CR>')
 set_keymap('n', 'x', '"_x')
@@ -326,10 +326,10 @@ end)
 
 --[[ buffer settings ]]
 -- Bbye
-set_keymap('n', '<C-b><C-d>', ':up | Bdelete<CR>')
-set_keymap('n', '<C-b><C-w>', ':up | Bwipeout<CR>')
-set_keymap('n', '<C-b>d', ':Bdelete!<CR>')
-set_keymap('n', '<C-b>w', ':Bwipeout!<CR>')
+set_keymap('n', '<C-B><C-d>', ':up | Bdelete<CR>')
+set_keymap('n', '<C-B><C-w>', ':up | Bwipeout<CR>')
+set_keymap('n', '<C-B>d', ':Bdelete!<CR>')
+set_keymap('n', '<C-B>w', ':Bwipeout!<CR>')
 -- asterisk
 set_keymap('n', '*', '<Plug>(asterisk-z*)')
 set_keymap('v', '*', '<Plug>(asterisk-gz*)')
