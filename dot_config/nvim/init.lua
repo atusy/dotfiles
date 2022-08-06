@@ -74,6 +74,7 @@ set_keymap('n', ',', ':<UP>')
 set_keymap('n', ';', ':')
 set_keymap('n', '<C-G><C-G>', '<C-G>')
 set_keymap('', '-', '"_')         -- shortcut to blackhole register
+set_keymap('', '+', '"+')         -- shortcut to clipboard+ register
 set_keymap('n', '<ESC><ESC>', ':nohlsearch<CR>')
 set_keymap('n', 'x', '"_x')
 set_keymap('n', 'X', '"_X')
