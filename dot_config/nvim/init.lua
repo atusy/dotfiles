@@ -550,7 +550,6 @@ for _, v in pairs {
   {'n', 'q;', 'command_history'},
   {'n', 'q:', 'command_history'},
   {'n', 'q/', 'search_history'},
-  {'n', '<C-g><C-s>', 'git_status'},
 } do
   set_keymap(v[1], v[2], v[4] or TelescopeBuiltin[v[3]], {desc = 'telescope ' .. v[3]})
 end
