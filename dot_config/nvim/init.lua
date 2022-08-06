@@ -401,7 +401,8 @@ vim.api.nvim_exec([[
   function! s:init_fern() abort
     setlocal nornu nonu cursorline signcolumn=auto
     nnoremap <buffer> <C-F> <C-W>p
-    nnoremap <buffer> <C-P>m <Cmd>lua require'telescope.builtin'.keymaps(); vim.cmd("normal i'fern-action ")<CR>
+    nmap <buffer> m <Nop>
+    nmap <buffer> mm <Cmd>lua require'telescope.builtin'.keymaps(); vim.cmd("normal i'fern-action ")<CR>
   endfunction
 
   augroup fern-custom
