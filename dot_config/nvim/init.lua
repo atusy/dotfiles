@@ -1,6 +1,9 @@
 --[[ tricks ]]
 -- TODO: set up diagnostics based on https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md#sumneko_lua
 local vim = vim -- minimize LSP warning
+local function safely(f)
+  return function(...) pcall(f, ...) end
+end
 local function pascalcase(str)
   return ("_" .. str):gsub("_+(%l)", string.upper)
 end
@@ -276,6 +279,9 @@ vim.api.nvim_create_autocmd(
 )
 
 --[[ window settings ]]
+-- winresizer
+set_keymap({'', 't'}, '<C-W><C-Space>', '<Cmd>WinResizerStartResize<CR>')
+
 -- chowcho
 require'chowcho'.setup({exclude = function(...) local _ = ...; return false end})
 local _chowcho_run = require'chowcho'.run
@@ -293,28 +299,36 @@ local _chowcho_buffer = function(winid, bufnr, opt_local)
   end)
 end
 
-set_keymap({'', 't'}, '<C-W>w', function()
+local function _chowcho_focus()
+  -- Focues window
   if vim.fn.winnr('$') > 2 then
-    _chowcho_run()
+    _chowcho_run(safely(vim.api.nvim_set_current_win))
   else
     vim.cmd('wincmd w')
   end
-end)
+end
+set_keymap({'', 't'}, '<C-W><C-W>', _chowcho_focus)
+set_keymap({'', 't'}, '<C-W>w', _chowcho_focus)
 
 set_keymap({'', 't'}, '<C-W>c', function()
-  _chowcho_run(vim.api.nvim_win_hide)
+  -- Hides window
+  _chowcho_run(safely(vim.api.nvim_win_hide))
 end)
 
-set_keymap({'', 't'}, '<C-W>e', function()
+local function _chowcho_edit()
+  -- Edits buffer from the selected in the current
   if vim.fn.winnr('$') <= 1 then return end
-  _chowcho_run(function(n)
+  _chowcho_run(safely(function(n)
     local bufnr, opt_local = _chowcho_bufnr(n)
     _chowcho_buffer(0, bufnr, opt_local)
-  end)
-end)
+  end))
+end
+set_keymap({'', 't'}, '<C-W>e', _chowcho_edit)
+set_keymap({'', 't'}, '<C-W><C-E>', _chowcho_edit)
 
-set_keymap({'', 't'}, '<C-W>x', function()
-  _chowcho_run(function(n)
+local function _chowcho_exchange()
+  -- Swaps buffers between windows
+  _chowcho_run(safely(function(n)
     if vim.fn.winnr('$') <= 2 then
       vim.cmd("wincmd x")
       return
@@ -322,8 +336,10 @@ set_keymap({'', 't'}, '<C-W>x', function()
     local bufnr0, opt_local0 = _chowcho_bufnr(0)
     local bufnrn, opt_localn = _chowcho_buffer(n, bufnr0, opt_local0)
     _chowcho_buffer(0, bufnrn, opt_localn)
-  end)
-end)
+  end))
+end
+set_keymap({'', 't'}, '<C-W><C-X>', _chowcho_exchange)
+set_keymap({'', 't'}, '<C-W>x', _chowcho_exchange)
 
 
 --[[ buffer settings ]]
