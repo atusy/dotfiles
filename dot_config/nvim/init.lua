@@ -461,10 +461,10 @@ Vgit.setup {
   keymaps = {
     ['n <Up>'] = 'hunk_up',
     ['n <Down>'] = 'hunk_down',
-    ['n <C-g>a'] = 'buffer_stage',
-    ['n <C-g><C-a>'] = 'buffer_hunk_stage',
-    ['n <C-g><C-p>'] = 'buffer_hunk_preview',
-    ['n <C-g><C-r>'] = 'buffer_hunk_reset',
+    ['n <C-G>a'] = 'buffer_stage',
+    ['n <C-G><C-A>'] = 'buffer_hunk_stage',
+    ['n <C-G><C-P>'] = 'buffer_hunk_preview',
+    ['n <C-G><C-R>'] = 'buffer_hunk_reset',
   },
   settings = {
     live_blame = {
@@ -480,7 +480,8 @@ for k, v in pairs(Vgit) do
 end
 
 -- gin
-set_keymap('n', '<C-g><C-Space>', '<Cmd>Gin commit<CR>i')
+set_keymap('n', '<C-G><C-Space>', '<Cmd>Gin commit<CR>i')
+set_keymap('n', '<C-G><C-S>', '<Cmd>GinStatus<CR>')
 
 --[[ terminal settings ]]
 vim.api.nvim_create_augroup('termopen', {})
@@ -507,7 +508,7 @@ local lazygit = require'toggleterm.terminal'.Terminal:new {
   direction = 'float'
 }
 set_keymap(
-  'n', '<C-g><C-l>',
+  'n', '<C-G><C-L>',
   function() lazygit:toggle() end,
   {desc = 'lazygit', silent = true}
 )
