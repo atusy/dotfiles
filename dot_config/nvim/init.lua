@@ -69,6 +69,7 @@ for _, k in ipairs({'s', ',', ';'}) do
   set_keymap('n', '<A-' .. k .. '>', k)
 end
 set_keymap('n', 's', '<Nop>')     -- be prefix for sandwich
+set_keymap('n', 'qa', '<Nop>')    -- avoid typo of :qa
 set_keymap('n', ',', ':<UP>')
 set_keymap('n', ';', ':')
 set_keymap('n', '<C-G><C-G>', '<C-G>')
