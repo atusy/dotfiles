@@ -362,6 +362,20 @@ set_keymap('n', '<C-P>w', ':Bwipeout!<CR>')
 set_keymap('n', '*', '<Plug>(asterisk-z*)')
 set_keymap('v', '*', '<Plug>(asterisk-gz*)')
 
+-- quickfix
+vim.api.nvim_create_augroup("quickfix-custom", {})
+vim.api.nvim_create_autocmd(
+  'FileType',
+  {
+    desc = 'Interactively view quickfix lines',
+    pattern = 'qf',
+    group = 'quickfix-custom',
+    callback = function(_)
+      set_keymap('n', 'j', 'j<CR>zz<C-w>b', {buffer=0})
+      set_keymap('n', 'k', 'k<CR>zz<C-w>b', {buffer=0})
+    end
+  }
+)
 
 --[[ textobj settings ]]
 -- sandwich
