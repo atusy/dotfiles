@@ -403,7 +403,6 @@ vim.api.nvim_exec([[
     setlocal nornu nonu cursorline signcolumn=auto
     nnoremap <buffer> <C-F> <C-W>p
     nmap <buffer> m <Nop>
-    nmap <buffer> mm <Cmd>lua require'telescope.builtin'.keymaps(); vim.cmd("normal i'fern-action ")<CR>
   endfunction
 
   augroup fern-custom
@@ -518,6 +517,10 @@ set_keymap(
 -- telescope
 local Telescope = require'telescope'
 local TelescopeBuiltin = require'telescope.builtin'
+local telescope_hook_cmd = {
+  fern = "normal! i'fern-action ",
+  ["gin-status"] = "normal! i'gin-action ",
+}
 Telescope.setup()
 Telescope.load_extension('fzf')
 set_keymap('n', 'm', '<Nop>')
@@ -527,7 +530,14 @@ for _, v in pairs {
   {'n', 'mf', 'find_files'},
   {'n', 'mg', 'live_grep'},
   {'n', 'mh', 'help_tags'},
-  {'n', 'mm', 'keymaps'},
+  {'n', 'mm', 'keymaps', function()
+    local ft = vim.opt_local.filetype._value
+    TelescopeBuiltin.keymaps()
+    local cmd = telescope_hook_cmd[ft]
+    if cmd then
+        vim.cmd(cmd)
+    end
+  end},
   {'n', '<C-P>m', 'keymaps'},
   {'i', '<C-P>m', 'keymaps', function() TelescopeBuiltin.keymaps({modes = {'i'}}) end},
   {'n', 'ml', 'git_files'},
