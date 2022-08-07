@@ -1,3 +1,15 @@
+--[[
+TODO
+
+# quickfix
+
+## Plugin
+
+https://github.com/thinca/vim-qfreplace
+https://github.com/itchyny/vim-qfedit
+
+--]]
+
 --[[ tricks ]]
 -- TODO: set up diagnostics based on https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md#sumneko_lua
 local vim = vim -- minimize LSP warning
@@ -346,8 +358,9 @@ set_keymap({'', 't'}, '<C-W>x', _chowcho_exchange)
 set_keymap('n', '<C-P><C-P>', '<C-^>')
 -- Bbye
 local function bdelete(force)
-  local ft = vim.opt_local.filetype._value
-  local cmd = ft == "gitcommit" and "Bwipeout" or "Bdelete"
+  -- local ft = vim.opt_local.filetype._value
+  -- local cmd = ft == "gitcommit" and "Bwipeout" or "Bdelete"
+  local cmd = "Bdelete"
   if force then
     vim.cmd(cmd .. "!")
     return
@@ -708,7 +721,7 @@ prefix_emoji = function(bufnr, alt)
     if #emoji_lines ~= 0 then
       break
     end
-    if vim.fn.findfile(fname) ~= nil then
+    if vim.fn.findfile(fname) ~= '' then
       emoji_lines = search_file(fname, regex_emoji)
     end
   end
