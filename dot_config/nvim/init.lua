@@ -765,6 +765,7 @@ prefix_emoji = function(bufnr, alt)
   })
 end
 
+vim.api.nvim_create_user_command('EmojiPrefix', prefix_emoji, {})
 vim.api.nvim_create_augroup('gitcommit-emoji', {})
 vim.api.nvim_create_autocmd({'FileType'}, {
   group = 'gitcommit-emoji',
