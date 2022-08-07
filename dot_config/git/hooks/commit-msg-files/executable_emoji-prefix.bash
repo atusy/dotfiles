@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 set -euo pipefail
-
+[[ ! -z ${NVIM:-${NVIM_LISTEN_ADDRESS:-}} ]] && exit 0
 
 # Check dependencies
 if test ! $(command -v fzf)
