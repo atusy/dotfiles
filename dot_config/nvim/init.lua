@@ -514,7 +514,7 @@ Vgit.setup {
 vim.api.nvim_create_user_command('ToggleBlame', Vgit.toggle_live_blame, {})
 for k, v in pairs(Vgit) do
   if type(v) == "function" then
-    vim.api.nvim_create_user_command('VGit' .. pascalcase(k), v, {desc = k:gsub("_", " ")})
+    set_keymap('n', '<Plug>(vgit.' .. k .. ')', v)
   end
 end
 
@@ -595,7 +595,7 @@ for _, v in pairs {
 end
 for k, v in pairs(TelescopeBuiltin) do
   if type(v) == "function" then
-    vim.api.nvim_create_user_command('Telescope' .. pascalcase(k), v, {desc = k:gsub("_", " ")})
+    set_keymap('n', '<Plug>(telescope.' .. k .. ')', v)
   end
 end
 
