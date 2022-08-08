@@ -368,9 +368,12 @@ set_keymap({'', 't'}, '<C-W><C-E>', _chowcho_edit)
 
 local function _chowcho_exchange()
   -- Swaps buffers between windows
+  if #vim.api.nvim_tabpage_list_wins(0) <= 2 then
+    vim.cmd("wincmd x")
+    return
+  end
   _chowcho_run(safely(function(n)
-    if #vim.api.nvim_tabpage_list_wins() <= 2 then
-      vim.cmd("wincmd x")
+    if n == vim.api.nvim_get_current_win() then
       return
     end
     local bufnr0, opt_local0 = _chowcho_bufnr(0)
