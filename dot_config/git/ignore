@@ -1,4 +1,6 @@
 .worktree
 .venv
 .python-version
+.ipynb_checkpoints
+.envrc
 __pycache__
