@@ -385,9 +385,9 @@ set_keymap({'', 't'}, '<C-W>x', _chowcho_exchange)
 set_keymap('n', '<C-P><C-P>', '<C-^>')
 -- Bbye
 local function bdelete(force)
-  -- local ft = vim.opt_local.filetype._value
-  -- local cmd = ft == "gitcommit" and "Bwipeout" or "Bdelete"
-  local cmd = "Bdelete"
+  local ft = vim.opt_local.filetype._value
+  local cmd = ft == "gitcommit" and "Bwipeout" or "Bdelete"
+  -- local cmd = "Bdelete"
   if force then
     vim.cmd(cmd .. "!")
     return
