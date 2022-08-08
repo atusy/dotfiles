@@ -319,7 +319,7 @@ end
 
 local function _chowcho_focus()
   -- Focues window
-  if #vim.api.nvim_tabpage_list_wins() > 2 then
+  if #vim.api.nvim_tabpage_list_wins(0) > 2 then
     _chowcho_run(safely(vim.api.nvim_set_current_win))
   else
     vim.cmd('wincmd w')
@@ -356,7 +356,7 @@ set_keymap({'', 't'}, '<C-W><Space>', _chowcho_hide)
 
 local function _chowcho_edit()
   -- Edits buffer from the selected in the current
-  if #vim.api.nvim_tabpage_list_wins() < 1 then return end
+  if #vim.api.nvim_tabpage_list_wins(0) < 1 then return end
   _chowcho_run(safely(function(n)
     local bufnr, opt_local = _chowcho_bufnr(n)
     _chowcho_buffer(0, bufnr, opt_local)
