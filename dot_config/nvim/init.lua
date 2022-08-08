@@ -741,6 +741,7 @@ local regex_emoji = '[' .. [[\U0001F600-\U0001F64F\U0001F300-\U0001F5FF\U0001F68
 local prefix_emoji = function(bufnr, alt)
   bufnr = bufnr or 0
   alt = alt or {'.gitmessage'}
+  local win = vim.api.nvim_get_current_win()
   local lines = vim.api.nvim_buf_get_lines(bufnr, 0, -1, false)
 
   -- Test if emoji is required
@@ -786,6 +787,7 @@ local prefix_emoji = function(bufnr, alt)
       actions.select_default:replace(
         function()
           actions.close(prompt_bufnr)
+          vim.api.nvim_set_current_win(win)
           local selection = action_state.get_selected_entry()
           local emoji = vim.fn.matchstr(selection.text, regex_emoji)
           if (emoji ~= '') then
