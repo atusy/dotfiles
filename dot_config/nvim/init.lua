@@ -171,6 +171,7 @@ require'jetpack'.startup(function(use)
   use {'nvim-telescope/telescope-fzf-native.nvim', run = 'make'}
 
   -- git
+  use 'tpope/vim-fugitive'
   use 'knsh14/vim-github-link'
   use 'lambdalisue/gin.vim'
   use 'tanvirtin/vgit.nvim'
@@ -563,8 +564,8 @@ end
 set_keymap('n', '<C-G>a', '<Cmd>up<CR><Plug>(vgit.buffer_stage)')
 set_keymap('n', '<C-G><C-A>', '<Cmd>up<CR><Plug>(vgit.buffer_hunk_stage)')
 
--- gin
-set_keymap('n', '<C-G><C-Space>', '<Cmd>Gin commit<CR>i')
+-- fugitive
+set_keymap('n', '<C-G><C-Space>', '<Cmd>Git commit<CR>')
 
 --[[ terminal settings ]]
 vim.api.nvim_create_augroup('termopen', {})
