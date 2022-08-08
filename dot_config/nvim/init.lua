@@ -108,6 +108,7 @@ set_keymap('t', '<C-W>', "'<Cmd>wincmd ' .. getcharstr() .. '<CR>'", {expr = tru
 vim.api.nvim_create_user_command(
   'ApplyMYVIMRC',
   function()
+    vim.cmd('up')
     vim.cmd('!chezmoi apply')
     vim.cmd('source $MYVIMRC')
   end,
