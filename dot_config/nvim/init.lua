@@ -292,7 +292,11 @@ vim.api.nvim_create_autocmd(
 
 --[[ window settings ]]
 -- winresizer
-set_keymap({'', 't'}, '<C-W><C-Space>', '<Cmd>WinResizerStartResize<CR>')
+-- set_keymap({'', 't'}, '<C-W><C-Space>', '<Cmd>WinResizerStartResize<CR>')
+set_keymap({'', 't'}, '<C-Up>', '2<C-W>+')
+set_keymap({'', 't'}, '<C-Down>', '2<C-W>-')
+set_keymap({'', 't'}, '<C-Left>', '2<C-W>>')
+set_keymap({'', 't'}, '<C-Right>', '2<C-W><')
 
 -- chowcho
 require'chowcho'.setup({exclude = function(...) local _ = ...; return false end})
