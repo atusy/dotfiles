@@ -274,9 +274,11 @@ vim.api.nvim_create_autocmd(
     desc = 'Change theme by the path of the current buffer.',
     callback = function(args)
       local FILE = args.file
+      local FILETYPE = vim.opt_local.filetype._value
       local CWD = vim.fn.getcwd()
       local COLORSCHEME = (
         FILE == '' or
+        FILETYPE == 'gitcommit' or
         vim.api.nvim_exec('echo &buftype', true) ~= '' or
         CWD == string.sub(FILE, 1, string.len(CWD)) or
         '/tmp/' == string.sub(FILE, 1, 5)
