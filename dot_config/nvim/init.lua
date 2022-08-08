@@ -564,8 +564,8 @@ end
 set_keymap('n', '<C-G>a', '<Cmd>up<CR><Plug>(vgit.buffer_stage)')
 set_keymap('n', '<C-G><C-A>', '<Cmd>up<CR><Plug>(vgit.buffer_hunk_stage)')
 
--- fugitive
-set_keymap('n', '<C-G><C-Space>', '<Cmd>Git commit<CR>')
+-- else
+set_keymap('n', '<C-G><C-Space>', '<Cmd>TermExec cmd="git commit"<CR>')
 
 --[[ terminal settings ]]
 vim.api.nvim_create_augroup('termopen', {})
@@ -721,6 +721,9 @@ vim.cmd('source ' .. vim.fn.stdpath('config') .. '/ddc.vim')
 ----------------------
 local action_state = require "telescope.actions.state"
 local actions = require "telescope.actions"
+local pickers = require "telescope.pickers"
+local finders = require "telescope.finders"
+local conf = require("telescope.config").values
 
 local function search_lines(lines, pat)
   local matches = {}
@@ -764,32 +767,37 @@ local prefix_emoji = function(bufnr, alt)
   end
 
   -- Create temporary buffer and floating window to run telescope
-  local tempbuf = vim.api.nvim_create_buf(false, true)
-  vim.api.nvim_buf_set_lines(tempbuf, 0, -1, false, emoji_lines)
-  local floating = vim.api.nvim_open_win(tempbuf, true, {
-    relative="editor",
-    width=1,
-    height=1,
-    row=0,
-    col=0
-  })
+  -- local tempbuf = vim.api.nvim_create_buf(false, true)
+  -- vim.api.nvim_buf_set_lines(tempbuf, 0, -1, false, emoji_lines)
+  -- local floating = vim.api.nvim_open_win(tempbuf, true, {
+  --   relative="editor",
+  --   width=1,
+  --   height=1,
+  --   row=0,
+  --   col=0
+  -- })
 
   -- find emoji
-  require'telescope.builtin'.current_buffer_fuzzy_find({
+  pickers.new({}, {
     previewer = false,
+    prompt_title = "colors",
+    finder = finders.new_table {
+      results = emoji_lines
+    },
+    sorter = conf.generic_sorter({}),
     attach_mappings = function(prompt_bufnr, map)
-      actions.close:enhance{
-        post = function()
-          vim.api.nvim_win_close(floating, true)
-          vim.api.nvim_buf_delete(tempbuf, {force=true})
-        end
-      }
+      -- actions.close:enhance{
+      --   post = function()
+      --     vim.api.nvim_win_close(floating, true)
+      --     vim.api.nvim_buf_delete(tempbuf, {force=true})
+      --   end
+      -- }
       actions.select_default:replace(
         function()
           actions.close(prompt_bufnr)
           vim.api.nvim_set_current_win(win)
           local selection = action_state.get_selected_entry()
-          local emoji = vim.fn.matchstr(selection.text, regex_emoji)
+          local emoji = vim.fn.matchstr(selection[1], regex_emoji)
           if (emoji ~= '') then
             vim.api.nvim_buf_set_text(bufnr, 0, 0, 0, 0, {emoji})
           end
@@ -797,7 +805,7 @@ local prefix_emoji = function(bufnr, alt)
       )
       return true
     end
-  })
+  }):find()
 end
 
 vim.api.nvim_create_user_command('EmojiPrefix', prefix_emoji, {})
