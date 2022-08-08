@@ -7,7 +7,6 @@ then
   export EDITOR='nvr -cc "below split" --remote-wait-silent'
 elif command -v nvim > /dev/null
 then
-  export MANPAGER='nvim -c Man! -M -c"set nu rnu"'
   export EDITOR='nvim'
 elif command -v vim > /dev/null
 then
