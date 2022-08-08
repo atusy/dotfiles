@@ -507,6 +507,7 @@ set_keymap('o', 'au', ':<C-U>lua require"treesitter-unit".select(true)<CR>')
 
 
 --[[ git settings ]]
+-- <C-G><C-S> is used by telescope.builtin.git_status
 -- vgit
 local Vgit = require'vgit'
 Vgit.setup {
@@ -533,7 +534,6 @@ set_keymap('n', '<C-G><C-A>', '<Cmd>up<CR><Plug>(vgit.buffer_hunk_stage)')
 
 -- gin
 set_keymap('n', '<C-G><C-Space>', '<Cmd>Gin commit<CR>i')
-set_keymap('n', '<C-G><C-S>', '<Cmd>GinStatus<CR>')
 
 --[[ terminal settings ]]
 vim.api.nvim_create_augroup('termopen', {})
@@ -591,6 +591,7 @@ for _, v in pairs {
         vim.cmd(cmd)
     end
   end},
+  {'n', '<C-G><C-S>', 'git_status'},
   {'n', '<C-P>m', 'keymaps'},
   {'i', '<C-P>m', 'keymaps', function() TelescopeBuiltin.keymaps({modes = {'i'}}) end},
   {'n', 'ml', 'git_files'},
