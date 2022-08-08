@@ -513,8 +513,6 @@ Vgit.setup {
   keymaps = {
     ['n <Up>'] = 'hunk_up',
     ['n <Down>'] = 'hunk_down',
-    ['n <C-G>a'] = 'buffer_stage',
-    ['n <C-G><C-A>'] = 'buffer_hunk_stage',
     ['n <C-G><C-P>'] = 'buffer_hunk_preview',
     ['n <C-G><C-R>'] = 'buffer_hunk_reset',
   },
@@ -530,6 +528,8 @@ for k, v in pairs(Vgit) do
     set_keymap('n', '<Plug>(vgit.' .. k .. ')', v)
   end
 end
+set_keymap('n', '<C-G>a', '<Cmd>up<CR><Plug>(vgit.buffer_stage)')
+set_keymap('n', '<C-G><C-A>', '<Cmd>up<CR><Plug>(vgit.buffer_hunk_stage)')
 
 -- gin
 set_keymap('n', '<C-G><C-Space>', '<Cmd>Gin commit<CR>i')
