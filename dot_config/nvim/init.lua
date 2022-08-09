@@ -140,7 +140,7 @@ require'jetpack'.startup(function(use)
   use 'segeljakt/vim-silicon'  -- pacman -S silicon
 
   -- windows and buffers
-  use 'simeji/winresizer'
+  -- use 'simeji/winresizer'
   use 'tkmpypy/chowcho.nvim'
   use 'moll/vim-bbye'
   use 'AndrewRadev/bufferize.vim'
@@ -806,3 +806,4 @@ end
 
 vim.api.nvim_create_user_command('EmojiPrefix', function() prefix_emoji() end, {})
 set_keymap('', '<Plug>(emoji-prefix)', function() prefix_emoji() end)
+set_keymap('n', 'me', '<Plug>(emoji-prefix)')
