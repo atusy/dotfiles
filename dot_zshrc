@@ -276,6 +276,11 @@ function edit-command-line2() EDITOR="${EDITOR_CMD:-$EDITOR}" edit-command-line
 zle -N edit-command-line2
 bindkey "^x^e" edit-command-line2
 
+# direnv
+if command -v direnv >/dev/null; then
+  eval "$(direnv hook zsh)"
+fi
+
 # local configurations
 [[ -f "$HOME/.config/zsh/local.zshrc" ]] && . "$HOME/.config/zsh/local.zshrc"
 
