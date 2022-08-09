@@ -483,11 +483,27 @@ require'lualine'.setup {
 -- fern
 -- TODO: using nvim api currently fails to show file list
 set_keymap('n', '<C-F>', ':Fern . -drawer -reveal=%<CR>')
+vim.keymap.set(
+  'n',
+  '<Plug>(fern-action-open:chowcho)',
+  function()
+    local node = vim.api.nvim_exec([[
+      let helper = fern#helper#new()
+      echo helper.sync.get_selected_nodes()[0]["_path"]
+    ]], true)
+    require'chowcho'.run(function(n)
+      vim.api.nvim_set_current_win(n)
+      vim.cmd("edit " .. node)
+    end)
+  end,
+  {}
+)
 vim.api.nvim_exec([[
   function! s:init_fern() abort
     setlocal nornu nonu cursorline signcolumn=auto
     nnoremap <buffer> <C-F> <C-W>p
     nmap <buffer> m <Nop>
+    nmap <buffer><nowait> s <Plug>(fern-action-open:chowcho)
   endfunction
 
   augroup fern-custom
