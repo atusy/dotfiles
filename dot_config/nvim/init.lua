@@ -564,6 +564,9 @@ end
 set_keymap('n', '<C-G>a', '<Cmd>up<CR><Plug>(vgit.buffer_stage)')
 set_keymap('n', '<C-G><C-A>', '<Cmd>up<CR><Plug>(vgit.buffer_hunk_stage)')
 
+-- fugitive
+set_keymap('n', '<C-G><C-Space>', '<Cmd>Git commit<Space><CR>')
+
 --[[ terminal settings ]]
 vim.api.nvim_create_augroup('termopen', {})
 vim.api.nvim_create_autocmd(
