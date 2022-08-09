@@ -805,3 +805,4 @@ local prefix_emoji = function(bufnr, alt)
 end
 
 vim.api.nvim_create_user_command('EmojiPrefix', function() prefix_emoji() end, {})
+set_keymap('', '<Plug>(emoji-prefix)', function() prefix_emoji() end)
