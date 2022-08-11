@@ -389,20 +389,8 @@ set_keymap({'', 't'}, '<C-W>x', _chowcho_exchange)
 --[[ buffer settings ]]
 set_keymap('n', '<C-P><C-P>', '<C-^>')
 -- Bbye
-local function bdelete(force)
-  local ft = vim.opt_local.filetype._value
-  local cmd = ft == "gitcommit" and "Bwipeout" or "Bdelete"
-  -- local cmd = "Bdelete"
-  if force then
-    vim.cmd(cmd .. "!")
-    return
-  end
-  vim.cmd("up | " .. cmd)
-end
-set_keymap('n', '<C-P><C-d>', bdelete)
-set_keymap('n', '<C-P><C-w>', ':up | Bwipeout<CR>')
-set_keymap('n', '<C-P>d', function() bdelete(true) end)
-set_keymap('n', '<C-P>w', ':Bwipeout!<CR>')
+set_keymap('n', '<C-P><C-D>', ':up | Bdelete<CR>')
+set_keymap('n', '<C-P><C-W>', 'Bwipeout!<CR>')
 -- asterisk
 set_keymap('n', '*', '<Plug>(asterisk-z*)')
 set_keymap('v', '*', '<Plug>(asterisk-gz*)')
