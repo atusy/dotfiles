@@ -314,7 +314,9 @@ local _chowcho_buffer = function(winid, bufnr, opt_local)
   return vim.api.nvim_win_call(winid, function()
     local old = _chowcho_bufnr(0)
     vim.cmd("buffer " .. bufnr)
-    vim.opt_local = opt_local
+    if opt_local ~= nil then
+      vim.opt_local = opt_local
+    end
     return old
   end)
 end
