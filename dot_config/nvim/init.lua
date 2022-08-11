@@ -304,7 +304,10 @@ set_keymap({'', 't'}, '<C-Left>', '<Cmd>2wincmd <<CR>')
 set_keymap({'', 't'}, '<C-Right>', '<Cmd>2wincmd ><CR>')
 
 -- chowcho
-require'chowcho'.setup({exclude = function(...) local _ = ...; return false end})
+require'chowcho'.setup({
+  use_exclude_default = false,
+  exclude = function(_, _) return false end}
+)
 local _chowcho_run = require'chowcho'.run
 local _chowcho_bufnr = function(winid)
   return vim.api.nvim_win_call(winid, function()
@@ -325,7 +328,16 @@ end
 local function _chowcho_focus()
   -- Focues window
   if #vim.api.nvim_tabpage_list_wins(0) > 2 then
-    _chowcho_run(safely(vim.api.nvim_set_current_win))
+    _chowcho_run(
+      safely(vim.api.nvim_set_current_win),
+      {
+        use_exclude_default = false,
+        exclude = function(_, win)
+          local config = vim.api.nvim_win_get_config(win)
+          return config.focasable == false
+        end
+      }
+    )
   else
     vim.cmd('wincmd w')
   end
@@ -362,10 +374,20 @@ set_keymap({'', 't'}, '<C-W><Space>', _chowcho_hide)
 local function _chowcho_edit()
   -- Edits buffer from the selected in the current
   if #vim.api.nvim_tabpage_list_wins(0) < 1 then return end
-  _chowcho_run(safely(function(n)
-    local bufnr, opt_local = _chowcho_bufnr(n)
-    _chowcho_buffer(0, bufnr, opt_local)
-  end))
+  _chowcho_run(
+    safely(function(n)
+      local bufnr, opt_local = _chowcho_bufnr(n)
+      _chowcho_buffer(0, bufnr, opt_local)
+    end),
+    {
+      use_exclude_default = false,
+      exclude = function(buf, _)
+        return vim.api.nvim_buf_call(buf, function()
+          return vim.opt_local.modifiable._value == false
+        end)
+      end
+    }
+  )
 end
 set_keymap({'', 't'}, '<C-W>e', _chowcho_edit)
 set_keymap({'', 't'}, '<C-W><C-E>', _chowcho_edit)
@@ -376,14 +398,23 @@ local function _chowcho_exchange()
     vim.cmd("wincmd x")
     return
   end
-  _chowcho_run(safely(function(n)
+  _chowcho_run(
+    safely(function(n)
     if n == vim.api.nvim_get_current_win() then
       return
     end
     local bufnr0, opt_local0 = _chowcho_bufnr(0)
     local bufnrn, opt_localn = _chowcho_buffer(n, bufnr0, opt_local0)
     _chowcho_buffer(0, bufnrn, opt_localn)
-  end))
+    end),
+    {
+      use_exclude_default = false,
+      exclude = function(_, win)
+        local winconf = vim.api.nvim_win_get_config(win)
+        return winconf.external or winconf.relative ~= ""
+      end
+    }
+  )
 end
 set_keymap({'', 't'}, '<C-W><C-X>', _chowcho_exchange)
 set_keymap({'', 't'}, '<C-W>x', _chowcho_exchange)
