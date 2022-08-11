@@ -281,6 +281,7 @@ vim.api.nvim_create_autocmd(
       local COLORSCHEME = (
         FILE == '' or
         FILETYPE == 'gitcommit' or
+        FILETYPE == 'gitrebase' or
         vim.api.nvim_exec('echo &buftype', true) ~= '' or
         CWD == string.sub(FILE, 1, string.len(CWD)) or
         '/tmp/' == string.sub(FILE, 1, 5)
