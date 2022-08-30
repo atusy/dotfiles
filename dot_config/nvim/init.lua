@@ -747,12 +747,34 @@ for lsp, config in pairs{
   r_language_server = {}, -- R -e "remotes::install_github('languageserver')"
   denols = {},
   bashls = {filetypes = {'sh', 'bash', 'zsh'}}, -- npm i -g bash-language-server
-  sumneko_lua = {}, -- pacman -S lua-language-server
+  terraformls = { filetypes = { "terraform", "tf" } },
+  sumneko_lua = {
+    settings = {
+      Lua = vim.env.LUA_RUNTIME and {
+        workspace = {
+          library = vim.api.nvim_get_runtime_file('', true),
+        },
+      } or {},
+    },
+  }, -- pacman -S lua-language-server
   gopls = {},
 } do
   setup_lsp(lsp, config)
 end
 
+vim.api.nvim_create_augroup("terraform-custom", {})
+vim.api.nvim_create_autocmd({"FileType"}, {
+  group="terraform-custom",
+  pattern = { "tf" },
+  callback = function(_)
+    vim.opt_local.filetype = "terraform"
+  end
+})
+vim.api.nvim_create_autocmd({"BufWritePre"}, {
+  group="terraform-custom",
+  pattern = {"*.tf", "*.tfvars"},
+  callback = vim.lsp.buf.formatting_sync,
+})
 
 --[[ autocompletion settings ]]
 -- ddc
