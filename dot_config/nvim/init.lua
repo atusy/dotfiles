@@ -424,7 +424,7 @@ set_keymap({'', 't'}, '<C-W>x', _chowcho_exchange)
 set_keymap('n', '<C-P><C-P>', '<C-^>')
 -- Bbye
 set_keymap('n', '<C-P><C-D>', ':up | Bdelete<CR>')
-set_keymap('n', '<C-P><C-W>', 'Bwipeout!<CR>')
+set_keymap('n', '<C-P><C-W>', ':Bwipeout!<CR>')
 -- asterisk
 set_keymap('n', '*', '<Plug>(asterisk-z*)')
 set_keymap('v', '*', '<Plug>(asterisk-gz*)')
