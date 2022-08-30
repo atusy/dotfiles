@@ -199,6 +199,7 @@ require'jetpack'.startup(function(use)
   use 'williamboman/mason.nvim'
   use 'folke/lsp-colors.nvim'
   use 'tamago324/nlsp-settings.nvim'
+  use 'ii14/emmylua-nvim'
 
   -- ddc
   use 'Shougo/ddc.vim'
