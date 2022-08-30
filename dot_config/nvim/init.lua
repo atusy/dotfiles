@@ -540,7 +540,7 @@ vim.api.nvim_exec([[
 require'nvim-treesitter.configs'.setup {
   ensure_installed = {
     'bash', 'bibtex', 'c', 'c_sharp', 'cmake', 'cpp', 'css', 'dockerfile',
-    'dot', 'go', 'gomod', 'gowork', 'graphql', 'haskell', 'help', 'html',
+    'dot', 'go', 'gomod', 'gowork', 'graphql', 'haskell', 'hcl', 'help', 'html',
     'http', 'java', 'javascript', 'json', 'json5', 'julia', 'latex', 'lua',
     'make', 'markdown', 'ninja', 'nix', 'python', 'r', 'regex', 'ruby', 'rust',
     'scss', 'teal', 'toml', 'tsx', 'typescript', 'vala', 'vim', 'vue', 'yaml'
@@ -552,6 +552,7 @@ require'nvim-treesitter.configs'.setup {
 }
 local ft_to_parser = require'nvim-treesitter.parsers'.filetype_to_parsername
 ft_to_parser.zsh = 'bash'
+ft_to_parser.tf = 'hcl'
 require'nvim_context_vt'.setup {enabled = true}
 require'treesitter-context'.setup({
   patterns = {
