@@ -16,10 +16,6 @@ local vim = vim -- minimize LSP warning
 local function safely(f)
   return function(...) pcall(f, ...) end
 end
-local function pascalcase(str)
-  return ("_" .. str):gsub("_+(%l)", string.upper)
-end
-
 
 --[[ options ]]
 -- signcolumn
