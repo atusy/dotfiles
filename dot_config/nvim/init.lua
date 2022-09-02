@@ -450,17 +450,21 @@ vim.g['sandwich#recipes'] = vim.deepcopy(vim.g['sandwich#default_recipes'])
 -- hop
 local Hop = require'hop'
 Hop.setup()
-local function hopper(direction)
+local function hopper(direction, offset)
   local hint_char1 = Hop.hint_char1
-  local hint_direction = require'hop.hint'.HintDirection[direction]
-  return function()
-    hint_char1({direction = hint_direction, current_line_only = true})
-  end
+  local opt = {
+    direction = require'hop.hint'.HintDirection[direction],
+    current_line_only = false,
+    hint_offset = offset == nil and 0 or offset,
+  }
+  return function() hint_char1(opt) end
 end
 set_keymap('', '<A-f>', 'f')
 set_keymap('', '<A-C-f>', 'F')
 set_keymap('', 'f', hopper('AFTER_CURSOR'), {desc = 'Hop after'})
 set_keymap('', 'F', hopper('BEFORE_CURSOR'), {desc = 'Hop before'})
+set_keymap('', 't', hopper('AFTER_CURSOR', -1), {desc = 'Hop after'})
+set_keymap('', 'T', hopper('BEFORE_CURSOR', 1), {desc = 'Hop before'})
 
 -- edgemotion
 set_keymap('', '<A-]>', '<Plug>(edgemotion-j)', {})
