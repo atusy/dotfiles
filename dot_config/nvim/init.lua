@@ -459,8 +459,10 @@ local function hopper(direction, offset)
   }
   return function() hint_char1(opt) end
 end
-set_keymap('', '<A-f>', 'f')
-set_keymap('', '<A-C-f>', 'F')
+set_keymap('', '<Leader>f', 'f')
+set_keymap('', '<Leader>F', 'F')
+set_keymap('', '<leader>t', 't')
+set_keymap('', '<Leader>T', 'T')
 set_keymap('', 'f', hopper('AFTER_CURSOR'), {desc = 'Hop after'})
 set_keymap('', 'F', hopper('BEFORE_CURSOR'), {desc = 'Hop before'})
 set_keymap('', 't', hopper('AFTER_CURSOR', -1), {desc = 'Hop after'})
