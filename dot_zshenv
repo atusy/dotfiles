@@ -16,7 +16,9 @@ fi
 export QT_QPA_PLATFORMTHEME="qt5ct"
 export GIT_MERGE_AUTOEDIT=no
 export NNN_FCOLORS='c1e2272e006033f7c6d6abc4'
-unset BROWSER
+if command -v "vivaldi-stable" > /dev/null; then
+  export BROWSER="vivaldi-stable"
+fi
 
 [[ -f "$HOME/.config/zsh/local.zshenv" ]] && source "$HOME/.config/zsh/local.zshenv"
 
