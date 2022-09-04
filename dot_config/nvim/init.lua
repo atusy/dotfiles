@@ -220,7 +220,6 @@ end)
 
 --[[ colorscheme/highlight ]]
 -- params
-vim.g.illuminate_ftblacklist = {'fern'}
 local DEFAULT_COLORSCHEME = 'hatsunemiku'
 local ALTERNATIVE_COLORSCHEME = 'gruvbox'
 local CMD_ILLUMINATION = 'hi illuminatedWord guibg=#383D47'
@@ -236,31 +235,12 @@ local function set_colorscheme(nm)
   setup_lsp_colors()
   vim.cmd(CMD_ILLUMINATION)
   vim.api.nvim_exec([[
-    hi link LspReferenceText illuminatedWord
-    hi link LspReferenceWrite illuminatedWord
-    hi link LspReferenceRead illuminatedWord
+    hi link IlluminatedWordText illuminatedWord
+    hi link IlluminatedWordRead illuminatedWord
+    hi link IlluminatedWordWrite illuminatedWord
   ]], false)
 end
 set_colorscheme(DEFAULT_COLORSCHEME)
-
--- illumination for modes other than ivV
-vim.api.nvim_create_augroup('illumination-by-mode', {})
-vim.api.nvim_create_autocmd(
-  'ModeChanged',
-  {
-    pattern = '*:[ivV\x16]*',
-    group = 'illumination-by-mode',
-    command = 'hi clear illuminatedWord'
-  }
-)
-vim.api.nvim_create_autocmd(
-  'ModeChanged',
-  {
-    pattern = '[ivV\x16]*:*',
-    group = 'illumination-by-mode',
-    command = CMD_ILLUMINATION
-  }
-)
 
 -- Update colorscheme when buffer is outside of cwd
 vim.api.nvim_create_augroup('theme-by-buffer', {})
@@ -291,6 +271,16 @@ vim.api.nvim_create_autocmd(
     end
   }
 )
+
+-- illuminate
+local Illuminate = require'illuminate'
+Illuminate.configure({
+  filetype_denylist = {'fugitive', 'fern'},
+  modes_allowlist = {'n'}
+})
+set_keymap('n', '<C-H>', function() Illuminate.next_reference({reverse=true, wrap=true}) end, {desc = 'previous references'})
+set_keymap('n', '<C-L>', function() Illuminate.next_reference({wrap=true}) end, {desc = 'next reference'})
+
 
 --[[ window settings ]]
 -- winresizer
@@ -698,13 +688,10 @@ local LspSaga = require'lspsaga'
 LspSaga.init_lsp_saga({
   code_action_lightbulb = { virtual_text = false, sign = false }
 })
-local Illuminate = require'illuminate'
 set_keymap('n', '<Leader>e', vim.diagnostic.open_float, {silent = true, desc = 'float diagnostic'})
 set_keymap('n', '[d', vim.diagnostic.goto_prev, {silent = true, desc = 'previous diagnostic'})
 set_keymap('n', ']d', vim.diagnostic.goto_next, {silent = true, desc = 'next diagnositc'})
 set_keymap('n', '<Leader>q', vim.diagnostic.setloclist, {silent = true, desc = 'add buffer diagnositcs to the location list'})
-set_keymap('n', '<C-H>', function() Illuminate.next_reference({reverse=true, wrap=true}) end, {desc = 'previous references'})
-set_keymap('n', '<C-L>', function() Illuminate.next_reference({wrap=true}) end, {desc = 'next reference'})
 
 -- Use an on_attach function to only map the following keys
 -- after the language server attaches to the current buffer
@@ -733,9 +720,6 @@ local on_attach = function(client, bufnr)
   set_keymap('n', 'gr', TelescopeBuiltin.lsp_references, OPTS)
   -- set_keymap('n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>', OPTS)
   set_keymap('n', '<Leader>lf', '<cmd>lua vim.lsp.buf.formatting()<CR>', OPTS)
-
-  -- Highlighting
-  Illuminate.on_attach(client)
 end
 
 local Lspconfig = require'lspconfig'
