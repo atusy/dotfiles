@@ -136,7 +136,6 @@ require'jetpack'.startup(function(use)
   use 'segeljakt/vim-silicon'  -- pacman -S silicon
 
   -- windows and buffers
-  -- use 'simeji/winresizer'
   use 'tkmpypy/chowcho.nvim'
   use 'moll/vim-bbye'
   use 'AndrewRadev/bufferize.vim'
@@ -283,8 +282,6 @@ set_keymap('n', '<C-L>', function() Illuminate.next_reference({wrap=true}) end, 
 
 
 --[[ window settings ]]
--- winresizer
--- set_keymap({'', 't'}, '<C-W><C-Space>', '<Cmd>WinResizerStartResize<CR>')
 set_keymap({'', 't'}, '<C-Up>', '<Cmd>2wincmd +<CR>')
 set_keymap({'', 't'}, '<C-Down>', '<Cmd>2wincmd -<CR>')
 set_keymap({'', 't'}, '<C-Left>', '<Cmd>2wincmd <<CR>')
