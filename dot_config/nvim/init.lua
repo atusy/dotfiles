@@ -127,6 +127,7 @@ require'jetpack'.startup(function(use)
   use 'kyazdani42/nvim-web-devicons' -- for lualine
   use 'nvim-lua/plenary.nvim' -- for gitsigns, vgit
   use 'vim-denops/denops.vim'
+  use 'kana/vim-submode'
 
   -- utils
   use 'tpope/vim-commentary'
@@ -282,6 +283,12 @@ set_keymap('n', '<C-L>', Illuminate.goto_next_reference, {desc = 'next reference
 
 
 --[[ window settings ]]
+for _, i in ipairs({'+', '-', '<', '>'}) do
+  for _, m in ipairs({'', 't'}) do
+    vim.fn["submode#enter_with"]("winreisze", m, "<C-W>" .. i, "<C-W>" .. i)
+    vim.fn["submode#map"]("winreisze", m, "", i, "2<C-W>" .. i)
+  end
+end
 set_keymap({'', 't'}, '<C-Up>', '<Cmd>2wincmd +<CR>')
 set_keymap({'', 't'}, '<C-Down>', '<Cmd>2wincmd -<CR>')
 set_keymap({'', 't'}, '<C-Left>', '<Cmd>2wincmd <<CR>')
