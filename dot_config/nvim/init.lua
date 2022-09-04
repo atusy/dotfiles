@@ -277,8 +277,8 @@ Illuminate.configure({
   filetype_denylist = {'fugitive', 'fern'},
   modes_allowlist = {'n'}
 })
-set_keymap('n', '<C-H>', function() Illuminate.next_reference({reverse=true, wrap=true}) end, {desc = 'previous references'})
-set_keymap('n', '<C-L>', function() Illuminate.next_reference({wrap=true}) end, {desc = 'next reference'})
+set_keymap('n', '<C-H>', Illuminate.goto_prev_reference, {desc = 'previous references'})
+set_keymap('n', '<C-L>', Illuminate.goto_next_reference, {desc = 'next reference'})
 
 
 --[[ window settings ]]
