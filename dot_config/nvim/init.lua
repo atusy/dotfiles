@@ -647,7 +647,6 @@ local telescope_hook_cmd = {
 }
 Telescope.setup()
 Telescope.load_extension('fzf')
-set_keymap('n', 'm', '<Nop>')
 for _, v in pairs {
   {'n', 'mb', 'buffers'},
   {'n', 'mc', 'commands'},
