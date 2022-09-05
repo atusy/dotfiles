@@ -447,7 +447,7 @@ local function hopper(direction, offset)
   local hint_char1 = Hop.hint_char1
   local opt = {
     direction = require'hop.hint'.HintDirection[direction],
-    current_line_only = false,
+    current_line_only = true,
     hint_offset = offset == nil and 0 or offset,
   }
   return function() hint_char1(opt) end
