@@ -162,6 +162,7 @@ require'jetpack'.startup(function(use)
   -- motion
   use 'haya14busa/vim-edgemotion'
   use 'phaazon/hop.nvim'
+  use 'ggandor/leap.nvim'
 
   -- fuzzy finder
   use 'nvim-telescope/telescope.nvim'
@@ -460,6 +461,13 @@ set_keymap('', 'f', hopper('AFTER_CURSOR'), {desc = 'Hop after'})
 set_keymap('', 'F', hopper('BEFORE_CURSOR'), {desc = 'Hop before'})
 set_keymap('', 't', hopper('AFTER_CURSOR', -1), {desc = 'Hop after'})
 set_keymap('', 'T', hopper('BEFORE_CURSOR', 1), {desc = 'Hop before'})
+
+-- leap
+require('leap').setup({
+  safe_labels = {},
+})
+set_keymap({'n', 'v', 'x'}, 'ss', '<Plug>(leap-forward)')
+set_keymap({'n', 'v', 'x'}, 'SS', '<Plug>(leap-backward)')
 
 -- edgemotion
 set_keymap('', '<A-]>', '<Plug>(edgemotion-j)', {})
