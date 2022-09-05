@@ -83,7 +83,6 @@ for _, k in ipairs({'s', ',', ';'}) do
 end
 set_keymap('n', 's', '<Nop>')     -- be prefix for sandwich
 set_keymap('n', 'qa', '<Nop>')    -- avoid typo of :qa
-set_keymap('n', ',', ':<UP>')
 set_keymap('n', ';', ':')
 set_keymap('n', '<C-G><C-G>', '<C-G><Cmd>let @+ = expand("%")<CR>')
 set_keymap('', '-', '"_')         -- shortcut to blackhole register
