@@ -222,7 +222,7 @@ end)
 -- params
 local DEFAULT_COLORSCHEME = 'hatsunemiku'
 local ALTERNATIVE_COLORSCHEME = 'gruvbox'
-local CMD_ILLUMINATION = 'hi illuminatedWord guibg=#383D47'
+local ILLUMINATION = {bg="#383D47"}
 
 -- set colorscheme
 local setup_hlargs = require'hlargs'.setup
@@ -233,12 +233,9 @@ local function set_colorscheme(nm)
   setup_hlargs()
   setup_colorizer()
   setup_lsp_colors()
-  vim.cmd(CMD_ILLUMINATION)
-  vim.api.nvim_exec([[
-    hi link IlluminatedWordText illuminatedWord
-    hi link IlluminatedWordRead illuminatedWord
-    hi link IlluminatedWordWrite illuminatedWord
-  ]], false)
+  vim.api.nvim_set_hl(0, "IlluminatedWordText", ILLUMINATION)
+  vim.api.nvim_set_hl(0, "IlluminatedWordRead", ILLUMINATION)
+  vim.api.nvim_set_hl(0, "IlluminatedWordWrite", ILLUMINATION)
 end
 set_colorscheme(DEFAULT_COLORSCHEME)
 
