@@ -429,8 +429,8 @@ vim.api.nvim_create_autocmd(
     pattern = 'qf',
     group = 'quickfix-custom',
     callback = function(_)
-      set_keymap('n', 'j', 'j<CR>zz<C-w>b', {buffer=0})
-      set_keymap('n', 'k', 'k<CR>zz<C-w>b', {buffer=0})
+      set_keymap('n', 'j', 'j<CR>zz<C-W>p', {buffer=0})
+      set_keymap('n', 'k', 'k<CR>zz<C-W>p', {buffer=0})
     end
   }
 )
