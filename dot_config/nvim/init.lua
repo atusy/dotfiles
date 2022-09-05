@@ -675,7 +675,7 @@ Telescope.setup()
 Telescope.load_extension('fzf')
 for _, v in pairs {
   {'n', 'mb', 'buffers'},
-  {{'n', 'v'}, 'mc', 'commands'},
+  {'n', 'mc', 'commands'},
   {'n', 'mf', 'find_files'},
   {'n', 'mg', 'live_grep'},
   {'n', 'mh', 'help_tags'},
