@@ -680,6 +680,7 @@ for _, v in pairs {
   {'n', 'mg', 'live_grep'},
   {'n', 'mh', 'help_tags'},
   {'n', '<C-G><C-S>', 'git_status'},
+  {'n', 'mk', 'marks'},
   {'n', 'mm', 'keymaps', telescope_keymaps},
   {{'n', 'v', 'i'}, '<C-P>m', 'keymaps', telescope_keymaps},
   {'n', 'ml', 'git_files'},
