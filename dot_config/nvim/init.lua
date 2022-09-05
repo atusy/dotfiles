@@ -466,8 +466,19 @@ set_keymap('', 'T', hopper('BEFORE_CURSOR', 1), {desc = 'Hop before'})
 require('leap').setup({
   safe_labels = {},
 })
-set_keymap({'n', 'v', 'x'}, 'ss', '<Plug>(leap-forward)')
-set_keymap({'n', 'v', 'x'}, 'SS', '<Plug>(leap-backward)')
+vim.api.nvim_set_hl(0, 'LeapBackdrop', { fg = '#707070' })
+set_keymap({'n', 'v', 'x'}, 'sj', '<Plug>(leap-forward)')
+set_keymap({'n', 'v', 'x'}, 'sk', '<Plug>(leap-backward)')
+set_keymap(
+  {'n', 'v', 'x'},
+  'sg',
+  function()
+    require('leap').leap { target_windows = vim.tbl_filter(
+      function (win) return vim.api.nvim_win_get_config(win).focusable end,
+      vim.api.nvim_tabpage_list_wins(0)
+    )}
+  end
+)
 
 -- edgemotion
 set_keymap('', '<A-]>', '<Plug>(edgemotion-j)', {})
