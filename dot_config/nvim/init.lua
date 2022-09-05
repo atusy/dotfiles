@@ -251,12 +251,13 @@ vim.api.nvim_create_autocmd(
     callback = function(args)
       local FILE = args.file
       local FILETYPE = vim.api.nvim_buf_get_option(0, "filetype")
+      local BUFTYPE = vim.api.nvim_buf_get_option(0, "buftype")
       local CWD = vim.fn.getcwd()
       local COLORSCHEME = (
         FILE == '' or
         FILETYPE == 'gitcommit' or
         FILETYPE == 'gitrebase' or
-        vim.api.nvim_exec('echo &buftype', true) ~= '' or
+        BUFTYPE ~= '' or
         CWD == string.sub(FILE, 1, string.len(CWD)) or
         '/tmp/' == string.sub(FILE, 1, 5)
       ) and DEFAULT_COLORSCHEME or ALTERNATIVE_COLORSCHEME
@@ -371,7 +372,7 @@ local function _chowcho_edit()
       use_exclude_default = false,
       exclude = function(buf, _)
         return vim.api.nvim_buf_call(buf, function()
-          return vim.opt_local.modifiable._value == false
+          return vim.api.nvim_buf_get_option(0, "modifiable") == false
         end)
       end
     }
@@ -757,7 +758,7 @@ vim.api.nvim_create_autocmd({"FileType"}, {
   group="terraform-custom",
   pattern = { "tf" },
   callback = function(_)
-    vim.opt_local.filetype = "terraform"
+    vim.api.nvim_buf_set_option(0, "filetype", "terraform")
   end
 })
 vim.api.nvim_create_autocmd({"BufWritePre"}, {
