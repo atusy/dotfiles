@@ -652,29 +652,28 @@ local telescope_hook_cmd = {
   fern = "normal! i'fern-action ",
   ["gin-status"] = "normal! i'gin-action ",
 }
+local function telescope_keymaps()
+    local ft = vim.api.nvim_buf_get_option(0,  "filetype")
+    TelescopeBuiltin.keymaps({mode = vim.api.nvim_get_mode().mode})
+    local cmd = telescope_hook_cmd[ft]
+    if cmd then
+      vim.cmd(cmd)
+    end
+end
 Telescope.setup()
 Telescope.load_extension('fzf')
 for _, v in pairs {
   {'n', 'mb', 'buffers'},
-  {'n', 'mc', 'commands'},
+  {{'n', 'v'}, 'mc', 'commands'},
   {'n', 'mf', 'find_files'},
   {'n', 'mg', 'live_grep'},
   {'n', 'mh', 'help_tags'},
-  {'n', 'mm', 'keymaps', function()
-    local ft = vim.api.nvim_buf_get_option(0,  "filetype")
-    TelescopeBuiltin.keymaps()
-    local cmd = telescope_hook_cmd[ft]
-    if cmd then
-        vim.cmd(cmd)
-    end
-  end},
   {'n', '<C-G><C-S>', 'git_status'},
-  {'n', '<C-P>m', 'keymaps'},
-  {'i', '<C-P>m', 'keymaps', function() TelescopeBuiltin.keymaps({modes = {'i'}}) end},
+  {{'n', 'v'}, 'mm', 'keymaps', telescope_keymaps},
+  {{'n', 'v', 'i'}, '<C-P>m', 'keymaps', telescope_keymaps},
   {'n', 'ml', 'git_files'},
   {'n', 'mr', 'registers'},
-  {'n', '<C-P>r', 'registers'},
-  {'i', '<C-P>r', 'registers'},
+  {{'n', 'i'}, '<C-P>r', 'registers'},
   {'n', 'm.', 'resume'},
   {'n', 'mt', 'treesitter'},
   {'n', 'm/', 'current_buffer_fuzzy_find'},
