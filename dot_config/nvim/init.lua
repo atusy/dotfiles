@@ -13,6 +13,8 @@ https://github.com/itchyny/vim-qfedit
 --[[ tricks ]]
 -- TODO: set up diagnostics based on https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md#sumneko_lua
 local vim = vim -- minimize LSP warning
+
+-- [[ helpers ]]
 local function safely(f)
   return function(...) pcall(f, ...) end
 end
