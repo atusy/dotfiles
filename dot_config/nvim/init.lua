@@ -143,9 +143,10 @@ require'jetpack'.startup(function(use)
   use 'AndrewRadev/bufferize.vim'
 
   -- better something
-  use 'wsdjeg/vim-fetch'         -- :e with linenumber
-  use 'jghauser/mkdir.nvim'      -- :w with mkdir
-  use 'haya14busa/vim-asterisk'  -- *
+  use 'wsdjeg/vim-fetch'             -- :e with linenumber
+  use 'jghauser/mkdir.nvim'          -- :w with mkdir
+  use 'haya14busa/vim-asterisk'      -- *
+  use 'lambdalisue/readablefold.vim'
 
   -- colorscheme
   use '4513ECHO/vim-colors-hatsunemiku'
@@ -163,6 +164,7 @@ require'jetpack'.startup(function(use)
   use 'haya14busa/vim-edgemotion'
   use 'phaazon/hop.nvim'
   use 'ggandor/leap.nvim'
+  use 'ggandor/leap-ast.nvim'
 
   -- fuzzy finder
   use 'nvim-telescope/telescope.nvim'
