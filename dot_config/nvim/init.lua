@@ -283,12 +283,6 @@ set_keymap('n', '<C-L>', Illuminate.goto_next_reference, {desc = 'next reference
 
 
 --[[ window settings ]]
-for _, i in ipairs({'+', '-', '<', '>'}) do
-  for _, m in ipairs({'', 't'}) do
-    vim.fn["submode#enter_with"]("winreisze", m, "<C-W>" .. i, "<C-W>" .. i)
-    vim.fn["submode#map"]("winreisze", m, "", i, "2<C-W>" .. i)
-  end
-end
 set_keymap({'', 't'}, '<C-Up>', '<Cmd>2wincmd +<CR>')
 set_keymap({'', 't'}, '<C-Down>', '<Cmd>2wincmd -<CR>')
 set_keymap({'', 't'}, '<C-Left>', '<Cmd>2wincmd <<CR>')
