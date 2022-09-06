@@ -238,6 +238,7 @@ local function set_colorscheme(nm)
   vim.api.nvim_set_hl(0, "IlluminatedWordText", ILLUMINATION)
   vim.api.nvim_set_hl(0, "IlluminatedWordRead", ILLUMINATION)
   vim.api.nvim_set_hl(0, "IlluminatedWordWrite", ILLUMINATION)
+  vim.api.nvim_set_hl(0, "Folded", ILLUMINATION)
 end
 set_colorscheme(DEFAULT_COLORSCHEME)
 
