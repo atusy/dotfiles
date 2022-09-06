@@ -620,6 +620,55 @@ end
 set_keymap('n', '<C-G>a', '<Cmd>up<CR><Plug>(vgit.buffer_stage)')
 set_keymap('n', '<C-G><C-A>', '<Cmd>up<CR><Plug>(vgit.buffer_hunk_stage)')
 
+-- gin
+local function _ginbuffer(cmd, callback)
+  if not callback then
+    safely(vim.cmd)("GinBuffer " .. cmd)
+    return
+  end
+  local autocmd = vim.api.nvim_create_autocmd("FileType", {
+    pattern = "gin",
+    callback = callback,
+    once = true,
+  })
+  safely(vim.cmd)("GinBuffer " .. cmd)
+  safely(vim.api.nvim_del_autocmd)(autocmd)
+end
+
+local function _nmap_ginshow(sha_extractor)
+  set_keymap(
+    "n", "K",
+    function()
+      local line = vim.api.nvim_get_current_line()
+      local sha = sha_extractor ~= nil and sha_extractor(line) or line:gsub("^[^%s]+%s+", ""):gsub("%s+.*", "")
+      -- local ok, _ = safely(vim.cmd)("!git cat-file -t " .. sha)
+      local ok = true
+      if ok then
+        _ginbuffer([[++processor=delta ++opener=belowright\ split show ]] .. sha)
+      end
+    end,
+    {buffer = 0}
+  )
+end
+
+vim.api.nvim_create_user_command('GinDelta', function(opt)
+  vim.cmd([[GinDiff ++processor=delta ]] .. opt.args)
+end, {force = true, nargs = "*"})
+
+vim.api.nvim_create_user_command('GinGraph', function(opt)
+  -- local cmd = [[log --graph --date-order -C -M --pretty=format:\"<%h>\ %ad\ [%an]\ %Cgreen%d%Creset\ %s\" --date=short ]]
+  local cmd = "graph "
+  _ginbuffer(cmd .. opt.args, function(_) _nmap_ginshow() end)
+end, {force = true, nargs = "*"})
+
+vim.api.nvim_create_augroup("gin-custom", {})
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = "gitrebase",
+  callback = function(_) _nmap_ginshow() end,
+  group = "gin-custom",
+})
+
+
 -- fugitive
 set_keymap('n', '<C-G><C-Space>', '<Cmd>Git commit<Space><CR>')
 
