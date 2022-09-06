@@ -583,10 +583,12 @@ require'treesitter-context'.setup({
     },
   },
 })
-set_keymap('o', 'm', ':<C-U>lua require"tsht".nodes()<CR>', {silent = true})
-set_keymap('v', 'm', ':lua require"tsht".nodes()<CR>', {silent = true})
+-- set_keymap('o', 'm', ':<C-U>lua require"tsht".nodes()<CR>', {silent = true})
+-- set_keymap('v', 'm', ':lua require"tsht".nodes()<CR>', {silent = true})
+set_keymap({'v', 'o'}, 'm', require'leap-ast'.leap, {silent = true})
 set_keymap('n', 'zf', function()
-  require'tsht'.nodes()
+  vim.cmd("normal! v")
+  require'leap-ast'.leap()
   vim.cmd("normal! zf")
 end, {silent = true, desc='manually fold lines based on treehopper'})
 set_keymap('x', 'iu', ':lua require"treesitter-unit".select()<CR>')
