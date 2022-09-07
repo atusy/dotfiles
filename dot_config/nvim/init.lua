@@ -221,6 +221,12 @@ require'jetpack'.startup(function(use)
   use 'mattn/vim-goimports'
 end)
 
+local _reload = require('plenary.reload').reload_module
+local function _require(name)
+  _reload(name)
+  return require(name)
+end
+
 
 --[[ colorscheme/highlight ]]
 -- params
@@ -621,64 +627,14 @@ set_keymap('n', '<C-G>a', '<Cmd>up<CR><Plug>(vgit.buffer_stage)')
 set_keymap('n', '<C-G><C-A>', '<Cmd>up<CR><Plug>(vgit.buffer_hunk_stage)')
 
 -- gin
-local function _ginbuffer(cmd, callback)
-  if not callback then
-    safely(vim.cmd)("GinBuffer " .. cmd)
-    return
-  end
-  local autocmd = vim.api.nvim_create_autocmd("FileType", {
-    pattern = "gin",
-    callback = callback,
-    once = true,
-  })
-  safely(vim.cmd)("GinBuffer " .. cmd)
-  safely(vim.api.nvim_del_autocmd)(autocmd)
-end
+local has_delta = vim.fn.executable('delta') == 1
+_require("gintonic").setup({processor = has_delta and "delta" or nil})
+vim.api.nvim_exec([[
+  cabbrev GitDiff GintonicDelta
+  cabbrev GitGraph GintonicGraph
+]], false)
 
-local function _nmap_ginshow(sha_extractor)
-  local win_show = nil
-  local function show(line, opener)
-    line = line or vim.api.nvim_get_current_line()
-    opener = opener or [[++opener=belowright\ split]]
-    local sha = sha_extractor ~= nil and sha_extractor(line) or line:gsub("^[^%s]+%s+", ""):gsub("%s+.*", "")
-    -- local ok, _ = safely(vim.cmd)("!git cat-file -t " .. sha)
-    local ok = true
-    if ok then
-      _ginbuffer([[++processor=delta ]] .. opener .. [[ show ]] .. sha)
-    end
-  end
-  local function preview(key)
-    vim.cmd("normal! " .. key)
-    local line = vim.api.nvim_get_current_line()
-    if win_show == nil or not vim.api.nvim_win_is_valid(win_show)  then
-      local win_cur = vim.api.nvim_get_current_win()
-      show(line)
-      win_show = vim.api.nvim_get_current_win()
-      vim.api.nvim_set_current_win(win_cur)
-    end
-    vim.api.nvim_win_call(win_show, function() show(line, "") end)
-  end
-  set_keymap("n", "K", function() show() end, {buffer = 0})
-  set_keymap("n", "<Down>", function() preview("j") end, {buffer = 0})
-  set_keymap("n", "<Up>", function() preview("k") end, {buffer = 0})
-end
-
-vim.api.nvim_create_user_command('GinDelta', function(opt)
-  vim.cmd([[GinDiff ++processor=delta ]] .. opt.args)
-end, {force = true, nargs = "*"})
-
-vim.api.nvim_create_user_command('GinGraph', function(opt)
-  local cmd = "log --graph --oneline"
-  _ginbuffer(cmd .. opt.args, function(_) _nmap_ginshow() end)
-end, {force = true, nargs = "*"})
-
-vim.api.nvim_create_augroup("gin-custom", {})
-vim.api.nvim_create_autocmd("FileType", {
-  pattern = "gitrebase",
-  callback = function(_) _nmap_ginshow() end,
-  group = "gin-custom",
-})
-
+-- fugitive
 set_keymap('n', '<C-G><C-Space>', [[<Cmd>Git commit<CR>]])
 
 --[[ terminal settings ]]
