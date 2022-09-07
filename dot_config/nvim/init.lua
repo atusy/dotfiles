@@ -669,7 +669,7 @@ vim.api.nvim_create_autocmd("FileType", {
 
 
 -- fugitive
-set_keymap('n', '<C-G><C-Space>', '<Cmd>Git commit<Space><CR>')
+set_keymap('n', '<C-G><C-Space>', '<Cmd>Git commit<CR>')
 
 --[[ terminal settings ]]
 vim.api.nvim_create_augroup('termopen', {})
