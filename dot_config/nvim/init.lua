@@ -656,8 +656,7 @@ vim.api.nvim_create_user_command('GinDelta', function(opt)
 end, {force = true, nargs = "*"})
 
 vim.api.nvim_create_user_command('GinGraph', function(opt)
-  -- local cmd = [[log --graph --date-order -C -M --pretty=format:\"<%h>\ %ad\ [%an]\ %Cgreen%d%Creset\ %s\" --date=short ]]
-  local cmd = "graph "
+  local cmd = "log --graph --oneline"
   _ginbuffer(cmd .. opt.args, function(_) _nmap_ginshow() end)
 end, {force = true, nargs = "*"})
 
