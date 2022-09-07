@@ -667,9 +667,7 @@ vim.api.nvim_create_autocmd("FileType", {
   group = "gin-custom",
 })
 
-
--- fugitive
-set_keymap('n', '<C-G><C-Space>', '<Cmd>Git commit<Space><CR>')
+set_keymap('n', '<C-G><C-Space>', [[<Cmd>Gin ++opener=belowright\ split commit<Space><CR>]])
 
 --[[ terminal settings ]]
 vim.api.nvim_create_augroup('termopen', {})
