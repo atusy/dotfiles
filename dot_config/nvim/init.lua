@@ -16,7 +16,7 @@ local vim = vim -- minimize LSP warning
 
 -- [[ helpers ]]
 local function safely(f)
-  return function(...) pcall(f, ...) end
+  return function(...) return pcall(f, ...) end
 end
 
 --[[ options ]]
