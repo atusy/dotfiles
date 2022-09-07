@@ -28,7 +28,7 @@
 	clean = git-lfs clean -- %f
 [alias]
 	tracked = status -u no --short --branch
-	graph = log --graph --date-order -C -M --pretty=format:\"<%h> %ad [%an] %Cgreen%d%Creset %s\" --date=short
+	graph = log --graph --date-order -C -M --pretty=format:\"%h <%ad> [%an] %Cgreen%d%Creset %s\" --date=short
 	unstage = reset HEAD
 	stage = add
 	ff = merge --ff
