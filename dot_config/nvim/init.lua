@@ -16,7 +16,7 @@ local vim = vim -- minimize LSP warning
 
 -- [[ helpers ]]
 local function safely(f)
-  return function(...) return pcall(f, ...) end
+  return function(...) pcall(f, ...) end
 end
 
 --[[ options ]]
@@ -636,19 +636,31 @@ local function _ginbuffer(cmd, callback)
 end
 
 local function _nmap_ginshow(sha_extractor)
-  set_keymap(
-    "n", "K",
-    function()
-      local line = vim.api.nvim_get_current_line()
-      local sha = sha_extractor ~= nil and sha_extractor(line) or line:gsub("^[^%s]+%s+", ""):gsub("%s+.*", "")
-      -- local ok, _ = safely(vim.cmd)("!git cat-file -t " .. sha)
-      local ok = true
-      if ok then
-        _ginbuffer([[++processor=delta ++opener=belowright\ split show ]] .. sha)
-      end
-    end,
-    {buffer = 0}
-  )
+  local win_show = nil
+  local function show(line, opener)
+    line = line or vim.api.nvim_get_current_line()
+    opener = opener or [[++opener=belowright\ split]]
+    local sha = sha_extractor ~= nil and sha_extractor(line) or line:gsub("^[^%s]+%s+", ""):gsub("%s+.*", "")
+    -- local ok, _ = safely(vim.cmd)("!git cat-file -t " .. sha)
+    local ok = true
+    if ok then
+      _ginbuffer([[++processor=delta ]] .. opener .. [[ show ]] .. sha)
+    end
+  end
+  local function preview(key)
+    vim.cmd("normal! " .. key)
+    local line = vim.api.nvim_get_current_line()
+    if win_show == nil or not vim.api.nvim_win_is_valid(win_show)  then
+      local win_cur = vim.api.nvim_get_current_win()
+      show(line)
+      win_show = vim.api.nvim_get_current_win()
+      vim.api.nvim_set_current_win(win_cur)
+    end
+    vim.api.nvim_win_call(win_show, function() show(line, "") end)
+  end
+  set_keymap("n", "K", function() show() end, {buffer = 0})
+  set_keymap("n", "<Down>", function() preview("j") end, {buffer = 0})
+  set_keymap("n", "<Up>", function() preview("k") end, {buffer = 0})
 end
 
 vim.api.nvim_create_user_command('GinDelta', function(opt)
@@ -667,9 +679,7 @@ vim.api.nvim_create_autocmd("FileType", {
   group = "gin-custom",
 })
 
-
--- fugitive
-set_keymap('n', '<C-G><C-Space>', '<Cmd>Git commit<CR>')
+set_keymap('n', '<C-G><C-Space>', [[<Cmd>Gin ++opener=belowright\ split commit<Space><CR>]])
 
 --[[ terminal settings ]]
 vim.api.nvim_create_augroup('termopen', {})
