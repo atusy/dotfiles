@@ -628,7 +628,11 @@ set_keymap('n', '<C-G><C-A>', '<Cmd>up<CR><Plug>(vgit.buffer_hunk_stage)')
 
 -- gin
 local has_delta = vim.fn.executable('delta') == 1
-_require("gintonic").setup({processor = has_delta and "delta" or nil})
+_require("gintonic").setup({
+  params = {
+    GinBuffer = {processor = has_delta and "delta" or nil}
+  }
+})
 vim.api.nvim_exec([[
   cabbrev GitDiff GintonicDelta
   cabbrev GitGraph GintonicGraph
