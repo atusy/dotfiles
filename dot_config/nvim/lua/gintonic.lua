@@ -1,6 +1,6 @@
 local vim = vim
 
-M = {
+local gintonic = {
   opt = {},
   tonic = {},
   gin = {},
@@ -23,7 +23,7 @@ end
 
 local function ginparams(params, cmd)
   local params_list = {}
-  for k, v in pairs(merge_table(params, cmd and M.opt.params[cmd])) do
+  for k, v in pairs(merge_table(params, cmd and gintonic.opt.params[cmd])) do
     table.insert(params_list, "++" .. k .. "=" .. v:gsub(" ", [[\ ]]))
   end
   return table.concat(params_list, " ")
@@ -37,7 +37,7 @@ local function gincmd(cmd, params, args, merge)
   }, " "))
 end
 
-M.gin.ginbuffer = function(params, args, merge, bo)
+gintonic.gin.ginbuffer = function(params, args, merge, bo)
   bo = merge_table(bo, {})
   local autocmd = vim.api.nvim_create_autocmd("FileType", {
     pattern = "gin",
@@ -52,23 +52,23 @@ M.gin.ginbuffer = function(params, args, merge, bo)
   pcall(vim.api.nvim_del_autocmd, autocmd)
 end
 
-M.tonic.show = function(obj, params, args)
-  obj = M.utils.object_getters.default(obj)
+gintonic.tonic.show = function(obj, params, args)
+  obj = gintonic.utils.object_getters.default(obj)
   if obj == nil then
     return false
   end
-  M.gin.ginbuffer(params, "show " .. obj .. " " .. (args or ""))
+  gintonic.gin.ginbuffer(params, "show " .. obj .. " " .. (args or ""))
   return true
 end
 
-M.utils.is_object = function(s)
+gintonic.utils.is_object = function(s)
   return type(s) == "string" and s ~= "" and os.execute("git cat-file -e " .. s .. " 2>/dev/null") == 0
 end
 
 local create_object_getter = function(getter)
   return function()
     local w = getter()
-    return M.utils.is_object(w) and w or nil
+    return gintonic.utils.is_object(w) and w or nil
   end
 end
 
@@ -93,14 +93,14 @@ local function get_cursor_word(win)
   return left .. right
 end
 
-M.utils.object_getters = {
+gintonic.utils.object_getters = {
   gitrebase = create_object_getter(function() return get_nth_word(nil, 2) end),
   gintonicgraph = create_object_getter(function() return get_nth_word(nil, 2) end),
   default = function(x)
     if x ~= nil then
-      return M.utils.is_object(x) and x or nil
+      return gintonic.utils.is_object(x) and x or nil
     end
-    local get = M.utils.object_getters[vim.api.nvim_buf_get_option(0, "filetype")]
+    local get = gintonic.utils.object_getters[vim.api.nvim_buf_get_option(0, "filetype")]
     if get == nil then
       return create_object_getter(get_cursor_word)()
     end
@@ -110,8 +110,8 @@ M.utils.object_getters = {
 
 local function _keymap_ginshow(opt)
   -- shortcuts
-  local get = M.opt.get_object or M.utils.object_getters.default
-  local show = M.tonic.show
+  local get = gintonic.opt.get_object or gintonic.utils.object_getters.default
+  local show = gintonic.tonic.show
   local show_below = function(obj)
     return show(obj, {opener = "belowright split"})
   end
@@ -163,7 +163,7 @@ local function create_command()
     },
     GintonicGraph = {
       function(params)
-        M.gin.ginbuffer(
+        gintonic.gin.ginbuffer(
           {},
           "log --graph --oneline " .. params.args,
           true,
@@ -177,7 +177,7 @@ local function create_command()
 end
 
 local function create_autocmd(opt)
-  opt = merge_table(opt, M.opt)
+  opt = merge_table(opt, gintonic.opt)
   vim.api.nvim_create_augroup("gintonic-default", {})
   vim.api.nvim_create_autocmd("FileType", {
     pattern = {"gitrebase", "gintonicgraph"},
@@ -189,17 +189,17 @@ end
 local default = {
   keymap = function() return true end,
   params = function() return {} end,
-  get_object = function() return M.utils.object_getters.default end
+  get_object = function() return gintonic.utils.object_getters.default end
 }
 
-M.setup = function(opt)
+gintonic.setup = function(opt)
   opt = type(opt) == "table" and opt or {}
-  M.opt = {}
+  gintonic.opt = {}
   for k, v in pairs(default) do
-    M.opt[k] = opt[k] == nil and v() or opt[k]
+    gintonic.opt[k] = opt[k] == nil and v() or opt[k]
   end
   create_command()
   create_autocmd()
 end
 
-return M
+return gintonic
