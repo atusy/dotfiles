@@ -67,8 +67,15 @@ gintonic.utils.get_lines = function(callback)
   local win = vim.api.nvim_open_win(0, false, {relative = 'win', row = 0, col = 0, width = 1, height = 1})
   if win == 0 then return end
   local ok = vim.api.nvim_win_call(win, callback)
-  local lines = ok and vim.api.nvim_buf_get_lines(vim.api.nvim_win_get_buf(win), 0, -1, false) or {}
-  vim.api.nvim_win_close(win, true)
+  local buf = vim.api.nvim_win_get_buf(win)
+  local lines = ok and vim.api.nvim_buf_get_lines(buf, 0, -1, false) or {}
+  if buf ~= 0 then
+    vim.api.nvim_buf_delete(buf, {force = true, unload = false})
+  end
+  if vim.api.nvim_win_is_valid(win) then
+    -- nvim_buf_delete should have also closed win
+    vim.api.nvim_win_close(win, true)
+  end
   return lines
 end
 
