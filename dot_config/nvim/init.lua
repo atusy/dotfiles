@@ -667,7 +667,7 @@ local lazygit = require'toggleterm.terminal'.Terminal:new {
   direction = 'float'
 }
 set_keymap(
-  'n', '<C-G><C-L>',
+  'n', '<C-G>l',
   function() lazygit:toggle() end,
   {desc = 'lazygit', silent = true}
 )
