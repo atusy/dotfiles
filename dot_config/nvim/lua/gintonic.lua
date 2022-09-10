@@ -53,7 +53,7 @@ gintonic.gin.ginbuffer = function(params, args, merge, bo)
 end
 
 gintonic.tonic.show = function(obj, params, args)
-  obj = gintonic.utils.object_getters.default(obj)
+  obj = gintonic.opt.get_object(obj)
   if obj == nil then
     return false
   end
