@@ -812,7 +812,7 @@ null_ls.setup()
 null_ls.register({
   name = "git-show",
   method = null_ls.methods.HOVER,
-  filetypes = { "gintonicgraph", "gitrebase" },
+  filetypes = { "gintonic-graph", "gitrebase" },
   generator = {
     fn = function(_)
       local gintonic = _require('gintonic')
@@ -827,7 +827,7 @@ null_ls.register({
 vim.api.nvim_create_augroup("null-ls-custom", {})
 vim.api.nvim_create_autocmd("FileType", {
   group = "null-ls-custom",
-  pattern = { "gintonicgraph", "gitrebase" },
+  pattern = { "gintonic-graph", "gitrebase" },
   callback = function(_)
     set_keymap('n', 'K', '<cmd>lua vim.lsp.buf.hover()<CR>', {silent = true, buffer = 0})
   end

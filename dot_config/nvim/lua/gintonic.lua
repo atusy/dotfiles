@@ -202,7 +202,7 @@ local function create_command()
           {},
           "log --graph --oneline " .. params.args,
           true,
-          {filetype = "gintonicgraph"}
+          {filetype = "gintonic-graph"}
         )
       end
     }
@@ -215,7 +215,7 @@ local function create_autocmd(opt)
   opt = merge_table(opt, gintonic.opt)
   vim.api.nvim_create_augroup("gintonic-default", {})
   vim.api.nvim_create_autocmd("FileType", {
-    pattern = {"gitrebase", "gintonicgraph"},
+    pattern = {"gitrebase", "gintonic-graph"},
     callback = function(_) _keymap_ginshow(opt) end,
     group = "gintonic-default",
   })
