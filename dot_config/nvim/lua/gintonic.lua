@@ -127,7 +127,7 @@ end
 
 gintonic.utils.object_getters = {
   gitrebase = create_object_getter(function() return get_nth_word(nil, 2) end),
-  gintonicgraph = create_object_getter(function() return get_nth_word(nil, 2) end),
+  ['gintonic-graph'] = create_object_getter(function() return get_nth_word(nil, 2) end),
   default = function(x)
     if x ~= nil then
       return gintonic.utils.is_object(x) and x or nil
