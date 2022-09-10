@@ -635,7 +635,7 @@ _require("gintonic").setup({
   }
 })
 vim.api.nvim_exec([[
-  cabbrev GitDiff GintonicDelta
+  cabbrev GitDiff GintonicDiff
   cabbrev GitGraph GintonicGraph
 ]], false)
 
