@@ -638,6 +638,8 @@ vim.api.nvim_exec([[
   cabbrev GitDiff GintonicDiff
   cabbrev GitGraph GintonicGraph
 ]], false)
+set_keymap('n', '<C-G><C-P>', '<Cmd>GinPatch ++opener=tabnew %<CR>')
+set_keymap('n', '<C-G><C-L>', '<Cmd>GintonicGraph<CR>')
 
 -- fugitive
 set_keymap('n', '<C-G><C-Space>', [[<Cmd>Git commit<CR>]])
