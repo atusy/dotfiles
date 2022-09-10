@@ -74,7 +74,7 @@ end
 --[[ mappings ]]
 local function set_keymap(lhs, rhs, cmd, opts)
   opts = opts or {}
-  opts.desc = nil  -- desc breaks Fern actions
+  -- opts.desc = nil  -- desc breaks Fern actions
   vim.keymap.set(lhs, rhs, cmd, opts)
 end
 vim.g.mapleader = ' '
