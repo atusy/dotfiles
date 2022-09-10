@@ -62,6 +62,19 @@ gintonic.tonic.show = function(obj, params, args)
 end
 
 gintonic.utils.get_lines = function(callback)
+  -- In general, GinBuffer creates a new buffer, but with nvim_buf_call,
+  -- it seems the buffer is reused. When something wrong happens,
+  -- the following another implementation with floating window is desired.
+  local buf = vim.api.nvim_create_buf(false, false)
+  if buf == 0 then return end
+  local ok = vim.api.nvim_buf_call(buf, callback)
+  local lines = ok and vim.api.nvim_buf_get_lines(buf, 0, -1, false) or {}
+  vim.api.nvim_buf_delete(buf, {force = true, unload = false})
+  return lines
+end
+
+--[[ -- yet another implementation
+gintonic.utils.get_lines = function(callback)
   -- callback opens a new buffer in an invisible floating window
   -- it should return true or false indicating the success
   local win = vim.api.nvim_open_win(0, false, {relative = 'win', row = 0, col = 0, width = 1, height = 1})
@@ -78,6 +91,7 @@ gintonic.utils.get_lines = function(callback)
   end
   return lines
 end
+]]
 
 gintonic.utils.is_object = function(s)
   return type(s) == "string" and s ~= "" and os.execute("git cat-file -e " .. s .. " 2>/dev/null") == 0
