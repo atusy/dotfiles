@@ -190,6 +190,15 @@ local function _keymap_ginshow(opt)
   end
 end
 
+gintonic.tonic.graph = function(params, args)
+  gintonic.gin.ginbuffer(
+    params,
+    table.concat({"log --graph --oneline", args or ""}, " "),
+    true,
+    {filetype = "gintonic-graph"}
+  )
+end
+
 --[[ setup ]]
 local function create_command()
   for nm, val in pairs({
@@ -197,14 +206,7 @@ local function create_command()
       function(params) gincmd("GinDiff", {}, params.args) end
     },
     GintonicGraph = {
-      function(params)
-        gintonic.gin.ginbuffer(
-          {},
-          "log --graph --oneline " .. params.args,
-          true,
-          {filetype = "gintonic-graph"}
-        )
-      end
+      function(params) gintonic.tonic.graph(nil, params.args) end
     }
   }) do
     vim.api.nvim_create_user_command(nm, val[1], {force = true, nargs = "*"})
