@@ -200,6 +200,7 @@ require'jetpack'.startup(function(use)
   use 'folke/lsp-colors.nvim'
   use 'tamago324/nlsp-settings.nvim'
   use 'ii14/emmylua-nvim'
+  use 'jose-elias-alvarez/null-ls.nvim'
 
   -- ddc
   use 'Shougo/ddc.vim'
@@ -801,6 +802,35 @@ vim.api.nvim_create_autocmd({"BufWritePre"}, {
   group="terraform-custom",
   pattern = {"*.tf", "*.tfvars"},
   callback = vim.lsp.buf.formatting_sync,
+})
+
+-- null_ls
+local null_ls = require("null-ls")
+null_ls.reset_sources()
+null_ls.setup()
+
+null_ls.register({
+  name = "git-show",
+  method = null_ls.methods.HOVER,
+  filetypes = { "gintonicgraph", "gitrebase" },
+  generator = {
+    fn = function(_)
+      local gintonic = _require('gintonic')
+      local obj = gintonic.utils.object_getters.default()
+      return gintonic.utils.get_lines(
+        function() return gintonic.tonic.show(obj, nil, "--no-patch") end
+      )
+    end,
+  },
+})
+
+vim.api.nvim_create_augroup("null-ls-custom", {})
+vim.api.nvim_create_autocmd("FileType", {
+  group = "null-ls-custom",
+  pattern = { "gintonicgraph", "gitrebase" },
+  callback = function(_)
+    set_keymap('n', 'K', '<cmd>lua vim.lsp.buf.hover()<CR>', {silent = true, buffer = 0})
+  end
 })
 
 --[[ autocompletion settings ]]
