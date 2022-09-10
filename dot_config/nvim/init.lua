@@ -72,10 +72,10 @@ end
 
 
 --[[ mappings ]]
-local function set_keymap(lhs, rhs, cmd, opts)
+local function set_keymap(mode, lhs, rhs, opts)
   opts = opts or {}
   -- opts.desc = nil  -- desc breaks Fern actions
-  vim.keymap.set(lhs, rhs, cmd, opts)
+  vim.keymap.set(mode, lhs, rhs, opts)
 end
 vim.g.mapleader = ' '
 for _, k in ipairs({'s', ',', ';'}) do
@@ -756,7 +756,7 @@ local on_attach = function(client, bufnr)
   set_keymap('n', '<Leader>rn', '<cmd>lua vim.lsp.buf.rename()<CR>', OPTS)
   set_keymap('n', '<Leader>ca', require'lspsaga.codeaction'.code_action, OPTS)
   -- set_keymap('n', '<Leader>ca', '<cmd>lua vim.lsp.buf.code_action()<CR>', OPTS)
-  set_keymap('n', 'gr', TelescopeBuiltin.lsp_references, OPTS)
+  set_keymap('n', 'gr', TelescopeBuiltin.lsp_references, {silent = true, buffer = bufnr, desc = 'lsp reference'})
   -- set_keymap('n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>', OPTS)
   set_keymap('n', '<Leader>lf', '<cmd>lua vim.lsp.buf.formatting()<CR>', OPTS)
 end
