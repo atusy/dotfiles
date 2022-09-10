@@ -112,7 +112,7 @@ local function _keymap_ginshow(opt)
   -- shortcuts
   local get = gintonic.opt.get_object or gintonic.utils.object_getters.default
   local show = gintonic.tonic.show
-  local show_below = function(obj)
+  local show_split = function(obj)
     return show(obj, {opener = "belowright split"})
   end
 
@@ -129,7 +129,7 @@ local function _keymap_ginshow(opt)
 
     -- invoke show() in new window, save window handler, and go back
     local win_cur = vim.api.nvim_get_current_win()
-    local ok = show_below(obj)
+    local ok = show_split(obj)
     if ok then
       win_preview = vim.api.nvim_get_current_win()
       vim.api.nvim_set_current_win(win_cur)
@@ -138,7 +138,8 @@ local function _keymap_ginshow(opt)
 
   -- keymaps
   for _, v in ipairs({
-    {"<Plug>(gintonic-show)", function() show_below() end},
+    {"<Plug>(gintonic-show)", function() show() end},
+    {"<Plug>(gintonic-show-split)", function() show_split() end},
     {"<Plug>(gintonic-preview)", function() preview() end},
   }) do
     vim.keymap.set("n", v[1], v[2], {buffer = 0})
@@ -146,7 +147,9 @@ local function _keymap_ginshow(opt)
 
   if opt.keymap ~= false then
     for _, v in ipairs({
-      {"K", "<Plug>(gintonic-show)"},
+      {"gf", "<Plug>(gintonic-show)"},
+      {"<C-W>f", "<Plug>(gintonic-show-split)"},
+      {"<C-W><C-F>", "<Plug>(gintonic-show-split)"},
       {"<Down>", "j<Plug>(gintonic-preview)"},
       {"<Up>", "k<Plug>(gintonic-preview)"},
     }) do
@@ -191,6 +194,11 @@ local default = {
   params = function() return {} end,
   get_object = function() return gintonic.utils.object_getters.default end
 }
+
+gintonic.opt = {}
+for k, f in pairs(default) do
+  gintonic.opt[k] = f()
+end
 
 gintonic.setup = function(opt)
   opt = type(opt) == "table" and opt or {}
