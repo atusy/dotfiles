@@ -477,7 +477,14 @@ set_keymap({'n', 'v', 'x'}, 'sj', '<Plug>(leap-forward)')
 set_keymap({'n', 'v', 'x'}, 'sk', '<Plug>(leap-backward)')
 set_keymap(
   {'n', 'v', 'x'},
-  'sg',
+  'ss',
+  function()
+    require('leap').leap({target_windows = {vim.fn.win_getid()}})
+  end
+)
+set_keymap(
+  {'n'},
+  'SS',
   function()
     require('leap').leap { target_windows = vim.tbl_filter(
       function (win) return vim.api.nvim_win_get_config(win).focusable end,
