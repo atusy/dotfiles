@@ -121,15 +121,34 @@ if vim.fn.executable('nvr') == 1 then
 end
 
 --[[ PLUGIN SETTINGS ]]
-local colorscheme = require('config.colorscheme')
+local function _require(name)
+  -- reload becomes available from the second load of $MYVIMRC
+  pcall(function()
+    require('plenary.reload').reload_module(name)
+  end)
+  return require(name)
+end
+local colorscheme = _require('config.colorscheme')
+local git = _require('config.git')
 vim.cmd('packadd vim-jetpack')
 require'jetpack'.startup(function(use)
+  local used = {}
+  local function use_deps(config)
+    for _, dep in pairs(config.deps) do
+      if not used[dep[1]] then
+        used[dep[1]] = true
+        use(dep)
+      end
+    end
+  end
+  use_deps(colorscheme)
+  use_deps(git)
+
   use { 'tani/vim-jetpack', opt = 1 } -- bootstrap
 
   -- basic dependencies
   use 'tpope/vim-repeat'
   use 'kyazdani42/nvim-web-devicons' -- for lualine
-  use 'nvim-lua/plenary.nvim' -- for gitsigns, vgit
   use 'vim-denops/denops.vim'
   use 'kana/vim-submode'
 
@@ -151,11 +170,6 @@ require'jetpack'.startup(function(use)
   use 'haya14busa/vim-asterisk'      -- *
   use 'lambdalisue/readablefold.vim'
 
-  -- colorscheme
-  for _, dep in ipairs(colorscheme.deps) do
-    use(dep)
-  end
-
   -- statusline
   use 'nvim-lualine/lualine.nvim'
   -- use 'b0o/incline.nvim' -- TODO
@@ -169,12 +183,6 @@ require'jetpack'.startup(function(use)
   -- fuzzy finder
   use 'nvim-telescope/telescope.nvim'
   use {'nvim-telescope/telescope-fzf-native.nvim', run = 'make'}
-
-  -- git
-  use 'tpope/vim-fugitive'
-  use 'knsh14/vim-github-link'
-  use 'lambdalisue/gin.vim'
-  use 'tanvirtin/vgit.nvim'
 
   -- treesitter
   use {'nvim-treesitter/nvim-treesitter', frozen = true}
@@ -220,15 +228,11 @@ require'jetpack'.startup(function(use)
   use 'mattn/vim-goimports'
 end)
 
-local _reload = require('plenary.reload').reload_module
-local function _require(name)
-  _reload(name)
-  return require(name)
-end
 
 
 --[[ colorscheme/highlight ]]
 colorscheme.setup()
+git.setup()
 
 -- illuminate
 local Illuminate = require'illuminate'
@@ -555,75 +559,6 @@ set_keymap('x', 'au', ':lua require"treesitter-unit".select(true)<CR>')
 set_keymap('o', 'iu', ':<C-U>lua require"treesitter-unit".select()<CR>')
 set_keymap('o', 'au', ':<C-U>lua require"treesitter-unit".select(true)<CR>')
 
-
---[[ git settings ]]
--- <C-G><C-S> is used by telescope.builtin.git_status
--- vgit
-local Vgit = require'vgit'
-Vgit.setup {
-  keymaps = {
-    ['n <Up>'] = 'hunk_up',
-    ['n <Down>'] = 'hunk_down',
-    ['n <C-G><C-P>'] = 'buffer_hunk_preview',
-    ['n <C-G><C-R>'] = 'buffer_hunk_reset',
-  },
-  settings = {
-    live_blame = {
-      enabled = false
-    }
-  }
-}
-vim.api.nvim_create_user_command('ToggleBlame', Vgit.toggle_live_blame, {})
-for k, v in pairs(Vgit) do
-  if type(v) == "function" then
-    set_keymap('n', '<Plug>(vgit.' .. k .. ')', v)
-  end
-end
-set_keymap('n', '<C-G>a', '<Cmd>up<CR><Plug>(vgit.buffer_stage)')
-set_keymap('n', '<C-G><C-A>', '<Cmd>up<CR><Plug>(vgit.buffer_hunk_stage)')
-
--- gin
-local has_delta = vim.fn.executable('delta') == 1
-if has_delta then
-  vim.g.gin_diff_default_args = {"++processor=delta"}
-  vim.g.gin_patch_default_args = {"++opener=tabnew"}
-end
-_require("gintonic").setup({
-  params = {
-    GinBuffer = {processor = has_delta and "delta" or nil}
-  }
-})
-local augroup_gin = vim.api.nvim_create_augroup("gin-custom", {})
-vim.api.nvim_create_autocmd(
-  "FileType",
-  {
-    group = augroup_gin,
-    pattern = "gin-patch",
-    callback = function()
-      set_keymap("n", "<C-G><C-A>", "<Plug>(gin-diffget-r)", {bufnr = 0})
-      set_keymap("n", "<C-G><C-R>", "<Plug>(gin-diffget-l)", {bufnr = 0})
-    end
-  }
-)
-vim.api.nvim_create_autocmd(
-  "FileType",
-  {
-    group = augroup_gin,
-    pattern = "gintonic-graph",
-    callback = function()
-      vim.opt_local.cursorline = true
-    end
-  }
-)
-vim.api.nvim_exec([[
-  cabbrev GinGraph GintonicGraph
-  cabbrev GitGraph GintonicGraph
-]], false)
-set_keymap('n', '<C-G><C-P>', '<Cmd>GinPatch %<CR>')
-set_keymap('n', '<C-G><C-L>', '<Cmd>GintonicGraph<CR>')
-
--- fugitive
-set_keymap('n', '<C-G><C-Space>', [[<Cmd>Git commit<CR>]])
 
 --[[ terminal settings ]]
 vim.api.nvim_create_augroup('termopen', {})
