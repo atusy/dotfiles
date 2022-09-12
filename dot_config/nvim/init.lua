@@ -640,6 +640,7 @@ set_keymap('n', '<C-G><C-A>', '<Cmd>up<CR><Plug>(vgit.buffer_hunk_stage)')
 local has_delta = vim.fn.executable('delta') == 1
 if has_delta then
   vim.g.gin_diff_default_args = {"++processor=delta"}
+  vim.g.gin_patch_default_args = {"++opener=tabnew"}
 end
 _require("gintonic").setup({
   params = {
@@ -650,7 +651,7 @@ vim.api.nvim_exec([[
   cabbrev GinGraph GintonicGraph
   cabbrev GitGraph GintonicGraph
 ]], false)
-set_keymap('n', '<C-G><C-P>', '<Cmd>GinPatch ++opener=tabnew %<CR>')
+set_keymap('n', '<C-G><C-P>', '<Cmd>GinPatch %<CR>')
 set_keymap('n', '<C-G><C-L>', '<Cmd>GintonicGraph<CR>')
 
 -- fugitive
