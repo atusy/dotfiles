@@ -34,15 +34,15 @@ local function ginparams(params, cmd)
   return table.concat(params_list, " ")
 end
 
-local function gincmd(cmd, params, args, merge)
+local function gincmd(cmd, params, args)
   return vim.cmd(table.concat({
     cmd,
-    ginparams(params, merge == true and cmd),
+    ginparams(params, cmd),
     args or ""
   }, " "))
 end
 
-gintonic.gin.ginbuffer = function(params, args, merge, bo)
+gintonic.gin.ginbuffer = function(params, args, bo)
   bo = merge_table(bo, {})
   local autocmd = vim.api.nvim_create_autocmd("FileType", {
     pattern = "gin",
@@ -53,7 +53,7 @@ gintonic.gin.ginbuffer = function(params, args, merge, bo)
     end,
     once = true,
   })
-  pcall(gincmd, "GinBuffer", params, args, merge == nil or merge)
+  pcall(gincmd, "GinBuffer", params, args)
   pcall(vim.api.nvim_del_autocmd, autocmd)
 end
 
@@ -199,7 +199,6 @@ gintonic.tonic.graph = function(params, args)
   gintonic.gin.ginbuffer(
     params,
     table.concat({"log --graph --oneline", args or ""}, " "),
-    true,
     {filetype = "gintonic-graph"}
   )
 end
