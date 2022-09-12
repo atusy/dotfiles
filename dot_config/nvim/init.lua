@@ -64,7 +64,9 @@ vim.opt.autoindent = true
 vim.opt.smartindent = true
 
 -- others
-vim.opt.shell = 'zsh'
+if vim.fn.executable('zsh') == 1 then
+  vim.opt.shell = 'zsh'
+end
 if vim.fn.executable('rg') == 1 then
   vim.opt.grepprg = [[rg --glob "!.git" --no-heading --vimgrep --follow $*]]
   vim.opt.grepformat = vim.opt.grepformat ^ { '%f:%l:%c:%m' }
