@@ -197,7 +197,6 @@ require'jetpack'.startup(function(use)
   use 'haringsrob/nvim_context_vt'
   use 'romgrk/nvim-treesitter-context'
   use 'mfussenegger/nvim-treehopper'
-  use 'David-Kunz/treesitter-unit'
   use 'JoosepAlviste/nvim-ts-context-commentstring'
 
   -- text object
@@ -545,11 +544,6 @@ set_keymap('n', 'zf', function()
   require'leap-ast'.leap()
   vim.cmd("normal! zf")
 end, {silent = true, desc='manually fold lines based on treehopper'})
-set_keymap('x', 'iu', ':lua require"treesitter-unit".select()<CR>')
-set_keymap('x', 'au', ':lua require"treesitter-unit".select(true)<CR>')
-set_keymap('o', 'iu', ':<C-U>lua require"treesitter-unit".select()<CR>')
-set_keymap('o', 'au', ':<C-U>lua require"treesitter-unit".select(true)<CR>')
-
 
 --[[ terminal settings ]]
 vim.api.nvim_create_augroup('termopen', {})
