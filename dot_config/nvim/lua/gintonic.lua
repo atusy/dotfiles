@@ -24,7 +24,12 @@ end
 local function ginparams(params, cmd)
   local params_list = {}
   for k, v in pairs(merge_table(params, cmd and gintonic.opt.params[cmd])) do
-    table.insert(params_list, "++" .. k .. "=" .. v:gsub(" ", [[\ ]]))
+    if type(v) == "string" then
+      table.insert(params_list, "++" .. k .. "=" .. v:gsub(" ", [[\ ]]))
+    elseif v then
+      -- add option if truthy (e.g., ++wait)
+      table.insert(params_list, "++" .. k)
+    end
   end
   return table.concat(params_list, " ")
 end
