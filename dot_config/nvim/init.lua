@@ -638,6 +638,9 @@ set_keymap('n', '<C-G><C-A>', '<Cmd>up<CR><Plug>(vgit.buffer_hunk_stage)')
 
 -- gin
 local has_delta = vim.fn.executable('delta') == 1
+if has_delta then
+  vim.g.gin_diff_default_args = {"++processor=delta"}
+end
 _require("gintonic").setup({
   params = {
     GinBuffer = {processor = has_delta and "delta" or nil}
