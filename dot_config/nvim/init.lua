@@ -100,6 +100,10 @@ set_keymap({'n', 'v'}, 'gY', '"+Y')
 set_keymap('c', '<C-A>', '<Home>')
 set_keymap('c', '<C-E>', '<End>')
 set_keymap('t', '<C-W>', "'<Cmd>wincmd ' .. getcharstr() .. '<CR>'", {expr = true})
+set_keymap({'', 't'}, '<C-Up>', '<Cmd>2wincmd +<CR>')
+set_keymap({'', 't'}, '<C-Down>', '<Cmd>2wincmd -<CR>')
+set_keymap({'', 't'}, '<C-Left>', '<Cmd>2wincmd <<CR>')
+set_keymap({'', 't'}, '<C-Right>', '<Cmd>2wincmd ><CR>')
 
 
 --[[ personal utilities ]]
@@ -202,14 +206,6 @@ require'jetpack'.startup(function(use)
   -- terminal
   use 'akinsho/toggleterm.nvim'
 
-  -- lsp
-  use 'neovim/nvim-lspconfig'
-  use 'glepnir/lspsaga.nvim'
-  use 'williamboman/mason.nvim'
-  use 'tamago324/nlsp-settings.nvim'
-  use 'ii14/emmylua-nvim'
-  use 'jose-elias-alvarez/null-ls.nvim'
-
   -- ddc
   use 'Shougo/ddc.vim'
   use 'Shougo/ddc-around'
@@ -245,11 +241,6 @@ set_keymap('n', '<C-L>', Illuminate.goto_next_reference, {desc = 'next reference
 
 
 --[[ window settings ]]
-set_keymap({'', 't'}, '<C-Up>', '<Cmd>2wincmd +<CR>')
-set_keymap({'', 't'}, '<C-Down>', '<Cmd>2wincmd -<CR>')
-set_keymap({'', 't'}, '<C-Left>', '<Cmd>2wincmd <<CR>')
-set_keymap({'', 't'}, '<C-Right>', '<Cmd>2wincmd ><CR>')
-
 -- chowcho
 require'chowcho'.setup({
   use_exclude_default = false,
