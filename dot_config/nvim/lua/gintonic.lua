@@ -202,9 +202,6 @@ end
 --[[ setup ]]
 local function create_command()
   for nm, val in pairs({
-    GintonicDiff = {
-      function(params) gincmd("GinDiff", {}, params.args) end
-    },
     GintonicGraph = {
       function(params) gintonic.tonic.graph(nil, params.args) end
     }
