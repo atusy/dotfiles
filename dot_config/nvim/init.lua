@@ -647,6 +647,28 @@ _require("gintonic").setup({
     GinBuffer = {processor = has_delta and "delta" or nil}
   }
 })
+local augroup_gin = vim.api.nvim_create_augroup("gin-custom", {})
+vim.api.nvim_create_autocmd(
+  "FileType",
+  {
+    group = augroup_gin,
+    pattern = "gin-patch",
+    callback = function()
+      set_keymap("n", "<C-G><C-A>", "<Plug>(gin-diffget-r)", {bufnr = 0})
+      set_keymap("n", "<C-G><C-R>", "<Plug>(gin-diffget-l)", {bufnr = 0})
+    end
+  }
+)
+vim.api.nvim_create_autocmd(
+  "FileType",
+  {
+    group = augroup_gin,
+    pattern = "gintonic-graph",
+    callback = function()
+      vim.opt_local.cursorline = true
+    end
+  }
+)
 vim.api.nvim_exec([[
   cabbrev GinGraph GintonicGraph
   cabbrev GitGraph GintonicGraph
