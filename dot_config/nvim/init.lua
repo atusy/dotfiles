@@ -179,7 +179,7 @@ require'jetpack'.startup(function(use)
   use 'tanvirtin/vgit.nvim'
 
   -- treesitter
-  use 'nvim-treesitter/nvim-treesitter'
+  use {'nvim-treesitter/nvim-treesitter', frozen = true}
   use 'nvim-treesitter/playground'
   use 'yioneko/nvim-yati'
   use 'haringsrob/nvim_context_vt'
