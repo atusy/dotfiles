@@ -644,7 +644,6 @@ _require("gintonic").setup({
   }
 })
 vim.api.nvim_exec([[
-  cabbrev GitDiff GintonicDiff
   cabbrev GitGraph GintonicGraph
 ]], false)
 set_keymap('n', '<C-G><C-P>', '<Cmd>GinPatch ++opener=tabnew %<CR>')
