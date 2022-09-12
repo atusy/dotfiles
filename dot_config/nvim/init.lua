@@ -121,6 +121,7 @@ if vim.fn.executable('nvr') == 1 then
 end
 
 --[[ PLUGIN SETTINGS ]]
+local colorscheme = require('config.colorscheme')
 vim.cmd('packadd vim-jetpack')
 require'jetpack'.startup(function(use)
   use { 'tani/vim-jetpack', opt = 1 } -- bootstrap
@@ -151,12 +152,9 @@ require'jetpack'.startup(function(use)
   use 'lambdalisue/readablefold.vim'
 
   -- colorscheme
-  use '4513ECHO/vim-colors-hatsunemiku'
-  use 'morhetz/gruvbox'
-
-  -- highlight
-  use 'RRethy/vim-illuminate'
-  use 'norcalli/nvim-colorizer.lua'
+  for _, dep in ipairs(colorscheme.deps) do
+    use(dep)
+  end
 
   -- statusline
   use 'nvim-lualine/lualine.nvim'
@@ -183,7 +181,6 @@ require'jetpack'.startup(function(use)
   use 'nvim-treesitter/playground'
   use 'yioneko/nvim-yati'
   use 'haringsrob/nvim_context_vt'
-  use 'm-demare/hlargs.nvim'
   use 'romgrk/nvim-treesitter-context'
   use 'mfussenegger/nvim-treehopper'
   use 'David-Kunz/treesitter-unit'
@@ -199,7 +196,6 @@ require'jetpack'.startup(function(use)
   use 'neovim/nvim-lspconfig'
   use 'glepnir/lspsaga.nvim'
   use 'williamboman/mason.nvim'
-  use 'folke/lsp-colors.nvim'
   use 'tamago324/nlsp-settings.nvim'
   use 'ii14/emmylua-nvim'
   use 'jose-elias-alvarez/null-ls.nvim'
@@ -232,57 +228,7 @@ end
 
 
 --[[ colorscheme/highlight ]]
--- params
-local DEFAULT_COLORSCHEME = 'hatsunemiku'
-local ALTERNATIVE_COLORSCHEME = 'gruvbox'
-local ILLUMINATION = {bg="#383D47"}
-
--- set colorscheme
-local setup_hlargs = require'hlargs'.setup
-local setup_colorizer = require'colorizer'.setup
-local setup_lsp_colors = require'lsp-colors'.setup
-local function set_colorscheme(nm)
-  vim.cmd('colorscheme ' .. nm)
-  setup_hlargs()
-  setup_colorizer()
-  setup_lsp_colors()
-  vim.api.nvim_set_hl(0, "IlluminatedWordText", ILLUMINATION)
-  vim.api.nvim_set_hl(0, "IlluminatedWordRead", ILLUMINATION)
-  vim.api.nvim_set_hl(0, "IlluminatedWordWrite", ILLUMINATION)
-  vim.api.nvim_set_hl(0, "Folded", ILLUMINATION)
-end
-set_colorscheme(DEFAULT_COLORSCHEME)
-
--- Update colorscheme when buffer is outside of cwd
-vim.api.nvim_create_augroup('theme-by-buffer', {})
-vim.api.nvim_create_autocmd(
-  'BufEnter',
-  {
-    pattern = '*',
-    group = 'theme-by-buffer',
-    nested = true,
-    desc = 'Change theme by the path of the current buffer.',
-    callback = function(args)
-      local FILE = args.file
-      local FILETYPE = vim.api.nvim_buf_get_option(0, "filetype")
-      local BUFTYPE = vim.api.nvim_buf_get_option(0, "buftype")
-      local CWD = vim.fn.getcwd()
-      local COLORSCHEME = (
-        FILE == '' or
-        FILETYPE == 'gitcommit' or
-        FILETYPE == 'gitrebase' or
-        BUFTYPE ~= '' or
-        CWD == string.sub(FILE, 1, string.len(CWD)) or
-        '/tmp/' == string.sub(FILE, 1, 5)
-      ) and DEFAULT_COLORSCHEME or ALTERNATIVE_COLORSCHEME
-
-      -- Apply colorscheme and some highlight settings
-      if COLORSCHEME ~= vim.api.nvim_exec('colorscheme', true) then
-        set_colorscheme(COLORSCHEME)
-      end
-    end
-  }
-)
+colorscheme.setup()
 
 -- illuminate
 local Illuminate = require'illuminate'
