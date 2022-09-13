@@ -142,6 +142,14 @@ local configurations = {
   require('config.git'),
   require('config.lsp'),
 }
+local jetpackfile = vim.fn.stdpath('data') .. '/site/pack/jetpack/opt/vim-jetpack/plugin/jetpack.vim'
+if vim.fn.filereadable(jetpackfile) == 0 then
+  vim.fn.system(string.format(
+    'curl -fsSLo %s --create-dirs %s',
+    jetpackfile,
+    "https://raw.githubusercontent.com/tani/vim-jetpack/master/plugin/jetpack.vim"
+  ))
+end
 vim.cmd('packadd vim-jetpack')
 require'jetpack'.startup(function(use)
   local used = {}
