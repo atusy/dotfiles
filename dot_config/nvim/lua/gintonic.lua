@@ -197,8 +197,7 @@ end
 
 gintonic.tonic.graph = function(params, args)
   local has_alias = os.execute("git config alias.gintonic-graph") == 0
-  pcall( -- should continue to remove temporary alias
-    gintonic.gin.ginbuffer,
+  gintonic.gin.ginbuffer(
     params,
     table.concat(
       {
