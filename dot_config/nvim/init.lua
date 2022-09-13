@@ -8,6 +8,23 @@ TODO
 https://github.com/thinca/vim-qfreplace
 https://github.com/itchyny/vim-qfedit
 
+use { 'LeafCage/vimhelpgenerator' }
+use { 'kevinhwang91/nvim-bqf', ft = 'qf' }
+use { 'mattn/emmet-vim',
+use { 'pwntester/octo.nvim',
+use { 'ray-x/lsp_signature.nvim',
+use { 'shinespark/vim-list2tree' }
+use { 'skanehira/denops-docker.vim' }
+use { 'skanehira/denops-graphql.vim',
+use { 'skanehira/denops-silicon.vim',
+use { 'skanehira/denops-translate.vim',
+use { 'thinca/vim-quickrun',
+use { 'thinca/vim-themis' }
+use { 'tyru/open-browser-github.vim' }
+use { 'tyru/open-browser.vim',
+use { 'williamboman/mason-lspconfig.nvim',
+use { 'windwp/nvim-autopairs',
+
 --]]
 
 --[[ tricks ]]
@@ -21,6 +38,7 @@ local set_keymap = utils.set_keymap
 function Inspect(...)
   print(vim.inspect(...))
 end
+
 local function safely(f)
   return function(...) pcall(f, ...) end
 end
@@ -34,7 +52,7 @@ vim.opt.number = true
 -- window
 vim.opt.splitright = true
 vim.opt.splitbelow = true
-vim.opt.backspace = {'indent', 'eol', 'start'}
+vim.opt.backspace = { 'indent', 'eol', 'start' }
 
 -- buffer
 vim.opt.autoread = true
@@ -45,10 +63,10 @@ vim.opt.termguicolors = true
 vim.opt.updatetime = 300 -- recommended by vgit
 vim.opt.list = true
 vim.opt.listchars = {
-    tab = "▸▹┊",
-    trail = "▫",
-    extends = "❯",
-    precedes = "❮",
+  tab = "▸▹┊",
+  trail = "▫",
+  extends = "❯",
+  precedes = "❮",
 }
 -- vim.opt.guicursor = {
 --   [[n-v-c:block,i-ci-ve:ver25,r-cr:hor20,o:hor50]],
@@ -81,30 +99,30 @@ end
 
 --[[ mappings ]]
 vim.g.mapleader = ' '
-for _, k in ipairs({'s', ',', ';'}) do
+for _, k in ipairs({ 's', ',', ';' }) do
   set_keymap('n', '<A-' .. k .. '>', k)
 end
-set_keymap('n', 's', '<Nop>')     -- be prefix for sandwich
-set_keymap('n', 'qa', '<Nop>')    -- avoid typo of :qa
+set_keymap('n', 's', '<Nop>') -- be prefix for sandwich
+set_keymap('n', 'qa', '<Nop>') -- avoid typo of :qa
 set_keymap('n', ';', ':')
 set_keymap('n', '<C-G><C-G>', '<C-G><Cmd>let @+ = expand("%")<CR>')
-set_keymap('', '-', '"_')         -- shortcut to blackhole register
-set_keymap('', '+', '"+')         -- shortcut to clipboard+ register
+set_keymap('', '-', '"_') -- shortcut to blackhole register
+set_keymap('', '+', '"+') -- shortcut to clipboard+ register
 set_keymap('n', '<ESC><ESC>', ':nohlsearch<CR>')
 set_keymap('n', 'x', '"_x')
 set_keymap('n', 'X', '"_X')
 set_keymap('n', 'gf', 'gF')
 set_keymap('n', '<Left>', '^')
 set_keymap('n', '<Right>', '$')
-set_keymap({'n', 'v'}, 'gy', '"+y')
-set_keymap({'n', 'v'}, 'gY', '"+Y')
+set_keymap({ 'n', 'v' }, 'gy', '"+y')
+set_keymap({ 'n', 'v' }, 'gY', '"+Y')
 set_keymap('c', '<C-A>', '<Home>')
 set_keymap('c', '<C-E>', '<End>')
-set_keymap('t', '<C-W>', "'<Cmd>wincmd ' .. getcharstr() .. '<CR>'", {expr = true})
-set_keymap({'', 't'}, '<C-Up>', '<Cmd>2wincmd +<CR>')
-set_keymap({'', 't'}, '<C-Down>', '<Cmd>2wincmd -<CR>')
-set_keymap({'', 't'}, '<C-Left>', '<Cmd>2wincmd <<CR>')
-set_keymap({'', 't'}, '<C-Right>', '<Cmd>2wincmd ><CR>')
+set_keymap('t', '<C-W>', "'<Cmd>wincmd ' .. getcharstr() .. '<CR>'", { expr = true })
+set_keymap({ '', 't' }, '<C-Up>', '<Cmd>2wincmd +<CR>')
+set_keymap({ '', 't' }, '<C-Down>', '<Cmd>2wincmd -<CR>')
+set_keymap({ '', 't' }, '<C-Left>', '<Cmd>2wincmd <<CR>')
+set_keymap({ '', 't' }, '<C-Right>', '<Cmd>2wincmd ><CR>')
 
 
 --[[ personal utilities ]]
@@ -146,11 +164,11 @@ if vim.fn.filereadable(jetpackfile) == 0 then
   ))
 end
 vim.cmd('packadd vim-jetpack')
-require'jetpack'.startup(function(use)
+require 'jetpack'.startup(function(use)
   local used = {}
   local function use_deps(config)
     for _, dep in pairs(config.deps) do
-      dep = type(dep) == "table" and dep or {dep}
+      dep = type(dep) == "table" and dep or { dep }
       if not used[dep[1]] then
         used[dep[1]] = true
         dep.frozen = dep.frozen ~= nil and dep.frozen or true
@@ -158,6 +176,7 @@ require'jetpack'.startup(function(use)
       end
     end
   end
+
   for _, config in ipairs(configurations) do
     use_deps(config)
   end
@@ -175,17 +194,17 @@ require'jetpack'.startup(function(use)
     'nathom/filetype.nvim',
     'lambdalisue/guise.vim',
     'lambdalisue/fern.vim',
-    'segeljakt/vim-silicon',  -- pacman -S silicon
+    'segeljakt/vim-silicon', -- pacman -S silicon
 
     -- windows and buffers
     'tkmpypy/chowcho.nvim',
     'moll/vim-bbye',
-    {'tyru/capture.vim'},
+    { 'tyru/capture.vim' },
 
     -- better something
-    'wsdjeg/vim-fetch',             -- :e with linenumber
-    'jghauser/mkdir.nvim',          -- :w with mkdir
-    'haya14busa/vim-asterisk',      -- *
+    'wsdjeg/vim-fetch', -- :e with linenumber
+    'jghauser/mkdir.nvim', -- :w with mkdir
+    'haya14busa/vim-asterisk', -- *
     'lambdalisue/readablefold.vim',
 
     -- statusline
@@ -201,10 +220,10 @@ require'jetpack'.startup(function(use)
 
     -- fuzzy finder
     'nvim-telescope/telescope.nvim',
-    {'nvim-telescope/telescope-fzf-native.nvim', run = 'make'},
+    { 'nvim-telescope/telescope-fzf-native.nvim', run = 'make' },
 
     -- treesitter
-    {'nvim-treesitter/nvim-treesitter', frozen = true},
+    { 'nvim-treesitter/nvim-treesitter', run = ":TSUpdate" },
     'nvim-treesitter/playground',
     'yioneko/nvim-yati',
     'haringsrob/nvim_context_vt',
@@ -223,12 +242,12 @@ require'jetpack'.startup(function(use)
     'Shougo/ddc-around',
     'Shougo/ddc-cmdline',
     'Shougo/ddc-cmdline-history',
-    'Shougo/ddc-matcher_head',  -- 入力中の単語を補完
-    'Shougo/ddc-nvim-lsp',  -- 入力中の単語を補完
-    'LumaKernel/ddc-file',  -- Suggest file paths
+    'Shougo/ddc-matcher_head', -- 入力中の単語を補完
+    'Shougo/ddc-nvim-lsp', -- 入力中の単語を補完
+    'LumaKernel/ddc-file', -- Suggest file paths
     'Shougo/ddc-converter_remove_overlap', -- remove duplicates
-    'Shougo/ddc-sorter_rank',  -- Sort suggestions
-    'Shougo/pum.vim',  -- Show popup window
+    'Shougo/ddc-sorter_rank', -- Sort suggestions
+    'Shougo/pum.vim', -- Show popup window
     'tani/ddc-fuzzy',
     'matsui54/denops-signature_help',
     'matsui54/denops-popup-preview.vim',
@@ -236,7 +255,7 @@ require'jetpack'.startup(function(use)
     -- language specific
     -- go
     'mattn/vim-goimports'
-  }})
+  } })
 end)
 for _, name in ipairs(vim.fn['jetpack#names']()) do
   if not vim.fn['jetpack#tap'](name) then
@@ -250,22 +269,22 @@ for _, config in ipairs(configurations) do
 end
 
 -- illuminate
-local Illuminate = require'illuminate'
+local Illuminate = require 'illuminate'
 Illuminate.configure({
-  filetype_denylist = {'fugitive', 'fern'},
-  modes_allowlist = {'n'}
+  filetype_denylist = { 'fugitive', 'fern' },
+  modes_allowlist = { 'n' }
 })
-set_keymap('n', '<C-H>', Illuminate.goto_prev_reference, {desc = 'previous references'})
-set_keymap('n', '<C-L>', Illuminate.goto_next_reference, {desc = 'next reference'})
+set_keymap('n', '<C-H>', Illuminate.goto_prev_reference, { desc = 'previous references' })
+set_keymap('n', '<C-L>', Illuminate.goto_next_reference, { desc = 'next reference' })
 
 
 --[[ window settings ]]
 -- chowcho
-require'chowcho'.setup({
+require 'chowcho'.setup({
   use_exclude_default = false,
-  exclude = function(_, _) return false end}
-)
-local _chowcho_run = require'chowcho'.run
+  exclude = function(_, _) return false end
+})
+local _chowcho_run = require 'chowcho'.run
 local _chowcho_bufnr = function(winid)
   return vim.api.nvim_win_call(winid, function()
     return vim.fn.bufnr('%'), vim.opt_local
@@ -299,8 +318,9 @@ local function _chowcho_focus()
     vim.cmd('wincmd w')
   end
 end
-set_keymap({'', 't'}, '<C-W><C-W>', _chowcho_focus)
-set_keymap({'', 't'}, '<C-W>w', _chowcho_focus)
+
+set_keymap({ '', 't' }, '<C-W><C-W>', _chowcho_focus)
+set_keymap({ '', 't' }, '<C-W>w', _chowcho_focus)
 
 local function _chowcho_hide()
   local wins = vim.api.nvim_tabpage_list_wins(0)
@@ -324,9 +344,10 @@ local function _chowcho_hide()
     _chowcho_run(safely(vim.api.nvim_win_hide))
   end
 end
-set_keymap({'', 't'}, '<C-W>c', _chowcho_hide)
-set_keymap({'', 't'}, '<C-W><C-Space>', _chowcho_hide)
-set_keymap({'', 't'}, '<C-W><Space>', _chowcho_hide)
+
+set_keymap({ '', 't' }, '<C-W>c', _chowcho_hide)
+set_keymap({ '', 't' }, '<C-W><C-Space>', _chowcho_hide)
+set_keymap({ '', 't' }, '<C-W><Space>', _chowcho_hide)
 
 local function _chowcho_edit()
   -- Edits buffer from the selected in the current
@@ -346,8 +367,9 @@ local function _chowcho_edit()
     }
   )
 end
-set_keymap({'', 't'}, '<C-W>e', _chowcho_edit)
-set_keymap({'', 't'}, '<C-W><C-E>', _chowcho_edit)
+
+set_keymap({ '', 't' }, '<C-W>e', _chowcho_edit)
+set_keymap({ '', 't' }, '<C-W><C-E>', _chowcho_edit)
 
 local function _chowcho_exchange()
   -- Swaps buffers between windows
@@ -357,12 +379,12 @@ local function _chowcho_exchange()
   end
   _chowcho_run(
     safely(function(n)
-    if n == vim.api.nvim_get_current_win() then
-      return
-    end
-    local bufnr0, opt_local0 = _chowcho_bufnr(0)
-    local bufnrn, opt_localn = _chowcho_buffer(n, bufnr0, opt_local0)
-    _chowcho_buffer(0, bufnrn, opt_localn)
+      if n == vim.api.nvim_get_current_win() then
+        return
+      end
+      local bufnr0, opt_local0 = _chowcho_bufnr(0)
+      local bufnrn, opt_localn = _chowcho_buffer(n, bufnr0, opt_local0)
+      _chowcho_buffer(0, bufnrn, opt_localn)
     end),
     {
       use_exclude_default = false,
@@ -373,8 +395,9 @@ local function _chowcho_exchange()
     }
   )
 end
-set_keymap({'', 't'}, '<C-W><C-X>', _chowcho_exchange)
-set_keymap({'', 't'}, '<C-W>x', _chowcho_exchange)
+
+set_keymap({ '', 't' }, '<C-W><C-X>', _chowcho_exchange)
+set_keymap({ '', 't' }, '<C-W>x', _chowcho_exchange)
 
 
 --[[ buffer settings ]]
@@ -395,8 +418,8 @@ vim.api.nvim_create_autocmd(
     pattern = 'qf',
     group = 'quickfix-custom',
     callback = function(_)
-      set_keymap('n', 'j', 'j<CR>zz<C-W>p', {buffer=0})
-      set_keymap('n', 'k', 'k<CR>zz<C-W>p', {buffer=0})
+      set_keymap('n', 'j', 'j<CR>zz<C-W>p', { buffer = 0 })
+      set_keymap('n', 'k', 'k<CR>zz<C-W>p', { buffer = 0 })
     end
   }
 )
@@ -408,31 +431,32 @@ vim.g['sandwich#recipes'] = vim.deepcopy(vim.g['sandwich#default_recipes'])
 
 --[[ motion settings ]]
 -- hop
-local Hop = require'hop'
+local Hop = require 'hop'
 Hop.setup()
 local function hopper(direction, offset)
   local hint_char1 = Hop.hint_char1
   local opt = {
-    direction = require'hop.hint'.HintDirection[direction],
+    direction = require 'hop.hint'.HintDirection[direction],
     current_line_only = true,
     hint_offset = offset == nil and 0 or offset,
   }
   return function() hint_char1(opt) end
 end
+
 set_keymap('', '<Leader>f', 'f')
 set_keymap('', '<Leader>F', 'F')
 set_keymap('', '<leader>t', 't')
 set_keymap('', '<Leader>T', 'T')
-set_keymap('', 'f', hopper('AFTER_CURSOR'), {desc = 'Hop after'})
-set_keymap('', 'F', hopper('BEFORE_CURSOR'), {desc = 'Hop before'})
-set_keymap('', 't', hopper('AFTER_CURSOR', -1), {desc = 'Hop after'})
-set_keymap('', 'T', hopper('BEFORE_CURSOR', 1), {desc = 'Hop before'})
+set_keymap('', 'f', hopper('AFTER_CURSOR'), { desc = 'Hop after' })
+set_keymap('', 'F', hopper('BEFORE_CURSOR'), { desc = 'Hop before' })
+set_keymap('', 't', hopper('AFTER_CURSOR', -1), { desc = 'Hop after' })
+set_keymap('', 'T', hopper('BEFORE_CURSOR', 1), { desc = 'Hop before' })
 
 -- leap
 require('leap').setup({ safe_labels = {}, })
 
 -- fuzzymotion
-set_keymap({'n', 'v', 'x'}, 'ss', function() vim.cmd("FuzzyMotion") end)
+set_keymap({ 'n', 'v', 'x' }, 'ss', function() vim.cmd("FuzzyMotion") end)
 
 -- edgemotion
 set_keymap('', '<A-]>', '<Plug>(edgemotion-j)', {})
@@ -441,33 +465,33 @@ set_keymap('', '<A-[>', '<Plug>(edgemotion-k)', {})
 
 --[[ statusline settings ]]
 -- lualine
-require'lualine'.setup {
-  options = {theme = 'nord', component_separators = ''},
+require 'lualine'.setup {
+  options = { theme = 'nord', component_separators = '' },
   sections = {
     lualine_a = {},
     lualine_b = {},
-    lualine_c = {{'filetype', icon_only = true}, {'filename', path=1}},
-    lualine_x = {'location'},
+    lualine_c = { { 'filetype', icon_only = true }, { 'filename', path = 1 } },
+    lualine_x = { 'location' },
     lualine_y = {},
     lualine_z = {},
   },
   inactive_sections = {
     lualine_a = {},
     lualine_b = {},
-    lualine_c = {{'filetype', icon_only = true}, {'filename', path=1}},
+    lualine_c = { { 'filetype', icon_only = true }, { 'filename', path = 1 } },
     lualine_x = {},
     lualine_y = {},
     lualine_z = {},
   },
   tabline = {
-    lualine_a = {'mode'},
+    lualine_a = { 'mode' },
     lualine_b = {},
     lualine_c = {},
     lualine_x = {},
-    lualine_y = {'diagnostics', 'branch', 'diff'},
-    lualine_z = {'tabs'},
+    lualine_y = { 'diagnostics', 'branch', 'diff' },
+    lualine_z = { 'tabs' },
   },
-  extensions = {'fern', 'toggleterm'}
+  extensions = { 'fern', 'toggleterm' }
 }
 
 --[[ filer settings ]]
@@ -482,7 +506,7 @@ vim.keymap.set(
       let helper = fern#helper#new()
       echo helper.sync.get_selected_nodes()[0]["_path"]
     ]], true)
-    require'chowcho'.run(function(n)
+    require 'chowcho'.run(function(n)
       vim.api.nvim_set_current_win(n)
       vim.cmd("edit " .. node)
     end)
@@ -505,7 +529,7 @@ vim.api.nvim_exec([[
 
 
 --[[ treesitter settings ]]
-require'nvim-treesitter.configs'.setup {
+require 'nvim-treesitter.configs'.setup {
   ensure_installed = {
     'bash', 'bibtex', 'c', 'c_sharp', 'cmake', 'cpp', 'css', 'dockerfile',
     'dot', 'go', 'gomod', 'gowork', 'graphql', 'haskell', 'hcl', 'help', 'html',
@@ -513,19 +537,19 @@ require'nvim-treesitter.configs'.setup {
     'make', 'markdown', 'ninja', 'nix', 'python', 'r', 'regex', 'ruby', 'rust',
     'scss', 'teal', 'toml', 'tsx', 'typescript', 'vala', 'vim', 'vue', 'yaml'
   },
-  context_commentstring = {enable = true},
-  highlight = {enable = true},
-  indent = {enable = true},
-  yati = {enable = true},
+  context_commentstring = { enable = true },
+  highlight = { enable = true },
+  indent = { enable = true },
+  yati = { enable = true },
 }
-local ft_to_parser = require'nvim-treesitter.parsers'.filetype_to_parsername
+local ft_to_parser = require 'nvim-treesitter.parsers'.filetype_to_parsername
 ft_to_parser.zsh = 'bash'
 ft_to_parser.tf = 'hcl'
-require'nvim_context_vt'.setup {
+require 'nvim_context_vt'.setup {
   enabled = true,
   disable_virtual_lines = true,
 }
-require'treesitter-context'.setup({
+require 'treesitter-context'.setup({
   patterns = {
     css = {
       'media_statement',
@@ -539,21 +563,21 @@ require'treesitter-context'.setup({
 })
 -- set_keymap('o', 'm', ':<C-U>lua require"tsht".nodes()<CR>', {silent = true})
 -- set_keymap('v', 'm', ':lua require"tsht".nodes()<CR>', {silent = true})
-set_keymap({'v', 'o'}, 'm', require'leap-ast'.leap, {silent = true})
+set_keymap({ 'v', 'o' }, 'm', require 'leap-ast'.leap, { silent = true })
 set_keymap('n', 'zf', function()
   vim.cmd("normal! v")
-  require'leap-ast'.leap()
+  require 'leap-ast'.leap()
   vim.cmd("normal! zf")
-end, {silent = true, desc='manually fold lines based on treehopper'})
+end, { silent = true, desc = 'manually fold lines based on treehopper' })
 
 --[[ terminal settings ]]
 vim.api.nvim_create_augroup('termopen', {})
 vim.api.nvim_create_autocmd(
-  'TermOpen', {pattern = '*', group = 'termopen', command = 'startinsert'}
+  'TermOpen', { pattern = '*', group = 'termopen', command = 'startinsert' }
 )
 
 -- toggleterm:general
-require'toggleterm'.setup {
+require 'toggleterm'.setup {
   open_mapping = '<C-T>',
   insert_mappings = false,
 }
@@ -562,10 +586,11 @@ local function _toggleterm_run()
   vim.cmd('ToggleTermSendCurrentLine')
   vim.api.nvim_set_current_win(winid)
 end
-set_keymap('n', '<Leader>j', _toggleterm_run, {desc = 'ToggleTermSendCurrentLine'})
+
+set_keymap('n', '<Leader>j', _toggleterm_run, { desc = 'ToggleTermSendCurrentLine' })
 
 -- toggleterm:lazygit
-local lazygit = require'toggleterm.terminal'.Terminal:new {
+local lazygit = require 'toggleterm.terminal'.Terminal:new {
   cmd = 'lazygit',
   hidden = true,
   direction = 'float'
@@ -573,49 +598,50 @@ local lazygit = require'toggleterm.terminal'.Terminal:new {
 set_keymap(
   'n', '<C-G>l',
   function() lazygit:toggle() end,
-  {desc = 'lazygit', silent = true}
+  { desc = 'lazygit', silent = true }
 )
 
 
 --[[ fuzzyfinder settings ]]
 -- telescope
-local Telescope = require'telescope'
-local TelescopeBuiltin = require'telescope.builtin'
+local Telescope = require 'telescope'
+local TelescopeBuiltin = require 'telescope.builtin'
 local telescope_hook_cmd = {
   fern = "normal! i'fern-action ",
   ["gin-status"] = "normal! i'gin-action ",
 }
 local function telescope_keymaps()
-    local ft = vim.api.nvim_buf_get_option(0,  "filetype")
-    TelescopeBuiltin.keymaps({mode = vim.api.nvim_get_mode().mode})
-    local cmd = telescope_hook_cmd[ft]
-    if cmd then
-      vim.cmd(cmd)
-    end
+  local ft = vim.api.nvim_buf_get_option(0, "filetype")
+  TelescopeBuiltin.keymaps({ mode = vim.api.nvim_get_mode().mode })
+  local cmd = telescope_hook_cmd[ft]
+  if cmd then
+    vim.cmd(cmd)
+  end
 end
+
 Telescope.setup()
 Telescope.load_extension('fzf')
 for _, v in pairs {
-  {'n', 'mb', 'buffers'},
-  {'n', 'mc', 'commands'},
-  {'n', 'mf', 'find_files'},
-  {'n', 'mg', 'live_grep'},
-  {'n', 'mh', 'help_tags'},
-  {'n', '<C-G><C-S>', 'git_status'},
-  {'n', 'mk', 'marks'},
-  {'n', 'mm', 'keymaps', telescope_keymaps},
-  {{'n', 'v', 'i'}, '<C-P>m', 'keymaps', telescope_keymaps},
-  {'n', 'ml', 'git_files'},
-  {'n', 'mr', 'registers'},
-  {{'n', 'i'}, '<C-P>r', 'registers'},
-  {'n', 'm.', 'resume'},
-  {'n', 'mt', 'treesitter'},
-  {'n', 'm/', 'current_buffer_fuzzy_find'},
-  {'n', 'q;', 'command_history'},
-  {'n', 'q:', 'command_history'},
-  {'n', 'q/', 'search_history'},
+  { 'n', 'mb', 'buffers' },
+  { 'n', 'mc', 'commands' },
+  { 'n', 'mf', 'find_files' },
+  { 'n', 'mg', 'live_grep' },
+  { 'n', 'mh', 'help_tags' },
+  { 'n', '<C-G><C-S>', 'git_status' },
+  { 'n', 'mk', 'marks' },
+  { 'n', 'mm', 'keymaps', telescope_keymaps },
+  { { 'n', 'v', 'i' }, '<C-P>m', 'keymaps', telescope_keymaps },
+  { 'n', 'ml', 'git_files' },
+  { 'n', 'mr', 'registers' },
+  { { 'n', 'i' }, '<C-P>r', 'registers' },
+  { 'n', 'm.', 'resume' },
+  { 'n', 'mt', 'treesitter' },
+  { 'n', 'm/', 'current_buffer_fuzzy_find' },
+  { 'n', 'q;', 'command_history' },
+  { 'n', 'q:', 'command_history' },
+  { 'n', 'q/', 'search_history' },
 } do
-  set_keymap(v[1], v[2], v[4] or TelescopeBuiltin[v[3]], {desc = 'telescope ' .. v[3]})
+  set_keymap(v[1], v[2], v[4] or TelescopeBuiltin[v[3]], { desc = 'telescope ' .. v[3] })
 end
 for k, v in pairs(TelescopeBuiltin) do
   if type(v) == "function" then
@@ -648,11 +674,13 @@ local function search_file(fname, pat)
   return search_lines(vim.fn.readfile(fname), pat)
 end
 
-local regex_emoji = '[' .. [[\U0001F600-\U0001F64F\U0001F300-\U0001F5FF\U0001F680-\U0001F6FF\U0001F1E0-\U0001F1FF\U00002500-\U00002BEF\U00002702-\U000027B0\U00002702-\U000027B0\U0001f926-\U0001f937\U00010000-\U0010ffff\u2640-\u2642\u2600-\u2B55\u200d\u23cf\u23e9\u231a\ufe0f\u3030]] .. ']'
+local regex_emoji = '[' ..
+    [[\U0001F600-\U0001F64F\U0001F300-\U0001F5FF\U0001F680-\U0001F6FF\U0001F1E0-\U0001F1FF\U00002500-\U00002BEF\U00002702-\U000027B0\U00002702-\U000027B0\U0001f926-\U0001f937\U00010000-\U0010ffff\u2640-\u2642\u2600-\u2B55\u200d\u23cf\u23e9\u231a\ufe0f\u3030]]
+    .. ']'
 
 local prefix_emoji = function(bufnr, alt)
   bufnr = bufnr or 0
-  alt = alt or {'.gitmessage'}
+  alt = alt or { '.gitmessage' }
   local win = vim.api.nvim_get_current_win()
   local lines = vim.api.nvim_buf_get_lines(bufnr, 0, -1, false)
 
@@ -709,7 +737,7 @@ local prefix_emoji = function(bufnr, alt)
           local selection = action_state.get_selected_entry()
           local emoji = vim.fn.matchstr(selection[1], regex_emoji)
           if (emoji ~= '') then
-            vim.api.nvim_buf_set_text(bufnr, 0, 0, 0, 0, {emoji})
+            vim.api.nvim_buf_set_text(bufnr, 0, 0, 0, 0, { emoji })
           end
         end
       )
