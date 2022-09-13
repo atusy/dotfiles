@@ -28,6 +28,22 @@ local function set_autocmd(opt)
   local TAB = opt.colorscheme.tab or TAB_COLORSCHEME
   local GROUP = api.nvim_create_augroup('theme-custom', {})
   api.nvim_create_autocmd(
+    'Filetype',
+    {
+      desc = 'Fix colorscheme if filetype is set after bufenter',
+      group = GROUP,
+      nested = true,
+      pattern = {'help'},
+      callback = function(args)
+        if api.nvim_get_current_tabpage() ~= 1 then
+          set_colorscheme(TAB, false, opt)
+          return
+        end
+        set_colorscheme(DEFAULT, false, opt)
+      end
+    }
+  )
+  api.nvim_create_autocmd(
     'BufEnter',
     {
       group = GROUP,
@@ -46,7 +62,6 @@ local function set_autocmd(opt)
           FILE == '' or
           FILETYPE == 'gitcommit' or
           FILETYPE == 'gitrebase' or
-          FILETYPE == 'help' or
           BUFTYPE ~= '' or
           CWD == string.sub(FILE, 1, string.len(CWD)) or
           '/tmp/' == string.sub(FILE, 1, 5)
