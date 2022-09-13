@@ -31,7 +31,7 @@ local function setup_vgit()
   end
   set_keymap('n', '<Up>', '<Plug>(vgit.hunk_up)')
   set_keymap('n', '<Down>', '<Plug>(vgit.hunk_down)')
-  set_keymap('n', '<C-G><C-R>', '<Plug>(vgit.hunk_reset)')
+  set_keymap('n', '<C-G><C-R>', '<Plug>(vgit.buffer_hunk_reset)')
   set_keymap('n', '<C-G>a', '<Cmd>up<CR><Plug>(vgit.buffer_stage)')
   set_keymap('n', '<C-G><C-A>', '<Cmd>up<CR><Plug>(vgit.buffer_hunk_stage)')
 end
