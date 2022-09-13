@@ -46,6 +46,7 @@ local function set_autocmd(opt)
           FILE == '' or
           FILETYPE == 'gitcommit' or
           FILETYPE == 'gitrebase' or
+          FILETYPE == 'help' or
           BUFTYPE ~= '' or
           CWD == string.sub(FILE, 1, string.len(CWD)) or
           '/tmp/' == string.sub(FILE, 1, 5)
