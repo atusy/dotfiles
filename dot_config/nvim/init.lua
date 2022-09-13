@@ -125,109 +125,114 @@ if vim.fn.executable('nvr') == 1 then
 end
 
 --[[ PLUGIN SETTINGS ]]
-local function _require(name)
+-- A dark hack to enable definition jumps
+local _require = require
+local function require(name)
   -- reload becomes available from the second load of $MYVIMRC
-  pcall(function()
-    require('plenary.reload').reload_module(name)
-  end)
-  return require(name)
+  pcall(function() _require('plenary.reload').reload_module(name) end)
+  return _require(name)
 end
-local colorscheme = _require('config.colorscheme')
-local git = _require('config.git')
-local lsp = _require('config.lsp')
+
+local configurations = {
+  -- order may matter
+  require('config.colorscheme'),
+  require('config.git'),
+  require('config.lsp'),
+}
 vim.cmd('packadd vim-jetpack')
 require'jetpack'.startup(function(use)
   local used = {}
   local function use_deps(config)
     for _, dep in pairs(config.deps) do
       if not used[dep[1]] then
-        used[dep[1]] = true
+        used[type(dep) == "table" and dep[1] or dep] = true
         use(dep)
       end
     end
   end
-  use_deps(colorscheme)
-  use_deps(git)
-  use_deps(lsp)
+  for _, config in ipairs(configurations) do
+    use_deps(config)
+  end
+  use_deps({ deps = {
+    { 'tani/vim-jetpack', opt = 1 }, -- bootstrap
 
-  use { 'tani/vim-jetpack', opt = 1 } -- bootstrap
+    -- basic dependencies
+    'tpope/vim-repeat',
+    'kyazdani42/nvim-web-devicons', -- for lualine
+    'vim-denops/denops.vim',
+    'kana/vim-submode',
 
-  -- basic dependencies
-  use 'tpope/vim-repeat'
-  use 'kyazdani42/nvim-web-devicons' -- for lualine
-  use 'vim-denops/denops.vim'
-  use 'kana/vim-submode'
+    -- utils
+    'tpope/vim-commentary',
+    'nathom/filetype.nvim',
+    'lambdalisue/guise.vim',
+    'lambdalisue/fern.vim',
+    'segeljakt/vim-silicon',  -- pacman -S silicon
 
-  -- utils
-  use 'tpope/vim-commentary'
-  use 'nathom/filetype.nvim'
-  use 'lambdalisue/guise.vim'
-  use 'lambdalisue/fern.vim'
-  use 'segeljakt/vim-silicon'  -- pacman -S silicon
+    -- windows and buffers
+    'tkmpypy/chowcho.nvim',
+    'moll/vim-bbye',
+    'AndrewRadev/bufferize.vim',
 
-  -- windows and buffers
-  use 'tkmpypy/chowcho.nvim'
-  use 'moll/vim-bbye'
-  use 'AndrewRadev/bufferize.vim'
+    -- better something
+    'wsdjeg/vim-fetch',             -- :e with linenumber
+    'jghauser/mkdir.nvim',          -- :w with mkdir
+    'haya14busa/vim-asterisk',      -- *
+    'lambdalisue/readablefold.vim',
 
-  -- better something
-  use 'wsdjeg/vim-fetch'             -- :e with linenumber
-  use 'jghauser/mkdir.nvim'          -- :w with mkdir
-  use 'haya14busa/vim-asterisk'      -- *
-  use 'lambdalisue/readablefold.vim'
+    -- statusline
+    'nvim-lualine/lualine.nvim',
+    -- use 'b0o/incline.nvim' -- TODO
 
-  -- statusline
-  use 'nvim-lualine/lualine.nvim'
-  -- use 'b0o/incline.nvim' -- TODO
+    -- motion
+    'haya14busa/vim-edgemotion',
+    'phaazon/hop.nvim',
+    'ggandor/leap.nvim',
+    'ggandor/leap-ast.nvim',
 
-  -- motion
-  use 'haya14busa/vim-edgemotion'
-  use 'phaazon/hop.nvim'
-  use 'ggandor/leap.nvim'
-  use 'ggandor/leap-ast.nvim'
+    -- fuzzy finder
+    'nvim-telescope/telescope.nvim',
+    {'nvim-telescope/telescope-fzf-native.nvim', run = 'make'},
 
-  -- fuzzy finder
-  use 'nvim-telescope/telescope.nvim'
-  use {'nvim-telescope/telescope-fzf-native.nvim', run = 'make'}
+    -- treesitter
+    {'nvim-treesitter/nvim-treesitter', frozen = true},
+    'nvim-treesitter/playground',
+    'yioneko/nvim-yati',
+    'haringsrob/nvim_context_vt',
+    'romgrk/nvim-treesitter-context',
+    'mfussenegger/nvim-treehopper',
+    'JoosepAlviste/nvim-ts-context-commentstring',
 
-  -- treesitter
-  use {'nvim-treesitter/nvim-treesitter', frozen = true}
-  use 'nvim-treesitter/playground'
-  use 'yioneko/nvim-yati'
-  use 'haringsrob/nvim_context_vt'
-  use 'romgrk/nvim-treesitter-context'
-  use 'mfussenegger/nvim-treehopper'
-  use 'JoosepAlviste/nvim-ts-context-commentstring'
+    -- text object
+    'machakann/vim-sandwich',
 
-  -- text object
-  use 'machakann/vim-sandwich'
+    -- terminal
+    'akinsho/toggleterm.nvim',
 
-  -- terminal
-  use 'akinsho/toggleterm.nvim'
+    -- ddc
+    'Shougo/ddc.vim',
+    'Shougo/ddc-around',
+    'Shougo/ddc-cmdline',
+    'Shougo/ddc-cmdline-history',
+    'Shougo/ddc-matcher_head',  -- 入力中の単語を補完
+    'Shougo/ddc-nvim-lsp',  -- 入力中の単語を補完
+    'LumaKernel/ddc-file',  -- Suggest file paths
+    'Shougo/ddc-converter_remove_overlap', -- remove duplicates
+    'Shougo/ddc-sorter_rank',  -- Sort suggestions
+    'Shougo/pum.vim',  -- Show popup window
+    'tani/ddc-fuzzy',
+    'matsui54/denops-signature_help',
+    'matsui54/denops-popup-preview.vim',
 
-  -- ddc
-  use 'Shougo/ddc.vim'
-  use 'Shougo/ddc-around'
-  use 'Shougo/ddc-cmdline'
-  use 'Shougo/ddc-cmdline-history'
-  use 'Shougo/ddc-matcher_head'  -- 入力中の単語を補完
-  use 'Shougo/ddc-nvim-lsp'  -- 入力中の単語を補完
-  use 'LumaKernel/ddc-file'  -- Suggest file paths
-  use 'Shougo/ddc-converter_remove_overlap' -- remove duplicates
-  use 'Shougo/ddc-sorter_rank'  -- Sort suggestions
-  use 'Shougo/pum.vim'  -- Show popup window
-  use 'tani/ddc-fuzzy'
-  use 'matsui54/denops-signature_help'
-  use 'matsui54/denops-popup-preview.vim'
-
-  -- language specific
-  -- go
-  use 'mattn/vim-goimports'
+    -- language specific
+    -- go
+    'mattn/vim-goimports'
+  }})
 end)
 
-colorscheme.setup()
-git.setup()
-lsp.setup()
+for _, config in ipairs(configurations) do
+  config.setup()
+end
 
 -- illuminate
 local Illuminate = require'illuminate'
