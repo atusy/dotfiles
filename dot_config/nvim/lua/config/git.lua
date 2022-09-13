@@ -1,16 +1,9 @@
 local vim = vim
 local api = vim.api
 
-local function set_keymap(mode, lhs, rhs, opts)
-  opts = opts or {}
-  -- opts.desc = nil  -- desc breaks Fern actions
-  vim.keymap.set(mode, lhs, rhs, opts)
-end
-
-local function _require(name)
-  require('plenary.reload').reload_module(name)
-  return require(name)
-end
+local utils = require('utils')
+local _require = utils.require
+local set_keymap = utils.set_keymap
 
 -- vgit
 local function setup_vgit()

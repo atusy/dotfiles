@@ -129,12 +129,8 @@ end
 
 --[[ PLUGIN SETTINGS ]]
 -- A dark hack to enable definition jumps
-local _require = require
-local function require(name)
-  -- reload becomes available from the second load of $MYVIMRC
-  pcall(function() _require('plenary.reload').reload_module(name) end)
-  return _require(name)
-end
+local require = require('utils').require
+require('utils')
 
 local configurations = {
   -- order may matter

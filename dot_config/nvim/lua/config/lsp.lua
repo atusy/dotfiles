@@ -1,19 +1,11 @@
 local vim = vim
-local function set_keymap(mode, lhs, rhs, opts)
-  opts = opts or {}
-  -- opts.desc = nil  -- desc breaks Fern actions
-  vim.keymap.set(mode, lhs, rhs, opts)
-end
 
-local function has_client(bufnr)
-  for _, _ in pairs(vim.lsp.buf_get_clients(bufnr or 0)) do --print true end
-    return true
-  end
-  return false
-end
+local utils = require('utils')
+local set_keymap = utils.set_keymap
+local has_lsp_client = utils.has_lsp_client
 
 local function hover(bufnr, default)
-  if has_client(bufnr or vim.api.nvim_get_current_buf()) then
+  if has_lsp_client(bufnr or vim.api.nvim_get_current_buf()) then
     return vim.lsp.buf.hover()
   end
   return vim.cmd(default or "normal! K")
