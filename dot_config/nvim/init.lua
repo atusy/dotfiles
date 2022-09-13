@@ -15,6 +15,9 @@ https://github.com/itchyny/vim-qfedit
 local vim = vim -- minimize LSP warning
 
 -- [[ helpers ]]
+local utils = require('utils')
+utils.require('utils')
+local set_keymap = utils.set_keymap
 function Inspect(...)
   print(vim.inspect(...))
 end
@@ -77,11 +80,6 @@ end
 
 
 --[[ mappings ]]
-local function set_keymap(mode, lhs, rhs, opts)
-  opts = opts or {}
-  -- opts.desc = nil  -- desc breaks Fern actions
-  vim.keymap.set(mode, lhs, rhs, opts)
-end
 vim.g.mapleader = ' '
 for _, k in ipairs({'s', ',', ';'}) do
   set_keymap('n', '<A-' .. k .. '>', k)
@@ -128,16 +126,17 @@ if vim.fn.executable('nvr') == 1 then
 end
 
 --[[ PLUGIN SETTINGS ]]
--- A dark hack to enable definition jumps
-local _require = require('utils').require
-_require('utils')
 
-local configurations = {
-  -- order may matter
-  _require('config.colorscheme'),
-  _require('config.git'),
-  _require('config.lsp'),
-}
+local configurations = (function()
+  -- temporary redefine require to enable definition jumps
+  local require = utils.require
+  return {
+    -- order may matter
+    require('config.colorscheme'),
+    require('config.git'),
+    require('config.lsp'),
+  }
+end)()
 local jetpackfile = vim.fn.stdpath('data') .. '/site/pack/jetpack/opt/vim-jetpack/plugin/jetpack.vim'
 if vim.fn.filereadable(jetpackfile) == 0 then
   vim.fn.system(string.format(
