@@ -112,7 +112,7 @@ end
 local function get_nth_word(s, n)
   s = s or vim.api.nvim_get_current_line()
   local i = 0
-  for w in s:gmatch("%S+") do
+  for w in s:gmatch("%w+") do
     i = i + 1
     if i == n then
       return w
@@ -132,7 +132,7 @@ end
 
 gintonic.utils.object_getters = {
   gitrebase = create_object_getter(function() return get_nth_word(nil, 2) end),
-  ['gintonic-graph'] = create_object_getter(function() return get_nth_word(nil, 2) end),
+  ['gintonic-graph'] = create_object_getter(function() return get_nth_word(nil, 1) end),
   default = function(x)
     if x ~= nil then
       return gintonic.utils.is_object(x) and x or nil
