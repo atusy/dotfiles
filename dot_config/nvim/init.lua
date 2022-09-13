@@ -147,8 +147,10 @@ require'jetpack'.startup(function(use)
   local used = {}
   local function use_deps(config)
     for _, dep in pairs(config.deps) do
+      dep = type(dep) == "table" and dep or {dep}
       if not used[dep[1]] then
-        used[type(dep) == "table" and dep[1] or dep] = true
+        used[dep[1]] = true
+        dep.frozen = dep.frozen ~= nil and dep.frozen or true
         use(dep)
       end
     end
