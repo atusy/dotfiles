@@ -125,23 +125,32 @@ local function get_cursor_word(win)
   local col = vim.api.nvim_win_get_cursor(win or 0)[2] + 1
   local cur = line:sub(col, col)
   if cur == " " or cur == "" then return "" end
-  local left = line:sub(1, col):gsub(".*%s", "")
-  local right = line:sub(col + 1, -1):gsub("%s.*", "")
+  local left = line:sub(1, col):gsub(".*%W", "")
+  local right = line:sub(col + 1, -1):gsub("%W.*", "")
   return left .. right
 end
 
 gintonic.utils.object_getters = {
   gitrebase = create_object_getter(function() return get_nth_word(nil, 2) end),
   ['gintonic-graph'] = create_object_getter(function() return get_nth_word(nil, 1) end),
-  default = function(x)
+  default = function(x, target)
     if x ~= nil then
       return gintonic.utils.is_object(x) and x or nil
     end
     local get = gintonic.utils.object_getters[vim.api.nvim_buf_get_option(0, "filetype")]
-    if get == nil then
+    if get ~= nil then
+      return get()
+    end
+    if target == nil or target == "cursor" then
       return create_object_getter(get_cursor_word)()
     end
-    return get()
+    if target == "line" then
+      for w in vim.api.nvim_get_current_line("%w+") do
+        if gintonic.utils.is_object(w) then
+          return w
+        end
+      end
+    end
   end
 }
 
