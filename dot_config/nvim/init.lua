@@ -242,6 +242,12 @@ require'jetpack'.startup(function(use)
     'mattn/vim-goimports'
   }})
 end)
+for _, name in ipairs(vim.fn['jetpack#names']()) do
+  if vim.fn['jetpack#tap'](name) then
+    vim.fn['jetpack#sync']()
+    break
+  end
+end
 
 for _, config in ipairs(configurations) do
   config.setup()
