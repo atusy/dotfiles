@@ -129,14 +129,14 @@ end
 
 --[[ PLUGIN SETTINGS ]]
 -- A dark hack to enable definition jumps
-local require = require('utils').require
-require('utils')
+local _require = require('utils').require
+_require('utils')
 
 local configurations = {
   -- order may matter
-  require('config.colorscheme'),
-  require('config.git'),
-  require('config.lsp'),
+  _require('config.colorscheme'),
+  _require('config.git'),
+  _require('config.lsp'),
 }
 local jetpackfile = vim.fn.stdpath('data') .. '/site/pack/jetpack/opt/vim-jetpack/plugin/jetpack.vim'
 if vim.fn.filereadable(jetpackfile) == 0 then
