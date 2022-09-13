@@ -196,22 +196,19 @@ local function _keymap_ginshow(opt)
 end
 
 gintonic.tonic.graph = function(params, args)
-  local needs_alias = os.execute("git config alias.gintonic-graph") ~= 0
-  if needs_alias then
-    os.execute(
-      "git config --local alias.gintonic-graph " ..
-      [['log --graph --date-order -C -M --pretty=format:"%h %Cgreen%d%Creset %s" --date=short']]
-    )
-  end
+  local has_alias = os.execute("git config alias.gintonic-graph") == 0
   pcall( -- should continue to remove temporary alias
     gintonic.gin.ginbuffer,
     params,
-    table.concat({"gintonic-graph", args or ""}, " "),
+    table.concat(
+      {
+        has_alias and "gintonic-graph" or "log --oneline --graph",
+        args or ""
+      },
+      " "
+    ),
     {filetype = "gintonic-graph"}
   )
-  if needs_alias then
-    os.execute("git config --local --unset alias.gintonic-graph")
-  end
 end
 
 --[[ setup ]]
