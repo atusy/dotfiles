@@ -202,6 +202,7 @@ require'jetpack'.startup(function(use)
     'phaazon/hop.nvim',
     'ggandor/leap.nvim',
     'ggandor/leap-ast.nvim',
+    'yuki-yano/fuzzy-motion.vim',
 
     -- fuzzy finder
     'nvim-telescope/telescope.nvim',
@@ -433,29 +434,10 @@ set_keymap('', 't', hopper('AFTER_CURSOR', -1), {desc = 'Hop after'})
 set_keymap('', 'T', hopper('BEFORE_CURSOR', 1), {desc = 'Hop before'})
 
 -- leap
-require('leap').setup({
-  safe_labels = {},
-})
-vim.api.nvim_set_hl(0, 'LeapBackdrop', { fg = '#707070' })
-set_keymap({'n', 'v', 'x'}, 'sj', '<Plug>(leap-forward)')
-set_keymap({'n', 'v', 'x'}, 'sk', '<Plug>(leap-backward)')
-set_keymap(
-  {'n', 'v', 'x'},
-  'ss',
-  function()
-    require('leap').leap({target_windows = {vim.fn.win_getid()}})
-  end
-)
-set_keymap(
-  {'n'},
-  'SS',
-  function()
-    require('leap').leap { target_windows = vim.tbl_filter(
-      function (win) return vim.api.nvim_win_get_config(win).focusable end,
-      vim.api.nvim_tabpage_list_wins(0)
-    )}
-  end
-)
+require('leap').setup({ safe_labels = {}, })
+
+-- fuzzymotion
+set_keymap({'n', 'v', 'x'}, 'ss', function() vim.cmd("FuzzyMotion") end)
 
 -- edgemotion
 set_keymap('', '<A-]>', '<Plug>(edgemotion-j)', {})
