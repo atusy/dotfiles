@@ -15,6 +15,9 @@ https://github.com/itchyny/vim-qfedit
 local vim = vim -- minimize LSP warning
 
 -- [[ helpers ]]
+function Inspect(...)
+  print(vim.inspect(...))
+end
 local function safely(f)
   return function(...) pcall(f, ...) end
 end
