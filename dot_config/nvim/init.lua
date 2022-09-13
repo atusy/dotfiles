@@ -243,7 +243,7 @@ require'jetpack'.startup(function(use)
   }})
 end)
 for _, name in ipairs(vim.fn['jetpack#names']()) do
-  if vim.fn['jetpack#tap'](name) then
+  if not vim.fn['jetpack#tap'](name) then
     vim.fn['jetpack#sync']()
     break
   end
