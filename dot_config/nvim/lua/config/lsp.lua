@@ -5,6 +5,20 @@ local function set_keymap(mode, lhs, rhs, opts)
   vim.keymap.set(mode, lhs, rhs, opts)
 end
 
+local function has_client(bufnr)
+  for _, _ in pairs(vim.lsp.buf_get_clients(bufnr or 0)) do --print true end
+    return true
+  end
+  return false
+end
+
+local function hover(bufnr, default)
+  if has_client(bufnr or vim.api.nvim_get_current_buf()) then
+    return vim.lsp.buf.hover()
+  end
+  return vim.cmd(default or "normal! K")
+end
+
 local function setup(_)
   -- Mappings. See `:help vim.diagnostic.*` for documentation on any of the below functions
   require("mason").setup()
@@ -16,6 +30,7 @@ local function setup(_)
   set_keymap('n', '[d', vim.diagnostic.goto_prev, {silent = true, desc = 'previous diagnostic'})
   set_keymap('n', ']d', vim.diagnostic.goto_next, {silent = true, desc = 'next diagnositc'})
   set_keymap('n', '<Leader>q', vim.diagnostic.setloclist, {silent = true, desc = 'add buffer diagnositcs to the location list'})
+  set_keymap('n', 'K', function() hover() end)
 
   -- Use an on_attach function to only map the following keys
   -- after the language server attaches to the current buffer
@@ -30,7 +45,6 @@ local function setup(_)
     set_keymap('n', 'gD', '<cmd>lua vim.lsp.buf.declaration()<CR>', OPTS)
     set_keymap('n', 'gd', TelescopeBuiltin.lsp_definitions, OPTS)
     -- set_keymap('n', 'gd', '<cmd>lua vim.lsp.buf.definition()<CR>', OPTS)
-    set_keymap('n', 'K', '<cmd>lua vim.lsp.buf.hover()<CR>', OPTS)
     set_keymap('n', 'gi', TelescopeBuiltin.lsp_implementations, OPTS)
     -- set_keymap('n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<CR>', OPTS)
     set_keymap('n', '<C-K>', '<cmd>lua vim.lsp.buf.signature_help()<CR>', OPTS)
@@ -108,15 +122,6 @@ local function setup(_)
         )
       end,
     },
-  })
-
-  vim.api.nvim_create_augroup("null-ls-custom", {})
-  vim.api.nvim_create_autocmd("FileType", {
-    group = "null-ls-custom",
-    pattern = { "gintonic-graph", "gitrebase" },
-    callback = function(_)
-      set_keymap('n', 'K', '<cmd>lua vim.lsp.buf.hover()<CR>', {silent = true, buffer = 0})
-    end
   })
 end
 
