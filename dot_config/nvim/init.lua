@@ -180,7 +180,7 @@ require'jetpack'.startup(function(use)
     -- windows and buffers
     'tkmpypy/chowcho.nvim',
     'moll/vim-bbye',
-    'AndrewRadev/bufferize.vim',
+    {'tyru/capture.vim'},
 
     -- better something
     'wsdjeg/vim-fetch',             -- :e with linenumber
