@@ -1,4 +1,3 @@
-call signature_help#enable()
 call popup_preview#enable()
 call ddc#custom#patch_global('sources', ['nvim-lsp', 'around', 'file'])
 " call ddc#custom#patch_global('cmdlineSources',

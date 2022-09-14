@@ -13,6 +13,7 @@ end
 
 local function setup(_)
   -- Mappings. See `:help vim.diagnostic.*` for documentation on any of the below functions
+  vim.fn['signature_help#enable']()
   require("mason").setup()
   local LspSaga = require'lspsaga'
   LspSaga.init_lsp_saga({
@@ -126,6 +127,7 @@ return {
     {'tamago324/nlsp-settings.nvim'},
     {'ii14/emmylua-nvim'},
     {'jose-elias-alvarez/null-ls.nvim'},
+    {'matsui54/denops-signature_help'},
   },
   setup = setup
 }

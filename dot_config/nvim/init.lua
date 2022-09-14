@@ -246,7 +246,6 @@ require 'jetpack'.startup(function(use)
     'Shougo/ddc-sorter_rank', -- Sort suggestions
     'Shougo/pum.vim', -- Show popup window
     'tani/ddc-fuzzy',
-    'matsui54/denops-signature_help',
     'matsui54/denops-popup-preview.vim',
 
     -- language specific
