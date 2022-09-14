@@ -1,3 +1,5 @@
+local function setup()
+vim.exec([[
 call popup_preview#enable()
 call ddc#custom#patch_global('sources', ['nvim-lsp', 'around', 'file'])
 " call ddc#custom#patch_global('cmdlineSources',
@@ -85,4 +87,10 @@ function! CommandlinePost() abort
 endfunction
 
 call ddc#enable()
+]], false)
+end
 
+return {
+  deps = {},
+  setup = setup,
+}
