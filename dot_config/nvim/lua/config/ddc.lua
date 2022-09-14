@@ -1,33 +1,51 @@
+local vim = vim
+local utils = require('utils')
+local set_keymap = utils.set_keymap
+
 local function setup()
-vim.exec([[
-call popup_preview#enable()
-call ddc#custom#patch_global('sources', ['nvim-lsp', 'around', 'file'])
+  vim.fn["popup_preview#enable"]()
+  vim.fn["ddc#custom#patch_global"]('sources', {'nvim-lsp', 'around', 'file'})
+  vim.fn["ddc#custom#patch_global"](sourceOptions, {
+          around = {mark = 'A', maxSize = 500},
+          ['nvim-lsp'] = {mark = 'L'},
+          file = {
+              mark = 'F',
+              isVolatile = true,
+              forceCompletionPattern = [[\S/\S*]],
+            },
+          cmdline = { mark = 'CMD' },
+          ['cmdline-history'] = { mark = 'CMD' },
+          ['_'] = {
+            matchers = {'matcher_fuzzy'},
+            sorters = {'sorter_fuzzy'},
+            converters = {'converter_fuzzy'},
+          },
+    })
+  vim.fn["ddc#custom#patch_global"]('completionMenu', 'pum.vim')
+  set_keymap(
+    'i', '<TAB>',
+    function()
+      if vim.fn["pum#visible"]() then
+        return '<Cmd>call pum#map#insert_relative(+1)<CR>'
+      end
+      local col = vim.fn.col('.')
+      if (col <= 1 or string.match(vim.fn.getline('.')[col - 2], '%s') ~= nil) then
+        return '<TAB>'
+      end
+      return vim.fn["ddc#manual_complete"]()
+   end,
+    { silent = true, expr = true }
+  )
+vim.api.nvim_exec([[
 " call ddc#custom#patch_global('cmdlineSources',
 "       \ ['cmdline', 'cmdline-history', 'file', 'around']
 "       \ )
-call ddc#custom#patch_global('sourceOptions', {
-      \ 'around': {'mark': 'A', 'maxSize': 500},
-      \ 'nvim-lsp': {'mark': 'L'},
-      \ 'file': {
-      \   'mark': 'F',
-      \   'isVolatile': v:true,
-      \   'forceCompletionPattern': '\S/\S*',
-      \ },
-      \ 'cmdline': { 'mark': 'CMD' },
-      \ 'cmdline-history': { 'mark': 'CMD' },
-      \ '_': {
-      \   'matchers': ['matcher_fuzzy'],
-      \   'sorters': ['sorter_fuzzy'],
-      \   'converters': ['converter_fuzzy'],
-      \ },
-\ })
-call ddc#custom#patch_global('completionMenu', 'pum.vim')
 
 " pum
-inoremap <silent><expr> <TAB>
-      \ pum#visible() ? '<Cmd>call pum#map#insert_relative(+1)<CR>' :
-      \ (col('.') <= 1 <Bar><Bar> getline('.')[col('.') - 2] =~# '\s') ?
-      \ '<TAB>' : ddc#manual_complete()
+" inoremap <silent><expr> <TAB>
+"       \ pum#visible() ? '<Cmd>call pum#map#insert_relative(+1)<CR>' :
+"       \ (col('.') <= 1 <Bar><Bar> getline('.')[col('.') - 2] =~# '\s') ?
+"       \ '<TAB>' : ddc#manual_complete()
 inoremap <S-Tab> <Cmd>call pum#map#insert_relative(-1)<CR>
 inoremap <C-n>   <Cmd>call pum#map#select_relative(+1)<CR>
 inoremap <C-p>   <Cmd>call pum#map#select_relative(-1)<CR>
