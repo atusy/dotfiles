@@ -496,19 +496,24 @@ vim.keymap.set(
   end,
   {}
 )
-vim.api.nvim_exec([[
-  function! s:init_fern() abort
-    setlocal nornu nonu cursorline signcolumn=auto
-    nnoremap <buffer> <C-F> <C-W>p
-    nmap <buffer> m <Nop>
-    nmap <buffer><nowait> s <Plug>(fern-action-open:chowcho)
-  endfunction
 
-  augroup fern-custom
-    autocmd! *
-    autocmd FileType fern call s:init_fern()
-  augroup END
-]], false)
+local function init_fern()
+  vim.opt_local.relativenumber = false
+  vim.opt_local.number = false
+  vim.opt_local.cursorline = true
+  vim.opt_local.signcolumn = "auto"
+  set_keymap('n', '<C-F>', '<C-W>p', {buffer = 0})
+  set_keymap('n', 'm', '<Nop>', {buffer = 0, remap = true})
+  set_keymap('n', 's', '<Plug>(fern-action-open:chowcho)', {buffer = 0, nowait = true, remap = true})
+end
+
+vim.api.nvim_create_autocmd("FileType",
+  {
+    pattern = "fern",
+    group = vim.api.nvim_create_augroup("fern-custom", {}),
+    callback = function() pcall(init_fern) end
+  }
+)
 
 
 --[[ treesitter settings ]]
