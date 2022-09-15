@@ -154,6 +154,7 @@ local configurations = (function()
     require('config.git'),
     require('config.lsp'),
     require('config.telescope'),
+    require('config.ddc'),
   }
 end)()
 local jetpackfile = vim.fn.stdpath('data') .. '/site/pack/jetpack/opt/vim-jetpack/plugin/jetpack.vim'
@@ -596,7 +597,3 @@ set_keymap(
   function() lazygit:toggle() end,
   { desc = 'lazygit', silent = true }
 )
-
---[[ autocompletion settings ]]
--- ddc
-vim.cmd('source ' .. vim.fn.stdpath('config') .. '/ddc.vim')
