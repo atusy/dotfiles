@@ -29,7 +29,7 @@ local function commandline_pre(maps)
     -- Overwrite sources
     vim.b.prev_buffer_config = fn["ddc#custom#get_buffer"]()
   end
-  fn["ddc#custom#patch_buffer"]('cmdlineSources', {'cmdline', 'cmdline-history', 'file', 'around'})
+  fn["ddc#custom#patch_buffer"]('cmdlineSources', { 'cmdline', 'cmdline-history', 'file', 'around' })
   vim.api.nvim_create_autocmd("User", {
     pattern = "DDCCmdLineLeave",
     once = true,
@@ -47,23 +47,23 @@ end
 
 local function setup()
   local patch_global = fn["ddc#custom#patch_global"]
-  patch_global('sources', {'nvim-lsp', 'around', 'file'})
+  patch_global('sources', { 'nvim-lsp', 'around', 'file' })
   patch_global('sourceOptions', {
-          around = {mark = 'A', maxSize = 500},
-          ['nvim-lsp'] = {mark = 'L'},
-          file = {
-              mark = 'F',
-              isVolatile = true,
-              forceCompletionPattern = [[\S/\S*]],
-            },
-          cmdline = { mark = 'CMD' },
-          ['cmdline-history'] = { mark = 'CMD' },
-          ['_'] = {
-            matchers = {'matcher_fuzzy'},
-            sorters = {'sorter_fuzzy'},
-            converters = {'converter_fuzzy'},
-          },
-    })
+    around = { mark = 'A', maxSize = 500 },
+    ['nvim-lsp'] = { mark = 'L' },
+    file = {
+      mark = 'F',
+      isVolatile = true,
+      forceCompletionPattern = [[\S/\S*]],
+    },
+    cmdline = { mark = 'CMD' },
+    ['cmdline-history'] = { mark = 'CMD' },
+    ['_'] = {
+      matchers = { 'matcher_fuzzy' },
+      sorters = { 'sorter_fuzzy' },
+      converters = { 'converter_fuzzy' },
+    },
+  })
   patch_global('completionMenu', 'pum.vim')
   --[[
   inoremap <silent><expr> <TAB>
@@ -82,15 +82,15 @@ local function setup()
         return fn["ddc#manual_complete"]()
       end
       return '<TAB>'
-   end,
+    end,
     { silent = true, expr = true }
   )
   set_keymap('i', '<S-Tab>', function() fn["pum#map#insert_relative"](-1) end)
-  set_keymap('i', '<C-y> ',  function() fn["pum#map#confirm"]() end)
-  set_keymap('i', '<C-e>',   function() fn["pum#map#cancel"]() end)
+  set_keymap('i', '<C-y> ', function() fn["pum#map#confirm"]() end)
+  set_keymap('i', '<C-e>', function() fn["pum#map#cancel"]() end)
   patch_global(
     'autoCompleteEvents',
-    {'InsertEnter', 'TextChangedI', 'TextChangedP', 'CmdlineEnter', 'CmdlineChanged'}
+    { 'InsertEnter', 'TextChangedI', 'TextChangedP', 'CmdlineEnter', 'CmdlineChanged' }
   )
   fn["ddc#custom#patch_buffer"]('sourceOptions', {
     file = {
@@ -101,12 +101,12 @@ local function setup()
   })
   patch_global(
     'autoCompleteEvents',
-    {'InsertEnter', 'TextChangedI', 'TextChangedP', 'CmdlineChanged'}
+    { 'InsertEnter', 'TextChangedI', 'TextChangedP', 'CmdlineChanged' }
   )
   set_keymap('n', ':', function()
     commandline_pre()
     return ':'
-  end, {expr=true})
+  end, { expr = true })
 
   fn["popup_preview#enable"]()
   fn["ddc#enable"]()
