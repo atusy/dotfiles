@@ -113,6 +113,19 @@ local function setup()
 end
 
 return {
-  deps = {},
+  deps = {
+    {'Shougo/ddc.vim'},
+    {'Shougo/ddc-around'},
+    {'Shougo/ddc-cmdline'},
+    {'Shougo/ddc-cmdline-history'},
+    {'Shougo/ddc-matcher_head'}, -- 入力中の単語を補完
+    {'Shougo/ddc-nvim-lsp'}, -- 入力中の単語を補完
+    {'LumaKernel/ddc-file'}, -- Suggest file paths
+    {'Shougo/ddc-converter_remove_overlap'}, -- remove duplicates
+    {'Shougo/ddc-sorter_rank'}, -- Sort suggestions
+    {'Shougo/pum.vim'}, -- Show popup window
+    {'tani/ddc-fuzzy'},
+    {'matsui54/denops-popup-preview.vim'},
+  },
   setup = setup,
 }
