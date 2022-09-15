@@ -5,7 +5,7 @@ local set_keymap = utils.set_keymap
 local function setup()
   vim.fn["popup_preview#enable"]()
   vim.fn["ddc#custom#patch_global"]('sources', {'nvim-lsp', 'around', 'file'})
-  vim.fn["ddc#custom#patch_global"](sourceOptions, {
+  vim.fn["ddc#custom#patch_global"]('sourceOptions', {
           around = {mark = 'A', maxSize = 500},
           ['nvim-lsp'] = {mark = 'L'},
           file = {
