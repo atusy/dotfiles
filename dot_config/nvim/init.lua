@@ -481,21 +481,16 @@ require 'lualine'.setup {
 -- fern
 -- TODO: using nvim api currently fails to show file list
 set_keymap('n', '<C-F>', ':Fern . -drawer -reveal=%<CR>')
-vim.keymap.set(
-  'n',
-  '<Plug>(fern-action-open:chowcho)',
-  function()
-    local node = vim.api.nvim_exec([[
-      let helper = fern#helper#new()
-      echo helper.sync.get_selected_nodes()[0]["_path"]
-    ]], true)
-    require 'chowcho'.run(function(n)
-      vim.api.nvim_set_current_win(n)
-      vim.cmd("edit " .. node)
-    end)
-  end,
-  {}
-)
+local function fern_chowcho()
+  local node = vim.api.nvim_exec([[
+    let helper = fern#helper#new()
+    echo helper.sync.get_selected_nodes()[0]["_path"]
+  ]], true)
+  require 'chowcho'.run(function(n)
+    vim.api.nvim_set_current_win(n)
+    vim.cmd("edit " .. node)
+  end)
+end
 
 local function init_fern()
   vim.opt_local.relativenumber = false
@@ -504,6 +499,7 @@ local function init_fern()
   vim.opt_local.signcolumn = "auto"
   set_keymap('n', '<C-F>', '<C-W>p', {buffer = 0})
   set_keymap('n', 'm', '<Nop>', {buffer = 0, remap = true})
+  set_keymap('n', '<Plug>(fern-action-open:chowcho)', fern_chowcho, {buffer = 0})
   set_keymap('n', 's', '<Plug>(fern-action-open:chowcho)', {buffer = 0, nowait = true, remap = true})
 end
 
