@@ -439,7 +439,7 @@ set_keymap('', 'T', hopper('BEFORE_CURSOR', 1), { desc = 'Hop before' })
 require('leap').setup({ safe_labels = {}, })
 
 -- fuzzymotion
-set_keymap({ 'n', 'v', 'x' }, 'ss', function() vim.cmd("FuzzyMotion") end)
+set_keymap({ 'n', 'v' }, 'ss', function() vim.cmd("FuzzyMotion") end)
 
 -- edgemotion
 set_keymap('', '<A-]>', '<Plug>(edgemotion-j)', {})
