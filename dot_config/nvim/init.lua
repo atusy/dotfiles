@@ -68,6 +68,7 @@ vim.opt.listchars = {
   extends = "❯",
   precedes = "❮",
 }
+vim.opt.cursorline = true
 vim.opt.guicursor = {
   [[n-v-c:block,i-ci-ve:ver25,r-cr:hor20,o:hor50]],
   [[a:blinkwait700-blinkoff400-blinkon250-Cursor/lCursor]],
@@ -136,6 +137,24 @@ vim.api.nvim_create_user_command(
   end,
   {}
 )
+
+vim.api.nvim_create_augroup('ToggleCursorline', {})
+if vim.opt.cursorline:get() then
+  vim.api.nvim_create_autocmd(
+    'InsertEnter', {
+      callback = function()
+        vim.opt.cursorline = false
+      end
+    }
+  )
+  vim.api.nvim_create_autocmd(
+    'InsertLeave', {
+      callback = function()
+        vim.opt.cursorline = true
+      end
+    }
+  )
+end
 
 -- nvim-remote for edit-commandline zle
 -- <Space>bd will update, wipe buffer, and go back to the caller terminal
