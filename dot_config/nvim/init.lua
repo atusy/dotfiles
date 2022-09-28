@@ -433,38 +433,6 @@ vim.g['sandwich#recipes'] = vim.deepcopy(vim.g['sandwich#default_recipes'])
 
 
 --[[ motion settings ]]
-require('smoothcursor').setup({
-  autostart = false,
-  priority = 20,
-  threshold = 1,
-  speed = 50,
-  fancy = {
-    enable = true,
-    head = { cursor = nil },
-    body = {
-      { cursor = "", texthl = "Normal" },
-      { cursor = "", texthl = "Normal" },
-      { cursor = "●", texthl = "Normal" },
-      { cursor = "●", texthl = "Normal" },
-      { cursor = "•", texthl = "Normal" },
-      { cursor = ".", texthl = "Normal" },
-      { cursor = ".", texthl = "Normal" },
-    },
-  }
-})
-local function with_smoothcursor(lhs)
-  return function()
-    require("smoothcursor.utils").with_smoothcursor(
-      pcall, vim.cmd, 'normal! ' .. lhs
-    )
-  end
-end
-
-set_keymap('n', 'n', with_smoothcursor('n'))
-set_keymap('n', 'N', with_smoothcursor('N'))
-set_keymap({'n', 'x'}, 'gn', with_smoothcursor('gn'))
-set_keymap({'n', 'x'}, 'gN', with_smoothcursor('gN'))
-
 -- hop
 local Hop = require 'hop'
 Hop.setup()
