@@ -110,8 +110,8 @@ set_keymap('n', '<C-G><C-G>', '<C-G><Cmd>let @+ = expand("%")<CR>')
 set_keymap('', '-', '"_') -- shortcut to blackhole register
 set_keymap('', '+', '"+') -- shortcut to clipboard+ register
 set_keymap('n', '<ESC><ESC>', ':nohlsearch<CR>')
-set_keymap('n', 'x', '"_x')
-set_keymap('n', 'X', '"_X')
+set_keymap({'n', 'v'}, 'x', '"_x')
+set_keymap({'n', 'v'}, 'X', '"_X')
 set_keymap('n', 'gf', 'gF')
 set_keymap('n', '<Left>', '^')
 set_keymap('n', '<Right>', '$')
