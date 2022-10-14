@@ -107,7 +107,7 @@ set_keymap('n', 's', '<Nop>') -- be prefix for sandwich
 set_keymap('n', 'qa', '<Nop>') -- avoid typo of :qa
 set_keymap('n', ';', ':')
 set_keymap('n', '<C-G><C-G>', '<C-G><Cmd>let @+ = expand("%")<CR>')
-set_keymap('', '-', '"_') -- shortcut to blackhole register
+set_keymap('', '_', '"_') -- shortcut to blackhole register
 set_keymap('', '+', '"+') -- shortcut to clipboard+ register
 set_keymap('n', '<ESC><ESC>', ':nohlsearch<CR>')
 set_keymap({'n', 'v'}, 'x', '"_x')
