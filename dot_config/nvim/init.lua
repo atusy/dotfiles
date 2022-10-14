@@ -243,7 +243,6 @@ require 'jetpack'.startup(function(use)
     'ggandor/leap.nvim',
     'ggandor/leap-ast.nvim',
     'yuki-yano/fuzzy-motion.vim',
-    {'gen740/SmoothCursor.nvim'},
 
     -- treesitter
     { 'nvim-treesitter/nvim-treesitter', run = ":TSUpdate" },
