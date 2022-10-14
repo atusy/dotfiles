@@ -461,10 +461,18 @@ set_keymap('', 't', hopper('AFTER_CURSOR', -1), { desc = 'Hop after' })
 set_keymap('', 'T', hopper('BEFORE_CURSOR', 1), { desc = 'Hop before' })
 
 -- leap
-require('leap').setup({ safe_labels = {}, })
+-- LeapBackdrop highlight is defined at colorscheme.lua
+local _leap = require('leap')
+_leap.setup({ safe_labels = {}, })
+set_keymap(
+  { 'n', 'v' }, 'ss',
+  function()
+    _leap.leap({ target_windows = { vim.fn.win_getid() } })
+  end
+)
 
 -- fuzzymotion
-set_keymap({ 'n', 'v' }, 'ss', function() vim.cmd("FuzzyMotion") end)
+set_keymap({ 'n', 'v' }, 'sf', function() vim.cmd("FuzzyMotion") end)
 
 -- edgemotion
 set_keymap('', '<A-]>', '<Plug>(edgemotion-j)', {})
