@@ -553,7 +553,7 @@ require 'nvim-treesitter.configs'.setup {
     'bash', 'bibtex', 'c', 'c_sharp', 'cmake', 'cpp', 'css', 'dockerfile',
     'dot', 'go', 'gomod', 'gowork', 'graphql', 'haskell', 'hcl', 'help', 'html',
     'http', 'java', 'javascript', 'json', 'json5', 'julia', 'latex', 'lua',
-    'make', 'markdown', 'ninja', 'nix', 'python', 'r', 'regex', 'ruby', 'rust',
+    'make', 'markdown', 'ninja', 'nix', 'python', 'r', 'regex', 'rst', 'ruby', 'rust',
     'scss', 'teal', 'toml', 'tsx', 'typescript', 'vala', 'vim', 'vue', 'yaml'
   },
   context_commentstring = { enable = true },
