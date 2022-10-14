@@ -353,9 +353,9 @@ local function _chowcho_hide()
   end
 end
 
-set_keymap({ '', 't' }, '<C-W>c', _chowcho_hide)
-set_keymap({ '', 't' }, '<C-W><C-Space>', _chowcho_hide)
+-- set_keymap({ '', 't' }, '<C-W>c', _chowcho_hide)
 set_keymap({ '', 't' }, '<C-W><Space>', _chowcho_hide)
+set_keymap({ '', 't' }, '<C-W><C-Space>', _chowcho_hide)
 
 local function _chowcho_edit()
   -- Edits buffer from the selected in the current
