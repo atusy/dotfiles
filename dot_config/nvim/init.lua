@@ -318,7 +318,7 @@ local function _chowcho_focus()
         use_exclude_default = false,
         exclude = function(_, win)
           local config = vim.api.nvim_win_get_config(win)
-          return config.focasable == false
+          return config.focusable == false
         end
       }
     )
