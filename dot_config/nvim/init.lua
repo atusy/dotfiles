@@ -607,6 +607,7 @@ local function _toggleterm_run()
 end
 
 set_keymap('n', '<Leader>j', _toggleterm_run, { desc = 'ToggleTermSendCurrentLine' })
+set_keymap('v', '<Leader>j', _toggleterm_run, { desc = 'ToggleTermSendVisualSelection' })
 
 -- toggleterm:lazygit
 local lazygit = require 'toggleterm.terminal'.Terminal:new {
