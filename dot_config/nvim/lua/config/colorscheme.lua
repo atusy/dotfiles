@@ -19,6 +19,7 @@ local function set_colorscheme(nm, force, opt)
   api.nvim_set_hl(0, "IlluminatedWordRead", illumination)
   api.nvim_set_hl(0, "IlluminatedWordWrite", illumination)
   api.nvim_set_hl(0, "Folded", illumination)
+  api.nvim_set_hl(0, 'LeapBackdrop', vim.api.nvim_get_hl_by_name('Comment', true))
 end
 
 -- Update colorscheme when buffer is outside of cwd
