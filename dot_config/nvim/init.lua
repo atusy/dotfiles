@@ -65,8 +65,8 @@ vim.opt.list = true
 vim.opt.listchars = {
   tab = "▸▹┊",
   trail = "▫",
-  extends = "❯",
-  precedes = "❮",
+  extends = "»",
+  precedes = "«",
 }
 vim.opt.cursorline = true
 vim.opt.guicursor = {
@@ -214,6 +214,7 @@ require 'jetpack'.startup(function(use)
     'kyazdani42/nvim-web-devicons', -- for lualine
     'vim-denops/denops.vim',
     'kana/vim-submode',
+    'rbtnn/vim-ambiwidth',
 
     -- utils
     'tpope/vim-commentary',
