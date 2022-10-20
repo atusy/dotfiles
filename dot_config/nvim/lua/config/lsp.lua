@@ -99,10 +99,8 @@ local function setup(_)
 
   -- null_ls
   local null_ls = require("null-ls")
-  null_ls.reset_sources()
-  null_ls.setup()
 
-  null_ls.register({
+  local gitshow = {
     name = "git-show",
     method = null_ls.methods.HOVER,
     filetypes = { "gintonic-graph", "gitrebase" },
@@ -111,11 +109,13 @@ local function setup(_)
         local gintonic = require('gintonic')
         local obj = gintonic.utils.object_getters.default()
         return gintonic.utils.get_lines(
-          function() return gintonic.tonic.show(obj, nil, "--no-patch") end
+          function() return gintonic.tonic.show(obj, nil, "--name-status") end
         )
       end,
     },
-  })
+  }
+
+  null_ls.setup({sources = {gitshow}})
 end
 
 return {
