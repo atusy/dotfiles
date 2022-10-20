@@ -209,8 +209,8 @@ if command -v xdg-open > /dev/null; then
     xdg-open "$@" 2>/dev/null
   }
 fi
-if command -v gojq > /dev/null; then
-  alias jq='gojq'
+if [[ -f /opt/asdf-vm/asdf.sh ]]; then
+  . /opt/asdf-vm/asdf.sh
 fi
 
 alias gd='cd-gitroot'
