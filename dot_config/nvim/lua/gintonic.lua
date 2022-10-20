@@ -157,7 +157,7 @@ gintonic.utils.object_getters = {
 local function _keymap_ginshow(opt)
   -- shortcuts
   local get = gintonic.opt.get_object or gintonic.utils.object_getters.default
-  local show = gintonic.tonic.show
+  local show = function(obj, params) return gintonic.tonic.show(obj, params, "--stat --patch") end
   local show_split = function(obj)
     return show(obj, {opener = "belowright split"})
   end
