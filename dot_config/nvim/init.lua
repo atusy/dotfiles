@@ -106,7 +106,9 @@ end
 set_keymap('n', 's', '<Nop>') -- be prefix for sandwich
 set_keymap('n', 'qa', '<Nop>') -- avoid typo of :qa
 set_keymap('n', ';', ':')
-set_keymap('n', '<C-G><C-G>', '<C-G><Cmd>let @+ = expand("%")<CR>')
+set_keymap('n', '<C-G>', '<C-G><Plug>(C-G)', {noremap = true, nowait = true})
+set_keymap('n', '<Plug>(C-G)<C-G>', '<Cmd>let @+ = fnamemodify(expand("%"), ":~:.")<CR>')
+set_keymap('n', '<Plug>(C-G)g', '<Cmd>let @+ = expand("%:p")<CR>')
 set_keymap('', '_', '"_') -- shortcut to blackhole register
 set_keymap('', '+', '"+') -- shortcut to clipboard+ register
 set_keymap('n', '<ESC><ESC>', ':nohlsearch<CR>')
@@ -618,7 +620,7 @@ local lazygit = require 'toggleterm.terminal'.Terminal:new {
   direction = 'float'
 }
 set_keymap(
-  'n', '<C-G>l',
+  'n', '<Plug>(C-G)l',
   function() lazygit:toggle() end,
   { desc = 'lazygit', silent = true }
 )

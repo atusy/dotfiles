@@ -24,9 +24,9 @@ local function setup_vgit()
   end
   set_keymap('n', '<Up>', '<Plug>(vgit.hunk_up)')
   set_keymap('n', '<Down>', '<Plug>(vgit.hunk_down)')
-  set_keymap('n', '<C-G><C-R>', '<Plug>(vgit.buffer_hunk_reset)')
-  set_keymap('n', '<C-G>a', '<Cmd>up<CR><Plug>(vgit.buffer_stage)')
-  set_keymap('n', '<C-G><C-A>', '<Cmd>up<CR><Plug>(vgit.buffer_hunk_stage)')
+  set_keymap('n', '<Plug>(C-G)<C-R>', '<Plug>(vgit.buffer_hunk_reset)')
+  set_keymap('n', '<Plug>(C-G)a', '<Cmd>up<CR><Plug>(vgit.buffer_stage)')
+  set_keymap('n', '<Plug>(C-G)<C-A>', '<Cmd>up<CR><Plug>(vgit.buffer_hunk_stage)')
 end
 
 -- gin & gintonic
@@ -47,8 +47,8 @@ local function setup_gin()
       group = augroup_gin,
       pattern = "gin-patch",
       callback = function()
-        set_keymap("n", "<C-G><C-A>", "<Plug>(gin-diffget-r)", {bufnr = 0})
-        set_keymap("n", "<C-G><C-R>", "<Plug>(gin-diffget-l)", {bufnr = 0})
+        set_keymap("n", "<Plug>(C-G)<C-A>", "<Plug>(gin-diffget-r)", {bufnr = 0})
+        set_keymap("n", "<Plug>(C-G)<C-R>", "<Plug>(gin-diffget-l)", {bufnr = 0})
       end
     }
   )
@@ -66,8 +66,8 @@ local function setup_gin()
     cabbrev GinGraph GintonicGraph
     cabbrev GitGraph GintonicGraph
   ]], false)
-  set_keymap('n', '<C-G><C-P>', '<Cmd>GinPatch ++opener=tabnew %<CR>')
-  set_keymap('n', '<C-G><C-L>', '<Cmd>GintonicGraph<CR>')
+  set_keymap('n', '<Plug>(C-G)<C-P>', '<Cmd>GinPatch ++opener=tabnew %<CR>')
+  set_keymap('n', '<Plug>(C-G)<C-L>', '<Cmd>GintonicGraph<CR>')
 end
 
 -- return
@@ -84,6 +84,6 @@ return {
     setup_vgit()
     setup_gin()
     -- fugitive
-    set_keymap('n', '<C-G><C-Space>', [[<Cmd>Git commit<CR>]])
+    set_keymap('n', '<Plug>(C-G)<C-Space>', [[<Cmd>Git commit<CR>]])
   end
 }
