@@ -11,7 +11,7 @@ local function setup(_)
   }
   local function telescope_keymaps()
     local ft = vim.api.nvim_buf_get_option(0, "filetype")
-    TelescopeBuiltin.keymaps({ mode = vim.api.nvim_get_mode().mode })
+    TelescopeBuiltin.keymaps({ modes = { vim.api.nvim_get_mode().mode } })
     local cmd = telescope_hook_cmd[ft]
     if cmd then
       vim.cmd(cmd)
