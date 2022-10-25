@@ -25,8 +25,8 @@ local function setup_vgit()
   set_keymap('n', '<Up>', '<Plug>(vgit.hunk_up)')
   set_keymap('n', '<Down>', '<Plug>(vgit.hunk_down)')
   set_keymap('n', '<Plug>(C-G)<C-R>', '<Plug>(vgit.buffer_hunk_reset)')
-  set_keymap('n', '<Plug>(C-G)a', '<Cmd>up<CR><Plug>(vgit.buffer_stage)')
-  set_keymap('n', '<Plug>(C-G)<C-A>', '<Cmd>up<CR><Plug>(vgit.buffer_hunk_stage)')
+  set_keymap('n', '<Plug>(C-G)a', '<Cmd>w<CR><Plug>(vgit.buffer_stage)')
+  set_keymap('n', '<Plug>(C-G)<C-A>', '<Cmd>w<CR><Plug>(vgit.buffer_hunk_stage)')
 end
 
 -- gin & gintonic
@@ -67,7 +67,15 @@ local function setup_gin()
     cabbrev GitGraph GintonicGraph
   ]], false)
   set_keymap('n', '<Plug>(C-G)<C-P>', '<Cmd>GinPatch ++opener=tabnew %<CR>')
-  set_keymap('n', '<Plug>(C-G)<C-L>', '<Cmd>GintonicGraph<CR>')
+  local graph = function(opts)
+    opts = opts and (" " .. opts) or ""
+    if vim.api.nvim_buf_get_option(0, "filetype") ~= "gintonic-graph" then
+      opts = [[ ++opener=botright\ vsplit --first-parent]] .. opts
+    end
+    vim.cmd("GintonicGraph" .. opts)
+  end
+  set_keymap('n', '<Plug>(C-G)<C-L>', function() graph() end) -- <C-L> stands for Log
+  set_keymap('n', '<Plug>(C-G)%', function() graph("-- %") end)
 end
 
 -- return
