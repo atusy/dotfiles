@@ -47,8 +47,8 @@ local function setup_gin()
       group = augroup_gin,
       pattern = "gin-patch",
       callback = function()
-        set_keymap("n", "<Plug>(C-G)<C-A>", "<Plug>(gin-diffget-r)", {bufnr = 0})
-        set_keymap("n", "<Plug>(C-G)<C-R>", "<Plug>(gin-diffget-l)", {bufnr = 0})
+        set_keymap("n", "<Plug>(C-G)<C-A>", "<Plug>(gin-diffget-r)", {bufnr = 0}) -- git add
+        set_keymap("n", "<Plug>(C-G)<C-R>", "<Plug>(gin-diffget-l)", {bufnr = 0}) -- git reset
       end
     }
   )
@@ -74,7 +74,7 @@ local function setup_gin()
     end
     vim.cmd("GintonicGraph" .. opts)
   end
-  set_keymap('n', '<Plug>(C-G)<C-L>', function() graph() end) -- <C-L> stands for Log
+  set_keymap('n', '<Plug>(C-G)<C-L>', function() graph() end) -- git log --graph ...
   set_keymap('n', '<Plug>(C-G)%', function() graph("-- %") end)
 end
 
