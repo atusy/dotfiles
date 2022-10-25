@@ -13,7 +13,36 @@ local function setup_vgit()
     settings = {
       live_blame = {
         enabled = false
-      }
+      },
+      live_gutter = {
+        enabled = true
+      },
+      signs = {
+        priority = 10,
+        definitions = {
+          GitSignsAdd = {
+            texthl = 'GitSignsAdd',
+            numhl = 'GitSignsAdd',
+            icon = nil,
+            linehl = nil,
+            text = '',
+          },
+          GitSignsDelete = {
+            texthl = 'GitSignsDelete',
+            numhl = 'GitSignsDelete',
+            icon = nil,
+            linehl = nil,
+            text = '',
+          },
+          GitSignsChange = {
+            texthl = 'GitSignsChange',
+            numhl = 'GitSignsChange',
+            icon = nil,
+            linehl = nil,
+            text = '',
+          },
+        },
+      },
     }
   }
   api.nvim_create_user_command('ToggleBlame', Vgit.toggle_live_blame, {})
@@ -91,6 +120,8 @@ return {
   setup = function(_)
     setup_vgit()
     setup_gin()
+    require('gitsigns').setup({signcolumn = false, numhl = true})
+
     -- fugitive
     set_keymap('n', '<Plug>(C-G)<C-Space>', [[<Cmd>Git commit<CR>]])
   end
