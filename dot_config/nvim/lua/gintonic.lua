@@ -47,6 +47,7 @@ gintonic.gin.ginbuffer = function(params, args, bo)
   local autocmd = vim.api.nvim_create_autocmd("FileType", {
     pattern = "gin",
     callback = function()
+      vim.b.gintonic_filetype = bo.filetype
       for k, v in pairs(bo) do
         vim.api.nvim_buf_set_option(0, k, v)
       end
@@ -233,6 +234,15 @@ end
 local function create_autocmd(opt)
   opt = merge_table(opt, gintonic.opt)
   vim.api.nvim_create_augroup("gintonic-default", {})
+  vim.api.nvim_create_autocmd("FileType", {
+    pattern = {"gin"},
+    callback = function(_)
+      if vim.b.gintonic_filetype then
+        vim.api.nvim_buf_set_option(0, "filetype", vim.b.gintonic_filetype)
+      end
+    end,
+    group = "gintonic-default",
+  })
   vim.api.nvim_create_autocmd("FileType", {
     pattern = {"gitrebase", "gintonic-graph"},
     callback = function(_) _keymap_ginshow(opt) end,
