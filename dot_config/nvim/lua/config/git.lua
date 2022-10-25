@@ -54,8 +54,8 @@ local function setup_vgit()
   set_keymap('n', '<Up>', '<Plug>(vgit.hunk_up)')
   set_keymap('n', '<Down>', '<Plug>(vgit.hunk_down)')
   set_keymap('n', '<Plug>(C-G)<C-R>', '<Plug>(vgit.buffer_hunk_reset)')
-  set_keymap('n', '<Plug>(C-G)a', '<Cmd>w<CR><Plug>(vgit.buffer_stage)')
-  set_keymap('n', '<Plug>(C-G)<C-A>', '<Cmd>w<CR><Plug>(vgit.buffer_hunk_stage)')
+  set_keymap('n', '<Plug>(C-G)a', '<Plug>(vgit.buffer_stage)')
+  set_keymap('n', '<Plug>(C-G)<C-A>', '<Plug>(vgit.buffer_hunk_stage)')
 end
 
 -- gin & gintonic
