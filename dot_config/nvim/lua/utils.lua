@@ -8,6 +8,10 @@ function M.require(name)
   return _require(name)
 end
 
+function M.safely(f)
+  return function(...) pcall(f, ...) end
+end
+
 local set_keymap = vim.keymap.set
 function M.set_keymap(mode, lhs, rhs, opt1, opt2)
   local opt = {}
