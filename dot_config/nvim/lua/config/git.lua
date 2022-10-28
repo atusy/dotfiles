@@ -97,7 +97,7 @@ local function setup_gin()
   local graph = function(opts)
     opts = opts and (" " .. opts) or ""
     if vim.api.nvim_buf_get_option(0, "filetype") ~= "gintonic-graph" then
-      opts = [[ ++opener=botright\ vsplit --first-parent]] .. opts
+      opts = [[ ++opener=rightbelow\ vsplit --first-parent]] .. opts
     end
     vim.cmd("GintonicGraph" .. opts)
   end
