@@ -225,6 +225,11 @@ require 'jetpack'.startup(function(use)
     'lambdalisue/fern.vim',
     'segeljakt/vim-silicon', -- pacman -S silicon
 
+    -- ui
+    "MunifTanjim/nui.nvim",
+    "rcarriga/nvim-notify",
+    "folke/noice.nvim",
+
     -- windows and buffers
     'tkmpypy/chowcho.nvim',
     'moll/vim-bbye',
@@ -279,6 +284,8 @@ end
 for _, config in ipairs(configurations) do
   config.setup()
 end
+
+require("noice").setup()
 
 -- illuminate
 local Illuminate = require 'illuminate'
