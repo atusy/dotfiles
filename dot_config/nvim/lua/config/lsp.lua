@@ -24,7 +24,28 @@ local create_autocmd = function()
   vim.api.nvim_create_autocmd("FileType", {
     pattern = '*',
     group = group,
-    callback = function() attach() end
+    callback = function()
+      -- modify filetype if needed
+      local filetype_table = {
+        tf = "terraform"
+      }
+      local filetype = vim.api.nvim_buf_get_option(0, "filetype")
+      if filetype_table[filetype] then
+        filetype = filetype_table[filetype]
+        vim.api.nvim_buf_set_option(0, "filetype", filetype)
+      end
+
+      -- attach lsp if needed
+      -- there are some cases e! detaches clients
+      attach(filetype)
+    end
+  })
+  vim.api.nvim_create_autocmd({ "BufWritePre" }, {
+    pattern = { '*.tf', '*.tfvars', '*.lua' },
+    group = group,
+    callback = function()
+      pcall(vim.lsp.buf.format)
+    end,
   })
 end
 
@@ -108,20 +129,6 @@ local function setup(_)
   } do
     setup_lsp(lsp, config)
   end
-
-  vim.api.nvim_create_augroup("terraform-custom", {})
-  vim.api.nvim_create_autocmd({"FileType"}, {
-    group="terraform-custom",
-    pattern = { "tf" },
-    callback = function(_)
-      vim.api.nvim_buf_set_option(0, "filetype", "terraform")
-    end
-  })
-  vim.api.nvim_create_autocmd({"BufWritePre"}, {
-    group="terraform-custom",
-    pattern = {"*.tf", "*.tfvars"},
-    callback = vim.lsp.buf.formatting_sync,
-  })
 
   -- null_ls
   local null_ls = require("null-ls")
