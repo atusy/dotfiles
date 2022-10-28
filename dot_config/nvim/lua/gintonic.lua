@@ -75,7 +75,7 @@ gintonic.utils.get_lines = function(callback)
   if buf == 0 then return end
   local ok = vim.api.nvim_buf_call(buf, callback)
   local lines = ok and vim.api.nvim_buf_get_lines(buf, 0, -1, false) or {}
-  vim.api.nvim_buf_delete(buf, {force = true, unload = false})
+  vim.api.nvim_buf_delete(buf, { force = true, unload = false })
   return lines
 end
 
@@ -160,7 +160,7 @@ local function _keymap_ginshow(opt)
   local get = gintonic.opt.get_object or gintonic.utils.object_getters.default
   local show = function(obj, params) return gintonic.tonic.show(obj, params, "--stat --patch") end
   local show_split = function(obj)
-    return show(obj, {opener = "belowright split"})
+    return show(obj, { opener = "belowright split" })
   end
 
   -- git-show in preview window
@@ -185,22 +185,22 @@ local function _keymap_ginshow(opt)
 
   -- keymaps
   for _, v in ipairs({
-    {"<Plug>(gintonic-show)", function() show() end},
-    {"<Plug>(gintonic-show-split)", function() show_split() end},
-    {"<Plug>(gintonic-preview)", function() preview() end},
+    { "<Plug>(gintonic-show)", function() show() end },
+    { "<Plug>(gintonic-show-split)", function() show_split() end },
+    { "<Plug>(gintonic-preview)", function() preview() end },
   }) do
-    vim.keymap.set("n", v[1], v[2], {buffer = 0})
+    vim.keymap.set("n", v[1], v[2], { buffer = 0 })
   end
 
   if opt.keymap ~= false then
     for _, v in ipairs({
-      {"gf", "<Plug>(gintonic-show)"},
-      {"<C-W>f", "<Plug>(gintonic-show-split)"},
-      {"<C-W><C-F>", "<Plug>(gintonic-show-split)"},
-      {"<Down>", "j<Plug>(gintonic-preview)"},
-      {"<Up>", "k<Plug>(gintonic-preview)"},
+      { "gf", "<Plug>(gintonic-show)" },
+      { "<C-W>f", "<Plug>(gintonic-show-split)" },
+      { "<C-W><C-F>", "<Plug>(gintonic-show-split)" },
+      { "<Down>", "j<Plug>(gintonic-preview)" },
+      { "<Up>", "k<Plug>(gintonic-preview)" },
     }) do
-      vim.keymap.set("n", v[1], v[2], {buffer = 0})
+      vim.keymap.set("n", v[1], v[2], { buffer = 0 })
     end
   end
 end
@@ -216,7 +216,7 @@ gintonic.tonic.graph = function(params, args)
       },
       " "
     ),
-    {filetype = "gintonic-graph"}
+    { filetype = "gintonic-graph" }
   )
 end
 
@@ -227,7 +227,7 @@ local function create_command()
       function(params) gintonic.tonic.graph(nil, params.args) end
     }
   }) do
-    vim.api.nvim_create_user_command(nm, val[1], {force = true, nargs = "*"})
+    vim.api.nvim_create_user_command(nm, val[1], { force = true, nargs = "*" })
   end
 end
 
@@ -235,7 +235,7 @@ local function create_autocmd(opt)
   opt = merge_table(opt, gintonic.opt)
   vim.api.nvim_create_augroup("gintonic-default", {})
   vim.api.nvim_create_autocmd("FileType", {
-    pattern = {"gin"},
+    pattern = { "gin" },
     callback = function(_)
       if vim.b.gintonic_filetype then
         vim.api.nvim_buf_set_option(0, "filetype", vim.b.gintonic_filetype)
@@ -244,7 +244,7 @@ local function create_autocmd(opt)
     group = "gintonic-default",
   })
   vim.api.nvim_create_autocmd("FileType", {
-    pattern = {"gitrebase", "gintonic-graph"},
+    pattern = { "gitrebase", "gintonic-graph" },
     callback = function(_) _keymap_ginshow(opt) end,
     group = "gintonic-default",
   })
