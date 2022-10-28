@@ -49,14 +49,6 @@ local create_autocmd = function()
   })
 end
 
-local function hover(default)
-  if utils.has_lsp_client(0) then
-    vim.lsp.buf.hover()
-  else
-    vim.cmd(default or "normal! K")
-  end
-end
-
 local function setup(_)
   -- Mappings. See `:help vim.diagnostic.*` for documentation on any of the below functions
   create_autocmd()
