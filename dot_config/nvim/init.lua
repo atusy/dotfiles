@@ -106,14 +106,14 @@ end
 set_keymap('n', 's', '<Nop>') -- be prefix for sandwich
 set_keymap('n', 'qa', '<Nop>') -- avoid typo of :qa
 set_keymap('n', ';', ':')
-set_keymap('n', '<C-G>', '<C-G><Plug>(C-G)', {noremap = true, nowait = true})
+set_keymap('n', '<C-G>', '<C-G><Plug>(C-G)', { noremap = true, nowait = true })
 set_keymap('n', '<Plug>(C-G)<C-G>', '<Cmd>let @+ = fnamemodify(expand("%"), ":~:.")<CR>')
 set_keymap('n', '<Plug>(C-G)g', '<Cmd>let @+ = expand("%:p")<CR>')
 set_keymap('', '_', '"_') -- shortcut to blackhole register
 set_keymap('', '+', '"+') -- shortcut to clipboard+ register
 set_keymap('n', '<ESC><ESC>', ':nohlsearch<CR>')
-set_keymap({'n', 'v'}, 'x', '"_x')
-set_keymap({'n', 'v'}, 'X', '"_X')
+set_keymap({ 'n', 'v' }, 'x', '"_x')
+set_keymap({ 'n', 'v' }, 'X', '"_X')
 set_keymap('n', 'gf', 'gF')
 set_keymap('n', '<Left>', '^')
 set_keymap('n', '<Right>', '$')
@@ -143,22 +143,22 @@ vim.api.nvim_create_user_command(
 vim.api.nvim_create_augroup('ToggleCursorline', {})
 if vim.opt.cursorline:get() then
   for _, events in ipairs({
-    {'InsertEnter', 'InsertLeave'},
-    {'WinLeave', 'WinEnter'},
+    { 'InsertEnter', 'InsertLeave' },
+    { 'WinLeave', 'WinEnter' },
   }) do
     vim.api.nvim_create_autocmd(
       events[1], {
-        callback = function()
-          vim.wo.cursorline = false
-        end
-      }
+      callback = function()
+        vim.wo.cursorline = false
+      end
+    }
     )
     vim.api.nvim_create_autocmd(
       events[2], {
-        callback = function()
-          vim.wo.cursorline = true
-        end
-      }
+      callback = function()
+        vim.wo.cursorline = true
+      end
+    }
     )
   end
 end
@@ -542,10 +542,10 @@ local function init_fern()
   vim.opt_local.number = false
   vim.opt_local.cursorline = true
   vim.opt_local.signcolumn = "auto"
-  set_keymap('n', '<C-F>', '<C-W>p', {buffer = 0})
-  set_keymap('n', 'm', '<Nop>', {buffer = 0, remap = true})
-  set_keymap('n', '<Plug>(fern-action-open:chowcho)', fern_chowcho, {buffer = 0})
-  set_keymap('n', 's', '<Plug>(fern-action-open:chowcho)', {buffer = 0, nowait = true, remap = true})
+  set_keymap('n', '<C-F>', '<C-W>p', { buffer = 0 })
+  set_keymap('n', 'm', '<Nop>', { buffer = 0, remap = true })
+  set_keymap('n', '<Plug>(fern-action-open:chowcho)', fern_chowcho, { buffer = 0 })
+  set_keymap('n', 's', '<Plug>(fern-action-open:chowcho)', { buffer = 0, nowait = true, remap = true })
 end
 
 vim.api.nvim_create_autocmd("FileType",
