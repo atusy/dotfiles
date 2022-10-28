@@ -3,9 +3,9 @@ local vim = vim
 local utils = require('utils')
 local set_keymap = utils.set_keymap
 
-local function attach()
+local function attach(filetype)
+  filetype = filetype or vim.api.nvim_buf_get_option(0, "filetype")
   local clients = {}
-  local filetype = vim.api.nvim_buf_get_option(0, "filetype")
   for _, cl in ipairs(vim.lsp.get_active_clients()) do
     if cl.config and cl.config.filetypes then
       for _, ft in ipairs(cl.config.filetypes) do
