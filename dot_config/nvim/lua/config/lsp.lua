@@ -19,8 +19,17 @@ local function attach()
   return clients
 end
 
+local create_autocmd = function()
+  local group = vim.api.nvim_create_augroup("atusy-lsp", {})
+  vim.api.nvim_create_autocmd("FileType", {
+    pattern = '*',
+    group = group,
+    callback = function() attach() end
+  })
+end
+
 local function hover(default)
-  if utils.has_lsp_client(0) or #attach() > 0 then
+  if utils.has_lsp_client(0) then
     vim.lsp.buf.hover()
   else
     vim.cmd(default or "normal! K")
@@ -29,6 +38,7 @@ end
 
 local function setup(_)
   -- Mappings. See `:help vim.diagnostic.*` for documentation on any of the below functions
+  create_autocmd()
   vim.fn['signature_help#enable']()
   require("mason").setup()
   local LspSaga = require'lspsaga'
