@@ -223,9 +223,9 @@ require 'jetpack'.startup(function(use)
     'segeljakt/vim-silicon', -- pacman -S silicon
 
     -- ui
-    "MunifTanjim/nui.nvim",
-    "rcarriga/nvim-notify",
-    "folke/noice.nvim",
+    -- "MunifTanjim/nui.nvim",
+    -- "rcarriga/nvim-notify",
+    -- "folke/noice.nvim",
 
     -- windows and buffers
     'moll/vim-bbye',
@@ -281,7 +281,11 @@ for _, config in ipairs(configurations) do
   config.setup()
 end
 
-require("noice").setup()
+-- require("noice").setup({
+--   messages = {
+--     enabled = false,
+--   }
+-- })
 require("cellwidths").setup {
   name = "user/custom",
   ---@param cw cellwidths
