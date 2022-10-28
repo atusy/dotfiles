@@ -2,13 +2,29 @@ local vim = vim
 
 local utils = require('utils')
 local set_keymap = utils.set_keymap
-local has_lsp_client = utils.has_lsp_client
 
-local function hover(bufnr, default)
-  if has_lsp_client(bufnr or vim.api.nvim_get_current_buf()) then
-    return vim.lsp.buf.hover()
+local function attach()
+  local clients = {}
+  local filetype = vim.api.nvim_buf_get_option(0, "filetype")
+  for _, cl in ipairs(vim.lsp.get_active_clients()) do
+    if cl.config and cl.config.filetypes then
+      for _, ft in ipairs(cl.config.filetypes) do
+        if ft == filetype then
+          vim.lsp.buf_attach_client(0, cl.id)
+          table.insert(clients, cl)
+        end
+      end
+    end
   end
-  return vim.cmd(default or "normal! K")
+  return clients
+end
+
+local function hover(default)
+  if utils.has_lsp_client(0) or #attach() > 0 then
+    vim.lsp.buf.hover()
+  else
+    vim.cmd(default or "normal! K")
+  end
 end
 
 local function setup(_)
