@@ -251,6 +251,7 @@ require 'jetpack'.startup(function(use)
     -- treesitter
     { 'nvim-treesitter/nvim-treesitter', run = ":TSUpdate" },
     'nvim-treesitter/playground',
+    'nvim-treesitter/nvim-treesitter-refactor',
     'yioneko/nvim-yati',
     'haringsrob/nvim_context_vt',
     'romgrk/nvim-treesitter-context',
@@ -594,6 +595,8 @@ require 'treesitter-context'.setup({
     rmd = { 'section' }
   },
 })
+set_keymap('n', '<Plug>(treesitter-smart-rename)',
+  function() require 'nvim-treesitter-refactor.smart_rename'.smart_rename(0) end)
 -- set_keymap('o', 'm', ':<C-U>lua require"tsht".nodes()<CR>', {silent = true})
 -- set_keymap('v', 'm', ':lua require"tsht".nodes()<CR>', {silent = true})
 set_keymap({ 'v', 'o' }, 'm', require 'leap-ast'.leap, { silent = true })
