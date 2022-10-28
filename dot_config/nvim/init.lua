@@ -213,7 +213,7 @@ require 'jetpack'.startup(function(use)
     'kyazdani42/nvim-web-devicons', -- for lualine
     'vim-denops/denops.vim',
     'kana/vim-submode',
-    'rbtnn/vim-ambiwidth',
+    'delphinus/cellwidths.nvim',
 
     -- utils
     'tpope/vim-commentary',
@@ -282,6 +282,13 @@ for _, config in ipairs(configurations) do
 end
 
 require("noice").setup()
+require("cellwidths").setup {
+  name = "user/custom",
+  ---@param cw cellwidths
+  fallback = function(cw)
+    cw.load "default"
+  end
+}
 
 -- illuminate
 local Illuminate = require 'illuminate'
