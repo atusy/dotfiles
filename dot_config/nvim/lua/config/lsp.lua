@@ -71,7 +71,6 @@ local function setup(_)
   set_keymap('n', ']d', vim.diagnostic.goto_next, { silent = true, desc = 'next diagnositc' })
   set_keymap('n', '<Leader>q', vim.diagnostic.setloclist,
     { silent = true, desc = 'add buffer diagnositcs to the location list' })
-  set_keymap('n', 'K', function() hover() end)
 
   -- Use an on_attach function to only map the following keys
   -- after the language server attaches to the current buffer
@@ -84,23 +83,25 @@ local function setup(_)
     -- See `:help vim.lsp.*` for documentation on any of the below functions
     local OPTS = { silent = true, buffer = bufnr }
     local TelescopeBuiltin = require('telescope.builtin')
-    set_keymap('n', 'gD', vim.lsp.buf.declaration, OPTS)
-    set_keymap('n', 'gd', TelescopeBuiltin.lsp_definitions, OPTS)
+    set_keymap('n', 'K', vim.lsp.buf.hover, OPTS, { desc = 'lsp hover' })
+    set_keymap('n', 'gD', vim.lsp.buf.declaration, OPTS, { desc = 'lsp declaration' })
+    set_keymap('n', 'gd', TelescopeBuiltin.lsp_definitions, OPTS, { desc = 'lsp definitions' })
     -- set_keymap('n', 'gd', vim.lsp.buf.definition, OPTS)
-    set_keymap('n', 'gi', TelescopeBuiltin.lsp_implementations, OPTS)
+    set_keymap('n', 'gi', TelescopeBuiltin.lsp_implementations, OPTS, { desc = 'lsp implementation' })
     -- set_keymap('n', 'gi', vim.lsp.buf.implementation, OPTS)
-    set_keymap('n', '<C-K>', vim.lsp.buf.signature_help, OPTS)
-    set_keymap('n', '<Leader>wa', vim.lsp.buf.add_workspace_folder, OPTS)
-    set_keymap('n', '<Leader>wr', vim.lsp.buf.remove_workspace_folder, OPTS)
-    set_keymap('n', '<Leader>wl', '<Cmd>print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>', OPTS)
-    set_keymap('n', '<Leader>D', vim.lsp.buf.type_definition, OPTS)
+    set_keymap('n', '<C-K>', vim.lsp.buf.signature_help, OPTS, { desc = 'lsp show signature help' })
+    set_keymap('n', '<Leader>wa', vim.lsp.buf.add_workspace_folder, OPTS, { desc = 'lsp add workspace folder' })
+    set_keymap('n', '<Leader>wr', vim.lsp.buf.remove_workspace_folder, OPTS, { desc = 'lsp remove workspace folder' })
+    set_keymap('n', '<Leader>wl', '<Cmd>print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>', OPTS,
+      { desc = 'lsp show workspace folders' })
+    set_keymap('n', '<Leader>D', vim.lsp.buf.type_definition, OPTS, { desc = 'lsp type definition' })
     -- set_keymap('n', '<Leader>rn', require'lspsaga.rename'.lsp_rename, OPTS)
-    set_keymap('n', '<Leader>rn', vim.lsp.buf.rename, OPTS)
-    set_keymap('n', '<Leader>ca', require 'lspsaga.codeaction'.code_action, OPTS)
+    set_keymap('n', '<Leader>rn', vim.lsp.buf.rename, OPTS, { desc = 'lsp rename' })
+    set_keymap('n', '<Leader>ca', require 'lspsaga.codeaction'.code_action, OPTS, { desc = 'lsp code action' })
     -- set_keymap('n', '<Leader>ca', vim.lsp.buf.code_action, OPTS)
-    set_keymap('n', 'gr', TelescopeBuiltin.lsp_references, { silent = true, buffer = bufnr, desc = 'lsp reference' })
+    set_keymap('n', 'gr', TelescopeBuiltin.lsp_references, OPTS, { desc = 'lsp reference' })
     -- set_keymap('n', 'gr', vim.lsp.buf.references, OPTS)
-    set_keymap('n', '<Leader>lf', function() vim.lsp.buf.format({ async = true }) end, OPTS)
+    set_keymap('n', '<Leader>lf', function() vim.lsp.buf.format({ async = true }) end, OPTS, { desc = 'lsp format' })
   end
 
   local Lspconfig = require 'lspconfig'
