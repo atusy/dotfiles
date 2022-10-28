@@ -62,14 +62,15 @@ local function setup(_)
   create_autocmd()
   vim.fn['signature_help#enable']()
   require("mason").setup()
-  local LspSaga = require'lspsaga'
+  local LspSaga = require 'lspsaga'
   LspSaga.init_lsp_saga({
     code_action_lightbulb = { virtual_text = false, sign = false }
   })
-  set_keymap('n', '<Leader>e', vim.diagnostic.open_float, {silent = true, desc = 'float diagnostic'})
-  set_keymap('n', '[d', vim.diagnostic.goto_prev, {silent = true, desc = 'previous diagnostic'})
-  set_keymap('n', ']d', vim.diagnostic.goto_next, {silent = true, desc = 'next diagnositc'})
-  set_keymap('n', '<Leader>q', vim.diagnostic.setloclist, {silent = true, desc = 'add buffer diagnositcs to the location list'})
+  set_keymap('n', '<Leader>e', vim.diagnostic.open_float, { silent = true, desc = 'float diagnostic' })
+  set_keymap('n', '[d', vim.diagnostic.goto_prev, { silent = true, desc = 'previous diagnostic' })
+  set_keymap('n', ']d', vim.diagnostic.goto_next, { silent = true, desc = 'next diagnositc' })
+  set_keymap('n', '<Leader>q', vim.diagnostic.setloclist,
+    { silent = true, desc = 'add buffer diagnositcs to the location list' })
   set_keymap('n', 'K', function() hover() end)
 
   -- Use an on_attach function to only map the following keys
@@ -80,7 +81,7 @@ local function setup(_)
 
     -- Mappings.
     -- See `:help vim.lsp.*` for documentation on any of the below functions
-    local OPTS = {silent = true, buffer = bufnr}
+    local OPTS = { silent = true, buffer = bufnr }
     local TelescopeBuiltin = require('telescope.builtin')
     set_keymap('n', 'gD', '<cmd>lua vim.lsp.buf.declaration()<CR>', OPTS)
     set_keymap('n', 'gd', TelescopeBuiltin.lsp_definitions, OPTS)
@@ -94,27 +95,27 @@ local function setup(_)
     set_keymap('n', '<Leader>D', '<cmd>lua vim.lsp.buf.type_definition()<CR>', OPTS)
     -- set_keymap('n', '<Leader>rn', require'lspsaga.rename'.lsp_rename, OPTS)
     set_keymap('n', '<Leader>rn', '<cmd>lua vim.lsp.buf.rename()<CR>', OPTS)
-    set_keymap('n', '<Leader>ca', require'lspsaga.codeaction'.code_action, OPTS)
+    set_keymap('n', '<Leader>ca', require 'lspsaga.codeaction'.code_action, OPTS)
     -- set_keymap('n', '<Leader>ca', '<cmd>lua vim.lsp.buf.code_action()<CR>', OPTS)
-    set_keymap('n', 'gr', TelescopeBuiltin.lsp_references, {silent = true, buffer = bufnr, desc = 'lsp reference'})
+    set_keymap('n', 'gr', TelescopeBuiltin.lsp_references, { silent = true, buffer = bufnr, desc = 'lsp reference' })
     -- set_keymap('n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>', OPTS)
     set_keymap('n', '<Leader>lf', '<cmd>lua vim.lsp.buf.formatting()<CR>', OPTS)
   end
 
-  local Lspconfig = require'lspconfig'
+  local Lspconfig = require 'lspconfig'
   local function setup_lsp(lsp, config)
-    local config2 = {on_attach = on_attach, flags = {debounce_text_changes = 150}}
+    local config2 = { on_attach = on_attach, flags = { debounce_text_changes = 150 } }
     for k, v in pairs(config or {}) do
       config2[k] = v
     end
     Lspconfig[lsp].setup(config2)
   end
 
-  for lsp, config in pairs{
+  for lsp, config in pairs {
     pyright = {}, -- pip install --user pyright
     r_language_server = {}, -- R -e "remotes::install_github('languageserver')"
     denols = {},
-    bashls = {filetypes = {'sh', 'bash', 'zsh'}}, -- npm i -g bash-language-server
+    bashls = { filetypes = { 'sh', 'bash', 'zsh' } }, -- npm i -g bash-language-server
     terraformls = { filetypes = { "terraform", "tf" } },
     sumneko_lua = {
       settings = {
@@ -148,19 +149,19 @@ local function setup(_)
     },
   }
 
-  null_ls.setup({sources = {gitshow}})
+  null_ls.setup({ sources = { gitshow } })
 end
 
 return {
   deps = {
-    {'nvim-telescope/telescope.nvim'},
-    {'neovim/nvim-lspconfig'},
-    {'glepnir/lspsaga.nvim'},
-    {'williamboman/mason.nvim'},
-    {'tamago324/nlsp-settings.nvim'},
-    {'ii14/emmylua-nvim'},
-    {'jose-elias-alvarez/null-ls.nvim'},
-    {'matsui54/denops-signature_help'},
+    { 'nvim-telescope/telescope.nvim' },
+    { 'neovim/nvim-lspconfig' },
+    { 'glepnir/lspsaga.nvim' },
+    { 'williamboman/mason.nvim' },
+    { 'tamago324/nlsp-settings.nvim' },
+    { 'ii14/emmylua-nvim' },
+    { 'jose-elias-alvarez/null-ls.nvim' },
+    { 'matsui54/denops-signature_help' },
   },
   setup = setup
 }
