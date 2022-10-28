@@ -2,22 +2,7 @@ local vim = vim
 
 local utils = require('utils')
 local set_keymap = utils.set_keymap
-
-local function attach(filetype)
-  filetype = filetype or vim.api.nvim_buf_get_option(0, "filetype")
-  local clients = {}
-  for _, cl in ipairs(vim.lsp.get_active_clients()) do
-    if cl.config and cl.config.filetypes then
-      for _, ft in ipairs(cl.config.filetypes) do
-        if ft == filetype then
-          vim.lsp.buf_attach_client(0, cl.id)
-          table.insert(clients, cl)
-        end
-      end
-    end
-  end
-  return clients
-end
+local attach_lsp = utils.attach_lsp
 
 local create_autocmd = function()
   local group = vim.api.nvim_create_augroup("atusy-lsp", {})
@@ -37,7 +22,7 @@ local create_autocmd = function()
 
       -- attach lsp if needed
       -- there are some cases e! detaches clients
-      attach(filetype)
+      attach_lsp(filetype)
     end
   })
   vim.api.nvim_create_autocmd({ "BufWritePre" }, {
@@ -63,6 +48,14 @@ local function setup(_)
   set_keymap('n', ']d', vim.diagnostic.goto_next, { silent = true, desc = 'next diagnositc' })
   set_keymap('n', '<Leader>q', vim.diagnostic.setloclist,
     { silent = true, desc = 'add buffer diagnositcs to the location list' })
+  set_keymap('n', 'K', function()
+    -- lspconfig won't map this on_attach, so it should be mapped globally
+    if utils.has_lsp_client(0) then
+      vim.lsp.buf.hover()
+    else
+      vim.cmd('normal! K')
+    end
+  end)
 
   -- Use an on_attach function to only map the following keys
   -- after the language server attaches to the current buffer
@@ -75,7 +68,6 @@ local function setup(_)
     -- See `:help vim.lsp.*` for documentation on any of the below functions
     local OPTS = { silent = true, buffer = bufnr }
     local TelescopeBuiltin = require('telescope.builtin')
-    set_keymap('n', 'K', vim.lsp.buf.hover, OPTS, { desc = 'lsp hover' })
     set_keymap('n', 'gD', vim.lsp.buf.declaration, OPTS, { desc = 'lsp declaration' })
     set_keymap('n', 'gd', TelescopeBuiltin.lsp_definitions, OPTS, { desc = 'lsp definitions' })
     -- set_keymap('n', 'gd', vim.lsp.buf.definition, OPTS)
@@ -87,11 +79,12 @@ local function setup(_)
     set_keymap('n', '<Leader>wl', '<Cmd>print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>', OPTS,
       { desc = 'lsp show workspace folders' })
     set_keymap('n', '<Leader>D', vim.lsp.buf.type_definition, OPTS, { desc = 'lsp type definition' })
-    -- set_keymap('n', '<Leader>rn', require'lspsaga.rename'.lsp_rename, OPTS)
+    -- set_keymap('n', '<Leader>rn', '<cmd>Lspsaga rename<cr>', OPTS)
     set_keymap('n', '<Leader>rn', vim.lsp.buf.rename, OPTS, { desc = 'lsp rename' })
-    set_keymap('n', '<Leader>ca', require 'lspsaga.codeaction'.code_action, OPTS, { desc = 'lsp code action' })
+    set_keymap({ 'n', 'v' }, '<Leader>ca', '<cmd>Lspsaga code_action<cr>', OPTS, { desc = 'lsp code action' })
     -- set_keymap('n', '<Leader>ca', vim.lsp.buf.code_action, OPTS)
-    set_keymap('n', 'gr', TelescopeBuiltin.lsp_references, OPTS, { desc = 'lsp reference' })
+    set_keymap('n', 'gr', '<cmd>Lspsaga lsp_finder<cr>', OPTS, { desc = 'lsp reference' })
+    -- set_keymap('n', 'gr', TelescopeBuiltin.lsp_references, OPTS, { desc = 'lsp reference' })
     -- set_keymap('n', 'gr', vim.lsp.buf.references, OPTS)
     set_keymap('n', '<Leader>lf', function() vim.lsp.buf.format({ async = true }) end, OPTS, { desc = 'lsp format' })
   end

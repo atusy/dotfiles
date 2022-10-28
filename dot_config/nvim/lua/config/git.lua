@@ -146,8 +146,8 @@ local function setup_gin()
     end
     vim.cmd("GintonicGraph" .. opts)
   end
-  set_keymap('n', '<Plug>(C-G)<C-L>', function() graph() end, {desc = "git graph"}) -- git log --graph ...
-  set_keymap('n', '<Plug>(C-G)%', function() graph("-- %") end, {desc = "git graph current buffer"})
+  set_keymap('n', '<Plug>(C-G)<C-L>', function() graph() end, { desc = "git graph" }) -- git log --graph ...
+  set_keymap('n', '<Plug>(C-G)%', function() graph("-- %") end, { desc = "git graph current buffer" })
 end
 
 -- return
