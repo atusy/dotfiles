@@ -86,30 +86,7 @@ local function setup_gin()
     {
       group = augroup_gin,
       pattern = "gintonic-graph",
-      callback = function()
-        vim.opt_local.cursorline = true
-        -- for some reason, lsp gets detached on reload
-        -- so force re-attaching if necessary
-        set_keymap(
-          'n', 'K',
-          function()
-            if not utils.has_lsp_client(0) then
-              local clients = vim.lsp.get_active_clients()
-              for _, cl in ipairs(clients) do
-                if cl.config and cl.config.filetypes then
-                  for _, ft in ipairs(cl.config.filetypes) do
-                    if ft == "gintonic-graph" then
-                      vim.lsp.buf_attach_client(0, cl.id)
-                    end
-                  end
-                end
-              end
-            end
-            vim.lsp.buf.hover()
-          end,
-          { buffer = 0 }
-        )
-      end
+      callback = function() vim.opt_local.cursorline = true end
     }
   )
   api.nvim_exec([[
