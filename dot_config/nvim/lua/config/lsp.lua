@@ -99,7 +99,7 @@ local function setup(_)
     -- set_keymap('n', '<Leader>ca', vim.lsp.buf.code_action, OPTS)
     set_keymap('n', 'gr', TelescopeBuiltin.lsp_references, { silent = true, buffer = bufnr, desc = 'lsp reference' })
     -- set_keymap('n', 'gr', vim.lsp.buf.references, OPTS)
-    set_keymap('n', '<Leader>lf', vim.lsp.buf.formatting, OPTS)
+    set_keymap('n', '<Leader>lf', function() vim.lsp.buf.format({ async = true }) end, OPTS)
   end
 
   local Lspconfig = require 'lspconfig'
