@@ -4,7 +4,7 @@ local utils = require('utils')
 local set_keymap = utils.set_keymap
 local attach_lsp = utils.attach_lsp
 
-local create_autocmd = function()
+local setup_autocmd = function()
   local group = vim.api.nvim_create_augroup("atusy-lsp", {})
   vim.api.nvim_create_autocmd("FileType", {
     pattern = '*',
@@ -34,15 +34,7 @@ local create_autocmd = function()
   })
 end
 
-local function setup(_)
-  -- Mappings. See `:help vim.diagnostic.*` for documentation on any of the below functions
-  create_autocmd()
-  vim.fn['signature_help#enable']()
-  require("mason").setup()
-  local LspSaga = require 'lspsaga'
-  LspSaga.init_lsp_saga({
-    code_action_lightbulb = { virtual_text = false, sign = false }
-  })
+local function setup_global_keymaps()
   set_keymap('n', '<Leader>e', vim.diagnostic.open_float, { silent = true, desc = 'float diagnostic' })
   set_keymap('n', '[d', vim.diagnostic.goto_prev, { silent = true, desc = 'previous diagnostic' })
   set_keymap('n', ']d', vim.diagnostic.goto_next, { silent = true, desc = 'next diagnositc' })
@@ -56,38 +48,68 @@ local function setup(_)
       vim.cmd('normal! K')
     end
   end)
+end
 
-  -- Use an on_attach function to only map the following keys
-  -- after the language server attaches to the current buffer
-  local on_attach = function(client, bufnr)
-    local _ = client
-    -- Enable completion triggered by <c-x><c-o>
-    vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
+local function setup_null_ls()
+  local null_ls = require("null-ls")
 
-    -- Mappings.
-    -- See `:help vim.lsp.*` for documentation on any of the below functions
-    local OPTS = { silent = true, buffer = bufnr }
-    local TelescopeBuiltin = require('telescope.builtin')
-    set_keymap('n', 'gD', vim.lsp.buf.declaration, OPTS, { desc = 'lsp declaration' })
-    set_keymap('n', 'gd', TelescopeBuiltin.lsp_definitions, OPTS, { desc = 'lsp definitions' })
-    -- set_keymap('n', 'gd', vim.lsp.buf.definition, OPTS)
-    set_keymap('n', 'gi', TelescopeBuiltin.lsp_implementations, OPTS, { desc = 'lsp implementation' })
-    -- set_keymap('n', 'gi', vim.lsp.buf.implementation, OPTS)
-    set_keymap('n', '<C-K>', vim.lsp.buf.signature_help, OPTS, { desc = 'lsp show signature help' })
-    set_keymap('n', '<Leader>wa', vim.lsp.buf.add_workspace_folder, OPTS, { desc = 'lsp add workspace folder' })
-    set_keymap('n', '<Leader>wr', vim.lsp.buf.remove_workspace_folder, OPTS, { desc = 'lsp remove workspace folder' })
-    set_keymap('n', '<Leader>wl', '<Cmd>print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>', OPTS,
-      { desc = 'lsp show workspace folders' })
-    set_keymap('n', '<Leader>D', vim.lsp.buf.type_definition, OPTS, { desc = 'lsp type definition' })
-    -- set_keymap('n', '<Leader>rn', '<cmd>Lspsaga rename<cr>', OPTS)
-    set_keymap('n', '<Leader>rn', vim.lsp.buf.rename, OPTS, { desc = 'lsp rename' })
-    set_keymap({ 'n', 'v' }, '<Leader>ca', '<cmd>Lspsaga code_action<cr>', OPTS, { desc = 'lsp code action' })
-    -- set_keymap('n', '<Leader>ca', vim.lsp.buf.code_action, OPTS)
-    set_keymap('n', 'gr', '<cmd>Lspsaga lsp_finder<cr>', OPTS, { desc = 'lsp reference' })
-    -- set_keymap('n', 'gr', TelescopeBuiltin.lsp_references, OPTS, { desc = 'lsp reference' })
-    -- set_keymap('n', 'gr', vim.lsp.buf.references, OPTS)
-    set_keymap('n', '<Leader>lf', function() vim.lsp.buf.format({ async = true }) end, OPTS, { desc = 'lsp format' })
-  end
+  local gitshow = {
+    name = "git-show",
+    method = null_ls.methods.HOVER,
+    filetypes = { "gintonic-graph", "gitrebase" },
+    generator = {
+      fn = function(_)
+        local gintonic = require('gintonic')
+        local obj = gintonic.utils.object_getters.default()
+        return gintonic.utils.get_lines(
+          function() return gintonic.tonic.show(obj, nil, "--name-status") end
+        )
+      end,
+    },
+  }
+
+  null_ls.setup({ sources = { gitshow } })
+end
+
+local on_attach = function(client, bufnr)
+  local _ = client
+  -- Enable completion triggered by <c-x><c-o>
+  vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
+
+  -- Mappings.
+  -- See `:help vim.lsp.*` for documentation on any of the below functions
+  local OPTS = { silent = true, buffer = bufnr }
+  local TelescopeBuiltin = require('telescope.builtin')
+  set_keymap('n', 'gD', vim.lsp.buf.declaration, OPTS, { desc = 'lsp declaration' })
+  set_keymap('n', 'gd', TelescopeBuiltin.lsp_definitions, OPTS, { desc = 'lsp definitions' })
+  -- set_keymap('n', 'gd', vim.lsp.buf.definition, OPTS)
+  set_keymap('n', 'gi', TelescopeBuiltin.lsp_implementations, OPTS, { desc = 'lsp implementation' })
+  -- set_keymap('n', 'gi', vim.lsp.buf.implementation, OPTS)
+  set_keymap('n', '<C-K>', vim.lsp.buf.signature_help, OPTS, { desc = 'lsp show signature help' })
+  set_keymap('n', '<Leader>wa', vim.lsp.buf.add_workspace_folder, OPTS, { desc = 'lsp add workspace folder' })
+  set_keymap('n', '<Leader>wr', vim.lsp.buf.remove_workspace_folder, OPTS, { desc = 'lsp remove workspace folder' })
+  set_keymap('n', '<Leader>wl', '<Cmd>print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>', OPTS,
+    { desc = 'lsp show workspace folders' })
+  set_keymap('n', '<Leader>D', vim.lsp.buf.type_definition, OPTS, { desc = 'lsp type definition' })
+  -- set_keymap('n', '<Leader>rn', '<cmd>Lspsaga rename<cr>', OPTS)
+  set_keymap('n', '<Leader>rn', vim.lsp.buf.rename, OPTS, { desc = 'lsp rename' })
+  set_keymap({ 'n', 'v' }, '<Leader>ca', '<cmd>Lspsaga code_action<cr>', OPTS, { desc = 'lsp code action' })
+  -- set_keymap('n', '<Leader>ca', vim.lsp.buf.code_action, OPTS)
+  set_keymap('n', 'gr', '<cmd>Lspsaga lsp_finder<cr>', OPTS, { desc = 'lsp reference' })
+  -- set_keymap('n', 'gr', TelescopeBuiltin.lsp_references, OPTS, { desc = 'lsp reference' })
+  -- set_keymap('n', 'gr', vim.lsp.buf.references, OPTS)
+  set_keymap('n', '<Leader>lf', function() vim.lsp.buf.format({ async = true }) end, OPTS, { desc = 'lsp format' })
+end
+
+local function setup(_)
+  -- Mappings. See `:help vim.diagnostic.*` for documentation on any of the below functions
+  setup_autocmd()
+  setup_global_keymaps()
+  vim.fn['signature_help#enable']()
+  require("mason").setup()
+  require('lspsaga').init_lsp_saga({
+    code_action_lightbulb = { virtual_text = false, sign = false }
+  })
 
   local Lspconfig = require 'lspconfig'
   local function setup_lsp(lsp, config)
@@ -118,25 +140,7 @@ local function setup(_)
     setup_lsp(lsp, config)
   end
 
-  -- null_ls
-  local null_ls = require("null-ls")
-
-  local gitshow = {
-    name = "git-show",
-    method = null_ls.methods.HOVER,
-    filetypes = { "gintonic-graph", "gitrebase" },
-    generator = {
-      fn = function(_)
-        local gintonic = require('gintonic')
-        local obj = gintonic.utils.object_getters.default()
-        return gintonic.utils.get_lines(
-          function() return gintonic.tonic.show(obj, nil, "--name-status") end
-        )
-      end,
-    },
-  }
-
-  null_ls.setup({ sources = { gitshow } })
+  setup_null_ls()
 end
 
 return {
