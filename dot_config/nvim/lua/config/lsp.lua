@@ -107,6 +107,7 @@ local function setup(_)
   setup_global_keymaps()
   vim.fn['signature_help#enable']()
   require("mason").setup()
+  require("mason-lspconfig").setup()
   require('lspsaga').init_lsp_saga({
     code_action_lightbulb = { virtual_text = false, sign = false }
   })
@@ -149,6 +150,7 @@ return {
     { 'neovim/nvim-lspconfig' },
     { 'glepnir/lspsaga.nvim' },
     { 'williamboman/mason.nvim' },
+    { 'williamboman/mason-lspconfig.nvim' },
     { 'tamago324/nlsp-settings.nvim' },
     { 'ii14/emmylua-nvim' },
     { 'jose-elias-alvarez/null-ls.nvim' },
