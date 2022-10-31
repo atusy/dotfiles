@@ -18,12 +18,19 @@ local function setup(_)
     end
   end
 
+  local function telescope_find_files()
+    TelescopeBuiltin.find_files({
+      hidden = true,
+      search_dirs = { ".", "./.ignored" }
+    })
+  end
+
   Telescope.setup()
   Telescope.load_extension('fzf')
   for _, v in pairs {
     { 'n', 'mb', 'buffers' },
     { 'n', 'mc', 'commands' },
-    { 'n', 'mf', 'find_files' },
+    { 'n', 'mf', 'find_files', telescope_find_files },
     { 'n', 'mg', 'live_grep' },
     { 'n', 'mh', 'help_tags' },
     { 'n', '<Plug>(C-G)<C-S>', 'git_status' },
