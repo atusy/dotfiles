@@ -16,6 +16,23 @@ local function commandline_post(maps)
 end
 
 local function commandline_pre(maps)
+  -- register autocmd first so that they are registered regradless of
+  -- the later errors
+  local augroup = vim.api.nvim_create_augroup("ddc-commandline-post")
+  vim.api.nvim_create_autocmd("User", {
+    pattern = "DDCCmdLineLeave",
+    group = augroup,
+    once = true,
+    callback = function() pcall(commandline_post, maps) end,
+  })
+  vim.api.nvim_create_autocmd("InsertEnter", {
+    group = augroup,
+    once = true,
+    buffer = 0,
+    callback = function() pcall(commandline_post, maps) end,
+  })
+
+  -- do initialization after registering autocmd
   maps = maps or {
     ['<Tab>'] = function() fn["pum#map#insert_relative"](1) end,
     ['<S-Tab>'] = function() fn["pum#map#insert_relative"](-1) end,
@@ -30,16 +47,6 @@ local function commandline_pre(maps)
     vim.b.prev_buffer_config = fn["ddc#custom#get_buffer"]()
   end
   fn["ddc#custom#patch_buffer"]('cmdlineSources', { 'cmdline', 'cmdline-history', 'file', 'around' })
-  vim.api.nvim_create_autocmd("User", {
-    pattern = "DDCCmdLineLeave",
-    once = true,
-    callback = function() pcall(commandline_post, maps) end,
-  })
-  vim.api.nvim_create_autocmd("InsertEnter", {
-    once = true,
-    buffer = 0,
-    callback = function() pcall(commandline_post, maps) end,
-  })
 
   -- Enable command line completion
   fn["ddc#enable_cmdline_completion"]()
@@ -114,18 +121,18 @@ end
 
 return {
   deps = {
-    {'Shougo/ddc.vim'},
-    {'Shougo/ddc-around'},
-    {'Shougo/ddc-cmdline'},
-    {'Shougo/ddc-cmdline-history'},
-    {'Shougo/ddc-matcher_head'}, -- 入力中の単語を補完
-    {'Shougo/ddc-nvim-lsp'}, -- 入力中の単語を補完
-    {'LumaKernel/ddc-file'}, -- Suggest file paths
-    {'Shougo/ddc-converter_remove_overlap'}, -- remove duplicates
-    {'Shougo/ddc-sorter_rank'}, -- Sort suggestions
-    {'Shougo/pum.vim'}, -- Show popup window
-    {'tani/ddc-fuzzy'},
-    {'matsui54/denops-popup-preview.vim'},
+    { 'Shougo/ddc.vim' },
+    { 'Shougo/ddc-around' },
+    { 'Shougo/ddc-cmdline' },
+    { 'Shougo/ddc-cmdline-history' },
+    { 'Shougo/ddc-matcher_head' }, -- 入力中の単語を補完
+    { 'Shougo/ddc-nvim-lsp' }, -- 入力中の単語を補完
+    { 'LumaKernel/ddc-file' }, -- Suggest file paths
+    { 'Shougo/ddc-converter_remove_overlap' }, -- remove duplicates
+    { 'Shougo/ddc-sorter_rank' }, -- Sort suggestions
+    { 'Shougo/pum.vim' }, -- Show popup window
+    { 'tani/ddc-fuzzy' },
+    { 'matsui54/denops-popup-preview.vim' },
   },
   setup = setup,
 }
