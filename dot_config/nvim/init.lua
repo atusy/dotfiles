@@ -286,13 +286,14 @@ end
 --     enabled = false,
 --   }
 -- })
-require("cellwidths").setup {
-  name = "user/custom",
-  ---@param cw cellwidths
-  fallback = function(cw)
-    cw.load "default"
-  end
-}
+
+-- cellwidths
+-- template is modified on load as builtin mechanism has difficulty to dump
+require("cellwidths").setup { name = "default" }
+vim.cmd.CellWidthsDelete("{" .. table.concat({
+  0x2190, 0x2191, 0x2192, 0x2193, -- ←↑↓→
+  0x2713, -- ✓
+}, ", ") .. "}")
 
 -- illuminate
 local Illuminate = require 'illuminate'
