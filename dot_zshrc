@@ -250,8 +250,17 @@ function pyset() {
   pyenv "$SCOPE" 
 }
 
-function rename_wezterm_title {
-  local TITLE="${1:-$(basename "$( pwd )")}"
+function rename_wezterm_title() {
+  local TITLE="${1:-}"
+  if [[ -z "$TITLE" ]]; then
+    TITLE="$(basename "$( pwd )")"
+    HEAD="$(git rev-parse --abbrev-ref=loose HEAD 2>/dev/null || echo "")"
+    case "$HEAD" in
+      "" ) ;;
+      "HEAD" ) TITLE="${TITLE}:$(git rev-parse --short HEAD)";;
+      * ) TITLE="${TITLE}:${HEAD}";;
+    esac
+  fi
   echo "\x1b]1337;SetUserVar=panetitle=$(echo "$TITLE" | base64)\x07"
 }
 
