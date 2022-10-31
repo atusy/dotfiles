@@ -111,7 +111,7 @@ local function setup()
     { 'InsertEnter', 'TextChangedI', 'TextChangedP', 'CmdlineChanged' }
   )
   set_keymap('n', ':', function()
-    commandline_pre()
+    pcall(commandline_pre)
     return ':'
   end, { expr = true })
 
