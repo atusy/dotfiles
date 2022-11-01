@@ -217,8 +217,10 @@ require 'jetpack'.startup(function(use)
     -- utils
     'tpope/vim-commentary',
     'nathom/filetype.nvim',
+    'lambdalisue/nerdfont.vim',
     'lambdalisue/guise.vim',
     'lambdalisue/fern.vim',
+    'lambdalisue/fern-renderer-nerdfont.vim',
     'segeljakt/vim-silicon', -- pacman -S silicon
 
     -- ui
@@ -418,6 +420,8 @@ require 'lualine'.setup {
 --[[ filer settings ]]
 -- fern
 -- TODO: using nvim api currently fails to show file list
+vim.g["fern#renderer"] = "nerdfont"
+vim.g["fern#renderer#nerdfont#indent_markers"] = 1
 set_keymap('n', '<C-F>', ':Fern . -drawer -reveal=%<CR>')
 local function fern_chowcho()
   local node = vim.api.nvim_exec([[
@@ -509,5 +513,7 @@ require 'toggleterm'.setup {
   open_mapping = '<C-T>',
   insert_mappings = false,
 }
-set_keymap('n', '<Leader>j', ':ToggleTermSendCurrentLine<CR>j')
-set_keymap('v', '<Leader>j', ':ToggleTermSendVisualSelection<CR>')
+set_keymap('n', '<Leader>j', ':ToggleTermSendCurrentLine<CR>j',
+  { desc = ' send the line to toggle term and go to next line' })
+set_keymap('v', '<Leader>j', ":ToggleTermSendVisualSelection<CR>gv<Esc>",
+  { desc = 'send the selection to toggle term while keeping the cursor position' })
