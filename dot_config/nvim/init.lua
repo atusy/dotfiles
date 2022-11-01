@@ -511,15 +511,3 @@ require 'toggleterm'.setup {
 }
 set_keymap('n', '<Leader>j', ':ToggleTermSendCurrentLine<CR>j')
 set_keymap('v', '<Leader>j', ':ToggleTermSendVisualSelection<CR>')
-
--- toggleterm:lazygit
-local lazygit = require 'toggleterm.terminal'.Terminal:new {
-  cmd = 'lazygit',
-  hidden = true,
-  direction = 'float'
-}
-set_keymap(
-  'n', '<Plug>(C-G)l',
-  function() lazygit:toggle() end,
-  { desc = 'lazygit', silent = true }
-)
