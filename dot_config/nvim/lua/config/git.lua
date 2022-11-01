@@ -152,7 +152,7 @@ local function setup_gin()
   set_keymap('n', '<Plug>(git-amend)', ':Gin commit --amend ')
   set_keymap('n', '<Plug>(git-amend-no-edit)', ':Gin commit --amend --no-edit ')
   set_keymap('n', '<Plug>(git-rebase-i)', ':Gin rebase -i ')
-  set_keymap('n', '<Plug>(git-push-origin)', ':Gin push origin HEAD')
+  set_keymap('n', '<Plug>(git-push-origin)', ':Gin push origin HEAD ')
 end
 
 -- return
