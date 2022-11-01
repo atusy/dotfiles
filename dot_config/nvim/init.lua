@@ -509,14 +509,8 @@ require 'toggleterm'.setup {
   open_mapping = '<C-T>',
   insert_mappings = false,
 }
-local function _toggleterm_run()
-  local win = vim.api.nvim_get_current_win()
-  vim.cmd('ToggleTermSendCurrentLine')
-  vim.api.nvim_set_current_win(win)
-end
-
-set_keymap('n', '<Leader>j', _toggleterm_run, { desc = 'ToggleTermSendCurrentLine' })
-set_keymap('v', '<Leader>j', _toggleterm_run, { desc = 'ToggleTermSendVisualSelection' })
+set_keymap('n', '<Leader>j', ':ToggleTermSendCurrentLine<CR>j')
+set_keymap('v', '<Leader>j', ':ToggleTermSendVisualSelection<CR>')
 
 -- toggleterm:lazygit
 local lazygit = require 'toggleterm.terminal'.Terminal:new {
