@@ -148,6 +148,11 @@ local function setup_gin()
   end
   set_keymap('n', '<Plug>(C-G)<C-L>', function() graph() end, { desc = "git graph" }) -- git log --graph ...
   set_keymap('n', '<Plug>(C-G)%', function() graph("-- %") end, { desc = "git graph current buffer" })
+  -- following keymaps exists as snippets, and thus ends with space rather than <CR>
+  set_keymap('n', '<Plug>(git-amend)', ':Gin commit --amend ')
+  set_keymap('n', '<Plug>(git-amend-no-edit)', ':Gin commit --amend --no-edit ')
+  set_keymap('n', '<Plug>(git-rebase-i)', ':Gin rebase -i ')
+  set_keymap('n', '<Plug>(git-push-origin)', ':Gin push origin HEAD')
 end
 
 -- return
