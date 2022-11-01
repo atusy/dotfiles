@@ -142,18 +142,18 @@ if vim.opt.cursorline:get() then
     { 'WinLeave', 'WinEnter' },
   }) do
     vim.api.nvim_create_autocmd(
-      events[1], {
-      callback = function()
-        vim.wo.cursorline = false
-      end
-    }
+      events[1],
+      {
+        callback = function() vim.api.nvim_win_set_option(0, 'cursorline', false) end,
+        group = 'ToggleCursorline'
+      }
     )
     vim.api.nvim_create_autocmd(
-      events[2], {
-      callback = function()
-        vim.wo.cursorline = true
-      end
-    }
+      events[2],
+      {
+        callback = function() vim.api.nvim_win_set_option(0, 'cursorline', true) end,
+        group = 'ToggleCursorline'
+      }
     )
   end
 end
