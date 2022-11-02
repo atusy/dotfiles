@@ -111,16 +111,14 @@ return {
     { 'lambdalisue/gin.vim' },
     { 'tpope/vim-fugitive' },
     { 'knsh14/vim-github-link' },
-    { 'tanvirtin/vgit.nvim' },
+    -- { 'tanvirtin/vgit.nvim' },
     { 'nvim-lua/plenary.nvim' }, -- for vgit
     { 'vim-denops/denops.vim' }, -- for gin
     { 'lewis6991/gitsigns.nvim' },
   },
   setup = function(_)
-    -- setup_vgit()
     setup_gin()
     setup_gitsigns()
-    -- require('gitsigns').setup({signcolumn = false, numhl = true})
 
     -- fugitive
     set_keymap('n', '<Plug>(C-G)<C-Space>', [[<Cmd>Git commit<CR>]])
