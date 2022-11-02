@@ -152,16 +152,6 @@ local function setup_lspsaga()
   })
 end
 
-local function setup(_)
-  -- Mappings. See `:help vim.diagnostic.*` for documentation on any of the below functions
-  setup_autocmd()
-  setup_global_keymaps()
-  setup_lspsaga()
-  setup_nvim_lsp()
-  setup_null_ls()
-  vim.fn['signature_help#enable']()
-end
-
 return {
   deps = {
     { 'nvim-telescope/telescope.nvim' },
@@ -174,5 +164,13 @@ return {
     { 'jose-elias-alvarez/null-ls.nvim' },
     { 'matsui54/denops-signature_help' },
   },
-  setup = setup
+  setup = function(_)
+    -- Mappings. See `:help vim.diagnostic.*` for documentation on any of the below functions
+    setup_autocmd()
+    setup_global_keymaps()
+    setup_lspsaga()
+    setup_nvim_lsp()
+    setup_null_ls()
+    vim.fn['signature_help#enable']()
+  end
 }
