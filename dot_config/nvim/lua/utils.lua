@@ -1,11 +1,9 @@
 local vim = vim
 local M = {}
 
-local _require = require
-
 function M.require(name)
-  pcall(function() _require('plenary.reload').reload_module(name) end)
-  return _require(name)
+  pcall(function() require('plenary.reload').reload_module(name) end)
+  return require(name)
 end
 
 function M.safely(f)
