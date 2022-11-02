@@ -71,6 +71,10 @@ local function setup_null_ls()
   null_ls.setup({ sources = { gitshow } })
 end
 
+local function resolve_capability(client, feature)
+  return client and client.server_capabilities and client.server_capabilities[feature] or false
+end
+
 local on_attach = function(client, bufnr)
   local _ = client
   -- Enable completion triggered by <c-x><c-o>
@@ -92,7 +96,9 @@ local on_attach = function(client, bufnr)
     { desc = 'lsp show workspace folders' })
   set_keymap('n', '<Leader>D', vim.lsp.buf.type_definition, OPTS, { desc = 'lsp type definition' })
   -- set_keymap('n', '<Leader>rn', '<cmd>Lspsaga rename<cr>', OPTS)
-  set_keymap('n', '<Leader>rn', vim.lsp.buf.rename, OPTS, { desc = 'lsp rename' })
+  if resolve_capability(client, "renameProvider") then
+    set_keymap('n', '<Leader>rn', vim.lsp.buf.rename, OPTS, { desc = 'lsp rename' })
+  end
   set_keymap({ 'n', 'v' }, '<Leader>ca', '<cmd>Lspsaga code_action<cr>', OPTS, { desc = 'lsp code action' })
   -- set_keymap('n', '<Leader>ca', vim.lsp.buf.code_action, OPTS)
   set_keymap('n', 'gr', '<cmd>Lspsaga lsp_finder<cr>', OPTS, { desc = 'lsp reference' })
