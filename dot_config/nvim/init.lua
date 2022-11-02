@@ -408,7 +408,7 @@ require 'lualine'.setup {
     lualine_b = {},
     lualine_c = {},
     lualine_x = {},
-    lualine_y = { 'diagnostics', 'branch', 'diff' },
+    lualine_y = { 'branch', 'diff' },
     lualine_z = { 'tabs' },
   },
   extensions = { 'fern', 'toggleterm' }
