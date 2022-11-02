@@ -34,9 +34,6 @@ local vim = vim -- minimize LSP warning
 -- [[ helpers ]]
 local utils = require('utils').require('utils') -- force reloading self
 local set_keymap = utils.set_keymap
-function Inspect(...)
-  print(vim.inspect(...))
-end
 
 --[[ options ]]
 -- signcolumn
