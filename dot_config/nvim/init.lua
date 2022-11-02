@@ -95,8 +95,12 @@ vim.g.mapleader = ' '
 for _, k in ipairs({ 's', ',', ';' }) do
   set_keymap('n', '<A-' .. k .. '>', k)
 end
+for _, ch in ipairs(vim.fn.split('abcdefghijklmnoprstuvwxyz', [[\zs]])) do
+  set_keymap('n', 'q' .. ch, function()
+    vim.notify('q[a-z] are disabled except qq', vim.log.levels.ERROR)
+  end) -- avoid typo of :qa
+end
 set_keymap('n', 's', '<Nop>') -- be prefix for sandwich
-set_keymap('n', 'qa', '<Nop>') -- avoid typo of :qa
 set_keymap('n', '<C-G>', '<C-G><Plug>(C-G)', { noremap = true, nowait = true })
 set_keymap('n', '<Plug>(C-G)<C-G>', '<Cmd>let @+ = fnamemodify(expand("%"), ":~:.")<CR>')
 set_keymap('n', '<Plug>(C-G)g', '<Cmd>let @+ = expand("%:p")<CR>')
