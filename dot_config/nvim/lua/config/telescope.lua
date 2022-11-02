@@ -160,6 +160,7 @@ return {
   deps = {
     'nvim-telescope/telescope.nvim',
     { 'nvim-telescope/telescope-fzf-native.nvim', run = 'make' },
+    -- { 'tknightz/telescope-termfinder.nvim' },  -- finds toggleterm terminals
   },
   setup = setup
 }
