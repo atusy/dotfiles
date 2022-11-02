@@ -493,8 +493,11 @@ require 'treesitter-context'.setup({
     rmd = { 'section' }
   },
 })
-set_keymap('n', '<Plug>(treesitter-smart-rename)',
-  function() require 'nvim-treesitter-refactor.smart_rename'.smart_rename(0) end)
+set_keymap(
+  'n', '<Leader>rn', -- lsp may overridde the feature if renameProvider is available
+  function() require 'nvim-treesitter-refactor.smart_rename'.smart_rename(0) end,
+  { desc = 'treesitter rename' }
+)
 -- set_keymap('o', 'm', ':<C-U>lua require"tsht".nodes()<CR>', {silent = true})
 -- set_keymap('v', 'm', ':lua require"tsht".nodes()<CR>', {silent = true})
 set_keymap({ 'v', 'o' }, 'm', require 'leap-ast'.leap, { silent = true })
