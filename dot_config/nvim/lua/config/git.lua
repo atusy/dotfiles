@@ -5,8 +5,8 @@ local utils = require('utils')
 local _require = utils.require
 local set_keymap = utils.set_keymap
 
-
-local setup_gitsigns = function()
+-- gitsigns settings
+local function setup_gitsigns()
   local gs = require('gitsigns')
   gs.setup({
     signcolumn = false,
@@ -52,6 +52,7 @@ local setup_gitsigns = function()
     end
   })
 end
+
 -- gin & gintonic
 local function setup_gin()
   local has_delta = vim.fn.executable('delta') == 1
