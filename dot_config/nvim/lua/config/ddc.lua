@@ -18,7 +18,7 @@ end
 local function commandline_pre(maps)
   -- register autocmd first so that they are registered regradless of
   -- the later errors
-  local augroup = vim.api.nvim_create_augroup("ddc-commandline-post")
+  local augroup = vim.api.nvim_create_augroup("ddc-commandline-post", {})
   vim.api.nvim_create_autocmd("User", {
     pattern = "DDCCmdLineLeave",
     group = augroup,
