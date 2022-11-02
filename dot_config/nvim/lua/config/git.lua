@@ -5,58 +5,6 @@ local utils = require('utils')
 local _require = utils.require
 local set_keymap = utils.set_keymap
 
--- vgit
-local function setup_vgit()
-  local Vgit = require 'vgit'
-  Vgit.setup {
-    keymaps = {},
-    settings = {
-      live_blame = {
-        enabled = false
-      },
-      live_gutter = {
-        enabled = true
-      },
-      signs = {
-        priority = 10,
-        definitions = {
-          GitSignsAdd = {
-            texthl = 'GitSignsAdd',
-            numhl = 'GitSignsAdd',
-            icon = nil,
-            linehl = nil,
-            text = '',
-          },
-          GitSignsDelete = {
-            texthl = 'GitSignsDelete',
-            numhl = 'GitSignsDelete',
-            icon = nil,
-            linehl = nil,
-            text = '',
-          },
-          GitSignsChange = {
-            texthl = 'GitSignsChange',
-            numhl = 'GitSignsChange',
-            icon = nil,
-            linehl = nil,
-            text = '',
-          },
-        },
-      },
-    }
-  }
-  api.nvim_create_user_command('ToggleBlame', Vgit.toggle_live_blame, {})
-  for k, f in pairs(Vgit) do
-    if type(f) == "function" then
-      set_keymap('n', '<Plug>(vgit.' .. k .. ')', function() f() end)
-    end
-  end
-  set_keymap('n', '<Up>', '<Plug>(vgit.hunk_up)')
-  set_keymap('n', '<Down>', '<Plug>(vgit.hunk_down)')
-  set_keymap('n', '<Plug>(C-G)<C-R>', '<Plug>(vgit.buffer_hunk_reset)')
-  set_keymap('n', '<Plug>(C-G)a', '<Plug>(vgit.buffer_stage)')
-  set_keymap('n', '<Plug>(C-G)<C-A>', '<Plug>(vgit.buffer_hunk_stage)')
-end
 
 local setup_gitsigns = function()
   local gs = require('gitsigns')
