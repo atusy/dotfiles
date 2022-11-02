@@ -227,6 +227,7 @@ require 'jetpack'.startup(function(use)
 
     -- windows and buffers
     'moll/vim-bbye',
+    'm00qek/baleia.nvim',
     { 'tyru/capture.vim' },
 
     -- better something
@@ -311,6 +312,14 @@ set_keymap('n', '<C-P><C-W>', ':Bwipeout!<CR>')
 -- asterisk
 set_keymap('n', '*', '<Plug>(asterisk-z*)')
 set_keymap('v', '*', '<Plug>(asterisk-gz*)')
+
+-- baleia to parse ANSI
+local baleia = require('baleia').setup()
+set_keymap(
+  'n', '<Plug>(parse-ansi)',
+  function() baleia.once(vim.api.nvim_get_current_buf()) end,
+  { desc = 'Parse ANSI escape sequences in current buffer' }
+)
 
 -- quickfix
 vim.api.nvim_create_augroup("quickfix-custom", {})
