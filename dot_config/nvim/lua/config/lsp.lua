@@ -89,7 +89,7 @@ local on_attach = function(client, bufnr)
   set_keymap('n', '<C-K>', vim.lsp.buf.signature_help, OPTS, { desc = 'lsp show signature help' })
   set_keymap('n', '<Leader>wa', vim.lsp.buf.add_workspace_folder, OPTS, { desc = 'lsp add workspace folder' })
   set_keymap('n', '<Leader>wr', vim.lsp.buf.remove_workspace_folder, OPTS, { desc = 'lsp remove workspace folder' })
-  set_keymap('n', '<Leader>wl', '<Cmd>print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>', OPTS,
+  set_keymap('n', '<Leader>wl', '<Cmd>vim.pretty_print(vim.lsp.buf.list_workspace_folders())<CR>', OPTS,
     { desc = 'lsp show workspace folders' })
   set_keymap('n', '<Leader>D', vim.lsp.buf.type_definition, OPTS, { desc = 'lsp type definition' })
   -- set_keymap('n', '<Leader>rn', '<cmd>Lspsaga rename<cr>', OPTS)
