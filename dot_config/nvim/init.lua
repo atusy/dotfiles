@@ -473,7 +473,7 @@ require 'nvim-treesitter.configs'.setup {
     'make', 'markdown', 'markdown_inline', 'ninja', 'nix', 'python', 'r', 'regex', 'rst', 'ruby', 'rust',
     'scss', 'teal', 'toml', 'tsx', 'typescript', 'vala', 'vim', 'vue', 'yaml'
   },
-  context_commentstring = { enable = true },
+  context_commentstring = { enable = true, enable_autocmd = false },
   highlight = {
     enable = true,
     disable = function(lang)
@@ -484,6 +484,10 @@ require 'nvim-treesitter.configs'.setup {
   indent = { enable = true },
   yati = { enable = true },
 }
+require('Comment').setup {
+  pre_hook = require('ts_context_commentstring.integrations.comment_nvim').create_pre_hook(),
+}
+
 local ft_to_parser = require 'nvim-treesitter.parsers'.filetype_to_parsername
 ft_to_parser.zsh = 'bash'
 ft_to_parser.tf = 'hcl'
