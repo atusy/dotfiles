@@ -227,6 +227,7 @@ require 'jetpack'.startup(function(use)
     -- "MunifTanjim/nui.nvim",
     -- "rcarriga/nvim-notify",
     -- "folke/noice.nvim",
+    -- "stevearc/stickybuf.nvim",
 
     -- windows and buffers
     'moll/vim-bbye',
