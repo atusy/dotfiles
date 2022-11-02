@@ -32,8 +32,7 @@ use { 'windwp/nvim-autopairs',
 local vim = vim -- minimize LSP warning
 
 -- [[ helpers ]]
-local utils = require('utils')
-utils.require('utils')
+local utils = require('utils').require('utils') -- force reloading self
 local set_keymap = utils.set_keymap
 function Inspect(...)
   print(vim.inspect(...))
