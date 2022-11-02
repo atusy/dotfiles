@@ -106,17 +106,9 @@ local on_attach = function(client, bufnr)
   set_keymap('n', '<Leader>lf', function() vim.lsp.buf.format({ async = true }) end, OPTS, { desc = 'lsp format' })
 end
 
-local function setup(_)
-  -- Mappings. See `:help vim.diagnostic.*` for documentation on any of the below functions
-  setup_autocmd()
-  setup_global_keymaps()
-  vim.fn['signature_help#enable']()
+local function setup_nvim_lsp()
   require("mason").setup()
   require("mason-lspconfig").setup()
-  require('lspsaga').init_lsp_saga({
-    code_action_lightbulb = { virtual_text = false, sign = false }
-  })
-
   local Lspconfig = require 'lspconfig'
   local function setup_lsp(lsp, config)
     local config2 = { on_attach = on_attach, flags = { debounce_text_changes = 150 } }
@@ -145,7 +137,18 @@ local function setup(_)
   } do
     setup_lsp(lsp, config)
   end
+end
 
+local function setup(_)
+  -- Mappings. See `:help vim.diagnostic.*` for documentation on any of the below functions
+  setup_autocmd()
+  setup_global_keymaps()
+  vim.fn['signature_help#enable']()
+  require('lspsaga').init_lsp_saga({
+    code_action_lightbulb = { virtual_text = false, sign = false }
+  })
+
+  setup_nvim_lsp()
   setup_null_ls()
 end
 
