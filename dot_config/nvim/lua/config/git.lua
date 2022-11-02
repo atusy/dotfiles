@@ -68,9 +68,10 @@ local setup_gitsigns = function()
     },
     on_attach = function(bufnr)
       local OPTS = { buffer = bufnr }
-      set_keymap({ 'n', 'v' }, '<Plug>(C-G)<C-A>', gs.stage_hunk, OPTS)
+      set_keymap('v', '<C-G><C-A>', gs.stage_hunk, OPTS)
+      set_keymap('n', '<Plug>(C-G)<C-A>', gs.stage_hunk, OPTS)
       set_keymap('n', '<Plug>(C-G)a', gs.stage_buffer, OPTS)
-      set_keymap({ 'n', 'v' }, '<Plug>(C-G)<C-R>', gs.reset_hunk, OPTS)
+      set_keymap('n', '<Plug>(C-G)<C-R>', gs.reset_hunk, OPTS)
       set_keymap('n', '<Plug>(C-G)r', gs.reset_buffer, OPTS)
       set_keymap(
         'n', '<Plug>(toggle-live-git-blame)',
