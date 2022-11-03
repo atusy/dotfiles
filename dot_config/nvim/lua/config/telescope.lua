@@ -5,17 +5,14 @@ local set_keymap = utils.set_keymap
 local function setup(_)
   local Telescope = require('telescope')
   local TelescopeBuiltin = require('telescope.builtin')
-  local telescope_hook_cmd = {
-    fern = "normal! i'fern-action ",
-    ["gin-status"] = "normal! i'gin-action ",
+  local telescope_keymaps_filter = {
+    fern = "'fern-action ",
+    ["gin-status"] = "'gin-action "
   }
   local function telescope_keymaps()
     local ft = vim.api.nvim_buf_get_option(0, "filetype")
     TelescopeBuiltin.keymaps({ modes = { vim.api.nvim_get_mode().mode } })
-    local cmd = telescope_hook_cmd[ft]
-    if cmd then
-      vim.cmd(cmd)
-    end
+    vim.cmd("normal! i" .. (telescope_keymaps_filter[ft] or "☆ "))
   end
 
   local function telescope_find_files()
