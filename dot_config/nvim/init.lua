@@ -531,6 +531,6 @@ require 'toggleterm'.setup {
   insert_mappings = false,
 }
 set_keymap('n', '<Leader>j', ':ToggleTermSendCurrentLine<CR>j',
-  { desc = ' send the line to toggle term and go to next line' })
+  { desc = 'send the line to toggle term and go to next line' })
 set_keymap('v', '<Leader>j', ":ToggleTermSendVisualSelection<CR>gv<Esc>",
   { desc = 'send the selection to toggle term while keeping the cursor position' })
