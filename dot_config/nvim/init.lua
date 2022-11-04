@@ -213,7 +213,7 @@ require 'jetpack'.startup(function(use)
     'delphinus/cellwidths.nvim',
 
     -- utils
-    'tpope/vim-commentary',
+    'numToStr/Comment.nvim',
     'nathom/filetype.nvim',
     'lambdalisue/nerdfont.vim',
     'lambdalisue/guise.vim',
@@ -487,6 +487,7 @@ require 'nvim-treesitter.configs'.setup {
   yati = { enable = true },
 }
 require('Comment').setup {
+  toggler = { line = 'gcc', block = 'gcb' },
   pre_hook = require('ts_context_commentstring.integrations.comment_nvim').create_pre_hook(),
 }
 
