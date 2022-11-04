@@ -12,7 +12,7 @@ local function setup(_)
   local function telescope_keymaps()
     local ft = vim.api.nvim_buf_get_option(0, "filetype")
     TelescopeBuiltin.keymaps({ modes = { vim.api.nvim_get_mode().mode } })
-    vim.cmd("normal! i" .. (telescope_keymaps_filter[ft] or "☆ "))
+    vim.cmd("normal! i" .. (telescope_keymaps_filter[ft] or "☆"))
   end
 
   local function telescope_find_files()
