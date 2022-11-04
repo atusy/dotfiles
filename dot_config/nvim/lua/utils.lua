@@ -31,10 +31,7 @@ function M.set_keymap(mode, lhs, rhs, opt1, opt2)
 end
 
 function M.has_lsp_client(bufnr)
-  for _, _ in pairs(vim.lsp.buf_get_clients(bufnr or 0)) do
-    return true
-  end
-  return false
+  return #vim.lsp.buf_get_clients(bufnr or 0) > 0
 end
 
 function M.attach_lsp(filetype)
