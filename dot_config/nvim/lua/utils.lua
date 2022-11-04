@@ -37,7 +37,7 @@ function M.has_lsp_client(bufnr)
   return false
 end
 
-M.attach_lsp = function(filetype)
+function M.attach_lsp(filetype)
   filetype = filetype or vim.api.nvim_buf_get_option(0, "filetype")
   local clients = {}
   for _, cl in ipairs(vim.lsp.get_active_clients()) do
