@@ -18,7 +18,7 @@ local function setup(_)
   local function telescope_find_files()
     TelescopeBuiltin.find_files({
       hidden = true,
-      search_dirs = { ".", "./.ignored" }
+      search_dirs = { ".", "./.ignored" },
     })
   end
 
