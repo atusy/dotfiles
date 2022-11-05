@@ -186,7 +186,7 @@ if vim.fn.filereadable(jetpackfile) == 0 then
   ))
 end
 vim.cmd('packadd vim-jetpack')
-require 'jetpack'.startup(function(use)
+require 'jetpack.packer'.startup(function(use)
   local used = {}
   local function use_deps(config)
     for _, dep in pairs(config.deps) do
@@ -203,7 +203,7 @@ require 'jetpack'.startup(function(use)
     use_deps(config)
   end
   use_deps({ deps = {
-    { 'tani/vim-jetpack', opt = 1 }, -- bootstrap
+    { 'tani/vim-jetpack', opt = 1, frozen = false }, -- bootstrap
 
     -- basic dependencies
     'tpope/vim-repeat',
