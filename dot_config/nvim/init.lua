@@ -193,7 +193,9 @@ require 'jetpack.packer'.startup(function(use)
       dep = type(dep) == "table" and dep or { dep }
       if not used[dep[1]] then
         used[dep[1]] = true
-        dep.frozen = dep.frozen ~= nil and dep.frozen or true
+        if dep.frozen == nil then
+          dep.frozen = true
+        end
         use(dep)
       end
     end
