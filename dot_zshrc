@@ -19,6 +19,7 @@ function gitprompt() :
 function kubeprompt() {
   kubectl config current-context 2>/dev/null || true
 }
+kubectl config unset current-context 1>/dev/null 2>/dev/null || true
 ZSH_THEME_GIT_PROMPT_PREFIX=" "
 ZSH_THEME_GIT_PROMPT_SUFFIX=""
 ZSH_THEME_GIT_PROMPT_UNTRACKED=".."
