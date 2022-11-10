@@ -17,7 +17,7 @@ autoload -Uz _zinit
 # Prompt: requires woefe/git-prompt.zsh
 function gitprompt() :
 function kubeprompt() {
-  kubectl config current-context || true
+  kubectl config current-context 2>/dev/null || true
 }
 ZSH_THEME_GIT_PROMPT_PREFIX=" "
 ZSH_THEME_GIT_PROMPT_SUFFIX=""
