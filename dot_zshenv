@@ -20,5 +20,7 @@ if command -v "vivaldi-stable" > /dev/null; then
   export BROWSER="vivaldi-stable"
 fi
 
+DENO_NO_UPDATE_CHECK=1
+
 [[ -f "$HOME/.config/zsh/local.zshenv" ]] && source "$HOME/.config/zsh/local.zshenv"
 

@@ -1,5 +1,4 @@
---[[
-TODO
+--[[ TODO
 
 # quickfix
 
@@ -12,7 +11,6 @@ use { 'LeafCage/vimhelpgenerator' }
 use { 'kevinhwang91/nvim-bqf', ft = 'qf' }
 use { 'mattn/emmet-vim',
 use { 'pwntester/octo.nvim',
-use { 'ray-x/lsp_signature.nvim',
 use { 'shinespark/vim-list2tree' }
 use { 'skanehira/denops-docker.vim' }
 use { 'skanehira/denops-graphql.vim',
@@ -25,6 +23,23 @@ use { 'tyru/open-browser.vim',
 use { 'williamboman/mason-lspconfig.nvim',
 use { 'windwp/nvim-autopairs',
 
+https://github.com/monaqa/dial.nvim
+https://github.com/anuvyklack/hydra.nvim
+https://github.com/tani/glance-vim
+https://github.com/folke/trouble.nvim
+https://github.com/folke/which-key.nvim
+https://github.com/rcarriga/nvim-notify
+https://github.com/numToStr/Comment.nvim
+https://github.com/folke/noice.nvim
+https://github.com/folke/todo-comments.nvim
+https://github.com/simrat39/symbols-outline.nvim
+https://github.com/kylechui/nvim-surround
+https://github.com/lewis6991/impatient.nvim
+https://github.com/stevearc/dressing.nvim
+https://github.com/edluffy/hologram.nvim
+https://github.com/phelipetls/jsonpath.nvim
+https://github.com/delphinus/ddc-treesitter
+https://github.com/Afourcat/treesitter-terraform-doc.nvim
 --]]
 
 --[[ tricks ]]
@@ -95,11 +110,23 @@ vim.g.mapleader = ' '
 for _, k in ipairs({ 's', ',', ';' }) do
   set_keymap('n', '<A-' .. k .. '>', k)
 end
-for _, ch in ipairs(vim.fn.split('abcdefghijklmnoprstuvwxyz', [[\zs]])) do
-  set_keymap('n', 'q' .. ch, function()
+set_keymap('v', 'q', function() vim.notify('v_q is disabled', vim.log.levels.ERROR) end)
+set_keymap(
+  'n',
+  'q',
+  function()
+    local reg = vim.fn.reg_recording()
+    if reg ~= '' then return 'q<cmd>echo "stop recording @' .. reg .. '"<cr>' end
+    local char = vim.fn.getcharstr(0)
+    if char == 'q' or not char:match('[a-z]') then return 'q' .. char end
     vim.notify('q[a-z] are disabled except qq', vim.log.levels.ERROR)
-  end) -- avoid typo of :qa
-end
+  end,
+  {
+    expr = true,
+    nowait = true,
+    desc = 'Start/stop recording macro, but disable a-z except q'
+  }
+)
 set_keymap('n', 's', '<Nop>') -- be prefix for sandwich
 set_keymap('n', '<C-G>', '<C-G><Plug>(C-G)', { noremap = true, nowait = true })
 set_keymap('n', '<Plug>(C-G)<C-G>', '<Cmd>let @+ = fnamemodify(expand("%"), ":~:.")<CR>')
@@ -208,7 +235,7 @@ require 'jetpack.packer'.startup(function(use)
     use_deps(config)
   end
   use_deps({ deps = {
-    { 'tani/vim-jetpack', opt = 1, frozen = false }, -- bootstrap
+    { 'tani/vim-jetpack', opt = 1 }, -- bootstrap
 
     -- basic dependencies
     'tpope/vim-repeat',
@@ -539,3 +566,26 @@ set_keymap('n', '<Leader>j', ':ToggleTermSendCurrentLine<CR>j',
   { desc = 'send the line to toggle term and go to next line' })
 set_keymap('v', '<Leader>j', ":ToggleTermSendVisualSelection<CR>gv<Esc>",
   { desc = 'send the selection to toggle term while keeping the cursor position' })
+
+vim.opt.runtimepath:append("/home/atusy/ghq/github.com/atusy/telescomp")
+local cmdline = utils.require('telescomp.cmdline')
+local cmdline_builtin = utils.require('telescomp.cmdline.builtin')
+set_keymap('c', '<C-X><C-R>', cmdline_builtin.git_ref)
+set_keymap('c', '<C-X><C-F>', cmdline_builtin.find_files)
+set_keymap('c', '<C-X><C-M>', cmdline_builtin.menu)
+set_keymap('c', '<C-X><C-N>', cmdline_builtin.cmdline)
+set_keymap('c', '<C-X><C-S>', cmdline_builtin.lsp_document_symbols)
+set_keymap('c', '<C-X><C-H>', cmdline_builtin.git_status)
+set_keymap('c', '<C-X><C-X>', function()
+  local opt = cmdline.spec_completer_options({ expand = true })
+  local default_text = opt.default_text
+  if string.match(default_text, '^%./') ~= nil then
+    opt.default_text = string.gsub(default_text, '^%./', '')
+    return cmdline_builtin.find_files({}, opt)
+  end
+  if string.match(default_text, '/') ~= nil then
+    return cmdline_builtin.find_files({}, opt)
+  end
+
+  return cmdline_builtin.cmdline({}, opt)
+end)
