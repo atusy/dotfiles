@@ -3,6 +3,21 @@ local vim = vim
 local safely = require('utils').safely
 local set_keymap = require('utils').set_keymap
 
+local function list_win_config(tabpage)
+  return vim.tbl_map(
+    vim.api.nvim_win_get_config,
+    vim.api.nvim_tabpage_list_wins(tabpage or 0)
+  )
+end
+
+local function is_win_focasable(config)
+  return config.focusable
+end
+
+local function count_win_focasable(tabpage)
+  return #vim.tbl_filter(is_win_focasable, list_win_config(tabpage))
+end
+
 local setup = function()
   require 'chowcho'.setup({
     use_exclude_default = false,
@@ -27,7 +42,7 @@ local setup = function()
 
   local function chowcho_focus()
     -- Focues window
-    if #vim.api.nvim_tabpage_list_wins(0) > 2 then
+    if count_win_focasable(0) > 2 then
       _chowcho_run(
         safely(vim.api.nvim_set_current_win),
         {
