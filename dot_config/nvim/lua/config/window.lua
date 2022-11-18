@@ -10,12 +10,12 @@ local function list_win_config(tabpage)
   )
 end
 
-local function is_win_focasable(config)
+local function is_win_focusable(config)
   return config.focusable
 end
 
-local function count_win_focasable(tabpage)
-  return #vim.tbl_filter(is_win_focasable, list_win_config(tabpage))
+local function count_win_focusable(tabpage)
+  return #vim.tbl_filter(is_win_focusable, list_win_config(tabpage))
 end
 
 local setup = function()
@@ -42,7 +42,7 @@ local setup = function()
 
   local function chowcho_focus()
     -- Focues window
-    if count_win_focasable(0) > 2 then
+    if count_win_focusable(0) > 2 then
       _chowcho_run(
         safely(vim.api.nvim_set_current_win),
         {
