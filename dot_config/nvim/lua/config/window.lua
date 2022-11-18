@@ -62,12 +62,9 @@ local setup = function()
   set_keymap({ '', 't' }, '<C-W>w', chowcho_focus)
 
   local function _chowcho_hide()
-    local wins = vim.api.nvim_tabpage_list_wins(0)
-    local nwins = #wins
-    if nwins == 1 then
-      if #vim.api.nvim_list_tabpages() > 1 then
-        vim.cmd("tabclose")
-      end
+    local nwins = #vim.api.nvim_tabpage_list_wins(0)
+    if nwins == 1 and #vim.api.nvim_list_tabpages() > 1 then
+      vim.cmd("tabclose")
     elseif nwins == 2 then
       vim.cmd("wincmd o")
     elseif nwins > 2 then
