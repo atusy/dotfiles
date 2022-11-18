@@ -23,7 +23,7 @@ local setup = function()
     use_exclude_default = false,
     exclude = function(_, _) return false end
   })
-  local _chowcho_run = require 'chowcho'.run
+  local run = require 'chowcho'.run
   local _chowcho_bufnr = function(winid)
     return vim.api.nvim_win_call(winid, function()
       return vim.fn.bufnr('%'), vim.opt_local
@@ -43,7 +43,7 @@ local setup = function()
   local function chowcho_focus()
     -- Focues window
     if count_win_focusable(0) > 2 then
-      _chowcho_run(
+      run(
         safely(vim.api.nvim_set_current_win),
         {
           use_exclude_default = false,
@@ -71,7 +71,7 @@ local setup = function()
     elseif nwins == 2 then
       vim.cmd("wincmd o")
     elseif nwins > 2 then
-      _chowcho_run(safely(vim.api.nvim_win_hide))
+      run(safely(vim.api.nvim_win_hide))
     end
   end
 
@@ -82,7 +82,7 @@ local setup = function()
   local function _chowcho_edit()
     -- Edits buffer from the selected in the current
     if #vim.api.nvim_tabpage_list_wins(0) < 1 then return end
-    _chowcho_run(
+    run(
       safely(function(n)
         local bufnr, opt_local = _chowcho_bufnr(n)
         _chowcho_buffer(0, bufnr, opt_local)
@@ -107,7 +107,7 @@ local setup = function()
       vim.cmd("wincmd x")
       return
     end
-    _chowcho_run(
+    run(
       safely(function(n)
         if n == vim.api.nvim_get_current_win() then
           return
