@@ -24,21 +24,6 @@ local setup = function()
     exclude = function(_, _) return false end
   })
   local run = require 'chowcho'.run
-  local _chowcho_bufnr = function(winid)
-    return vim.api.nvim_win_call(winid, function()
-      return vim.fn.bufnr('%'), vim.opt_local
-    end)
-  end
-  local _chowcho_buffer = function(winid, bufnr, opt_local)
-    return vim.api.nvim_win_call(winid, function()
-      local old = _chowcho_bufnr(0)
-      vim.cmd("buffer " .. bufnr)
-      if opt_local ~= nil then
-        vim.opt_local = opt_local
-      end
-      return old
-    end)
-  end
 
   local function chowcho_focus()
     -- Focues window
@@ -81,15 +66,13 @@ local setup = function()
     if #vim.api.nvim_tabpage_list_wins(0) < 1 then return end
     run(
       safely(function(n)
-        local bufnr, opt_local = _chowcho_bufnr(n)
-        _chowcho_buffer(0, bufnr, opt_local)
+        vim.api.nvim_win_set_buf(0, vim.api.nvim_win_get_buf(n))
       end),
       {
         use_exclude_default = false,
-        exclude = function(buf, _)
-          return vim.api.nvim_buf_call(buf, function()
-            return vim.api.nvim_buf_get_option(0, "modifiable") == false
-          end)
+        exclude = function(_, win)
+          local winconf = vim.api.nvim_win_get_config(win)
+          return winconf.external or winconf.relative ~= ""
         end
       }
     )
@@ -106,12 +89,11 @@ local setup = function()
     end
     run(
       safely(function(n)
-        if n == vim.api.nvim_get_current_win() then
-          return
-        end
-        local bufnr0, opt_local0 = _chowcho_bufnr(0)
-        local bufnrn, opt_localn = _chowcho_buffer(n, bufnr0, opt_local0)
-        _chowcho_buffer(0, bufnrn, opt_localn)
+        if n == vim.api.nvim_get_current_win() then return end
+        local bufnr0 = vim.api.nvim_win_get_buf(0)
+        local bufnrn = vim.api.nvim_win_get_buf(n)
+        vim.api.nvim_win_set_buf(0, bufnrn)
+        vim.api.nvim_win_set_buf(n, bufnr0)
       end),
       {
         use_exclude_default = false,
