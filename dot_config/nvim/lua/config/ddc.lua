@@ -129,14 +129,7 @@ local function setup()
       forceCompletionPattern = [[(^e\s+|\S/\S*)]],
     },
   })
-  patch_global(
-    'autoCompleteEvents',
-    { 'InsertEnter', 'TextChangedI', 'TextChangedP', 'CmdlineChanged' }
-  )
-  set_keymap('n', ':', function()
-    pcall(commandline_pre)
-    return ':'
-  end, { expr = true })
+  set_keymap('n', ':', function() pcall(commandline_pre) return ':' end, { expr = true })
 
   fn["popup_preview#enable"]()
   fn["ddc#enable"]()
