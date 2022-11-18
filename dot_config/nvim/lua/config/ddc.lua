@@ -17,7 +17,35 @@ end
 
 local function pum_visible() return fn["pum#visible"]() == 1 end
 
-local function commandline_pre(maps)
+local maps = {
+  ['<Tab>'] = function()
+    if pum_visible() then
+      return '<Cmd>call pum#map#insert_relative(+1)<CR>'
+    end
+    local col = fn.col('.')
+    if (col > 1 and string.match(fn.getline('.')[col - 2], '%s') == nil) then
+      return fn["ddc#manual_complete"]()
+    end
+    return '<Tab>'
+  end,
+  ['<S-Tab>'] = function() fn["pum#map#insert_relative"](-1) end,
+  ['<C-Y>'] = function()
+    if pum_visible() then
+      fn["pum#map#confirm"]()
+    else
+      return '<C-Y>'
+    end
+  end,
+  ['<C-E>'] = function()
+    if pum_visible() then
+      fn["pum#map#cancel"]()
+    else
+      return '<C-E>'
+    end
+  end,
+}
+
+local function commandline_pre()
   -- register autocmd first so that they are registered regradless of
   -- the later errors
   local augroup = vim.api.nvim_create_augroup("ddc-commandline-post", {})
@@ -35,35 +63,8 @@ local function commandline_pre(maps)
   })
 
   -- do initialization after registering autocmd
-  maps = maps or {
-    ['<Tab>'] = function()
-      if pum_visible() then
-        return '<Cmd>call pum#map#insert_relative(+1)<CR>'
-      end
-      local col = fn.col('.')
-      if (col > 1 and string.match(fn.getline('.')[col - 2], '%s') == nil) then
-        return fn["ddc#manual_complete"]()
-      end
-      return '<Tab>'
-    end,
-    ['<S-Tab>'] = function() fn["pum#map#insert_relative"](-1) end,
-    ['<C-Y>'] = function()
-      if pum_visible() then
-        fn["pum#map#confirm"]()
-      else
-        return '<C-Y>'
-      end
-    end,
-    ['<C-E>'] = function()
-      if pum_visible() then
-        fn["pum#map#cancel"]()
-      else
-        return '<C-E>'
-      end
-    end,
-  }
   for lhs, rhs in pairs(maps) do
-    set_keymap('c', lhs, rhs)
+    set_keymap('c', lhs, rhs, { silent = true, expr = true })
   end
   if vim.b.prev_buffer_config == nil then
     -- Overwrite sources
@@ -101,23 +102,9 @@ local function setup()
         \ (col('.') <= 1 <Bar><Bar> getline('.')[col('.') - 2] =~# '\s') ?
         \ '<TAB>' : ddc#manual_complete()
   --]]
-  set_keymap(
-    'i', '<TAB>',
-    function()
-      if pum_visible() then
-        return '<Cmd>call pum#map#insert_relative(+1)<CR>'
-      end
-      local col = fn.col('.')
-      if (col > 1 and string.match(fn.getline('.')[col - 2], '%s') == nil) then
-        return fn["ddc#manual_complete"]()
-      end
-      return '<TAB>'
-    end,
-    { silent = true, expr = true }
-  )
-  set_keymap('i', '<S-Tab>', function() fn["pum#map#insert_relative"](-1) end)
-  set_keymap('i', '<C-y> ', function() fn["pum#map#confirm"]() end)
-  set_keymap('i', '<C-e>', function() fn["pum#map#cancel"]() end)
+  for lhs, rhs in pairs(maps) do
+    set_keymap('i', lhs, rhs, { silent = true, expr = true })
+  end
   patch_global(
     'autoCompleteEvents',
     { 'InsertEnter', 'TextChangedI', 'TextChangedP', 'CmdlineEnter', 'CmdlineChanged' }
