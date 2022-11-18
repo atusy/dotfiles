@@ -15,6 +15,8 @@ local function commandline_post(maps)
   end
 end
 
+local function pum_visible() return fn["pum#visible"]() == 1 end
+
 local function commandline_pre(maps)
   -- register autocmd first so that they are registered regradless of
   -- the later errors
@@ -34,10 +36,31 @@ local function commandline_pre(maps)
 
   -- do initialization after registering autocmd
   maps = maps or {
-    ['<Tab>'] = function() fn["pum#map#insert_relative"](1) end,
+    ['<Tab>'] = function()
+      if pum_visible() then
+        return '<Cmd>call pum#map#insert_relative(+1)<CR>'
+      end
+      local col = fn.col('.')
+      if (col > 1 and string.match(fn.getline('.')[col - 2], '%s') == nil) then
+        return fn["ddc#manual_complete"]()
+      end
+      return '<Tab>'
+    end,
     ['<S-Tab>'] = function() fn["pum#map#insert_relative"](-1) end,
-    ['<C-Y>'] = function() fn["pum#map#confirm"]() end,
-    ['<C-E>'] = function() fn["pum#map#cancel"]() end,
+    ['<C-Y>'] = function()
+      if pum_visible() then
+        fn["pum#map#confirm"]()
+      else
+        return '<C-Y>'
+      end
+    end,
+    ['<C-E>'] = function()
+      if pum_visible() then
+        fn["pum#map#cancel"]()
+      else
+        return '<C-E>'
+      end
+    end,
   }
   for lhs, rhs in pairs(maps) do
     set_keymap('c', lhs, rhs)
@@ -81,7 +104,7 @@ local function setup()
   set_keymap(
     'i', '<TAB>',
     function()
-      if fn["pum#visible"]() then
+      if pum_visible() then
         return '<Cmd>call pum#map#insert_relative(+1)<CR>'
       end
       local col = fn.col('.')
