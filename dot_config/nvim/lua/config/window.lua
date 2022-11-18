@@ -68,18 +68,9 @@ local setup = function()
       if #vim.api.nvim_list_tabpages() > 1 then
         vim.cmd("tabclose")
       end
-      return
-    end
-    if nwins == 2 then
-      local curwin = vim.api.nvim_get_current_win()
-      for _, w in ipairs(wins) do
-        if w ~= curwin then
-          vim.api.nvim_win_hide(w)
-          return
-        end
-      end
-    end
-    if nwins > 2 then
+    elseif nwins == 2 then
+      vim.cmd("wincmd o")
+    elseif nwins > 2 then
       _chowcho_run(safely(vim.api.nvim_win_hide))
     end
   end
