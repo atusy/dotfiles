@@ -15,7 +15,7 @@ local function commandline_post(maps)
   end
 end
 
-local function pum_visible() return fn["pum#visible"]() == 1 end
+local pum_visible = fn["pum#visible"]
 
 local maps = {
   ['<Tab>'] = function()
@@ -23,8 +23,12 @@ local maps = {
       return '<Cmd>call pum#map#insert_relative(+1)<CR>'
     end
     local col = fn.col('.')
-    if (col > 1 and string.match(fn.getline('.')[col - 2], '%s') == nil) then
-      return fn["ddc#manual_complete"]()
+    if vim.api.nvim_get_mode().mode == 'c' or
+        (col > 1 and string.match(fn.strpart(fn.getline('.'), col - 2), '%s') == nil)
+    then
+      local code = fn['ddc#map#manual_complete']() -- termcodes are replaced
+      vim.api.nvim_feedkeys(code, 'n', false)
+      return
     end
     return '<Tab>'
   end,
