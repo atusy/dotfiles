@@ -1,5 +1,6 @@
 -- const
 local api = vim.api
+local fn = vim.fn
 local DEFAULT_COLORSCHEME = 'catppuccin'
 local OUTSIDE_COLORSCHEME = 'terafox'
 local TAB_COLORSCHEME = 'carbonfox'
@@ -143,31 +144,14 @@ end
 
 -- Update colorscheme when buffer is outside of cwd
 local function set_autocmd()
-  local DEFAULT = DEFAULT_COLORSCHEME
-  local OUTSIDE = OUTSIDE_COLORSCHEME
-  local TAB = TAB_COLORSCHEME
   local GROUP = api.nvim_create_augroup('theme-custom', {})
-  api.nvim_create_autocmd(
-    'Filetype',
-    {
-      desc = 'Fix colorscheme if filetype is set after bufenter',
-      group = GROUP,
-      nested = true,
-      pattern = { 'help' },
-      callback = function(_)
-        if api.nvim_get_current_tabpage() ~= 1 then
-          set_colorscheme(TAB, false)
-          return
-        end
-        set_colorscheme(DEFAULT, false)
-      end
-    }
-  )
   api.nvim_create_autocmd('TabEnter', {
     group = GROUP,
     nested = true,
     callback = function(_)
-      set_colorscheme(api.nvim_get_current_tabpage() == 1 and DEFAULT or TAB)
+      set_colorscheme(
+        (api.nvim_get_current_tabpage() == 1) and DEFAULT_COLORSCHEME or TAB_COLORSCHEME
+      )
     end
   })
   api.nvim_create_autocmd(
@@ -178,17 +162,11 @@ local function set_autocmd()
       desc = 'Change theme by the path of the current buffer.',
       callback = function(args)
         if api.nvim_get_current_tabpage() ~= 1 then return end
-        local FILE = args.file
-        local BUFTYPE = api.nvim_buf_get_option(0, "buftype")
-        local CWD = vim.fn.getcwd()
-        if FILE == '' or vim.startswith(FILE, CWD .. '/') or BUFTYPE ~= '' then
-          -- vim.tbl_contains({ 'gitcommit', 'gitrebase', 'help' }, FILETYPE) or
-          -- '/tmp/' == string.sub(FILE, 1, 5) or
-          return
-        end
+        if api.nvim_buf_get_option(0, "buftype") ~= '' then return end
+        if args.file == '' or vim.startswith(args.file, fn.getcwd() .. '/') then return end
 
         -- Apply colorscheme and some highlight settings
-        vim.cmd("Styler " .. OUTSIDE)
+        require('styler').set_theme(0, { colorscheme = OUTSIDE_COLORSCHEME })
       end
     }
   )
@@ -210,7 +188,6 @@ return {
     -- { "RRethy/nvim-base16" },
   },
   setup = function()
-    require('styler').setup({ themes = {} })
     set_colorscheme(DEFAULT_COLORSCHEME, true)
     set_autocmd()
   end
