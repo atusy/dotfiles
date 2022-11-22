@@ -210,7 +210,7 @@ return {
     -- { "RRethy/nvim-base16" },
   },
   setup = function()
-    require('styler').setup({ themes = { help = OUTSIDE_COLORSCHEME } })
+    require('styler').setup({ themes = {} })
     set_colorscheme(DEFAULT_COLORSCHEME, true)
     set_autocmd()
   end
