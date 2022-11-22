@@ -20,7 +20,8 @@ local pum_visible = fn["pum#visible"]
 local maps = {
   ['<Tab>'] = function()
     if pum_visible() then
-      return '<Cmd>call pum#map#insert_relative(+1)<CR>'
+      vim.fn['pum#map#insert_relative'](1)
+      return
     end
     local col = fn.col('.')
     if vim.api.nvim_get_mode().mode == 'c' or
@@ -32,7 +33,13 @@ local maps = {
     end
     return '<Tab>'
   end,
-  ['<S-Tab>'] = function() fn["pum#map#insert_relative"](-1) end,
+  ['<S-Tab>'] = function()
+    if pum_visible() then
+      fn["pum#map#insert_relative"](-1)
+    else
+      return '<S-Tab>'
+    end
+  end,
   ['<C-Y>'] = function()
     if pum_visible() then
       fn["pum#map#confirm"]()
