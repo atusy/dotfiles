@@ -115,6 +115,11 @@ local function setup()
       forceCompletionPattern = [[(^e\s+|\S/\S*)]],
     },
   })
+  for lhs, rhs in pairs(maps) do
+    set_keymap('i', lhs, rhs, { silent = true, expr = true })
+  end
+
+  -- cmdline
   set_keymap('n', ':', function() pcall(commandline_pre) return ':' end, { expr = true })
 
   fn["popup_preview#enable"]()
