@@ -119,6 +119,7 @@ local function setup()
   -- cmdline
   set_keymap('n', ':', function() pcall(commandline_pre) return ':' end, { expr = true })
 
+  -- enable
   fn["popup_preview#enable"]()
   fn["ddc#enable"]()
 end
