@@ -187,14 +187,9 @@ local function set_autocmd(opt)
         local FILETYPE = api.nvim_buf_get_option(0, "filetype")
         local BUFTYPE = api.nvim_buf_get_option(0, "buftype")
         local CWD = vim.fn.getcwd()
-        if (FILE == '' or
-            FILETYPE == 'gitcommit' or
-            FILETYPE == 'gitrebase' or
-            FILETYPE == 'help' or
-            BUFTYPE ~= '' or
-            CWD == string.sub(FILE, 1, string.len(CWD)) or
-            '/tmp/' == string.sub(FILE, 1, 5))
-        then
+        if FILE == '' or vim.startswith(FILE, CWD .. '/') or BUFTYPE ~= '' then
+          -- vim.tbl_contains({ 'gitcommit', 'gitrebase', 'help' }, FILETYPE) or
+          -- '/tmp/' == string.sub(FILE, 1, 5) or
           return
         end
 
@@ -221,7 +216,7 @@ return {
     -- { "RRethy/nvim-base16" },
   },
   setup = function(opt)
-    require('styler').setup({ themes = {} })
+    require('styler').setup({ themes = { help = OUTSIDE_COLORSCHEME } })
     opt = opt or { colorscheme = {} }
     set_colorscheme(opt.colorscheme.default or DEFAULT_COLORSCHEME, true, opt)
     set_autocmd(opt)
