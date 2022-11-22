@@ -125,7 +125,7 @@ local function hl_treesitter()
   -- }}}
 end
 
-local function set_colorscheme(nm, force, opt)
+local function set_colorscheme(nm, force)
   if not force and nm == api.nvim_exec('colorscheme', true) then
     return
   end
@@ -133,20 +133,19 @@ local function set_colorscheme(nm, force, opt)
   require('hlargs').setup()
   require('colorizer').setup()
   require('lsp-colors').setup()
-  local illumination = opt.illumination or ILLUMINATION
-  api.nvim_set_hl(0, "IlluminatedWordText", illumination)
-  api.nvim_set_hl(0, "IlluminatedWordRead", illumination)
-  api.nvim_set_hl(0, "IlluminatedWordWrite", illumination)
-  api.nvim_set_hl(0, "Folded", illumination)
-  api.nvim_set_hl(0, 'LeapBackdrop', vim.api.nvim_get_hl_by_name('Comment', true))
+  api.nvim_set_hl(0, "IlluminatedWordText", ILLUMINATION)
+  api.nvim_set_hl(0, "IlluminatedWordRead", ILLUMINATION)
+  api.nvim_set_hl(0, "IlluminatedWordWrite", ILLUMINATION)
+  -- api.nvim_set_hl(0, "Folded", ILLUMINATION)
+  api.nvim_set_hl(0, 'LeapBackdrop', { link = 'Comment' })
   hl_treesitter()
 end
 
 -- Update colorscheme when buffer is outside of cwd
-local function set_autocmd(opt)
-  local DEFAULT = opt.colorscheme.default or DEFAULT_COLORSCHEME
-  local OUTSIDE = opt.colorscheme.outside or OUTSIDE_COLORSCHEME
-  local TAB = opt.colorscheme.tab or TAB_COLORSCHEME
+local function set_autocmd()
+  local DEFAULT = DEFAULT_COLORSCHEME
+  local OUTSIDE = OUTSIDE_COLORSCHEME
+  local TAB = TAB_COLORSCHEME
   local GROUP = api.nvim_create_augroup('theme-custom', {})
   api.nvim_create_autocmd(
     'Filetype',
@@ -157,10 +156,10 @@ local function set_autocmd(opt)
       pattern = { 'help' },
       callback = function(args)
         if api.nvim_get_current_tabpage() ~= 1 then
-          set_colorscheme(TAB, false, opt)
+          set_colorscheme(TAB, false)
           return
         end
-        set_colorscheme(DEFAULT, false, opt)
+        set_colorscheme(DEFAULT, false)
       end
     }
   )
@@ -168,11 +167,7 @@ local function set_autocmd(opt)
     group = GROUP,
     nested = true,
     callback = function(_)
-      if api.nvim_get_current_tabpage() == 1 then
-        set_colorscheme(DEFAULT, false, opt)
-      else
-        set_colorscheme(TAB, false, opt)
-      end
+      set_colorscheme(api.nvim_get_current_tabpage() == 1 and DEFAULT or TAB)
     end
   })
   api.nvim_create_autocmd(
@@ -184,7 +179,6 @@ local function set_autocmd(opt)
       callback = function(args)
         if api.nvim_get_current_tabpage() ~= 1 then return end
         local FILE = args.file
-        local FILETYPE = api.nvim_buf_get_option(0, "filetype")
         local BUFTYPE = api.nvim_buf_get_option(0, "buftype")
         local CWD = vim.fn.getcwd()
         if FILE == '' or vim.startswith(FILE, CWD .. '/') or BUFTYPE ~= '' then
@@ -215,10 +209,9 @@ return {
     { "EdenEast/nightfox.nvim" },
     -- { "RRethy/nvim-base16" },
   },
-  setup = function(opt)
+  setup = function()
     require('styler').setup({ themes = { help = OUTSIDE_COLORSCHEME } })
-    opt = opt or { colorscheme = {} }
-    set_colorscheme(opt.colorscheme.default or DEFAULT_COLORSCHEME, true, opt)
-    set_autocmd(opt)
+    set_colorscheme(DEFAULT_COLORSCHEME, true)
+    set_autocmd()
   end
 }
