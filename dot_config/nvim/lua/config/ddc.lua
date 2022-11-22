@@ -81,6 +81,7 @@ local function commandline_pre()
 end
 
 local function setup()
+  -- insert
   local patch_global = fn["ddc#custom#patch_global"]
   patch_global('sources', { 'nvim-lsp', 'around', 'file' })
   patch_global('sourceOptions', {
