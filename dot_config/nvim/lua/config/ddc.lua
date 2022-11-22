@@ -26,8 +26,8 @@ local maps = {
     if vim.api.nvim_get_mode().mode == 'c' or
         (col > 1 and string.match(fn.strpart(fn.getline('.'), col - 2), '%s') == nil)
     then
-      local code = fn['ddc#map#manual_complete']() -- termcodes are replaced
-      vim.api.nvim_feedkeys(code, 'n', false)
+      -- requires feedkeys because mappings are replaced by internal representations
+      vim.api.nvim_feedkeys(fn['ddc#map#manual_complete'](), 'n', false)
       return
     end
     return '<Tab>'
