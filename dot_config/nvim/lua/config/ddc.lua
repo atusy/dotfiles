@@ -54,7 +54,7 @@ local function commandline_pre()
   -- the later errors
   local augroup = vim.api.nvim_create_augroup("ddc-commandline-post", {})
   vim.api.nvim_create_autocmd("User", {
-    pattern = "DDCCmdLineLeave",
+    pattern = "DDCCmdlineLeave",
     group = augroup,
     once = true,
     callback = function() pcall(commandline_post, maps) end,
