@@ -154,7 +154,7 @@ local function set_autocmd()
       group = GROUP,
       nested = true,
       pattern = { 'help' },
-      callback = function(args)
+      callback = function(_)
         if api.nvim_get_current_tabpage() ~= 1 then
           set_colorscheme(TAB, false)
           return
