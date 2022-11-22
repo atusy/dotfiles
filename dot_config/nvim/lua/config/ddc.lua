@@ -83,6 +83,7 @@ end
 local function setup()
   -- insert
   local patch_global = fn["ddc#custom#patch_global"]
+  patch_global('ui', 'pum')
   patch_global('sources', { 'nvim-lsp', 'around', 'file' })
   patch_global('sourceOptions', {
     around = { mark = 'A', maxSize = 500 },
@@ -100,10 +101,6 @@ local function setup()
       converters = { 'converter_fuzzy' },
     },
   })
-  patch_global('completionMenu', 'pum.vim')
-  for lhs, rhs in pairs(maps) do
-    set_keymap('i', lhs, rhs, { silent = true, expr = true })
-  end
   patch_global(
     'autoCompleteEvents',
     { 'InsertEnter', 'TextChangedI', 'TextChangedP', 'CmdlineEnter', 'CmdlineChanged' }
@@ -134,6 +131,8 @@ return {
     { 'Shougo/ddc-cmdline-history' },
     { 'Shougo/ddc-matcher_head' }, -- 入力中の単語を補完
     { 'Shougo/ddc-nvim-lsp' }, -- 入力中の単語を補完
+    -- { 'Shougo/ddc-ui-native' },
+    { 'Shougo/ddc-ui-pum' },
     { 'LumaKernel/ddc-file' }, -- Suggest file paths
     { 'Shougo/ddc-converter_remove_overlap' }, -- remove duplicates
     { 'Shougo/ddc-sorter_rank' }, -- Sort suggestions
