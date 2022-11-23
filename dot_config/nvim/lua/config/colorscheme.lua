@@ -155,7 +155,7 @@ local function set_autocmd()
     end
   })
   api.nvim_create_autocmd(
-    'BufEnter',
+    'BufRead', -- or BufEnter to re-apply everytime
     {
       group = GROUP,
       nested = true,
