@@ -144,40 +144,52 @@ local function set_colorscheme(nm, force)
   hl_treesitter()
 end
 
+local function is_in_cwd(buf)
+  buf = buf or api.nvim_win_get_buf(0)
+  if api.nvim_buf_get_option(buf, "buftype") ~= '' then return true end
+
+  local file = api.nvim_buf_get_name(buf)
+  return file == '' or vim.startswith(file, fn.getcwd() .. '/')
+end
+
+local function theme_active_win(win)
+  if api.nvim_get_current_tabpage() ~= 1 then
+    require('styler').set_theme(win, { colorscheme = TAB_COLORSCHEME })
+  elseif is_in_cwd(api.nvim_win_get_buf(win)) then
+    require('styler').set_theme(win, { colorscheme = ACTIVE_COLORSCHEME })
+  else
+    require('styler').set_theme(win, { colorscheme = OUTSIDE_COLORSCHEME })
+  end
+end
+
+local function theme_inactive_win(win)
+  -- if api.nvim_win_get_config(win).relative ~= "" then return end
+  local ok, theme = pcall(api.nvim_win_get_var, win, 'theme')
+  if ok then
+    if theme.colorscheme == OUTSIDE_COLORSCHEME then return end
+    if theme.colorscheme == INACTIVE_COLORSCHEME then return end
+  end
+  require('styler').set_theme(win, { colorscheme = INACTIVE_COLORSCHEME })
+end
+
+local function theme_inactive_wins(win)
+  win = win or api.nvim_get_current_win()
+  for _, w in pairs(api.nvim_tabpage_list_wins(0)) do
+    if w ~= win then theme_inactive_win(w) end
+  end
+end
+
 local function set_autocmd()
   local GROUP = api.nvim_create_augroup('theme-custom', {})
   api.nvim_create_autocmd(
-    { 'BufEnter', 'WinEnter' },
-    {
-      group = GROUP,
-      callback = function(args)
-        if vim.api.nvim_win_get_config(0).relative ~= "" then return end
-
-        local COLORSCHEME
-        if api.nvim_get_current_tabpage() ~= 1 then
-          COLORSCHEME = TAB_COLORSCHEME
-        elseif api.nvim_buf_get_option(0, "buftype") ~= '' or
-            args.file == '' or
-            vim.startswith(args.file, fn.getcwd() .. '/') then
-          COLORSCHEME = ACTIVE_COLORSCHEME
-        else
-          COLORSCHEME = OUTSIDE_COLORSCHEME
-        end
-
-        require('styler').set_theme(0, { colorscheme = COLORSCHEME })
-      end
-    }
-  )
-  api.nvim_create_autocmd(
-    { 'WinLeave' },
+    { 'WinEnter', 'BufEnter' },
     {
       group = GROUP,
       callback = function(_)
-        local win = vim.api.nvim_get_current_win()
-        -- if vim.api.nvim_win_get_config(win).relative ~= "" then return end
-        local ok, theme = pcall(vim.api.nvim_win_get_var, win, 'theme')
-        if ok and theme.colorscheme == OUTSIDE_COLORSCHEME then return end
-        require('styler').set_theme(win, { colorscheme = INACTIVE_COLORSCHEME })
+        local win = api.nvim_get_current_win()
+        if api.nvim_win_get_config(win).relative ~= "" then return end
+        theme_active_win(win)
+        theme_inactive_wins(win)
       end
     }
   )
