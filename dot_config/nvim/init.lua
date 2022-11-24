@@ -165,25 +165,20 @@ vim.api.nvim_create_user_command(
 
 vim.api.nvim_create_augroup('ToggleCursorline', {})
 if vim.opt.cursorline:get() then
-  for _, events in ipairs({
-    { 'InsertEnter', 'InsertLeave' },
-    { 'WinLeave', 'WinEnter' },
-  }) do
-    vim.api.nvim_create_autocmd(
-      events[1],
-      {
-        callback = function() vim.api.nvim_win_set_option(0, 'cursorline', false) end,
-        group = 'ToggleCursorline'
-      }
-    )
-    vim.api.nvim_create_autocmd(
-      events[2],
-      {
-        callback = function() vim.api.nvim_win_set_option(0, 'cursorline', true) end,
-        group = 'ToggleCursorline'
-      }
-    )
-  end
+  vim.api.nvim_create_autocmd(
+    'InsertEnter',
+    {
+      callback = function() vim.api.nvim_win_set_option(0, 'cursorline', false) end,
+      group = 'ToggleCursorline'
+    }
+  )
+  vim.api.nvim_create_autocmd(
+    'InsertLeave',
+    {
+      callback = function() vim.api.nvim_win_set_option(0, 'cursorline', true) end,
+      group = 'ToggleCursorline'
+    }
+  )
 end
 
 -- nvim-remote for edit-commandline zle
