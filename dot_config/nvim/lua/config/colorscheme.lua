@@ -147,7 +147,7 @@ end
 local function set_autocmd()
   local GROUP = api.nvim_create_augroup('theme-custom', {})
   api.nvim_create_autocmd(
-    { 'BufEnter', 'WinEnter', 'TabEnter' },
+    { 'BufEnter', 'WinEnter' },
     {
       group = GROUP,
       callback = function(args)
