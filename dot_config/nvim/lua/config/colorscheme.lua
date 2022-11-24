@@ -1,9 +1,11 @@
 -- const
 local api = vim.api
 local fn = vim.fn
-local DEFAULT_COLORSCHEME = 'catppuccin'
+local DEFAULT_COLORSCHEME = 'catppuccin-mocha'
+local ACTIVE_COLORSCHEME = 'duskfox' -- for the active buffer the first tabpage
+local INACTIVE_COLORSCHEME = 'nordfox'
 local OUTSIDE_COLORSCHEME = 'terafox'
-local TAB_COLORSCHEME = 'carbonfox'
+local TAB_COLORSCHEME = 'nightfox' -- for the active buffer in the other tabpages
 local ILLUMINATION = { bg = "#383D47" }
 
 -- set colorscheme
@@ -142,31 +144,40 @@ local function set_colorscheme(nm, force)
   hl_treesitter()
 end
 
--- Update colorscheme when buffer is outside of cwd
 local function set_autocmd()
   local GROUP = api.nvim_create_augroup('theme-custom', {})
-  api.nvim_create_autocmd('TabEnter', {
-    group = GROUP,
-    nested = true,
-    callback = function(_)
-      set_colorscheme(
-        (api.nvim_get_current_tabpage() == 1) and DEFAULT_COLORSCHEME or TAB_COLORSCHEME
-      )
-    end
-  })
   api.nvim_create_autocmd(
-    'BufEnter',
+    { 'BufEnter', 'WinEnter', 'TabEnter' },
     {
       group = GROUP,
-      nested = true,
-      desc = 'Change theme by the path of the current buffer.',
       callback = function(args)
-        if api.nvim_get_current_tabpage() ~= 1 then return end
-        if api.nvim_buf_get_option(0, "buftype") ~= '' then return end
-        if args.file == '' or vim.startswith(args.file, fn.getcwd() .. '/') then return end
+        if vim.api.nvim_win_get_config(0).relative ~= "" then return end
 
-        -- Apply colorscheme and some highlight settings
-        require('styler').set_theme(0, { colorscheme = OUTSIDE_COLORSCHEME })
+        local COLORSCHEME
+        if api.nvim_get_current_tabpage() ~= 1 then
+          COLORSCHEME = TAB_COLORSCHEME
+        elseif api.nvim_buf_get_option(0, "buftype") ~= '' or
+            args.file == '' or
+            vim.startswith(args.file, fn.getcwd() .. '/') then
+          COLORSCHEME = ACTIVE_COLORSCHEME
+        else
+          COLORSCHEME = OUTSIDE_COLORSCHEME
+        end
+
+        require('styler').set_theme(0, { colorscheme = COLORSCHEME })
+      end
+    }
+  )
+  api.nvim_create_autocmd(
+    { 'WinLeave' },
+    {
+      group = GROUP,
+      callback = function(_)
+        local win = vim.api.nvim_get_current_win()
+        -- if vim.api.nvim_win_get_config(win).relative ~= "" then return end
+        local ok, theme = pcall(vim.api.nvim_win_get_var, win, 'theme')
+        if ok and theme.colorscheme == OUTSIDE_COLORSCHEME then return end
+        require('styler').set_theme(win, { colorscheme = INACTIVE_COLORSCHEME })
       end
     }
   )
@@ -185,6 +196,7 @@ return {
     { 'folke/styler.nvim' },
     { "catppuccin/nvim", as = "catppuccin" },
     { "EdenEast/nightfox.nvim" },
+    -- { 'levouh/tint.nvim' }, -- conflicts with styler.nvim
     -- { "RRethy/nvim-base16" },
   },
   setup = function()
