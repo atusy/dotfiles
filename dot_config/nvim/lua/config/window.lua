@@ -83,17 +83,21 @@ local setup = function()
 
   local function _chowcho_exchange()
     -- Swaps buffers between windows
+    -- also moves between windows to apply styler.nvim theming
     if #vim.api.nvim_tabpage_list_wins(0) <= 2 then
       vim.cmd("wincmd x")
       return
     end
     run(
       safely(function(n)
-        if n == vim.api.nvim_get_current_win() then return end
-        local bufnr0 = vim.api.nvim_win_get_buf(0)
+        local cur = vim.api.nvim_get_current_win()
+        if n == cur then return end
+        local bufnr0 = vim.api.nvim_win_get_buf(cur)
         local bufnrn = vim.api.nvim_win_get_buf(n)
-        vim.api.nvim_win_set_buf(0, bufnrn)
+        vim.api.nvim_set_current_win(n)
+        vim.api.nvim_win_set_buf(cur, bufnrn)
         vim.api.nvim_win_set_buf(n, bufnr0)
+        vim.api.nvim_set_current_win(cur)
       end),
       {
         use_exclude_default = false,
