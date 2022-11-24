@@ -56,9 +56,10 @@ end
 -- gin & gintonic
 local function setup_gin()
   local has_delta = vim.fn.executable('delta') == 1
-  if has_delta then
+  -- disable delta as <CR> won't work
+  --[[ if has_delta then
     vim.g.gin_diff_default_args = { "++processor=delta" }
-  end
+  end ]]
   _require("gintonic").setup({
     params = {
       GinBuffer = { processor = has_delta and "delta" or nil }
