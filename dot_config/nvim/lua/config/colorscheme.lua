@@ -169,12 +169,12 @@ local function theme_active_win(win)
 end
 
 local function theme_inactive_win(win)
-  -- if api.nvim_win_get_config(win).relative ~= "" then return end
   local ok, theme = pcall(api.nvim_win_get_var, win, 'theme')
   if ok then
     if theme.colorscheme == OUTSIDE_COLORSCHEME then return end
     if theme.colorscheme == INACTIVE_COLORSCHEME then return end
   end
+  if api.nvim_win_get_config(win).relative ~= "" then return end
   if likely_cwd(api.nvim_win_get_buf(win)) then
     require('styler').set_theme(win, { colorscheme = INACTIVE_COLORSCHEME })
   else
