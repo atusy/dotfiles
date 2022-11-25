@@ -199,14 +199,12 @@ local function set_autocmd()
     'BufEnter',
     {
       group = GROUP,
-      callback = function(_)
+      callback = function(args)
         local win = api.nvim_get_current_win()
         if api.nvim_win_get_config(win).relative ~= "" then return end
         theme_active_win(win)
 
-        -- Iterate theming over all inactive windows
-        -- because BufEnter may happen outside of the current window
-        for _, w in pairs(api.nvim_tabpage_list_wins(0)) do
+        for _, w in pairs(fn.win_findbuf(args.buf)) do
           if w ~= win then theme_inactive_win(w) end
         end
       end
