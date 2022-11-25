@@ -167,15 +167,18 @@ local function _keymap_ginshow(opt)
   local win_preview = nil
   local function preview()
     local obj = get()
+    local win_cur = vim.api.nvim_get_current_win()
 
     -- invoke show() in preview window if possible
     if win_preview ~= nil and vim.api.nvim_win_is_valid(win_preview) then
-      vim.api.nvim_win_call(win_preview, function() show(obj) end)
+      -- vim.api.nvim_win_call(win_preview, function() show(obj) end)  -- applies styler.nvim wrongly
+      vim.api.nvim_set_current_win(win_preview)
+      show(obj)
+      vim.api.nvim_set_current_win(win_cur)
       return
     end
 
     -- invoke show() in new window, save window handler, and go back
-    local win_cur = vim.api.nvim_get_current_win()
     local ok = show_split(obj)
     if ok then
       win_preview = vim.api.nvim_get_current_win()
