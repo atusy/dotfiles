@@ -201,7 +201,6 @@ local function set_autocmd()
       group = GROUP,
       callback = function(args)
         local win = api.nvim_get_current_win()
-        if api.nvim_win_get_config(win).relative ~= "" then return end
         theme_active_win(win)
 
         for _, w in pairs(fn.win_findbuf(args.buf)) do
