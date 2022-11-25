@@ -45,9 +45,9 @@ local function setup_global_keymaps()
     if utils.has_lsp_client(0) then
       vim.lsp.buf.hover()
     else
-      vim.cmd('normal! K')
+      return 'K'
     end
-  end)
+  end, { expr = true })
 end
 
 local function setup_null_ls()
