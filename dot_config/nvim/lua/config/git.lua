@@ -8,9 +8,10 @@ local set_keymap = utils.set_keymap
 -- gitsigns settings
 local function setup_gitsigns()
   local gs = require('gitsigns')
+  local has_num = vim.opt.number:get() or vim.opt.relativenumber:get()
   gs.setup({
-    signcolumn = false,
-    numhl = true,
+    signcolumn = not has_num,
+    numhl = has_num,
     current_line_blame_opts = {
       delay = 150
     },

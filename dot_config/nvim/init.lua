@@ -53,8 +53,9 @@ local set_keymap = utils.set_keymap
 --[[ options ]]
 -- signcolumn
 vim.opt.signcolumn = 'yes'
-vim.opt.relativenumber = true
-vim.opt.number = true
+vim.opt.relativenumber = false
+vim.opt.number = false
+-- vim.opt.laststatus = 3
 
 -- window
 vim.opt.splitright = true
