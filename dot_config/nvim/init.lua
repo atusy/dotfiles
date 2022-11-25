@@ -29,7 +29,6 @@ https://github.com/tani/glance-vim
 https://github.com/folke/trouble.nvim
 https://github.com/folke/which-key.nvim
 https://github.com/rcarriga/nvim-notify
-https://github.com/numToStr/Comment.nvim
 https://github.com/folke/noice.nvim
 https://github.com/folke/todo-comments.nvim
 https://github.com/simrat39/symbols-outline.nvim
@@ -37,9 +36,10 @@ https://github.com/kylechui/nvim-surround
 https://github.com/lewis6991/impatient.nvim
 https://github.com/stevearc/dressing.nvim
 https://github.com/edluffy/hologram.nvim
-https://github.com/phelipetls/jsonpath.nvim
 https://github.com/delphinus/ddc-treesitter
 https://github.com/Afourcat/treesitter-terraform-doc.nvim
+https://github.com/nullchilly/fsread.nvim
+https://github.com/joechrisellis/lsp-format-modifications.nvim
 --]]
 
 --[[ tricks ]]
