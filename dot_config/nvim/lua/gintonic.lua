@@ -197,6 +197,7 @@ local function _keymap_ginshow(opt)
       { "gf", "<Plug>(gintonic-show)" },
       { "<C-W>f", "<Plug>(gintonic-show-split)" },
       { "<C-W><C-F>", "<Plug>(gintonic-show-split)" },
+      { "<CR>", "<Plug>(gintonic-preview)" },
       { "<Down>", "j<Plug>(gintonic-preview)" },
       { "<Up>", "k<Plug>(gintonic-preview)" },
     }) do
