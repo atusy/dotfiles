@@ -425,7 +425,7 @@ set_keymap('', '<A-[>', '<Plug>(edgemotion-k)', {})
 --[[ statusline settings ]]
 -- lualine
 require 'lualine'.setup {
-  options = { theme = 'nord', component_separators = '' },
+  options = { theme = 'moonfly', component_separators = '', },
   sections = {
     lualine_a = {},
     lualine_b = {},
