@@ -296,7 +296,8 @@ require 'jetpack.packer'.startup(function(use)
 
     -- language specific
     -- go
-    'mattn/vim-goimports'
+    'mattn/vim-goimports',
+    'phelipetls/jsonpath.nvim',
   } })
 end)
 for _, name in ipairs(vim.fn['jetpack#names']()) do
@@ -444,7 +445,17 @@ require 'lualine'.setup {
   },
   tabline = {
     lualine_a = { 'mode' },
-    lualine_b = {},
+    lualine_b = {
+      function()
+        if vim.opt_local.filetype:get() == "json" then
+          return require('jsonpath').get()
+        end
+        local ok, nav = pcall(require, 'nvim-navic')
+        if ok and nav.is_available() then
+          return nav.get_location()
+        end
+      end
+    },
     lualine_c = {},
     lualine_x = {},
     lualine_y = { 'branch', 'diff' },
@@ -527,6 +538,7 @@ require 'nvim_context_vt'.setup {
   disable_virtual_lines = true,
 }
 require 'treesitter-context'.setup({
+  enable = false,
   patterns = {
     css = { 'media_statement', 'rule_set', },
     scss = { 'media_statement', 'rule_set', },
