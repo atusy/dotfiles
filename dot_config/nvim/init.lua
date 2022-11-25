@@ -455,6 +455,7 @@ require 'lualine'.setup {
         if ok and nav.is_available() then
           return nav.get_location()
         end
+        return ''
       end
     },
     lualine_c = {},
