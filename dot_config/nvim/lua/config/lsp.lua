@@ -61,9 +61,8 @@ local function setup_null_ls()
       fn = function(_)
         local gintonic = require('gintonic')
         local obj = gintonic.utils.object_getters.default()
-        return gintonic.utils.get_lines(
-          function() return gintonic.tonic.show(obj, nil, "--name-status") end
-        )
+        local stdout = vim.fn.system("git show " .. obj .. " --name-status")
+        return vim.fn.split(stdout, "\n")
       end,
     },
   }
