@@ -258,6 +258,7 @@ require 'jetpack.packer'.startup(function(use)
     'moll/vim-bbye',
     'm00qek/baleia.nvim',
     { 'tyru/capture.vim' },
+    { 'folke/zen-mode.nvim' },
 
     -- better something
     'wsdjeg/vim-fetch', -- :e with linenumber
