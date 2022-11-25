@@ -509,11 +509,11 @@ vim.opt.runtimepath:append(parser_install_dir)
 require 'nvim-treesitter.configs'.setup {
   parser_install_dir = parser_install_dir,
   ensure_installed = {
-    'bash', 'bibtex', 'c', 'c_sharp', 'cmake', 'cpp', 'css', 'dockerfile',
-    'dot', 'go', 'gomod', 'gowork', 'graphql', 'haskell', 'hcl', 'help', 'html',
-    'http', 'java', 'javascript', 'json', 'json5', 'julia', 'latex', 'lua',
-    'make', 'markdown', 'markdown_inline', 'ninja', 'nix', 'python', 'r', 'regex', 'rst', 'ruby', 'rust',
-    'scss', 'teal', 'toml', 'tsx', 'typescript', 'vala', 'vim', 'vue', 'yaml'
+    'bash', 'bibtex', 'c', 'c_sharp', 'cmake', 'cpp', 'css', 'diff', 'dockerfile', 'dot', 'fennel', 'fish', 'git_rebase',
+    'gitattributes', 'gitignore', 'go', 'gomod', 'gowork', 'graphql', 'haskell', 'hcl', 'help', 'html', 'http', 'java',
+    'javascript', 'json', 'json5', 'julia', 'latex', 'lua', 'make', 'markdown', 'markdown_inline', 'mermaid', 'ninja',
+    'nix', 'perl', 'python', 'r', 'regex', 'rst', 'ruby', 'rust', 'scss', 'sql', 'teal', 'toml', 'tsx', 'typescript',
+    'vala', 'vim', 'vue', 'yaml'
   },
   context_commentstring = { enable = true, enable_autocmd = false },
   highlight = {
