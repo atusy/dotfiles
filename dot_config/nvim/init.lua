@@ -568,6 +568,8 @@ vim.api.nvim_create_autocmd(
 require 'toggleterm'.setup {
   open_mapping = '<C-T>',
   insert_mappings = false,
+  shade_terminals = false,
+  shading_factor = 0,
 }
 set_keymap('n', '<Leader>j', ':ToggleTermSendCurrentLine<CR>j',
   { desc = 'send the line to toggle term and go to next line' })
