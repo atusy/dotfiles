@@ -10,9 +10,10 @@ local ILLUMINATION = { bg = "#383D47" }
 
 -- set colorscheme
 local function hl_treesitter()
+  local exists = pcall(api.nvim_get_hl_by_name, '@comment', false)
+  if exists then return end
+
   local function hl(group, opts)
-    local exists = pcall(api.nvim_get_hl_by_name, group, false)
-    if not exists then return end
     opts.default = true
     api.nvim_set_hl(0, group, opts)
   end
@@ -136,9 +137,8 @@ local function set_colorscheme(nm, force)
   api.nvim_set_hl(0, "IlluminatedWordRead", ILLUMINATION)
   api.nvim_set_hl(0, "IlluminatedWordWrite", ILLUMINATION)
   api.nvim_set_hl(0, "@illuminate", ILLUMINATION)
-  -- api.nvim_set_hl(0, "Folded", ILLUMINATION)
   api.nvim_set_hl(0, 'LeapBackdrop', { link = 'Comment' })
-  -- hl_treesitter()
+  hl_treesitter()
 end
 
 local function likely_cwd(buf)
