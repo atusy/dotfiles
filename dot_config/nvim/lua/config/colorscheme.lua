@@ -201,12 +201,16 @@ local function set_autocmd()
     {
       group = GROUP,
       callback = function(args)
-        local win = api.nvim_get_current_win()
-        theme_active_win(win)
+        local cur = api.nvim_get_current_win()
+        theme_active_win(cur)
 
         for _, w in pairs(fn.win_findbuf(args.buf)) do
-          if w ~= win then theme_inactive_win(w) end
+          if w ~= cur then theme_inactive_win(w) end
         end
+
+        -- it seems `:Fern -drawer` enters window without WinEnter
+        local pre = fn.win_getid(fn.winnr('#'))
+        if pre ~= cur and pre ~= 0 then theme_inactive_win(pre) end
       end
     }
   )
