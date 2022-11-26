@@ -416,9 +416,6 @@ require('flit').setup {
   opts = {}
 }
 
--- fuzzymotion
-set_keymap({ 'n', 'v' }, 'sf', function() vim.cmd("FuzzyMotion") end)
-
 -- edgemotion
 set_keymap('', '<A-]>', '<Plug>(edgemotion-j)', {})
 set_keymap('', '<A-[>', '<Plug>(edgemotion-k)', {})
