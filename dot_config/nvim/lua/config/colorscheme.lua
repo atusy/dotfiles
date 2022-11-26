@@ -202,19 +202,7 @@ end
 local function set_autocmd()
   local GROUP = api.nvim_create_augroup('theme-custom', {})
   api.nvim_create_autocmd(
-    'WinEnter',
-    {
-      group = GROUP,
-      callback = function(_)
-        local cur = api.nvim_get_current_win()
-        theme_active_win(cur)
-        local pre = fn.win_getid(fn.winnr('#'))
-        if pre ~= cur and pre ~= 0 then theme_inactive_win(pre) end
-      end
-    }
-  )
-  api.nvim_create_autocmd(
-    'BufEnter',
+    { 'BufEnter', 'WinEnter' },
     {
       group = GROUP,
       callback = function(args)
@@ -222,15 +210,17 @@ local function set_autocmd()
         theme_active_win(cur)
 
         -- Deactivate previous window
-        -- to support cases where window changes without WinEnter
-        -- (e.g., `:Fern . --drawer`)
+        -- Not only WinEnter but also BufEnter may need this because
+        -- sometimes window switches without WinEnter (e.g., `:Fern . --drawer`)
         local pre = fn.win_getid(fn.winnr('#'))
         if pre ~= cur and pre ~= 0 then theme_inactive_win(pre) end
 
         -- Deactivate a window that shows buffer triggered BufEnter
         -- by iterating all possibilities
-        for _, w in pairs(fn.win_findbuf(args.buf)) do
-          if w ~= cur then theme_inactive_win(w) end
+        if args.event == 'BufEnter' then
+          for _, w in pairs(fn.win_findbuf(args.buf)) do
+            if w ~= cur then theme_inactive_win(w) end
+          end
         end
       end
     }
