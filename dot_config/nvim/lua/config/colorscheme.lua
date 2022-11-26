@@ -209,8 +209,12 @@ local function set_autocmd()
         -- Deactivate previous window
         -- Not only WinEnter but also BufEnter may need this because
         -- sometimes window switches without WinEnter (e.g., `:Fern . --drawer`)
-        local pre = fn.win_getid(fn.winnr('#'))
-        if pre ~= cur and pre ~= 0 then theme_inactive_win(pre) end
+        if (args.event == 'WinEnter') or (api.nvim_win_get_config(cur).relative == "") then
+          local pre = fn.win_getid(fn.winnr('#'))
+          if pre ~= cur and pre ~= 0 then
+            theme_inactive_win(pre)
+          end
+        end
 
         -- Deactivate a window that shows buffer triggered BufEnter
         -- by iterating all possibilities
