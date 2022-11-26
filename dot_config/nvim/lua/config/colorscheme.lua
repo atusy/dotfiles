@@ -204,6 +204,8 @@ local function set_autocmd()
       group = GROUP,
       callback = function(args)
         local cur = api.nvim_get_current_win()
+
+        -- Activate
         theme_active_win(cur)
 
         -- Deactivate previous window
