@@ -1,7 +1,7 @@
 -- const
 local api = vim.api
 local fn = vim.fn
-local DEFAULT_COLORSCHEME = 'catppuccin-mocha'
+local DEFAULT_COLORSCHEME = 'duskfox'
 local ACTIVE_COLORSCHEME = 'duskfox' -- for the active buffer the first tabpage
 local INACTIVE_COLORSCHEME = 'nordfox'
 local OUTSIDE_COLORSCHEME = 'terafox'
@@ -222,7 +222,7 @@ return {
     { 'norcalli/nvim-colorizer.lua' },
     { 'folke/lsp-colors.nvim' },
     { 'folke/styler.nvim' },
-    { "catppuccin/nvim", as = "catppuccin" },
+    -- { "catppuccin/nvim", as = "catppuccin" },
     { "EdenEast/nightfox.nvim" },
     -- { 'levouh/tint.nvim' }, -- conflicts with styler.nvim
     -- { "RRethy/nvim-base16" },
