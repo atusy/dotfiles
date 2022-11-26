@@ -221,13 +221,17 @@ local function set_autocmd()
         local cur = api.nvim_get_current_win()
         theme_active_win(cur)
 
+        -- Deactivate previous window
+        -- to support cases where window changes without WinEnter
+        -- (e.g., `:Fern . --drawer`)
+        local pre = fn.win_getid(fn.winnr('#'))
+        if pre ~= cur and pre ~= 0 then theme_inactive_win(pre) end
+
+        -- Deactivate a window that shows buffer triggered BufEnter
+        -- by iterating all possibilities
         for _, w in pairs(fn.win_findbuf(args.buf)) do
           if w ~= cur then theme_inactive_win(w) end
         end
-
-        -- it seems `:Fern -drawer` enters window without WinEnter
-        local pre = fn.win_getid(fn.winnr('#'))
-        if pre ~= cur and pre ~= 0 then theme_inactive_win(pre) end
       end
     }
   )
