@@ -10,7 +10,7 @@ local ILLUMINATION = { bg = "#383D47" }
 
 -- set colorscheme
 local function hl_treesitter()
-  local hl = function(group, opts)
+  local function hl(group, opts)
     local exists = pcall(api.nvim_get_hl_by_name, group, false)
     if not exists then return end
     opts.default = true
