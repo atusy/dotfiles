@@ -189,7 +189,7 @@ local function theme_inactive_win(win)
   if api.nvim_win_get_config(win).relative ~= "" then return end
 
   -- conditionally set theme
-  if likely_cwd(api.nvim_win_get_buf(win)) then
+  if api.nvim_get_current_tabpage() ~= 1 or likely_cwd(api.nvim_win_get_buf(win)) then
     require('styler').set_theme(win, { colorscheme = INACTIVE_COLORSCHEME })
   else
     require('styler').set_theme(win, { colorscheme = OUTSIDE_COLORSCHEME })
