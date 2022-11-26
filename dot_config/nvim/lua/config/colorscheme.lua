@@ -122,10 +122,6 @@ local function hl_treesitter()
   hl('@tag.attribute', { link = 'Identifier' })
   hl('@tag.delimiter', { link = 'Delimiter' })
   -- }}}
-
-  -- Customs {{{
-  hl('@illuminate', ILLUMINATION)
-  -- }}}
 end
 
 local function set_colorscheme(nm, force)
@@ -139,9 +135,10 @@ local function set_colorscheme(nm, force)
   api.nvim_set_hl(0, "IlluminatedWordText", ILLUMINATION)
   api.nvim_set_hl(0, "IlluminatedWordRead", ILLUMINATION)
   api.nvim_set_hl(0, "IlluminatedWordWrite", ILLUMINATION)
+  api.nvim_set_hl(0, "@illuminate", ILLUMINATION)
   -- api.nvim_set_hl(0, "Folded", ILLUMINATION)
   api.nvim_set_hl(0, 'LeapBackdrop', { link = 'Comment' })
-  hl_treesitter()
+  -- hl_treesitter()
 end
 
 local function likely_cwd(buf)
