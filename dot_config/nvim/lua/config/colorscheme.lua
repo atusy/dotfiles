@@ -178,6 +178,9 @@ local function theme_active_win(win)
 end
 
 local function theme_inactive_win(win)
+  -- skip if window is invalid
+  if not api.nvim_win_is_valid then return end
+
   -- skip if theme is already set
   local ok, theme = pcall(api.nvim_win_get_var, win, 'theme')
   if ok then
