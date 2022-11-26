@@ -154,7 +154,7 @@ end
 
 local function theme_active_win(win)
   if api.nvim_win_get_config(win).relative ~= "" then return end
-  local COLORSCHEME
+  local COLORSCHEME = DEFAULT_COLORSCHEME
   if api.nvim_get_current_tabpage() ~= 1 then
     COLORSCHEME = TAB_COLORSCHEME
   elseif likely_cwd(api.nvim_win_get_buf(win)) then
@@ -163,6 +163,10 @@ local function theme_active_win(win)
     COLORSCHEME = OUTSIDE_COLORSCHEME
   end
 
+  if COLORSCHEME == DEFAULT_COLORSCHEME then
+    require('styler').clear(win)
+    return
+  end
   local ok, theme = pcall(api.nvim_win_get_var, win, 'theme')
   if ok and theme.colorscheme == COLORSCHEME then return end
   require('styler').set_theme(win, { colorscheme = COLORSCHEME })
