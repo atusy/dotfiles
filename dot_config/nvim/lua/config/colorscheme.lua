@@ -153,7 +153,10 @@ local function likely_cwd(buf)
 end
 
 local function theme_active_win(win)
+  -- use default colorscheme on floating windows
   if api.nvim_win_get_config(win).relative ~= "" then return end
+
+  -- decide colorscheme
   local COLORSCHEME = DEFAULT_COLORSCHEME
   if api.nvim_get_current_tabpage() ~= 1 then
     COLORSCHEME = TAB_COLORSCHEME
@@ -163,22 +166,32 @@ local function theme_active_win(win)
     COLORSCHEME = OUTSIDE_COLORSCHEME
   end
 
+  -- if default colorscheme, clear() should be enough
   if COLORSCHEME == DEFAULT_COLORSCHEME then
     require('styler').clear(win)
     return
   end
+
+  -- do not set theme if already done
   local ok, theme = pcall(api.nvim_win_get_var, win, 'theme')
   if ok and theme.colorscheme == COLORSCHEME then return end
+
+  -- set theme
   require('styler').set_theme(win, { colorscheme = COLORSCHEME })
 end
 
 local function theme_inactive_win(win)
+  -- skip if theme is already set
   local ok, theme = pcall(api.nvim_win_get_var, win, 'theme')
   if ok then
     if theme.colorscheme == OUTSIDE_COLORSCHEME then return end
     if theme.colorscheme == INACTIVE_COLORSCHEME then return end
   end
+
+  -- skip if window is floating
   if api.nvim_win_get_config(win).relative ~= "" then return end
+
+  -- conditionally set theme
   if likely_cwd(api.nvim_win_get_buf(win)) then
     require('styler').set_theme(win, { colorscheme = INACTIVE_COLORSCHEME })
   else
