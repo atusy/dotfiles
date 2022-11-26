@@ -522,7 +522,7 @@ require 'nvim-treesitter.configs'.setup {
     end,
   },
   indent = { enable = true },
-  yati = { enable = true },
+  yati = { enable = false },
 }
 require('Comment').setup {
   toggler = { line = 'gcc', block = 'gcb' },
