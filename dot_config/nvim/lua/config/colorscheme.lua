@@ -189,9 +189,10 @@ local function set_autocmd()
     {
       group = GROUP,
       callback = function(_)
-        theme_active_win(api.nvim_get_current_win())
+        local cur = api.nvim_get_current_win()
+        theme_active_win(cur)
         local pre = fn.win_getid(fn.winnr('#'))
-        if pre ~= 0 then theme_inactive_win(pre) end
+        if pre ~= cur and pre ~= 0 then theme_inactive_win(pre) end
       end
     }
   )
