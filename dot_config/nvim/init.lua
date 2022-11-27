@@ -470,7 +470,7 @@ require 'lualine'.setup {
 vim.g["fern#renderer"] = "nerdfont"
 vim.g["fern#renderer#nerdfont#indent_markers"] = 1
 vim.g["fern#window_selector_use_popup"] = 1
-set_keymap('n', '<C-F>', ':Fern . -drawer -reveal=%<CR>')
+set_keymap('n', '<C-F>', '<Cmd>Fern . -drawer -reveal=%<CR>')
 local function fern_chowcho()
   local node = vim.api.nvim_exec([[
     let helper = fern#helper#new()
