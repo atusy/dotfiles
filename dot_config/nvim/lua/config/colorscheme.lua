@@ -163,12 +163,10 @@ local function theme_active_win(win)
   if api.nvim_win_get_config(win).relative ~= "" then return end
 
   -- apply colorscheme
-  local COLORSCHEME = DEFAULT_COLORSCHEME
+  local COLORSCHEME = ACTIVE_COLORSCHEME
   if api.nvim_get_current_tabpage() ~= 1 then
     COLORSCHEME = TAB_COLORSCHEME
-  elseif likely_cwd(api.nvim_win_get_buf(win)) then
-    COLORSCHEME = ACTIVE_COLORSCHEME
-  else
+  elseif not likely_cwd(api.nvim_win_get_buf(win)) then
     COLORSCHEME = OUTSIDE_COLORSCHEME
   end
   set_theme(win, COLORSCHEME)
