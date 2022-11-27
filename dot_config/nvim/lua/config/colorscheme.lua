@@ -10,10 +10,9 @@ local ILLUMINATION = { bg = "#383D47" }
 
 -- set colorscheme
 local function hl_treesitter()
-  local exists = pcall(api.nvim_get_hl_by_name, '@comment', false)
-  if exists then return end
-
   local function hl(group, opts)
+    local exists, cur = pcall(api.nvim_get_hl_by_name, group, true)
+    if exists and cur[true] ~= nil then return end
     opts.default = true
     api.nvim_set_hl(0, group, opts)
   end
