@@ -11,8 +11,6 @@ local ILLUMINATION = { bg = "#383D47" }
 -- set colorscheme
 local function hl_treesitter()
   local function hl(group, opts)
-    local exists, cur = pcall(api.nvim_get_hl_by_name, group, true)
-    if exists and cur[true] ~= nil then return end
     opts.default = true
     api.nvim_set_hl(0, group, opts)
   end
@@ -128,6 +126,7 @@ local function set_colorscheme(nm, force)
   if not force and nm == api.nvim_exec('colorscheme', true) then
     return
   end
+  hl_treesitter()
   vim.cmd('colorscheme ' .. nm)
   require('hlargs').setup()
   require('colorizer').setup()
@@ -137,7 +136,6 @@ local function set_colorscheme(nm, force)
   api.nvim_set_hl(0, "IlluminatedWordWrite", ILLUMINATION)
   api.nvim_set_hl(0, "@illuminate", ILLUMINATION)
   api.nvim_set_hl(0, 'LeapBackdrop', { link = 'Comment' })
-  hl_treesitter()
 end
 
 local function likely_cwd(buf)
