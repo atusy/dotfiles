@@ -149,11 +149,20 @@ local function likely_cwd(buf)
   return file == '' or vim.startswith(file, fn.getcwd() .. '/')
 end
 
+local function set_theme(win, colorscheme)
+  if colorscheme == DEFAULT_COLORSCHEME then
+    -- if default colorscheme, clear() should be enough
+    require('styler').clear(win)
+  elseif colorscheme ~= (vim.w[win].theme or {}).colorscheme then
+    require('styler').set_theme(win, { colorscheme = colorscheme })
+  end
+end
+
 local function theme_active_win(win)
   -- use default colorscheme on floating windows
   if api.nvim_win_get_config(win).relative ~= "" then return end
 
-  -- decide colorscheme
+  -- apply colorscheme
   local COLORSCHEME = DEFAULT_COLORSCHEME
   if api.nvim_get_current_tabpage() ~= 1 then
     COLORSCHEME = TAB_COLORSCHEME
@@ -162,19 +171,7 @@ local function theme_active_win(win)
   else
     COLORSCHEME = OUTSIDE_COLORSCHEME
   end
-
-  -- if default colorscheme, clear() should be enough
-  if COLORSCHEME == DEFAULT_COLORSCHEME then
-    require('styler').clear(win)
-    return
-  end
-
-  -- do not set theme if already done
-  local ok, theme = pcall(api.nvim_win_get_var, win, 'theme')
-  if ok and theme.colorscheme == COLORSCHEME then return end
-
-  -- set theme
-  require('styler').set_theme(win, { colorscheme = COLORSCHEME })
+  set_theme(win, COLORSCHEME)
 end
 
 local function theme_inactive_win(win)
@@ -182,16 +179,12 @@ local function theme_inactive_win(win)
   if not api.nvim_win_is_valid(win) then return end
   if api.nvim_win_get_config(win).relative ~= "" then return end
 
-  -- select colorscheme
+  -- apply colorscheme
   local COLORSCHEME = INACTIVE_COLORSCHEME
   if (api.nvim_get_current_tabpage() == 1) and (not likely_cwd(api.nvim_win_get_buf(win))) then
     COLORSCHEME = OUTSIDE_COLORSCHEME
   end
-
-  -- apply colorscheme if needed
-  if COLORSCHEME ~= (vim.w[win].theme or {}).colorscheme then
-    require('styler').set_theme(win, { colorscheme = COLORSCHEME })
-  end
+  set_theme(win, COLORSCHEME)
 end
 
 local function set_autocmd()
