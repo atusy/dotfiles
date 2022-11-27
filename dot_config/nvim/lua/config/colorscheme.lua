@@ -178,24 +178,19 @@ local function theme_active_win(win)
 end
 
 local function theme_inactive_win(win)
-  -- skip if window is invalid
-  if not api.nvim_win_is_valid then return end
-
-  -- skip if theme is already set
-  local ok, theme = pcall(api.nvim_win_get_var, win, 'theme')
-  if ok then
-    if theme.colorscheme == OUTSIDE_COLORSCHEME then return end
-    if theme.colorscheme == INACTIVE_COLORSCHEME then return end
-  end
-
-  -- skip if window is floating
+  -- skip for certain situations
+  if not api.nvim_win_is_valid(win) then return end
   if api.nvim_win_get_config(win).relative ~= "" then return end
 
-  -- conditionally set theme
-  if api.nvim_get_current_tabpage() ~= 1 or likely_cwd(api.nvim_win_get_buf(win)) then
-    require('styler').set_theme(win, { colorscheme = INACTIVE_COLORSCHEME })
-  else
-    require('styler').set_theme(win, { colorscheme = OUTSIDE_COLORSCHEME })
+  -- select colorscheme
+  local COLORSCHEME = INACTIVE_COLORSCHEME
+  if (api.nvim_get_current_tabpage() == 1) and (not likely_cwd(api.nvim_win_get_buf(win))) then
+    COLORSCHEME = OUTSIDE_COLORSCHEME
+  end
+
+  -- apply colorscheme if needed
+  if COLORSCHEME ~= (vim.w[win].theme or {}).colorscheme then
+    require('styler').set_theme(win, { colorscheme = COLORSCHEME })
   end
 end
 
