@@ -10,6 +10,7 @@ local ILLUMINATION = { bg = "#383D47" }
 
 -- set colorscheme
 local function hl_treesitter()
+  if true then return end
   local function hl(group, opts)
     opts.default = true
     api.nvim_set_hl(0, group, opts)
