@@ -94,10 +94,8 @@ local setup = function()
         if n == cur then return end
         local bufnr0 = vim.api.nvim_win_get_buf(cur)
         local bufnrn = vim.api.nvim_win_get_buf(n)
-        vim.api.nvim_set_current_win(n)
         vim.api.nvim_win_set_buf(cur, bufnrn)
         vim.api.nvim_win_set_buf(n, bufnr0)
-        vim.api.nvim_set_current_win(cur)
       end),
       {
         use_exclude_default = false,
