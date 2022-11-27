@@ -203,6 +203,7 @@ local configurations = (function()
     require('config.ddc'),
   }
 end)()
+vim.g.jetpack_copy_method = 'hardlink'
 local jetpackfile = vim.fn.stdpath('data') .. '/site/pack/jetpack/opt/vim-jetpack/plugin/jetpack.vim'
 if vim.fn.filereadable(jetpackfile) == 0 then
   vim.fn.system(string.format(
