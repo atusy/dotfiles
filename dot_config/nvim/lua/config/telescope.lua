@@ -153,7 +153,6 @@ local function setup(_)
     }):find()
   end
 
-  vim.api.nvim_create_user_command('EmojiPrefix', function() prefix_emoji() end, {})
   vim.api.nvim_create_autocmd('FileType', {
     group = vim.api.nvim_create_augroup('prefix-emoji', {}),
     pattern = 'gitcommit',
