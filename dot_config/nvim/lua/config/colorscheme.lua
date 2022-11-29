@@ -232,6 +232,9 @@ return {
     -- { "RRethy/nvim-base16" },
   },
   setup = function()
+    require('nightfox').setup({
+      groups = { all = { ['@text.literal'] = { link = 'String' } } }
+    })
     set_colorscheme(DEFAULT_COLORSCHEME, true)
     set_autocmd()
   end
