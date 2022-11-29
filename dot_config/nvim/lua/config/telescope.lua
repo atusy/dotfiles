@@ -24,30 +24,75 @@ local function setup(_)
     })
   end
 
-  Telescope.setup()
+  Telescope.setup({
+    extensions = {
+      fzf = {
+        fuzzy = true, -- false will only do exact matching
+        override_generic_sorter = true, -- override the generic sorter
+        override_file_sorter = true, -- override the file sorter
+        case_mode = "smart_case", -- or "ignore_case" or "respect_case"
+        -- the default case_mode is "smart_case"
+      }
+    }
+  })
+  require('aerial').setup()
+  Telescope.load_extension('aerial')
   Telescope.load_extension('fzf')
+
+  local function filter_only_sorter(sorter)
+    sorter = sorter or require("telescope.config").values.file_sorter()
+    local base_scorer = sorter.scoring_function
+    local score_match = require("telescope.sorters").empty().scoring_function()
+    sorter.scoring_function = function(self, prompt, line)
+      local score = base_scorer(self, prompt, line)
+      if score <= 0 then
+        return -1
+      else
+        return score_match
+      end
+    end
+    return sorter
+  end
+
+  local function telescope_outline()
+    local picker = TelescopeBuiltin.treesitter
+    if vim.tbl_contains({ "filetype" }, vim.bo.filetype) then
+      picker = require('telescope._extensions').manager.aerial.aerial
+    end
+    picker({ sorter = filter_only_sorter() })
+  end
+
+  set_keymap('n', 's', '<Plug>(telescope)')
   for _, v in pairs {
-    { 'n', 'mb', 'buffers' },
-    { 'n', 'mc', 'commands' },
-    { 'n', 'mf', 'find_files', telescope_find_files },
-    { 'n', 'mg', 'live_grep' },
-    { 'n', 'mh', 'help_tags' },
-    { 'n', '<Plug>(C-G)<C-S>', 'git_status' },
-    { 'n', 'mk', 'marks' },
-    { 'n', 'mm', 'keymaps', telescope_keymaps },
-    { { 'n' }, '<Plug>(C-G)<C-M>', 'keymaps' },
-    { { 'n' }, '<Plug>(C-G)<CR>', 'keymaps' },
-    { { 'v', 'i', 'x' }, '<C-G><C-M>', 'keymaps', telescope_keymaps },
-    { { 'v', 'i', 'x' }, '<C-G><CR>', 'keymaps', telescope_keymaps },
-    { 'n', 'ml', 'git_files' },
-    { 'n', "m'", 'registers' },
-    { 'i', "<C-R>'", 'registers' },
-    { 'n', 'm.', 'resume' },
-    { 'n', 'mt', 'treesitter' },
-    { 'n', 'm/', 'current_buffer_fuzzy_find' },
+    { 'n', '<Plug>(telescope)<CR>', 'builtin' },
+    -- sa is occupied by sandwitch
+    { 'n', '<Plug>(telescope)b', 'buffers' },
+    { 'n', '<Plug>(telescope)c', 'commands' },
+    -- sd is occupied by sandwitch
+    -- se is occupied by emoji-prefix
+    { 'n', '<Plug>(telescope)f', 'find_files', telescope_find_files },
+    { 'n', '<Plug>(telescope)g', 'live_grep' },
+    { 'n', '<Plug>(telescope)h', 'help_tags' },
+    { 'n', '<Plug>(telescope)j', 'jumplist' },
+    { 'n', '<Plug>(telescope)l', 'git_files' },
+    { 'n', '<Plug>(telescope)o', 'outline', telescope_outline },
+    -- sr is occupied by sandwitch
+    { 'n', '<Plug>(telescope)s', 'keymaps', telescope_keymaps },
+    { 'n', '<Plug>(telescope)q', 'quickfixhistory' },
+    { 'n', "<Plug>(telescope)'", 'marks' },
+    { 'n', '<Plug>(telescope)"', 'registers' },
+    { 'n', '<Plug>(telescope).', 'resume' },
+    { 'n', '<Plug>(telescope)/', 'current_buffer_fuzzy_find' },
+    { 'n', '<Plug>(telescope)?', 'man_pages' },
     { 'n', 'q;', 'command_history' },
     { 'n', 'q:', 'command_history' },
     { 'n', 'q/', 'search_history' },
+    { 'i', "<C-R>'", 'registers' },
+    { 'n', '<Plug>(C-G)<C-S>', 'git_status' },
+    { 'n', '<Plug>(C-G)<C-M>', 'keymaps' },
+    { 'n', '<Plug>(C-G)<CR>', 'keymaps' },
+    { { 'v', 'i', 'x' }, '<C-G><C-M>', 'keymaps', telescope_keymaps },
+    { { 'v', 'i', 'x' }, '<C-G><CR>', 'keymaps', telescope_keymaps },
   } do
     set_keymap(v[1], v[2], v[4] or TelescopeBuiltin[v[3]], { desc = 'telescope ' .. v[3] })
   end
@@ -152,14 +197,16 @@ local function setup(_)
 
   vim.api.nvim_create_user_command('EmojiPrefix', function() prefix_emoji() end, {})
   set_keymap('', '<Plug>(emoji-prefix)', function() prefix_emoji() end)
-  set_keymap('n', 'me', '<Plug>(emoji-prefix)')
+  set_keymap('n', '<Plug>(telescope)e', '<Plug>(emoji-prefix)')
 end
 
 return {
   deps = {
     'nvim-telescope/telescope.nvim',
-    { 'nvim-telescope/telescope-fzf-native.nvim', run = 'make' },
+    { 'nvim-telescope/telescope-fzf-native.nvim',
+      run = 'cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build' },
     -- { 'tknightz/telescope-termfinder.nvim' },  -- finds toggleterm terminals
+    { 'stevearc/aerial.nvim' },
   },
   setup = setup
 }
