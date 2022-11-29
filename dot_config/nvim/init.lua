@@ -541,6 +541,7 @@ require 'nvim-treesitter.configs'.setup {
       local ok = pcall(function() vim.treesitter.get_query(lang, 'highlights') end)
       return not ok
     end,
+    additional_vim_regex_highlighting = false,
   },
   indent = { enable = true },
   yati = { enable = false },
