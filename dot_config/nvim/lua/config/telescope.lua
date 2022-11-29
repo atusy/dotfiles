@@ -96,11 +96,6 @@ local function setup(_)
   } do
     set_keymap(v[1], v[2], v[4] or TelescopeBuiltin[v[3]], { desc = 'telescope ' .. v[3] })
   end
-  for k, v in pairs(TelescopeBuiltin) do
-    if type(v) == "function" then
-      set_keymap('n', '<Plug>(telescope.' .. k .. ')', v)
-    end
-  end
 
   -- emoji
   local action_state = require "telescope.actions.state"
