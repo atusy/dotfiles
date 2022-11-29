@@ -402,7 +402,7 @@ set_keymap('', 'T', hopper('BEFORE_CURSOR', 1), { desc = 'Hop before' })
 local _leap = require('leap')
 _leap.setup({ safe_labels = {}, })
 set_keymap(
-  { 'n', 'v' }, 'ss',
+  { 'n', 'v' }, ';',
   function()
     _leap.leap({ target_windows = { vim.fn.win_getid() } })
   end
