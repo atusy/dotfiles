@@ -146,11 +146,31 @@ set_keymap({ 'n', 'v' }, 'gY', '"+Y')
 set_keymap('c', '<C-A>', '<Home>')
 set_keymap('c', '<C-E>', '<End>')
 set_keymap('t', '<C-W>', function() vim.cmd('wincmd ' .. vim.fn.getcharstr()) end)
-set_keymap({ '', 't' }, '<C-Up>', '<Cmd>2wincmd +<CR>')
-set_keymap({ '', 't' }, '<C-Down>', '<Cmd>2wincmd -<CR>')
-set_keymap({ '', 't' }, '<C-Left>', '<Cmd>2wincmd <<CR>')
-set_keymap({ '', 't' }, '<C-Right>', '<Cmd>2wincmd ><CR>')
 
+local function move_float_win(row, col)
+  local conf = vim.api.nvim_win_get_config(0)
+  if conf.relative == '' then return false end
+  for k, v in pairs({ row = row, col = col }) do
+    if type(conf[k]) == 'table' then
+      conf[k][false] = conf[k][false] + v
+    else
+      conf[k] = conf[k] + v
+    end
+  end
+  vim.api.nvim_win_set_config(0, conf)
+  return true
+end
+
+local function move_or_resize_win(row, col, size)
+  if not move_float_win(row, col) then
+    vim.cmd("2wincmd " .. size)
+  end
+end
+
+vim.keymap.set({ '', 't' }, '<C-Up>', function() move_or_resize_win(-1, 0, '+') end)
+vim.keymap.set({ '', 't' }, '<C-Down>', function() move_or_resize_win(1, 0, '-') end)
+vim.keymap.set({ '', 't' }, '<C-Right>', function() move_or_resize_win(0, 2, '>') end)
+vim.keymap.set({ '', 't' }, '<C-Left>', function() move_or_resize_win(0, -2, '<') end)
 
 --[[ personal utilities ]]
 -- Apply MYVIMRC
