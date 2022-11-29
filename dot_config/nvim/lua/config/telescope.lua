@@ -154,11 +154,11 @@ local function setup(_)
   end
 
   vim.api.nvim_create_user_command('EmojiPrefix', function() prefix_emoji() end, {})
-  set_keymap('n', '<Plug>(telescope)e', prefix_emoji)
   vim.api.nvim_create_autocmd('FileType', {
     group = vim.api.nvim_create_augroup('prefix-emoji', {}),
     pattern = 'gitcommit',
     callback = function(args)
+      set_keymap('n', '<Plug>(telescope)e', prefix_emoji, { buffer = args.buf })
       local line = vim.api.nvim_buf_get_lines(args.buf, 0, 1, false)
       if vim.fn.match(line, '^' .. regex_emoji) == -1 then
         vim.schedule(function() prefix_emoji(args.buf) end)
