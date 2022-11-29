@@ -4,8 +4,8 @@ local fn = vim.fn
 local DEFAULT_COLORSCHEME = 'duskfox'
 local ACTIVE_COLORSCHEME = 'duskfox' -- for the active buffer the first tabpage
 local INACTIVE_COLORSCHEME = 'nordfox'
-local OUTSIDE_COLORSCHEME = 'terafox'
-local TAB_COLORSCHEME = 'nightfox' -- for the active buffer in the other tabpages
+local OUTSIDE_COLORSCHEME = 'carbonfox'
+local TAB_COLORSCHEME = 'terafox' -- for the active buffer in the other tabpages
 local ILLUMINATION = { bg = "#383D47" }
 
 -- set colorscheme
