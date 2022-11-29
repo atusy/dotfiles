@@ -97,8 +97,8 @@ local on_attach = function(client, bufnr)
   end
   set_keymap({ 'n', 'v' }, '<Leader>ca', '<cmd>Lspsaga code_action<cr>', OPTS, { desc = 'lsp code action' })
   -- set_keymap('n', '<Leader>ca', vim.lsp.buf.code_action, OPTS)
-  set_keymap('n', 'gr', '<cmd>Lspsaga lsp_finder<cr>', OPTS, { desc = 'lsp reference' })
-  -- set_keymap('n', 'gr', TelescopeBuiltin.lsp_references, OPTS, { desc = 'lsp reference' })
+  -- set_keymap('n', 'gr', '<cmd>Lspsaga lsp_finder<cr>', OPTS, { desc = 'lsp reference' })
+  set_keymap('n', 'gr', TelescopeBuiltin.lsp_references, OPTS, { desc = 'lsp reference' })
   -- set_keymap('n', 'gr', vim.lsp.buf.references, OPTS)
   set_keymap('n', '<Leader>lf', function() vim.lsp.buf.format({ async = true }) end, OPTS, { desc = 'lsp format' })
 end
