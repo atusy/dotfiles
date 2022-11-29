@@ -488,9 +488,9 @@ local function init_fern()
   vim.opt_local.cursorline = true
   vim.opt_local.signcolumn = "auto"
   set_keymap('n', '<C-F>', '<C-W>p', { buffer = 0 })
-  set_keymap('n', 'm', '<Nop>', { buffer = 0, remap = true })
+  vim.keymap.del('n', 's', { buffer = 0 })
+  set_keymap('n', 'l', '<Plug>(fern-action-open:select)', { buffer = 0, nowait = true })
   set_keymap('n', '<Plug>(fern-action-open:chowcho)', fern_chowcho, { buffer = 0 })
-  -- set_keymap('n', 's', '<Plug>(fern-action-open:chowcho)', { buffer = 0, nowait = true, remap = true })
 end
 
 vim.api.nvim_create_autocmd("FileType",
