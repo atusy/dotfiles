@@ -92,7 +92,7 @@ local on_attach = function(client, bufnr)
     { desc = 'lsp show workspace folders' })
   set_keymap('n', '<Leader>D', vim.lsp.buf.type_definition, OPTS, { desc = 'lsp type definition' })
   -- set_keymap('n', '<Leader>rn', '<cmd>Lspsaga rename<cr>', OPTS)
-  if CAPABILITIES["renameProvider"] then
+  if CAPABILITIES.renameProvider then
     set_keymap('n', '<Leader>rn', vim.lsp.buf.rename, OPTS, { desc = 'lsp rename' })
   end
   set_keymap({ 'n', 'v' }, '<Leader>ca', '<cmd>Lspsaga code_action<cr>', OPTS, { desc = 'lsp code action' })
