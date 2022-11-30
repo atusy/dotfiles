@@ -18,10 +18,11 @@ local function setup(_)
   end
 
   local function telescope_find_files()
-    TelescopeBuiltin.find_files({
-      hidden = true,
-      search_dirs = { ".", "./.ignored" },
-    })
+    if os.execute("git rev-parse") == 0 then
+      TelescopeBuiltin.git_files()
+    else
+      TelescopeBuiltin.find_files()
+    end
   end
 
   Telescope.setup({
@@ -70,11 +71,10 @@ local function setup(_)
     { 'n', '<Plug>(telescope)c', 'commands' },
     -- sd is occupied by sandwitch
     -- se is occupied by emoji-prefix
-    { 'n', '<Plug>(telescope)f', 'find_files', telescope_find_files },
+    { 'n', '<Plug>(telescope)f', 'git_files or find_files', telescope_find_files },
     { 'n', '<Plug>(telescope)g', 'live_grep' },
     { 'n', '<Plug>(telescope)h', 'help_tags' },
     { 'n', '<Plug>(telescope)j', 'jumplist' },
-    { 'n', '<Plug>(telescope)l', 'git_files' },
     { 'n', '<Plug>(telescope)o', 'outline', telescope_outline },
     -- sr is occupied by sandwitch
     { 'n', '<Plug>(telescope)s', 'keymaps', telescope_keymaps },
