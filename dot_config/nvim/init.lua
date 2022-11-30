@@ -403,8 +403,14 @@ table.insert(recipes, {
 })
 vim.g['operator#sandwich#recipes'] = recipes
 
-set_keymap('n', 's(', '<Plug>(operator-sandwich-add-query1st)<C-F>')
-set_keymap({ 'x', 'v' }, 's(', '<Plug>(operator-sandwich-add)<C-F>')
+set_keymap(
+  'n', 's(', '<Plug>(operator-sandwich-add-query1st)<C-F>',
+  { desc = 'sandwich query with () and start insert before (' }
+)
+set_keymap(
+  { 'x', 'v' }, 's(', '<Plug>(operator-sandwich-add)<C-F>',
+  { desc = 'sandwich query with () and start insert before (' }
+)
 
 --[[ motion settings ]]
 -- hop
