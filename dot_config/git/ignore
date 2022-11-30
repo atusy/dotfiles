@@ -1,5 +1,4 @@
 .git
-.ignored
 .worktree
 .venv
 .python-version
@@ -7,3 +6,4 @@
 .envrc
 .tool-versions
 __pycache__
+__ignored
