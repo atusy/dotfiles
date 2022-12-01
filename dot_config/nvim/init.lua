@@ -281,6 +281,7 @@ require 'jetpack.packer'.startup(function(use)
     'm00qek/baleia.nvim',
     { 'tyru/capture.vim' },
     { 'folke/zen-mode.nvim' },
+    { 'thinca/vim-qfreplace' },
 
     -- better something
     'wsdjeg/vim-fetch', -- :e with linenumber
