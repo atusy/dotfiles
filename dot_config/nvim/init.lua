@@ -617,25 +617,12 @@ set_keymap('v', '<Leader>j', ":ToggleTermSendVisualSelection<CR>gv<Esc>",
   { desc = 'send the selection to toggle term while keeping the cursor position' })
 
 vim.opt.runtimepath:append("/home/atusy/ghq/github.com/atusy/telescomp")
-local cmdline = utils.require('telescomp.cmdline')
 local cmdline_builtin = utils.require('telescomp.cmdline.builtin')
 set_keymap('c', '<C-X><C-B>', cmdline_builtin.git_branches)
 set_keymap('c', '<C-X><C-F>', cmdline_builtin.find_files)
 set_keymap('c', '<C-X><C-M>', cmdline_builtin.builtin)
 set_keymap('c', '<C-X><C-D>', cmdline_builtin.cmdline)
-set_keymap('c', '<C-D>', function()
-  local opt = cmdline.spec_completer_options({ expand = true })
-  local default_text = opt.default_text
-  if string.match(default_text, '^%./') ~= nil then
-    opt.default_text = string.gsub(default_text, '^%./', '')
-    return cmdline_builtin.find_files({}, opt)
-  end
-  if string.match(default_text, '/') ~= nil then
-    return cmdline_builtin.find_files({}, opt)
-  end
-
-  return cmdline_builtin.cmdline({}, opt)
-end)
+set_keymap('c', '<C-D>', cmdline_builtin.cmdline)
 set_keymap('n', '<Plug>(telescomp-colon)', ':', { remap = true })
 set_keymap('n', '<Plug>(telescomp-slash)', '/', { remap = true })
 set_keymap('n', '<Plug>(telescomp-question)', '?', { remap = true })
