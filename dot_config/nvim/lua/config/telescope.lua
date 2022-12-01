@@ -83,7 +83,7 @@ local function setup(_)
     { 'n', leader .. 'j', 'jumplist' },
     { 'n', leader .. 'o', 'outline', telescope_outline },
     -- sr is occupied by sandwich
-    { 'n', leader .. 's', 'keymaps' },
+    { 'n', leader .. 's', 'keymaps', telescope_keymaps },
     { 'n', leader .. 'm', 'keymaps normal favorites', TelescopeBuiltin.keymaps },
     { 'n', leader .. 'q', 'quickfixhistory' },
     { 'n', leader .. [[']], 'marks' },
