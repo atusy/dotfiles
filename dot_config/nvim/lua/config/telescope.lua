@@ -63,7 +63,7 @@ local function setup(_)
 
   local function telescope_outline()
     local picker = TelescopeBuiltin.treesitter
-    if vim.tbl_contains({ "filetype" }, vim.bo.filetype) then
+    if vim.tbl_contains({ "markdown" }, vim.bo.filetype) then
       picker = require('telescope._extensions').manager.aerial.aerial
     end
     picker({ sorter = filter_only_sorter() })
