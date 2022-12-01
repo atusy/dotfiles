@@ -86,10 +86,6 @@ local function setup_gin()
       callback = function() vim.opt_local.cursorline = true end
     }
   )
-  api.nvim_exec([[
-    cabbrev GinGraph GintonicGraph
-    cabbrev GitGraph GintonicGraph
-  ]], false)
   set_keymap('n', '<Plug>(C-G)<C-P>', '<Cmd>GinPatch ++opener=tabnew %<CR>')
   local graph = function(opts)
     opts = opts and (" " .. opts) or ""
