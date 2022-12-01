@@ -86,6 +86,7 @@ local function setup_gin()
       callback = function() vim.opt_local.cursorline = true end
     }
   )
+  set_keymap('n', 'dd', 'dd') -- workaround waiting dd after GinPatch
   set_keymap('n', '<Plug>(C-G)<C-P>', '<Cmd>GinPatch ++opener=tabnew %<CR>')
   local graph = function(opts)
     opts = opts and (" " .. opts) or ""
