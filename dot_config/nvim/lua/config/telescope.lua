@@ -72,17 +72,17 @@ local function setup(_)
   local leader = 's'
   for _, v in pairs {
     { 'n', leader .. '<CR>', 'builtin' },
-    -- sa is occupied by sandwitch
+    -- sa is occupied by sandwich
     { 'n', leader .. 'b', 'buffers' },
     { 'n', leader .. 'c', 'commands' },
-    -- sd is occupied by sandwitch
+    -- sd is occupied by sandwich
     -- se is occupied by emoji-prefix
     { 'n', leader .. 'f', 'git_files or find_files', telescope_find_files },
     { 'n', leader .. 'g', 'live_grep' },
     { 'n', leader .. 'h', 'help_tags' },
     { 'n', leader .. 'j', 'jumplist' },
     { 'n', leader .. 'o', 'outline', telescope_outline },
-    -- sr is occupied by sandwitch
+    -- sr is occupied by sandwich
     { 'n', leader .. 's', 'keymaps' },
     { 'n', leader .. 'm', 'keymaps normal favorites', TelescopeBuiltin.keymaps },
     { 'n', leader .. 'q', 'quickfixhistory' },
