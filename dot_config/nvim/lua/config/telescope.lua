@@ -83,7 +83,8 @@ local function setup(_)
     { 'n', '<Plug>(telescope)j', 'jumplist' },
     { 'n', '<Plug>(telescope)o', 'outline', telescope_outline },
     -- sr is occupied by sandwitch
-    { 'n', '<Plug>(telescope)s', 'keymaps', telescope_keymaps },
+    { 'n', '<Plug>(telescope)s', 'keymaps' },
+    { 'n', '<Plug>(telescope)m', 'keymaps normal favorites', TelescopeBuiltin.keymaps },
     { 'n', '<Plug>(telescope)q', 'quickfixhistory' },
     { 'n', "<Plug>(telescope)'", 'marks' },
     { 'n', '<Plug>(telescope)"', 'registers' },
