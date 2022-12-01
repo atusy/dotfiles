@@ -82,11 +82,11 @@ local on_attach = function(client, bufnr)
   -- Mappings.
   -- See `:help vim.lsp.*` for documentation on any of the below functions
   local OPTS = { silent = true, buffer = bufnr }
-  local TelescopeBuiltin = require('telescope.builtin')
+  local telescope = function(key) return "<Cmd>Telescope " .. key .. "<CR>" end
   set_keymap('n', 'gD', vim.lsp.buf.declaration, OPTS, { desc = 'lsp declaration' })
-  set_keymap('n', 'gd', TelescopeBuiltin.lsp_definitions, OPTS, { desc = 'lsp definitions' })
+  set_keymap('n', 'gd', telescope('lsp_definitions'), OPTS, { desc = 'lsp definitions' })
   -- set_keymap('n', 'gd', vim.lsp.buf.definition, OPTS)
-  set_keymap('n', 'gi', TelescopeBuiltin.lsp_implementations, OPTS, { desc = 'lsp implementation' })
+  set_keymap('n', 'gi', telescope('lsp_implementations'), OPTS, { desc = 'lsp implementation' })
   -- set_keymap('n', 'gi', vim.lsp.buf.implementation, OPTS)
   set_keymap('n', '<C-K>', vim.lsp.buf.signature_help, OPTS, { desc = 'lsp show signature help' })
   set_keymap('n', '<Leader>wa', vim.lsp.buf.add_workspace_folder, OPTS, { desc = 'lsp add workspace folder' })
@@ -101,7 +101,7 @@ local on_attach = function(client, bufnr)
   set_keymap({ 'n', 'v' }, '<Leader>ca', '<cmd>Lspsaga code_action<cr>', OPTS, { desc = 'lsp code action' })
   -- set_keymap('n', '<Leader>ca', vim.lsp.buf.code_action, OPTS)
   -- set_keymap('n', 'gr', '<cmd>Lspsaga lsp_finder<cr>', OPTS, { desc = 'lsp reference' })
-  set_keymap('n', 'gr', TelescopeBuiltin.lsp_references, OPTS, { desc = 'lsp reference' })
+  set_keymap('n', 'gr', telescope('lsp_references'), OPTS, { desc = 'lsp reference' })
   -- set_keymap('n', 'gr', vim.lsp.buf.references, OPTS)
   set_keymap('n', '<Leader>lf', function() vim.lsp.buf.format({ async = true }) end, OPTS, { desc = 'lsp format' })
 end
