@@ -616,13 +616,16 @@ set_keymap('n', '<Leader>j', ':ToggleTermSendCurrentLine<CR>j',
 set_keymap('v', '<Leader>j', ":ToggleTermSendVisualSelection<CR>gv<Esc>",
   { desc = 'send the selection to toggle term while keeping the cursor position' })
 
-vim.opt.runtimepath:append("/home/atusy/ghq/github.com/atusy/telescomp")
-local cmdline_builtin = utils.require('telescomp.cmdline.builtin')
-set_keymap('c', '<C-X><C-B>', cmdline_builtin.git_branches)
-set_keymap('c', '<C-X><C-F>', cmdline_builtin.find_files)
-set_keymap('c', '<C-X><C-M>', cmdline_builtin.builtin)
-set_keymap('c', '<C-X><C-D>', cmdline_builtin.cmdline)
-set_keymap('c', '<C-D>', cmdline_builtin.cmdline)
-set_keymap('n', '<Plug>(telescomp-colon)', ':', { remap = true })
-set_keymap('n', '<Plug>(telescomp-slash)', '/', { remap = true })
-set_keymap('n', '<Plug>(telescomp-question)', '?', { remap = true })
+local telescomp = "/home/atusy/ghq/github.com/atusy/telescomp"
+if vim.fn.isdirectory(telescomp) == 1 then
+  vim.opt.runtimepath:append(telescomp)
+  local cmdline_builtin = utils.require('telescomp.cmdline.builtin')
+  set_keymap('c', '<C-X><C-B>', cmdline_builtin.git_branches)
+  set_keymap('c', '<C-X><C-F>', cmdline_builtin.find_files)
+  set_keymap('c', '<C-X><C-M>', cmdline_builtin.builtin)
+  set_keymap('c', '<C-X><C-D>', cmdline_builtin.cmdline)
+  set_keymap('c', '<C-D>', cmdline_builtin.cmdline)
+  set_keymap('n', '<Plug>(telescomp-colon)', ':', { remap = true })
+  set_keymap('n', '<Plug>(telescomp-slash)', '/', { remap = true })
+  set_keymap('n', '<Plug>(telescomp-question)', '?', { remap = true })
+end
