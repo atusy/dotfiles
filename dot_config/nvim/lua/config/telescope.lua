@@ -18,11 +18,17 @@ local function setup(_)
   end
 
   local function telescope_find_files()
-    if os.execute("git rev-parse") == 0 then
-      TelescopeBuiltin.git_files()
-    else
-      TelescopeBuiltin.find_files()
-    end
+    --[[ if os.execute("git rev-parse") == 0 then
+      TelescopeBuiltin.git_files({
+        show_untracked = true,
+        recurse_submodules = true
+      })
+      return
+    end ]]
+    TelescopeBuiltin.find_files({
+      hidden = true,
+      search_dirs = { ".", "__ignored" },
+    })
   end
 
   Telescope.setup({
