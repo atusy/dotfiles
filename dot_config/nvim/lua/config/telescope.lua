@@ -69,28 +69,28 @@ local function setup(_)
     picker({ sorter = filter_only_sorter() })
   end
 
-  set_keymap('n', 's', '<Plug>(telescope)')
+  local leader = 's'
   for _, v in pairs {
-    { 'n', '<Plug>(telescope)<CR>', 'builtin' },
+    { 'n', leader .. '<CR>', 'builtin' },
     -- sa is occupied by sandwitch
-    { 'n', '<Plug>(telescope)b', 'buffers' },
-    { 'n', '<Plug>(telescope)c', 'commands' },
+    { 'n', leader .. 'b', 'buffers' },
+    { 'n', leader .. 'c', 'commands' },
     -- sd is occupied by sandwitch
     -- se is occupied by emoji-prefix
-    { 'n', '<Plug>(telescope)f', 'git_files or find_files', telescope_find_files },
-    { 'n', '<Plug>(telescope)g', 'live_grep' },
-    { 'n', '<Plug>(telescope)h', 'help_tags' },
-    { 'n', '<Plug>(telescope)j', 'jumplist' },
-    { 'n', '<Plug>(telescope)o', 'outline', telescope_outline },
+    { 'n', leader .. 'f', 'git_files or find_files', telescope_find_files },
+    { 'n', leader .. 'g', 'live_grep' },
+    { 'n', leader .. 'h', 'help_tags' },
+    { 'n', leader .. 'j', 'jumplist' },
+    { 'n', leader .. 'o', 'outline', telescope_outline },
     -- sr is occupied by sandwitch
-    { 'n', '<Plug>(telescope)s', 'keymaps' },
-    { 'n', '<Plug>(telescope)m', 'keymaps normal favorites', TelescopeBuiltin.keymaps },
-    { 'n', '<Plug>(telescope)q', 'quickfixhistory' },
-    { 'n', "<Plug>(telescope)'", 'marks' },
-    { 'n', '<Plug>(telescope)"', 'registers' },
-    { 'n', '<Plug>(telescope).', 'resume' },
-    { 'n', '<Plug>(telescope)/', 'current_buffer_fuzzy_find' },
-    { 'n', '<Plug>(telescope)?', 'man_pages' },
+    { 'n', leader .. 's', 'keymaps' },
+    { 'n', leader .. 'm', 'keymaps normal favorites', TelescopeBuiltin.keymaps },
+    { 'n', leader .. 'q', 'quickfixhistory' },
+    { 'n', leader .. [[']], 'marks' },
+    { 'n', leader .. [["]], 'registers' },
+    { 'n', leader .. '.', 'resume' },
+    { 'n', leader .. '/', 'current_buffer_fuzzy_find' },
+    { 'n', leader .. '?', 'man_pages' },
     { 'n', 'q;', 'command_history' },
     { 'n', 'q:', 'command_history' },
     { 'n', 'q/', 'search_history' },
@@ -164,7 +164,7 @@ local function setup(_)
     group = vim.api.nvim_create_augroup('prefix-emoji', {}),
     pattern = 'gitcommit',
     callback = function(args)
-      set_keymap('n', '<Plug>(telescope)e', prefix_emoji, { buffer = args.buf })
+      set_keymap('n', leader .. 'e', prefix_emoji, { buffer = args.buf })
       local line = vim.api.nvim_buf_get_lines(args.buf, 0, 1, false)
       if vim.fn.match(line, '^' .. regex_emoji) == -1 then
         vim.schedule(function() prefix_emoji(args.buf) end)
