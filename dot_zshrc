@@ -13,7 +13,8 @@ autoload -Uz _zinit
 ### End of Zinit's installer chunk
 
 # Global profile (shared with bash)
-[[ -f "$HOME/.profile" ]] && . "$HOME/.profile"
+# keep as a comment while testing if .zprofile works
+# [[ -f "$HOME/.profile" ]] && . "$HOME/.profile"
 
 # PROMPT
 function gitprompt() {
