@@ -4,9 +4,6 @@
 
 ## Plugin
 
-https://github.com/thinca/vim-qfreplace
-https://github.com/itchyny/vim-qfedit
-
 use { 'LeafCage/vimhelpgenerator' }
 use { 'kevinhwang91/nvim-bqf', ft = 'qf' }
 use { 'mattn/emmet-vim',
@@ -282,6 +279,7 @@ require 'jetpack.packer'.startup(function(use)
     { 'tyru/capture.vim' },
     { 'folke/zen-mode.nvim' },
     { 'thinca/vim-qfreplace' },
+    { 'itchyny/vim-qfedit' },
 
     -- better something
     'wsdjeg/vim-fetch', -- :e with linenumber
