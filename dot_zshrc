@@ -151,7 +151,6 @@ if command -v zoxide > /dev/null; then
   fi
   eval "$(zoxide init zsh)"
 fi
-
 if command -v htop > /dev/null; then
   alias top='htop'
 fi
