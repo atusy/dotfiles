@@ -9,8 +9,8 @@ local TAB_COLORSCHEME = 'terafox' -- for the active buffer in the other tabpages
 local ILLUMINATION = { bg = "#383D47" }
 
 -- set colorscheme
-local function hl_treesitter()
-  if true then return end
+local function hl_treesitter(enable)
+  if not enable then return end
   local function hl(group, opts)
     opts.default = true
     api.nvim_set_hl(0, group, opts)
@@ -127,7 +127,7 @@ local function set_colorscheme(nm, force)
   if not force and nm == api.nvim_exec('colorscheme', true) then
     return
   end
-  hl_treesitter()
+  hl_treesitter(false)
   vim.cmd('colorscheme ' .. nm)
   require('hlargs').setup()
   require('colorizer').setup()
