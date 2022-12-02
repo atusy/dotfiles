@@ -12,6 +12,7 @@ autoload -Uz _zinit
 (( ${+_comps} )) && _comps[zinit]=_zinit
 ### End of Zinit's installer chunk
 
+# Global profile (shared with bash)
 [[ -f "$HOME/.profile" ]] && . "$HOME/.profile"
 
 # PROMPT
