@@ -61,7 +61,6 @@ zinit light-mode for \
   atusy/gh-fzf
 
 bindkey -e
-alias sudo='sudo '
 
 # History
 HISTFILE=~/.zsh_history
@@ -144,6 +143,8 @@ zstyle ':completion:*:sudo:*' command-path $path
 zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
 zstyle ':completion::complete:*' use-cache true
 
+# Aliases and some useful functions
+alias sudo='sudo '
 if command -v zoxide > /dev/null; then
   if [[ "$(command -v zi)" =~ "^alias .+" ]]; then
     unalias zi
@@ -191,40 +192,41 @@ fi
 
 alias gd='cd-gitroot'
 
-if command -v pyenv >/dev/null; then eval "$(pyenv init -)"; fi
-function pyset() {
-  local PYSET_IMPLICIT_GLOBAL=${PYSET_IMPLICIT_GLOBAL:-true}
-  local PYSET_MAX_HEIGHT=${PYSET_MAX_HEIGHT:-10}
-  local SCOPE="${1:-local}"
-  local PATTERN="${2:-${PYSET_PATTERN:-^[0-9]+\.}}"
-  local TARGET="$(
-    CANDIDATES="$(
-      pyenv install --list \
-        | awk '{ print $1 }' \
-        | command grep -E "$PATTERN"
-      [[ -f .python-version ]] && echo "$( cat .python-version ) (.python-version)"
+if command -v pyenv >/dev/null; then
+  function pyset() {
+    local PYSET_IMPLICIT_GLOBAL=${PYSET_IMPLICIT_GLOBAL:-true}
+    local PYSET_MAX_HEIGHT=${PYSET_MAX_HEIGHT:-10}
+    local SCOPE="${1:-local}"
+    local PATTERN="${2:-${PYSET_PATTERN:-^[0-9]+\.}}"
+    local TARGET="$(
+      CANDIDATES="$(
+        pyenv install --list \
+          | awk '{ print $1 }' \
+          | command grep -E "$PATTERN"
+        [[ -f .python-version ]] && echo "$( cat .python-version ) (.python-version)"
+      )"
+      HEIGHT="$(
+        N="$(echo "$CANDIDATES" | wc -l)"
+        echo "$(( $N + 2 ))\n${PYSET_MAX_HEIGHT}" \
+          | sort -nu \
+          | head -n 1
+      )"
+      echo "$CANDIDATES" | command fzf --height="$HEIGHT" --tac | awk '{ print $1 }'
     )"
-    HEIGHT="$(
-      N="$(echo "$CANDIDATES" | wc -l)"
-      echo "$(( $N + 2 ))\n${PYSET_MAX_HEIGHT}" \
-        | sort -nu \
-        | head -n 1
-    )"
-    echo "$CANDIDATES" | command fzf --height="$HEIGHT" --tac | awk '{ print $1 }'
-  )"
-  if [[ "$TARGET" == "" ]]
-  then
-    if ! $PYSET_IMPLICIT_GLOBAL
+    if [[ "$TARGET" == "" ]]
     then
-      return 1
+      if ! $PYSET_IMPLICIT_GLOBAL
+      then
+        return 1
+      fi
+      echo "Using global python..." 1>&2
+      TARGET="$( python --version | sed -E -e 's/^Python\s+//' )"
     fi
-    echo "Using global python..." 1>&2
-    TARGET="$( python --version | sed -E -e 's/^Python\s+//' )"
-  fi
-  pyenv install --skip-existing "$TARGET"
-  pyenv "$SCOPE" "$TARGET"
-  pyenv "$SCOPE" 
-}
+    pyenv install --skip-existing "$TARGET"
+    pyenv "$SCOPE" "$TARGET"
+    pyenv "$SCOPE" 
+  }
+fi
 
 function rename_wezterm_title() {
   local PWD="$( pwd )"
