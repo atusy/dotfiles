@@ -143,6 +143,12 @@ zstyle ':completion:*:sudo:*' command-path $path
 zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
 zstyle ':completion::complete:*' use-cache true
 
+# Edit command line with favorite editor
+autoload -Uz edit-command-line
+function edit-command-line2() EDITOR="${EDITOR_CMD:-$EDITOR}" edit-command-line
+zle -N edit-command-line2
+bindkey "^x^e" edit-command-line2
+
 # Aliases and some useful functions
 alias sudo='sudo '
 if command -v zoxide > /dev/null; then
@@ -251,12 +257,6 @@ if [[ -n $ZENO_LOADED ]]; then
   bindkey '^x^f' zeno-ghq-cd
   ZSH_AUTOSUGGEST_CLEAR_WIDGETS+=(zeno-auto-snippet-and-accept-line)
 fi
-
-# Edit command line by $EDITOR
-autoload -Uz edit-command-line
-function edit-command-line2() EDITOR="${EDITOR_CMD:-$EDITOR}" edit-command-line
-zle -N edit-command-line2
-bindkey "^x^e" edit-command-line2
 
 # direnv
 if command -v direnv >/dev/null; then
