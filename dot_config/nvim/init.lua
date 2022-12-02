@@ -339,7 +339,7 @@ require 'jetpack.packer'.startup(function(use)
     'yuki-yano/fuzzy-motion.vim',
 
     -- treesitter
-    { 'nvim-treesitter/nvim-treesitter', run = ":TSUpdate" },
+    { 'nvim-treesitter/nvim-treesitter', run = ":TSUpdate", frozen = true },
     'nvim-treesitter/playground',
     'nvim-treesitter/nvim-treesitter-refactor',
     'yioneko/nvim-yati',
