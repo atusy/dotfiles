@@ -27,6 +27,11 @@ if [[ -d "$HOME/.linuxbrew" ]]; then
   eval "$($HOME/.linuxbrew/bin/brew shellenv)"
 fi
 
+# asdf
+if [[ -f /opt/asdf-vm/asdf.sh ]]; then
+  . /opt/asdf-vm/asdf.sh
+fi
+
 # local
 export PATH="$(
   find "$HOME/.local/extra" -maxdepth 2 -type d -name bin -printf '%p:'

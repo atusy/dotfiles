@@ -185,9 +185,6 @@ if command -v xdg-open > /dev/null; then
     xdg-open "$@" 2>/dev/null
   }
 fi
-if [[ -f /opt/asdf-vm/asdf.sh ]]; then
-  . /opt/asdf-vm/asdf.sh
-fi
 if which cd-gitroot 1>/dev/null then
   alias gd='cd-gitroot'
 fi
