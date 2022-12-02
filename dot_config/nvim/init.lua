@@ -219,7 +219,30 @@ end
 -- nvim-remote for edit-commandline zle
 -- <Space>bd will update, wipe buffer, and go back to the caller terminal
 if vim.fn.executable('nvr') == 1 then
-  vim.env.EDITOR_CMD = 'nvr -cc "below 5split" --remote-wait-silent +"set bufhidden=wipe"'
+  vim.env.EDITOR_CMD = [[nvr -cc "below 5split" --remote-wait-silent +"set bufhidden=wipe | set filetype=nvr-zsh"]]
+  vim.api.nvim_create_autocmd(
+    'FileType',
+    {
+      desc = 'Go back to the terminal window on WinLeave. Otherwise, WinLeave sets the current window to leftest above',
+      group = vim.api.nvim_create_augroup('nvr-zsh', {}),
+      pattern = { 'nvr-zsh' },
+      callback = function(args)
+        vim.schedule(function()
+          local parent = vim.fn.win_getid(vim.fn.winnr('#'))
+          local local_group = vim.api.nvim_create_augroup(args.file, {})
+          vim.api.nvim_create_autocmd('WinClosed', {
+            group = local_group,
+            buffer = args.buf,
+            callback = function()
+              vim.schedule(function() pcall(vim.api.nvim_set_current_win, parent) end)
+            end
+          })
+          vim.bo.filetype = 'zsh'
+        end)
+      end,
+      nested = true,
+    }
+  )
 end
 
 --[[ PLUGIN SETTINGS ]]
