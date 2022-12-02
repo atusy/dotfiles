@@ -189,8 +189,9 @@ fi
 if [[ -f /opt/asdf-vm/asdf.sh ]]; then
   . /opt/asdf-vm/asdf.sh
 fi
-
-alias gd='cd-gitroot'
+if which cd-gitroot 1>/dev/null then
+  alias gd='cd-gitroot'
+fi
 
 if command -v pyenv >/dev/null; then
   function pyset() {
