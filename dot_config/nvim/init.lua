@@ -277,7 +277,6 @@ require 'jetpack.packer'.startup(function(use)
 
     -- utils
     'numToStr/Comment.nvim',
-    'nathom/filetype.nvim',
     'lambdalisue/nerdfont.vim',
     'lambdalisue/guise.vim',
     'lambdalisue/fern.vim',
