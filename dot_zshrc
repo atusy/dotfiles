@@ -14,8 +14,12 @@ autoload -Uz _zinit
 
 [[ -f "$HOME/.profile" ]] && . "$HOME/.profile"
 
-# Prompt: requires woefe/git-prompt.zsh
-function gitprompt() :
+# PROMPT
+function gitprompt() {
+  # will be overridden by woefe/git-prompt.zsh
+  # the blank function here suppresses potential error from lazy loading
+  :
+}
 function kubeprompt() {
   kubectl config current-context 2>/dev/null || true
 }
