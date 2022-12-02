@@ -240,11 +240,11 @@ function rename_wezterm_title() {
   echo "\x1b]1337;SetUserVar=panetitle=$(echo "$TITLE" | base64)\x07"
 }
 
-# Options
+# Plugin: zsh-autosuggestions
 ZSH_AUTOSUGGEST_USE_ASYNC=1
 ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=244'
 
-# zeno
+# Plugin: zeno
 if [[ -n $ZENO_LOADED ]]; then
   bindkey ' '  zeno-auto-snippet
   bindkey '^m' zeno-auto-snippet-and-accept-line
