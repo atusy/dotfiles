@@ -194,11 +194,29 @@ fi
 if which cd-gitroot 1>/dev/null; then
   alias gd='cd-gitroot'
 fi
+if command -v kubectx > /dev/null; then
+  function _kubectx() {
+    command kubectx && export KUBE_CONTEXT="$( command kubectl config current-context || echo "" )"
+  }
+  alias kubectx='_kubectx'
+fi
 if command -v kubectl > /dev/null; then
   function _kubectl() {
-    local cur="$( command kubectl config current-context 2>/dev/null )"
-    local hook="$( [[ -z "$cur" ]] && echo ":" || echo "kubectx" )"
-    "$hook" && unalias kubectl && command kubectl "$@"
+    if [[ -z "${KUBE_CONTEXT:-}" ]]; then
+      echo "Check the current context and run below running kubectl" 1>&2
+      echo ': export KUBE_CONTEXT="$( command kubectl current-context )"' 1>&2
+      return 1
+    else
+      local CURRENT_CONTEXT="$( command kubectl config current-context )"
+      if [[ "$KUBE_CONTEXT" != "$CURRENT_CONTEXT" ]]; then
+        echo "Current context has been changed to ${CURRENT_CONTEXT} from ${KUBE_CONTEXT}." 1>&2
+        echo "The change probably comes from other sessions." 1>&2
+        echo "To continue, reconfigure current context and run below before running kubectl." 1>&2
+        echo ': export KUBE_CONTEXT="$( kubectl config current-context )"' 1>&2
+      else
+        command kubectl "$@"
+      fi
+    fi
   }
   alias kubectl='_kubectl'
 fi
