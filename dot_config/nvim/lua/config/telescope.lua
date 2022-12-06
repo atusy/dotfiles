@@ -92,7 +92,32 @@ end
 
 local function telescope(key) return "<Cmd>Telescope " .. key .. "<CR>" end
 
+local function setup_memo()
+  local memo = '~/Documents/memo'
+  set_keymap(
+    'n', '<Plug>(memo-new)', ':e ' .. memo .. '/',
+    { desc = 'memo edit' }
+  -- recommends https://github.com/jghauser/mkdir.nvim
+  )
+  set_keymap(
+    'n', '<Plug>(memo-find-files)',
+    function()
+      require('telescope.builtin').find_files({ search_dirs = { memo } })
+    end,
+    { desc = 'memo find' }
+
+  )
+  set_keymap(
+    'n', '<Plug>(memo-live-grep)',
+    function()
+      require('telescope.builtin').live_grep({ cwd = memo })
+    end,
+    { desc = 'memo grep' }
+  )
+end
+
 local function setup(_)
+  setup_memo()
   local Telescope = require('telescope')
   Telescope.setup({
     pickers = {
