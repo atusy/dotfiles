@@ -553,7 +553,7 @@ require 'lualine'.setup {
 vim.g["fern#renderer"] = "nerdfont"
 vim.g["fern#renderer#nerdfont#indent_markers"] = 1
 vim.g["fern#window_selector_use_popup"] = 1
-set_keymap('n', '<C-F>', '<Cmd>Fern . -drawer -reveal=%<CR>')
+set_keymap('n', 'S', '<Cmd>Fern . -drawer -reveal=%<CR>')
 local function fern_chowcho()
   local node = vim.api.nvim_exec([[
     let helper = fern#helper#new()
@@ -570,7 +570,7 @@ local function init_fern()
   vim.opt_local.number = false
   vim.opt_local.cursorline = true
   vim.opt_local.signcolumn = "auto"
-  set_keymap('n', '<C-F>', '<C-W>p', { buffer = 0 })
+  set_keymap('n', 'S', '<C-W>p', { buffer = 0 })
   set_keymap('n', 's', '<Nop>', { buffer = 0 })
   set_keymap('n', '<CR>', '<Plug>(fern-action-open:select)', { buffer = 0, nowait = true })
   set_keymap('n', '<Plug>(fern-action-open:chowcho)', fern_chowcho, { buffer = 0 })
