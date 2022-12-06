@@ -23,12 +23,8 @@ function gitprompt() {
   :
 }
 function kubeprompt() {
-  kubectl config current-context 2>/dev/null || true
+  command kubectl config current-context 2>/dev/null || true
 }
-if [[ ! "$KUBECTX_UNSET" == 0 ]]; then
-  # for safety reason, unset kubernetes current context by default
-  kubectl config unset current-context 1>/dev/null 2>/dev/null || true
-fi
 ZSH_THEME_GIT_PROMPT_PREFIX=" "
 ZSH_THEME_GIT_PROMPT_SUFFIX=""
 ZSH_THEME_GIT_PROMPT_UNTRACKED=".."
@@ -197,6 +193,14 @@ if command -v xdg-open > /dev/null; then
 fi
 if which cd-gitroot 1>/dev/null; then
   alias gd='cd-gitroot'
+fi
+if command -v kubectl > /dev/null; then
+  function _kubectl() {
+    local cur="$( command kubectl config current-context 2>/dev/null )"
+    local hook="$( [[ -z "$cur" ]] && echo ":" || echo "kubectx" )"
+    "$hook" && unalias kubectl && command kubectl "$@"
+  }
+  alias kubectl='_kubectl'
 fi
 
 if command -v pyenv >/dev/null; then
