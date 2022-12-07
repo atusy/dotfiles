@@ -10,6 +10,8 @@ function M.safely(f)
   return function(...) pcall(f, ...) end
 end
 
+M.star = '☆'
+
 local set_keymap = vim.keymap.set
 function M.set_keymap(mode, lhs, rhs, opt1, opt2)
   local opt = {}
@@ -24,9 +26,9 @@ function M.set_keymap(mode, lhs, rhs, opt1, opt2)
   end
   if opt.fav ~= false then
     if opt.desc then
-      opt.desc = '☆' .. opt.desc
+      opt.desc = M.star .. opt.desc
     elseif type(rhs) == "string" then
-      opt.desc = '☆' .. rhs
+      opt.desc = M.star .. rhs
     end
   end
   opt.fav = nil
