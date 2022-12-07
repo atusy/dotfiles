@@ -211,8 +211,9 @@ if command -v kubectl > /dev/null; then
       if [[ "$KUBE_CONTEXT" != "$CURRENT_CONTEXT" ]]; then
         echo "Current context has been changed to ${CURRENT_CONTEXT} from ${KUBE_CONTEXT}." 1>&2
         echo "The change probably comes from other sessions." 1>&2
-        echo "To continue, reconfigure current context and run below before running kubectl." 1>&2
-        echo ': export KUBE_CONTEXT="$( kubectl config current-context )"' 1>&2
+        echo "To continue, reconfigure current context and export the value as KUBE_CONTEXT." 1>&2
+        echo ': export KUBE_CONTEXT="{{CONTEXT}}"' 1>&2
+        echo ': command kubectl config set current-context "${KUBE_CONTEXT}"' 1>&2
       else
         command kubectl "$@"
       fi
