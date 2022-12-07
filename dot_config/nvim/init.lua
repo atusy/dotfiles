@@ -161,12 +161,6 @@ set_keymap('c', '<C-A>', '<Home>')
 set_keymap('c', '<C-E>', '<End>')
 set_keymap('t', '<C-W>', function() vim.cmd('wincmd ' .. vim.fn.getcharstr()) end)
 set_keymap({ 'n', 'v', 'i', 't', 'c' }, [[<C-\><C-\>]], [[<C-\><C-N>]])
-set_keymap(
-  'n',
-  '<Plug>(kubectl-no-reset-context)',
-  ':lua vim.env.KUBECTX_RESET = 0',
-  { desc = "Disable zshrc to unset kubernetes context" }
-)
 
 local function move_float_win(row, col)
   local conf = vim.api.nvim_win_get_config(0)
