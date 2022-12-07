@@ -187,6 +187,17 @@ vim.keymap.set({ '', 't' }, '<C-Down>', function() move_or_resize_win(1, 0, '-')
 vim.keymap.set({ '', 't' }, '<C-Right>', function() move_or_resize_win(0, 2, '>') end)
 vim.keymap.set({ '', 't' }, '<C-Left>', function() move_or_resize_win(0, -2, '<') end)
 
+-- <Plug> to be invoked by Telescope keymap
+set_keymap(
+  'n', '<Plug>(clipboard-cwd)', '<Cmd>let @+=getcwd()<CR>', { desc = 'clipboard cwd' }
+)
+set_keymap(
+  'n', '<Plug>(clipboard-buf)', '<Cmd>let @+=expand("%:p")<CR>', { desc = 'clipboard full file path of buf' }
+)
+set_keymap(
+  'n', '<Plug>(clipboard-cwd)', '<Cmd>let @+=expand("%:p:h)<CR>', { desc = 'clipboard full dirname path of buf' }
+)
+
 --[[ personal utilities ]]
 -- Apply MYVIMRC
 vim.api.nvim_create_user_command(
