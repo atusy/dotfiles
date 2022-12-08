@@ -42,6 +42,9 @@ snippets:
   - name: ripgrep paged
     keyword: rgp
     snippet: 'rg -p {{args}} | nvimpager'
+  - name: kubectl unset
+    keyword: kunset
+    snippet: 'command kubectl config unset current-context'
 
   # Some aliases that I often forget their real names 
   - name: htop
