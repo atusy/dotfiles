@@ -23,7 +23,9 @@ function gitprompt() {
   :
 }
 function kubeprompt() {
-  command kubectl config current-context 2>/dev/null || true
+  if [[ "${KUBE_PS1_CONTEXT:-N/A}" != "N/A" ]]; then
+    kube_ps1 # will be defined by jonmosco/kube-ps1
+  fi
 }
 ZSH_THEME_GIT_PROMPT_PREFIX=" "
 ZSH_THEME_GIT_PROMPT_SUFFIX=""
@@ -32,7 +34,7 @@ ZSH_THEME_GIT_PROMPT_UNMERGED="%{$fg[red]%}x"
 ZSH_THEME_GIT_PROMPT_STAGED="%{$fg[green]%}o"
 ZSH_THEME_GIT_PROMPT_UNSTAGED="%{$fg[red]%}+"
 PROMPT_ACCENT_COLOR="$( test -n "$SSH_CLIENT" && echo cyan || echo 112 )"
-PROMPT='%F{${PROMPT_ACCENT_COLOR}}[ %3~ ]%F{white}$(gitprompt) %F{239}$(kubeprompt)
+PROMPT='%F{${PROMPT_ACCENT_COLOR}}[ %3~ ]%F{white}$(gitprompt) $(kubeprompt)
 %F{${PROMPT_ACCENT_COLOR}}» '
 
 # Load plugins
@@ -55,6 +57,7 @@ zinit light-mode for \
   mafredri/zsh-async \
   chrissicool/zsh-256color \
   woefe/git-prompt.zsh \
+  jonmosco/kube-ps1 \
   mollifier/cd-gitroot \
   yuki-yano/zeno.zsh \
   junegunn/fzf \
