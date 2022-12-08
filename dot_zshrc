@@ -223,6 +223,7 @@ if command -v kubectl > /dev/null; then
     fi
   }
   alias kubectl='_kubectl'
+  alias kunset='command kubectl config unset current-context'
 fi
 
 if command -v pyenv >/dev/null; then
