@@ -419,10 +419,13 @@ set_keymap('v', '*', '<Plug>(asterisk-gz*)')
 set_keymap({ 'n', 'v' }, 'gx', '<Plug>(openbrowser-smart-search)')
 
 -- baleia to parse ANSI
-local baleia = require('baleia').setup()
+local baleia
 set_keymap(
   'n', '<Plug>(parse-ansi)',
-  function() baleia.once(vim.api.nvim_get_current_buf()) end,
+  function()
+    baleia = baleia or require('baleia').setup()
+    baleia.once(vim.api.nvim_get_current_buf())
+  end,
   { desc = 'Parse ANSI escape sequences in current buffer' }
 )
 
