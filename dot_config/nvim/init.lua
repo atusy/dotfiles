@@ -468,16 +468,19 @@ set_keymap(
 
 --[[ motion settings ]]
 -- hop
-local Hop = require 'hop'
-Hop.setup()
+local Hop
 local function hopper(direction, offset)
-  local hint_char1 = Hop.hint_char1
-  local opt = {
-    direction = require 'hop.hint'.HintDirection[direction],
-    current_line_only = true,
-    hint_offset = offset == nil and 0 or offset,
-  }
-  return function() hint_char1(opt) end
+  return function()
+    if not Hop then
+      Hop = require 'hop'
+      Hop.setup()
+    end
+    Hop.hint_char1({
+      direction = require 'hop.hint'.HintDirection[direction],
+      current_line_only = true,
+      hint_offset = offset == nil and 0 or offset,
+    })
+  end
 end
 
 set_keymap('', 'f', hopper('AFTER_CURSOR'), { desc = 'Hop after' })
