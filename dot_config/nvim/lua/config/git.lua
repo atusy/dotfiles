@@ -98,7 +98,6 @@ local function setup_gin()
   set_keymap('n', '<Plug>(C-G)<C-L>', function() graph() end, { desc = "git graph" }) -- git log --graph ...
   set_keymap('n', '<Plug>(C-G)%', function() graph("-- %") end, { desc = "git graph current buffer" })
   -- following keymaps exists as snippets, and thus ends with space rather than <CR>
-  local gin = ":Gin"
   set_keymap(
     'n', '<Plug>(git-amend)', ':Git commit --amend ',
     { desc = ":git commit --amend" }
