@@ -316,6 +316,7 @@ require 'jetpack.packer'.startup(function(use)
     'lambdalisue/fern.vim',
     'lambdalisue/fern-renderer-nerdfont.vim',
     'segeljakt/vim-silicon', -- pacman -S silicon
+    'tyru/open-browser.vim',
 
     -- ui
     -- "MunifTanjim/nui.nvim",
@@ -414,6 +415,8 @@ set_keymap('n', '<C-P><C-W>', ':Bwipeout!<CR>')
 -- asterisk
 set_keymap('n', '*', '<Plug>(asterisk-z*)')
 set_keymap('v', '*', '<Plug>(asterisk-gz*)')
+-- openbrowser
+set_keymap({ 'n', 'v' }, 'gx', '<Plug>(openbrowser-smart-search)')
 
 -- baleia to parse ANSI
 local baleia = require('baleia').setup()
