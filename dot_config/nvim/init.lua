@@ -157,7 +157,6 @@ set_keymap('n', '<Right>', '$')
 set_keymap({ 'n', 'v' }, 'gy', '"+y')
 set_keymap({ 'n', 'v' }, 'gY', '"+Y')
 set_keymap('c', '<C-A>', '<Home>')
-set_keymap('c', '<C-E>', '<End>')
 set_keymap('t', '<C-W>', function() vim.cmd('wincmd ' .. vim.fn.getcharstr()) end)
 set_keymap({ 'n', 'v', 'i', 't', 'c' }, [[<C-\><C-\>]], [[<C-\><C-N>]])
 
