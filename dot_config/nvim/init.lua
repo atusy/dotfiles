@@ -497,7 +497,7 @@ _leap.setup({ safe_labels = {}, })
 set_keymap(
   { 'n', 'v' }, ';',
   function()
-    _leap.leap({ target_windows = { vim.fn.win_getid() } })
+    _leap.leap({ target_windows = { vim.api.nvim_get_current_win() } })
   end
 )
 require('flit').setup {
