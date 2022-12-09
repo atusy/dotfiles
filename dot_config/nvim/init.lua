@@ -122,9 +122,6 @@ vim.filetype.add({
 
 --[[ mappings ]]
 vim.g.mapleader = ' '
-for _, k in ipairs({ 's', ',', ';' }) do
-  set_keymap('n', '<A-' .. k .. '>', k)
-end
 set_keymap('v', 'q', '<Nop>')
 set_keymap(
   'n',
