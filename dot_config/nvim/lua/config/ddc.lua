@@ -47,11 +47,9 @@ local maps = {
       return '<C-Y>'
     end
   end,
-  ['<C-E>'] = function()
+  ['<C-X><C-E>'] = function()
     if pum_visible() then
       fn["pum#map#cancel"]()
-    else
-      return '<C-E>'
     end
   end,
 }
