@@ -14,7 +14,7 @@ local function count_win_focusable(wins)
   return #vim.tbl_filter(is_win_focusable, wins)
 end
 
-local setup = function()
+local setup_chowcho = function()
   require 'chowcho'.setup({
     use_exclude_default = false,
     exclude = function(_, _) return false end
@@ -104,6 +104,15 @@ local setup = function()
 
   set_keymap({ '', 't' }, '<C-W><C-X>', _chowcho_exchange)
   set_keymap({ '', 't' }, '<C-W>x', _chowcho_exchange)
+end
+
+local function setup()
+  local group = vim.api.nvim_create_augroup('config.window', {})
+  vim.api.nvim_create_autocmd('WinNew', {
+    group = group,
+    once = true,
+    callback = setup_chowcho
+  })
 end
 
 return {

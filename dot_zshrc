@@ -311,3 +311,4 @@ if [[ ! -f ~/.zinit/bin/zinit.zsh.zwc ]] || [[ ~/.zinit/bin/zinit.zsh -nt ~/.zin
 fi
 
 # }}}
+#TODO: https://github.com/lambdalisue/dotfiles/blob/eb825140615da791aa8563009c012092c65bcc13/zsh/init.zsh#L107-L116
