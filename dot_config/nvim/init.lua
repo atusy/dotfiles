@@ -346,8 +346,8 @@ require 'jetpack.packer'.startup(function(use)
     'phaazon/hop.nvim',
     'ggandor/leap.nvim',
     'ggandor/leap-ast.nvim',
-    'ggandor/flit.nvim',
-    'yuki-yano/fuzzy-motion.vim',
+    -- 'ggandor/flit.nvim',
+    -- 'yuki-yano/fuzzy-motion.vim',
 
     -- treesitter
     { 'nvim-treesitter/nvim-treesitter', run = ":TSUpdate", frozen = true },
@@ -498,15 +498,6 @@ set_keymap(
     _leap.leap({ target_windows = { vim.api.nvim_get_current_win() } })
   end
 )
-require('flit').setup {
-  keys = { f = ' f', F = ' F', t = ' t', T = ' T' },
-  -- A string like "nv", "nvo", "o", etc.
-  labeled_modes = "v",
-  multiline = true,
-  -- Like `leap`s similar argument (call-specific overrides).
-  -- E.g.: opts = { equivalence_classes = {} }
-  opts = {}
-}
 
 -- edgemotion
 set_keymap('', '<A-]>', '<Plug>(edgemotion-j)', {})
