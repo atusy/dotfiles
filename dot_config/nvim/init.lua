@@ -550,7 +550,6 @@ require 'lualine'.setup {
 
 --[[ filer settings ]]
 -- fern
--- TODO: using nvim api currently fails to show file list
 vim.g["fern#renderer"] = "nerdfont"
 vim.g["fern#renderer#nerdfont#indent_markers"] = 1
 vim.g["fern#window_selector_use_popup"] = 1
