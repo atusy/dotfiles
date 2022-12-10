@@ -426,10 +426,6 @@ set_keymap('n', '<C-L>', Illuminate.goto_next_reference, { desc = 'next referenc
 
 
 --[[ buffer settings ]]
-set_keymap('n', '<C-P><C-P>', '<C-^>')
--- Bbye
-set_keymap('n', '<C-P><C-D>', ':up | Bdelete<CR>')
-set_keymap('n', '<C-P><C-W>', ':Bwipeout!<CR>')
 -- asterisk
 set_keymap('n', '*', '<Plug>(asterisk-z*)')
 set_keymap('v', '*', '<Plug>(asterisk-gz*)')
