@@ -161,6 +161,24 @@ set_keymap('c', '<C-A>', '<Home>')
 set_keymap('t', '<C-W>', [[<C-\><C-N><C-W>]])
 set_keymap({ 'n', 'v', 'i', 't', 'c' }, [[<C-\><C-\>]], [[<C-\><C-N>]])
 
+set_keymap(
+  'n',
+  '<Plug>(save)',
+  function() vim.cmd(vim.fn.filereadable('%') and 'up' or 'write') end,
+  { fav = false }
+)
+set_keymap('n', '<C-S>', '<Plug>(save)<Plug>(C-S)', { fav = false })
+set_keymap('n', '<Plug>(C-S)<C-A>', ':wa<CR>', { fav = false })
+set_keymap(
+  'n',
+  '<Plug>(C-S)c',
+  '<Cmd>!chezmoi apply<CR><Cmd>source $MYVIMRC<CR>',
+  { desc = 'Save %, chezmoi apply, and source $MYVIMRC' }
+)
+set_keymap('n', '<Plug>(C-S)<C-H>', ':e #<CR>', { fav = false })
+set_keymap('n', '<Plug>(C-S)<C-Q>', ':q<CR>', { fav = false })
+set_keymap('n', '<Plug>(C-S)<C-S>', ':source<CR>', { fav = false })
+
 local function move_float_win(row, col)
   local conf = vim.api.nvim_win_get_config(0)
   if conf.relative == '' then return false end
