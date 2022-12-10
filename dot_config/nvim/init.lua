@@ -531,10 +531,13 @@ require 'lualine'.setup {
     lualine_b = {
       function()
         if vim.opt_local.filetype:get() == "json" then
-          return require('jsonpath').get()
+          local has_jsonpath, jsonpath = pcall(require, 'jsonpath')
+          if has_jsonpath then
+            return jsonpath.get()
+          end
         end
-        local ok, nav = pcall(require, 'nvim-navic')
-        if ok and nav.is_available() then
+        local has_navic, nav = pcall(require, 'nvim-navic')
+        if has_navic and nav.is_available() then
           return nav.get_location()
         end
         return ''
