@@ -13,6 +13,8 @@ local function setup_gitsigns()
     return '<Plug>(save)<Cmd>Gitsigns ' .. x .. '<CR>'
   end
 
+  vim.api.nvim_set_hl(0, "GitSignsCurrentLineBlame", { link = "Comment" })
+
   gs.setup({
     signcolumn = not has_num,
     numhl = has_num,
@@ -27,12 +29,8 @@ local function setup_gitsigns()
       set_keymap('n', '<Plug>(C-G)<C-R>', after_save('reset_hunk'), OPTS, { desc = "git reset hunk" })
       set_keymap('n', '<Plug>(C-G)r', after_save('reset_buffer'), OPTS, { desc = "git reset buffer" })
       set_keymap(
-        'n', '<Plug>(toggle-live-git-blame)',
-        function()
-          vim.api.nvim_set_hl(0, "GitSignsCurrentLineBlame", { link = "Comment" })
-          gs.toggle_current_line_blame()
-        end,
-        OPTS
+        'n', '<Plug>(toggle-live-git-blame)', '<Cmd>Gitsigns toggle_current_line_blame<CR>',
+        OPTS, { desc = "toggle git blame on current line", fav = true }
       )
 
       set_keymap(
