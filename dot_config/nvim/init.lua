@@ -231,7 +231,6 @@ if vim.opt.cursorline:get() then
 end
 
 -- nvim-remote for edit-commandline zle
--- <Space>bd will update, wipe buffer, and go back to the caller terminal
 if vim.fn.executable('nvr') == 1 then
   vim.env.EDITOR_CMD = [[nvr -cc "below 5split" --remote-wait-silent +"set bufhidden=wipe | set filetype=nvr-zsh"]]
   vim.api.nvim_create_autocmd(
