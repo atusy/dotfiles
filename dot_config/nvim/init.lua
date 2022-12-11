@@ -333,7 +333,6 @@ require 'jetpack.packer'.startup(function(use)
     { 'tyru/capture.vim' },
     { 'folke/zen-mode.nvim' },
     { 'thinca/vim-qfreplace' },
-    { 'itchyny/vim-qfedit' },
 
     -- better something
     'wsdjeg/vim-fetch', -- :e with linenumber
@@ -369,10 +368,10 @@ require 'jetpack.packer'.startup(function(use)
     -- terminal
     'akinsho/toggleterm.nvim',
 
-    -- language specific
-    -- go
-    'mattn/vim-goimports',
-    'phelipetls/jsonpath.nvim',
+    -- filetype specific
+    { 'mattn/vim-goimports', ft = 'go' },
+    { 'phelipetls/jsonpath.nvim', ft = 'json' },
+    { 'itchyny/vim-qfedit', ft = 'qf' },
   } })
 end)
 for _, name in ipairs(vim.fn['jetpack#names']()) do
