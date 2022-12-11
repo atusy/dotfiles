@@ -134,10 +134,13 @@ return {
     { 'lewis6991/gitsigns.nvim' },
   },
   setup = function(_)
+    vim.api.nvim_create_autocmd('BufAdd', {
+      group = vim.api.nvim_create_augroup('git-bufadd', {}),
+      once = true,
+      callback = function()
+        setup_gitsigns()
+      end,
+    })
     setup_gin()
-    setup_gitsigns()
-
-    -- fugitive
-    set_keymap('n', '<Plug>(C-G)<C-Space>', [[<Cmd>Git commit<CR>]])
   end
 }
