@@ -638,7 +638,7 @@ set_keymap(
 )
 -- set_keymap('o', 'm', ':<C-U>lua require"tsht".nodes()<CR>', {silent = true})
 -- set_keymap('v', 'm', ':lua require"tsht".nodes()<CR>', {silent = true})
-set_keymap({ 'v', 'o' }, 'm', require 'leap-ast'.leap, { silent = true })
+set_keymap({ 'v', 'o' }, 'm', function() require 'leap-ast'.leap() end, { silent = true })
 set_keymap('n', 'zf', function()
   vim.cmd("normal! v")
   require 'leap-ast'.leap()
