@@ -214,18 +214,6 @@ set_keymap(
   'n', '<Plug>(clipboard-cwd)', '<Cmd>let @+=expand("%:p:h)<CR>', { desc = 'clipboard full dirname path of buf' }
 )
 
---[[ personal utilities ]]
--- Apply MYVIMRC
-vim.api.nvim_create_user_command(
-  'ApplyMYVIMRC',
-  function()
-    vim.cmd('up')
-    vim.cmd('!chezmoi apply')
-    vim.cmd('source $MYVIMRC')
-  end,
-  {}
-)
-
 vim.api.nvim_create_augroup('ToggleCursorline', {})
 if vim.opt.cursorline:get() then
   vim.api.nvim_create_autocmd(
