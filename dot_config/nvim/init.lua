@@ -339,6 +339,7 @@ require 'jetpack.packer'.startup(function(use)
     'jghauser/mkdir.nvim', -- :w with mkdir
     'haya14busa/vim-asterisk', -- *
     { 'lambdalisue/readablefold.vim', event = 'BufEnter' },
+    -- anuvyklack/pretty-fold.nvim
 
     -- statusline
     'nvim-lualine/lualine.nvim',
