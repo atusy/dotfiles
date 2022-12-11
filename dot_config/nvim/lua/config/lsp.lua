@@ -155,19 +155,6 @@ local function setup_nvim_lsp()
   end
 end
 
-local function setup_lspsaga()
-  require('lspsaga').init_lsp_saga({
-    code_action_lightbulb = { virtual_text = false, sign = false },
-    finder_action_keys = {
-      open = { 'o', '<CR>' },
-      vsplit = 'v',
-      split = 's',
-      tabe = 't',
-      quit = { 'q', '<ESC>' },
-    },
-  })
-end
-
 return {
   deps = {
     { 'nvim-telescope/telescope.nvim' },
@@ -185,7 +172,6 @@ return {
     -- Mappings. See `:help vim.diagnostic.*` for documentation on any of the below functions
     setup_autocmd()
     setup_global_keymaps()
-    setup_lspsaga()
     setup_nvim_lsp()
     setup_null_ls()
     vim.fn['signature_help#enable']()
