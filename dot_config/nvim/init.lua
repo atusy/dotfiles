@@ -169,9 +169,7 @@ set_keymap(
 set_keymap('n', '<C-S>', '<Plug>(save)<Plug>(C-S)', { fav = false })
 set_keymap('n', '<Plug>(C-S)<C-A>', ':wa<CR>', { fav = false })
 set_keymap(
-  'n',
-  '<Plug>(C-S)c',
-  '<Cmd>!chezmoi apply<CR><Cmd>source $MYVIMRC<CR>',
+  'n', '<Plug>(C-S)<C-V>', '<Cmd>!chezmoi apply<CR><Cmd>source $MYVIMRC<CR>',
   { desc = 'Save %, chezmoi apply, and source $MYVIMRC' }
 )
 set_keymap('n', '<Plug>(C-S)<C-H>', ':e #<CR>', { fav = false })
