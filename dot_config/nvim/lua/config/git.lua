@@ -126,7 +126,7 @@ end
 return {
   deps = {
     { 'lambdalisue/gin.vim' },
-    { 'tpope/vim-fugitive' },
+    -- { 'tpope/vim-fugitive' },
     { 'knsh14/vim-github-link' },
     -- { 'tanvirtin/vgit.nvim' },
     { 'nvim-lua/plenary.nvim' }, -- for vgit
