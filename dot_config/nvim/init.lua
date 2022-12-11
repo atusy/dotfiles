@@ -313,6 +313,7 @@ require 'jetpack.packer'.startup(function(use)
     'delphinus/cellwidths.nvim',
 
     -- utils
+    { 'dstein64/vim-startuptime', cmd = 'StartupTime' },
     'numToStr/Comment.nvim',
     'lambdalisue/nerdfont.vim',
     'lambdalisue/guise.vim',
