@@ -166,15 +166,15 @@ set_keymap(
   function() vim.cmd(vim.fn.filereadable('%') and 'up' or 'write') end,
   { fav = false }
 )
-set_keymap('n', '<C-S>', '<Plug>(save)<Plug>(C-S)', { fav = false })
-set_keymap('n', '<Plug>(C-S)<C-A>', ':wa<CR>', { fav = false })
-set_keymap(
+set_keymap('n', '<C-S>', '<Plug>(save)<Plug>(C-S)', { fav = false }) -- Save
+set_keymap('n', '<Plug>(C-S)<C-A>', ':wa<CR>', { fav = false }) -- Save All
+set_keymap(-- Save and apply myVimrc
   'n', '<Plug>(C-S)<C-V>', '<Cmd>!chezmoi apply<CR><Cmd>source $MYVIMRC<CR>',
   { desc = 'Save %, chezmoi apply, and source $MYVIMRC' }
 )
-set_keymap('n', '<Plug>(C-S)<C-H>', ':e #<CR>', { fav = false })
-set_keymap('n', '<Plug>(C-S)<C-Q>', ':q<CR>', { fav = false })
-set_keymap('n', '<Plug>(C-S)<C-S>', ':source<CR>', { fav = false })
+set_keymap('n', '<Plug>(C-S)<C-E>', ':e #<CR>', { fav = false }) -- Save and Edit alt
+set_keymap('n', '<Plug>(C-S)<C-Q>', ':q<CR>', { fav = false }) -- Save and Quit
+set_keymap('n', '<Plug>(C-S)<C-S>', ':source<CR>', { fav = false }) -- Save and Source
 
 local function move_float_win(row, col)
   local conf = vim.api.nvim_win_get_config(0)
