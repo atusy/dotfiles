@@ -330,9 +330,9 @@ require 'jetpack.packer'.startup(function(use)
     -- windows and buffers
     'moll/vim-bbye',
     'm00qek/baleia.nvim',
-    { 'tyru/capture.vim' },
-    { 'folke/zen-mode.nvim' },
-    { 'thinca/vim-qfreplace' },
+    { 'tyru/capture.vim', cmd = 'Capture' },
+    { 'folke/zen-mode.nvim', cmd = 'ZenMode' },
+    { 'thinca/vim-qfreplace', cmd = 'Qfreplace' },
 
     -- better something
     'wsdjeg/vim-fetch', -- :e with linenumber
