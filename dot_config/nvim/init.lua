@@ -329,6 +329,7 @@ require 'jetpack.packer'.startup(function(use)
 
     -- windows and buffers
     -- 'moll/vim-bbye',
+    -- { 'stevearc/stickybuf.nvim' },
     'm00qek/baleia.nvim',
     { 'tyru/capture.vim', cmd = 'Capture' },
     { 'folke/zen-mode.nvim', cmd = 'ZenMode' },
