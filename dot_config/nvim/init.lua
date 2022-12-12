@@ -122,6 +122,9 @@ vim.filetype.add({
   }
 })
 
+--[[ commands ]]
+vim.api.nvim_create_user_command('W', 'write !sudo tee % >/dev/null', {})
+
 --[[ mappings ]]
 vim.g.mapleader = ' '
 set_keymap('v', 'q', '<Nop>')
