@@ -134,7 +134,7 @@ return {
     { 'lewis6991/gitsigns.nvim' },
   },
   setup = function(_)
-    vim.api.nvim_create_autocmd('BufAdd', {
+    vim.api.nvim_create_autocmd({ 'BufReadPre', 'BufAdd' }, {
       group = vim.api.nvim_create_augroup('git-bufadd', {}),
       once = true,
       callback = function()
