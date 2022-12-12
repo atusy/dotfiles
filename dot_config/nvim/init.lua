@@ -37,6 +37,8 @@ https://github.com/delphinus/ddc-treesitter
 https://github.com/Afourcat/treesitter-terraform-doc.nvim
 https://github.com/nullchilly/fsread.nvim
 https://github.com/joechrisellis/lsp-format-modifications.nvim
+
+https://github.com/monaqa/tree-sitter-unifieddiff
 --]]
 
 --[[ tricks ]]
