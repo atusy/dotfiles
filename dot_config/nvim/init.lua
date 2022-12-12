@@ -144,7 +144,7 @@ set_keymap(
     desc = 'Start/stop recording macro, but disable a-z except q'
   }
 )
-set_keymap('n', 's', '<Nop>') -- be prefix for sandwich
+set_keymap({ 'n', 'v' }, 's', '<Nop>') -- be prefix for sandwich and fuzzy finders
 set_keymap('n', '<C-G>', '<C-G><Plug>(C-G)', { noremap = true, nowait = true })
 set_keymap('n', '<Plug>(C-G)<C-G>', '<Cmd>let @+ = fnamemodify(expand("%"), ":~:.")<CR>')
 set_keymap('n', '<Plug>(C-G)g', '<Cmd>let @+ = expand("%:p")<CR>')
