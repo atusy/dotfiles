@@ -363,7 +363,6 @@ require 'jetpack.packer'.startup(function(use)
     { 'nvim-treesitter/nvim-treesitter', run = ":TSUpdate", frozen = true },
     'nvim-treesitter/playground',
     'nvim-treesitter/nvim-treesitter-refactor',
-    'yioneko/nvim-yati',
     'haringsrob/nvim_context_vt',
     'romgrk/nvim-treesitter-context',
     'mfussenegger/nvim-treehopper',
@@ -532,7 +531,7 @@ require 'lualine'.setup {
     lualine_z = {},
   },
   tabline = {
-    lualine_a = { 'mode' },
+    lualine_a = {},
     lualine_b = {
       function()
         if vim.opt_local.filetype:get() == "json" then
@@ -550,8 +549,8 @@ require 'lualine'.setup {
     },
     lualine_c = {},
     lualine_x = {},
-    lualine_y = { 'branch', 'diff' },
-    lualine_z = { 'tabs' },
+    lualine_y = {},
+    lualine_z = {},
   },
   extensions = { 'fern', 'toggleterm' }
 }
@@ -615,7 +614,6 @@ require 'nvim-treesitter.configs'.setup {
     additional_vim_regex_highlighting = false,
   },
   indent = { enable = true },
-  yati = { enable = false },
 }
 require('Comment').setup {
   toggler = { line = 'gcc', block = 'gcb' },
