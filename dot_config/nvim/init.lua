@@ -369,7 +369,7 @@ require 'jetpack.packer'.startup(function(use)
     'wsdjeg/vim-fetch', -- :e with linenumber
     'jghauser/mkdir.nvim', -- :w with mkdir
     'haya14busa/vim-asterisk', -- *
-    { 'lambdalisue/readablefold.vim', event = 'BufEnter' },
+    'lambdalisue/readablefold.vim',
     -- anuvyklack/pretty-fold.nvim
 
     -- statusline
