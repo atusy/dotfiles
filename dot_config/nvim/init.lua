@@ -645,12 +645,8 @@ require('Comment').setup {
 local ft_to_parser = require 'nvim-treesitter.parsers'.filetype_to_parsername
 ft_to_parser.zsh = 'bash'
 ft_to_parser.tf = 'hcl'
-require 'nvim_context_vt'.setup {
-  enabled = true,
-  disable_virtual_lines = true,
-}
 require 'treesitter-context'.setup({
-  enable = false,
+  enable = true,
   patterns = {
     css = { 'media_statement', 'rule_set', },
     scss = { 'media_statement', 'rule_set', },
