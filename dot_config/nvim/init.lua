@@ -39,6 +39,10 @@ https://github.com/nullchilly/fsread.nvim
 https://github.com/joechrisellis/lsp-format-modifications.nvim
 
 https://github.com/monaqa/tree-sitter-unifieddiff
+https://github.com/thinca/modesearch.vim
+https://github.com/thinca/vim-partedit
+https://github.com/uga-rosa/ccc.nvim
+https://github.com/matsui54/ddc-buffer
 --]]
 
 --[[ tricks ]]
