@@ -87,9 +87,6 @@ end
 local on_attach = function(client, bufnr)
   _setup_lspsaga = _setup_lspsaga(false) or function(_) end
   local CAPABILITIES = client.server_capabilities
-  if CAPABILITIES.documentSymbolProvider then
-    require('nvim-navic').attach(client, bufnr)
-  end
 
   -- Enable completion triggered by <c-x><c-o>
   vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
@@ -165,7 +162,6 @@ return {
     { 'ii14/emmylua-nvim' },
     { 'jose-elias-alvarez/null-ls.nvim' },
     { 'matsui54/denops-signature_help' },
-    { 'SmiteshP/nvim-navic' },
   },
   setup = function(_)
     -- Mappings. See `:help vim.diagnostic.*` for documentation on any of the below functions
