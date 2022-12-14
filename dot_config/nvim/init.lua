@@ -163,6 +163,27 @@ set_keymap('c', '<C-A>', '<Home>')
 set_keymap('t', '<C-W>', [[<C-\><C-N><C-W>]])
 set_keymap({ 'n', 'v', 'i', 't', 'c' }, [[<C-\><C-\>]], [[<C-\><C-N>]])
 
+local function jump(forward)
+  local buf_cur = vim.api.nvim_get_current_buf()
+  local jumplist = vim.fn.getjumplist()
+  local jumps = jumplist[1]
+  local idx_cur = jumplist[2] + 1
+  local function is_target(buf) return buf ~= buf_cur and vim.api.nvim_buf_is_loaded(buf) end
+
+  if forward then
+    for i = 1, #jumps - idx_cur do
+      if is_target(jumps[idx_cur + i].bufnr) then return i .. '<C-I>' end
+    end
+  else
+    for i = 1, idx_cur - 1 do
+      if is_target(jumps[idx_cur - i].bufnr) then return i .. '<C-O>' end
+    end
+  end
+end
+
+set_keymap('n', 'g<C-O>', function() return jump(false) end, { fav = false, expr = true })
+set_keymap('n', 'g<C-I>', function() return jump(true) end, { fav = false, expr = true })
+
 set_keymap(
   'n',
   '<Plug>(save)',
@@ -175,6 +196,7 @@ set_keymap(-- Save and apply myVimrc
   'n', '<Plug>(C-S)<C-V>', '<Cmd>!chezmoi apply<CR><Cmd>source $MYVIMRC<CR>',
   { desc = 'Save %, chezmoi apply, and source $MYVIMRC' }
 )
+set_keymap('n', '<Plug>(C-S)<C-O>', jump, { fav = false, expr = true }) -- Save and jump to previous buf
 set_keymap('n', '<Plug>(C-S)<C-E>', ':e #<CR>', { fav = false }) -- Save and Edit alt
 set_keymap('n', '<Plug>(C-S)<C-Q>', ':q<CR>', { fav = false }) -- Save and Quit
 set_keymap('n', '<Plug>(C-S)<C-S>', ':source<CR>', { fav = false }) -- Save and Source
