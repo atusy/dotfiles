@@ -388,7 +388,7 @@ require 'jetpack.packer'.startup(function(use)
     { 'nvim-treesitter/nvim-treesitter', run = ":TSUpdate", frozen = true },
     'nvim-treesitter/playground',
     'nvim-treesitter/nvim-treesitter-refactor',
-    'haringsrob/nvim_context_vt',
+    -- 'haringsrob/nvim_context_vt',
     'romgrk/nvim-treesitter-context',
     'mfussenegger/nvim-treehopper',
     'JoosepAlviste/nvim-ts-context-commentstring',
