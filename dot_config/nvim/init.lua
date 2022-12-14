@@ -357,7 +357,8 @@ require 'jetpack.packer'.startup(function(use)
     -- "stevearc/stickybuf.nvim",
 
     -- windows and buffers
-    -- 'moll/vim-bbye',
+    { 'moll/vim-bbye', cmd = { 'Bdelete', 'Bwipeout' } },
+    -- 'mhinz/vim-sayonara',
     -- { 'stevearc/stickybuf.nvim' },
     'm00qek/baleia.nvim',
     { 'tyru/capture.vim', cmd = 'Capture' },
