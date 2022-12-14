@@ -82,11 +82,10 @@ local function _setup_lspsaga(enable)
       quit = { 'q', '<ESC>' },
     },
   })
-  return function(_) end
 end
 
 local on_attach = function(client, bufnr)
-  _setup_lspsaga = _setup_lspsaga(false)
+  _setup_lspsaga = _setup_lspsaga(false) or function(_) end
   local CAPABILITIES = client.server_capabilities
   if CAPABILITIES.documentSymbolProvider then
     require('nvim-navic').attach(client, bufnr)

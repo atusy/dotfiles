@@ -471,14 +471,11 @@ set_keymap(
 
 --[[ motion settings ]]
 -- hop
-local function _setup_hop()
-  require 'hop'.setup()
-  return function() end
-end
+local function _setup_hop() require('hop').setup() end
 
 local function hopper(direction, offset)
   return function()
-    _setup_hop = _setup_hop()
+    _setup_hop = _setup_hop() or function() end
     require('hop').hint_char1({
       direction = require 'hop.hint'.HintDirection[direction],
       current_line_only = true,
