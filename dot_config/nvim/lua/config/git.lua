@@ -117,8 +117,13 @@ local function setup_gin()
     { desc = ":git rebase -i" }
   )
   set_keymap(
-    'n', '<Plug>(git-push-origin)', ':Gin push origin HEAD ',
+    'n', '<Plug>(git-push)', ':Gin push origin HEAD ',
     { desc = ":git push origin HEAD" }
+  )
+  set_keymap(
+    'n', '<Plug>(git-push-force)',
+    ':Gin push --force-with-lease --force-if-includes origin HEAD ',
+    { desc = ":git push origin HEAD --force" }
   )
 end
 
