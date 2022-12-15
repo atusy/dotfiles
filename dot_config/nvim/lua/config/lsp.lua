@@ -140,9 +140,6 @@ local function setup_nvim_lsp()
           workspace = {
             library = vim.api.nvim_get_runtime_file('', true),
           },
-          diagnostics = {
-            globals = { 'vim' },
-          },
         } or {
           diagnostics = {
             globals = { 'vim' },
