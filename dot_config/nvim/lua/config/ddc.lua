@@ -1,4 +1,3 @@
-local vim = vim
 local fn = vim.fn
 local utils = require('utils')
 local set_keymap = utils.set_keymap

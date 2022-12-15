@@ -46,10 +46,6 @@ https://github.com/matsui54/ddc-buffer
 https://github.com/David-Kunz/markid
 --]]
 
---[[ tricks ]]
--- TODO: set up diagnostics based on https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md#sumneko_lua
-local vim = vim -- minimize LSP warning
-
 -- [[ helpers ]]
 local utils = require('utils').require('utils') -- force reloading self
 local set_keymap = utils.set_keymap

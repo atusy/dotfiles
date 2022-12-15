@@ -1,5 +1,3 @@
-local vim = vim
-
 local utils = require('utils')
 local set_keymap = utils.set_keymap
 local attach_lsp = utils.attach_lsp
@@ -142,7 +140,14 @@ local function setup_nvim_lsp()
           workspace = {
             library = vim.api.nvim_get_runtime_file('', true),
           },
-        } or {},
+          diagnostics = {
+            globals = { 'vim' },
+          },
+        } or {
+          diagnostics = {
+            globals = { 'vim' },
+          },
+        },
       },
     }, -- pacman -S lua-language-server
     gopls = {},

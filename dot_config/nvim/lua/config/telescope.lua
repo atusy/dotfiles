@@ -1,4 +1,3 @@
-local vim = vim
 local utils = require('utils')
 local set_keymap = utils.set_keymap
 local star = utils.star

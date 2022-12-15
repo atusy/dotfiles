@@ -1,4 +1,3 @@
-local vim = vim
 local api = vim.api
 local list_wins = api.nvim_tabpage_list_wins
 

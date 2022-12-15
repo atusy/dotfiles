@@ -1,5 +1,3 @@
-local vim = vim
-
 local gintonic = {
   opt = {},
   tonic = {},
