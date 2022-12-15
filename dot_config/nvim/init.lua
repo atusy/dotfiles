@@ -176,7 +176,10 @@ set_keymap(
 set_keymap('n', '<C-S>', '<Plug>(save)<Plug>(C-S)', { fav = false }) -- Save
 set_keymap('n', '<Plug>(C-S)<C-A>', ':wa<CR>', { fav = false }) -- Save All
 set_keymap(-- Save and apply myVimrc
-  'n', '<Plug>(C-S)<C-V>', '<Cmd>!chezmoi apply<CR><Cmd>source $MYVIMRC<CR>',
+  'n', '<Plug>(C-S)<C-V>', function()
+    vim.cmd('!chezmoi apply')
+    vim.cmd('source $MYVIMRC')
+  end,
   { desc = 'Save %, chezmoi apply, and source $MYVIMRC' }
 )
 set_keymap('n', '<Plug>(C-S)<C-O>', jump, { fav = false, expr = true }) -- Save and jump to previous buf
