@@ -128,7 +128,7 @@ set_keymap(
   }
 )
 set_keymap({ 'n', 'v' }, 's', '<Nop>') -- be prefix for sandwich and fuzzy finders
-set_keymap('n', '<C-G>', '<C-G><Plug>(C-G)', { noremap = true, nowait = true })
+set_keymap('n', '<C-G>', '<C-G><Plug>(C-G)', { noremap = true })
 set_keymap('n', '<Plug>(C-G)<C-G>', '<Cmd>let @+ = fnamemodify(expand("%"), ":~:.")<CR>')
 set_keymap('n', '<Plug>(C-G)g', '<Cmd>let @+ = expand("%:p")<CR>')
 set_keymap('n', '<ESC><ESC>', '<Cmd>nohlsearch<CR>')
