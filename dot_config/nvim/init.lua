@@ -108,24 +108,6 @@ if vim.fn.executable('rg') == 1 then
   vim.opt.grepformat = vim.opt.grepformat ^ { '%f:%l:%c:%m' }
 end
 
---[[ filetypes ]]
-vim.g.do_filetype_lua = 1
--- vim.g.did_load_filetypes = 0
-vim.filetype.add({
-  filename = {
-    ['.profile'] = 'sh',
-  },
-  pattern = {
-    ['dot_.*'] = function(path, bufnr)
-      return vim.filetype.match({
-        filename = vim.fs.basename(path):gsub('^dot_', '.'),
-        buf = bufnr,
-      })
-    end,
-    ['Dockerfile[._].*'] = { 'Dockerfile', { priority = -math.huge } }
-  }
-})
-
 --[[ commands ]]
 vim.api.nvim_create_user_command('W', 'write !sudo tee % >/dev/null', {})
 
