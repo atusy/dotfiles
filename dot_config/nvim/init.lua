@@ -505,12 +505,13 @@ set_keymap('', 'T', hopper('BEFORE_CURSOR', 1), { desc = 'Hop before' })
 
 -- leap
 -- LeapBackdrop highlight is defined at colorscheme.lua
-local _leap = require('leap')
-_leap.setup({ safe_labels = {}, })
+local function _setup_leap() require('leap').setup({ safe_labels = {} }) end
+
 set_keymap(
   { 'n', 'v' }, ';',
   function()
-    _leap.leap({ target_windows = { vim.api.nvim_get_current_win() } })
+    _setup_leap = _setup_leap() or function() end
+    require('leap').leap({ target_windows = { vim.api.nvim_get_current_win() } })
   end
 )
 
