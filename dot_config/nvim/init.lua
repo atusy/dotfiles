@@ -176,9 +176,14 @@ set_keymap(
 set_keymap('n', '<C-S>', '<Plug>(save)<Plug>(C-S)', { fav = false }) -- Save
 set_keymap('n', '<Plug>(C-S)<C-A>', ':wa<CR>', { fav = false }) -- Save All
 set_keymap(-- Save and apply myVimrc
-  'n', '<Plug>(C-S)<C-V>', function()
-    vim.cmd('!chezmoi apply')
-    vim.cmd('source $MYVIMRC')
+  'n', '<Plug>(C-S)<C-V>',
+  function()
+    local out = vim.fn.system('chezmoi apply')
+    if vim.v.shell_error == 0 then
+      vim.cmd('source $MYVIMRC')
+    else
+      vim.notify(out, vim.log.levels.ERROR)
+    end
   end,
   { desc = 'Save %, chezmoi apply, and source $MYVIMRC' }
 )
