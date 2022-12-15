@@ -13,3 +13,5 @@
  (#vim-match? @lang "^r,$")
  (#set! language "r")
 )
+((html_block) @injection
+  (#set! "lang" "html"))
