@@ -136,13 +136,16 @@ local function setup_nvim_lsp()
     terraformls = { filetypes = { "terraform", "tf" } },
     sumneko_lua = {
       settings = {
-        Lua = vim.env.LUA_RUNTIME and {
-          workspace = {
-            library = vim.api.nvim_get_runtime_file('', true),
-          },
-        } or {
+        Lua = {
+          runtime = { version = 'LuaJIT', path = vim.split(package.path, ';') },
           diagnostics = {
             globals = { 'vim' },
+          },
+          workspace = {
+            library = vim.env.NVIM_LUA_LIBRARY == 1 and vim.api.nvim_get_runtime_file('', true),
+          },
+          telemetry = {
+            enable = false
           },
         },
       },
