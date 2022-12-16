@@ -258,9 +258,9 @@ if vim.fn.executable('nvr') == 1 then
       callback = function(args)
         vim.schedule(function()
           local parent = vim.fn.win_getid(vim.fn.winnr('#'))
-          local local_group = vim.api.nvim_create_augroup(args.file, {})
+          -- local local_group = vim.api.nvim_create_augroup(args.file, {})
           vim.api.nvim_create_autocmd('WinClosed', {
-            group = local_group,
+            -- group = local_group,
             buffer = args.buf,
             once = true,
             callback = function()
