@@ -287,6 +287,7 @@ local configurations = (function()
     require('config.lsp'),
     require('config.telescope'),
     require('config.ddc'),
+    -- require('config.scorpeon'),
   }
 end)()
 vim.g.jetpack_copy_method = 'hardlink'
