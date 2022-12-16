@@ -181,7 +181,7 @@ set_keymap(-- Save and apply myVimrc
   function()
     local out = vim.fn.system('chezmoi apply')
     if vim.v.shell_error == 0 then
-      vim.cmd('source $MYVIMRC')
+      utils.require('atusy')
     else
       vim.notify(out, vim.log.levels.ERROR)
     end
