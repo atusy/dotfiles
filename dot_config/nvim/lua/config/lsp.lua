@@ -2,6 +2,14 @@ local utils = require('utils')
 local set_keymap = utils.set_keymap
 local attach_lsp = utils.attach_lsp
 
+---@param bufnr integer
+local function has_lsp_client(bufnr)
+  for _, _ in pairs(vim.lsp.get_active_clients({ bufnr = bufnr })) do
+    return true
+  end
+  return false
+end
+
 local setup_autocmd = function()
   vim.api.nvim_create_autocmd("FileType", {
     pattern = '*',
@@ -39,7 +47,7 @@ local function setup_global_keymaps()
     { silent = true, desc = 'add buffer diagnositcs to the location list' })
   set_keymap('n', 'K', function()
     -- lspconfig won't map this on_attach, so it should be mapped globally
-    if utils.has_lsp_client(0) then
+    if has_lsp_client(vim.api.nvim_get_current_buf()) then
       vim.lsp.buf.hover()
     else
       return 'K'
