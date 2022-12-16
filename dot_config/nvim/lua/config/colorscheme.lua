@@ -186,7 +186,10 @@ end
 local function set_autocmd()
   local GROUP = api.nvim_create_augroup('theme-custom', {})
   api.nvim_create_autocmd(
-    { 'BufEnter', 'WinEnter' },
+  -- vim.schedule make WinEnter and WinLeave be equivalent
+  -- here, WinLeave is preferred because :q on cmdbuf.nvim
+  -- does not trigger WinEnter
+    { 'BufEnter', 'WinLeave' },
     {
       group = GROUP,
       callback = function(_)
