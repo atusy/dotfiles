@@ -290,7 +290,8 @@ local configurations = (function()
   }
 end)()
 vim.g.jetpack_copy_method = 'hardlink'
-local jetpackfile = vim.fn.stdpath('data') .. '/site/pack/jetpack/opt/vim-jetpack/plugin/jetpack.vim'
+local datapath = vim.fn.stdpath('data')
+local jetpackfile = datapath .. '/site/pack/jetpack/opt/vim-jetpack/plugin/jetpack.vim'
 if vim.fn.filereadable(jetpackfile) == 0 then
   vim.fn.system(string.format(
     'curl -fsSLo %s --create-dirs %s',
@@ -319,6 +320,7 @@ require 'jetpack.packer'.startup(function(use)
   end
   use_deps({ deps = {
     { 'tani/vim-jetpack', opt = 1 }, -- bootstrap
+    { 'lewis6991/impatient.nvim', merged = false, path = datapath .. '/impatient', opt = 1 },
 
     -- basic dependencies
     'tpope/vim-repeat',
