@@ -36,13 +36,6 @@ function M.set_keymap(mode, lhs, rhs, opt1, opt2)
   set_keymap(mode, lhs, rhs, opt)
 end
 
-function M.has_lsp_client(bufnr)
-  for _, _ in pairs(vim.lsp.get_active_clients({ bufnr = bufnr or 0 })) do
-    return true
-  end
-  return false
-end
-
 function M.attach_lsp(filetype)
   filetype = filetype or vim.api.nvim_buf_get_option(0, "filetype")
   local clients = {}
@@ -71,6 +64,15 @@ function M.setup(force)
   end
   vim.api.nvim_create_augroup(M.augroup, {})
   ready = true
+end
+
+---@param args {deps: table, setup: function}
+function M.plug(args)
+  args = args or {}
+  return {
+    deps = args.deps or {},
+    setup = args.setup or function() end,
+  }
 end
 
 return M
