@@ -1,5 +1,7 @@
 local M = {}
 
+M.augroup = 'atusy-init-lua'
+
 function M.require(name)
   pcall(function() require('plenary.reload').reload_module(name) end)
   return require(name)
@@ -55,6 +57,20 @@ function M.attach_lsp(filetype)
     end
   end
   return clients
+end
+
+local ready = false
+function M.setup(force)
+  if ready and not force then
+    -- avoid accidental reset of augroup
+    vim.notify(
+      'utils.setup has been done before. Force re-run with utils.setup(true).',
+      vim.log.levels.ERROR
+    )
+    return
+  end
+  vim.api.nvim_create_augroup(M.augroup, {})
+  ready = true
 end
 
 return M

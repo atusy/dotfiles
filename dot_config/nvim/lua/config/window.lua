@@ -1,8 +1,8 @@
 local api = vim.api
 local list_wins = api.nvim_tabpage_list_wins
 
-local safely = require('utils').safely
-local set_keymap = require('utils').set_keymap
+local utils = require('utils')
+local safely, set_keymap = utils.safely, utils.set_keymap
 
 local function is_win_focusable(win)
   local config = api.nvim_win_get_config(win)
@@ -106,9 +106,8 @@ local setup_chowcho = function()
 end
 
 local function setup()
-  local group = vim.api.nvim_create_augroup('config.window', {})
   vim.api.nvim_create_autocmd('WinNew', {
-    group = group,
+    group = utils.augroup,
     once = true,
     callback = setup_chowcho
   })

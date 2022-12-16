@@ -1,6 +1,7 @@
 -- const
 local api = vim.api
 local fn = vim.fn
+local utils = require('utils')
 local DEFAULT_COLORSCHEME = 'duskfox'
 local ACTIVE_COLORSCHEME = 'duskfox' -- for the active buffer the first tabpage
 local INACTIVE_COLORSCHEME = 'nordfox'
@@ -184,14 +185,13 @@ local function theme_inactive_win(win)
 end
 
 local function set_autocmd()
-  local GROUP = api.nvim_create_augroup('theme-custom', {})
   api.nvim_create_autocmd(
   -- vim.schedule make WinEnter and WinLeave be equivalent
   -- here, WinLeave is preferred because :q on cmdbuf.nvim
   -- does not trigger WinEnter
     { 'BufEnter', 'WinLeave' },
     {
-      group = GROUP,
+      group = utils.augroup,
       callback = function(_)
         local win_event = api.nvim_get_current_win()
         vim.schedule(function()

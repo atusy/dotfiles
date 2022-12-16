@@ -3,10 +3,9 @@ local set_keymap = utils.set_keymap
 local attach_lsp = utils.attach_lsp
 
 local setup_autocmd = function()
-  local group = vim.api.nvim_create_augroup("atusy-lsp", {})
   vim.api.nvim_create_autocmd("FileType", {
     pattern = '*',
-    group = group,
+    group = utils.augroup,
     callback = function()
       -- modify filetype if needed
       local filetype_table = {
@@ -25,7 +24,7 @@ local setup_autocmd = function()
   })
   vim.api.nvim_create_autocmd({ "BufWritePre" }, {
     pattern = { '*.tf', '*.tfvars', '*.lua' },
-    group = group,
+    group = utils.augroup,
     callback = function()
       pcall(vim.lsp.buf.format)
     end,

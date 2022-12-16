@@ -56,15 +56,14 @@ local maps = {
 local function commandline_pre()
   -- register autocmd first so that they are registered regradless of
   -- the later errors
-  local augroup = vim.api.nvim_create_augroup("ddc-commandline-post", {})
   vim.api.nvim_create_autocmd("User", {
     pattern = "DDCCmdlineLeave",
-    group = augroup,
+    group = utils.augroup,
     once = true,
     callback = function() pcall(commandline_post, maps) end,
   })
   vim.api.nvim_create_autocmd("InsertEnter", {
-    group = augroup,
+    group = utils.augroup,
     once = true,
     buffer = 0,
     callback = function() pcall(commandline_post, maps) end,

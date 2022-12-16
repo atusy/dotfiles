@@ -176,7 +176,7 @@ local function setup(_)
   end
 
   vim.api.nvim_create_autocmd('FileType', {
-    group = vim.api.nvim_create_augroup('prefix-emoji', {}),
+    group = utils.augroup,
     pattern = 'gitcommit',
     callback = function(args)
       set_keymap('n', leader .. 'e', prefix_emoji, { buffer = args.buf })

@@ -67,11 +67,10 @@ local function setup_gin()
       GinBuffer = { processor = has_delta and "delta" or nil }
     }
   })
-  local augroup_gin = api.nvim_create_augroup("gin-custom", {})
   api.nvim_create_autocmd(
     "FileType",
     {
-      group = augroup_gin,
+      group = utils.augroup,
       pattern = "gin-patch",
       callback = function()
         set_keymap("n", "<Plug>(C-G)<C-A>", "<Plug>(gin-diffget-r)", { bufnr = 0 }) -- git add
@@ -82,7 +81,7 @@ local function setup_gin()
   api.nvim_create_autocmd(
     "FileType",
     {
-      group = augroup_gin,
+      group = utils.augroup,
       pattern = "gintonic-graph",
       callback = function() vim.opt_local.cursorline = true end
     }
@@ -139,7 +138,7 @@ return {
   },
   setup = function(_)
     vim.api.nvim_create_autocmd({ 'BufReadPre', 'BufAdd' }, {
-      group = vim.api.nvim_create_augroup('git-bufadd', {}),
+      group = utils.augroup,
       once = true,
       callback = function()
         setup_gitsigns()

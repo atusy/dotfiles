@@ -48,6 +48,7 @@ https://github.com/David-Kunz/markid
 
 -- [[ helpers ]]
 local utils = require('utils').require('utils') -- force reloading self
+utils.setup()
 local set_keymap = utils.set_keymap
 
 --[[ options ]]
@@ -228,20 +229,19 @@ set_keymap(
   'n', '<Plug>(clipboard-cwd)', '<Cmd>let @+=expand("%:p:h)<CR>', { desc = 'clipboard full dirname path of buf' }
 )
 
-vim.api.nvim_create_augroup('ToggleCursorline', {})
 if vim.opt.cursorline:get() then
   vim.api.nvim_create_autocmd(
     'InsertEnter',
     {
       callback = function() vim.api.nvim_win_set_option(0, 'cursorline', false) end,
-      group = 'ToggleCursorline'
+      group = utils.augroup
     }
   )
   vim.api.nvim_create_autocmd(
     'InsertLeave',
     {
       callback = function() vim.api.nvim_win_set_option(0, 'cursorline', true) end,
-      group = 'ToggleCursorline'
+      group = utils.augroup
     }
   )
 end
@@ -253,7 +253,7 @@ if vim.fn.executable('nvr') == 1 then
     'FileType',
     {
       desc = 'Go back to the terminal window on WinClosed. Otherwise, the current window to leftest above',
-      group = vim.api.nvim_create_augroup('nvr-zsh', {}),
+      group = utils.augroup,
       pattern = { 'zsh.nvr-zsh' },
       callback = function(args)
         vim.schedule(function()
@@ -386,6 +386,9 @@ require 'jetpack.packer'.startup(function(use)
     -- terminal
     'akinsho/toggleterm.nvim',
 
+    -- cmdwin
+    'notomo/cmdbuf.nvim',
+
     -- filetype specific
     { 'mattn/vim-goimports', ft = 'go' },
     { 'phelipetls/jsonpath.nvim', ft = 'json' },
@@ -446,13 +449,12 @@ set_keymap(
 )
 
 -- quickfix
-vim.api.nvim_create_augroup("quickfix-custom", {})
 vim.api.nvim_create_autocmd(
   'FileType',
   {
     desc = 'Interactively view quickfix lines',
     pattern = 'qf',
-    group = 'quickfix-custom',
+    group = utils.augroup,
     callback = function(_)
       set_keymap('n', 'j', 'j<CR>zz<C-W>p', { buffer = 0 })
       set_keymap('n', 'k', 'k<CR>zz<C-W>p', { buffer = 0 })
@@ -596,7 +598,7 @@ end
 vim.api.nvim_create_autocmd("FileType",
   {
     pattern = "fern",
-    group = vim.api.nvim_create_augroup("fern-custom", {}),
+    group = utils.augroup,
     callback = function() pcall(init_fern) end
   }
 )
@@ -656,9 +658,8 @@ set_keymap('n', 'zf', function()
 end, { silent = true, desc = 'manually fold lines based on treehopper' })
 
 --[[ terminal settings ]]
-vim.api.nvim_create_augroup('termopen', {})
 vim.api.nvim_create_autocmd(
-  'TermOpen', { pattern = '*', group = 'termopen', command = 'startinsert' }
+  'TermOpen', { pattern = '*', group = utils.augroup, command = 'startinsert' }
 )
 
 -- toggleterm:general
@@ -673,8 +674,17 @@ set_keymap('n', '<Leader>j', ':ToggleTermSendCurrentLine<CR>j',
 set_keymap('v', '<Leader>j', ":ToggleTermSendVisualSelection<CR>gv<Esc>",
   { desc = 'send the selection to toggle term while keeping the cursor position' })
 
+--[[ cmdline settings ]]
+vim.keymap.set("n", "q:", function() require("cmdbuf").split_open(vim.o.cmdwinheight) end)
+vim.keymap.set("c", "<C-F>", function()
+  local opt = { line = vim.fn.getcmdline(), column = vim.fn.getcmdpos() }
+  local open = require('cmdbuf').split_open
+  vim.schedule(function() open(vim.o.cmdwinheight, opt) end)
+  return [[<C-\><C-N>]]
+end, { expr = true })
+
 vim.api.nvim_create_autocmd('CmdlineEnter', {
-  group = vim.api.nvim_create_augroup('telescomp-custom', {}),
+  group = utils.augroup,
   once = true,
   callback = function()
     local telescomp = "/home/atusy/ghq/github.com/atusy/telescomp"
