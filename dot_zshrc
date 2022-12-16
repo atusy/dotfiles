@@ -180,6 +180,10 @@ fi
 if command -v bat > /dev/null; then
   alias cat='bat'
 fi
+if command -v gojq > /dev/null; then
+  alias jq='gojq'
+  alias yq='gojq --yaml-input'
+fi
 if command -v wget2 > /dev/null
 then
   alias wget='wget2 -c' # resumable

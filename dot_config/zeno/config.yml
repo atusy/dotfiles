@@ -42,6 +42,11 @@ snippets:
   - name: ripgrep paged
     keyword: rgp
     snippet: 'rg -p {{args}} | nvimpager'
+  - name: yq
+    keyword: yq
+    snippet: 'gojq --yaml-input'
+    context:
+      lbuffer: '.+\|\s*'
   - name: kubectl unset
     keyword: kunset
     snippet: 'command kubectl config unset current-context'
