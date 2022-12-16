@@ -190,9 +190,9 @@ local function set_autocmd()
     {
       group = GROUP,
       callback = function(_)
-        local win_pre = fn.win_getid(fn.winnr('#'))
         local win_event = api.nvim_get_current_win()
         vim.schedule(function()
+          local win_pre = fn.win_getid(fn.winnr('#'))
           local win_cursor = api.nvim_get_current_win()
 
           -- Activate
