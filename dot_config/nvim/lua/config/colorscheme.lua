@@ -186,10 +186,11 @@ end
 
 local function set_autocmd()
   api.nvim_create_autocmd(
-  -- vim.schedule make WinEnter and WinLeave be equivalent
-  -- here, WinLeave is preferred because :q on cmdbuf.nvim
-  -- does not trigger WinEnter
-    { 'BufEnter', 'WinLeave' },
+    {
+      'BufEnter',
+      'WinLeave', -- supports changes without WinEnter (e.g., cmdbuf.nvim)
+      'WinNew', -- supports new windows without focus (e.g., `vim.api.nvim_win_call(0, vim.cmd.vsplit)`
+    },
     {
       group = utils.augroup,
       callback = function(_)
