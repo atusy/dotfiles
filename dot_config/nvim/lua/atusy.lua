@@ -174,7 +174,7 @@ set_keymap(
   function() vim.cmd(vim.fn.filereadable('%') and 'up' or 'write') end,
   { fav = false }
 )
-set_keymap('n', '<C-S>', '<Plug>(save)<Plug>(C-S)', { fav = false }) -- Save
+set_keymap({ 'i', 'n' }, '<C-S>', [[<C-\><C-N><Plug>(save)<Plug>(C-S)]], { fav = false }) -- Save
 set_keymap('n', '<Plug>(C-S)<C-A>', ':wa<CR>', { fav = false }) -- Save All
 set_keymap(-- Save and apply myVimrc
   'n', '<Plug>(C-S)<C-V>',
