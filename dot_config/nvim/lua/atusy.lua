@@ -182,6 +182,18 @@ set_keymap('n', '<Plug>(C-S)<C-O>', jump, { fav = false, expr = true }) -- Save 
 set_keymap('n', '<Plug>(C-S)<C-E>', ':e #<CR>', { fav = false }) -- Save and Edit alt
 set_keymap('n', '<Plug>(C-S)<C-Q>', ':q<CR>', { fav = false }) -- Save and Quit
 set_keymap('n', '<Plug>(C-S)<C-S>', ':source<CR>', { fav = false }) -- Save and Source
+set_keymap('n', '<Plug>(C-S)<C-S>', function()
+  local bufname = vim.api.nvim_buf_get_name(vim.api.nvim_get_current_buf())
+  local bufext = bufname:gsub('.*%.', '')
+  if bufext ~= 'vim' and bufext ~= 'lua' then
+    vim.notify('Cannot source: ' .. bufname, vim.log.levels.ERROR)
+    return
+  end
+  vim.ui.input(
+    { prompt = 'Press enter to source %' },
+    function(input) if input == '' then vim.cmd('source %') end end
+  )
+end, { fav = false }) -- Save and Source
 
 local function move_float_win(row, col)
   local conf = vim.api.nvim_win_get_config(0)
