@@ -207,7 +207,7 @@ local function set_autocmd()
             theme_inactive_win(win_pre)
           end
 
-          -- Deactivate an inactive window that triggered BufEnter
+          -- Deactivate an inactive window that triggered BufWinEnter
           if win_event ~= win_cursor then
             theme_inactive_win(win_event)
           end
