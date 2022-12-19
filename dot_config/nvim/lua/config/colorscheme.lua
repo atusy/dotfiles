@@ -195,7 +195,7 @@ local function theme_inactive_win(win)
   set_theme(win, COLORSCHEME)
 end
 
-local function set_autocmd()
+local function set_styler()
   api.nvim_create_autocmd(
     {
       'BufWinEnter', -- instead of BufEnter
@@ -249,6 +249,6 @@ return {
       groups = { all = { ['@text.literal'] = { link = 'String' } } }
     })
     set_colorscheme(DEFAULT_COLORSCHEME)
-    set_autocmd()
+    set_styler()
   end
 }
