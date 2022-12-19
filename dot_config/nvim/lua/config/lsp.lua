@@ -6,7 +6,7 @@ local setup_autocmd = function()
     pattern = '*',
     group = utils.augroup,
     callback = function(args)
-      require('config.lsp.utils').attach_lsp(args.match)
+      utils.require('config.lsp.utils').attach_lsp(args.match)
     end
   })
   vim.api.nvim_create_autocmd({ "BufWritePre" }, {
@@ -26,7 +26,7 @@ local function setup_global_keymaps()
     { silent = true, desc = 'add buffer diagnositcs to the location list' })
   set_keymap('n', 'K', function()
     -- lspconfig won't map this on_attach, so it should be mapped globally
-    if require('config.lsp.utils').has_lsp_client(vim.api.nvim_get_current_buf()) then
+    if utils.require('config.lsp.utils').has_lsp_client(vim.api.nvim_get_current_buf()) then
       vim.lsp.buf.hover()
     else
       return 'K'
