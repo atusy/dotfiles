@@ -386,7 +386,7 @@ require 'jetpack.packer'.startup(function(use)
 
     -- treesitter
     { 'nvim-treesitter/nvim-treesitter', run = ":TSUpdate", frozen = true },
-    'nvim-treesitter/playground',
+    -- 'nvim-treesitter/playground', -- vim.treesitter.show_tree would be enough
     'nvim-treesitter/nvim-treesitter-refactor',
     -- 'haringsrob/nvim_context_vt',
     'romgrk/nvim-treesitter-context',
@@ -620,6 +620,11 @@ vim.api.nvim_create_autocmd("FileType",
 --[[ treesitter settings ]]
 local parser_install_dir = vim.fn.stdpath('data') .. "/treesitter"
 vim.opt.runtimepath:append(parser_install_dir)
+set_keymap(
+  'n', '<Plug>(treesitter-show-tree)',
+  function() vim.treesitter.show_tree() end,
+  { desc = 'treesitter show tree' }
+)
 require 'nvim-treesitter.configs'.setup {
   parser_install_dir = parser_install_dir,
   ensure_installed = {
