@@ -52,6 +52,8 @@ utils.setup()
 local set_keymap = utils.set_keymap
 
 --[[ options ]]
+-- vim.opt.exrc = true
+
 -- signcolumn
 vim.opt.signcolumn = 'yes'
 vim.opt.relativenumber = false
