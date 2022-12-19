@@ -229,6 +229,7 @@ set_keymap(
   'n', '<Plug>(clipboard-cwd)', '<Cmd>let @+=expand("%:p:h)<CR>', { desc = 'clipboard full dirname path of buf' }
 )
 
+--[[ autocmd ]]
 if vim.opt.cursorline:get() then
   vim.api.nvim_create_autocmd(
     'InsertEnter',
@@ -246,6 +247,13 @@ if vim.opt.cursorline:get() then
   )
 end
 
+vim.api.nvim_create_autocmd('TextYankPost', {
+  callback = function() vim.highlight.on_yank() end,
+  group = utils.augroup,
+  pattern = '*',
+})
+
+--[[ Terminal ]]
 -- nvim-remote for edit-commandline zle
 if vim.fn.executable('nvr') == 1 then
   vim.env.EDITOR_CMD = [[nvr -cc "above 5split" --remote-wait-silent +"setlocal bufhidden=wipe filetype=zsh.nvr-zsh"]]
