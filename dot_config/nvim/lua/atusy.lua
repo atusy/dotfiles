@@ -215,10 +215,10 @@ local function win_move_or_cmd(row, col, cmd)
   end
 end
 
-vim.keymap.set({ '', 't' }, '<C-Up>', function() win_move_or_cmd(-1, 0, '2+') end)
-vim.keymap.set({ '', 't' }, '<C-Down>', function() win_move_or_cmd(1, 0, '2-') end)
-vim.keymap.set({ '', 't' }, '<C-Right>', function() win_move_or_cmd(0, 2, '2>') end)
-vim.keymap.set({ '', 't' }, '<C-Left>', function() win_move_or_cmd(0, -2, '2<') end)
+set_keymap({ '', 't' }, '<C-Up>', function() win_move_or_cmd(-1, 0, '2+') end)
+set_keymap({ '', 't' }, '<C-Down>', function() win_move_or_cmd(1, 0, '2-') end)
+set_keymap({ '', 't' }, '<C-Right>', function() win_move_or_cmd(0, 2, '2>') end)
+set_keymap({ '', 't' }, '<C-Left>', function() win_move_or_cmd(0, -2, '2<') end)
 
 -- <Plug> to be invoked by Telescope keymap
 set_keymap(
