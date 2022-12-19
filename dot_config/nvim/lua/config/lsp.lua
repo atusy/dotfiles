@@ -156,7 +156,6 @@ return {
     { 'matsui54/denops-signature_help' },
   },
   setup = function(_)
-    -- Mappings. See `:help vim.diagnostic.*` for documentation on any of the below functions
     setup_autocmd()
     setup_global_keymaps()
     setup_nvim_lsp()
