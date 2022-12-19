@@ -228,7 +228,7 @@ set_keymap(
   'n', '<Plug>(clipboard-buf)', '<Cmd>let @+=expand("%:p")<CR>', { desc = 'clipboard full file path of buf' }
 )
 set_keymap(
-  'n', '<Plug>(clipboard-cwd)', '<Cmd>let @+=expand("%:p:h)<CR>', { desc = 'clipboard full dirname path of buf' }
+  'n', '<Plug>(clipboard-dir)', '<Cmd>let @+=expand("%:p:h")<CR>', { desc = 'clipboard full dirname path of buf' }
 )
 
 --[[ autocmd ]]
