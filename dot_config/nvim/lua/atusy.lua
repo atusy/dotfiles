@@ -234,18 +234,10 @@ set_keymap(
 --[[ autocmd ]]
 if vim.opt.cursorline:get() then
   vim.api.nvim_create_autocmd(
-    'InsertEnter',
-    {
-      callback = function() vim.api.nvim_win_set_option(0, 'cursorline', false) end,
-      group = utils.augroup
-    }
+    'InsertEnter', { command = 'setl nocursorline', group = utils.augroup }
   )
   vim.api.nvim_create_autocmd(
-    'InsertLeave',
-    {
-      callback = function() vim.api.nvim_win_set_option(0, 'cursorline', true) end,
-      group = utils.augroup
-    }
+    'InsertLeave', { command = 'setl cursorline', group = utils.augroup }
   )
 end
 

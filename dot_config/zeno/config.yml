@@ -50,6 +50,9 @@ snippets:
   - name: kubectl unset
     keyword: kunset
     snippet: 'command kubectl config unset current-context'
+  - name: vim staruptime
+    keyword: vimtime
+    snippet: STARTUPTIME=$(mktemp) && vim --startuptime $STARTUPTIME +"lua vim.schedule(function() vim.cmd.edit('$STARTUPTIME') end)"
 
   # Some aliases that I often forget their real names 
   - name: htop
