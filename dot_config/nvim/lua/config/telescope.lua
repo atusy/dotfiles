@@ -52,7 +52,14 @@ local regex_emoji = '[' ..
 
 local prefix_emoji = function(buf, sources)
   buf = buf or vim.api.nvim_get_current_buf()
-  sources = sources or { '.gitmessage' }
+  if not sources then
+    local bufname = vim.api.nvim_buf_get_name(buf)
+    if vim.endswith(bufname, '.git/COMMIT_EDITMSG') then
+      sources = { vim.fs.dirname(vim.fs.dirname(bufname)) .. '/.gitmessage', '.gitmessage' }
+    else
+      sources = { '.gitmessage' }
+    end
+  end
 
   -- Search for candidates
   local emoji_lines = {}
