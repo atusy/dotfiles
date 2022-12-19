@@ -124,20 +124,31 @@ local function hl_treesitter(enable)
   -- }}}
 end
 
-local function set_colorscheme(nm, force)
-  if not force and nm == api.nvim_exec('colorscheme', true) then
-    return
+local function set_colorscheme(nm)
+  local function colorscheme_post()
+    hl_treesitter(false)
+    require('hlargs').setup()
+    require('colorizer').setup()
+    require('lsp-colors').setup()
+    api.nvim_set_hl(0, "IlluminatedWordText", ILLUMINATION)
+    api.nvim_set_hl(0, "IlluminatedWordRead", ILLUMINATION)
+    api.nvim_set_hl(0, "IlluminatedWordWrite", ILLUMINATION)
+    api.nvim_set_hl(0, "@illuminate", ILLUMINATION)
+    local has_leap, leap = pcall(require, 'leap')
+    if has_leap then
+      api.nvim_set_hl(0, 'LeapBackdrop', { link = 'Comment' })
+      leap.init_highlight(true)
+    end
   end
-  hl_treesitter(false)
+
+  -- apply colorscheme
   vim.cmd('colorscheme ' .. nm)
-  require('hlargs').setup()
-  require('colorizer').setup()
-  require('lsp-colors').setup()
-  api.nvim_set_hl(0, "IlluminatedWordText", ILLUMINATION)
-  api.nvim_set_hl(0, "IlluminatedWordRead", ILLUMINATION)
-  api.nvim_set_hl(0, "IlluminatedWordWrite", ILLUMINATION)
-  api.nvim_set_hl(0, "@illuminate", ILLUMINATION)
-  api.nvim_set_hl(0, 'LeapBackdrop', { link = 'Comment' })
+  colorscheme_post()
+
+  -- add autocmd
+  vim.api.nvim_create_autocmd('ColorScheme', {
+    group = utils.augroup, callback = colorscheme_post, pattern = '*'
+  })
 end
 
 local function likely_cwd(buf)
@@ -237,7 +248,7 @@ return {
     require('nightfox').setup({
       groups = { all = { ['@text.literal'] = { link = 'String' } } }
     })
-    set_colorscheme(DEFAULT_COLORSCHEME, true)
+    set_colorscheme(DEFAULT_COLORSCHEME)
     set_autocmd()
   end
 }
