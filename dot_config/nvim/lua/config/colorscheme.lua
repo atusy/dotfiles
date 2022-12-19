@@ -203,8 +203,6 @@ local function set_autocmd()
           theme_active_win(win_cursor)
 
           -- Deactivate previous window
-          -- Not only WinEnter but also BufEnter may need this because
-          -- sometimes window switches without WinEnter (e.g., `:Fern . --drawer`)
           if win_pre ~= 0 and win_pre ~= win_cursor then
             theme_inactive_win(win_pre)
           end
