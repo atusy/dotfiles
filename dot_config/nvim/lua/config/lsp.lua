@@ -1,6 +1,5 @@
 local utils = require('utils')
 local set_keymap = utils.set_keymap
-local attach_lsp = utils.attach_lsp
 
 local setup_autocmd = function()
   vim.api.nvim_create_autocmd("FileType", {
