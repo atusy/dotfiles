@@ -693,7 +693,11 @@ set_keymap('v', '<Leader>j', ":ToggleTermSendVisualSelection<CR>gv<Esc>",
   { desc = 'send the selection to toggle term while keeping the cursor position' })
 
 --[[ cmdline settings ]]
-vim.keymap.set("n", "q:", function() require("cmdbuf").split_open(vim.o.cmdwinheight) end)
+vim.keymap.set("n", "q:", function()
+  require("cmdbuf").split_open(vim.o.cmdwinheight)
+  local ok, telescope = pcall(require, 'telescope.builtin')
+  if ok then vim.schedule(telescope.current_buffer_fuzzy_find) end
+end)
 vim.keymap.set("c", "<C-F>", function()
   local opt = { line = vim.fn.getcmdline(), column = vim.fn.getcmdpos() }
   local open = require('cmdbuf').split_open
