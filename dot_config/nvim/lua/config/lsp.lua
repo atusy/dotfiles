@@ -6,20 +6,8 @@ local setup_autocmd = function()
   vim.api.nvim_create_autocmd("FileType", {
     pattern = '*',
     group = utils.augroup,
-    callback = function()
-      -- modify filetype if needed
-      local filetype_table = {
-        tf = "terraform"
-      }
-      local filetype = vim.api.nvim_buf_get_option(0, "filetype")
-      if filetype_table[filetype] then
-        filetype = filetype_table[filetype]
-        vim.api.nvim_buf_set_option(0, "filetype", filetype)
-      end
-
-      -- attach lsp if needed
-      -- there are some cases e! detaches clients
-      require('config.lsp.utils').attach_lsp(filetype)
+    callback = function(args)
+      require('config.lsp.utils').attach_lsp(args.match)
     end
   })
   vim.api.nvim_create_autocmd({ "BufWritePre" }, {

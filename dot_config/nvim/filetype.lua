@@ -1,6 +1,7 @@
 vim.filetype.add({
   filename = {
     ['.profile'] = 'sh',
+    ['.tf'] = 'terraform',
   },
   pattern = {
     ['dot_.*'] = function(path, bufnr)
