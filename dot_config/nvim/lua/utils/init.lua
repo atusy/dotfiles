@@ -66,13 +66,4 @@ function M.setup(force)
   ready = true
 end
 
----@param args {deps: table, setup: function}
-function M.plug(args)
-  args = args or {}
-  return {
-    deps = args.deps or {},
-    setup = args.setup or function() end,
-  }
-end
-
 return M
