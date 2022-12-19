@@ -209,16 +209,16 @@ local function move_float_win(row, col)
   return true
 end
 
-local function move_or_resize_win(row, col, size)
+local function win_move_or_cmd(row, col, cmd)
   if not move_float_win(row, col) then
-    vim.cmd("2wincmd " .. size)
+    vim.cmd("wincmd " .. cmd)
   end
 end
 
-vim.keymap.set({ '', 't' }, '<C-Up>', function() move_or_resize_win(-1, 0, '+') end)
-vim.keymap.set({ '', 't' }, '<C-Down>', function() move_or_resize_win(1, 0, '-') end)
-vim.keymap.set({ '', 't' }, '<C-Right>', function() move_or_resize_win(0, 2, '>') end)
-vim.keymap.set({ '', 't' }, '<C-Left>', function() move_or_resize_win(0, -2, '<') end)
+vim.keymap.set({ '', 't' }, '<C-Up>', function() win_move_or_cmd(-1, 0, '2+') end)
+vim.keymap.set({ '', 't' }, '<C-Down>', function() win_move_or_cmd(1, 0, '2-') end)
+vim.keymap.set({ '', 't' }, '<C-Right>', function() win_move_or_cmd(0, 2, '2>') end)
+vim.keymap.set({ '', 't' }, '<C-Left>', function() win_move_or_cmd(0, -2, '2<') end)
 
 -- <Plug> to be invoked by Telescope keymap
 set_keymap(
