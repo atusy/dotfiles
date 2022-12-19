@@ -67,7 +67,7 @@ local prefix_emoji = function(buf, sources)
     if #emoji_lines ~= 0 then
       break
     end
-    if vim.fn.filereadable(fname) == 0 then
+    if vim.fn.filereadable(fname) == 1 then
       emoji_lines = search_filelines(fname, regex_emoji)
     end
   end
