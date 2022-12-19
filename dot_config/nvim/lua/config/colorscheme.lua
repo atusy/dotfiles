@@ -189,7 +189,7 @@ local function set_autocmd()
     {
       'BufWinEnter', -- instead of BufEnter
       'WinLeave', -- supports changes without WinEnter (e.g., cmdbuf.nvim)
-      'WinNew', -- supports new windows without focus (e.g., `vim.api.nvim_win_call(0, vim.cmd.vsplit)`
+      'WinNew', -- supports new windows without focus (e.g., `vim.api.nvim_win_call(0, vim.cmd.vsplit)`)
     },
     {
       group = utils.augroup,
