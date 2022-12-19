@@ -52,7 +52,7 @@ utils.setup()
 local set_keymap = utils.set_keymap
 
 --[[ options ]]
--- vim.opt.exrc = true
+vim.opt.exrc = true
 
 -- signcolumn
 vim.opt.signcolumn = 'yes'
@@ -178,18 +178,6 @@ set_keymap(
 )
 set_keymap({ 'i', 'n' }, '<C-S>', [[<C-\><C-N><Plug>(save)<Plug>(C-S)]], { fav = false }) -- Save
 set_keymap('n', '<Plug>(C-S)<C-A>', ':wa<CR>', { fav = false }) -- Save All
-set_keymap(-- Save and apply myVimrc
-  'n', '<Plug>(C-S)<C-V>',
-  function()
-    local out = vim.fn.system('chezmoi apply')
-    if vim.v.shell_error == 0 then
-      utils.require('atusy')
-    else
-      vim.notify(out, vim.log.levels.ERROR)
-    end
-  end,
-  { desc = 'Save %, chezmoi apply, and source $MYVIMRC' }
-)
 set_keymap('n', '<Plug>(C-S)<C-O>', jump, { fav = false, expr = true }) -- Save and jump to previous buf
 set_keymap('n', '<Plug>(C-S)<C-E>', ':e #<CR>', { fav = false }) -- Save and Edit alt
 set_keymap('n', '<Plug>(C-S)<C-Q>', ':q<CR>', { fav = false }) -- Save and Quit

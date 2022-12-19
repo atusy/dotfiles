@@ -5,4 +5,4 @@ if ok then
 else
   vim.notify(ok, vim.log.levels.ERROR)
 end
-require('atusy')
+require('utils').require('atusy')
