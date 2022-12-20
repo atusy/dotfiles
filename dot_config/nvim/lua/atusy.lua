@@ -297,7 +297,6 @@ local deps = {
 
   -- basic dependencies
   'tpope/vim-repeat',
-  'kyazdani42/nvim-web-devicons', -- for lualine
   'vim-denops/denops.vim',
   'kana/vim-submode',
   'delphinus/cellwidths.nvim',
@@ -305,11 +304,13 @@ local deps = {
   -- utils
   { 'dstein64/vim-startuptime', cmd = 'StartupTime' },
   'numToStr/Comment.nvim',
-  'lambdalisue/nerdfont.vim',
-  'lambdalisue/guise.vim',
-  'lambdalisue/fern.vim',
-  'lambdalisue/fern-renderer-nerdfont.vim',
-  'segeljakt/vim-silicon', -- pacman -S silicon
+  { 'lambdalisue/guise.vim', event = "VeryLazy" },
+  {
+    'lambdalisue/fern.vim',
+    dependencies = { 'lambdalisue/fern-renderer-nerdfont.vim', 'lambdalisue/nerdfont.vim' },
+    cmd = { 'Fern' },
+  },
+  { 'segeljakt/vim-silicon', cmd = { 'Silicon', 'SiliconHighlight' } }, -- pacman -S silicon
   'tyru/open-browser.vim',
 
   -- ui
@@ -328,21 +329,21 @@ local deps = {
   { 'thinca/vim-qfreplace', cmd = 'Qfreplace' },
 
   -- better something
-  'wsdjeg/vim-fetch', -- :e with linenumber
-  'jghauser/mkdir.nvim', -- :w with mkdir
-  'haya14busa/vim-asterisk', -- *
-  'lambdalisue/readablefold.vim',
+  { 'haya14busa/vim-asterisk', keys = { '*' } }, -- *
+  { 'wsdjeg/vim-fetch', event = { 'CmdlineEnter' } }, -- :e with linenumber
+  { 'lambdalisue/readablefold.vim', event = { 'BufReadPre', 'BufNew' } },
+  { 'jghauser/mkdir.nvim', event = { 'VeryLazy', 'CmdlineEnter' } }, -- :w with mkdir
   -- anuvyklack/pretty-fold.nvim
 
   -- statusline
-  'nvim-lualine/lualine.nvim',
+  { 'nvim-lualine/lualine.nvim', dependencies = { 'kyazdani42/nvim-web-devicons' } },
   -- use 'b0o/incline.nvim' -- TODO
 
   -- motion
   'haya14busa/vim-edgemotion',
   'phaazon/hop.nvim',
   'ggandor/leap.nvim',
-  'ggandor/leap-ast.nvim',
+  { 'ggandor/leap-ast.nvim', dependencies = { 'ggandor/leap.nvim' } },
   -- 'ggandor/flit.nvim',
   -- 'yuki-yano/fuzzy-motion.vim',
 
