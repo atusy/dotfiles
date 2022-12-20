@@ -291,120 +291,103 @@ local configurations = (function()
     -- require('config.scorpeon'),
   }
 end)()
-vim.g.jetpack_copy_method = 'hardlink'
-local datapath = vim.fn.stdpath('data')
-local jetpackfile = datapath .. '/site/pack/jetpack/opt/vim-jetpack/plugin/jetpack.vim'
-if vim.fn.filereadable(jetpackfile) == 0 then
-  vim.fn.system(string.format(
-    'curl -fsSLo %s --create-dirs %s',
-    jetpackfile,
-    "https://raw.githubusercontent.com/tani/vim-jetpack/master/plugin/jetpack.vim"
-  ))
-end
-vim.cmd('packadd vim-jetpack')
-require 'jetpack.packer'.startup(function(use)
-  local used = {}
-  local function use_deps(config)
-    for _, dep in pairs(config.deps) do
-      dep = type(dep) == "table" and dep or { dep }
-      if not used[dep[1]] then
-        used[dep[1]] = true
-        if dep.frozen == nil then
-          dep.frozen = true
-        end
-        use(dep)
-      end
-    end
-  end
+local datapath = vim.fn.stdpath("data")
+local deps = {
+  { 'lewis6991/impatient.nvim', merged = false, path = datapath .. '/impatient', opt = 1 },
 
-  for _, config in ipairs(configurations) do
-    use_deps(config)
-  end
-  use_deps({ deps = {
-    { 'tani/vim-jetpack', opt = 1 }, -- bootstrap
-    { 'lewis6991/impatient.nvim', merged = false, path = datapath .. '/impatient', opt = 1 },
+  -- basic dependencies
+  'tpope/vim-repeat',
+  'kyazdani42/nvim-web-devicons', -- for lualine
+  'vim-denops/denops.vim',
+  'kana/vim-submode',
+  'delphinus/cellwidths.nvim',
 
-    -- basic dependencies
-    'tpope/vim-repeat',
-    'kyazdani42/nvim-web-devicons', -- for lualine
-    'vim-denops/denops.vim',
-    'kana/vim-submode',
-    'delphinus/cellwidths.nvim',
+  -- utils
+  { 'dstein64/vim-startuptime', cmd = 'StartupTime' },
+  'numToStr/Comment.nvim',
+  'lambdalisue/nerdfont.vim',
+  'lambdalisue/guise.vim',
+  'lambdalisue/fern.vim',
+  'lambdalisue/fern-renderer-nerdfont.vim',
+  'segeljakt/vim-silicon', -- pacman -S silicon
+  'tyru/open-browser.vim',
 
-    -- utils
-    { 'dstein64/vim-startuptime', cmd = 'StartupTime' },
-    'numToStr/Comment.nvim',
-    'lambdalisue/nerdfont.vim',
-    'lambdalisue/guise.vim',
-    'lambdalisue/fern.vim',
-    'lambdalisue/fern-renderer-nerdfont.vim',
-    'segeljakt/vim-silicon', -- pacman -S silicon
-    'tyru/open-browser.vim',
+  -- ui
+  -- "MunifTanjim/nui.nvim",
+  -- "rcarriga/nvim-notify",
+  -- "folke/noice.nvim",
+  -- "stevearc/stickybuf.nvim",
 
-    -- ui
-    -- "MunifTanjim/nui.nvim",
-    -- "rcarriga/nvim-notify",
-    -- "folke/noice.nvim",
-    -- "stevearc/stickybuf.nvim",
+  -- windows and buffers
+  { 'moll/vim-bbye', cmd = { 'Bdelete', 'Bwipeout' } },
+  -- 'mhinz/vim-sayonara',
+  -- { 'stevearc/stickybuf.nvim' },
+  'm00qek/baleia.nvim',
+  { 'tyru/capture.vim', cmd = 'Capture' },
+  { 'folke/zen-mode.nvim', cmd = 'ZenMode' },
+  { 'thinca/vim-qfreplace', cmd = 'Qfreplace' },
 
-    -- windows and buffers
-    { 'moll/vim-bbye', cmd = { 'Bdelete', 'Bwipeout' } },
-    -- 'mhinz/vim-sayonara',
-    -- { 'stevearc/stickybuf.nvim' },
-    'm00qek/baleia.nvim',
-    { 'tyru/capture.vim', cmd = 'Capture' },
-    { 'folke/zen-mode.nvim', cmd = 'ZenMode' },
-    { 'thinca/vim-qfreplace', cmd = 'Qfreplace' },
+  -- better something
+  'wsdjeg/vim-fetch', -- :e with linenumber
+  'jghauser/mkdir.nvim', -- :w with mkdir
+  'haya14busa/vim-asterisk', -- *
+  'lambdalisue/readablefold.vim',
+  -- anuvyklack/pretty-fold.nvim
 
-    -- better something
-    'wsdjeg/vim-fetch', -- :e with linenumber
-    'jghauser/mkdir.nvim', -- :w with mkdir
-    'haya14busa/vim-asterisk', -- *
-    'lambdalisue/readablefold.vim',
-    -- anuvyklack/pretty-fold.nvim
+  -- statusline
+  'nvim-lualine/lualine.nvim',
+  -- use 'b0o/incline.nvim' -- TODO
 
-    -- statusline
-    'nvim-lualine/lualine.nvim',
-    -- use 'b0o/incline.nvim' -- TODO
+  -- motion
+  'haya14busa/vim-edgemotion',
+  'phaazon/hop.nvim',
+  'ggandor/leap.nvim',
+  'ggandor/leap-ast.nvim',
+  -- 'ggandor/flit.nvim',
+  -- 'yuki-yano/fuzzy-motion.vim',
 
-    -- motion
-    'haya14busa/vim-edgemotion',
-    'phaazon/hop.nvim',
-    'ggandor/leap.nvim',
-    'ggandor/leap-ast.nvim',
-    -- 'ggandor/flit.nvim',
-    -- 'yuki-yano/fuzzy-motion.vim',
+  -- treesitter
+  { 'nvim-treesitter/nvim-treesitter', build = ":TSUpdate", frozen = true },
+  -- 'nvim-treesitter/playground', -- vim.treesitter.show_tree would be enough
+  'nvim-treesitter/nvim-treesitter-refactor',
+  -- 'haringsrob/nvim_context_vt',
+  'romgrk/nvim-treesitter-context',
+  'mfussenegger/nvim-treehopper',
+  'JoosepAlviste/nvim-ts-context-commentstring',
 
-    -- treesitter
-    { 'nvim-treesitter/nvim-treesitter', run = ":TSUpdate", frozen = true },
-    -- 'nvim-treesitter/playground', -- vim.treesitter.show_tree would be enough
-    'nvim-treesitter/nvim-treesitter-refactor',
-    -- 'haringsrob/nvim_context_vt',
-    'romgrk/nvim-treesitter-context',
-    'mfussenegger/nvim-treehopper',
-    'JoosepAlviste/nvim-ts-context-commentstring',
+  -- text object
+  'machakann/vim-sandwich',
 
-    -- text object
-    'machakann/vim-sandwich',
+  -- terminal
+  'akinsho/toggleterm.nvim',
 
-    -- terminal
-    'akinsho/toggleterm.nvim',
+  -- cmdwin
+  'notomo/cmdbuf.nvim',
 
-    -- cmdwin
-    'notomo/cmdbuf.nvim',
-
-    -- filetype specific
-    { 'mattn/vim-goimports', ft = 'go' },
-    { 'phelipetls/jsonpath.nvim', ft = 'json' },
-    { 'itchyny/vim-qfedit', ft = 'qf' },
-  } })
-end)
-for _, name in ipairs(vim.fn['jetpack#names']()) do
-  if not vim.fn['jetpack#tap'](name) then
-    vim.fn['jetpack#sync']()
-    break
+  -- filetype specific
+  { 'mattn/vim-goimports', ft = 'go' },
+  { 'phelipetls/jsonpath.nvim', ft = 'json' },
+  { 'itchyny/vim-qfedit', ft = 'qf' },
+}
+for _, config in pairs(configurations) do
+  for _, dep in pairs(config.deps) do
+    table.insert(deps, dep)
   end
 end
+
+local lazypath = datapath .. "/lazy/lazy.nvim"
+if not vim.loop.fs_stat(lazypath) then
+  vim.fn.system({
+    "git",
+    "clone",
+    "--filter=blob:none",
+    "--single-branch",
+    "https://github.com/folke/lazy.nvim.git",
+    lazypath,
+  })
+end
+vim.opt.runtimepath:prepend(lazypath)
+require('lazy').setup(deps)
 
 for _, config in ipairs(configurations) do
   config.setup()
