@@ -306,8 +306,6 @@ local configurations = (function()
 end)()
 local datapath = vim.fn.stdpath("data")
 local deps = {
-  { 'lewis6991/impatient.nvim', merged = false, path = datapath .. '/impatient', opt = 1 },
-
   -- basic dependencies
   'tpope/vim-repeat',
   'vim-denops/denops.vim',
