@@ -1,6 +1,7 @@
 --[[ TODO
-
-# quickfix
+https://github.com/sumneko/lua-language-server/wiki/Annotations
+https://qiita.com/delphinus/items/fb905e452b2de72f1a0f
+https://zenn.dev/nnsnico/articles/customize-lsp-handler
 
 ## Plugin
 
@@ -44,6 +45,8 @@ https://github.com/thinca/vim-partedit
 https://github.com/uga-rosa/ccc.nvim
 https://github.com/matsui54/ddc-buffer
 https://github.com/David-Kunz/markid
+https://github.com/stevearc/dressing.nvim
+https://github.com/folke/lazy.nvim
 --]]
 
 -- [[ helpers ]]
