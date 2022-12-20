@@ -232,14 +232,24 @@ set_keymap(
 )
 
 --[[ autocmd ]]
-if vim.opt.cursorline:get() then
-  vim.api.nvim_create_autocmd(
-    'InsertEnter', { command = 'setl nocursorline', group = utils.augroup }
-  )
-  vim.api.nvim_create_autocmd(
-    'InsertLeave', { command = 'setl cursorline', group = utils.augroup }
-  )
-end
+vim.api.nvim_create_autocmd('InsertEnter', {
+  desc = 'Toggle cursorline on InsertEnter/Leave iff cursorline is set on normal mode',
+  group = utils.augroup,
+  callback = function()
+    local win = vim.api.nvim_get_current_win()
+    local wo = vim.wo[win]
+    if not wo.cursorline then return end
+    wo.cursorline = false
+    vim.api.nvim_create_autocmd('ModeChanged', {
+      -- InsertLeave is not adequate because <C-C> won't trigger it
+      desc = 'Restore cursorline when leaveing insert mode.',
+      pattern = 'i:*', group = utils.augroup, once = true,
+      callback = function()
+        pcall(vim.api.nvim_win_set_option, win, 'cursorline', true)
+      end,
+    })
+  end,
+})
 
 vim.api.nvim_create_autocmd('TextYankPost', {
   callback = function() vim.highlight.on_yank() end,
