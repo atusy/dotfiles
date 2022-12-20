@@ -342,7 +342,7 @@ local deps = {
   { 'thinca/vim-qfreplace', cmd = 'Qfreplace' },
 
   -- better something
-  { 'haya14busa/vim-asterisk', keys = { '*' } }, -- *
+  { 'haya14busa/vim-asterisk', keys = { '<Plug>(asterisk-z*)', '<Plug>(asterisk-gz*)' } }, -- *
   { 'wsdjeg/vim-fetch', event = { 'CmdlineEnter' } }, -- :e with linenumber
   { 'lambdalisue/readablefold.vim', event = { 'BufReadPre', 'BufNew' } },
   { 'jghauser/mkdir.nvim', event = { 'VeryLazy', 'CmdlineEnter' } }, -- :w with mkdir
