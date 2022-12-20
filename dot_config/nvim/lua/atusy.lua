@@ -596,6 +596,7 @@ local function init_fern()
   vim.opt_local.signcolumn = "auto"
   set_keymap('n', 'S', '<C-W>p', { buffer = 0 })
   set_keymap('n', 's', '<Nop>', { buffer = 0 })
+  set_keymap('n', ' rn', '<Plug>(fern-action-rename)', { buffer = 0 }) -- like lsp rename
   set_keymap('n', '<CR>', '<Plug>(fern-action-open:select)', { buffer = 0, nowait = true })
   set_keymap('n', '<Plug>(fern-action-open:chowcho)', fern_chowcho, { buffer = 0 })
 end
