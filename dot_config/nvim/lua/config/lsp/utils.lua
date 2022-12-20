@@ -1,5 +1,6 @@
 local M = {}
 function M.has_lsp_client(bufnr)
+  bufnr = bufnr or vim.api.nvim_get_current_buf()
   for _, _ in pairs(vim.lsp.get_active_clients({ bufnr = bufnr })) do
     return true
   end

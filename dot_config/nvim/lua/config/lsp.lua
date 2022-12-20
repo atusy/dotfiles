@@ -1,20 +1,17 @@
 local utils = require('utils')
 local set_keymap = utils.set_keymap
+local lsp_utils = utils.require_lazy('config.lsp.utils')
 
 local setup_autocmd = function()
   vim.api.nvim_create_autocmd("FileType", {
     pattern = '*',
     group = utils.augroup,
-    callback = function(args)
-      utils.require('config.lsp.utils').attach_lsp(args.match)
-    end
+    callback = function(args) lsp_utils.attach_lsp(args.match) end
   })
   vim.api.nvim_create_autocmd({ "BufWritePre" }, {
     pattern = { '*.tf', '*.tfvars', '*.lua' },
     group = utils.augroup,
-    callback = function()
-      pcall(vim.lsp.buf.format)
-    end,
+    callback = function() pcall(vim.lsp.buf.format) end,
   })
 end
 
@@ -25,8 +22,8 @@ local function setup_global_keymaps()
   set_keymap('n', '<Leader>q', vim.diagnostic.setloclist,
     { silent = true, desc = 'add buffer diagnositcs to the location list' })
   set_keymap('n', 'K', function()
-    -- lspconfig won't map this on_attach, so it should be mapped globally
-    if utils.require('config.lsp.utils').has_lsp_client(vim.api.nvim_get_current_buf()) then
+    -- null-ls won't map this on_attach, so it should be mapped globally
+    if lsp_utils.has_lsp_client() then
       vim.lsp.buf.hover()
     else
       return 'K'
