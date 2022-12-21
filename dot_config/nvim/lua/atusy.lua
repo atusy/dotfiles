@@ -59,9 +59,6 @@ vim.opt.exrc = true
 
 -- signcolumn
 vim.opt.signcolumn = 'yes'
-vim.opt.relativenumber = false
-vim.opt.number = false
--- vim.opt.laststatus = 3
 
 -- window
 vim.opt.splitright = true
