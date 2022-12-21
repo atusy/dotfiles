@@ -450,7 +450,28 @@ local deps = {
       set_keymap('', '<A-[>', '<Plug>(edgemotion-k)', {})
     end
   },
-  'phaazon/hop.nvim',
+  {
+    'phaazon/hop.nvim',
+    config = function()
+      local function _setup_hop() require('hop').setup() end
+
+      local function hopper(direction, offset)
+        return function()
+          _setup_hop = _setup_hop() or function() end
+          require('hop').hint_char1({
+            direction = require 'hop.hint'.HintDirection[direction],
+            current_line_only = true,
+            hint_offset = offset == nil and 0 or offset,
+          })
+        end
+      end
+
+      set_keymap('', 'f', hopper('AFTER_CURSOR'), { desc = 'Hop after' })
+      set_keymap('', 'F', hopper('BEFORE_CURSOR'), { desc = 'Hop before' })
+      set_keymap('', 't', hopper('AFTER_CURSOR', -1), { desc = 'Hop after' })
+      set_keymap('', 'T', hopper('BEFORE_CURSOR', 1), { desc = 'Hop before' })
+    end
+  },
   {
     'ggandor/leap.nvim',
     config = function()
@@ -640,26 +661,6 @@ require('lazy').setup(deps)
 for _, config in ipairs(configurations) do
   config.setup()
 end
-
---[[ motion settings ]]
--- hop
-local function _setup_hop() require('hop').setup() end
-
-local function hopper(direction, offset)
-  return function()
-    _setup_hop = _setup_hop() or function() end
-    require('hop').hint_char1({
-      direction = require 'hop.hint'.HintDirection[direction],
-      current_line_only = true,
-      hint_offset = offset == nil and 0 or offset,
-    })
-  end
-end
-
-set_keymap('', 'f', hopper('AFTER_CURSOR'), { desc = 'Hop after' })
-set_keymap('', 'F', hopper('BEFORE_CURSOR'), { desc = 'Hop before' })
-set_keymap('', 't', hopper('AFTER_CURSOR', -1), { desc = 'Hop after' })
-set_keymap('', 'T', hopper('BEFORE_CURSOR', 1), { desc = 'Hop before' })
 
 --[[ statusline settings ]]
 -- lualine
