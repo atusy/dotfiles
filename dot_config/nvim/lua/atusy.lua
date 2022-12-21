@@ -82,9 +82,11 @@ vim.opt.guicursor = {
 }
 
 -- search
+vim.opt.ignorecase = true
+vim.opt.smartcase = true
 vim.opt.hlsearch = true
 vim.opt.showmatch = true
-vim.opt.incsearch = true -- false reccomended by vgit
+vim.opt.incsearch = true
 
 -- tab and indent
 vim.opt.tabstop = 2
