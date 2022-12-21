@@ -143,7 +143,6 @@ local function setup(_)
       }
     }
   })
-  require('aerial').setup()
   Telescope.load_extension('aerial')
   Telescope.load_extension('fzf')
 
@@ -200,7 +199,7 @@ return {
     { 'nvim-telescope/telescope.nvim', dependencies = { 'nvim-lua/plenary.nvim' } },
     { 'nvim-telescope/telescope-fzf-native.nvim', build = 'make' },
     -- { 'tknightz/telescope-termfinder.nvim' },  -- finds toggleterm terminals
-    { 'stevearc/aerial.nvim' },
+    { 'stevearc/aerial.nvim', config = function() require('aerial').setup() end },
   },
   setup = setup
 }
