@@ -599,6 +599,7 @@ for _, config in pairs(configurations) do
   end
 end
 
+--[[ lazy.nvim ]]
 local lazypath = datapath .. "/lazy/lazy.nvim"
 if not vim.loop.fs_stat(lazypath) then
   vim.fn.system({
