@@ -314,7 +314,16 @@ local deps = {
 
   -- utils
   { 'dstein64/vim-startuptime', cmd = 'StartupTime' },
-  'numToStr/Comment.nvim',
+  {
+    'numToStr/Comment.nvim',
+    dependencies = { 'JoosepAlviste/nvim-ts-context-commentstring' },
+    config = function()
+      require('Comment').setup {
+        toggler = { line = 'gcc', block = 'gcb' },
+        pre_hook = function() require('ts_context_commentstring.integrations.comment_nvim').create_pre_hook() end,
+      }
+    end,
+  },
   { 'lambdalisue/guise.vim', event = "VeryLazy" },
   {
     'lambdalisue/fern.vim',
@@ -627,10 +636,6 @@ require 'nvim-treesitter.configs'.setup {
     additional_vim_regex_highlighting = false,
   },
   indent = { enable = true },
-}
-require('Comment').setup {
-  toggler = { line = 'gcc', block = 'gcb' },
-  pre_hook = function() require('ts_context_commentstring.integrations.comment_nvim').create_pre_hook() end,
 }
 
 local ft_to_parser = require 'nvim-treesitter.parsers'.filetype_to_parsername
