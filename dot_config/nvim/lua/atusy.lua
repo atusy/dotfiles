@@ -677,7 +677,23 @@ local deps = {
   },
 
   -- cmdwin
-  'notomo/cmdbuf.nvim',
+  {
+    'notomo/cmdbuf.nvim',
+    dependencies = { 'nvim-telescope/telescope.nvim' },
+    config = function()
+      vim.keymap.set("n", "q:", function()
+        require("cmdbuf").split_open(vim.o.cmdwinheight)
+        local ok, telescope = pcall(require, 'telescope.builtin')
+        if ok then vim.schedule(telescope.current_buffer_fuzzy_find) end
+      end)
+      vim.keymap.set("c", "<C-F>", function()
+        local opt = { line = vim.fn.getcmdline(), column = vim.fn.getcmdpos() }
+        local open = require('cmdbuf').split_open
+        vim.schedule(function() open(vim.o.cmdwinheight, opt) end)
+        return [[<C-\><C-N>]]
+      end, { expr = true })
+    end
+  },
 
   -- filetype specific
   { 'mattn/vim-goimports', ft = 'go' },
@@ -708,19 +724,6 @@ require('lazy').setup(deps)
 for _, config in ipairs(configurations) do
   config.setup()
 end
-
---[[ cmdline settings ]]
-vim.keymap.set("n", "q:", function()
-  require("cmdbuf").split_open(vim.o.cmdwinheight)
-  local ok, telescope = pcall(require, 'telescope.builtin')
-  if ok then vim.schedule(telescope.current_buffer_fuzzy_find) end
-end)
-vim.keymap.set("c", "<C-F>", function()
-  local opt = { line = vim.fn.getcmdline(), column = vim.fn.getcmdpos() }
-  local open = require('cmdbuf').split_open
-  vim.schedule(function() open(vim.o.cmdwinheight, opt) end)
-  return [[<C-\><C-N>]]
-end, { expr = true })
 
 vim.api.nvim_create_autocmd('CmdlineEnter', {
   group = utils.augroup,
