@@ -544,7 +544,31 @@ local deps = {
   'JoosepAlviste/nvim-ts-context-commentstring',
 
   -- text object
-  'machakann/vim-sandwich',
+  {
+    'machakann/vim-sandwich',
+    config = function()
+      vim.g['sandwich#recipes'] = vim.deepcopy(vim.g['sandwich#default_recipes'])
+      local recipes = vim.fn.deepcopy(vim.g['operator#sandwich#default_recipes'])
+      table.insert(recipes, {
+        buns = { '(', ')' },
+        kind = { 'add' },
+        action = { 'add' },
+        cursor = 'head',
+        command = { 'startinsert' },
+        input = { vim.api.nvim_replace_termcodes("<C-F>", true, false, true) },
+      })
+      vim.g['operator#sandwich#recipes'] = recipes
+
+      set_keymap(
+        'n', 's(', '<Plug>(operator-sandwich-add-query1st)<C-F>',
+        { desc = 'sandwich query with () and start insert before (' }
+      )
+      set_keymap(
+        { 'x', 'v' }, 's(', '<Plug>(operator-sandwich-add)<C-F>',
+        { desc = 'sandwich query with () and start insert before (' }
+      )
+    end
+  },
 
   -- terminal
   {
@@ -616,29 +640,6 @@ Illuminate.configure({
 })
 set_keymap('n', '<C-H>', Illuminate.goto_prev_reference, { desc = 'previous references' })
 set_keymap('n', '<C-L>', Illuminate.goto_next_reference, { desc = 'next reference' })
-
---[[ textobj settings ]]
--- sandwich
-vim.g['sandwich#recipes'] = vim.deepcopy(vim.g['sandwich#default_recipes'])
-local recipes = vim.fn.deepcopy(vim.g['operator#sandwich#default_recipes'])
-table.insert(recipes, {
-  buns = { '(', ')' },
-  kind = { 'add' },
-  action = { 'add' },
-  cursor = 'head',
-  command = { 'startinsert' },
-  input = { vim.api.nvim_replace_termcodes("<C-F>", true, false, true) },
-})
-vim.g['operator#sandwich#recipes'] = recipes
-
-set_keymap(
-  'n', 's(', '<Plug>(operator-sandwich-add-query1st)<C-F>',
-  { desc = 'sandwich query with () and start insert before (' }
-)
-set_keymap(
-  { 'x', 'v' }, 's(', '<Plug>(operator-sandwich-add)<C-F>',
-  { desc = 'sandwich query with () and start insert before (' }
-)
 
 --[[ motion settings ]]
 -- hop
