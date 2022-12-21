@@ -426,14 +426,78 @@ local deps = {
   -- treesitter
   {
     'nvim-treesitter/nvim-treesitter',
-    build = ":lua require'nvim-treesitter.install'.update()()",
+    build = ":TSUpdate",
     pin = true,
+    dependencies = { 'JoosepAlviste/nvim-ts-context-commentstring' },
+    init = function()
+      set_keymap(
+        'n', '<Plug>(treesitter-show-tree)',
+        function() vim.treesitter.show_tree() end,
+        { desc = 'treesitter show tree' }
+      )
+    end,
+    config = function()
+      local treesitterpath = datapath .. "/treesitter"
+      vim.opt.runtimepath:append(treesitterpath)
+      require 'nvim-treesitter.configs'.setup {
+        parser_install_dir = treesitterpath,
+        ensure_installed = 'all',
+        context_commentstring = { enable = true, enable_autocmd = false },
+        highlight = {
+          enable = true,
+          disable = function(lang)
+            local ok = pcall(function() vim.treesitter.get_query(lang, 'highlights') end)
+            return not ok
+          end,
+          additional_vim_regex_highlighting = false,
+        },
+        indent = { enable = true },
+      }
+      local ft_to_parser = require 'nvim-treesitter.parsers'.filetype_to_parsername
+      ft_to_parser.zsh = 'bash'
+      ft_to_parser.tf = 'hcl'
+    end
   },
   -- 'nvim-treesitter/playground', -- vim.treesitter.show_tree would be enough
-  'nvim-treesitter/nvim-treesitter-refactor',
+  {
+    'nvim-treesitter/nvim-treesitter-refactor',
+    init = function()
+      set_keymap(
+        'n', '<Leader>rn', -- lsp may overridde the feature if renameProvider is available
+        function() require 'nvim-treesitter-refactor.smart_rename'.smart_rename(0) end,
+        { desc = 'treesitter rename' }
+      )
+    end
+  },
   -- 'haringsrob/nvim_context_vt',
-  'romgrk/nvim-treesitter-context',
-  'mfussenegger/nvim-treehopper',
+  {
+    'romgrk/nvim-treesitter-context',
+    config = function()
+      require 'treesitter-context'.setup({
+        enable = true,
+        patterns = {
+          css = { 'media_statement', 'rule_set', },
+          scss = { 'media_statement', 'rule_set', },
+          rmd = { 'section' }
+        },
+      })
+    end
+  },
+  {
+    'mfussenegger/nvim-treehopper',
+    init = function()
+      set_keymap(
+        'n', 'zf',
+        function()
+          require 'tsht'.nodes()
+          return 'zf'
+        end,
+        { expr = true, silent = true, desc = 'manually fold lines based on treehopper' }
+      )
+      set_keymap('o', 'm', ":<C-U>lua require('tsht').nodes()<CR>", { silent = true })
+      set_keymap('x', 'm', ":lua require('tsht').nodes()<CR>", { silent = true })
+    end
+  },
   'JoosepAlviste/nvim-ts-context-commentstring',
 
   -- text object
@@ -627,45 +691,6 @@ require 'lualine'.setup {
   extensions = { 'fern', 'toggleterm' }
 }
 
---[[ treesitter settings ]]
-local parser_install_dir = vim.fn.stdpath('data') .. "/treesitter"
-vim.opt.runtimepath:append(parser_install_dir)
-set_keymap(
-  'n', '<Plug>(treesitter-show-tree)',
-  function() vim.treesitter.show_tree() end,
-  { desc = 'treesitter show tree' }
-)
-require 'nvim-treesitter.configs'.setup {
-  parser_install_dir = parser_install_dir,
-  ensure_installed = 'all',
-  context_commentstring = { enable = true, enable_autocmd = false },
-  highlight = {
-    enable = true,
-    disable = function(lang)
-      local ok = pcall(function() vim.treesitter.get_query(lang, 'highlights') end)
-      return not ok
-    end,
-    additional_vim_regex_highlighting = false,
-  },
-  indent = { enable = true },
-}
-
-local ft_to_parser = require 'nvim-treesitter.parsers'.filetype_to_parsername
-ft_to_parser.zsh = 'bash'
-ft_to_parser.tf = 'hcl'
-require 'treesitter-context'.setup({
-  enable = true,
-  patterns = {
-    css = { 'media_statement', 'rule_set', },
-    scss = { 'media_statement', 'rule_set', },
-    rmd = { 'section' }
-  },
-})
-set_keymap(
-  'n', '<Leader>rn', -- lsp may overridde the feature if renameProvider is available
-  function() require 'nvim-treesitter-refactor.smart_rename'.smart_rename(0) end,
-  { desc = 'treesitter rename' }
-)
 --[[ terminal settings ]]
 vim.api.nvim_create_autocmd(
   'TermOpen', { pattern = '*', group = utils.augroup, command = 'startinsert' }
