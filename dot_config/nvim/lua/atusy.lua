@@ -319,7 +319,16 @@ local deps = {
   'tpope/vim-repeat',
   'vim-denops/denops.vim',
   'kana/vim-submode',
-  'delphinus/cellwidths.nvim',
+  {
+    'delphinus/cellwidths.nvim',
+    config = function()
+      require("cellwidths").setup { name = "default" }
+      vim.cmd.CellWidthsDelete("{" .. table.concat({
+        0x2190, 0x2191, 0x2192, 0x2193, -- ←↑↓→
+        0x2713, -- ✓
+      }, ", ") .. "}")
+    end
+  },
 
   -- utils
   { 'dstein64/vim-startuptime', cmd = 'StartupTime' },
@@ -617,14 +626,6 @@ require('lazy').setup(deps)
 for _, config in ipairs(configurations) do
   config.setup()
 end
-
--- cellwidths
--- template is modified on load as builtin mechanism has difficulty to dump
-require("cellwidths").setup { name = "default" }
-vim.cmd.CellWidthsDelete("{" .. table.concat({
-  0x2190, 0x2191, 0x2192, 0x2193, -- ←↑↓→
-  0x2713, -- ✓
-}, ", ") .. "}")
 
 -- illuminate
 local Illuminate = require 'illuminate'
