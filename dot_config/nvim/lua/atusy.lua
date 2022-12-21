@@ -410,7 +410,14 @@ local deps = {
   { 'thinca/vim-qfreplace', cmd = 'Qfreplace' },
 
   -- better something
-  { 'haya14busa/vim-asterisk', keys = { '<Plug>(asterisk-z*)', '<Plug>(asterisk-gz*)' } }, -- *
+  {
+    'haya14busa/vim-asterisk',
+    keys = { '<Plug>(asterisk-z*)', '<Plug>(asterisk-gz*)' },
+    init = function()
+      set_keymap('n', '*', '<Plug>(asterisk-z*)')
+      set_keymap('v', '*', '<Plug>(asterisk-gz*)')
+    end
+  },
   { 'wsdjeg/vim-fetch', event = { 'CmdlineEnter' } }, -- :e with linenumber
   'lambdalisue/readablefold.vim',
   { 'jghauser/mkdir.nvim', event = { 'VeryLazy', 'CmdlineEnter' } }, -- :w with mkdir
@@ -593,10 +600,6 @@ set_keymap('n', '<C-L>', Illuminate.goto_next_reference, { desc = 'next referenc
 
 
 --[[ buffer settings ]]
--- asterisk
-set_keymap('n', '*', '<Plug>(asterisk-z*)')
-set_keymap('v', '*', '<Plug>(asterisk-gz*)')
-
 -- baleia to parse ANSI
 local baleia
 set_keymap(
