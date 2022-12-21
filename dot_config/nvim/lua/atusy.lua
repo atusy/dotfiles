@@ -348,7 +348,7 @@ local deps = {
   -- better something
   { 'haya14busa/vim-asterisk', keys = { '<Plug>(asterisk-z*)', '<Plug>(asterisk-gz*)' } }, -- *
   { 'wsdjeg/vim-fetch', event = { 'CmdlineEnter' } }, -- :e with linenumber
-  { 'lambdalisue/readablefold.vim', event = { 'BufReadPre', 'BufNew' } },
+  'lambdalisue/readablefold.vim',
   { 'jghauser/mkdir.nvim', event = { 'VeryLazy', 'CmdlineEnter' } }, -- :w with mkdir
   -- anuvyklack/pretty-fold.nvim
 
