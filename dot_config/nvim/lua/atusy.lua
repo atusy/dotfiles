@@ -235,6 +235,10 @@ set_keymap(
 )
 
 --[[ autocmd ]]
+vim.api.nvim_create_autocmd(
+  'TermOpen', { pattern = '*', group = utils.augroup, command = 'startinsert' }
+)
+
 vim.api.nvim_create_autocmd('InsertEnter', {
   desc = 'Toggle cursorline on InsertEnter/Leave iff cursorline is set on normal mode',
   group = utils.augroup,
@@ -692,10 +696,6 @@ require 'lualine'.setup {
 }
 
 --[[ terminal settings ]]
-vim.api.nvim_create_autocmd(
-  'TermOpen', { pattern = '*', group = utils.augroup, command = 'startinsert' }
-)
-
 -- toggleterm:general
 require 'toggleterm'.setup {
   open_mapping = '<C-T>',
