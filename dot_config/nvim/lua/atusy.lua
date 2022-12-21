@@ -17,8 +17,6 @@ use { 'skanehira/denops-translate.vim',
 use { 'thinca/vim-quickrun',
 use { 'thinca/vim-themis' }
 use { 'tyru/open-browser-github.vim' }
-use { 'tyru/open-browser.vim',
-use { 'williamboman/mason-lspconfig.nvim',
 use { 'windwp/nvim-autopairs',
 
 https://github.com/monaqa/dial.nvim
@@ -31,8 +29,6 @@ https://github.com/folke/noice.nvim
 https://github.com/folke/todo-comments.nvim
 https://github.com/simrat39/symbols-outline.nvim
 https://github.com/kylechui/nvim-surround
-https://github.com/lewis6991/impatient.nvim
-https://github.com/stevearc/dressing.nvim
 https://github.com/edluffy/hologram.nvim
 https://github.com/delphinus/ddc-treesitter
 https://github.com/Afourcat/treesitter-terraform-doc.nvim
@@ -46,7 +42,7 @@ https://github.com/uga-rosa/ccc.nvim
 https://github.com/matsui54/ddc-buffer
 https://github.com/David-Kunz/markid
 https://github.com/stevearc/dressing.nvim
-https://github.com/folke/lazy.nvim
+https://github.com/hrsh7th/nvim-gtd
 --]]
 
 -- [[ helpers ]]
