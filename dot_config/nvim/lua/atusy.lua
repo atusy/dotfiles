@@ -524,7 +524,7 @@ local deps = {
         'n', 'gn',
         function()
           _setup_hop = _setup_hop() or function() end
-          require('hop').hint_patterns({}, vim.api.nvim_exec('echo @/', true))
+          require('hop').hint_patterns({}, vim.fn.getreg('/'))
         end,
         { desc = 'Hop previous search pattern' }
       )
