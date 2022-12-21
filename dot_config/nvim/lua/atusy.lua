@@ -407,7 +407,19 @@ local deps = {
   'haya14busa/vim-edgemotion',
   'phaazon/hop.nvim',
   'ggandor/leap.nvim',
-  { 'ggandor/leap-ast.nvim', dependencies = { 'ggandor/leap.nvim' } },
+  {
+    'ggandor/leap-ast.nvim',
+    dependencies = { 'ggandor/leap.nvim' },
+    enabled = false,
+    init = function()
+      set_keymap('n', 'zf', function()
+        vim.cmd('normal! v')
+        require 'leap-ast'.leap()
+        vim.cmd("normal! zf")
+      end, { silent = true, desc = 'manually fold lines based on treehopper' })
+      vim.keymap.set({ 'v', 'o' }, 'm', function() require 'leap-ast'.leap() end, { silent = true })
+    end
+  },
   -- 'ggandor/flit.nvim',
   -- 'yuki-yano/fuzzy-motion.vim',
 
@@ -654,15 +666,6 @@ set_keymap(
   function() require 'nvim-treesitter-refactor.smart_rename'.smart_rename(0) end,
   { desc = 'treesitter rename' }
 )
--- set_keymap('o', 'm', ':<C-U>lua require"tsht".nodes()<CR>', {silent = true})
--- set_keymap('v', 'm', ':lua require"tsht".nodes()<CR>', {silent = true})
-set_keymap({ 'v', 'o' }, 'm', function() require 'leap-ast'.leap() end)
-set_keymap('n', 'zf', function()
-  vim.cmd("normal! v")
-  require 'leap-ast'.leap()
-  vim.cmd("normal! zf")
-end, { silent = true, desc = 'manually fold lines based on treehopper' })
-
 --[[ terminal settings ]]
 vim.api.nvim_create_autocmd(
   'TermOpen', { pattern = '*', group = utils.augroup, command = 'startinsert' }
