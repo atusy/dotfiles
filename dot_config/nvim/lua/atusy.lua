@@ -508,7 +508,26 @@ local deps = {
   'machakann/vim-sandwich',
 
   -- terminal
-  'akinsho/toggleterm.nvim',
+  {
+    'akinsho/toggleterm.nvim',
+    keys = { '<Plug>(toggleterm-toggle)' },
+    cmd = { 'ToggleTermSendCurrentLine', 'ToggleTermSendVisualSelection' },
+    init = function()
+      set_keymap({ 'n', 't' }, '<C-T>', '<Plug>(toggleterm-toggle)')
+      set_keymap('n', '<Leader>j', ':ToggleTermSendCurrentLine<CR>j',
+        { desc = 'send the line to toggle term and go to next line' })
+      set_keymap('v', '<Leader>j', ":ToggleTermSendVisualSelection<CR>gv<Esc>",
+        { desc = 'send the selection to toggle term while keeping the cursor position' })
+    end,
+    config = function()
+      require 'toggleterm'.setup {
+        open_mapping = '<Plug>(toggleterm-toggle)',
+        insert_mappings = false,
+        shade_terminals = false,
+        shading_factor = 0,
+      }
+    end
+  },
 
   -- cmdwin
   'notomo/cmdbuf.nvim',
@@ -694,19 +713,6 @@ require 'lualine'.setup {
   -- },
   extensions = { 'fern', 'toggleterm' }
 }
-
---[[ terminal settings ]]
--- toggleterm:general
-require 'toggleterm'.setup {
-  open_mapping = '<C-T>',
-  insert_mappings = false,
-  shade_terminals = false,
-  shading_factor = 0,
-}
-set_keymap('n', '<Leader>j', ':ToggleTermSendCurrentLine<CR>j',
-  { desc = 'send the line to toggle term and go to next line' })
-set_keymap('v', '<Leader>j', ":ToggleTermSendVisualSelection<CR>gv<Esc>",
-  { desc = 'send the selection to toggle term while keeping the cursor position' })
 
 --[[ cmdline settings ]]
 vim.keymap.set("n", "q:", function()
