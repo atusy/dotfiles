@@ -451,7 +451,21 @@ local deps = {
     end
   },
   'phaazon/hop.nvim',
-  'ggandor/leap.nvim',
+  {
+    'ggandor/leap.nvim',
+    config = function()
+      -- LeapBackdrop highlight is defined at colorscheme.lua
+      local function _setup_leap() require('leap').setup({ safe_labels = {} }) end
+
+      set_keymap(
+        { 'n', 'v' }, ';',
+        function()
+          _setup_leap = _setup_leap() or function() end
+          require('leap').leap({ target_windows = { vim.api.nvim_get_current_win() } })
+        end
+      )
+    end
+  },
   {
     'ggandor/leap-ast.nvim',
     dependencies = { 'ggandor/leap.nvim' },
@@ -647,17 +661,6 @@ set_keymap('', 'F', hopper('BEFORE_CURSOR'), { desc = 'Hop before' })
 set_keymap('', 't', hopper('AFTER_CURSOR', -1), { desc = 'Hop after' })
 set_keymap('', 'T', hopper('BEFORE_CURSOR', 1), { desc = 'Hop before' })
 
--- leap
--- LeapBackdrop highlight is defined at colorscheme.lua
-local function _setup_leap() require('leap').setup({ safe_labels = {} }) end
-
-set_keymap(
-  { 'n', 'v' }, ';',
-  function()
-    _setup_leap = _setup_leap() or function() end
-    require('leap').leap({ target_windows = { vim.api.nvim_get_current_win() } })
-  end
-)
 --[[ statusline settings ]]
 -- lualine
 require 'lualine'.setup {
