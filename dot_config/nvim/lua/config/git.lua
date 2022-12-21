@@ -128,12 +128,11 @@ end
 -- return
 return {
   deps = {
-    { 'lambdalisue/gin.vim' },
+    { 'lambdalisue/gin.vim', dependencies = { 'vim-denops/denops.vim' } },
     -- { 'tpope/vim-fugitive' },
     { 'knsh14/vim-github-link' },
     -- { 'tanvirtin/vgit.nvim' },
     { 'nvim-lua/plenary.nvim' }, -- for vgit
-    { 'vim-denops/denops.vim' }, -- for gin
     { 'lewis6991/gitsigns.nvim' },
   },
   setup = function(_)
