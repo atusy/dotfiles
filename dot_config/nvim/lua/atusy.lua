@@ -43,6 +43,7 @@ https://github.com/matsui54/ddc-buffer
 https://github.com/David-Kunz/markid
 https://github.com/stevearc/dressing.nvim
 https://github.com/hrsh7th/nvim-gtd
+https://github.com/hrsh7th/vim-searchx
 --]]
 
 -- [[ helpers ]]
