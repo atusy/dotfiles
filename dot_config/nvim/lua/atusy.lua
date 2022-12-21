@@ -322,7 +322,13 @@ local deps = {
     cmd = { 'Fern' },
   },
   { 'segeljakt/vim-silicon', cmd = { 'Silicon', 'SiliconHighlight' } }, -- pacman -S silicon
-  { 'tyru/open-browser.vim', keys = { '<Plug>(openbrowser-smart-search)' } },
+  {
+    'tyru/open-browser.vim',
+    keys = { '<Plug>(openbrowser-smart-search)' },
+    init = function()
+      set_keymap({ 'n', 'v' }, 'gx', '<Plug>(openbrowser-smart-search)')
+    end
+  },
 
   -- ui
   -- "MunifTanjim/nui.nvim",
@@ -431,8 +437,6 @@ set_keymap('n', '<C-L>', Illuminate.goto_next_reference, { desc = 'next referenc
 -- asterisk
 set_keymap('n', '*', '<Plug>(asterisk-z*)')
 set_keymap('v', '*', '<Plug>(asterisk-gz*)')
--- openbrowser
-set_keymap({ 'n', 'v' }, 'gx', '<Plug>(openbrowser-smart-search)')
 
 -- baleia to parse ANSI
 local baleia
