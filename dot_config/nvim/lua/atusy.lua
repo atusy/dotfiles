@@ -322,7 +322,7 @@ local deps = {
     cmd = { 'Fern' },
   },
   { 'segeljakt/vim-silicon', cmd = { 'Silicon', 'SiliconHighlight' } }, -- pacman -S silicon
-  'tyru/open-browser.vim',
+  { 'tyru/open-browser.vim', keys = { '<Plug>(openbrowser-smart-search)' } },
 
   -- ui
   -- "MunifTanjim/nui.nvim",
