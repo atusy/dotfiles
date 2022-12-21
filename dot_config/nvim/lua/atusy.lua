@@ -404,7 +404,20 @@ local deps = {
   { 'moll/vim-bbye', cmd = { 'Bdelete', 'Bwipeout' } },
   -- 'mhinz/vim-sayonara',
   -- { 'stevearc/stickybuf.nvim' },
-  'm00qek/baleia.nvim',
+  {
+    'm00qek/baleia.nvim',
+    config = function()
+      local baleia
+      set_keymap(
+        'n', '<Plug>(parse-ansi)',
+        function()
+          baleia = baleia or require('baleia').setup()
+          baleia.once(vim.api.nvim_get_current_buf())
+        end,
+        { desc = 'Parse ANSI escape sequences in current buffer' }
+      )
+    end
+  },
   { 'tyru/capture.vim', cmd = 'Capture' },
   { 'folke/zen-mode.nvim', cmd = 'ZenMode' },
   { 'thinca/vim-qfreplace', cmd = 'Qfreplace' },
@@ -597,19 +610,6 @@ Illuminate.configure({
 })
 set_keymap('n', '<C-H>', Illuminate.goto_prev_reference, { desc = 'previous references' })
 set_keymap('n', '<C-L>', Illuminate.goto_next_reference, { desc = 'next reference' })
-
-
---[[ buffer settings ]]
--- baleia to parse ANSI
-local baleia
-set_keymap(
-  'n', '<Plug>(parse-ansi)',
-  function()
-    baleia = baleia or require('baleia').setup()
-    baleia.once(vim.api.nvim_get_current_buf())
-  end,
-  { desc = 'Parse ANSI escape sequences in current buffer' }
-)
 
 --[[ textobj settings ]]
 -- sandwich
