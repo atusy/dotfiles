@@ -74,7 +74,6 @@ vim.opt.matchtime = 1
 vim.opt.mouse = 'a'
 vim.opt.pumheight = 10
 vim.opt.termguicolors = true
-vim.opt.updatetime = 300 -- recommended by vgit
 vim.opt.list = true
 vim.opt.listchars = {
   tab = "▸▹┊",
@@ -534,9 +533,9 @@ local deps = {
         'n', 'zf',
         function()
           require 'tsht'.nodes()
-          return 'zf'
+          vim.cmd('normal! zf')
         end,
-        { expr = true, silent = true, desc = 'manually fold lines based on treehopper' }
+        { silent = true, desc = 'manually fold lines based on treehopper' }
       )
       set_keymap('o', 'm', ":<C-U>lua require('tsht').nodes()<CR>", { silent = true })
       set_keymap('x', 'm', ":lua require('tsht').nodes()<CR>", { silent = true })
