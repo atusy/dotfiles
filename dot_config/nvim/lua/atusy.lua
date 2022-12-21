@@ -441,7 +441,14 @@ local deps = {
   -- use 'b0o/incline.nvim' -- TODO
 
   -- motion
-  'haya14busa/vim-edgemotion',
+  {
+    'haya14busa/vim-edgemotion',
+    keys = { '<Plug>(edgemotion-j)', '<Plug>(edgemotion-k)' },
+    init = function()
+      set_keymap('', '<A-]>', '<Plug>(edgemotion-j)', {})
+      set_keymap('', '<A-[>', '<Plug>(edgemotion-k)', {})
+    end
+  },
   'phaazon/hop.nvim',
   'ggandor/leap.nvim',
   {
@@ -665,12 +672,6 @@ set_keymap(
     require('leap').leap({ target_windows = { vim.api.nvim_get_current_win() } })
   end
 )
-
--- edgemotion
-set_keymap('', '<A-]>', '<Plug>(edgemotion-j)', {})
-set_keymap('', '<A-[>', '<Plug>(edgemotion-k)', {})
-
-
 --[[ statusline settings ]]
 -- lualine
 require 'lualine'.setup {
