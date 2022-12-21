@@ -409,12 +409,6 @@ for _, config in ipairs(configurations) do
   config.setup()
 end
 
--- require("noice").setup({
---   messages = {
---     enabled = false,
---   }
--- })
-
 -- cellwidths
 -- template is modified on load as builtin mechanism has difficulty to dump
 require("cellwidths").setup { name = "default" }
