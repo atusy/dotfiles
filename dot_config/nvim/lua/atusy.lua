@@ -438,7 +438,54 @@ local deps = {
   -- anuvyklack/pretty-fold.nvim
 
   -- statusline
-  { 'nvim-lualine/lualine.nvim', dependencies = { 'kyazdani42/nvim-web-devicons' } },
+  {
+    'nvim-lualine/lualine.nvim',
+    dependencies = { 'kyazdani42/nvim-web-devicons' },
+    config = function()
+      require 'lualine'.setup {
+        options = { theme = 'moonfly', component_separators = '', },
+        sections = {
+          lualine_a = {},
+          lualine_b = { { 'filetype', icon_only = true }, { 'filename', path = 1 } },
+          lualine_c = {},
+          lualine_x = {},
+          lualine_y = { { 'location' } },
+          lualine_z = {},
+        },
+        inactive_sections = {
+          lualine_a = {},
+          lualine_b = { { 'filetype', icon_only = true }, { 'filename', path = 1 } },
+          lualine_c = {},
+          lualine_x = {},
+          lualine_y = {},
+          lualine_z = {},
+        },
+        -- tabline = {
+        --   lualine_a = {},
+        --   -- lualine_b = {
+        --   --   function()
+        --   --     if vim.opt_local.filetype:get() == "json" then
+        --   --       local has_jsonpath, jsonpath = pcall(require, 'jsonpath')
+        --   --       if has_jsonpath then
+        --   --         return jsonpath.get()
+        --   --       end
+        --   --     end
+        --   --     local has_navic, nav = pcall(require, 'nvim-navic')
+        --   --     if has_navic and nav.is_available() then
+        --   --       return nav.get_location()
+        --   --     end
+        --   --     return ''
+        --   --   end
+        --   -- },
+        --   lualine_c = {},
+        --   lualine_x = {},
+        --   lualine_y = {},
+        --   lualine_z = {},
+        -- },
+        extensions = { 'fern', 'toggleterm' }
+      }
+    end
+  },
   -- use 'b0o/incline.nvim' -- TODO
 
   -- motion
@@ -661,51 +708,6 @@ require('lazy').setup(deps)
 for _, config in ipairs(configurations) do
   config.setup()
 end
-
---[[ statusline settings ]]
--- lualine
-require 'lualine'.setup {
-  options = { theme = 'moonfly', component_separators = '', },
-  sections = {
-    lualine_a = {},
-    lualine_b = { { 'filetype', icon_only = true }, { 'filename', path = 1 } },
-    lualine_c = {},
-    lualine_x = {},
-    lualine_y = { { 'location' } },
-    lualine_z = {},
-  },
-  inactive_sections = {
-    lualine_a = {},
-    lualine_b = { { 'filetype', icon_only = true }, { 'filename', path = 1 } },
-    lualine_c = {},
-    lualine_x = {},
-    lualine_y = {},
-    lualine_z = {},
-  },
-  -- tabline = {
-  --   lualine_a = {},
-  --   -- lualine_b = {
-  --   --   function()
-  --   --     if vim.opt_local.filetype:get() == "json" then
-  --   --       local has_jsonpath, jsonpath = pcall(require, 'jsonpath')
-  --   --       if has_jsonpath then
-  --   --         return jsonpath.get()
-  --   --       end
-  --   --     end
-  --   --     local has_navic, nav = pcall(require, 'nvim-navic')
-  --   --     if has_navic and nav.is_available() then
-  --   --       return nav.get_location()
-  --   --     end
-  --   --     return ''
-  --   --   end
-  --   -- },
-  --   lualine_c = {},
-  --   lualine_x = {},
-  --   lualine_y = {},
-  --   lualine_z = {},
-  -- },
-  extensions = { 'fern', 'toggleterm' }
-}
 
 --[[ cmdline settings ]]
 vim.keymap.set("n", "q:", function()
