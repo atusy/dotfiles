@@ -519,6 +519,14 @@ local deps = {
       set_keymap('', 'F', hopper('BEFORE_CURSOR'), { desc = 'Hop before' })
       set_keymap('', 't', hopper('AFTER_CURSOR', -1), { desc = 'Hop after' })
       set_keymap('', 'T', hopper('BEFORE_CURSOR', 1), { desc = 'Hop before' })
+      set_keymap(
+        'n', 'gn',
+        function()
+          _setup_hop = _setup_hop() or function() end
+          require('hop').hint_patterns({}, vim.api.nvim_exec('echo @/', true))
+        end,
+        { desc = 'Hop previous search pattern' }
+      )
     end
   },
   {
