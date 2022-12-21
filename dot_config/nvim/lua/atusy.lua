@@ -263,6 +263,19 @@ vim.api.nvim_create_autocmd('TextYankPost', {
   group = utils.augroup,
 })
 
+vim.api.nvim_create_autocmd(
+  'FileType',
+  {
+    desc = 'Interactively view quickfix lines',
+    pattern = 'qf',
+    group = utils.augroup,
+    callback = function(_)
+      set_keymap('n', 'j', 'j<CR>zz<C-W>p', { buffer = 0 })
+      set_keymap('n', 'k', 'k<CR>zz<C-W>p', { buffer = 0 })
+    end
+  }
+)
+
 --[[ Terminal ]]
 -- nvim-remote for edit-commandline zle
 if vim.fn.executable('nvr') == 1 then
@@ -593,20 +606,6 @@ set_keymap(
     baleia.once(vim.api.nvim_get_current_buf())
   end,
   { desc = 'Parse ANSI escape sequences in current buffer' }
-)
-
--- quickfix
-vim.api.nvim_create_autocmd(
-  'FileType',
-  {
-    desc = 'Interactively view quickfix lines',
-    pattern = 'qf',
-    group = utils.augroup,
-    callback = function(_)
-      set_keymap('n', 'j', 'j<CR>zz<C-W>p', { buffer = 0 })
-      set_keymap('n', 'k', 'k<CR>zz<C-W>p', { buffer = 0 })
-    end
-  }
 )
 
 --[[ textobj settings ]]
