@@ -627,15 +627,6 @@ for _, config in ipairs(configurations) do
   config.setup()
 end
 
--- illuminate
-local Illuminate = require 'illuminate'
-Illuminate.configure({
-  filetype_denylist = { 'fugitive', 'fern' },
-  modes_allowlist = { 'n' }
-})
-set_keymap('n', '<C-H>', Illuminate.goto_prev_reference, { desc = 'previous references' })
-set_keymap('n', '<C-L>', Illuminate.goto_next_reference, { desc = 'next reference' })
-
 --[[ motion settings ]]
 -- hop
 local function _setup_hop() require('hop').setup() end

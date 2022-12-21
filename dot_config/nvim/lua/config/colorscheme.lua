@@ -235,7 +235,18 @@ return {
     -- { 'ellisonleao/gruvbox.nvim' },
     -- { 'sainnhe/everforest' },
     { 'm-demare/hlargs.nvim' },
-    { 'RRethy/vim-illuminate' },
+    {
+      'RRethy/vim-illuminate',
+      config = function()
+        local Illuminate = require 'illuminate'
+        Illuminate.configure({
+          filetype_denylist = { 'fugitive', 'fern' },
+          modes_allowlist = { 'n' }
+        })
+        set_keymap('n', '<C-H>', Illuminate.goto_prev_reference, { desc = 'previous references' })
+        set_keymap('n', '<C-L>', Illuminate.goto_next_reference, { desc = 'next reference' })
+      end
+    },
     { 'norcalli/nvim-colorizer.lua' },
     { 'folke/lsp-colors.nvim' },
     { 'folke/styler.nvim' },
