@@ -359,7 +359,11 @@ local deps = {
   -- 'yuki-yano/fuzzy-motion.vim',
 
   -- treesitter
-  { 'nvim-treesitter/nvim-treesitter', build = ":TSUpdate", frozen = true },
+  {
+    'nvim-treesitter/nvim-treesitter',
+    build = ":lua require'nvim-treesitter.install'.update()()",
+    pin = true,
+  },
   -- 'nvim-treesitter/playground', -- vim.treesitter.show_tree would be enough
   'nvim-treesitter/nvim-treesitter-refactor',
   -- 'haringsrob/nvim_context_vt',
