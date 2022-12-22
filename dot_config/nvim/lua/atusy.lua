@@ -626,13 +626,23 @@ local deps = {
       set_keymap(
         'n', 'zf',
         function()
-          require 'tsht'.nodes()
+          local ok = pcall(require 'tsht'.nodes)
+          if not ok then
+            vim.cmd('normal! v')
+            require 'leap-ast'.leap()
+          end
           vim.cmd('normal! zf')
         end,
         { silent = true, desc = 'manually fold lines based on treehopper' }
       )
-      set_keymap('o', 'm', ":<C-U>lua require('tsht').nodes()<CR>", { silent = true })
-      set_keymap('x', 'm', ":lua require('tsht').nodes()<CR>", { silent = true })
+      set_keymap('o', 'm', function()
+        local ok = pcall(vim.treesitter.get_parser, vim.api.nvim_get_current_buf())
+        return ok and ":<C-U>lua require('tsht').nodes()<CR>" or [[<Plug>(leap-ast)]]
+      end, { expr = true, silent = true })
+      set_keymap('x', 'm', function()
+        local ok = pcall(vim.treesitter.get_parser, vim.api.nvim_get_current_buf())
+        return ok and ":lua require('tsht').nodes()<CR>" or [[<Plug>(leap-ast)]]
+      end, { silent = true, expr = true })
     end
   },
   'JoosepAlviste/nvim-ts-context-commentstring',
