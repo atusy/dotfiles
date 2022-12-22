@@ -692,12 +692,12 @@ local deps = {
     'notomo/cmdbuf.nvim',
     dependencies = { 'nvim-telescope/telescope.nvim' },
     config = function()
-      vim.keymap.set("n", "q:", function()
+      set_keymap("n", "q:", function()
         require("cmdbuf").split_open(vim.o.cmdwinheight)
         local ok, telescope = pcall(require, 'telescope.builtin')
         if ok then vim.schedule(telescope.current_buffer_fuzzy_find) end
       end)
-      vim.keymap.set("c", "<C-F>", function()
+      set_keymap("c", "<C-F>", function()
         local opt = { line = vim.fn.getcmdline(), column = vim.fn.getcmdpos() }
         local open = require('cmdbuf').split_open
         vim.schedule(function() open(vim.o.cmdwinheight, opt) end)
