@@ -590,9 +590,10 @@ local deps = {
   -- 'nvim-treesitter/playground', -- vim.treesitter.show_tree would be enough
   {
     'nvim-treesitter/nvim-treesitter-refactor',
+    dependencies = { 'nvim-treesitter/nvim-treesitter' },
     init = function()
       set_keymap(
-        'n', '<Leader>rn', -- lsp may overridde the feature if renameProvider is available
+        'n', ' rn', -- lsp may overridde the feature if renameProvider is available
         function() require 'nvim-treesitter-refactor.smart_rename'.smart_rename(0) end,
         { desc = 'treesitter rename' }
       )
