@@ -627,7 +627,7 @@ local deps = {
             vim.cmd('normal! v')
             require 'leap-ast'.leap()
           end
-          vim.cmd('normal! zf')
+          vim.cmd('normal! Vzf')
         end,
         { silent = true, desc = 'manually fold lines based on treehopper' }
       )
