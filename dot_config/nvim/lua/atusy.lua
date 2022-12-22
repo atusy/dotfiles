@@ -144,7 +144,7 @@ set_keymap({ 'n', 'v' }, 'gy', '"+y')
 set_keymap({ 'n', 'v' }, 'gY', '"+Y')
 set_keymap('c', '<C-A>', '<Home>')
 set_keymap('t', '<C-W>', [[<C-\><C-N><C-W>]])
-set_keymap({ 'n', 'v', 'i', 't', 'c' }, [[<C-\><C-\>]], [[<C-\><C-N>]])
+set_keymap({ '', '!', 't' }, [[<C-\><C-\>]], [[<C-\><C-N>]])
 
 local function feeling_good(x)
   return vim.v.count == 0 and ((vim.fn.reg_recording() .. vim.fn.reg_executing()) == '') and ('g' .. x) or x
