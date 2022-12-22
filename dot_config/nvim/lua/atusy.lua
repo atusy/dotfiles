@@ -548,7 +548,6 @@ local deps = {
   {
     'ggandor/leap-ast.nvim',
     dependencies = { 'ggandor/leap.nvim' },
-    enabled = false,
     init = function()
       set_keymap('n', 'zf', function()
         vim.cmd('normal! v')
