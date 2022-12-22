@@ -316,7 +316,7 @@ local configurations = (function()
     -- require('config.scorpeon'),
   }
 end)()
-local datapath = vim.fn.stdpath("data")
+local DATAPATH = vim.fn.stdpath("data")
 local deps = {
   -- basic dependencies
   'tpope/vim-repeat',
@@ -575,7 +575,7 @@ local deps = {
       )
     end,
     config = function()
-      local treesitterpath = datapath .. "/treesitter"
+      local treesitterpath = DATAPATH .. "/treesitter"
       vim.opt.runtimepath:append(treesitterpath)
       require 'nvim-treesitter.configs'.setup {
         parser_install_dir = treesitterpath,
@@ -718,7 +718,7 @@ for _, config in pairs(configurations) do
 end
 
 --[[ lazy.nvim ]]
-local lazypath = datapath .. "/lazy/lazy.nvim"
+local lazypath = DATAPATH .. "/lazy/lazy.nvim"
 if not vim.loop.fs_stat(lazypath) then
   vim.fn.system({
     "git",
