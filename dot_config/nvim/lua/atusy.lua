@@ -549,12 +549,7 @@ local deps = {
     'ggandor/leap-ast.nvim',
     dependencies = { 'ggandor/leap.nvim' },
     init = function()
-      set_keymap('n', 'zf', function()
-        vim.cmd('normal! v')
-        require 'leap-ast'.leap()
-        vim.cmd("normal! zf")
-      end, { silent = true, desc = 'manually fold lines based on treehopper' })
-      vim.keymap.set({ 'v', 'o' }, 'm', function() require 'leap-ast'.leap() end, { silent = true })
+      vim.keymap.set({ 'v', 'o' }, '<Plug>(leap-ast)', function() require 'leap-ast'.leap() end, { silent = true })
     end
   },
   -- 'ggandor/flit.nvim',
