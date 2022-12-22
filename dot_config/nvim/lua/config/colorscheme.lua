@@ -250,8 +250,8 @@ return {
           filetype_denylist = { 'fugitive', 'fern' },
           modes_allowlist = { 'n' }
         })
-        set_keymap('n', '<C-H>', Illuminate.goto_prev_reference, { desc = 'previous references' })
-        set_keymap('n', '<C-L>', Illuminate.goto_next_reference, { desc = 'next reference' })
+        set_keymap('n', '<Left>', Illuminate.goto_prev_reference, { desc = 'previous references' })
+        set_keymap('n', '<Right>', Illuminate.goto_next_reference, { desc = 'next reference' })
       end
     },
     { 'norcalli/nvim-colorizer.lua' },
