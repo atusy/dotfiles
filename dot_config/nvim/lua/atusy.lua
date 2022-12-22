@@ -321,7 +321,7 @@ local deps = {
   -- basic dependencies
   'tpope/vim-repeat',
   'vim-denops/denops.vim',
-  'kana/vim-submode',
+  { 'kana/vim-submode', enabled = false },
   {
     'delphinus/cellwidths.nvim',
     config = function()
