@@ -2,6 +2,7 @@
 local api = vim.api
 local fn = vim.fn
 local utils = require('utils')
+local set_keymap = utils.set_keymap
 local DEFAULT_COLORSCHEME = 'duskfox'
 local ACTIVE_COLORSCHEME = 'duskfox' -- for the active buffer the first tabpage
 local INACTIVE_COLORSCHEME = 'nordfox'
@@ -9,7 +10,6 @@ local OUTSIDE_COLORSCHEME = 'carbonfox'
 local TAB_COLORSCHEME = 'terafox' -- for the active buffer in the other tabpages
 local ILLUMINATION = { bg = "#383D47" }
 
--- set colorscheme
 local function hl_treesitter(enable)
   if not enable then return end
   local function hl(group, opts)
@@ -134,6 +134,13 @@ local function set_colorscheme(nm)
     api.nvim_set_hl(0, "IlluminatedWordRead", ILLUMINATION)
     api.nvim_set_hl(0, "IlluminatedWordWrite", ILLUMINATION)
     api.nvim_set_hl(0, "@illuminate", ILLUMINATION)
+
+    local has_tsht, _ = pcall(require, 'tsht')
+    if has_tsht then
+      api.nvim_set_hl(0, 'TSNodeUnmatched', { link = 'Comment' })
+      api.nvim_set_hl(0, 'TSNodeKey', { link = 'IncSearch' })
+    end
+
     local has_leap, leap = pcall(require, 'leap')
     if has_leap then
       api.nvim_set_hl(0, 'LeapBackdrop', { link = 'Comment' })
