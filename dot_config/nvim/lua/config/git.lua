@@ -132,7 +132,6 @@ return {
     -- { 'tpope/vim-fugitive' },
     { 'knsh14/vim-github-link' },
     -- { 'tanvirtin/vgit.nvim' },
-    { 'nvim-lua/plenary.nvim' }, -- for vgit
     { 'lewis6991/gitsigns.nvim' },
   },
   setup = function(_)
