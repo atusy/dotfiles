@@ -9,7 +9,7 @@ local setup_autocmd = function()
     callback = function(args) lsp_utils.attach_lsp(args.match) end
   })
   vim.api.nvim_create_autocmd({ "BufWritePre" }, {
-    pattern = { '*.tf', '*.tfvars', '*.lua' },
+    pattern = { '*.tf', '*.tfvars' },
     group = utils.augroup,
     callback = function() pcall(vim.lsp.buf.format) end,
   })
