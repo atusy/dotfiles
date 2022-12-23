@@ -10,7 +10,7 @@ local function commandline_post(maps)
     fn["ddc#custom#set_buffer"](vim.b.prev_buffer_config)
     vim.b.prev_buffer_config = nil
   else
-    fn["ddc#custom#set_buffer"]({})
+    fn["ddc#custom#set_buffer"](vim.empty_dict())
   end
 end
 
