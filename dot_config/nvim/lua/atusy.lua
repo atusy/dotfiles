@@ -696,6 +696,7 @@ local deps = {
         shade_terminals = false,
         shading_factor = 0,
       }
+      set_keymap({ 'n', 't' }, '<C-T>', '<Plug>(toggleterm-toggle)') -- somebody unmaps this...
     end
   },
 
