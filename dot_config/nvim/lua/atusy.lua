@@ -334,8 +334,11 @@ local deps = {
       require("cellwidths").setup { name = "default" }
       vim.cmd.CellWidthsDelete("{" .. table.concat({
         0x2190, 0x2191, 0x2192, 0x2193, -- ←↑↓→
-        0x2713, -- ✓
+        0x25b2, 0x25bc, -- ▼▲
+        0x2713, -- ✓,
+        0x279c, -- ➜
       }, ", ") .. "}")
+      vim.cmd.CellWidthsAdd("{ 0xe000, 0xf8ff, 2 }") -- 私用領域（外字領域）
     end
   },
 
