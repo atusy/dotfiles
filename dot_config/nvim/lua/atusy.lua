@@ -398,7 +398,7 @@ local deps = {
   { 'segeljakt/vim-silicon', cmd = { 'Silicon', 'SiliconHighlight' } }, -- pacman -S silicon
   {
     'tyru/open-browser.vim',
-    keys = { '<Plug>(openbrowser-smart-search)' },
+    keys = { 'gx' },
     init = function()
       set_keymap({ 'n', 'v' }, 'gx', '<Plug>(openbrowser-smart-search)')
     end
@@ -437,6 +437,10 @@ local deps = {
     'haya14busa/vim-asterisk',
     keys = { '<Plug>(asterisk-z*)', '<Plug>(asterisk-gz*)' },
     init = function()
+      set_keymap('n', '*', '<Plug>(asterisk-z*)')
+      set_keymap('v', '*', '<Plug>(asterisk-gz*)')
+    end,
+    config = function()
       set_keymap('n', '*', '<Plug>(asterisk-z*)')
       set_keymap('v', '*', '<Plug>(asterisk-gz*)')
     end
@@ -500,8 +504,8 @@ local deps = {
   -- motion
   {
     'haya14busa/vim-edgemotion',
-    keys = { '<Plug>(edgemotion-j)', '<Plug>(edgemotion-k)' },
-    init = function()
+    keys = { '<A-]>', '<A-[>' },
+    config = function()
       set_keymap('', '<A-]>', '<Plug>(edgemotion-j)', {})
       set_keymap('', '<A-[>', '<Plug>(edgemotion-k)', {})
     end
@@ -538,6 +542,7 @@ local deps = {
   },
   {
     'ggandor/leap.nvim',
+    keys = { ';' },
     config = function()
       -- LeapBackdrop highlight is defined at colorscheme.lua
       local function _setup_leap() require('leap').setup({ safe_labels = {} }) end
@@ -680,10 +685,9 @@ local deps = {
   -- terminal
   {
     'akinsho/toggleterm.nvim',
-    keys = { '<Plug>(toggleterm-toggle)' },
+    keys = { '<C-T>' },
     cmd = { 'ToggleTermSendCurrentLine', 'ToggleTermSendVisualSelection' },
     init = function()
-      set_keymap({ 'n', 't' }, '<C-T>', '<Plug>(toggleterm-toggle)')
       set_keymap('n', '<Leader>j', ':ToggleTermSendCurrentLine<CR>j',
         { desc = 'send the line to toggle term and go to next line' })
       set_keymap('v', '<Leader>j', ":ToggleTermSendVisualSelection<CR>gv<Esc>",
@@ -691,12 +695,11 @@ local deps = {
     end,
     config = function()
       require 'toggleterm'.setup {
-        open_mapping = '<Plug>(toggleterm-toggle)',
+        open_mapping = '<C-T>',
         insert_mappings = false,
         shade_terminals = false,
         shading_factor = 0,
       }
-      set_keymap({ 'n', 't' }, '<C-T>', '<Plug>(toggleterm-toggle)') -- somebody unmaps this...
     end
   },
 
