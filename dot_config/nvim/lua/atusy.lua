@@ -802,6 +802,15 @@ for _, config in ipairs(configurations) do
   config.setup()
 end
 
+if vim.v.vim_did_enter == 1 then
+  for _, d in pairs(deps) do
+    if type(d) == "table" and d.enabled ~= false then
+      if d.init then d.init() end
+      if d.config then d.config() end
+    end
+  end
+end
+
 vim.api.nvim_create_autocmd('CmdlineEnter', {
   group = utils.augroup,
   once = true,
