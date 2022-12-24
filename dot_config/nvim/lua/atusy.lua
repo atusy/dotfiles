@@ -53,6 +53,7 @@ local set_keymap = utils.set_keymap
 
 --[[ options ]]
 vim.opt.exrc = true
+vim.opt.updatetime = 250
 
 -- signcolumn
 vim.opt.signcolumn = 'yes'
