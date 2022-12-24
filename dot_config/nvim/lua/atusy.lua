@@ -491,7 +491,7 @@ local deps = {
       require 'lualine'.setup {
         options = { theme = 'moonfly', component_separators = '', },
         sections = {
-          lualine_a = { { 'mode', fmt = function(x) return vim.o.buftype == 'terminal' and x or '' end } },
+          lualine_a = { { 'mode', fmt = function(x) return x == 'TERMINAL' and x or '' end } },
           lualine_b = { { 'filetype', icon_only = true }, { 'filename', path = 1 } },
           lualine_c = {},
           lualine_x = {},
