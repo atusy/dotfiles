@@ -106,6 +106,34 @@ if vim.fn.executable('rg') == 1 then
   vim.opt.grepformat = vim.opt.grepformat ^ { '%f:%l:%c:%m' }
 end
 
+-- skipped builtins
+local builtins = {
+  "gzip",
+  "zip",
+  "zipPlugin",
+  "fzf",
+  "tar",
+  "tarPlugin",
+  "getscript",
+  "getscriptPlugin",
+  "vimball",
+  "vimballPlugin",
+  "2html_plugin",
+  -- "matchit",
+  -- "matchparen",
+  "logiPat",
+  "rrhelper",
+  "netrw",
+  "netrwPlugin",
+  "netrwSettings",
+  "netrwFileHandlers",
+}
+
+for _, plugin in ipairs(builtins) do
+  vim.g["loaded_" .. plugin] = 1
+end
+
+
 --[[ commands ]]
 vim.api.nvim_create_user_command('W', 'write !sudo tee % >/dev/null', {})
 
@@ -749,7 +777,22 @@ if not vim.loop.fs_stat(lazypath) then
   })
 end
 vim.opt.runtimepath:prepend(lazypath)
-require('lazy').setup(deps)
+require('lazy').setup(deps, {
+  performance = {
+    rtp = {
+      disabled_plugins = {
+        "gzip",
+        "matchit",
+        "matchparen",
+        "netrwPlugin",
+        "tarPlugin",
+        "tohtml",
+        "tutor",
+        "zipPlugin",
+      },
+    },
+  },
+})
 
 for _, config in ipairs(configurations) do
   config.setup()
