@@ -61,6 +61,7 @@ vim.opt.signcolumn = 'yes'
 vim.opt.splitright = true
 vim.opt.splitbelow = true
 vim.opt.backspace = { 'indent', 'eol', 'start' }
+vim.opt.breakindent = true
 
 -- buffer
 vim.opt.autoread = true
