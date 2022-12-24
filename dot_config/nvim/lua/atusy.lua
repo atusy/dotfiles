@@ -67,6 +67,7 @@ vim.opt.autoread = true
 vim.opt.matchtime = 1
 vim.opt.mouse = 'a'
 vim.opt.pumheight = 10
+vim.opt.showmode = false
 vim.opt.termguicolors = true
 vim.opt.list = true
 vim.opt.listchars = {
@@ -489,7 +490,7 @@ local deps = {
       require 'lualine'.setup {
         options = { theme = 'moonfly', component_separators = '', },
         sections = {
-          lualine_a = {},
+          lualine_a = { { 'mode', fmt = function(x) return vim.o.buftype == 'terminal' and x or '' end } },
           lualine_b = { { 'filetype', icon_only = true }, { 'filename', path = 1 } },
           lualine_c = {},
           lualine_x = {},
@@ -526,7 +527,7 @@ local deps = {
         --   lualine_y = {},
         --   lualine_z = {},
         -- },
-        extensions = { 'fern', 'toggleterm' }
+        extensions = { 'fern' }
       }
     end
   },
