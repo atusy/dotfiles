@@ -123,8 +123,8 @@ local builtins = {
   "vimball",
   "vimballPlugin",
   "2html_plugin",
-  -- "matchit",
-  -- "matchparen",
+  "matchit",
+  "matchparen",
   "logiPat",
   "rrhelper",
   "netrw",
@@ -483,6 +483,13 @@ local deps = {
   { 'wsdjeg/vim-fetch', event = { 'CmdlineEnter' } }, -- :e with linenumber
   'lambdalisue/readablefold.vim',
   { 'jghauser/mkdir.nvim', event = { 'VeryLazy', 'CmdlineEnter' } }, -- :w with mkdir
+  {
+    "andymass/vim-matchup",
+    event = "BufReadPost",
+    config = function()
+      vim.g.matchup_matchparen_offscreen = { method = "status_manual" }
+    end,
+  },
   -- anuvyklack/pretty-fold.nvim
 
   -- statusline
