@@ -1,10 +1,12 @@
 --[[ TODO
+https://github.com/mhinz/vim-galore#saner-behavior-of-n-and-n
 https://github.com/sumneko/lua-language-server/wiki/Annotations
 https://qiita.com/delphinus/items/fb905e452b2de72f1a0f
 https://zenn.dev/nnsnico/articles/customize-lsp-handler
 
 ## Plugin
 
+"rlch/github-notifications.nvim",
 use { 'LeafCage/vimhelpgenerator' }
 use { 'kevinhwang91/nvim-bqf', ft = 'qf' }
 use { 'mattn/emmet-vim',
@@ -44,6 +46,7 @@ https://github.com/David-Kunz/markid
 https://github.com/stevearc/dressing.nvim
 https://github.com/hrsh7th/nvim-gtd
 https://github.com/hrsh7th/vim-searchx
+https://github.com/b0o/SchemaStore.nvim
 --]]
 
 -- [[ helpers ]]
