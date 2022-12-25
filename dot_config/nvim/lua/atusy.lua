@@ -493,6 +493,11 @@ local deps = {
       vim.g.matchup_matchparen_offscreen = { method = "status_manual" }
     end,
   },
+  {
+    "Wansmer/treesj",
+    command = { "TSJToggle", "TSJSplit", "TSJJoin" },
+    config = function() require("treesj").setup({ use_default_keymaps = false }) end,
+  },
   -- anuvyklack/pretty-fold.nvim
 
   -- statusline
