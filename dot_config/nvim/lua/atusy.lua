@@ -433,10 +433,13 @@ local deps = {
   { 'segeljakt/vim-silicon', cmd = { 'Silicon', 'SiliconHighlight' } }, -- pacman -S silicon
   {
     'tyru/open-browser.vim',
-    keys = { 'gx' },
+    keys = { 'gx', '<Plug>(openbrowser-smart-search)' },
     init = function()
       set_keymap({ 'n', 'v' }, 'gx', '<Plug>(openbrowser-smart-search)')
-    end
+    end,
+    config = function()
+      set_keymap({ 'n', 'v' }, 'gx', '<Plug>(openbrowser-smart-search)')
+    end,
   },
 
   -- ui
