@@ -771,6 +771,16 @@ local deps = {
   { 'mattn/vim-goimports', ft = 'go' },
   { 'phelipetls/jsonpath.nvim', ft = 'json' },
   { 'itchyny/vim-qfedit', ft = 'qf' },
+  {
+    "norcalli/nvim-terminal.lua",
+    ft = "terminal",
+    init = function()
+      set_keymap('n', '<Plug>(set-ft-terminal)', '<Cmd>set filetype=terminal<CR>')
+    end,
+    config = function()
+      require("terminal").setup()
+    end,
+  },
 }
 for _, config in pairs(configurations) do
   for _, dep in pairs(config.deps) do
