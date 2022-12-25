@@ -831,10 +831,20 @@ for _, config in ipairs(configurations) do
 end
 
 if vim.v.vim_did_enter == 1 then
+  local function try(...)
+    local ok, res = pcall(...)
+    if not ok then vim.notify(res, vim.log.levels.ERROR) end
+    return ok
+  end
+
+  local accept_config
   for _, d in pairs(deps) do
+    accept_config = true
     if type(d) == "table" and d.enabled ~= false then
-      if d.init then d.init() end
-      if d.config then d.config() end
+      if d.init then
+        accept_config = try(d.init)
+      end
+      if d.config and accept_config then try(d.config) end
     end
   end
 end
