@@ -72,6 +72,7 @@ vim.opt.autoread = true
 vim.opt.matchtime = 1
 vim.opt.mouse = 'a'
 vim.opt.pumblend = 30
+vim.opt.winblend = 30
 vim.opt.pumheight = 10
 vim.opt.showmode = false
 vim.opt.termguicolors = true
