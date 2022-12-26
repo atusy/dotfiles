@@ -690,11 +690,42 @@ local deps = {
   {
     'mfussenegger/nvim-treehopper',
     init = function()
+      local function with_tsht()
+        -- tsht fails if filetype differs from parser's language
+        local ok = pcall(vim.treesitter.get_parser, vim.api.nvim_get_current_buf())
+        if not ok then return false end
+
+        -- tsht does not support injection
+        -- injected language could be detected by vim.inspect_pos().treesitter
+        local cursor = vim.api.nvim_win_get_cursor(0)
+        local function f(ignore)
+          return { vim.treesitter.get_node_at_pos(0, cursor[1], cursor[2], { ignore_injections = ignore }):range() }
+        end
+
+        local range_original = f(true)
+        local range_injection = f(false)
+        for i, v in pairs(range_original) do
+          if range_injection[i] ~= v then
+            return false
+          end
+        end
+
+        -- otherwise
+        return true
+      end
+
+      set_keymap('o', 'm', function()
+        return with_tsht() and ":<C-U>lua require('tsht').nodes()<CR>" or [[<Plug>(leap-ast)]]
+      end, { expr = true, silent = true })
+      set_keymap('x', 'm', function()
+        return with_tsht() and ":lua require('tsht').nodes()<CR>" or [[<Plug>(leap-ast)]]
+      end, { silent = true, expr = true })
       set_keymap(
         'n', 'zf',
         function()
-          local ok = pcall(require 'tsht'.nodes)
-          if not ok then
+          if with_tsht() then
+            require 'tsht'.nodes()
+          else
             vim.cmd('normal! v')
             require 'leap-ast'.leap()
           end
@@ -702,14 +733,6 @@ local deps = {
         end,
         { silent = true, desc = 'manually fold lines based on treehopper' }
       )
-      set_keymap('o', 'm', function()
-        local ok = pcall(vim.treesitter.get_parser, vim.api.nvim_get_current_buf())
-        return ok and ":<C-U>lua require('tsht').nodes()<CR>" or [[<Plug>(leap-ast)]]
-      end, { expr = true, silent = true })
-      set_keymap('x', 'm', function()
-        local ok = pcall(vim.treesitter.get_parser, vim.api.nvim_get_current_buf())
-        return ok and ":lua require('tsht').nodes()<CR>" or [[<Plug>(leap-ast)]]
-      end, { silent = true, expr = true })
     end
   },
   'JoosepAlviste/nvim-ts-context-commentstring',
