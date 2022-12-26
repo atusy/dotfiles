@@ -620,7 +620,7 @@ local deps = {
     dependencies = { 'ggandor/leap.nvim' },
     keys = { '<Plug>(leap-ast)' },
     init = function()
-      vim.keymap.set({ 'v', 'o' }, '<Plug>(leap-ast)', function() require 'leap-ast'.leap() end, { silent = true })
+      vim.keymap.set({ 'x', 'o' }, '<Plug>(leap-ast)', function() require 'leap-ast'.leap() end, { silent = true })
     end
   },
   -- 'ggandor/flit.nvim',
