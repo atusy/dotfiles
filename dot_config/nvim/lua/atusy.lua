@@ -182,13 +182,6 @@ set_keymap('c', '<C-A>', '<Home>')
 set_keymap('t', '<C-W>', [[<C-\><C-N><C-W>]])
 set_keymap({ '', '!', 't' }, [[<C-\><C-\>]], [[<C-\><C-N>]])
 
-local function feeling_good(x)
-  return vim.v.count == 0 and ((vim.fn.reg_recording() .. vim.fn.reg_executing()) == '') and ('g' .. x) or x
-end
-
-set_keymap('n', 'k', function() return feeling_good('k') end, { expr = true, silent = true })
-set_keymap('n', 'j', function() return feeling_good('j') end, { expr = true, silent = true })
-
 local function jump(forward)
   local buf_cur = vim.api.nvim_get_current_buf()
   local jumplist = vim.fn.getjumplist()
