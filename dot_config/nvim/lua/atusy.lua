@@ -440,6 +440,11 @@ local deps = {
   },
 
   -- ui
+  {
+    "xiyaowong/nvim-transparent", -- not so good with styler.nvim
+    command = "TransparentToggle",
+    config = function() require('transparent').setup({}) end,
+  },
   -- "MunifTanjim/nui.nvim",
   -- "rcarriga/nvim-notify",
   -- "folke/noice.nvim",
