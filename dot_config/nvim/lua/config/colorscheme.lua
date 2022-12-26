@@ -264,7 +264,12 @@ return {
   },
   setup = function()
     require('nightfox').setup({
-      groups = { all = { ['@text.literal'] = { link = 'String' } } }
+      groups = { all = { ['@text.literal'] = { link = 'String' } } },
+      options = {
+        inverse = {
+          visual = true,
+        },
+      },
     })
     set_colorscheme(DEFAULT_COLORSCHEME)
     set_styler()
