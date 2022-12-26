@@ -500,6 +500,10 @@ local deps = {
   {
     "Wansmer/treesj",
     command = { "TSJToggle", "TSJSplit", "TSJJoin" },
+    init = function()
+      set_keymap({ 'n', 'v' }, '<Plug>(TSJJoin)', ':TSJJoin<CR>')
+      set_keymap({ 'n', 'v' }, '<Plug>(TSJSplit)', ':TSJSplit<CR>')
+    end,
     config = function() require("treesj").setup({ use_default_keymaps = false }) end,
   },
   -- anuvyklack/pretty-fold.nvim
