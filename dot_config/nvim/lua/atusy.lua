@@ -806,7 +806,20 @@ local deps = {
 
   -- filetype specific
   { 'mattn/vim-goimports', ft = 'go' },
-  { 'phelipetls/jsonpath.nvim', ft = 'json' },
+  {
+    'phelipetls/jsonpath.nvim',
+    ft = 'json',
+    config = function()
+      set_keymap(
+        'n', '<Plug>(clipboard-json-path)',
+        function()
+          local path = require "jsonpath".get()
+          vim.fn.setreg('+', path)
+          vim.notify('jsonpath: ' .. path)
+        end, { desc = 'clipboard json path' }
+      )
+    end
+  },
   { 'itchyny/vim-qfedit', ft = 'qf' },
   {
     "norcalli/nvim-terminal.lua",
