@@ -178,7 +178,7 @@ if command -v gdu > /dev/null; then
   alias du='gdu'
 fi
 if command -v exa > /dev/null; then
-  alias ls='exa -l --icons --time-style=iso --color=always'
+  alias ls='exa -l --time-style=iso --color=always'
 fi
 if command -v bat > /dev/null; then
   alias cat='bat'
