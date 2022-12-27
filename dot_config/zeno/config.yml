@@ -53,6 +53,9 @@ snippets:
   - name: vim staruptime
     keyword: vimtime
     snippet: STARTUPTIME=$(mktemp) && vim --startuptime $STARTUPTIME +"lua vim.schedule(function() vim.cmd.edit('$STARTUPTIME') end)"
+  - name: curl json
+    keyword: curljson
+    snippet: "curl -H 'Content-Type: application/json'"
 
   # Some aliases that I often forget their real names 
   - name: htop
