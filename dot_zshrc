@@ -22,6 +22,9 @@ function gitprompt() {
   # the blank function here suppresses potential error from lazy loading
   :
 }
+function kube_ps1 {
+  :
+}
 function kubeprompt() {
   if [[ "${KUBE_PS1_CONTEXT:-N/A}" != "N/A" ]]; then
     kube_ps1 # will be defined by jonmosco/kube-ps1
