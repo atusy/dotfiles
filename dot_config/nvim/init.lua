@@ -1,2 +1,1 @@
-require('atusy')
--- require('utils').require('atusy')
+require('utils').require('atusy')
