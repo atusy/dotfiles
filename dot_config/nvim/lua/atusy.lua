@@ -217,7 +217,10 @@ set_keymap('n', '<Plug>(C-S)<C-A>', ':wa<CR>', { fav = false }) -- Save All
 set_keymap('n', '<Plug>(C-S)<C-O>', jump, { fav = false, expr = true }) -- Save and jump to previous buf
 set_keymap('n', '<Plug>(C-S)<C-E>', ':e #<CR>', { fav = false }) -- Save and Edit alt
 set_keymap('n', '<Plug>(C-S)<C-Q>', ':q<CR>', { fav = false }) -- Save and Quit
-set_keymap('n', '<Plug>(C-S)<C-S>', ':source<CR>', { fav = false }) -- Save and Source
+set_keymap('n', '<Plug>(C-S)<C-V>', function()
+  vim.cmd("!chezmoi apply")
+  vim.cmd("source $MYVIMRC")
+end, { fav = false })
 set_keymap('n', '<Plug>(C-S)<C-S>', function()
   local bufname = vim.api.nvim_buf_get_name(vim.api.nvim_get_current_buf())
   local bufext = bufname:gsub('.*%.', '')
