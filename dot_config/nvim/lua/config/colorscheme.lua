@@ -152,11 +152,7 @@ return {
         -- thanks to cache, this needs run only on build (unless changed)
         require('nightfox').setup({
           groups = { all = { ['@text.literal'] = { link = 'String' } } },
-          options = {
-            inverse = {
-              visual = true,
-            },
-          },
+          options = { inverse = { visual = true } },
         })
       end
     },
