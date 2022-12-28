@@ -331,7 +331,10 @@ if vim.fn.executable('nvr') == 1 then
             buffer = args.buf,
             once = true,
             callback = function()
-              vim.schedule(function() pcall(vim.api.nvim_set_current_win, parent) end)
+              vim.schedule(function()
+                local ok = pcall(vim.api.nvim_set_current_win, parent)
+                if ok then vim.cmd.startinsert() end
+              end)
             end
           })
         end)
