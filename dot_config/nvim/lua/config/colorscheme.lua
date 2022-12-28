@@ -144,19 +144,26 @@ return {
     { 'folke/lsp-colors.nvim' },
     { 'folke/styler.nvim' },
     -- { "catppuccin/nvim", as = "catppuccin" },
-    { "EdenEast/nightfox.nvim", lazy = false, priority = 9999 },
+    {
+      "EdenEast/nightfox.nvim",
+      lazy = false,
+      priority = 9999,
+      build = function()
+        -- thanks to cache, this needs run only on build (unless changed)
+        require('nightfox').setup({
+          groups = { all = { ['@text.literal'] = { link = 'String' } } },
+          options = {
+            inverse = {
+              visual = true,
+            },
+          },
+        })
+      end
+    },
     -- { 'levouh/tint.nvim' }, -- conflicts with styler.nvim
     -- { "RRethy/nvim-base16" },
   },
   setup = function()
-    require('nightfox').setup({
-      groups = { all = { ['@text.literal'] = { link = 'String' } } },
-      options = {
-        inverse = {
-          visual = true,
-        },
-      },
-    })
     set_colorscheme(DEFAULT_COLORSCHEME)
     set_styler()
   end
