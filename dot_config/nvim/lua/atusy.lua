@@ -392,6 +392,7 @@ local deps = {
       }
     end,
   },
+  { 'lambdalisue/vim-manpager', command = "Man" },
   { 'lambdalisue/guise.vim', event = "VeryLazy" },
   {
     'lambdalisue/fern.vim',
