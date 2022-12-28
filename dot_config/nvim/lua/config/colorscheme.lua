@@ -144,7 +144,7 @@ return {
     { 'folke/lsp-colors.nvim' },
     { 'folke/styler.nvim' },
     -- { "catppuccin/nvim", as = "catppuccin" },
-    { "EdenEast/nightfox.nvim" },
+    { "EdenEast/nightfox.nvim", lazy = false, priority = 9999 },
     -- { 'levouh/tint.nvim' }, -- conflicts with styler.nvim
     -- { "RRethy/nvim-base16" },
   },
