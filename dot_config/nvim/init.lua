@@ -839,9 +839,6 @@ local deps = {
   {
     "norcalli/nvim-terminal.lua",
     ft = "terminal",
-    init = function()
-      set_keymap('n', '<Plug>(set-ft-terminal)', '<Cmd>set filetype=terminal<CR>')
-    end,
     config = function()
       require("terminal").setup()
     end,
