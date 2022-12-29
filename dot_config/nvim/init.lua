@@ -502,8 +502,12 @@ local deps = {
     "Wansmer/treesj",
     command = { "TSJToggle", "TSJSplit", "TSJJoin" },
     init = function()
-      set_keymap({ 'n', 'v' }, '<Plug>(TSJJoin)', ':TSJJoin<CR>')
-      set_keymap({ 'n', 'v' }, '<Plug>(TSJSplit)', ':TSJSplit<CR>')
+      set_keymap(
+        { 'n', 'v' }, '<Plug>(TSJJoin)', ':TSJJoin<CR>', { desc = 'join lines based on AST' }
+      )
+      set_keymap(
+        { 'n', 'v' }, '<Plug>(TSJSplit)', ':TSJSplit<CR>', { desc = 'split lines based on AST' }
+      )
     end,
     config = function() require("treesj").setup({ use_default_keymaps = false }) end,
   },
