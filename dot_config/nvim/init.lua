@@ -733,7 +733,9 @@ local deps = {
           end
         end
 
-        -- otherwise
+        -- otherwise, set highlight and return true
+        vim.api.nvim_set_hl(0, 'TSNodeUnmatched', { link = 'Comment', default = true })
+        vim.api.nvim_set_hl(0, 'TSNodeKey', { link = 'IncSearch', default = true })
         return true
       end
 
@@ -757,20 +759,7 @@ local deps = {
         { silent = true, desc = 'manually fold lines based on treehopper' }
       )
     end,
-    config = function()
-      local function hi()
-        vim.api.nvim_set_hl(0, 'TSNodeUnmatched', { link = 'Comment' })
-        vim.api.nvim_set_hl(0, 'TSNodeKey', { link = 'IncSearch' })
-      end
-
-      vim.api.nvim_create_autocmd(
-        "ColorScheme", { group = utils.augroup, callback = hi }
-      )
-
-      hi()
-    end
   },
-  'JoosepAlviste/nvim-ts-context-commentstring',
 
   -- text object
   {
