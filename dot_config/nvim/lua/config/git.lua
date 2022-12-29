@@ -130,7 +130,10 @@ return {
   deps = {
     { 'lambdalisue/gin.vim', dependencies = { 'vim-denops/denops.vim' } },
     -- { 'tpope/vim-fugitive' },
-    { 'knsh14/vim-github-link' },
+    {
+      'knsh14/vim-github-link',
+      cmd = { 'GetCommitLink', 'GetCurrentBranchLink', 'GetCurrentCommitLink' },
+    },
     -- { 'tanvirtin/vgit.nvim' },
     { 'lewis6991/gitsigns.nvim' },
   },
