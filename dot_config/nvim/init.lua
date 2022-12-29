@@ -506,9 +506,13 @@ local deps = {
   -- statusline
   {
     'nvim-lualine/lualine.nvim',
+    event = 'WinNew',
     dependencies = { 'kyazdani42/nvim-web-devicons' },
-    event = 'VeryLazy',
+    init = function()
+      vim.opt.laststatus = 0
+    end,
     config = function()
+      vim.opt.laststatus = 2
       require 'lualine'.setup {
         options = { theme = 'moonfly', component_separators = '', },
         sections = {
