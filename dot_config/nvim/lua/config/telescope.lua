@@ -198,11 +198,19 @@ return {
   deps = {
     {
       'nvim-telescope/telescope.nvim',
-      dependencies = { 'nvim-lua/plenary.nvim', 'stevearc/aerial.nvim', 'nvim-telescope/telescope-fzf-native.nvim' }
+      cmd = 'Telescope',
+      dependencies = {
+        'nvim-lua/plenary.nvim',
+        { 'nvim-telescope/telescope-fzf-native.nvim', build = 'make' },
+        -- 'stevearc/aerial.nvim', -- can be implicit
+      }
     },
-    { 'nvim-telescope/telescope-fzf-native.nvim', build = 'make' },
+    {
+      'stevearc/aerial.nvim',
+      cmd = { 'AerialToggle', 'AerialOpen', 'AerialOpenAll' },
+      config = function() require('aerial').setup() end
+    },
     -- { 'tknightz/telescope-termfinder.nvim' },  -- finds toggleterm terminals
-    { 'stevearc/aerial.nvim', config = function() require('aerial').setup() end },
   },
   setup = setup
 }
