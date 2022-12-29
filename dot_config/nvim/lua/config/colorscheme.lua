@@ -138,7 +138,9 @@ return {
         })
       end,
     },
-    { 'norcalli/nvim-colorizer.lua',
+    {
+      'norcalli/nvim-colorizer.lua',
+      event = { "BufReadPre" },
       config = function()
         local function setup()
           require('colorizer').setup()
