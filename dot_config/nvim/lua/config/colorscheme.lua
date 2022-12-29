@@ -96,7 +96,7 @@ return {
     -- { "RRethy/nvim-base16" },
     {
       'm-demare/hlargs.nvim',
-      event = "VeryLazy",
+      event = 'BufReadPre',
       config = function()
         local function setup()
           require('hlargs').setup()
@@ -108,7 +108,7 @@ return {
     },
     {
       'RRethy/vim-illuminate',
-      event = 'VeryLazy',
+      event = 'BufReadPre',
       dependencies = { 'nvim-treesitter/nvim-treesitter' },
       init = function()
         set_keymap(
