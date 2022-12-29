@@ -18,11 +18,14 @@ local function filter_only_sorter(sorter)
 end
 
 local function telescope_outline()
-  local picker = require 'telescope.builtin'.treesitter
+  local picker
   if vim.tbl_contains({ "markdown" }, vim.bo.filetype) then
-    picker = require('telescope._extensions').manager.aerial.aerial
+    local ok, aerial = pcall(function()
+      return require('telescope._extensions').manager.aerial.aerial
+    end)
+    picker = ok and aerial
   end
-  picker({ sorter = filter_only_sorter() })
+  (picker or require 'telescope.builtin'.treesitter)({ sorter = filter_only_sorter() })
 end
 
 local telescope_keymaps_filter = {
