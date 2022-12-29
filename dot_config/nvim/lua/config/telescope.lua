@@ -124,7 +124,6 @@ local function setup_memo()
 end
 
 local function setup(_)
-  setup_memo()
   local Telescope = require('telescope')
   Telescope.setup({
     pickers = {
@@ -145,53 +144,6 @@ local function setup(_)
   })
   Telescope.load_extension('aerial')
   Telescope.load_extension('fzf')
-
-  local leader = 's'
-  for _, v in pairs {
-    { 'n', leader .. '<CR>', 'builtin' },
-    -- sa is occupied by sandwich
-    { 'n', leader .. 'b', 'buffers' },
-    { 'n', leader .. 'c', 'commands' },
-    -- sd is occupied by sandwich
-    -- se is occupied by emoji-prefix
-    { 'n', leader .. 'f', 'find_files' },
-    { 'n', leader .. 'g', 'live_grep' },
-    { 'n', leader .. 'h', 'help_tags' },
-    { 'n', leader .. 'j', 'jumplist' },
-    { 'n', leader .. 'o', 'outline', telescope_outline },
-    -- sr is occupied by sandwich
-    { 'n', leader .. 's', 'keymaps normal favorites', telescope_keymaps },
-    { 'n', leader .. 'm', 'keymaps' },
-    { 'n', leader .. 'q', 'quickfixhistory' },
-    { 'n', leader .. [[']], 'marks' },
-    { 'n', leader .. [["]], 'registers' },
-    { 'n', leader .. '.', 'resume' },
-    { 'n', leader .. '/', 'current_buffer_fuzzy_find' },
-    { 'n', leader .. '?', 'man_pages' },
-    { 'n', 'q;', 'command_history' },
-    -- { 'n', 'q:', 'command_history' }, -- prefer cmdbuf.nvim
-    { 'n', 'q/', 'search_history' },
-    { 'i', "<C-R>'", 'registers' },
-    { 'n', '<Plug>(C-G)<C-S>', 'git_status' },
-    -- { 'n', '<Plug>(C-G)<C-M>', 'keymaps' },
-    -- { 'n', '<Plug>(C-G)<CR>', 'keymaps' },
-    -- { { 'v', 'i', 'x' }, '<C-G><C-M>', 'keymaps', telescope_keymaps },
-    -- { { 'v', 'i', 'x' }, '<C-G><CR>', 'keymaps', telescope_keymaps },
-  } do
-    set_keymap(v[1], v[2], v[4] or telescope(v[3]), { desc = 'telescope ' .. v[3] })
-  end
-
-  vim.api.nvim_create_autocmd('FileType', {
-    group = utils.augroup,
-    pattern = 'gitcommit',
-    callback = function(args)
-      set_keymap('n', leader .. 'e', prefix_emoji, { buffer = args.buf })
-      local line = vim.api.nvim_buf_get_lines(args.buf, 0, 1, false)
-      if vim.fn.match(line, '^' .. regex_emoji) == -1 then
-        vim.schedule(function() prefix_emoji(args.buf) end)
-      end
-    end
-  })
 end
 
 return {
@@ -203,7 +155,57 @@ return {
         'nvim-lua/plenary.nvim',
         { 'nvim-telescope/telescope-fzf-native.nvim', build = 'make' },
         -- 'stevearc/aerial.nvim', -- can be implicit
-      }
+      },
+      init = function()
+        setup_memo()
+        local leader = 's'
+        for _, v in pairs {
+          { 'n', leader .. '<CR>', 'builtin' },
+          -- sa is occupied by sandwich
+          { 'n', leader .. 'b', 'buffers' },
+          { 'n', leader .. 'c', 'commands' },
+          -- sd is occupied by sandwich
+          -- se is occupied by emoji-prefix
+          { 'n', leader .. 'f', 'find_files' },
+          { 'n', leader .. 'g', 'live_grep' },
+          { 'n', leader .. 'h', 'help_tags' },
+          { 'n', leader .. 'j', 'jumplist' },
+          { 'n', leader .. 'o', 'outline', telescope_outline },
+          -- sr is occupied by sandwich
+          { 'n', leader .. 's', 'keymaps normal favorites', telescope_keymaps },
+          { 'n', leader .. 'm', 'keymaps' },
+          { 'n', leader .. 'q', 'quickfixhistory' },
+          { 'n', leader .. [[']], 'marks' },
+          { 'n', leader .. [["]], 'registers' },
+          { 'n', leader .. '.', 'resume' },
+          { 'n', leader .. '/', 'current_buffer_fuzzy_find' },
+          { 'n', leader .. '?', 'man_pages' },
+          { 'n', 'q;', 'command_history' },
+          -- { 'n', 'q:', 'command_history' }, -- prefer cmdbuf.nvim
+          { 'n', 'q/', 'search_history' },
+          { 'i', "<C-R>'", 'registers' },
+          { 'n', '<Plug>(C-G)<C-S>', 'git_status' },
+          -- { 'n', '<Plug>(C-G)<C-M>', 'keymaps' },
+          -- { 'n', '<Plug>(C-G)<CR>', 'keymaps' },
+          -- { { 'v', 'i', 'x' }, '<C-G><C-M>', 'keymaps', telescope_keymaps },
+          -- { { 'v', 'i', 'x' }, '<C-G><CR>', 'keymaps', telescope_keymaps },
+        } do
+          set_keymap(v[1], v[2], v[4] or telescope(v[3]), { desc = 'telescope ' .. v[3] })
+        end
+
+        vim.api.nvim_create_autocmd('FileType', {
+          group = utils.augroup,
+          pattern = 'gitcommit',
+          callback = function(args)
+            set_keymap('n', leader .. 'e', prefix_emoji, { buffer = args.buf })
+            local line = vim.api.nvim_buf_get_lines(args.buf, 0, 1, false)
+            if vim.fn.match(line, '^' .. regex_emoji) == -1 then
+              vim.schedule(function() prefix_emoji(args.buf) end)
+            end
+          end
+        })
+      end,
+      config = setup,
     },
     {
       'stevearc/aerial.nvim',
@@ -212,5 +214,5 @@ return {
     },
     -- { 'tknightz/telescope-termfinder.nvim' },  -- finds toggleterm terminals
   },
-  setup = setup
+  setup = function() end
 }
