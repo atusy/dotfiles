@@ -105,17 +105,13 @@ local setup_chowcho = function()
   set_keymap({ '', 't' }, '<C-W>x', _chowcho_exchange)
 end
 
-local function setup()
-  vim.api.nvim_create_autocmd('WinNew', {
-    group = utils.augroup,
-    once = true,
-    callback = setup_chowcho
-  })
-end
-
 return {
   deps = {
-    { 'tkmpypy/chowcho.nvim' },
+    {
+      'tkmpypy/chowcho.nvim',
+      event = 'WinNew',
+      config = setup_chowcho,
+    },
   },
-  setup = setup,
+  setup = function() end
 }
