@@ -709,6 +709,8 @@ local deps = {
   },
   {
     'mfussenegger/nvim-treehopper',
+    keys = 'zf',
+    event = { 'ModeChanged' },
     init = function()
       local function with_tsht()
         -- tsht fails if filetype differs from parser's language
