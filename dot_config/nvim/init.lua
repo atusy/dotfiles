@@ -177,6 +177,7 @@ set_keymap({ '', '!', 't' }, [[<C-\><C-\>]], [[<C-\><C-N>]])
 set_keymap('x', 'zf', function()
   return vim.api.nvim_get_mode().mode ~= 'V' and 'Vzf' or 'zf'
 end, { expr = true })
+set_keymap('x', '/', '<Esc>/\\%V', { desc = 'start search within selection' })
 
 local function jump(forward)
   local buf_cur = vim.api.nvim_get_current_buf()
