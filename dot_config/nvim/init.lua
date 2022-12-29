@@ -704,7 +704,7 @@ local deps = {
     init = function()
       local function with_tsht()
         -- tsht fails if filetype differs from parser's language
-        local ok = pcall(vim.treesitter.get_parser, vim.api.nvim_get_current_buf())
+        local ok = pcall(vim.treesitter.get_parser, 0)
         if not ok then return false end
 
         -- tsht does not support injection
