@@ -386,7 +386,7 @@ local deps = {
     end,
   },
   { 'lambdalisue/vim-manpager', cmd = "Man" },
-  { 'lambdalisue/guise.vim', event = "VeryLazy" },
+  { 'lambdalisue/guise.vim', event = { "TermOpen" } },
   {
     'lambdalisue/fern.vim',
     dependencies = { 'lambdalisue/fern-renderer-nerdfont.vim', 'lambdalisue/nerdfont.vim' },
