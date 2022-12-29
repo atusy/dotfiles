@@ -801,7 +801,7 @@ local deps = {
   -- cmdwin
   {
     'notomo/cmdbuf.nvim',
-    dependencies = { 'nvim-telescope/telescope.nvim' },
+    -- dependencies = { 'nvim-telescope/telescope.nvim' }, -- not required on config
     config = function()
       set_keymap("n", "q:", function()
         require("cmdbuf").split_open(vim.o.cmdwinheight)
