@@ -604,12 +604,20 @@ local deps = {
     keys = { ';' },
     config = function()
       -- LeapBackdrop highlight is defined at colorscheme.lua
-      local function _setup_leap() require('leap').setup({ safe_labels = {} }) end
+      local function hi(_)
+        require('leap').init_highlight(true)
+        vim.api.nvim_set_hl(0, 'LeapBackdrop', { link = 'Comment' })
+      end
+
+      vim.api.nvim_create_autocmd(
+        "User", { pattern = 'LeapEnter', group = utils.augroup, callback = hi }
+      )
+
+      require('leap').setup({ safe_labels = {} })
 
       set_keymap(
         { 'n', 'v' }, ';',
         function()
-          _setup_leap = _setup_leap() or function() end
           require('leap').leap({ target_windows = { vim.api.nvim_get_current_win() } })
         end
       )
@@ -659,6 +667,14 @@ local deps = {
       local ft_to_parser = require 'nvim-treesitter.parsers'.filetype_to_parsername
       ft_to_parser.zsh = 'bash'
       ft_to_parser.tf = 'hcl'
+
+      local function hi()
+        -- require('atusy.ts-highlight').setup()
+        vim.api.nvim_set_hl(0, "@illuminate", { bg = "#383D47" })
+      end
+
+      hi()
+      vim.api.nvim_create_autocmd('ColorScheme', { group = utils.augroup, callback = hi })
     end
   },
   -- 'nvim-treesitter/playground', -- vim.treesitter.show_tree would be enough
@@ -733,6 +749,18 @@ local deps = {
         end,
         { silent = true, desc = 'manually fold lines based on treehopper' }
       )
+    end,
+    config = function()
+      local function hi()
+        vim.api.nvim_set_hl(0, 'TSNodeUnmatched', { link = 'Comment' })
+        vim.api.nvim_set_hl(0, 'TSNodeKey', { link = 'IncSearch' })
+      end
+
+      vim.api.nvim_create_autocmd(
+        "ColorScheme", { group = utils.augroup, callback = hi }
+      )
+
+      hi()
     end
   },
   'JoosepAlviste/nvim-ts-context-commentstring',

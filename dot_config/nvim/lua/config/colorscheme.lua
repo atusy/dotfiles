@@ -3,46 +3,10 @@ local api = vim.api
 local fn = vim.fn
 local utils = require('utils')
 local set_keymap = utils.set_keymap
-local DEFAULT_COLORSCHEME = 'duskfox'
 local ACTIVE_COLORSCHEME = 'duskfox' -- for the active buffer the first tabpage
 local INACTIVE_COLORSCHEME = 'nordfox'
 local OUTSIDE_COLORSCHEME = 'carbonfox'
 local TAB_COLORSCHEME = 'terafox' -- for the active buffer in the other tabpages
-local ILLUMINATION = { bg = "#383D47" }
-
-local function set_colorscheme(nm)
-  local function colorscheme_post()
-    -- require('atusy.ts-highlight').setup()
-    require('hlargs').setup()
-    require('colorizer').setup()
-    require('lsp-colors').setup()
-    api.nvim_set_hl(0, "IlluminatedWordText", ILLUMINATION)
-    api.nvim_set_hl(0, "IlluminatedWordRead", ILLUMINATION)
-    api.nvim_set_hl(0, "IlluminatedWordWrite", ILLUMINATION)
-    api.nvim_set_hl(0, "@illuminate", ILLUMINATION)
-
-    local has_tsht, _ = pcall(require, 'tsht')
-    if has_tsht then
-      api.nvim_set_hl(0, 'TSNodeUnmatched', { link = 'Comment' })
-      api.nvim_set_hl(0, 'TSNodeKey', { link = 'IncSearch' })
-    end
-
-    local has_leap, leap = pcall(require, 'leap')
-    if has_leap then
-      api.nvim_set_hl(0, 'LeapBackdrop', { link = 'Comment' })
-      leap.init_highlight(true)
-    end
-  end
-
-  -- apply colorscheme
-  vim.cmd('colorscheme ' .. nm)
-  colorscheme_post()
-
-  -- add autocmd
-  vim.api.nvim_create_autocmd('ColorScheme', {
-    group = utils.augroup, callback = colorscheme_post, pattern = '*'
-  })
-end
 
 local function likely_cwd(buf)
   buf = buf or api.nvim_win_get_buf(0)
@@ -53,7 +17,7 @@ local function likely_cwd(buf)
 end
 
 local function set_theme(win, colorscheme)
-  if colorscheme == DEFAULT_COLORSCHEME then
+  if colorscheme == vim.g.colors_name then
     -- if default colorscheme, clear() should be enough
     require('styler').clear(win)
   elseif colorscheme ~= (vim.w[win].theme or {}).colorscheme then
@@ -127,23 +91,74 @@ return {
     -- { '4513ECHO/vim-colors-hatsunemiku' },
     -- { 'ellisonleao/gruvbox.nvim' },
     -- { 'sainnhe/everforest' },
-    { 'm-demare/hlargs.nvim' },
+    -- { "catppuccin/nvim", as = "catppuccin" },
+    -- { 'levouh/tint.nvim' }, -- conflicts with styler.nvim
+    -- { "RRethy/nvim-base16" },
     {
-      'RRethy/vim-illuminate',
+      'm-demare/hlargs.nvim',
+      event = "VeryLazy",
       config = function()
-        local Illuminate = require 'illuminate'
-        Illuminate.configure({
-          filetype_denylist = { 'fugitive', 'fern' },
-          modes_allowlist = { 'n' }
-        })
-        set_keymap('n', '<Left>', Illuminate.goto_prev_reference, { desc = 'previous references' })
-        set_keymap('n', '<Right>', Illuminate.goto_next_reference, { desc = 'next reference' })
+        local function setup()
+          require('hlargs').setup()
+        end
+
+        vim.api.nvim_create_autocmd("ColorScheme", { group = utils.augroup, callback = setup })
+        setup()
       end
     },
-    { 'norcalli/nvim-colorizer.lua' },
-    { 'folke/lsp-colors.nvim' },
-    { 'folke/styler.nvim' },
-    -- { "catppuccin/nvim", as = "catppuccin" },
+    {
+      'RRethy/vim-illuminate',
+      event = 'VeryLazy',
+      dependencies = { 'nvim-treesitter/nvim-treesitter' },
+      init = function()
+        set_keymap(
+          'n', '<Left>',
+          function() require('illuminate').goto_prev_reference() end,
+          { desc = 'previous references' }
+        )
+        set_keymap(
+          'n', '<Right>',
+          function() require('illuminate').goto_next_reference() end,
+          { desc = 'next reference' }
+        )
+      end,
+      config = function()
+        local function hi()
+          -- @illuminate is defined on configure of treesitter
+          api.nvim_set_hl(0, "IlluminatedWordText", { link = '@illuminate' })
+          api.nvim_set_hl(0, "IlluminatedWordRead", { link = '@illuminate' })
+          api.nvim_set_hl(0, "IlluminatedWordWrite", { link = '@illuminate' })
+        end
+
+        vim.api.nvim_create_autocmd("ColorScheme", { group = utils.augroup, callback = hi })
+        hi()
+        require('illuminate').configure({
+          filetype_denylist = { 'fern' },
+          modes_allowlist = { 'n' }
+        })
+      end,
+    },
+    { 'norcalli/nvim-colorizer.lua',
+      config = function()
+        local function setup()
+          require('colorizer').setup()
+        end
+
+        vim.api.nvim_create_autocmd("ColorScheme", { group = utils.augroup, callback = setup })
+        setup()
+      end
+    },
+    {
+      'folke/lsp-colors.nvim',
+      event = 'LspAttach',
+      config = function() require('lsp-colors').setup() end
+    },
+    {
+      'folke/styler.nvim',
+      event = { "WinNew", "BufRead", "BufNewFile" },
+      dependencies = { 'EdenEast/nightfox.nvim' },
+      config = function() set_styler() end,
+    },
     {
       "EdenEast/nightfox.nvim",
       lazy = false,
@@ -154,13 +169,9 @@ return {
           groups = { all = { ['@text.literal'] = { link = 'String' } } },
           options = { inverse = { visual = true } },
         })
-      end
+      end,
+      config = function() vim.cmd.colorscheme('duskfox') end,
     },
-    -- { 'levouh/tint.nvim' }, -- conflicts with styler.nvim
-    -- { "RRethy/nvim-base16" },
   },
-  setup = function()
-    set_colorscheme(DEFAULT_COLORSCHEME)
-    set_styler()
-  end
+  setup = function() end
 }
