@@ -626,7 +626,7 @@ local deps = {
     'ggandor/leap-ast.nvim',
     dependencies = { 'ggandor/leap.nvim' },
     keys = { { '<Plug>(leap-ast)', mode = { 'x', 'o' } } },
-    init = function()
+    config = function()
       vim.keymap.set({ 'x', 'o' }, '<Plug>(leap-ast)', function() require 'leap-ast'.leap() end, { silent = true })
     end
   },
@@ -703,7 +703,7 @@ local deps = {
   {
     'mfussenegger/nvim-treehopper',
     keys = { { 'zf', mode = 'n' }, { 'm', mode = { 'x', 'o' } } },
-    init = function()
+    config = function()
       local function with_tsht()
         -- tsht fails if filetype differs from parser's language
         local ok = pcall(vim.treesitter.get_parser, 0)
