@@ -385,7 +385,7 @@ local deps = {
       }
     end,
   },
-  { 'lambdalisue/vim-manpager', command = "Man" },
+  { 'lambdalisue/vim-manpager', cmd = "Man" },
   { 'lambdalisue/guise.vim', event = "VeryLazy" },
   {
     'lambdalisue/fern.vim',
@@ -445,7 +445,7 @@ local deps = {
   -- ui
   {
     "xiyaowong/nvim-transparent", -- not so good with styler.nvim
-    command = "TransparentToggle",
+    cmd = "TransparentToggle",
     config = function() require('transparent').setup({}) end,
   },
   -- "MunifTanjim/nui.nvim",
@@ -500,7 +500,7 @@ local deps = {
   },
   {
     "Wansmer/treesj",
-    command = { "TSJToggle", "TSJSplit", "TSJJoin" },
+    cmd = { "TSJToggle", "TSJSplit", "TSJJoin" },
     init = function()
       set_keymap(
         { 'n', 'v' }, '<Plug>(TSJJoin)', ':TSJJoin<CR>', { desc = 'join lines based on AST' }
@@ -780,7 +780,7 @@ local deps = {
         kind = { 'add' },
         action = { 'add' },
         cursor = 'head',
-        command = { 'startinsert' },
+        cmd = { 'startinsert' },
         input = { vim.api.nvim_replace_termcodes("<C-F>", true, false, true) },
       })
       vim.g['operator#sandwich#recipes'] = recipes
