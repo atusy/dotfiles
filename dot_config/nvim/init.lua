@@ -675,13 +675,10 @@ local deps = {
   {
     'nvim-treesitter/nvim-treesitter-refactor',
     dependencies = { 'nvim-treesitter/nvim-treesitter' },
-    init = function()
-      set_keymap(
-        'n', ' rn', -- lsp may overridde the feature if renameProvider is available
-        function() require 'nvim-treesitter-refactor.smart_rename'.smart_rename(0) end,
-        { desc = 'treesitter rename' }
-      )
-    end
+    keys = {
+      -- lsp may overridde the feature with buffer-local mapping
+      { ' rn', function() require 'nvim-treesitter-refactor.smart_rename'.smart_rename(0) end }
+    },
   },
   -- 'haringsrob/nvim_context_vt',
   {
