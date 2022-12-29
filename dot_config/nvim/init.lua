@@ -570,6 +570,13 @@ local deps = {
   },
   {
     'phaazon/hop.nvim',
+    keys = {
+      { 'f', mode = '' },
+      { 'F', mode = '' },
+      { 't', mode = '' },
+      { 'T', mode = '' },
+      'gn',
+    },
     config = function()
       local function _setup_hop() require('hop').setup() end
 
