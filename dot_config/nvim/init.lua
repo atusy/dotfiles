@@ -378,6 +378,7 @@ local deps = {
   {
     'numToStr/Comment.nvim',
     dependencies = { 'JoosepAlviste/nvim-ts-context-commentstring' },
+    keys = { 'gcc', 'gcb', { 'gc', mode = 'v' }, { 'gb', mode = 'v' } },
     config = function()
       require('Comment').setup {
         toggler = { line = 'gcc', block = 'gcb' },
@@ -433,13 +434,7 @@ local deps = {
   { 'segeljakt/vim-silicon', cmd = { 'Silicon', 'SiliconHighlight' } }, -- pacman -S silicon
   {
     'tyru/open-browser.vim',
-    keys = { 'gx', '<Plug>(openbrowser-smart-search)' },
-    init = function()
-      set_keymap({ 'n', 'v' }, 'gx', '<Plug>(openbrowser-smart-search)')
-    end,
-    config = function()
-      set_keymap({ 'n', 'v' }, 'gx', '<Plug>(openbrowser-smart-search)')
-    end,
+    keys = { { 'gx', '<Plug>(openbrowser-smart-search)', mode = { 'n', 'v' } } },
   },
 
   -- ui
@@ -478,15 +473,10 @@ local deps = {
   -- better something
   {
     'haya14busa/vim-asterisk',
-    keys = { '<Plug>(asterisk-z*)', '<Plug>(asterisk-gz*)' },
-    init = function()
-      set_keymap('n', '*', '<Plug>(asterisk-z*)')
-      set_keymap('v', '*', '<Plug>(asterisk-gz*)')
-    end,
-    config = function()
-      set_keymap('n', '*', '<Plug>(asterisk-z*)')
-      set_keymap('v', '*', '<Plug>(asterisk-gz*)')
-    end
+    keys = {
+      { '*', '<Plug>(asterisk-z*)', mode = 'n' },
+      { '*', '<Plug>(asterisk-gz*)', mode = 'v' },
+    },
   },
   { 'wsdjeg/vim-fetch', event = { 'CmdlineEnter' } }, -- :e with linenumber
   'lambdalisue/readablefold.vim',
@@ -568,11 +558,10 @@ local deps = {
   -- motion
   {
     'haya14busa/vim-edgemotion',
-    keys = { '<A-]>', '<A-[>' },
-    config = function()
-      set_keymap('', '<A-]>', '<Plug>(edgemotion-j)', {})
-      set_keymap('', '<A-[>', '<Plug>(edgemotion-k)', {})
-    end
+    keys = {
+      { '<A-]>', '<Plug>(edgemotion-j)', mode = '' },
+      { '<A-[>', '<Plug>(edgemotion-k)', mode = '' },
+    },
   },
   {
     'phaazon/hop.nvim',
@@ -606,7 +595,7 @@ local deps = {
   },
   {
     'ggandor/leap.nvim',
-    keys = { ';' },
+    keys = { { ';', mode = { 'n', 'v' } } },
     config = function()
       -- LeapBackdrop highlight is defined at colorscheme.lua
       local function hi(_)
@@ -631,7 +620,7 @@ local deps = {
   {
     'ggandor/leap-ast.nvim',
     dependencies = { 'ggandor/leap.nvim' },
-    keys = { '<Plug>(leap-ast)' },
+    keys = { { '<Plug>(leap-ast)', mode = { 'x', 'o' } } },
     init = function()
       vim.keymap.set({ 'x', 'o' }, '<Plug>(leap-ast)', function() require 'leap-ast'.leap() end, { silent = true })
     end
@@ -697,6 +686,7 @@ local deps = {
   -- 'haringsrob/nvim_context_vt',
   {
     'romgrk/nvim-treesitter-context',
+    event = "BufReadPre",
     config = function()
       require 'treesitter-context'.setup({
         enable = true,
@@ -710,8 +700,7 @@ local deps = {
   },
   {
     'mfussenegger/nvim-treehopper',
-    keys = 'zf',
-    event = { 'ModeChanged *:vV' },
+    keys = { { 'zf', mode = 'n' }, { 'm', mode = { 'x', 'o' } } },
     init = function()
       local function with_tsht()
         -- tsht fails if filetype differs from parser's language
