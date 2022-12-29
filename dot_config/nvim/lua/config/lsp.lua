@@ -143,7 +143,7 @@ return {
   deps = {
     { 'nvim-telescope/telescope.nvim' },
     { 'neovim/nvim-lspconfig' },
-    { 'glepnir/lspsaga.nvim' },
+    -- { 'glepnir/lspsaga.nvim' },
     { 'williamboman/mason.nvim' },
     { 'williamboman/mason-lspconfig.nvim' },
     { 'tamago324/nlsp-settings.nvim' },
