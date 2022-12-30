@@ -1,4 +1,3 @@
-lua << EOF
 local chezmoi = vim.api.nvim_exec('pwd', true)
 local group = vim.api.nvim_create_augroup('nvimrc-chezmoi', {})
 vim.api.nvim_create_autocmd('VimLeave', {
@@ -19,4 +18,3 @@ vim.api.nvim_create_autocmd({ "BufWritePre" }, {
   group = group,
   callback = function() pcall(vim.lsp.buf.format) end,
 })
-EOF
