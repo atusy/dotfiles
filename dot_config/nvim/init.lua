@@ -479,7 +479,10 @@ local deps = {
       { '*', '<Plug>(asterisk-gz*)', mode = 'v' },
     },
   },
-  { 'wsdjeg/vim-fetch', event = { 'CmdlineEnter' } }, -- :e with linenumber
+  {
+    'wsdjeg/vim-fetch', -- :e with linenumber
+    lazy = false, -- some how event-based lazy loading won't work as expected
+  },
   'lambdalisue/readablefold.vim',
   { 'jghauser/mkdir.nvim', event = { 'VeryLazy', 'CmdlineEnter' } }, -- :w with mkdir
   {
