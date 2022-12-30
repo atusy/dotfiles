@@ -177,8 +177,26 @@ set_keymap({ '', '!', 't' }, [[<C-\><C-\>]], [[<C-\><C-N>]])
 set_keymap('x', 'zf', [[mode() == 'V' ? 'zf' : 'Vzf']], { expr = true })
 set_keymap('x', '/', '<Esc>/\\%V', { desc = 'start search within selection' })
 
-set_keymap('n', 'g<C-O>', '<Cmd>bprevious<CR>', { fav = false })
-set_keymap('n', 'g<C-I>', '<Cmd>bnext<CR>', { fav = false })
+local function jump(forward)
+  local buf_cur = vim.api.nvim_get_current_buf()
+  local jumplist = vim.fn.getjumplist()
+  local jumps = jumplist[1]
+  local idx_cur = jumplist[2] + 1
+  local function is_target(buf) return buf ~= buf_cur and vim.api.nvim_buf_is_loaded(buf) end
+
+  if forward then
+    for i = 1, #jumps - idx_cur do
+      if is_target(jumps[idx_cur + i].bufnr) then return i .. '<C-I>' end
+    end
+  else
+    for i = 1, idx_cur - 1 do
+      if is_target(jumps[idx_cur - i].bufnr) then return i .. '<C-O>' end
+    end
+  end
+end
+
+set_keymap('n', 'g<C-O>', function() return jump(false) end, { fav = false, expr = true })
+set_keymap('n', 'g<C-I>', function() return jump(true) end, { fav = false, expr = true })
 
 set_keymap(
   'n',
@@ -188,7 +206,7 @@ set_keymap(
 )
 set_keymap({ 'i', 'n' }, '<C-S>', [[<C-\><C-N><Plug>(save)<Plug>(C-S)]], { fav = false }) -- Save
 set_keymap('n', '<Plug>(C-S)<C-A>', ':wa<CR>', { fav = false }) -- Save All
-set_keymap('n', '<Plug>(C-S)<C-O>', '<Cmd>brevious<CR>') -- Save and jump to previous buf
+set_keymap('n', '<Plug>(C-S)<C-O>', jump, { fav = false, expr = true }) -- Save and jump to previous buf
 set_keymap('n', '<Plug>(C-S)<C-E>', ':e #<CR>', { fav = false }) -- Save and Edit alt
 set_keymap('n', '<Plug>(C-S)<C-Q>', ':q<CR>', { fav = false }) -- Save and Quit
 set_keymap('n', '<Plug>(C-S)<C-V>', function()
