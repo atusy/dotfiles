@@ -110,7 +110,8 @@ return {
       'RRethy/vim-illuminate',
       event = 'BufReadPre',
       dependencies = { 'nvim-treesitter/nvim-treesitter' },
-      init = function()
+      keys = { '<Left>', '<Right>' },
+      config = function()
         set_keymap(
           'n', '<Left>',
           function() require('illuminate').goto_prev_reference() end,
@@ -121,8 +122,6 @@ return {
           function() require('illuminate').goto_next_reference() end,
           { desc = 'next reference' }
         )
-      end,
-      config = function()
         local function hi()
           -- @illuminate is defined on configure of treesitter
           api.nvim_set_hl(0, "IlluminatedWordText", { link = '@illuminate' })
