@@ -3,12 +3,7 @@ local group = vim.api.nvim_create_augroup('nvimrc-chezmoi', {})
 vim.api.nvim_create_autocmd('VimLeave', {
   callback = function(args)
     if vim.startswith(args.file, '.git/') then return end
-    vim.notify('!chezmoi apply')
     vim.cmd('!chezmoi apply')
-    if vim.startswith(args.file, 'dot_config/nvim') then
-      vim.notify(':source $MYVIMRC')
-      vim.cmd('source $MYVIMRC')
-    end
   end,
   group = group,
   pattern = chezmoi .. '/*',
