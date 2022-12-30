@@ -771,15 +771,13 @@ local deps = {
   -- terminal
   {
     'akinsho/toggleterm.nvim',
-    keys = { '<C-T>' },
+    keys = { '<C-T>', { ' <CR>', mode = { 'n', 'x' } } },
     cmd = { 'ToggleTermSendCurrentLine', 'ToggleTermSendVisualSelection' },
-    init = function()
-      set_keymap('n', '<Leader>j', ':ToggleTermSendCurrentLine<CR>j',
-        { desc = 'send the line to toggle term and go to next line' })
-      set_keymap('v', '<Leader>j', ":ToggleTermSendVisualSelection<CR>gv<Esc>",
-        { desc = 'send the selection to toggle term while keeping the cursor position' })
-    end,
     config = function()
+      set_keymap('n', ' <CR>', ':ToggleTermSendCurrentLine<CR>j',
+        { desc = 'send the line to toggle term and go to next line', fav = false })
+      set_keymap('x', ' <CR>', ":ToggleTermSendVisualSelection<CR>gv<Esc>",
+        { desc = 'send the selection to toggle term while keeping the cursor position', fav = false })
       require 'toggleterm'.setup {
         open_mapping = '<C-T>',
         insert_mappings = false,
