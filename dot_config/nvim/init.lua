@@ -174,9 +174,7 @@ set_keymap({ 'n', 'v' }, 'gY', '"+Y')
 set_keymap('c', '<C-A>', '<Home>')
 set_keymap('t', '<C-W>', [[<C-\><C-N><C-W>]])
 set_keymap({ '', '!', 't' }, [[<C-\><C-\>]], [[<C-\><C-N>]])
-set_keymap('x', 'zf', function()
-  return vim.api.nvim_get_mode().mode ~= 'V' and 'Vzf' or 'zf'
-end, { expr = true })
+set_keymap('x', 'zf', [[mode() == 'V' ? 'zf' : 'Vzf']], { expr = true })
 set_keymap('x', '/', '<Esc>/\\%V', { desc = 'start search within selection' })
 
 set_keymap('n', 'g<C-O>', '<Cmd>bprevious<CR>', { fav = false })
