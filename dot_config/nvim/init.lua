@@ -385,21 +385,3 @@ if vim.v.vim_did_enter == 1 then
     end
   end
 end
-
-vim.api.nvim_create_autocmd('CmdlineEnter', {
-  group = utils.augroup,
-  once = true,
-  callback = function()
-    local telescomp = "/home/atusy/ghq/github.com/atusy/telescomp"
-    if vim.fn.isdirectory(telescomp) == 0 then return end
-    vim.opt.runtimepath:append(telescomp)
-    local cmdline_builtin = utils.require('telescomp.cmdline.builtin')
-    set_keymap('c', '<C-X><C-B>', cmdline_builtin.git_branches)
-    set_keymap('c', '<C-X><C-F>', cmdline_builtin.find_files)
-    set_keymap('c', '<C-X><C-M>', cmdline_builtin.builtin)
-    set_keymap('c', '<C-D>', "<C-L><Cmd>lua require('telescomp.cmdline.builtin').cmdline()<CR>")
-    set_keymap('n', '<Plug>(telescomp-colon)', ':', { remap = true })
-    set_keymap('n', '<Plug>(telescomp-slash)', '/', { remap = true })
-    set_keymap('n', '<Plug>(telescomp-question)', '?', { remap = true })
-  end
-})
