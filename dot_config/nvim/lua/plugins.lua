@@ -481,24 +481,4 @@ local deps = {
   },
 }
 
-local configurations = (function()
-  -- temporary redefine require to enable definition jumps
-  local require = utils.require
-  return {
-    -- order may matter
-    require('config.colorscheme'),
-    require('config.window'),
-    require('config.git'),
-    require('config.lsp'),
-    require('config.telescope'),
-    require('config.ddc'),
-    -- require('config.scorpeon'),
-  }
-end)()
-for _, config in pairs(configurations) do
-  for _, dep in pairs(config) do
-    table.insert(deps, dep)
-  end
-end
-
 return deps
