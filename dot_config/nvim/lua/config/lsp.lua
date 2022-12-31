@@ -161,5 +161,4 @@ return {
       end
     },
   },
-  setup = function(_) end
 }

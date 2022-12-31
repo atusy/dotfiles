@@ -7,5 +7,4 @@ return {
     { 'microsoft/vscode', merged = false, opt = 1, path = vscode },
     { 'sumneko/vscode-lua', merged = false, opt = 1, path = scorpeon .. '/lua' },
   },
-  setup = function() end
 }

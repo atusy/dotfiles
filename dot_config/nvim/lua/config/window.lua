@@ -113,5 +113,4 @@ return {
       config = setup_chowcho,
     },
   },
-  setup = function() end
 }

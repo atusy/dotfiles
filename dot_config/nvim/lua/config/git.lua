@@ -141,5 +141,4 @@ return {
     -- { 'tanvirtin/vgit.nvim' },
     { 'lewis6991/gitsigns.nvim', config = setup_gitsigns },
   },
-  setup = function(_) end
 }

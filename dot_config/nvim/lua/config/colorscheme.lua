@@ -174,5 +174,4 @@ return {
       config = function() vim.cmd.colorscheme('duskfox') end,
     },
   },
-  setup = function() end
 }

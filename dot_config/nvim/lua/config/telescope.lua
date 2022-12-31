@@ -217,5 +217,4 @@ return {
     },
     -- { 'tknightz/telescope-termfinder.nvim' },  -- finds toggleterm terminals
   },
-  setup = function() end
 }

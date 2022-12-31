@@ -867,10 +867,6 @@ require('lazy').setup(deps, {
   },
 })
 
-for _, config in ipairs(configurations) do
-  config.setup()
-end
-
 if vim.v.vim_did_enter == 1 then
   local function try(...)
     local ok, res = pcall(...)
