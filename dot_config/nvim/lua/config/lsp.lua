@@ -163,25 +163,23 @@ local function setup_nvim_lsp()
 end
 
 return {
-  deps = {
-    {
-      'neovim/nvim-lspconfig',
-      dependencies = {
-        { 'williamboman/mason.nvim' },
-        { 'williamboman/mason-lspconfig.nvim' },
-        { 'jose-elias-alvarez/null-ls.nvim' },
-        { 'matsui54/denops-signature_help' },
-        { 'ii14/emmylua-nvim' },
-        { 'tamago324/nlsp-settings.nvim' },
-        -- { 'glepnir/lspsaga.nvim' },
-      },
-      config = function()
-        setup_autocmd()
-        setup_global_keymaps()
-        setup_nvim_lsp()
-        setup_null_ls()
-        vim.fn['signature_help#enable']()
-      end
+  {
+    'neovim/nvim-lspconfig',
+    dependencies = {
+      { 'williamboman/mason.nvim' },
+      { 'williamboman/mason-lspconfig.nvim' },
+      { 'jose-elias-alvarez/null-ls.nvim' },
+      { 'matsui54/denops-signature_help' },
+      { 'ii14/emmylua-nvim' },
+      { 'tamago324/nlsp-settings.nvim' },
+      -- { 'glepnir/lspsaga.nvim' },
     },
+    config = function()
+      setup_autocmd()
+      setup_global_keymaps()
+      setup_nvim_lsp()
+      setup_null_ls()
+      vim.fn['signature_help#enable']()
+    end
   },
 }

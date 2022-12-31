@@ -106,11 +106,9 @@ local setup_chowcho = function()
 end
 
 return {
-  deps = {
-    {
-      'tkmpypy/chowcho.nvim',
-      event = 'WinNew',
-      config = setup_chowcho,
-    },
+  {
+    'tkmpypy/chowcho.nvim',
+    event = 'WinNew',
+    config = setup_chowcho,
   },
 }

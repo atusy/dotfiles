@@ -87,91 +87,89 @@ end
 
 -- return
 return {
-  deps = {
-    -- { '4513ECHO/vim-colors-hatsunemiku' },
-    -- { 'ellisonleao/gruvbox.nvim' },
-    -- { 'sainnhe/everforest' },
-    -- { "catppuccin/nvim", as = "catppuccin" },
-    -- { 'levouh/tint.nvim' }, -- conflicts with styler.nvim
-    -- { "RRethy/nvim-base16" },
-    {
-      'm-demare/hlargs.nvim',
-      event = 'BufReadPre',
-      config = function()
-        local function setup()
-          require('hlargs').setup()
-        end
-
-        vim.api.nvim_create_autocmd("ColorScheme", { group = utils.augroup, callback = setup })
-        setup()
+  -- { '4513ECHO/vim-colors-hatsunemiku' },
+  -- { 'ellisonleao/gruvbox.nvim' },
+  -- { 'sainnhe/everforest' },
+  -- { "catppuccin/nvim", as = "catppuccin" },
+  -- { 'levouh/tint.nvim' }, -- conflicts with styler.nvim
+  -- { "RRethy/nvim-base16" },
+  {
+    'm-demare/hlargs.nvim',
+    event = 'BufReadPre',
+    config = function()
+      local function setup()
+        require('hlargs').setup()
       end
-    },
-    {
-      'RRethy/vim-illuminate',
-      event = 'BufReadPre',
-      dependencies = { 'nvim-treesitter/nvim-treesitter' },
-      keys = { '<Left>', '<Right>' },
-      config = function()
-        set_keymap(
-          'n', '<Left>',
-          function() require('illuminate').goto_prev_reference() end,
-          { desc = 'previous references' }
-        )
-        set_keymap(
-          'n', '<Right>',
-          function() require('illuminate').goto_next_reference() end,
-          { desc = 'next reference' }
-        )
-        local function hi()
-          -- @illuminate is defined on configure of treesitter
-          api.nvim_set_hl(0, "IlluminatedWordText", { link = '@illuminate' })
-          api.nvim_set_hl(0, "IlluminatedWordRead", { link = '@illuminate' })
-          api.nvim_set_hl(0, "IlluminatedWordWrite", { link = '@illuminate' })
-        end
 
-        vim.api.nvim_create_autocmd("ColorScheme", { group = utils.augroup, callback = hi })
-        hi()
-        require('illuminate').configure({
-          filetype_denylist = { 'fern' },
-          modes_allowlist = { 'n' }
-        })
-      end,
-    },
-    {
-      'norcalli/nvim-colorizer.lua',
-      event = { "BufReadPre" },
-      config = function()
-        local function setup()
-          require('colorizer').setup()
-        end
-
-        vim.api.nvim_create_autocmd("ColorScheme", { group = utils.augroup, callback = setup })
-        setup()
+      vim.api.nvim_create_autocmd("ColorScheme", { group = utils.augroup, callback = setup })
+      setup()
+    end
+  },
+  {
+    'RRethy/vim-illuminate',
+    event = 'BufReadPre',
+    dependencies = { 'nvim-treesitter/nvim-treesitter' },
+    keys = { '<Left>', '<Right>' },
+    config = function()
+      set_keymap(
+        'n', '<Left>',
+        function() require('illuminate').goto_prev_reference() end,
+        { desc = 'previous references' }
+      )
+      set_keymap(
+        'n', '<Right>',
+        function() require('illuminate').goto_next_reference() end,
+        { desc = 'next reference' }
+      )
+      local function hi()
+        -- @illuminate is defined on configure of treesitter
+        api.nvim_set_hl(0, "IlluminatedWordText", { link = '@illuminate' })
+        api.nvim_set_hl(0, "IlluminatedWordRead", { link = '@illuminate' })
+        api.nvim_set_hl(0, "IlluminatedWordWrite", { link = '@illuminate' })
       end
-    },
-    {
-      'folke/lsp-colors.nvim',
-      event = 'LspAttach',
-      config = function() require('lsp-colors').setup() end
-    },
-    {
-      'folke/styler.nvim',
-      event = { "WinNew", "BufRead", "BufNewFile" },
-      dependencies = { 'EdenEast/nightfox.nvim' },
-      config = function() set_styler() end,
-    },
-    {
-      "EdenEast/nightfox.nvim",
-      lazy = false,
-      priority = 9999,
-      build = function()
-        -- thanks to cache, this needs run only on build (unless changed)
-        require('nightfox').setup({
-          groups = { all = { ['@text.literal'] = { link = 'String' } } },
-          options = { inverse = { visual = true } },
-        })
-      end,
-      config = function() vim.cmd.colorscheme('duskfox') end,
-    },
+
+      vim.api.nvim_create_autocmd("ColorScheme", { group = utils.augroup, callback = hi })
+      hi()
+      require('illuminate').configure({
+        filetype_denylist = { 'fern' },
+        modes_allowlist = { 'n' }
+      })
+    end,
+  },
+  {
+    'norcalli/nvim-colorizer.lua',
+    event = { "BufReadPre" },
+    config = function()
+      local function setup()
+        require('colorizer').setup()
+      end
+
+      vim.api.nvim_create_autocmd("ColorScheme", { group = utils.augroup, callback = setup })
+      setup()
+    end
+  },
+  {
+    'folke/lsp-colors.nvim',
+    event = 'LspAttach',
+    config = function() require('lsp-colors').setup() end
+  },
+  {
+    'folke/styler.nvim',
+    event = { "WinNew", "BufRead", "BufNewFile" },
+    dependencies = { 'EdenEast/nightfox.nvim' },
+    config = function() set_styler() end,
+  },
+  {
+    "EdenEast/nightfox.nvim",
+    lazy = false,
+    priority = 9999,
+    build = function()
+      -- thanks to cache, this needs run only on build (unless changed)
+      require('nightfox').setup({
+        groups = { all = { ['@text.literal'] = { link = 'String' } } },
+        options = { inverse = { visual = true } },
+      })
+    end,
+    config = function() vim.cmd.colorscheme('duskfox') end,
   },
 }

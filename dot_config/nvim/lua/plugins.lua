@@ -496,7 +496,7 @@ local configurations = (function()
   }
 end)()
 for _, config in pairs(configurations) do
-  for _, dep in pairs(config.deps) do
+  for _, dep in pairs(config) do
     table.insert(deps, dep)
   end
 end

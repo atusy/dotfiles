@@ -128,27 +128,25 @@ local function setup()
 end
 
 return {
-  deps = {
-    {
-      'Shougo/ddc.vim',
-      dir = '/home/atusy/ghq/github.com/Shougo/ddc.vim',
-      dependencies = {
-        { 'vim-denops/denops.vim' },
-        { 'Shougo/pum.vim' },
-        { 'Shougo/ddc-matcher_head' }, -- 入力中の単語を補完
-        { 'Shougo/ddc-source-around' },
-        { 'Shougo/ddc-source-cmdline' },
-        { 'Shougo/ddc-source-cmdline-history' },
-        { 'Shougo/ddc-source-nvim-lsp' }, -- 入力中の単語を補完
-        -- { 'Shougo/ddc-ui-native' },
-        { 'Shougo/ddc-ui-pum' },
-        { 'LumaKernel/ddc-source-file' }, -- Suggest file paths
-        { 'Shougo/ddc-converter_remove_overlap' }, -- remove duplicates
-        { 'Shougo/ddc-sorter_rank' }, -- Sort suggestions
-        { 'tani/ddc-fuzzy' },
-        { 'matsui54/denops-popup-preview.vim', dependencies = { 'vim-denops/denops.vim' } },
-      },
-      config = setup
+  {
+    'Shougo/ddc.vim',
+    dir = '/home/atusy/ghq/github.com/Shougo/ddc.vim',
+    dependencies = {
+      { 'vim-denops/denops.vim' },
+      { 'Shougo/pum.vim' },
+      { 'Shougo/ddc-matcher_head' }, -- 入力中の単語を補完
+      { 'Shougo/ddc-source-around' },
+      { 'Shougo/ddc-source-cmdline' },
+      { 'Shougo/ddc-source-cmdline-history' },
+      { 'Shougo/ddc-source-nvim-lsp' }, -- 入力中の単語を補完
+      -- { 'Shougo/ddc-ui-native' },
+      { 'Shougo/ddc-ui-pum' },
+      { 'LumaKernel/ddc-source-file' }, -- Suggest file paths
+      { 'Shougo/ddc-converter_remove_overlap' }, -- remove duplicates
+      { 'Shougo/ddc-sorter_rank' }, -- Sort suggestions
+      { 'tani/ddc-fuzzy' },
+      { 'matsui54/denops-popup-preview.vim', dependencies = { 'vim-denops/denops.vim' } },
     },
+    config = setup
   },
 }
