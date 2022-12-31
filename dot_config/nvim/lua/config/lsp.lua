@@ -141,21 +141,25 @@ end
 
 return {
   deps = {
-    { 'nvim-telescope/telescope.nvim' },
-    { 'neovim/nvim-lspconfig' },
-    -- { 'glepnir/lspsaga.nvim' },
-    { 'williamboman/mason.nvim' },
-    { 'williamboman/mason-lspconfig.nvim' },
-    { 'tamago324/nlsp-settings.nvim' },
-    { 'ii14/emmylua-nvim' },
-    { 'jose-elias-alvarez/null-ls.nvim' },
-    { 'matsui54/denops-signature_help' },
+    {
+      'neovim/nvim-lspconfig',
+      dependencies = {
+        { 'williamboman/mason.nvim' },
+        { 'williamboman/mason-lspconfig.nvim' },
+        { 'jose-elias-alvarez/null-ls.nvim' },
+        { 'matsui54/denops-signature_help' },
+        { 'ii14/emmylua-nvim' },
+        { 'tamago324/nlsp-settings.nvim' },
+        -- { 'glepnir/lspsaga.nvim' },
+      },
+      config = function()
+        setup_autocmd()
+        setup_global_keymaps()
+        setup_nvim_lsp()
+        setup_null_ls()
+        vim.fn['signature_help#enable']()
+      end
+    },
   },
-  setup = function(_)
-    setup_autocmd()
-    setup_global_keymaps()
-    setup_nvim_lsp()
-    setup_null_ls()
-    vim.fn['signature_help#enable']()
-  end
+  setup = function(_) end
 }
