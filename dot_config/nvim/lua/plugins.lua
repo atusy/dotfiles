@@ -9,6 +9,7 @@ local deps = {
   { 'kana/vim-submode', enabled = false },
   {
     'delphinus/cellwidths.nvim',
+    event = 'BufReadPost',
     config = function()
       require("cellwidths").setup { name = "default" }
       vim.cmd.CellWidthsDelete("{" .. table.concat({
