@@ -345,8 +345,8 @@ local deps = {
   },
   {
     'mfussenegger/nvim-treehopper',
-    keys = { { 'zf', mode = 'n' }, { 'm', mode = { 'x', 'o' } } },
-    config = function()
+    lazy = true,
+    init = function()
       local function with_tsht()
         -- tsht fails if filetype differs from parser's language
         local ok = pcall(vim.treesitter.get_parser, 0)
