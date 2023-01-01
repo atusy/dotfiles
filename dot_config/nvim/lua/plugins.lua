@@ -387,12 +387,7 @@ local deps = {
   -- text object
   {
     'machakann/vim-sandwich',
-    keys = {
-      { 'sa', mode = '' },
-      { 'sr', mode = '' },
-      { 'sd', mode = '' },
-      { 's(', mode = '' },
-    },
+    keys = { { 's', mode = '' }, },
     config = function()
       vim.g['sandwich#recipes'] = vim.deepcopy(vim.g['sandwich#default_recipes'])
       local recipes = vim.fn.deepcopy(vim.g['operator#sandwich#default_recipes'])
