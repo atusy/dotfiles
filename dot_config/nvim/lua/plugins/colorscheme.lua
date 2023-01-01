@@ -52,6 +52,24 @@ local function theme_inactive_win(win)
   set_theme(win, COLORSCHEME)
 end
 
+local function theme(win_event)
+  local win_pre = fn.win_getid(fn.winnr('#'))
+  local win_cursor = api.nvim_get_current_win()
+
+  -- Activate
+  theme_active_win(win_cursor)
+
+  -- Deactivate previous window
+  if win_pre ~= 0 and win_pre ~= win_cursor then
+    theme_inactive_win(win_pre)
+  end
+
+  -- Deactivate an inactive window that triggered BufWinEnter
+  if win_event ~= win_cursor then
+    theme_inactive_win(win_event)
+  end
+end
+
 local function set_styler()
   api.nvim_create_autocmd(
     {
@@ -63,23 +81,7 @@ local function set_styler()
       group = utils.augroup,
       callback = function(_)
         local win_event = api.nvim_get_current_win()
-        vim.schedule(function()
-          local win_pre = fn.win_getid(fn.winnr('#'))
-          local win_cursor = api.nvim_get_current_win()
-
-          -- Activate
-          theme_active_win(win_cursor)
-
-          -- Deactivate previous window
-          if win_pre ~= 0 and win_pre ~= win_cursor then
-            theme_inactive_win(win_pre)
-          end
-
-          -- Deactivate an inactive window that triggered BufWinEnter
-          if win_event ~= win_cursor then
-            theme_inactive_win(win_event)
-          end
-        end)
+        vim.schedule(function() theme(win_event) end)
       end
     }
   )
