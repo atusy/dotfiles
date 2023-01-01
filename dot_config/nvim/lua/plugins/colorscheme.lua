@@ -76,6 +76,13 @@ local function set_styler()
       'BufWinEnter', -- instead of BufEnter
       'WinLeave', -- supports changes without WinEnter (e.g., cmdbuf.nvim)
       'WinNew', -- supports new windows without focus (e.g., `vim.api.nvim_win_call(0, vim.cmd.vsplit)`)
+      'WinClosed', --[[
+        supports active window being closed via win_call
+            ``` vim
+            vsplit
+            lua (function(w) vim.api.nvim_win_call(vim.fn.win_getid(vim.fn.winnr('#')), function() vim.api.nvim_win_close(w, true) end) end)(vim.api.nvim_get_current_win())
+            ```
+      ]]
     },
     {
       group = utils.augroup,
