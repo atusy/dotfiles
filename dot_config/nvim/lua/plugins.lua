@@ -268,10 +268,19 @@ local deps = {
 
   -- treesitter
   {
+    'JoosepAlviste/nvim-ts-context-commentstring',
+    dependencies = { 'nvim-treesitter/nvim-treesitter' },
+    lazy = true, -- will be loaded via Comment.nvim
+    config = function()
+      require 'nvim-treesitter.configs'.setup {
+        context_commentstring = { enable = true, enable_autocmd = false },
+      }
+    end
+  },
+  {
     'nvim-treesitter/nvim-treesitter',
     build = ":TSUpdate",
     pin = true,
-    dependencies = { 'JoosepAlviste/nvim-ts-context-commentstring' },
     init = function()
       set_keymap(
         'n', '<Plug>(treesitter-show-tree)',
@@ -285,7 +294,6 @@ local deps = {
       require 'nvim-treesitter.configs'.setup {
         parser_install_dir = treesitterpath,
         ensure_installed = 'all',
-        context_commentstring = { enable = true, enable_autocmd = false },
         highlight = {
           enable = true,
           disable = function(lang)
