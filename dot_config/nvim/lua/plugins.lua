@@ -150,7 +150,18 @@ local deps = {
     end,
     config = function() require("treesj").setup({ use_default_keymaps = false }) end,
   },
-  -- anuvyklack/pretty-fold.nvim
+  {
+    'monaqa/dial.nvim',
+    lazy = true,
+    init = function()
+      set_keymap("n", "<C-A>", function() return require("dial.map").inc_normal() end, { expr = true })
+      set_keymap("n", "<C-X>", function() return require("dial.map").dec_normal() end, { expr = true })
+      set_keymap("v", "<C-A>", function() return require("dial.map").inc_visual() end, { expr = true })
+      set_keymap("v", "<C-X>", function() return require("dial.map").dec_visual() end, { expr = true })
+      set_keymap("v", "g<C-A>", function() return require("dial.map").inc_gvisual() end, { expr = true })
+      set_keymap("v", "g<C-X>", function() return require("dial.map").dec_gvisual() end, { expr = true })
+    end
+  },
 
   -- statusline
   {
