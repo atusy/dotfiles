@@ -116,10 +116,10 @@ return {
   },
   {
     'RRethy/vim-illuminate',
+    lazy = true,
     event = 'BufReadPre',
     dependencies = { 'nvim-treesitter/nvim-treesitter' },
-    keys = { '<Left>', '<Right>' },
-    config = function()
+    init = function()
       set_keymap(
         'n', '<Left>',
         function() require('illuminate').goto_prev_reference() end,
@@ -130,6 +130,8 @@ return {
         function() require('illuminate').goto_next_reference() end,
         { desc = 'next reference' }
       )
+    end,
+    config = function()
       local function hi()
         -- @illuminate is defined on configure of treesitter
         api.nvim_set_hl(0, "IlluminatedWordText", { link = '@illuminate' })
@@ -137,12 +139,12 @@ return {
         api.nvim_set_hl(0, "IlluminatedWordWrite", { link = '@illuminate' })
       end
 
-      vim.api.nvim_create_autocmd("ColorScheme", { group = utils.augroup, callback = hi })
-      hi()
       require('illuminate').configure({
         filetype_denylist = { 'fern' },
         modes_allowlist = { 'n' }
       })
+      vim.api.nvim_create_autocmd("ColorScheme", { group = utils.augroup, callback = hi })
+      hi()
     end,
   },
   {
