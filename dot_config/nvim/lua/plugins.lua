@@ -260,8 +260,8 @@ local deps = {
   {
     'ggandor/leap-ast.nvim',
     dependencies = { 'ggandor/leap.nvim' },
-    keys = { { '<Plug>(leap-ast)', mode = { 'x', 'o' } } },
-    config = function()
+    lazy = true,
+    init = function()
       vim.keymap.set({ 'x', 'o' }, '<Plug>(leap-ast)', function() require 'leap-ast'.leap() end, { silent = true })
     end
   },
