@@ -40,10 +40,11 @@ local deps = {
   {
     'lambdalisue/fern.vim',
     dependencies = { 'lambdalisue/fern-renderer-nerdfont.vim', 'lambdalisue/nerdfont.vim' },
-    keys = 'S',
     cmd = { 'Fern' },
-    config = function()
+    init = function()
       set_keymap('n', 'S', '<Cmd>Fern . -drawer -reveal=%<CR>', { fav = false })
+    end,
+    config = function()
       vim.g["fern#renderer"] = "nerdfont"
       vim.g["fern#renderer#nerdfont#indent_markers"] = 1
       vim.g["fern#window_selector_use_popup"] = 1
