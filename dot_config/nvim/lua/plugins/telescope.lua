@@ -211,7 +211,10 @@ return {
   },
   {
     'stevearc/aerial.nvim',
-    cmd = { 'AerialToggle', 'AerialOpen', 'AerialOpenAll' },
+    lazy = true,
+    init = function()
+      set_keymap('n', 'gO', function() require('aerial').open() end)
+    end,
     config = function() require('aerial').setup() end
   },
   -- { 'tknightz/telescope-termfinder.nvim' },  -- finds toggleterm terminals
