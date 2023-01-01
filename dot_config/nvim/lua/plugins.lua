@@ -208,19 +208,10 @@ local deps = {
   },
   {
     'phaazon/hop.nvim',
-    keys = {
-      { 'f', mode = '' },
-      { 'F', mode = '' },
-      { 't', mode = '' },
-      { 'T', mode = '' },
-      'gn',
-    },
-    config = function()
-      local function _setup_hop() require('hop').setup() end
-
+    lazy = true,
+    init = function()
       local function hopper(direction, offset)
         return function()
-          _setup_hop = _setup_hop() or function() end
           require('hop').hint_char1({
             direction = require 'hop.hint'.HintDirection[direction],
             current_line_only = true,
@@ -235,13 +226,11 @@ local deps = {
       set_keymap('', 'T', hopper('BEFORE_CURSOR', 1), { desc = 'Hop before' })
       set_keymap(
         'n', 'gn',
-        function()
-          _setup_hop = _setup_hop() or function() end
-          require('hop').hint_patterns({}, vim.fn.getreg('/'))
-        end,
+        function() require('hop').hint_patterns({}, vim.fn.getreg('/')) end,
         { desc = 'Hop previous search pattern' }
       )
-    end
+    end,
+    config = function() require('hop').setup() end
   },
   {
     'ggandor/leap.nvim',
