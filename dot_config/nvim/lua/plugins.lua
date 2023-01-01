@@ -234,7 +234,15 @@ local deps = {
   },
   {
     'ggandor/leap.nvim',
-    keys = { { ';', mode = { 'n', 'v' } } },
+    lazy = true,
+    init = function()
+      set_keymap(
+        { 'n', 'v' }, ';',
+        function()
+          require('leap').leap({ target_windows = { vim.api.nvim_get_current_win() } })
+        end
+      )
+    end,
     config = function()
       -- LeapBackdrop highlight is defined at colorscheme.lua
       local function hi(_)
@@ -247,13 +255,6 @@ local deps = {
       )
 
       require('leap').setup({ safe_labels = {} })
-
-      set_keymap(
-        { 'n', 'v' }, ';',
-        function()
-          require('leap').leap({ target_windows = { vim.api.nvim_get_current_win() } })
-        end
-      )
     end
   },
   {
