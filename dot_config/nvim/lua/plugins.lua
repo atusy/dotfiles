@@ -27,7 +27,7 @@ local deps = {
   {
     'numToStr/Comment.nvim',
     dependencies = { 'JoosepAlviste/nvim-ts-context-commentstring' },
-    keys = { 'gcc', 'gcb', { 'gc', mode = 'v' }, { 'gb', mode = 'v' } },
+    keys = { { 'g', mode = '' } },
     config = function()
       require('Comment').setup {
         toggler = { line = 'gcc', block = 'gcb' },
