@@ -132,7 +132,7 @@ local deps = {
     'wsdjeg/vim-fetch', -- :e with linenumber
     lazy = false, -- some how event-based lazy loading won't work as expected
   },
-  'lambdalisue/readablefold.vim',
+  'lambdalisue/readablefold.vim', -- or anuvyklack/pretty-fold.nvim
   { 'jghauser/mkdir.nvim', event = { 'VeryLazy', 'CmdlineEnter' } }, -- :w with mkdir
   {
     "andymass/vim-matchup",
