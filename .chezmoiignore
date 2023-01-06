@@ -1,0 +1,6 @@
+README.md
+__ignored
+.nvimrc
+.nvim.lua
+.gitmessage
+.envrc
