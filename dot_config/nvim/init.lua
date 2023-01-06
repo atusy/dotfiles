@@ -368,20 +368,40 @@ require('lazy').setup("plugins", {
 })
 
 if vim.v.vim_did_enter == 1 then
+  if vim.g['sandwich#default_recipes'] == nil then
+    require('lazy').load({ plugins = 'vim-sandwich' })
+  end
   local function try(...)
     local ok, res = pcall(...)
     if not ok then vim.notify(res, vim.log.levels.ERROR) end
     return ok
   end
 
-  local accept_config
-  for _, d in pairs(require('plugins')) do
-    accept_config = true
-    if type(d) == "table" and d.enabled ~= false then
-      if d.init then
-        accept_config = try(d.init)
+  local loaded = vim.tbl_keys(package.loaded)
+  for _, p in pairs(loaded) do
+    if p == 'atusy' or vim.startswith(p, 'atusy.') then
+      utils.require(p)
+    end
+  end
+
+  local configurable
+  for _, p in pairs(loaded) do
+    if p == 'plugins' or vim.startswith(p, 'plugins.') then
+      for _, d in pairs(utils.require(p)) do
+        if type(d) == "table" and d.enabled ~= false then
+          if d.init then
+            configurable = try(d.init)
+            if not configurable then
+              vim.notify('FAILED: ' .. d .. '.init()', vim.log.levels.ERROR)
+            end
+          end
+          if d.config and configurable then
+            if not try(d.config) then
+              vim.notify('FAILED: ' .. d .. '.config()', vim.log.levels.ERROR)
+            end
+          end
+        end
       end
-      if d.config and accept_config then try(d.config) end
     end
   end
 end
