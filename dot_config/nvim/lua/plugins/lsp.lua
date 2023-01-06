@@ -172,6 +172,7 @@ return {
       { 'matsui54/denops-signature_help' },
       { 'ii14/emmylua-nvim' },
       { 'tamago324/nlsp-settings.nvim' },
+      { 'j-hui/fidget.nvim' },
       -- { 'glepnir/lspsaga.nvim' },
     },
     config = function()
@@ -181,5 +182,12 @@ return {
       setup_null_ls()
       vim.fn['signature_help#enable']()
     end
+  },
+  {
+    'j-hui/fidget.nvim',
+    lazy = true,
+    config = function()
+      require('fidget').setup()
+    end,
   },
 }
