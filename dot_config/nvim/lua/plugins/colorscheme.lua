@@ -177,10 +177,17 @@ return {
     build = function()
       -- thanks to cache, this needs run only on build (unless changed)
       require('nightfox').setup({
-        groups = { all = { ['@text.literal'] = { link = 'String' } } },
+        groups = {
+          all = {
+            ['@text.literal'] = { link = 'String' },
+            NvimTreeNormal = { link = 'Normal' }
+          }
+        },
         options = { inverse = { visual = true } },
       })
     end,
-    config = function() vim.cmd.colorscheme('duskfox') end,
+    config = function()
+      vim.cmd.colorscheme('duskfox')
+    end,
   },
 }
