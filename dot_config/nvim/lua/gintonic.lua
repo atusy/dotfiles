@@ -176,7 +176,8 @@ local function _keymap_ginshow(opt)
 end
 
 gintonic.tonic.graph = function(params, args)
-  local has_alias = os.execute("git config alias.gintonic-graph") == 0
+  -- local has_alias = os.execute("git config alias.gintonic-graph") == 0
+  local has_alias = vim.fn.system("git config alias.gintonic-graph") ~= ""
   gintonic.gin.ginbuffer(
     params,
     table.concat(
