@@ -40,6 +40,8 @@
 	defaultBranch = main
 [pull]
 	ff = only
+[push]
+  useForceIfIncludes = true
 [diff]
 	algorithm = histogram
 	colorMoved = dimmed-zebra
