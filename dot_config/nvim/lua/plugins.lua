@@ -2,6 +2,14 @@ local DATAPATH = vim.fn.stdpath("data")
 local utils = require('utils')
 local set_keymap = utils.set_keymap
 
+vim.api.nvim_create_autocmd('User', {
+  pattern = { 'LazyInstall', 'LazyUpdate', 'LazySync' },
+  callback = function()
+    local lockfile = '~/.config/nvim/lazy-lock.json'
+    os.execute('chezmoi add ' .. lockfile)
+  end
+})
+
 local deps = {
   -- basic dependencies
   'tpope/vim-repeat',
