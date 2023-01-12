@@ -17,19 +17,21 @@ local deps = {
   { 'kana/vim-submode', enabled = false },
   {
     'delphinus/cellwidths.nvim',
-    event = 'BufReadPost',
+    event = { 'BufReadPost', 'ModeChanged' },
     config = function()
       -- ga
       -- https://en.wikipedia.org/wiki/List_of_Unicode_characters
       require("cellwidths").setup { name = "default" }
+      vim.cmd.CellWidthsAdd("{ 0xe000, 0xf8ff, 2 }") -- 私用領域（外字領域）
       vim.cmd.CellWidthsDelete("{" .. table.concat({
         0x2190, 0x2191, 0x2192, 0x2193, -- ←↑↓→
         0x25b2, 0x25bc, -- ▼▲
-        0x2713, -- ✓,
+        0x25cf, -- ●
+        0x2713, -- ✓
         0x279c, -- ➜
         0x2717, -- ✗
+        0xe727, -- 
       }, ", ") .. "}")
-      vim.cmd.CellWidthsAdd("{ 0xe000, 0xf8ff, 2 }") -- 私用領域（外字領域）
     end
   },
 
