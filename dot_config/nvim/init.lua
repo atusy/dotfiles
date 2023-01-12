@@ -58,8 +58,10 @@ local set_keymap = utils.set_keymap
 vim.opt.exrc = true
 vim.opt.updatetime = 250
 
--- signcolumn
+-- statuscolumn
 vim.opt.signcolumn = 'yes'
+vim.opt.foldcolumn = 'auto'
+vim.opt.statuscolumn = "%=%{&rnu ? v:relnum ? v:relnum : v:lnum : &nu ? v:lnum : ''}%s%C"
 
 -- window
 vim.opt.splitright = true
