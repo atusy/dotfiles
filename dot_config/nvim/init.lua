@@ -139,6 +139,13 @@ vim.g.loaded_netrwFileHandlers = 1
 
 --[[ commands ]]
 vim.api.nvim_create_user_command('W', 'write !sudo tee % >/dev/null', {})
+vim.api.nvim_create_user_command('Normal', function(opts)
+  local code = vim.api.nvim_replace_termcodes(opts.args, true, true, true)
+  local normal = opts.bang and 'normal!' or 'normal'
+  for i = opts.line1, opts.line2 do
+    vim.cmd(i .. normal .. ' ' .. code)
+  end
+end, { nargs = 1, range = true, bang = true })
 
 --[[ mappings ]]
 vim.g.mapleader = ' '
