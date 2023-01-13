@@ -477,6 +477,14 @@ local deps = {
   -- filetype specific
   { 'mattn/vim-goimports', ft = 'go' },
   {
+    'barrett-ruth/import-cost.nvim',
+    ft = { 'javascript', 'typescript', 'typescriptreact' },
+    build = 'sh install.sh yarn',
+    config = function()
+      require('import-cost').setup()
+    end
+  },
+  {
     'phelipetls/jsonpath.nvim',
     ft = 'json',
     config = function()
