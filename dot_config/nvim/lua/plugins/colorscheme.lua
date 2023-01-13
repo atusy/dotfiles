@@ -104,7 +104,9 @@ return {
   -- { "RRethy/nvim-base16" },
   {
     'm-demare/hlargs.nvim',
-    event = 'BufReadPre',
+    -- maybe nolonger used because @parameter highlights well, also conflicts with neodim
+    -- event = 'BufReadPre',
+    lazy = true,
     config = function()
       local function setup()
         require('hlargs').setup()
