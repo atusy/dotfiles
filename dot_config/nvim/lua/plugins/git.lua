@@ -27,6 +27,7 @@ local function setup_gitsigns()
       set_keymap('n', '<Plug>(C-G)a', after_save('stage_buffer'), OPTS, { desc = "git add buffer" })
       set_keymap('n', '<Plug>(C-G)<C-R>', after_save('reset_hunk'), OPTS, { desc = "git reset hunk" })
       set_keymap('n', '<Plug>(C-G)r', after_save('reset_buffer'), OPTS, { desc = "git reset buffer" })
+      set_keymap('n', '<Plug>(C-G)<C-H>', after_save('preview_hunk'), OPTS, { desc = "git preview hunk" })
       set_keymap(
         'n', '<Plug>(toggle-live-git-blame)', '<Cmd>Gitsigns toggle_current_line_blame<CR>',
         OPTS, { desc = "toggle git blame on current line", fav = true }
