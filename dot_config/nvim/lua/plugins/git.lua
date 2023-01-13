@@ -122,7 +122,7 @@ local function setup_gin()
   set_keymap(
     'n', '<Plug>(git-push-force)',
     ':Gin push --force-with-lease --force-if-includes origin HEAD ',
-    { desc = ":git push origin HEAD --force" }
+    { desc = ":git push origin HEAD --force-with-lease --force-if-includes" }
   )
 end
 
