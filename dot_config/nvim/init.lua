@@ -185,6 +185,29 @@ set_keymap('t', '<C-W>', [[<C-\><C-N><C-W>]])
 set_keymap({ '', '!', 't' }, [[<C-\>]], [[<C-\><C-N>]], { nowait = true })
 set_keymap('x', 'zf', [[mode() == 'V' ? 'zf' : 'Vzf']], { expr = true })
 set_keymap('x', '/', '<Esc>/\\%V', { desc = 'start search within selection' })
+set_keymap('n', '<LeftDrag>', '<Nop>')
+set_keymap('n', '<LeftRelease>', '<Nop>')
+set_keymap(
+  'n', '<Plug>(toggle-left-drag)',
+  function()
+    for _, m in pairs(vim.api.nvim_get_keymap('n')) do
+      if m.lhs == '<LeftDrag>' then
+        if m.rhs == '' then
+          vim.keymap.del('n', '<LeftDrag>')
+          vim.keymap.del('n', '<LeftRelease>')
+        end
+        return
+      end
+    end
+    set_keymap('n', '<LeftDrag>', '<Nop>')
+    set_keymap('n', '<LeftRelease>', '<Nop>')
+  end,
+  { desc = 'toggle left drag' }
+)
+vim.api.nvim_exec([[
+  nnoremenu PopUp.Toggle\ Drag <Plug>(toggle-left-drag)
+  aunmenu PopUp.How-to\ disable\ mouse
+]], false)
 
 local function jump(forward)
   local buf_cur = vim.api.nvim_get_current_buf()
