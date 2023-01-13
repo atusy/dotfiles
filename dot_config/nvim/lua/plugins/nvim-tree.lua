@@ -37,7 +37,7 @@ end
 return {
   'nvim-tree/nvim-tree.lua',
   init = function()
-    set_keymap('n', 'S', function() require('nvim-tree.api').tree.open() end)
+    set_keymap('n', 'S', function() require('nvim-tree.api').tree.focus() end)
   end,
   config = function()
     require('nvim-tree').setup({
@@ -54,10 +54,12 @@ return {
         local default_text = '★ '
         local function nmap(lhs, rhs, desc, opts)
           local o = vim.tbl_extend(
-            'force', opts or {}, {
-            desc = desc and (default_text .. ' ' .. desc) or nil,
-            buffer = buffer
-          }
+            'force',
+            opts or {},
+            {
+              desc = desc and (default_text .. ' ' .. desc) or nil,
+              buffer = buffer
+            }
           )
           vim.keymap.set('n', lhs, rhs, o)
         end
@@ -72,7 +74,7 @@ return {
           end,
           'reveal the buffer in the previous window'
         )
-        nmap('S', '<C-W>p')
+        nmap('S', '<Cmd>NvimTreeClose<CR>')
         nmap('h', api.node.navigate.parent_close, 'node: close the parent')
         nmap('l', api.node.open.no_window_picker, 'node: open in the previous window')
         nmap('o', api.node.run.system, 'node: run system')
@@ -80,10 +82,12 @@ return {
         nmap('!', api.tree.toggle_hidden_filter, 'toggle hidden')
         nmap('<C-L>', '<Cmd>NvimTreeRefresh<CR><C-L>', 'refresh')
         nmap('D', api.fs.trash, 'fs: trash')
-        nmap('r', api.fs.rename_sub, 'fs: rename')
-        nmap('R', api.marks.bulk.move, 'mark: bulk move')
+        nmap(' rn', api.fs.rename_sub, 'fs: rename')
+        nmap('M', api.marks.bulk.move, 'mark: bulk move')
         nmap('p', api.fs.paste, 'fs: paste')
+        nmap('d', '<Nop>')
         nmap('dd', api.fs.cut, 'fs: cut')
+        nmap('y', '<Nop>')
         nmap('yy', api.fs.copy.node, 'fs: copy')
         nmap('ya', api.fs.copy.absolute_path, 'fs: clipboard absolute path')
         nmap('yr', api.fs.copy.relative_path, 'fs: clipboard relative path')
@@ -98,7 +102,6 @@ return {
         nmap('f', api.live_filter.start, 'live filter: start')
         nmap('<C-K>', api.node.show_info_popup, 'node: info')
         nmap('m', api.marks.toggle, 'mark: toggle')
-        nmap('q', '<Cmd>NvimTreeClose<CR>', 'ui: close')
       end
     })
   end
