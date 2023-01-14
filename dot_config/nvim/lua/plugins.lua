@@ -295,7 +295,6 @@ local deps = {
   {
     'nvim-treesitter/nvim-treesitter',
     build = ":TSUpdate",
-    pin = true,
     init = function()
       set_keymap(
         'n', '<Plug>(treesitter-show-tree)',
