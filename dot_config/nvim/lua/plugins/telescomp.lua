@@ -1,6 +1,6 @@
 return {
   "atusy/telescomp",
-  dir = "/home/atusy/ghq/github.com/atusy/telescomp",
+  dir = "/home/atusy/ghq/github.com/atusy/telescomp.nvim",
   event = "CmdlineEnter",
   config = function()
     local utils = require('utils')
