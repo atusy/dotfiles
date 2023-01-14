@@ -3,6 +3,7 @@ https://github.com/mhinz/vim-galore#saner-behavior-of-n-and-n
 https://github.com/sumneko/lua-language-server/wiki/Annotations
 https://qiita.com/delphinus/items/fb905e452b2de72f1a0f
 https://zenn.dev/nnsnico/articles/customize-lsp-handler
+https://dev.classmethod.jp/articles/eetann-change-neovim-lsp-diagnostics-format/
 
 ## Plugin
 
