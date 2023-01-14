@@ -37,7 +37,7 @@ local function telescope_keymaps()
   local ft = vim.api.nvim_buf_get_option(0, "filetype")
   require 'telescope.builtin'.keymaps({
     modes = { vim.api.nvim_get_mode().mode },
-    default_text = telescope_keymaps_filter[ft] or star,
+    default_text = vim.b.telescope_keymaps_default_text or telescope_keymaps_filter[ft] or utils.star,
   })
 end
 
