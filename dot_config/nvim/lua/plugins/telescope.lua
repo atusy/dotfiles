@@ -1,6 +1,5 @@
 local utils = require('utils')
 local set_keymap = utils.set_keymap
-local star = utils.star
 
 local function filter_only_sorter(sorter)
   sorter = sorter or require("telescope.config").values.file_sorter()
