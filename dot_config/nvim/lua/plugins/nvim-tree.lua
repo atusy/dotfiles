@@ -80,7 +80,7 @@ return {
         nmap('o', api.node.run.system, 'node: run system')
         nmap('<CR>', node_open_edit, 'node: open in a chosen window')
         nmap('!', api.tree.toggle_hidden_filter, 'toggle hidden')
-        nmap('<C-L>', '<Cmd>NvimTreeRefresh<CR><C-L>', 'refresh')
+        nmap('<C-R>', '<Cmd>NvimTreeRefresh<CR>', 'refresh')
         nmap('D', api.fs.trash, 'fs: trash')
         nmap(' rn', api.fs.rename_sub, 'fs: rename')
         nmap('M', api.marks.bulk.move, 'mark: bulk move')
