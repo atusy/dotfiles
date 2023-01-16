@@ -171,17 +171,19 @@ set_keymap({ 'n', 'v' }, 's', '<Nop>') -- be prefix for sandwich and fuzzy finde
 set_keymap('n', '<C-G>', '<C-G><Plug>(C-G)', { noremap = true })
 set_keymap('n', '<Plug>(C-G)<C-G>', '<Cmd>let @+ = fnamemodify(expand("%"), ":~:.")<CR>')
 set_keymap('n', '<Plug>(C-G)g', '<Cmd>let @+ = expand("%:p")<CR>')
+set_keymap('c', '<C-A>', '<Home>')
+set_keymap('t', '<C-W>', [[<C-\><C-N><C-W>]])
+set_keymap({ '', '!', 't' }, [[<C-\>]], [[<C-\><C-N>]], { nowait = true })
+set_keymap('x', 'zf', [[mode() == 'V' ? 'zf' : 'Vzf']], { expr = true })
+set_keymap('x', '/', '<Esc>/\\%V', { desc = 'start search within selection' })
+
+-- mappings: better gf
 set_keymap('n', 'gf', 'gF')
 set_keymap('n', 'gff', 'gF')
 set_keymap('n', 'gfh', '<cmd>leftabove vertical wincmd F<cr>')
 set_keymap('n', 'gfj', '<cmd>below horizontal wincmd F<cr>')
 set_keymap('n', 'gfk', '<cmd>above horizontal wincmd F<cr>')
 set_keymap('n', 'gfl', '<cmd>rightbelow vertical wincmd F<cr>')
-set_keymap('c', '<C-A>', '<Home>')
-set_keymap('t', '<C-W>', [[<C-\><C-N><C-W>]])
-set_keymap({ '', '!', 't' }, [[<C-\>]], [[<C-\><C-N>]], { nowait = true })
-set_keymap('x', 'zf', [[mode() == 'V' ? 'zf' : 'Vzf']], { expr = true })
-set_keymap('x', '/', '<Esc>/\\%V', { desc = 'start search within selection' })
 
 -- mappings: register
 set_keymap({ 'n', 'v' }, 'x', '"_x')
