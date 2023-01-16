@@ -505,6 +505,22 @@ local deps = {
     end
   },
   {
+    'echasnovski/mini.ai',
+    event = 'ModeChanged',
+    config = function()
+      require('mini.ai').setup({
+        mappings = {
+          around_next = 'a;',
+          inside_next = 'i;',
+          around_last = 'a,',
+          inside_last = 'i,',
+          goto_left = 'g(',
+          goto_right = 'g)',
+        },
+      })
+    end,
+  },
+  {
     'echasnovski/mini.surround',
     keys = { { 's', mode = '' } },
     config = function()
