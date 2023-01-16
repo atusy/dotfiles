@@ -330,8 +330,9 @@ vim.api.nvim_create_autocmd('InsertEnter', {
     wo.cursorline = false
     vim.api.nvim_create_autocmd('ModeChanged', {
       -- InsertLeave is not adequate because <C-C> won't trigger it
-      desc = 'Restore cursorline when leaveing insert mode.',
-      pattern = 'i:*', group = utils.augroup, once = true,
+      pattern = 'i:*',
+      once = true,
+      group = vim.api.nvim_create_augroup('toggle-cursorline', {}),
       callback = function()
         pcall(vim.api.nvim_win_set_option, win, 'cursorline', true)
       end,
