@@ -243,6 +243,7 @@ end
 set_keymap('n', 'g<C-O>', function() jump(false) end, { fav = false, expr = true })
 set_keymap('n', 'g<C-I>', function() jump(true) end, { fav = false, expr = true })
 
+-- mappings: save and ...
 set_keymap(
   'n',
   '<Plug>(save)',
@@ -258,18 +259,19 @@ set_keymap('n', '<Plug>(C-S)<C-V>', function()
   vim.cmd("!chezmoi apply")
   vim.cmd("source $MYVIMRC")
 end, { fav = false })
-set_keymap('n', '<Plug>(C-S)<C-S>', function()
-  local bufname = vim.api.nvim_buf_get_name(vim.api.nvim_get_current_buf())
-  local bufext = bufname:gsub('.*%.', '')
-  if bufext ~= 'vim' and bufext ~= 'lua' then
-    vim.notify('Cannot source: ' .. bufname, vim.log.levels.ERROR)
-    return
-  end
-  vim.ui.input(
-    { prompt = 'Press enter to source %' },
-    function(input) if input == '' then vim.cmd('source %') end end
-  )
-end, { fav = false }) -- Save and Source
+set_keymap(-- Save and Source
+  'n', '<Plug>(C-S)<C-M>',
+  function()
+    local bufname = vim.api.nvim_buf_get_name(vim.api.nvim_get_current_buf())
+    local bufext = bufname:gsub('.*%.', '')
+    if bufext ~= 'vim' and bufext ~= 'lua' then
+      vim.notify('Cannot source: ' .. bufname, vim.log.levels.ERROR)
+      return
+    end
+    return ':source %'
+  end,
+  { expr = true, fav = false }
+)
 
 local function move_float_win(row, col)
   local conf = vim.api.nvim_win_get_config(0)
