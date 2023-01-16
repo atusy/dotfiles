@@ -48,6 +48,7 @@ https://github.com/stevearc/dressing.nvim
 https://github.com/hrsh7th/nvim-gtd
 https://github.com/hrsh7th/vim-searchx
 https://github.com/b0o/SchemaStore.nvim
+https://github.com/gaoDean/autolist.nvim
 --]]
 
 -- [[ helpers ]]
