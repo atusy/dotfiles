@@ -469,7 +469,7 @@ local deps = {
   },
   {
     'RRethy/nvim-treesitter-endwise',
-    filetype = { 'ruby', 'lua', 'sh', 'bash', 'zsh', 'vim' },
+    ft = { 'ruby', 'lua', 'sh', 'bash', 'zsh', 'vim' },
     dependencies = { 'nvim-treesitter/nvim-treesitter' },
     config = function()
       require('nvim-treesitter.configs').setup({ endwise = { enable = true } })
