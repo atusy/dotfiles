@@ -195,6 +195,7 @@ set_keymap({ 'o', 'x' }, 'il', ':<c-u>normal! $v^<cr>')
 set_keymap({ 'o', 'x' }, 'al', ':<c-u>normal! $v0<cr>')
 set_keymap({ 'o', 'x' }, 'ie', ':<c-u>normal! gg0vG$<cr>')
 
+-- mappings: mouse
 set_keymap(
   'n', '<Plug>(toggle-left-drag)',
   function()
@@ -212,10 +213,14 @@ set_keymap(
   end,
   { desc = 'toggle left drag' }
 )
-vim.api.nvim_exec([[
-  nnoremenu PopUp.Toggle\ Drag <Plug>(toggle-left-drag)
-  aunmenu PopUp.How-to\ disable\ mouse
-]], false)
+pcall(
+  vim.api.nvim_exec,
+  [[
+    nnoremenu PopUp.Toggle\ Drag <Plug>(toggle-left-drag)
+    aunmenu PopUp.How-to\ disable\ mouse
+  ]],
+  false
+)
 
 local function jump(forward)
   local buf_cur = vim.api.nvim_get_current_buf()
