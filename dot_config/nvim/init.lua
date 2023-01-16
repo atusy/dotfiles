@@ -188,6 +188,13 @@ set_keymap('x', 'zf', [[mode() == 'V' ? 'zf' : 'Vzf']], { expr = true })
 set_keymap('x', '/', '<Esc>/\\%V', { desc = 'start search within selection' })
 set_keymap('n', '<LeftDrag>', '<Nop>')
 set_keymap('n', '<LeftRelease>', '<Nop>')
+
+-- mappings: textobj
+set_keymap({ 'o', 'x' }, 'ii', '2i') -- e.g., vii' to select 'foo' including quotes but outer spaces
+set_keymap({ 'o', 'x' }, 'il', ':<c-u>normal! $v^<cr>')
+set_keymap({ 'o', 'x' }, 'al', ':<c-u>normal! $v0<cr>')
+set_keymap({ 'o', 'x' }, 'ie', ':<c-u>normal! gg0vG$<cr>')
+
 set_keymap(
   'n', '<Plug>(toggle-left-drag)',
   function()
