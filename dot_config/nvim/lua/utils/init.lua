@@ -1,6 +1,7 @@
 local M = {}
 
 M.augroup = 'atusy-init-lua'
+M.datapath = vim.fn.stdpath('data')
 
 function M.require(name)
   pcall(function() require('plenary.reload').reload_module(name) end)

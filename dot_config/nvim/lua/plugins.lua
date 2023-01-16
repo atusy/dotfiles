@@ -1,4 +1,3 @@
-local DATAPATH = vim.fn.stdpath("data")
 local utils = require('utils')
 local set_keymap = utils.set_keymap
 
@@ -365,7 +364,7 @@ local deps = {
       )
     end,
     config = function()
-      local treesitterpath = DATAPATH .. "/treesitter"
+      local treesitterpath = utils.datapath .. "/treesitter"
       vim.opt.runtimepath:append(treesitterpath)
       require 'nvim-treesitter.configs'.setup {
         parser_install_dir = treesitterpath,

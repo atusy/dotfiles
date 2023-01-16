@@ -391,8 +391,7 @@ if vim.fn.executable('nvr') == 1 then
 end
 
 --[[ lazy.nvim ]]
-local DATAPATH = vim.fn.stdpath("data")
-local lazypath = DATAPATH .. "/lazy/lazy.nvim"
+local lazypath = utils.datapath .. "/lazy/lazy.nvim"
 if not vim.loop.fs_stat(lazypath) then
   vim.fn.system({
     "git",
