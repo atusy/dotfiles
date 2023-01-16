@@ -524,7 +524,12 @@ local deps = {
       set_keymap("n", "q:", function()
         require("cmdbuf").split_open(vim.o.cmdwinheight)
         local ok, telescope = pcall(require, 'telescope.builtin')
-        if ok then vim.schedule(telescope.current_buffer_fuzzy_find) end
+        if ok then
+          vim.schedule(function()
+            vim.cmd("e!")
+            telescope.current_buffer_fuzzy_find()
+          end)
+        end
       end)
       set_keymap("c", "<C-F>", function()
         local opt = { line = vim.fn.getcmdline(), column = vim.fn.getcmdpos() }
