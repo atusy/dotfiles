@@ -422,9 +422,9 @@ require('lazy').setup("plugins", {
 })
 
 if vim.v.vim_did_enter == 1 then
-  if vim.g['sandwich#default_recipes'] == nil then
+  --[[ if vim.g['sandwich#default_recipes'] == nil then
     require('lazy').load({ plugins = 'vim-sandwich' })
-  end
+  end ]]
   local function try(...)
     local ok, res = pcall(...)
     if not ok then vim.notify(res, vim.log.levels.ERROR) end
