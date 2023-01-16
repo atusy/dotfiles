@@ -479,6 +479,7 @@ local deps = {
   -- text object
   {
     'machakann/vim-sandwich',
+    cond = false,
     keys = { { 's', mode = '' }, },
     config = function()
       vim.g['sandwich#recipes'] = vim.deepcopy(vim.g['sandwich#default_recipes'])
@@ -502,6 +503,19 @@ local deps = {
         { desc = 'sandwich query with () and start insert before (' }
       )
     end
+  },
+  {
+    'echasnovski/mini.surround',
+    keys = { { 's', mode = '' } },
+    config = function()
+      require('mini.surround').setup({
+        mappings = {
+          find = 'st',
+          find_left = 'sT',
+          highlight = 'sH',
+        }
+      })
+    end,
   },
 
   -- terminal
