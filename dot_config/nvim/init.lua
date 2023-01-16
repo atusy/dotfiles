@@ -171,16 +171,12 @@ set_keymap({ 'n', 'v' }, 's', '<Nop>') -- be prefix for sandwich and fuzzy finde
 set_keymap('n', '<C-G>', '<C-G><Plug>(C-G)', { noremap = true })
 set_keymap('n', '<Plug>(C-G)<C-G>', '<Cmd>let @+ = fnamemodify(expand("%"), ":~:.")<CR>')
 set_keymap('n', '<Plug>(C-G)g', '<Cmd>let @+ = expand("%:p")<CR>')
-set_keymap({ 'n', 'v' }, 'x', '"_x')
-set_keymap({ 'n', 'v' }, 'X', '"_X')
 set_keymap('n', 'gf', 'gF')
 set_keymap('n', 'gff', 'gF')
 set_keymap('n', 'gfh', '<cmd>leftabove vertical wincmd F<cr>')
 set_keymap('n', 'gfj', '<cmd>below horizontal wincmd F<cr>')
 set_keymap('n', 'gfk', '<cmd>above horizontal wincmd F<cr>')
 set_keymap('n', 'gfl', '<cmd>rightbelow vertical wincmd F<cr>')
-set_keymap({ 'n', 'v' }, 'gy', '"+y')
-set_keymap({ 'n', 'v' }, 'gY', '"+Y')
 set_keymap('c', '<C-A>', '<Home>')
 set_keymap('t', '<C-W>', [[<C-\><C-N><C-W>]])
 set_keymap({ '', '!', 't' }, [[<C-\>]], [[<C-\><C-N>]], { nowait = true })
@@ -188,6 +184,12 @@ set_keymap('x', 'zf', [[mode() == 'V' ? 'zf' : 'Vzf']], { expr = true })
 set_keymap('x', '/', '<Esc>/\\%V', { desc = 'start search within selection' })
 set_keymap('n', '<LeftDrag>', '<Nop>')
 set_keymap('n', '<LeftRelease>', '<Nop>')
+
+-- mappings: register
+set_keymap({ 'n', 'v' }, 'x', '"_x')
+set_keymap({ 'n', 'v' }, 'X', '"_X')
+set_keymap({ 'n', 'v' }, 'gy', '"+y')
+set_keymap({ 'n', 'v' }, 'gY', '"+Y')
 
 -- mappings: textobj
 set_keymap({ 'o', 'x' }, 'ii', '2i') -- e.g., vii' to select 'foo' including quotes but outer spaces
