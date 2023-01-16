@@ -195,7 +195,7 @@ set_keymap({ 'n', 'v' }, 'gY', '"+Y')
 set_keymap({ 'o', 'x' }, 'ii', '2i') -- e.g., vii' to select 'foo' including quotes but outer spaces
 set_keymap({ 'o', 'x' }, 'il', ':<c-u>normal! $v^<cr>')
 set_keymap({ 'o', 'x' }, 'al', ':<c-u>normal! $v0<cr>')
-set_keymap({ 'o', 'x' }, 'ie', ':<c-u>normal! gg0vG$<cr>')
+set_keymap({ 'o', 'x' }, 'ie', ':<c-u>normal! govG$<cr>')
 
 -- mappings: mouse
 set_keymap('n', '<LeftDrag>', '<Nop>')
