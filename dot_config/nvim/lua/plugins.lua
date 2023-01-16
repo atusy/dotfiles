@@ -145,6 +145,10 @@ local deps = {
     'wsdjeg/vim-fetch', -- :e with linenumber
     lazy = false, -- some how event-based lazy loading won't work as expected
   },
+  {
+    'yuki-yano/denops-open-http.vim',
+    event = 'User DenopsReady'
+  },
   'lambdalisue/readablefold.vim', -- or anuvyklack/pretty-fold.nvim
   { 'jghauser/mkdir.nvim', event = { 'VeryLazy', 'CmdlineEnter' } }, -- :w with mkdir
   {
