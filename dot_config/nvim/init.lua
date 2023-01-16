@@ -182,8 +182,6 @@ set_keymap('t', '<C-W>', [[<C-\><C-N><C-W>]])
 set_keymap({ '', '!', 't' }, [[<C-\>]], [[<C-\><C-N>]], { nowait = true })
 set_keymap('x', 'zf', [[mode() == 'V' ? 'zf' : 'Vzf']], { expr = true })
 set_keymap('x', '/', '<Esc>/\\%V', { desc = 'start search within selection' })
-set_keymap('n', '<LeftDrag>', '<Nop>')
-set_keymap('n', '<LeftRelease>', '<Nop>')
 
 -- mappings: register
 set_keymap({ 'n', 'v' }, 'x', '"_x')
@@ -198,6 +196,8 @@ set_keymap({ 'o', 'x' }, 'al', ':<c-u>normal! $v0<cr>')
 set_keymap({ 'o', 'x' }, 'ie', ':<c-u>normal! gg0vG$<cr>')
 
 -- mappings: mouse
+set_keymap('n', '<LeftDrag>', '<Nop>')
+set_keymap('n', '<LeftRelease>', '<Nop>')
 set_keymap(
   'n', '<Plug>(toggle-left-drag)',
   function()
