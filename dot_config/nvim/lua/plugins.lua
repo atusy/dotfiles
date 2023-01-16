@@ -488,7 +488,7 @@ local deps = {
         kind = { 'add' },
         action = { 'add' },
         cursor = 'head',
-        cmd = { 'startinsert' },
+        command = { 'startinsert' },
         input = { vim.api.nvim_replace_termcodes("<C-F>", true, false, true) },
       })
       vim.g['operator#sandwich#recipes'] = recipes
@@ -498,7 +498,7 @@ local deps = {
         { desc = 'sandwich query with () and start insert before (' }
       )
       set_keymap(
-        { 'x', 'v' }, 's(', '<Plug>(operator-sandwich-add)<C-F>',
+        'x', 's(', '<Plug>(operator-sandwich-add)<C-F>',
         { desc = 'sandwich query with () and start insert before (' }
       )
     end
