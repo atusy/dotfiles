@@ -222,6 +222,7 @@ pcall(
   false
 )
 
+-- mappings: jumplist
 local function jump(forward)
   local buf_cur = vim.api.nvim_get_current_buf()
   local jumplist = vim.fn.getjumplist()
@@ -273,6 +274,7 @@ set_keymap(-- Save and Source
   { expr = true, fav = false }
 )
 
+-- mappings: window
 local function move_float_win(row, col)
   local conf = vim.api.nvim_win_get_config(0)
   if conf.relative == '' then return false end
@@ -298,7 +300,7 @@ set_keymap({ '', 't' }, '<C-Down>', function() win_move_or_cmd(1, 0, '2-') end)
 set_keymap({ '', 't' }, '<C-Right>', function() win_move_or_cmd(0, 2, '2>') end)
 set_keymap({ '', 't' }, '<C-Left>', function() win_move_or_cmd(0, -2, '2<') end)
 
--- <Plug> to be invoked by Telescope keymap
+-- mappings: <Plug> to be invoked by Telescope keymap
 set_keymap(
   'n', '<Plug>(clipboard-cwd)', '<Cmd>let @+=getcwd()<CR>', { desc = 'clipboard cwd' }
 )
