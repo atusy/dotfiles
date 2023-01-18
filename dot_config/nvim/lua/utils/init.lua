@@ -26,12 +26,8 @@ function M.set_keymap(mode, lhs, rhs, opt1, opt2)
   elseif opt1 then
     opt = opt1
   end
-  if opt.fav ~= false then
-    if opt.desc then
-      opt.desc = M.star .. opt.desc
-    elseif type(rhs) == "string" then
-      opt.desc = M.star .. rhs
-    end
+  if opt.fav ~= false and opt.desc then
+    opt.desc = M.star .. opt.desc
   end
   opt.fav = nil
   set_keymap(mode, lhs, rhs, opt)
