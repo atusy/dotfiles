@@ -239,14 +239,13 @@ local deps = {
         end
       end
 
-      set_keymap('', 'f', hopper('AFTER_CURSOR'), { desc = 'Hop after' })
-      set_keymap('', 'F', hopper('BEFORE_CURSOR'), { desc = 'Hop before' })
-      set_keymap('', 't', hopper('AFTER_CURSOR', -1), { desc = 'Hop after' })
-      set_keymap('', 'T', hopper('BEFORE_CURSOR', 1), { desc = 'Hop before' })
+      set_keymap('', 'f', hopper('AFTER_CURSOR'))
+      set_keymap('', 'F', hopper('BEFORE_CURSOR'))
+      set_keymap('', 't', hopper('AFTER_CURSOR', -1))
+      set_keymap('', 'T', hopper('BEFORE_CURSOR', 1))
       set_keymap(
         'n', 'gn',
-        function() require('hop').hint_patterns({}, vim.fn.getreg('/')) end,
-        { desc = 'Hop previous search pattern' }
+        function() require('hop').hint_patterns({}, vim.fn.getreg('/')) end
       )
     end,
     config = function() require('hop').setup() end
@@ -461,7 +460,7 @@ local deps = {
           end
           vim.cmd('normal! Vzf')
         end,
-        { silent = true, desc = 'manually fold lines based on treehopper' }
+        { silent = true }
       )
     end,
   },
@@ -546,9 +545,7 @@ local deps = {
     cmd = { 'ToggleTermSendCurrentLine', 'ToggleTermSendVisualSelection' },
     config = function()
       set_keymap('n', ' <CR>', ':ToggleTermSendCurrentLine<CR>')
-        { desc = 'send the line to toggle term and go to next line', fav = false })
-      set_keymap('x', ' <CR>', ":ToggleTermSendVisualSelection<CR>gv<Esc>",
-        { desc = 'send the selection to toggle term while keeping the cursor position', fav = false })
+      set_keymap('x', ' <CR>', ":ToggleTermSendVisualSelection<CR>gv<Esc>")
       require 'toggleterm'.setup {
         open_mapping = '<C-T>',
         insert_mappings = false,

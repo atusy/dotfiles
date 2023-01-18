@@ -124,13 +124,11 @@ return {
     init = function()
       set_keymap(
         'n', '<Left>',
-        function() require('illuminate').goto_prev_reference() end,
-        { desc = 'previous references' }
+        function() require('illuminate').goto_prev_reference() end
       )
       set_keymap(
         'n', '<Right>',
-        function() require('illuminate').goto_next_reference() end,
-        { desc = 'next reference' }
+        function() require('illuminate').goto_next_reference() end
       )
     end,
     config = function()

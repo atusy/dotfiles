@@ -151,23 +151,6 @@ end, { nargs = 1, range = true, bang = true })
 
 --[[ mappings ]]
 vim.g.mapleader = ' '
-set_keymap('v', 'q', '<Nop>')
-set_keymap(
-  'n',
-  'q',
-  function()
-    local reg = vim.fn.reg_recording()
-    if reg ~= '' then return 'q<cmd>echo "stop recording @' .. reg .. '"<cr>' end
-    local char = vim.fn.getcharstr(0)
-    if char == 'q' or not char:match('[a-z]') then return 'q' .. char end
-    vim.notify('q[a-z] are disabled except qq', vim.log.levels.ERROR)
-  end,
-  {
-    expr = true,
-    nowait = true,
-    desc = 'Start/stop recording macro, but disable a-z except q'
-  }
-)
 set_keymap({ 'n', 'v' }, 's', '<Nop>') -- be prefix for sandwich and fuzzy finders
 set_keymap('n', '<C-G>', '<C-G><Plug>(C-G)', { noremap = true })
 set_keymap('n', '<Plug>(C-G)<C-G>', '<Cmd>let @+ = fnamemodify(expand("%"), ":~:.")<CR>')
@@ -176,7 +159,7 @@ set_keymap('c', '<C-A>', '<Home>')
 set_keymap('t', '<C-W>', [[<C-\><C-N><C-W>]])
 set_keymap({ '', '!', 't' }, [[<C-\>]], [[<C-\><C-N>]], { nowait = true })
 set_keymap('x', 'zf', [[mode() == 'V' ? 'zf' : 'Vzf']], { expr = true })
-set_keymap('x', '/', '<Esc>/\\%V', { desc = 'start search within selection' })
+set_keymap('x', '/', '<Esc>/\\%V') -- search within selection
 
 -- mappings: better gf
 set_keymap('n', 'gf', 'gF')
@@ -287,6 +270,26 @@ set_keymap({ '', 't' }, '<C-Up>', function() win_move_or_cmd(-1, 0, '2+') end)
 set_keymap({ '', 't' }, '<C-Down>', function() win_move_or_cmd(1, 0, '2-') end)
 set_keymap({ '', 't' }, '<C-Right>', function() win_move_or_cmd(0, 2, '2>') end)
 set_keymap({ '', 't' }, '<C-Left>', function() win_move_or_cmd(0, -2, '2<') end)
+
+
+-- mappings: macro
+-- disable macro a-z except q on normal mode and entirely on visual mode
+set_keymap('v', 'q', '<Nop>')
+set_keymap(
+  'n',
+  'q',
+  function()
+    local reg = vim.fn.reg_recording()
+    if reg ~= '' then return 'q<cmd>echo "stop recording @' .. reg .. '"<cr>' end
+    local char = vim.fn.getcharstr(0)
+    if char == 'q' or not char:match('[a-z]') then return 'q' .. char end
+    vim.notify('q[a-z] are disabled except qq', vim.log.levels.ERROR)
+  end,
+  {
+    expr = true,
+    nowait = true,
+  }
+)
 
 --[[ autocmd ]]
 vim.api.nvim_create_autocmd(
