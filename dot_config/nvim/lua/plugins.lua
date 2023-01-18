@@ -545,7 +545,7 @@ local deps = {
     keys = { '<C-T>', { ' <CR>', mode = { 'n', 'x' } } },
     cmd = { 'ToggleTermSendCurrentLine', 'ToggleTermSendVisualSelection' },
     config = function()
-      set_keymap('n', ' <CR>', ':ToggleTermSendCurrentLine<CR>j',
+      set_keymap('n', ' <CR>', ':ToggleTermSendCurrentLine<CR>')
         { desc = 'send the line to toggle term and go to next line', fav = false })
       set_keymap('x', ' <CR>', ":ToggleTermSendVisualSelection<CR>gv<Esc>",
         { desc = 'send the selection to toggle term while keeping the cursor position', fav = false })
