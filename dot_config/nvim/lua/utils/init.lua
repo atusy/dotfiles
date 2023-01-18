@@ -48,6 +48,18 @@ function M.set_keymap(mode, lhs, rhs, opt1, opt2)
   set_keymap(mode, lhs, rhs, opt)
 end
 
+-- set keymap as an item of command palette
+-- invoke the itme with Telescope keymaps
+function M.set_palette(mode, lhs, rhs, opts)
+  local space = ' ' -- use U+00A0 to avoid ' ' appears to be <Space>
+  vim.keymap.set(
+    mode,
+    M.star .. lhs:gsub(' ', space),
+    rhs or lhs,
+    vim.tbl_deep_extend('keep', opts or {}, { desc = '' })
+  )
+end
+
 local ready = false
 function M.setup(force)
   if ready and not force then

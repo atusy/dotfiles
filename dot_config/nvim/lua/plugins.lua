@@ -1,5 +1,5 @@
 local utils = require('utils')
-local set_keymap = utils.set_keymap
+local set_keymap, set_palette = utils.set_keymap, utils.set_palette
 
 vim.api.nvim_create_autocmd('User', {
   pattern = { 'LazyInstall', 'LazyUpdate', 'LazySync' },
@@ -122,13 +122,12 @@ local deps = {
     'm00qek/baleia.nvim',
     config = function()
       local baleia
-      set_keymap(
-        'n', '<Plug>(parse-ansi)',
+      set_palette(
+        'n', 'parse ANSI escape sequences',
         function()
           baleia = baleia or require('baleia').setup()
           baleia.once(vim.api.nvim_get_current_buf())
-        end,
-        { desc = 'Parse ANSI escape sequences in current buffer' }
+        end
       )
     end
   },
@@ -166,8 +165,8 @@ local deps = {
     cmd = { "TSJToggle", "TSJSplit", "TSJJoin" },
     init = function()
       -- treesj does not support visual mode, so leave the mode and use cursor as the node indicator
-      set_keymap('', '<Plug>(TSJJoin)', '<C-\\><C-N>:TSJJoin<CR>', { desc = 'join lines based on AST' })
-      set_keymap('', '<Plug>(TSJSplit)', '<C-\\><C-N>:TSJSplit<CR>', { desc = 'split lines based on AST' })
+      set_palette('', 'join lines based on AST', '<C-\\><C-N>:TSJJoin<CR>')
+      set_palette('', 'split lines based on AST', '<C-\\><C-N>:TSJSplit<CR>')
     end,
     config = function() require("treesj").setup({ use_default_keymaps = false }) end,
   },
@@ -360,11 +359,6 @@ local deps = {
           ts_utils.update_selection(0, node)
         end,
         { desc = 'node incremental selection' }
-      )
-      set_keymap(
-        'n', '<Plug>(treesitter-show-tree)',
-        function() vim.treesitter.show_tree() end,
-        { desc = 'treesitter show tree' }
       )
     end,
     config = function()
@@ -602,8 +596,8 @@ local deps = {
     'phelipetls/jsonpath.nvim',
     ft = 'json',
     config = function()
-      set_keymap(
-        'n', '<Plug>(clipboard-json-path)',
+      set_palette(
+        'n', 'clipboard json path',
         function()
           local path = require "jsonpath".get()
           vim.fn.setreg('+', path)

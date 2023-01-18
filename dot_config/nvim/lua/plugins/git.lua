@@ -3,6 +3,7 @@ local api = vim.api
 local utils = require('utils')
 local _require = utils.require
 local set_keymap = utils.set_keymap
+local set_palette = utils.set_palette
 
 -- gitsigns settings
 local function setup_gitsigns()
@@ -13,6 +14,7 @@ local function setup_gitsigns()
   end
 
   vim.api.nvim_set_hl(0, "GitSignsCurrentLineBlame", { link = "Comment" })
+  set_palette('n', 'toggle current line git blame', '<Cmd>Gitsigns toggle_current_line_blame<CR>')
 
   gs.setup({
     signcolumn = not has_num,
@@ -28,10 +30,6 @@ local function setup_gitsigns()
       set_keymap('n', '<Plug>(C-G)<C-R>', after_save('reset_hunk'), OPTS, { desc = "git reset hunk" })
       set_keymap('n', '<Plug>(C-G)r', after_save('reset_buffer'), OPTS, { desc = "git reset buffer" })
       set_keymap('n', '<Plug>(C-G)<C-H>', after_save('preview_hunk'), OPTS, { desc = "git preview hunk" })
-      set_keymap(
-        'n', '<Plug>(toggle-live-git-blame)', '<Cmd>Gitsigns toggle_current_line_blame<CR>',
-        OPTS, { desc = "toggle git blame on current line", fav = true }
-      )
 
       set_keymap(
         'n', '<Down>',
@@ -99,31 +97,15 @@ local function setup_gin()
   set_keymap('n', '<Plug>(C-G)<C-L>', function() graph() end, { desc = "git graph" }) -- git log --graph ...
   set_keymap('n', '<Plug>(C-G)%', function() graph("-- %") end, { desc = "git graph current buffer" })
   -- following keymaps exists as snippets, and thus ends with space rather than <CR>
-  set_keymap(
-    'n', '<Plug>(C-G)<C-Space>', '<Cmd>Gin commit<CR>',
-    { desc = ":git commit --amend" }
-  )
-  set_keymap(
-    'n', '<Plug>(git-amend)', ':Gin commit --amend ',
-    { desc = ":git commit --amend" }
-  )
-  set_keymap(
-    'n', '<Plug>(git-amend-no-edit)', ':Gin commit --amend --no-edit ',
-    { desc = ":git commit --amend --no-edit" }
-  )
-  set_keymap(
-    'n', '<Plug>(git-rebase-i)', ':Gin rebase -i ',
-    { desc = ":git rebase -i" }
-  )
-  set_keymap(
-    'n', '<Plug>(git-push)', ':Gin push origin HEAD ',
-    { desc = ":git push origin HEAD" }
-  )
-  set_keymap(
-    'n', '<Plug>(git-push-force)',
-    ':Gin push --force-with-lease --force-if-includes origin HEAD ',
-    { desc = ":git push origin HEAD --force-with-lease --force-if-includes" }
-  )
+  set_keymap('n', '<Plug>(C-G)<C-Space>', '<Cmd>Gin commit<CR>', { desc = "git commit" })
+  set_palette('n', 'git amend', ':Gin commit --amend ')
+  set_palette('n', 'git amend --no-edit', ':Gin commit --amend --no-edit ')
+  set_palette('n', 'git rebase -i', ':Gin rebase -i ')
+  set_palette('n', 'git rebase --onto A B C', ':Gin rebase --onto ', { desc = 'AにBからCまでの差分を乗せる' })
+  set_palette('n', 'git push', ':Gin push origin HEAD ')
+  set_palette('n', 'git push --force', ':Gin push --force-with-lease --force-if-includes origin HEAD ')
+  set_palette('n', 'git diff', ':GinDiff ')
+  set_palette('n', 'git diff --ignore-all-space', ':GinDiff --ignore-all-space')
 end
 
 -- return

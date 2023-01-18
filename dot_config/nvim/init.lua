@@ -201,27 +201,10 @@ set_keymap({ 'o', 'x' }, 'ie', ':<c-u>normal! G$vgo<cr>')
 -- mappings: mouse
 set_keymap('n', '<LeftDrag>', '<Nop>')
 set_keymap('n', '<LeftRelease>', '<Nop>')
-set_keymap(
-  'n', '<Plug>(toggle-left-drag)',
-  function()
-    for _, m in pairs(vim.api.nvim_get_keymap('n')) do
-      if m.lhs == '<LeftDrag>' then
-        if m.rhs == '' then
-          vim.keymap.del('n', '<LeftDrag>')
-          vim.keymap.del('n', '<LeftRelease>')
-        end
-        return
-      end
-    end
-    set_keymap('n', '<LeftDrag>', '<Nop>')
-    set_keymap('n', '<LeftRelease>', '<Nop>')
-  end,
-  { desc = 'toggle left drag' }
-)
 pcall(
   vim.api.nvim_exec,
   [[
-    nnoremenu PopUp.Toggle\ Drag <Plug>(toggle-left-drag)
+    nnoremenu PopUp.Toggle\ Drag <Cmd>lua require('atusy.mouse').toggle_left_drag()<CR>
     aunmenu PopUp.How-to\ disable\ mouse
   ]],
   false
@@ -304,17 +287,6 @@ set_keymap({ '', 't' }, '<C-Up>', function() win_move_or_cmd(-1, 0, '2+') end)
 set_keymap({ '', 't' }, '<C-Down>', function() win_move_or_cmd(1, 0, '2-') end)
 set_keymap({ '', 't' }, '<C-Right>', function() win_move_or_cmd(0, 2, '2>') end)
 set_keymap({ '', 't' }, '<C-Left>', function() win_move_or_cmd(0, -2, '2<') end)
-
--- mappings: <Plug> to be invoked by Telescope keymap
-set_keymap(
-  'n', '<Plug>(clipboard-cwd)', '<Cmd>let @+=getcwd()<CR>', { desc = 'clipboard cwd' }
-)
-set_keymap(
-  'n', '<Plug>(clipboard-buf)', '<Cmd>let @+=expand("%:p")<CR>', { desc = 'clipboard full file path of buf' }
-)
-set_keymap(
-  'n', '<Plug>(clipboard-dir)', '<Cmd>let @+=expand("%:p:h")<CR>', { desc = 'clipboard full dirname path of buf' }
-)
 
 --[[ autocmd ]]
 vim.api.nvim_create_autocmd(
@@ -405,6 +377,7 @@ if not vim.loop.fs_stat(lazypath) then
 end
 vim.opt.runtimepath:prepend(lazypath)
 require('lazy').setup("plugins", {
+  change_detection = { enabled = false },
   performance = {
     rtp = {
       disabled_plugins = {

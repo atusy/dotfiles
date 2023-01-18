@@ -1,5 +1,5 @@
 local utils = require('utils')
-local set_keymap = utils.set_keymap
+local set_keymap, set_palette = utils.set_keymap, utils.set_palette
 
 local function filter_only_sorter(sorter)
   sorter = sorter or require("telescope.config").values.file_sorter()
@@ -103,29 +103,25 @@ local function telescope(key) return "<Cmd>Telescope " .. key .. "<CR>" end
 
 local function setup_memo()
   local memo = '~/Documents/memo'
-  set_keymap(
-    'n', '<Plug>(memo-new)', ':e ' .. memo .. '/',
-    { desc = 'memo edit' }
-  -- recommends https://github.com/jghauser/mkdir.nvim
+  set_palette(
+    'n', 'memo edit', ':e ' .. memo .. '/'-- recommends https://github.com/jghauser/mkdir.nvim
   )
-  set_keymap(
-    'n', '<Plug>(memo-find-files)',
+  set_palette(
+    'n', 'memo find',
     function()
       require('telescope.builtin').find_files({ search_dirs = { memo } })
-    end,
-    { desc = 'memo find' }
-
+    end
   )
-  set_keymap(
-    'n', '<Plug>(memo-live-grep)',
+  set_palette(
+    'n', 'memo grep',
     function()
       require('telescope.builtin').live_grep({ cwd = memo })
-    end,
-    { desc = 'memo grep' }
+    end
   )
 end
 
 local function setup(_)
+  require('atusy.mappings-extra')
   local Telescope = require('telescope')
   Telescope.setup({
     pickers = {
