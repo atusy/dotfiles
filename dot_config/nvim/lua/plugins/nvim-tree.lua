@@ -87,6 +87,7 @@ return {
         nmap('yy', api.fs.copy.node, 'fs: copy')
         nmap('ya', api.fs.copy.absolute_path, 'fs: clipboard absolute path')
         nmap('yr', api.fs.copy.relative_path, 'fs: clipboard relative path')
+        nmap('K', api.node.show_info_popup, 'node: info')
 
         -- Defaults
         nmap('a', api.fs.create, 'fs: add')
@@ -96,7 +97,6 @@ return {
         nmap('<lt>', api.node.navigate.sibling.prev, 'node: sibling prev')
         nmap('>', api.node.navigate.sibling.next, 'node: sibling next')
         nmap('f', api.live_filter.start, 'live filter: start')
-        nmap('<C-K>', api.node.show_info_popup, 'node: info')
         nmap('m', api.marks.toggle, 'mark: toggle')
       end
     })
