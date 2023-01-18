@@ -438,8 +438,8 @@ local deps = {
         end
 
         -- otherwise, set highlight and return true
-        vim.api.nvim_set_hl(0, 'TSNodeUnmatched', { link = 'Comment', default = true })
-        vim.api.nvim_set_hl(0, 'TSNodeKey', { link = 'IncSearch', default = true })
+        vim.api.nvim_set_hl(0, 'TSNodeUnmatched', { link = 'Comment' })
+        vim.api.nvim_set_hl(0, 'TSNodeKey', { link = 'IncSearch' })
         return true
       end
 
