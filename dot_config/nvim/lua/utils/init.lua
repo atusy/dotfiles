@@ -8,17 +8,6 @@ function M.require(name)
   return require(name)
 end
 
-function M.require_lazy(name)
-  return setmetatable({}, {
-    __index = function(self, key)
-      for k, v in pairs(M.require(name)) do
-        self[k] = v
-      end
-      return self[key]
-    end
-  })
-end
-
 function M.safely(f)
   return function(...) pcall(f, ...) end
 end
