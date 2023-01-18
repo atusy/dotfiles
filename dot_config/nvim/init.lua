@@ -442,7 +442,9 @@ if vim.v.vim_did_enter == 1 then
   for _, p in pairs(loaded) do
     if p == 'plugins' or vim.startswith(p, 'plugins.') then
       for _, d in pairs(utils.require(p)) do
-        if type(d) == "table" and d.enabled ~= false then
+        if type(d) == "table" and d.enabled ~= false and d.cond ~= false then
+          local pname = d[1]:gsub('.*/', '')
+          require('lazy').load({ plugins = pname })
           if d.init then
             configurable = try(d.init)
             if not configurable then
