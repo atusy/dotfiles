@@ -195,11 +195,11 @@ local deps = {
   },
   {
     "Wansmer/treesj",
-    cmd = { "TSJToggle", "TSJSplit", "TSJJoin" },
+    lazy = true,
     init = function()
       -- treesj does not support visual mode, so leave the mode and use cursor as the node indicator
-      set_palette('', 'join lines based on AST', '<C-\\><C-N>:TSJJoin<CR>')
-      set_palette('', 'split lines based on AST', '<C-\\><C-N>:TSJSplit<CR>')
+      set_palette('', 'join lines based on AST', [[<C-\><C-N>:lua require('treesj').join()<CR>]])
+      set_palette('', 'split lines based on AST', [[<C-\><C-N>:lua require('treesj').split()<CR>]])
     end,
     config = function() require("treesj").setup({ use_default_keymaps = false }) end,
   },
