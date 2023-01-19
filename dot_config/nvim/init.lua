@@ -212,8 +212,8 @@ local function jump(forward)
   end
 end
 
-set_keymap('n', 'g<C-O>', function() jump(false) end, { fav = false, expr = true })
-set_keymap('n', 'g<C-I>', function() jump(true) end, { fav = false, expr = true })
+set_keymap('n', 'g<C-O>', function() return jump(false) end, { fav = false, expr = true })
+set_keymap('n', 'g<C-I>', function() return jump(true) end, { fav = false, expr = true })
 
 -- mappings: save and ...
 set_keymap(
