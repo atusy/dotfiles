@@ -137,6 +137,14 @@ local deps = {
 
   -- better something
   {
+    'yuki-yano/fuzzy-motion.vim',
+    dependencies = { 'lambdalisue/kensaku.vim', 'vim-denops/denops.vim' },
+    config = function()
+      vim.g.fuzzy_motion_matchers = { 'fzf', 'kensaku' }
+      set_keymap('n', ';', '<Cmd>FuzzyMotion<CR>')
+    end
+  },
+  {
     'haya14busa/vim-asterisk',
     keys = {
       { '*', '<Plug>(asterisk-z*)', mode = 'n' },
@@ -253,14 +261,14 @@ local deps = {
   {
     'ggandor/leap.nvim',
     lazy = true,
-    init = function()
+    --[[ init = function()
       set_keymap(
         { 'n', 'v' }, ';',
         function()
           require('leap').leap({ target_windows = { vim.api.nvim_get_current_win() } })
         end
       )
-    end,
+    end, ]]
     config = function()
       -- LeapBackdrop highlight is defined at colorscheme.lua
       local function hi(_)
@@ -284,7 +292,6 @@ local deps = {
     end
   },
   -- 'ggandor/flit.nvim',
-  -- 'yuki-yano/fuzzy-motion.vim',
 
   -- treesitter
   {
