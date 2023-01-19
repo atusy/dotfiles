@@ -138,9 +138,27 @@ local deps = {
       )
     end
   },
-  { 'tyru/capture.vim', cmd = 'Capture' },
-  { 'folke/zen-mode.nvim', cmd = 'ZenMode' },
-  { 'thinca/vim-qfreplace', cmd = 'Qfreplace' },
+  {
+    'tyru/capture.vim',
+    cmd = 'Capture',
+    init = function()
+      set_palette('n', 'Capture', ':Capture ', { remap = true })
+    end
+  },
+  {
+    'folke/zen-mode.nvim',
+    cmd = 'ZenMode',
+    init = function()
+      set_palette('n', 'ZenMode', '<Cmd>ZenMode<CR>')
+    end,
+  },
+  {
+    'thinca/vim-qfreplace',
+    cmd = 'Qfreplace',
+    init = function()
+      set_palette('n', 'Qfreplace', '<Cmd>Qfreplace<CR>')
+    end,
+  },
 
   -- better something
   {
