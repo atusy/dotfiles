@@ -48,3 +48,5 @@ function M.reload()
     end
   end
 end
+
+return M
