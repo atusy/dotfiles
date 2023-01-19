@@ -115,7 +115,14 @@ local deps = {
   -- "stevearc/stickybuf.nvim",
 
   -- windows and buffers
-  { 'moll/vim-bbye', cmd = { 'Bdelete', 'Bwipeout' } },
+  {
+    'echasnovski/mini.bufremove', -- instead of 'moll/vim-bbye',
+    lazy = true,
+    init = function()
+      set_palette('n', 'Bdelete', function() require('mini.bufremove').delete() end)
+      set_palette('n', 'Bwipeout', function() require('mini.bufremove').wipeout() end)
+    end
+  },
   -- 'mhinz/vim-sayonara',
   -- { 'stevearc/stickybuf.nvim' },
   {
