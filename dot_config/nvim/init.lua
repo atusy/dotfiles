@@ -160,6 +160,8 @@ set_keymap('t', '<C-W>', [[<C-\><C-N><C-W>]])
 set_keymap({ '', '!', 't' }, [[<C-\>]], [[<C-\><C-N>]], { nowait = true })
 set_keymap('x', 'zf', [[mode() == 'V' ? 'zf' : 'Vzf']], { expr = true })
 set_keymap('x', '/', '<Esc>/\\%V') -- search within selection
+set_keymap('v', ' ue', function() require('atusy.misc').urlencode() end)
+set_keymap('v', ' ud', function() require('atusy.misc').urldecode() end)
 
 -- mappings: better gf
 set_keymap('n', 'gf', 'gF')
