@@ -106,6 +106,7 @@ return {
     'm-demare/hlargs.nvim',
     -- maybe nolonger used because @parameter highlights well, also conflicts with neodim
     -- event = 'BufReadPre',
+    cond = false,
     lazy = true,
     config = function()
       local function setup()
