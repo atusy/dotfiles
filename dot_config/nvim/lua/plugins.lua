@@ -13,6 +13,13 @@ local deps = {
   -- basic dependencies
   'tpope/vim-repeat',
   'vim-denops/denops.vim',
+  {
+    'yuki-yano/denops-lazy.nvim',
+    lazy = true,
+    config = function()
+      require('denops-lazy').setup()
+    end,
+  },
   { 'kana/vim-submode', enabled = false },
   {
     'delphinus/cellwidths.nvim',
