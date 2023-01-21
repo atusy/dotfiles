@@ -195,6 +195,15 @@ elif command -v wget > /dev/null; then
 fi
 if command -v nvim > /dev/null; then
   alias vim='nvim'
+  if [[ -n $NVIM_LISTEN_ADDRESS ]] && command -v nvr > /dev/null; then
+    function man() {
+      if [[ $# -eq 1 ]]; then
+        nvr -cc "Man $1" 2>/dev/null || command man "$1"
+      else
+        command man "$@"
+      fi
+    }
+  fi
 fi
 if command -v xdg-open > /dev/null; then
   function open() {
