@@ -569,6 +569,15 @@ local deps = {
 
   -- terminal
   {
+    'chomosuke/term-edit.nvim',
+    event = 'TermEnter',
+    config = function()
+      require 'term-edit'.setup({
+        prompt_end = '[»#$] '
+      })
+    end
+  },
+  {
     'akinsho/toggleterm.nvim',
     keys = { '<C-T>', { ' <CR>', mode = { 'n', 'x' } } },
     cmd = { 'ToggleTermSendCurrentLine', 'ToggleTermSendVisualSelection' },
