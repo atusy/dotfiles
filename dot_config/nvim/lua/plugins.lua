@@ -555,6 +555,32 @@ local deps = {
           find = 'st',
           find_left = 'sT',
           highlight = 'sH',
+        },
+        custom_surroundings = {
+          ['{'] = {
+            input = { '%{().-()%}' },
+            output = { left = '{', right = '}' },
+          },
+          ['}'] = {
+            input = { '%{%{().-()%}%}' },
+            output = { left = '{{', right = '}}' }
+          },
+          ['('] = {
+            input = { '%(().-()%)' },
+            output = { left = '(', right = ')' },
+          },
+          [')'] = {
+            input = { '%(%(().-()%)%)' },
+            output = { left = '((', right = '))' },
+          },
+          ['['] = {
+            input = { '%[().-()%]' },
+            output = { left = '[', right = ']' },
+          },
+          [']'] = {
+            input = { '%[%[().-()%]%]' },
+            output = { left = '[[', right = ']]' },
+          },
         }
       })
     end,
