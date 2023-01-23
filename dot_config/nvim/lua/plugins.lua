@@ -579,6 +579,7 @@ local deps = {
     keys = { { 's', mode = '' } },
     config = function()
       require('mini.surround').setup({
+        n_lines = 100,
         mappings = {
           find = 'st',
           find_left = 'sT',
