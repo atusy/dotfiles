@@ -369,6 +369,25 @@ local deps = {
         return { a, b, c, d }
       end
 
+      local function get_curpos()
+        local p = vim.api.nvim_win_get_cursor(0)
+        return p[1] - 1, p[2] + 1
+      end
+
+      local function get_vrange()
+        local r1, c1 = get_curpos()
+        vim.cmd('normal! o')
+        local r2, c2 = get_curpos()
+        vim.cmd('normal! o')
+        if (r1 == r2) and (c1 == c2) then
+          return { r1, c1, r2, c2 }
+        end
+        if (r1 < r2) or ((r1 == r2) and (c1 < c2)) then
+          return { r1, c1 - 1, r2, c2 }
+        end
+        return { r2, c2 - 1, r1, c1 }
+      end
+
       set_keymap('x', 'v',
         function()
           local ts_utils = require('nvim-treesitter.ts_utils')
