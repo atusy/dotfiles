@@ -173,10 +173,10 @@ local deps = {
     dependencies = { 'lambdalisue/kensaku.vim', 'vim-denops/denops.vim' },
     cmd = 'FuzzyMotion',
     init = function()
-      vim.g.fuzzy_motion_matchers = { 'fzf', 'kensaku' }
-      set_keymap('n', ';', '<Cmd>FuzzyMotion<CR>')
+      set_keymap('n', '<CR>', '<Cmd>FuzzyMotion<CR>')
     end,
     config = function()
+      vim.g.fuzzy_motion_matchers = { 'fzf', 'kensaku' }
       require('denops-lazy').load('kensaku.vim')
       require('denops-lazy').load('fuzzy-motion.vim')
     end
