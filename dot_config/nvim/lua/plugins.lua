@@ -586,28 +586,36 @@ local deps = {
         },
         custom_surroundings = {
           ['{'] = {
-            input = { '%{().-()%}' },
+            input = { '%b{}', '^.().*().$' },
             output = { left = '{', right = '}' },
           },
           ['}'] = {
-            input = { '%{%{().-()%}%}' },
-            output = { left = '{{', right = '}}' }
+            input = { '%b{}', '^.%{().*()%}.$' },
+            output = { left = '{{', right = '}}' },
           },
           ['('] = {
-            input = { '%(().-()%)' },
+            input = { '%b()', '^.().*().$' },
             output = { left = '(', right = ')' },
           },
           [')'] = {
-            input = { '%(%(().-()%)%)' },
+            input = { '%b()', '^.%(().*()%).$' },
             output = { left = '((', right = '))' },
           },
           ['['] = {
-            input = { '%[().-()%]' },
+            input = { '%b[]', '^.().*().$' },
             output = { left = '[', right = ']' },
           },
           [']'] = {
-            input = { '%[%[().-()%]%]' },
+            input = { '%b[]', '^.%[().*()%].$' },
             output = { left = '[[', right = ']]' },
+          },
+          ['<'] = {
+            input = { '%b<>', '^.().*().$' },
+            output = { left = '<', right = '>' },
+          },
+          ['>'] = {
+            input = { '%b[]', '^.<().*()>.$' },
+            output = { left = '<<', right = '>>' },
           },
         }
       })
