@@ -573,7 +573,10 @@ local deps = {
     event = 'TermEnter',
     config = function()
       require 'term-edit'.setup({
-        prompt_end = '[»#$] '
+        prompt_end = '[»#$] ',
+        mapping = {
+          n = { s = false, S = false }
+        }
       })
     end
   },
