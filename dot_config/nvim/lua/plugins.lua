@@ -563,6 +563,7 @@ local deps = {
     event = 'ModeChanged',
     config = function()
       require('mini.ai').setup({
+        n_lines = 100,
         mappings = {
           around_next = 'a;',
           inside_next = 'i;',
