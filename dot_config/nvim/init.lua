@@ -49,7 +49,8 @@ https://github.com/hrsh7th/nvim-gtd
 https://github.com/hrsh7th/vim-searchx
 https://github.com/b0o/SchemaStore.nvim
 https://github.com/gaoDean/autolist.nvim
---]]
+https://github.com/Exafunction/codeium.vim
+]]
 
 -- [[ helpers ]]
 local utils = require('utils').require('utils') -- force reloading self
