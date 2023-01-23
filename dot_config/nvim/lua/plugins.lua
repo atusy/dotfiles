@@ -231,6 +231,15 @@ local deps = {
       set_keymap("v", "g<C-X>", function() return require("dial.map").dec_gvisual() end, { expr = true })
     end
   },
+  {
+    'yuki-yano/highlight-undo.nvim',
+    event = 'User DenopsReady',
+    cond = false,
+    config = function()
+      require('denops-lazy').load('highlight-undo.nvim')
+      require('highlight-undo').setup({})
+    end
+  },
 
   -- statusline
   {
