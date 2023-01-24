@@ -18,15 +18,6 @@ return {
         input = { vim.api.nvim_replace_termcodes("<C-F>", true, false, true) },
       })
       vim.g['operator#sandwich#recipes'] = recipes
-
-      set_keymap(
-        'n', 's(', '<Plug>(operator-sandwich-add-query1st)<C-F>',
-        { desc = 'sandwich query with () and start insert before (' }
-      )
-      set_keymap(
-        'x', 's(', '<Plug>(operator-sandwich-add)<C-F>',
-        { desc = 'sandwich query with () and start insert before (' }
-      )
     end
   },
   {
