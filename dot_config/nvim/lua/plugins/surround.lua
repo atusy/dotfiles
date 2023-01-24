@@ -33,6 +33,14 @@ return {
     'echasnovski/mini.surround',
     keys = { { 's', mode = '' } },
     config = function()
+      --[=[
+      Examples
+        saiw[ surrounds inner word with [] and saiw] surrounds inner word with [[]]
+        Similar behaviors occurs with (){}<>
+
+        sjaiw[ surrounds inner word with 「」
+        Unfortunately, sjr[] replaces 「」 with [[]], not 『』
+      ]=]
       local lang = ''
       vim.api.nvim_create_autocmd('ModeChanged', {
         group = utils.augroup,
