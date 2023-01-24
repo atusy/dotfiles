@@ -320,7 +320,7 @@ vim.api.nvim_create_autocmd('InsertEnter', {
 })
 
 vim.api.nvim_create_autocmd('TextYankPost', {
-  callback = function() vim.highlight.on_yank() end,
+  callback = function() pcall(vim.highlight.on_yank) end,
   group = utils.augroup,
 })
 
