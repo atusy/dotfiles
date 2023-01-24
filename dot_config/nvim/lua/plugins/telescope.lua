@@ -166,7 +166,7 @@ return {
         { 'n', leader .. 'f', 'find_files' },
         { 'n', leader .. 'g', 'live_grep' },
         { 'n', leader .. 'h', 'help_tags' },
-        { 'n', leader .. 'j', 'jumplist' },
+        { 'n', leader .. '<Tab>', 'jumplist' },
         { 'n', leader .. 'o', 'outline', telescope_outline },
         -- sr is occupied by sandwich
         { 'n', leader .. 's', 'keymaps normal favorites', telescope_keymaps },
