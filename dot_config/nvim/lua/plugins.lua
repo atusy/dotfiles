@@ -522,6 +522,15 @@ local deps = {
   },
   -- 'haringsrob/nvim_context_vt',
   {
+    'David-Kunz/treesitter-unit',
+    lazy = true,
+    enabled = false, -- because viuiu will not expand the region
+    init = function()
+      set_keymap({ 'o', 'x' }, 'iu', ':<C-U>lua require"treesitter-unit".select()<CR>')
+      set_keymap({ 'o', 'x' }, 'au', ':<C-U>lua require"treesitter-unit".select(true)<CR>')
+    end
+  },
+  {
     'romgrk/nvim-treesitter-context',
     event = "BufReadPre",
     config = function()
