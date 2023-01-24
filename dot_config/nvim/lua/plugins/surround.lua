@@ -85,6 +85,14 @@ return {
                 [']'] = { '『().-()』' },
               }
 
+              if char == 'b' then
+                local ret = {}
+                for _, v in pairs(dict) do
+                  table.insert(ret, v)
+                end
+                return { ret }
+              end
+
               if not dict[char] then error('%s is unsupported surroundings in Japanese') end
 
               return dict[char]
