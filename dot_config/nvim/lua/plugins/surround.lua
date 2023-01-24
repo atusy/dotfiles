@@ -33,6 +33,29 @@ return {
     'echasnovski/mini.surround',
     keys = { { 's', mode = '' } },
     config = function()
+      local lang = ''
+      vim.api.nvim_create_autocmd('ModeChanged', {
+        group = utils.augroup,
+        pattern = '*:[ovV\x16]*',
+        callback = function() lang = '' end
+      })
+      local function localize(rhs, language)
+        return function()
+          lang = language or ''
+          return rhs
+        end
+      end
+
+      set_keymap({ 'n', 'x' }, 'sj', localize('s', 'ja'), { remap = true, expr = true })
+
+      local function multilingual(default, dict)
+        return function()
+          local ret = dict[lang] or default
+          lang = ''
+          return ret
+        end
+      end
+
       require('mini.surround').setup({
         n_lines = 100,
         mappings = {
@@ -42,28 +65,52 @@ return {
         },
         custom_surroundings = {
           ['{'] = {
-            input = { '%b{}', '^.().*().$' },
-            output = { left = '{', right = '}' },
+            input = multilingual(
+              { '%b{}', '^.().*().$' },
+              { ja = { '｛().-()｝' } }
+            ),
+            output = multilingual(
+              { left = '{', right = '}' },
+              { ja = { left = '｛', right = '｝' } }
+            ),
           },
           ['}'] = {
             input = { '%b{}', '^.%{().*()%}.$' },
             output = { left = '{{', right = '}}' },
           },
           ['('] = {
-            input = { '%b()', '^.().*().$' },
-            output = { left = '(', right = ')' },
+            input = multilingual(
+              { '%b()', '^.().*().$' },
+              { ja = { '（().-()）' } }
+            ),
+            output = multilingual(
+              { left = '(', right = ')' },
+              { ja = { left = '（', right = '）' } }
+            ),
           },
           [')'] = {
             input = { '%b()', '^.%(().*()%).$' },
             output = { left = '((', right = '))' },
           },
           ['['] = {
-            input = { '%b[]', '^.().*().$' },
-            output = { left = '[', right = ']' },
+            input = multilingual(
+              { '%b[]', '^.().*().$' },
+              { ja = { '「().-()」' } }
+            ),
+            output = multilingual(
+              { left = '[', right = ']' },
+              { ja = { left = '「', right = '」' } }
+            ),
           },
           [']'] = {
-            input = { '%b[]', '^.%[().*()%].$' },
-            output = { left = '[[', right = ']]' },
+            input = multilingual(
+              { '%b[]', '^.%[().*()%].$' },
+              { ja = { '『().-()』' } }
+            ),
+            output = multilingual(
+              { left = '[[', right = ']]' },
+              { ja = { left = '『', right = '』' } }
+            ),
           },
           ['<'] = {
             input = { '%b<>', '^.().*().$' },
