@@ -29,32 +29,9 @@ return {
         saiw[ surrounds inner word with [] and saiw] surrounds inner word with [[]]
         Similar behaviors occurs with (){}<>
 
-        sjaiw[ surrounds inner word with 「」
-        Unfortunately, sjr[] replaces 「」 with [[]], not 『』
+        saiwj[ surrounds inner word with 「」
+        srj[j] replaces 「」 with 『』
       ]=]
-      local lang = ''
-      vim.api.nvim_create_autocmd('ModeChanged', {
-        group = utils.augroup,
-        pattern = '*:[ovV\x16]*',
-        callback = function() lang = '' end
-      })
-      local function localize(rhs, language)
-        return function()
-          lang = language or ''
-          return rhs
-        end
-      end
-
-      set_keymap({ 'n', 'x' }, 'sj', localize('s', 'ja'), { remap = true, expr = true })
-
-      local function multilingual(default, dict)
-        return function()
-          local ret = dict[lang] or default
-          lang = ''
-          return ret
-        end
-      end
-
       require('mini.surround').setup({
         n_lines = 100,
         mappings = {
@@ -64,52 +41,28 @@ return {
         },
         custom_surroundings = {
           ['{'] = {
-            input = multilingual(
-              { '%b{}', '^.().*().$' },
-              { ja = { '｛().-()｝' } }
-            ),
-            output = multilingual(
-              { left = '{', right = '}' },
-              { ja = { left = '｛', right = '｝' } }
-            ),
+            input = { '%b{}', '^.().*().$' },
+            output = { left = '{', right = '}' },
           },
           ['}'] = {
             input = { '%b{}', '^.%{().*()%}.$' },
             output = { left = '{{', right = '}}' },
           },
           ['('] = {
-            input = multilingual(
-              { '%b()', '^.().*().$' },
-              { ja = { '（().-()）' } }
-            ),
-            output = multilingual(
-              { left = '(', right = ')' },
-              { ja = { left = '（', right = '）' } }
-            ),
+            input = { '%b()', '^.().*().$' },
+            output = { left = '(', right = ')' },
           },
           [')'] = {
             input = { '%b()', '^.%(().*()%).$' },
             output = { left = '((', right = '))' },
           },
           ['['] = {
-            input = multilingual(
-              { '%b[]', '^.().*().$' },
-              { ja = { '「().-()」' } }
-            ),
-            output = multilingual(
-              { left = '[', right = ']' },
-              { ja = { left = '「', right = '」' } }
-            ),
+            input = { '%b[]', '^.().*().$' },
+            output = { left = '[', right = ']' },
           },
           [']'] = {
-            input = multilingual(
-              { '%b[]', '^.%[().*()%].$' },
-              { ja = { '『().-()』' } }
-            ),
-            output = multilingual(
-              { left = '[[', right = ']]' },
-              { ja = { left = '『', right = '』' } }
-            ),
+            input = { '%b[]', '^.%[().*()%].$' },
+            output = { left = '[[', right = ']]' },
           },
           ['<'] = {
             input = { '%b<>', '^.().*().$' },
@@ -119,6 +72,40 @@ return {
             input = { '%b[]', '^.<().*()>.$' },
             output = { left = '<<', right = '>>' },
           },
+          ['j'] = {
+            input = function()
+              local ok, val = pcall(vim.fn.getchar)
+              if not ok then return end
+              local char = vim.fn.nr2char(val)
+
+              local dict = {
+                ['('] = { '（().-()）' },
+                ['{'] = { '｛().-()｝' },
+                ['['] = { '「().-()」' },
+                [']'] = { '『().-()』' },
+              }
+
+              if not dict[char] then error('%s is unsupported surroundings in Japanese') end
+
+              return dict[char]
+            end,
+            output = function()
+              local ok, val = pcall(vim.fn.getchar)
+              if not ok then return end
+              local char = vim.fn.nr2char(val)
+
+              local dict = {
+                ['('] = { left = '（', right = '）' },
+                ['{'] = { left = '｛', right = '｝' },
+                ['['] = { left = '「', right = '」' },
+                [']'] = { left = '『', right = '』' },
+              }
+
+              if not dict[char] then error('%s is unsupported surroundings in Japanese') end
+
+              return dict[char]
+            end
+          }
         }
       })
     end,
