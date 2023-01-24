@@ -54,31 +54,6 @@ return {
         vij[ selects inside 「」. 
         I intorduce some hacks because `custom_textobjects` does not support multiple characters as keys.
       ]]
-      local lang = ''
-      vim.api.nvim_create_autocmd('ModeChanged', {
-        group = utils.augroup,
-        pattern = '*:[ovV\x16]*',
-        callback = function() lang = '' end
-      })
-
-      local function localize(rhs, language)
-        return function()
-          lang = language or ''
-          return rhs
-        end
-      end
-
-      set_keymap({ 'v', 'o' }, 'ij', localize('i', 'ja'), { remap = true, expr = true })
-      set_keymap({ 'v', 'o' }, 'aj', localize('a', 'ja'), { remap = true, expr = true })
-
-      local function multilingual(default, dict)
-        return function()
-          local ret = dict[lang] or default
-          lang = ''
-          return ret
-        end
-      end
-
       require('mini.ai').setup({
         n_lines = 100,
         mappings = {
@@ -90,14 +65,30 @@ return {
           goto_right = 'g)',
         },
         custom_textobjects = {
-          ['{'] = multilingual({ '%b{}', '^.().*().$' }, { ja = { '｛().-()｝' } }),
+          ['{'] = { '%b{}', '^.().*().$' },
           ['}'] = { '%b{}', '^.%{().*()%}.$' },
-          ['('] = multilingual({ '%b()', '^.().*().$' }, { ja = { '（().-()）' } }),
+          ['('] = { '%b()', '^.().*().$' },
           [')'] = { '%b()', '^.%(().*()%).$' },
-          ['['] = multilingual({ '%b[]', '^.().*().$' }, { ja = { '「().-()」' } }),
-          [']'] = multilingual({ '%b[]', '^.%[().*()%].$' }, { ja = { '『().-()』' } }),
+          ['['] = { '%b[]', '^.().*().$' },
+          [']'] = { '%b[]', '^.%[().*()%].$' },
           ['<'] = { '%b<>', '^.().*().$' },
           ['>'] = { '%b<>', '^.<().*()>.$' },
+          ['j'] = function()
+            local ok, val = pcall(vim.fn.getchar)
+            if not ok then return end
+            local char = vim.fn.nr2char(val)
+
+            local dict = {
+              ['('] = { '（().-()）' },
+              ['{'] = { '｛().-()｝' },
+              ['['] = { '「().-()」' },
+              [']'] = { '『().-()』' },
+            }
+
+            if not dict[char] then error('%s is unsupported textobject in Japanese') end
+
+            return dict[char]
+          end
         }
       })
     end,
