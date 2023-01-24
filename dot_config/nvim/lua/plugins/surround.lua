@@ -87,15 +87,13 @@ return {
 
               if char == 'b' then
                 local ret = {}
-                for _, v in pairs(dict) do
-                  table.insert(ret, v)
-                end
+                for _, v in pairs(dict) do table.insert(ret, v) end
                 return { ret }
               end
 
-              if not dict[char] then error('%s is unsupported surroundings in Japanese') end
+              if dict[char] then return dict[char] end
 
-              return dict[char]
+              error('%s is unsupported surroundings in Japanese')
             end,
             output = function()
               local ok, val = pcall(vim.fn.getchar)
@@ -109,9 +107,9 @@ return {
                 [']'] = { left = '『', right = '』' },
               }
 
-              if not dict[char] then error('%s is unsupported surroundings in Japanese') end
+              if dict[char] then return dict[char] end
 
-              return dict[char]
+              error('%s is unsupported surroundings in Japanese')
             end
           }
         }

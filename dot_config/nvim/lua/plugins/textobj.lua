@@ -87,15 +87,13 @@ return {
 
             if char == 'b' then
               local ret = {}
-              for _, v in pairs(dict) do
-                table.insert(ret, v)
-              end
+              for _, v in pairs(dict) do table.insert(ret, v) end
               return { ret }
             end
 
-            if not dict[char] then error('%s is unsupported textobject in Japanese') end
+            if dict[char] then return dict[char] end
 
-            return dict[char]
+            error('%s is unsupported textobjects in Japanese')
           end
         }
       })
