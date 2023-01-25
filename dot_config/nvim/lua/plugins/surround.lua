@@ -93,7 +93,7 @@ return {
 
               if dict[char] then return dict[char] end
 
-              error('%s is unsupported surroundings in Japanese')
+              error(char .. ' is unsupported surroundings in Japanese')
             end,
             output = function()
               local ok, val = pcall(vim.fn.getchar)
@@ -109,7 +109,7 @@ return {
 
               if dict[char] then return dict[char] end
 
-              error('%s is unsupported surroundings in Japanese')
+              error(char .. ' is unsupported surroundings in Japanese')
             end
           }
         }

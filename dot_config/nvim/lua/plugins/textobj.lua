@@ -93,7 +93,7 @@ return {
 
             if dict[char] then return dict[char] end
 
-            error('%s is unsupported textobjects in Japanese')
+            error(char .. ' is unsupported textobjects in Japanese')
           end
         }
       })
