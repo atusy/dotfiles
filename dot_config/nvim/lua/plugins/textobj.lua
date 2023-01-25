@@ -152,16 +152,6 @@ return {
     keys = { { 's', mode = '' }, },
     config = function()
       vim.g['sandwich#recipes'] = vim.deepcopy(vim.g['sandwich#default_recipes'])
-      local recipes = vim.fn.deepcopy(vim.g['operator#sandwich#default_recipes'])
-      table.insert(recipes, {
-        buns = { '(', ')' },
-        kind = { 'add' },
-        action = { 'add' },
-        cursor = 'head',
-        command = { 'startinsert' },
-        input = { vim.api.nvim_replace_termcodes("<C-F>", true, false, true) },
-      })
-      vim.g['operator#sandwich#recipes'] = recipes
     end
   },
 }
