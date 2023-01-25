@@ -113,7 +113,7 @@ return {
 
         if dict[char] then return dict[char] end
 
-        error(char .. ' is unsupported textobjects in Japanese')
+        error('j' .. char .. ' is unsupported')
       end
 
       require('mini.ai').setup({
@@ -171,7 +171,7 @@ return {
 
               if dict[char] then return dict[char] end
 
-              error(char .. ' is unsupported surroundings in Japanese')
+              error('j' .. char .. ' is unsupported')
             end,
             output = function()
               local ok, val = pcall(vim.fn.getchar)
@@ -187,7 +187,7 @@ return {
 
               if dict[char] then return dict[char] end
 
-              error(char .. ' is unsupported surroundings in Japanese')
+              error('j' .. char .. ' is unsupported')
             end
           }
         })
