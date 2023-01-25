@@ -1,6 +1,41 @@
 local utils = require('utils')
 local set_keymap = utils.set_keymap
 
+local brackets_default = {
+  ['{'] = {
+    input = { '%b{}', '^.().*().$' },
+    output = { left = '{', right = '}' },
+  },
+  ['}'] = {
+    input = { '%b{}', '^.%{().*()%}.$' },
+    output = { left = '{{', right = '}}' },
+  },
+  ['('] = {
+    input = { '%b()', '^.().*().$' },
+    output = { left = '(', right = ')' },
+  },
+  [')'] = {
+    input = { '%b()', '^.%(().*()%).$' },
+    output = { left = '((', right = '))' },
+  },
+  ['['] = {
+    input = { '%b[]', '^.().*().$' },
+    output = { left = '[', right = ']' },
+  },
+  [']'] = {
+    input = { '%b[]', '^.%[().*()%].$' },
+    output = { left = '[[', right = ']]' },
+  },
+  ['<'] = {
+    input = { '%b<>', '^.().*().$' },
+    output = { left = '<', right = '>' },
+  },
+  ['>'] = {
+    input = { '%b[]', '^.<().*()>.$' },
+    output = { left = '<<', right = '>>' },
+  },
+}
+
 return {
   {
     'echasnovski/mini.ai',
@@ -54,6 +89,33 @@ return {
         vij[ selects inside 「」. 
         I intorduce some hacks because `custom_textobjects` does not support multiple characters as keys.
       ]]
+      local custom_textobjects = {}
+      for k, v in pairs(brackets_default) do
+        custom_textobjects[k] = v.input
+      end
+      function custom_textobjects.j()
+        local ok, val = pcall(vim.fn.getchar)
+        if not ok then return end
+        local char = vim.fn.nr2char(val)
+
+        local dict = {
+          ['('] = { '（().-()）' },
+          ['{'] = { '｛().-()｝' },
+          ['['] = { '「().-()」' },
+          [']'] = { '『().-()』' },
+        }
+
+        if char == 'b' then
+          local ret = {}
+          for _, v in pairs(dict) do table.insert(ret, v) end
+          return { ret }
+        end
+
+        if dict[char] then return dict[char] end
+
+        error(char .. ' is unsupported textobjects in Japanese')
+      end
+
       require('mini.ai').setup({
         n_lines = 100,
         mappings = {
@@ -64,38 +126,7 @@ return {
           goto_left = 'g(',
           goto_right = 'g)',
         },
-        custom_textobjects = {
-          ['{'] = { '%b{}', '^.().*().$' },
-          ['}'] = { '%b{}', '^.%{().*()%}.$' },
-          ['('] = { '%b()', '^.().*().$' },
-          [')'] = { '%b()', '^.%(().*()%).$' },
-          ['['] = { '%b[]', '^.().*().$' },
-          [']'] = { '%b[]', '^.%[().*()%].$' },
-          ['<'] = { '%b<>', '^.().*().$' },
-          ['>'] = { '%b<>', '^.<().*()>.$' },
-          ['j'] = function()
-            local ok, val = pcall(vim.fn.getchar)
-            if not ok then return end
-            local char = vim.fn.nr2char(val)
-
-            local dict = {
-              ['('] = { '（().-()）' },
-              ['{'] = { '｛().-()｝' },
-              ['['] = { '「().-()」' },
-              [']'] = { '『().-()』' },
-            }
-
-            if char == 'b' then
-              local ret = {}
-              for _, v in pairs(dict) do table.insert(ret, v) end
-              return { ret }
-            end
-
-            if dict[char] then return dict[char] end
-
-            error(char .. ' is unsupported textobjects in Japanese')
-          end
-        }
+        custom_textobjects = custom_textobjects,
       })
     end,
   },
@@ -118,39 +149,7 @@ return {
           find_left = 'sT',
           highlight = 'sH',
         },
-        custom_surroundings = {
-          ['{'] = {
-            input = { '%b{}', '^.().*().$' },
-            output = { left = '{', right = '}' },
-          },
-          ['}'] = {
-            input = { '%b{}', '^.%{().*()%}.$' },
-            output = { left = '{{', right = '}}' },
-          },
-          ['('] = {
-            input = { '%b()', '^.().*().$' },
-            output = { left = '(', right = ')' },
-          },
-          [')'] = {
-            input = { '%b()', '^.%(().*()%).$' },
-            output = { left = '((', right = '))' },
-          },
-          ['['] = {
-            input = { '%b[]', '^.().*().$' },
-            output = { left = '[', right = ']' },
-          },
-          [']'] = {
-            input = { '%b[]', '^.%[().*()%].$' },
-            output = { left = '[[', right = ']]' },
-          },
-          ['<'] = {
-            input = { '%b<>', '^.().*().$' },
-            output = { left = '<', right = '>' },
-          },
-          ['>'] = {
-            input = { '%b[]', '^.<().*()>.$' },
-            output = { left = '<<', right = '>>' },
-          },
+        custom_surroundings = vim.tbl_extend("force", brackets_default, {
           ['j'] = {
             input = function()
               local ok, val = pcall(vim.fn.getchar)
@@ -191,7 +190,7 @@ return {
               error(char .. ' is unsupported surroundings in Japanese')
             end
           }
-        }
+        })
       })
     end,
   },
