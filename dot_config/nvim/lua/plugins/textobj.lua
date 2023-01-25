@@ -14,7 +14,7 @@ local function japanize_bracket(dict, callbacks)
   end
 end
 
-local brackets_default = {
+local recipes = {
   ['{'] = {
     input = { '%b{}', '^.().*().$' },
     output = { left = '{', right = '}' },
@@ -129,7 +129,7 @@ return {
         I intorduce some hacks because `custom_textobjects` does not support multiple characters as keys.
       ]]
       local custom_textobjects = {}
-      for k, v in pairs(brackets_default) do
+      for k, v in pairs(recipes) do
         custom_textobjects[k] = v.input
       end
 
@@ -166,7 +166,7 @@ return {
           find_left = 'sT',
           highlight = 'sH',
         },
-        custom_surroundings = brackets_default
+        custom_surroundings = recipes
       })
     end,
   },
