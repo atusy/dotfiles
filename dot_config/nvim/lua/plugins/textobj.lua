@@ -1,6 +1,19 @@
 local utils = require('utils')
 local set_keymap = utils.set_keymap
 
+local function japanize_bracket(dict, callbacks)
+  return function()
+    local ok, val = pcall(vim.fn.getchar)
+    if not ok then return end
+    local char = vim.fn.nr2char(val)
+
+    if callbacks[char] then return callbacks[char](dict) end
+    if dict[char] then return dict[char] end
+
+    error('j' .. char .. ' is unsupported')
+  end
+end
+
 local brackets_default = {
   ['{'] = {
     input = { '%b{}', '^.().*().$' },
@@ -35,44 +48,30 @@ local brackets_default = {
     output = { left = '<<', right = '>>' },
   },
   ['j'] = {
-    input = function()
-      local ok, val = pcall(vim.fn.getchar)
-      if not ok then return end
-      local char = vim.fn.nr2char(val)
-
-      local dict = {
+    input = japanize_bracket(
+      {
         ['('] = { '（().-()）' },
         ['{'] = { '｛().-()｝' },
         ['['] = { '「().-()」' },
         [']'] = { '『().-()』' },
+      },
+      {
+        b = function(dict)
+          local ret = {}
+          for _, v in pairs(dict) do table.insert(ret, v) end
+          return { ret }
+        end
       }
-
-      if char == 'b' then
-        local ret = {}
-        for _, v in pairs(dict) do table.insert(ret, v) end
-        return { ret }
-      end
-
-      if dict[char] then return dict[char] end
-
-      error('j' .. char .. ' is unsupported')
-    end,
-    output = function()
-      local ok, val = pcall(vim.fn.getchar)
-      if not ok then return end
-      local char = vim.fn.nr2char(val)
-
-      local dict = {
+    ),
+    output = japanize_bracket(
+      {
         ['('] = { left = '（', right = '）' },
         ['{'] = { left = '｛', right = '｝' },
         ['['] = { left = '「', right = '」' },
         [']'] = { left = '『', right = '』' },
-      }
-
-      if dict[char] then return dict[char] end
-
-      error('j' .. char .. ' is unsupported')
-    end
+      },
+      {}
+    )
   }
 }
 
