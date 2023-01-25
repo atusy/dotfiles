@@ -1,11 +1,13 @@
 local utils = require('utils')
 local set_keymap = utils.set_keymap
 
+local function getchar()
+  return vim.fn.nr2char(vim.fn.getchar())
+end
+
 local function japanize_bracket(dict, callbacks)
   return function()
-    local ok, val = pcall(vim.fn.getchar)
-    if not ok then return end
-    local char = vim.fn.nr2char(val)
+    local char = getchar()
 
     if callbacks[char] then return callbacks[char](dict) end
     if dict[char] then return dict[char] end
@@ -14,7 +16,7 @@ local function japanize_bracket(dict, callbacks)
   end
 end
 
-local recipes = {
+local BRACKETS = {
   ['{'] = {
     input = { '%b{}', '^.().*().$' },
     output = { left = '{', right = '}' },
@@ -47,32 +49,46 @@ local recipes = {
     input = { '%b[]', '^.<().*()>.$' },
     output = { left = '<<', right = '>>' },
   },
-  ['j'] = {
-    input = japanize_bracket(
-      {
-        ['('] = { '（().-()）' },
-        ['{'] = { '｛().-()｝' },
-        ['['] = { '「().-()」' },
-        [']'] = { '『().-()』' },
-      },
-      {
-        b = function(dict)
-          local ret = {}
-          for _, v in pairs(dict) do table.insert(ret, v) end
-          return { ret }
-        end
-      }
-    ),
-    output = japanize_bracket(
-      {
-        ['('] = { left = '（', right = '）' },
-        ['{'] = { left = '｛', right = '｝' },
-        ['['] = { left = '「', right = '」' },
-        [']'] = { left = '『', right = '』' },
-      },
-      {}
-    )
-  }
+}
+
+local recipes = vim.tbl_extend('force', {}, BRACKETS)
+
+recipes[' '] = {
+  input = function()
+    -- vi<Space>[ to select region without spaces, tabs, and \n
+    local char = getchar()
+    local ok, input = pcall(function() return BRACKETS[char].input end)
+    if not ok or not input then return end
+    local location = string.gsub(input[2], [[%(%)%.%*%(%)]], '[\n\t ]*().-()[\n\t ]*')
+    return { input[1], location }
+  end
+}
+
+recipes['j'] = {
+  input = japanize_bracket(
+    {
+      ['('] = { '（().-()）' },
+      ['{'] = { '｛().-()｝' },
+      ['['] = { '「().-()」' },
+      [']'] = { '『().-()』' },
+    },
+    {
+      b = function(dict)
+        local ret = {}
+        for _, v in pairs(dict) do table.insert(ret, v) end
+        return { ret }
+      end
+    }
+  ),
+  output = japanize_bracket(
+    {
+      ['('] = { left = '（', right = '）' },
+      ['{'] = { left = '｛', right = '｝' },
+      ['['] = { left = '「', right = '」' },
+      [']'] = { left = '『', right = '』' },
+    },
+    {}
+  )
 }
 
 return {
@@ -80,46 +96,6 @@ return {
     'echasnovski/mini.ai',
     event = 'ModeChanged',
     config = function()
-      --[[
-      -- TODO:
-      -- Vi[ で [ と ] の間から両端の改行を抜いたところを選択したい
-      local function template_bracket()
-        local mode = vim.api.nvim_get_mode().mode
-        local template = '^.%s().*()%s.$'
-        if mode == 'V' then
-          return string.format(
-            template,
-            '%s -\n?',
-            '\n? -%s' -- '\n -%s' works, but this is not what I want...
-          )
-        end
-        return template
-      end
-
-      local _bracket = template_bracket()
-
-      -- mini.aiのtext objはnormalモードで評価されるので、条件分岐はModeChangedでやっておく
-      vim.api.nvim_create_autocmd('ModeChanged', {
-        pattern = '*:[vV]*',
-        group = require('utils').augroup,
-        callback = function()
-          _bracket = template_bracket()
-        end
-      })
-
-      local function bracket(x, left, right)
-        return function()
-          return {
-            '%b' .. x,
-            string.format(_bracket, left or '', right or ''),
-          }
-        end
-      end
-
-      -- usage:
-      -- custom_textobjects = { ['{'] = bracket('{}'), ['}'] = bracket('{}', '%{', '%}') }
-      ]]
-
       --[[
       Examples:
         vi[ selects inside single bracket and vi] selects inside double brackets.
