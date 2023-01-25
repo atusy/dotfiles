@@ -34,6 +34,46 @@ local brackets_default = {
     input = { '%b[]', '^.<().*()>.$' },
     output = { left = '<<', right = '>>' },
   },
+  ['j'] = {
+    input = function()
+      local ok, val = pcall(vim.fn.getchar)
+      if not ok then return end
+      local char = vim.fn.nr2char(val)
+
+      local dict = {
+        ['('] = { '（().-()）' },
+        ['{'] = { '｛().-()｝' },
+        ['['] = { '「().-()」' },
+        [']'] = { '『().-()』' },
+      }
+
+      if char == 'b' then
+        local ret = {}
+        for _, v in pairs(dict) do table.insert(ret, v) end
+        return { ret }
+      end
+
+      if dict[char] then return dict[char] end
+
+      error('j' .. char .. ' is unsupported')
+    end,
+    output = function()
+      local ok, val = pcall(vim.fn.getchar)
+      if not ok then return end
+      local char = vim.fn.nr2char(val)
+
+      local dict = {
+        ['('] = { left = '（', right = '）' },
+        ['{'] = { left = '｛', right = '｝' },
+        ['['] = { left = '「', right = '」' },
+        [']'] = { left = '『', right = '』' },
+      }
+
+      if dict[char] then return dict[char] end
+
+      error('j' .. char .. ' is unsupported')
+    end
+  }
 }
 
 return {
@@ -93,28 +133,6 @@ return {
       for k, v in pairs(brackets_default) do
         custom_textobjects[k] = v.input
       end
-      function custom_textobjects.j()
-        local ok, val = pcall(vim.fn.getchar)
-        if not ok then return end
-        local char = vim.fn.nr2char(val)
-
-        local dict = {
-          ['('] = { '（().-()）' },
-          ['{'] = { '｛().-()｝' },
-          ['['] = { '「().-()」' },
-          [']'] = { '『().-()』' },
-        }
-
-        if char == 'b' then
-          local ret = {}
-          for _, v in pairs(dict) do table.insert(ret, v) end
-          return { ret }
-        end
-
-        if dict[char] then return dict[char] end
-
-        error('j' .. char .. ' is unsupported')
-      end
 
       require('mini.ai').setup({
         n_lines = 100,
@@ -149,48 +167,7 @@ return {
           find_left = 'sT',
           highlight = 'sH',
         },
-        custom_surroundings = vim.tbl_extend("force", brackets_default, {
-          ['j'] = {
-            input = function()
-              local ok, val = pcall(vim.fn.getchar)
-              if not ok then return end
-              local char = vim.fn.nr2char(val)
-
-              local dict = {
-                ['('] = { '（().-()）' },
-                ['{'] = { '｛().-()｝' },
-                ['['] = { '「().-()」' },
-                [']'] = { '『().-()』' },
-              }
-
-              if char == 'b' then
-                local ret = {}
-                for _, v in pairs(dict) do table.insert(ret, v) end
-                return { ret }
-              end
-
-              if dict[char] then return dict[char] end
-
-              error('j' .. char .. ' is unsupported')
-            end,
-            output = function()
-              local ok, val = pcall(vim.fn.getchar)
-              if not ok then return end
-              local char = vim.fn.nr2char(val)
-
-              local dict = {
-                ['('] = { left = '（', right = '）' },
-                ['{'] = { left = '｛', right = '｝' },
-                ['['] = { left = '「', right = '」' },
-                [']'] = { left = '『', right = '』' },
-              }
-
-              if dict[char] then return dict[char] end
-
-              error('j' .. char .. ' is unsupported')
-            end
-          }
-        })
+        custom_surroundings = brackets_default
       })
     end,
   },
