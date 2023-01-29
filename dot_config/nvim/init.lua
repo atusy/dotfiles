@@ -72,6 +72,7 @@ vim.opt.splitbelow = true
 vim.opt.backspace = { 'indent', 'eol', 'start' }
 vim.opt.breakindent = true
 vim.opt.fillchars = 'eob: '
+vim.opt.virtualedit = 'block'
 
 -- buffer
 vim.opt.autoread = true
