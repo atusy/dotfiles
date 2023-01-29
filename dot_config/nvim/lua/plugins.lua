@@ -692,6 +692,9 @@ local deps = {
   },
   { 'itchyny/vim-qfedit', ft = 'qf' },
   {
+    'kevinhwang91/nvim-bqf', ft = 'qf'
+  },
+  {
     "norcalli/nvim-terminal.lua",
     ft = "terminal",
     config = function()
