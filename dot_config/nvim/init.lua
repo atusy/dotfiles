@@ -78,6 +78,7 @@ vim.opt.virtualedit = 'block'
 vim.opt.autoread = true
 vim.opt.matchtime = 1
 vim.opt.mouse = 'a'
+vim.opt.pumheight = 10
 vim.opt.pumblend = 30
 vim.opt.winblend = 30
 vim.opt.pumheight = 10
