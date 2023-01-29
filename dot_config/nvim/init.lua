@@ -226,7 +226,7 @@ set_keymap('n', 'g<C-I>', function() return jump(true) end, { fav = false, expr 
 set_keymap(
   'n',
   '<Plug>(save)',
-  function() vim.cmd(vim.fn.filereadable('%') and 'up' or 'write') end,
+  function() vim.cmd((vim.fn.filereadable('%') and 'up' or 'write') .. ' | redraw') end,
   { fav = false }
 )
 set_keymap({ 'i', 'n' }, '<C-S>', [[<C-\><C-N><Plug>(save)<Plug>(C-S)]], { fav = false }) -- Save
