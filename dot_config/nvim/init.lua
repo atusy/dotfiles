@@ -167,14 +167,7 @@ set_keymap('x', 'zf', [[mode() == 'V' ? 'zf' : 'Vzf']], { expr = true })
 set_keymap('x', 'g/', '<Esc>/\\%V', { silent = true }) -- search within selection
 set_keymap('v', ' ue', function() require('atusy.misc').urlencode() end)
 set_keymap('v', ' ud', function() require('atusy.misc').urldecode() end)
-
--- mappings: better gf
 set_keymap('n', 'gf', 'gF')
-set_keymap('n', 'gff', 'gF')
-set_keymap('n', 'gfh', '<cmd>leftabove vertical wincmd F<cr>')
-set_keymap('n', 'gfj', '<cmd>below horizontal wincmd F<cr>')
-set_keymap('n', 'gfk', '<cmd>above horizontal wincmd F<cr>')
-set_keymap('n', 'gfl', '<cmd>rightbelow vertical wincmd F<cr>')
 
 -- mappings: register
 set_keymap({ 'n', 'v' }, 'x', '"_x')
