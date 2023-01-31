@@ -52,6 +52,15 @@ local function setup_gitsigns()
       )
     end
   })
+  set_palette('n', 'gitsigns based on cWORD ref', function()
+    require('gitsigns').change_base(vim.fn.expand('<cWORD>'), true)
+  end)
+  set_palette('n', 'gitsigns based on HEAD', function()
+    require('gitsigns').reset_base(true)
+  end)
+  set_palette('n', 'gitsigns qflist', function()
+    require('gitsigns').setqflist("all")
+  end)
 end
 
 -- gin & gintonic
