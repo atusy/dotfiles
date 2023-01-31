@@ -104,10 +104,13 @@ return {
         vij[ selects inside 「」. 
         I intorduce some hacks because `custom_textobjects` does not support multiple characters as keys.
       ]]
+      local gen_spec = require('mini.ai').gen_spec
       local custom_textobjects = {}
       for k, v in pairs(recipes) do
         custom_textobjects[k] = v.input
       end
+      custom_textobjects.d = gen_spec.treesitter({ a = '@function.outer', i = '@function.inner' })
+      custom_textobjects.D = gen_spec.treesitter({ a = '@class.outer', i = '@class.inner' })
 
       require('mini.ai').setup({
         n_lines = 100,
