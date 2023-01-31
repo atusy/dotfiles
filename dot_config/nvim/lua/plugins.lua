@@ -456,7 +456,7 @@ local deps = {
       require('nvim-treesitter.configs').setup({
         textobjects = {
           select = {
-            enable = true,
+            enable = false, -- prefer mini.ai
             lookahead = true,
             keymaps = {
               ["af"] = { query = "@function.outer", desc = "around function" },
