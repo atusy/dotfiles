@@ -39,3 +39,8 @@ export PATH="$(
 
 export TMUX_SHELL="$( command -v zsh || echo "$SHELL" )"
 
+if command -v fcitx5 >/dev/null || command -v fcitx >/dev/null; then
+  export GTK_IM_MODULE=fcitx
+  export QT_IM_MODULE=fcitx
+  export XMODIFIERS=@im=fcitx
+fi
