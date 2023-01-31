@@ -37,7 +37,7 @@ return {
       action = wezterm.action { ActivatePaneDirection = "Down" } },
   },
   color_scheme = "Afterglow",
-  window_background_opacity = 0.95,
+  -- window_background_opacity = 0.98,
   adjust_window_size_when_changing_font_size = false,
   exit_behavior = "Close",
   check_for_updates = false,
