@@ -196,10 +196,10 @@ local deps = {
   {
     'yuki-yano/denops-open-http.vim',
     dependencies = { 'vim-denops/denops.vim' },
-    event = 'CmdlineEnter',
-    config = function()
-      require('denops-lazy').load('denops-open-http.vim')
-    end
+    -- event = 'CmdlineEnter',
+    -- config = function()
+    --   require('denops-lazy').load('denops-open-http.vim')
+    -- end
   },
   'lambdalisue/readablefold.vim', -- or anuvyklack/pretty-fold.nvim
   { 'jghauser/mkdir.nvim', event = { 'VeryLazy', 'CmdlineEnter' } }, -- :w with mkdir
