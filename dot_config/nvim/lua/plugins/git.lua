@@ -61,6 +61,12 @@ local function setup_gitsigns()
   set_palette('n', 'gitsigns qflist', function()
     require('gitsigns').setqflist("all")
   end)
+  set_palette('n', 'gitsigns toggle word diff', function()
+    require('gitsigns').toggle_word_diff()
+  end)
+  set_palette('n', 'gitsings undo add hunk', function()
+    require('gitsings').undo_stage_hunk()
+  end)
 end
 
 -- gin & gintonic
