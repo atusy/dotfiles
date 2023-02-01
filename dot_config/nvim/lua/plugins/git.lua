@@ -9,8 +9,8 @@ local set_palette = utils.set_palette
 local function setup_gitsigns()
   local gs = require('gitsigns')
   local has_num = vim.opt.number:get() or vim.opt.relativenumber:get()
-  local function after_save(x)
-    return '<Plug>(save)<Cmd>Gitsigns ' .. x .. '<CR>'
+  local function after_save(x, cmd)
+    return '<Plug>(save)' .. (cmd or '<Cmd>') .. 'Gitsigns ' .. x .. '<CR>'
   end
 
   vim.api.nvim_set_hl(0, "GitSignsCurrentLineBlame", { link = "Comment" })
@@ -24,10 +24,11 @@ local function setup_gitsigns()
     },
     on_attach = function(bufnr)
       local OPTS = { buffer = bufnr, fav = "false" }
-      set_keymap('v', '<C-G><C-A>', ":Gitsigns stage_hunk<CR>", OPTS, { desc = "git add hunk" })
+      set_keymap('x', '<Plug>(C-G)<C-A>', ":Gitsigns stage_hunk<CR>", OPTS, { desc = "git add hunk" })
       set_keymap('n', '<Plug>(C-G)<C-A>', after_save('stage_hunk'), OPTS, { desc = "git add hunk" })
       set_keymap('n', '<Plug>(C-G)a', after_save('stage_buffer'), OPTS, { desc = "git add buffer" })
       set_keymap('n', '<Plug>(C-G)<C-R>', after_save('reset_hunk'), OPTS, { desc = "git reset hunk" })
+      set_keymap('x', '<Plug>(C-G)<C-R>', after_save('reset_hunk', ':'), OPTS, { desc = "git reset hunk" })
       set_keymap('n', '<Plug>(C-G)r', after_save('reset_buffer'), OPTS, { desc = "git reset buffer" })
       set_keymap('n', '<Plug>(C-G)<C-H>', after_save('preview_hunk'), OPTS, { desc = "git preview hunk" })
 
