@@ -103,8 +103,10 @@ local function setup_gin()
     end
     vim.cmd("GintonicGraph" .. opts)
   end
-  set_keymap('n', '<Plug>(C-G)<C-L>', function() graph() end, { desc = "git graph", fav = false }) -- git log --graph ...
-  set_keymap('n', '<Plug>(C-G)%', function() graph("-- %") end, { desc = "git graph current buffer", fav = false })
+  set_keymap('n', '<Plug>(C-G)<C-L>', function() graph("-- %") end, { desc = "git graph current buffer", fav = false })
+  set_keymap('n', '<Plug>(C-G)l', function() graph() end, { desc = "git graph", fav = false }) -- git log --graph ...
+  set_keymap('n', '<Plug>(C-G)<C-D>', '<Cmd>GinDiff -- %<CR>', { desc = "git commit", fav = false })
+  set_keymap('n', '<Plug>(C-G)d', '<Cmd>GinDiff<CR>', { desc = "git commit", fav = false })
   set_keymap('n', '<Plug>(C-G)<C-Space>', '<Cmd>Gin commit<CR>', { desc = "git commit", fav = false })
   set_palette('n', 'git amend', ':Gin commit --amend ')
   set_palette('n', 'git amend --no-edit', ':Gin commit --amend --no-edit ')
