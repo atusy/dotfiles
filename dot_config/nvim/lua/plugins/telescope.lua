@@ -165,7 +165,10 @@ return {
         -- se is occupied by emoji-prefix
         { 'n', leader .. 'f', 'find_files' },
         { 'n', leader .. 'g', 'live_grep' },
-        { 'n', leader .. 'h', 'help_tags' },
+        { 'n', leader .. 'h', 'help_tags', function()
+          pcall(require('atusy.lazy').load_all)
+          require('telescope.builtin').help_tags()
+        end },
         { 'n', leader .. '<Tab>', 'jumplist' },
         { 'n', leader .. 'o', 'outline', telescope_outline },
         -- sr is occupied by sandwich
