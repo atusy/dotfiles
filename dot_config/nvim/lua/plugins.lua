@@ -104,7 +104,7 @@ local deps = {
   { 'segeljakt/vim-silicon', cmd = { 'Silicon', 'SiliconHighlight' } }, -- pacman -S silicon
   {
     'tyru/open-browser.vim',
-    keys = { { 'gx', '<Plug>(openbrowser-smart-search)', mode = { 'n', 'v' } } },
+    keys = { { 'gx', '<Plug>(openbrowser-smart-search)', mode = { 'n', 'x' } } },
   },
   {
     'tpope/vim-characterize',
@@ -171,7 +171,7 @@ local deps = {
   -- better something
   {
     'yuki-yano/fuzzy-motion.vim',
-    dependencies = { 'lambdalisue/kensaku.vim', 'vim-denops/denops.vim' },
+    dependencies = { 'lambdalisue/kensaku.vim', 'vim-denops/denops.vim', 'yuki-yano/denops-lazy.nvim' },
     cmd = 'FuzzyMotion',
     init = function()
       set_keymap('n', ';', '<Cmd>FuzzyMotion<CR>')
@@ -186,7 +186,7 @@ local deps = {
     'haya14busa/vim-asterisk',
     keys = {
       { '*', '<Plug>(asterisk-z*)', mode = 'n' },
-      { '*', '<Plug>(asterisk-gz*)', mode = 'v' },
+      { '*', '<Plug>(asterisk-gz*)', mode = 'x' },
     },
   },
   {
@@ -314,7 +314,7 @@ local deps = {
     lazy = true,
     --[[ init = function()
       set_keymap(
-        { 'n', 'v' }, ';',
+        { 'n', 'x' }, ';',
         function()
           require('leap').leap({ target_windows = { vim.api.nvim_get_current_win() } })
         end

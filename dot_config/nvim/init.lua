@@ -155,7 +155,7 @@ end, { nargs = 1, range = true, bang = true })
 
 --[[ mappings ]]
 vim.g.mapleader = ' '
-set_keymap({ 'n', 'v' }, 's', '<Nop>') -- be prefix for sandwich and fuzzy finders
+set_keymap({ 'n', 'x' }, 's', '<Nop>') -- be prefix for sandwich and fuzzy finders
 set_keymap('n', '<C-G>', '2<C-G><Plug>(C-G)', { noremap = true })
 set_keymap('n', '<Plug>(C-G)<C-G>', '<Cmd>let @+ = fnamemodify(expand("%"), ":~:.")<CR>')
 set_keymap('n', '<Plug>(C-G)g', '<Cmd>let @+ = expand("%:p")<CR>')
@@ -166,15 +166,15 @@ set_keymap('t', '<C-W>', [[<C-\><C-N><C-W>]])
 set_keymap({ '', '!', 't' }, [[<C-\>]], [[<C-\><C-N>]], { nowait = true })
 set_keymap('x', 'zf', [[mode() == 'V' ? 'zf' : 'Vzf']], { expr = true })
 set_keymap('x', 'g/', '<Esc>/\\%V', { silent = true }) -- search within selection
-set_keymap('v', ' ue', function() require('atusy.misc').urlencode() end)
-set_keymap('v', ' ud', function() require('atusy.misc').urldecode() end)
+set_keymap('x', ' ue', function() require('atusy.misc').urlencode() end)
+set_keymap('x', ' ud', function() require('atusy.misc').urldecode() end)
 set_keymap('n', 'gf', 'gF')
 
 -- mappings: register
-set_keymap({ 'n', 'v' }, 'x', '"_x')
-set_keymap({ 'n', 'v' }, 'X', '"_X')
-set_keymap({ 'n', 'v' }, 'gy', '"+y')
-set_keymap({ 'n', 'v' }, 'gY', '"+Y')
+set_keymap({ 'n', 'x' }, 'x', '"_x')
+set_keymap({ 'n', 'x' }, 'X', '"_X')
+set_keymap({ 'n', 'x' }, 'gy', '"+y')
+set_keymap({ 'n', 'x' }, 'gY', '"+Y')
 
 -- mappings: textobj
 set_keymap({ 'o', 'x' }, 'ii', '2i') -- e.g., vii' to select 'foo' including quotes but outer spaces
@@ -218,7 +218,7 @@ set_keymap('n', 'g<C-I>', function() return jump(true) end, { fav = false, expr 
 
 -- mappings: save and ...
 set_keymap(
-  'n',
+  { 'n', 'x' },
   '<Plug>(save)',
   function() vim.cmd((vim.fn.filereadable('%') and 'up' or 'write') .. ' | redraw') end,
   { fav = false }
@@ -275,7 +275,7 @@ set_keymap({ '', 't' }, '<C-Left>', function() win_move_or_cmd(0, -2, '2<') end)
 
 -- mappings: macro
 -- disable macro a-z except q on normal mode and entirely on visual mode
-set_keymap('v', 'q', '<Nop>')
+set_keymap('x', 'q', '<Nop>')
 set_keymap(
   'n',
   'q',

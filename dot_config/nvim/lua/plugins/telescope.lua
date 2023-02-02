@@ -187,8 +187,8 @@ return {
         { 'n', '<Plug>(C-G)<C-S>', 'git_status' },
         -- { 'n', '<Plug>(C-G)<C-M>', 'keymaps' },
         -- { 'n', '<Plug>(C-G)<CR>', 'keymaps' },
-        -- { { 'v', 'i', 'x' }, '<C-G><C-M>', 'keymaps', telescope_keymaps },
-        -- { { 'v', 'i', 'x' }, '<C-G><CR>', 'keymaps', telescope_keymaps },
+        -- { { 'i', 'x' }, '<C-G><C-M>', 'keymaps', telescope_keymaps },
+        -- { { 'i', 'x' }, '<C-G><CR>', 'keymaps', telescope_keymaps },
       } do
         set_keymap(v[1], v[2], v[4] or telescope(v[3]), { desc = 'telescope ' .. v[3] })
       end
