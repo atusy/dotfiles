@@ -135,7 +135,8 @@ local deps = {
   -- { 'stevearc/stickybuf.nvim' },
   {
     'm00qek/baleia.nvim',
-    config = function()
+    lazy = true,
+    init = function()
       local baleia
       set_palette(
         'n', 'parse ANSI escape sequences',
