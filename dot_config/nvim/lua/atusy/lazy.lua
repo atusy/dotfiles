@@ -21,7 +21,7 @@ function M.load_all()
   local names = {}
   for _, s in pairs(specs) do
     -- load plugins that are not yet loaded and falsy dep.
-    -- plugins with truthy dep be loaded on loading their reverse dependencies
+    -- plugins with truthy dep will be loaded on loading their reverse dependencies
     if s.lazy and not s['_'].loaded and not s['_'].dep then
       table.insert(names, s.name)
     end
