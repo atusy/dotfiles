@@ -64,6 +64,7 @@ zinit light-mode for \
   mollifier/cd-gitroot \
   yuki-yano/zeno.zsh \
   junegunn/fzf \
+  atusy/zsh-nvrepl \
   atusy/gh-fzf
 
 bindkey -e
@@ -295,6 +296,7 @@ ZSH_AUTOSUGGEST_USE_ASYNC=1
 ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=244'
 
 # Plugin: zeno
+ATUSY_ACCEPT_LINE="accept-line"
 if [[ -n $ZENO_LOADED ]]; then
   bindkey ' '  zeno-auto-snippet
   bindkey '^m' zeno-auto-snippet-and-accept-line
@@ -303,6 +305,15 @@ if [[ -n $ZENO_LOADED ]]; then
   bindkey '^x^s' zeno-insert-snippet
   bindkey '^x^f' zeno-ghq-cd
   ZSH_AUTOSUGGEST_CLEAR_WIDGETS+=(zeno-auto-snippet-and-accept-line)
+  ATUSY_ACCEPT_LINE="zeno-auto-snippet-and-accept-line"
+fi
+
+if [[ -n $NVIM ]] && [[ -n $NVREPL_LOADED ]]; then
+  function my-accept-line() {
+    nvrepl-line || "$ATUSY_ACCEPT_LINE"
+  }
+  zle -N my-accept-line
+  bindkey '^m' my-accept-line
 fi
 
 # direnv
