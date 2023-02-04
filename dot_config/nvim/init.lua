@@ -9,7 +9,6 @@ https://dev.classmethod.jp/articles/eetann-change-neovim-lsp-diagnostics-format/
 
 "rlch/github-notifications.nvim",
 use { 'LeafCage/vimhelpgenerator' }
-use { 'kevinhwang91/nvim-bqf', ft = 'qf' }
 use { 'mattn/emmet-vim',
 use { 'pwntester/octo.nvim',
 use { 'shinespark/vim-list2tree' }
