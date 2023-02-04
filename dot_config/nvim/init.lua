@@ -219,19 +219,18 @@ set_keymap('n', 'g<C-I>', function() return jump(true) end, { fav = false, expr 
 set_keymap(
   { 'n', 'x' },
   '<Plug>(save)',
-  function() vim.cmd((vim.fn.filereadable('%') and 'up' or 'write') .. ' | redraw') end,
-  { fav = false }
+  function() vim.cmd((vim.fn.filereadable('%') and 'up' or 'write') .. ' | redraw') end
 )
-set_keymap({ 'i', 'n' }, '<C-S>', [[<C-\><C-N><Plug>(save)<Plug>(C-S)]], { fav = false }) -- Save
-set_keymap('n', '<Plug>(C-S)<C-A>', ':wa<CR>', { fav = false }) -- Save All
+set_keymap({ 'i', 'n' }, '<C-S>', [[<C-\><C-N><Plug>(save)<Plug>(C-S)]], { desc = 'save' }) -- Save
+set_keymap('n', '<Plug>(C-S)<C-A>', ':wa<CR>', { 'save all' }) -- Save All
 set_keymap('n', '<Plug>(C-S)<C-O>', jump, { fav = false, expr = true }) -- Save and jump to previous buf
-set_keymap('n', '<Plug>(C-S)<C-E>', ':e #<CR>', { fav = false }) -- Save and Edit alt
-set_keymap('n', '<Plug>(C-S)<C-Q>', ':q<CR>', { fav = false }) -- Save and Quit
+set_keymap('n', '<Plug>(C-S)<C-E>', '<C-6>', { desc = 'save and edit alt' })
+set_keymap('n', '<Plug>(C-S)<C-Q>', ':q<CR>', { desc = 'save and quit' })
 set_keymap('n', '<Plug>(C-S)<C-V>', function()
   vim.cmd("!chezmoi apply")
   vim.cmd("source $MYVIMRC")
-end, { fav = false })
-set_keymap(-- Save and Source
+end, { desc = 'save and source MYVIMRC' })
+set_keymap(
   'n', '<Plug>(C-S)<C-M>',
   function()
     local bufname = vim.api.nvim_buf_get_name(vim.api.nvim_get_current_buf())
@@ -240,9 +239,9 @@ set_keymap(-- Save and Source
       vim.notify('Cannot source: ' .. bufname, vim.log.levels.ERROR)
       return
     end
-    return ':source %'
+    return ':source %' -- without <CR> to confirm manually
   end,
-  { expr = true, fav = false }
+  { expr = true, desc = 'save and source' }
 )
 
 -- mappings: window
