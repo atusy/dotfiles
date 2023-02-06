@@ -221,9 +221,9 @@ set_keymap(
   '<Plug>(save)',
   function() vim.cmd((vim.fn.filereadable('%') and 'up' or 'write') .. ' | redraw') end
 )
-set_keymap({ 'i', 'n' }, '<C-S>', [[<C-\><C-N><Plug>(save)<Plug>(C-S)]], { desc = 'save' }) -- Save
-set_keymap('n', '<Plug>(C-S)<C-A>', ':wa<CR>', { 'save all' }) -- Save All
-set_keymap('n', '<Plug>(C-S)<C-O>', jump, { fav = false, expr = true }) -- Save and jump to previous buf
+set_keymap({ 'i', 'n' }, '<C-S>', [[<C-\><C-N><Plug>(save)<Plug>(C-S)]], { desc = 'save' })
+set_keymap('n', '<Plug>(C-S)<C-A>', ':wa<CR>', { desc = 'save all' })
+set_keymap('n', '<Plug>(C-S)<C-O>', jump, { desc = 'save and jump tp previous buf', expr = true })
 set_keymap('n', '<Plug>(C-S)<C-E>', '<C-6>', { desc = 'save and edit alt' })
 set_keymap('n', '<Plug>(C-S)<C-Q>', ':q<CR>', { desc = 'save and quit' })
 set_keymap('n', '<Plug>(C-S)<C-V>', function()
