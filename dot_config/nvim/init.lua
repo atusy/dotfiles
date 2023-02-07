@@ -182,6 +182,7 @@ set_keymap({ 'o', 'x' }, 'al', ':<c-u>normal! $v0<cr>', { silent = true })
 set_keymap({ 'o', 'x' }, 'ie', ':<c-u>normal! G$vgo<cr>', { silent = true })
 
 -- mappings: mouse
+-- <2-LeftMouse> is for tyru/open-browser
 set_keymap('n', '<LeftDrag>', '<Nop>')
 set_keymap('n', '<LeftRelease>', '<Nop>')
 pcall(
