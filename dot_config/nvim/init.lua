@@ -177,9 +177,9 @@ set_keymap({ 'n', 'x' }, 'gY', '"+Y')
 
 -- mappings: textobj
 set_keymap({ 'o', 'x' }, 'ii', '2i') -- e.g., vii' to select 'foo' including quotes but outer spaces
-set_keymap({ 'o', 'x' }, 'il', ':<c-u>normal! $v^<cr>')
-set_keymap({ 'o', 'x' }, 'al', ':<c-u>normal! $v0<cr>')
-set_keymap({ 'o', 'x' }, 'ie', ':<c-u>normal! G$vgo<cr>')
+set_keymap({ 'o', 'x' }, 'il', ':<c-u>normal! $v^<cr>', { silent = true })
+set_keymap({ 'o', 'x' }, 'al', ':<c-u>normal! $v0<cr>', { silent = true })
+set_keymap({ 'o', 'x' }, 'ie', ':<c-u>normal! G$vgo<cr>', { silent = true })
 
 -- mappings: mouse
 set_keymap('n', '<LeftDrag>', '<Nop>')
