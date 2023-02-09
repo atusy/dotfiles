@@ -353,6 +353,15 @@ if vim.fn.executable('nvr') == 1 then
   )
 end
 
+--[[ filetype ]]
+vim.api.nvim_create_autocmd('FileType', {
+  group = utils.augroup,
+  pattern = 'markdown',
+  callback = function(ctx)
+    require('atusy.misc').highlight_codeblock(ctx)
+  end,
+})
+
 --[[ lazy.nvim ]]
 if vim.v.vim_did_enter == 1 then
   require('utils').require('atusy.lazy').reload()
