@@ -1,0 +1,2 @@
+[net]
+git-fetch-with-cli = true # fix: attempted ssh-agent authentication, but no usernames succeeded: `git`
