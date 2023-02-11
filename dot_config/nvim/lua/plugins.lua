@@ -104,7 +104,10 @@ local deps = {
   { 'segeljakt/vim-silicon', cmd = { 'Silicon', 'SiliconHighlight' } }, -- pacman -S silicon
   {
     'tyru/open-browser.vim',
-    keys = { { 'gx', '<Plug>(openbrowser-smart-search)', mode = { 'n', 'x' } } },
+    keys = {
+      { 'gx', '<Plug>(openbrowser-smart-search)', mode = { 'n', 'x' } },
+      { '<2-LeftMouse>', '<Plug>(openbrowser-open)', mode = { 'n' } },
+    },
   },
   {
     'tpope/vim-characterize',
