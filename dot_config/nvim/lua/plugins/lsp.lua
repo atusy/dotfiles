@@ -125,6 +125,7 @@ end
 local function setup_nvim_lsp()
   require("mason").setup()
   require("mason-lspconfig").setup()
+  require('neodev').setup()
   local Lspconfig = require 'lspconfig'
   local function setup_lsp(lsp, config)
     local config2 = { on_attach = on_attach, flags = { debounce_text_changes = 150 } }
@@ -140,19 +141,14 @@ local function setup_nvim_lsp()
     denols = {},
     bashls = { filetypes = { 'sh', 'bash', 'zsh' } }, -- npm i -g bash-language-server
     terraformls = { filetypes = { "terraform", "tf" } },
-    sumneko_lua = {
+    lua_ls = {
       settings = {
+        single_file_support = true,
         Lua = {
-          runtime = { version = 'LuaJIT', path = vim.split(package.path, ';') },
-          diagnostics = {
-            globals = { 'vim' },
-          },
-          workspace = {
-            library = vim.env.NVIM_LUA_LIBRARY == 1 and vim.api.nvim_get_runtime_file('', true),
-          },
-          telemetry = {
-            enable = false
-          },
+          workspace = { checkThirdParty = false },
+          completion = { workspaceWord = true, callSnippet = "Both" },
+          format = { enable = false },
+          -- telemetry = { enable = false },
         },
       },
     }, -- pacman -S lua-language-server
@@ -172,6 +168,7 @@ return {
       { 'matsui54/denops-signature_help' },
       { 'ii14/emmylua-nvim' },
       { 'tamago324/nlsp-settings.nvim' },
+      { 'folke/neodev.nvim' },
       { 'j-hui/fidget.nvim' },
       -- { 'glepnir/lspsaga.nvim' },
     },
