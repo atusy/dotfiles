@@ -71,7 +71,12 @@ local function setup_null_ls()
     },
   }
 
-  null_ls.setup({ sources = { gitshow } })
+	null_ls.setup({
+		sources = {
+			gitshow,
+			null_ls.builtins.formatting.stylua,
+		},
+	})
 end
 
 local function _setup_lspsaga(enable)
