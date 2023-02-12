@@ -379,8 +379,7 @@ local deps = {
       end
 
       local function get_node_range(node)
-        local a, b, c, d = require('nvim-treesitter.ts_utils').get_node_range(node)
-        return { a, b, c, d }
+        return { vim.treesitter.get_node_range(node) }
       end
 
       local function get_curpos()
