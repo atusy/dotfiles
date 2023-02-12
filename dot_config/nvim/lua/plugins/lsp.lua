@@ -1,4 +1,4 @@
-local utils = require('utils')
+local utils = require("utils")
 local set_keymap = utils.set_keymap
 
 local function has_lsp_client(bufnr)
@@ -27,29 +27,37 @@ end
 
 local setup_autocmd = function()
   vim.api.nvim_create_autocmd("FileType", {
-    pattern = '*',
+    pattern = "*",
     group = utils.augroup,
-    callback = function(args) attach_lsp(args.match) end
+    callback = function(args)
+      attach_lsp(args.match)
+    end,
   })
   vim.api.nvim_create_autocmd({ "BufWritePre" }, {
-    pattern = { '*.tf', '*.tfvars' },
+    pattern = { "*.tf", "*.tfvars" },
     group = utils.augroup,
-    callback = function() pcall(vim.lsp.buf.format) end,
+    callback = function()
+      pcall(vim.lsp.buf.format)
+    end,
   })
 end
 
 local function setup_global_keymaps()
-  set_keymap('n', '<Leader>e', vim.diagnostic.open_float, { silent = true, desc = 'float diagnostic' })
-  set_keymap('n', '[d', vim.diagnostic.goto_prev, { silent = true, desc = 'previous diagnostic' })
-  set_keymap('n', ']d', vim.diagnostic.goto_next, { silent = true, desc = 'next diagnositc' })
-  set_keymap('n', '<Leader>q', vim.diagnostic.setloclist,
-    { silent = true, desc = 'add buffer diagnositcs to the location list' })
-  set_keymap('n', 'K', function()
+  set_keymap("n", "<Leader>e", vim.diagnostic.open_float, { silent = true, desc = "float diagnostic" })
+  set_keymap("n", "[d", vim.diagnostic.goto_prev, { silent = true, desc = "previous diagnostic" })
+  set_keymap("n", "]d", vim.diagnostic.goto_next, { silent = true, desc = "next diagnositc" })
+  set_keymap(
+    "n",
+    "<Leader>q",
+    vim.diagnostic.setloclist,
+    { silent = true, desc = "add buffer diagnositcs to the location list" }
+  )
+  set_keymap("n", "K", function()
     -- null-ls won't map this on_attach, so it should be mapped globally
     if has_lsp_client() then
       vim.lsp.buf.hover()
     else
-      return 'K'
+      return "K"
     end
   end, { expr = true })
 end
@@ -63,7 +71,7 @@ local function setup_null_ls()
     filetypes = { "gintonic-graph", "gitrebase" },
     generator = {
       fn = function(_)
-        local gintonic = require('gintonic')
+        local gintonic = require("gintonic")
         local obj = gintonic.utils.object_getters.default()
         local stdout = vim.fn.system("git show " .. obj .. " --name-status")
         return vim.fn.split(stdout, "\n")
@@ -71,24 +79,26 @@ local function setup_null_ls()
     },
   }
 
-	null_ls.setup({
-		sources = {
-			gitshow,
-			null_ls.builtins.formatting.stylua,
-		},
-	})
+  null_ls.setup({
+    sources = {
+      gitshow,
+      null_ls.builtins.formatting.stylua,
+    },
+  })
 end
 
 local function _setup_lspsaga(enable)
-  if enable == false then return _setup_lspsaga end
-  require('lspsaga').init_lsp_saga({
+  if enable == false then
+    return _setup_lspsaga
+  end
+  require("lspsaga").init_lsp_saga({
     code_action_lightbulb = { virtual_text = false, sign = false },
     finder_action_keys = {
-      open = { 'o', '<CR>' },
-      vsplit = 'v',
-      split = 's',
-      tabe = 't',
-      quit = { 'q', '<ESC>' },
+      open = { "o", "<CR>" },
+      vsplit = "v",
+      split = "s",
+      tabe = "t",
+      quit = { "q", "<ESC>" },
     },
   })
 end
@@ -98,40 +108,49 @@ local on_attach = function(client, bufnr)
   local CAPABILITIES = client.server_capabilities
 
   -- Enable completion triggered by <c-x><c-o>
-  vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
+  vim.api.nvim_buf_set_option(bufnr, "omnifunc", "v:lua.vim.lsp.omnifunc")
 
   -- Mappings.
   -- See `:help vim.lsp.*` for documentation on any of the below functions
   local OPTS = { silent = true, buffer = bufnr }
-  local telescope = function(key) return "<Cmd>Telescope " .. key .. "<CR>" end
-  set_keymap('n', 'gD', vim.lsp.buf.declaration, OPTS, { desc = 'lsp declaration' })
-  set_keymap('n', 'gd', telescope('lsp_definitions'), OPTS, { desc = 'lsp definitions' })
+  local telescope = function(key)
+    return "<Cmd>Telescope " .. key .. "<CR>"
+  end
+  set_keymap("n", "gD", vim.lsp.buf.declaration, OPTS, { desc = "lsp declaration" })
+  set_keymap("n", "gd", telescope("lsp_definitions"), OPTS, { desc = "lsp definitions" })
   -- set_keymap('n', 'gd', vim.lsp.buf.definition, OPTS)
-  set_keymap('n', 'gi', telescope('lsp_implementations'), OPTS, { desc = 'lsp implementation' })
+  set_keymap("n", "gi", telescope("lsp_implementations"), OPTS, { desc = "lsp implementation" })
   -- set_keymap('n', 'gi', vim.lsp.buf.implementation, OPTS)
-  set_keymap('n', '<C-K>', vim.lsp.buf.signature_help, OPTS, { desc = 'lsp show signature help' })
-  set_keymap('n', '<Leader>wa', vim.lsp.buf.add_workspace_folder, OPTS, { desc = 'lsp add workspace folder' })
-  set_keymap('n', '<Leader>wr', vim.lsp.buf.remove_workspace_folder, OPTS, { desc = 'lsp remove workspace folder' })
-  set_keymap('n', '<Leader>wl', '<Cmd>vim.pretty_print(vim.lsp.buf.list_workspace_folders())<CR>', OPTS,
-    { desc = 'lsp show workspace folders' })
-  set_keymap('n', '<Leader>D', vim.lsp.buf.type_definition, OPTS, { desc = 'lsp type definition' })
+  set_keymap("n", "<C-K>", vim.lsp.buf.signature_help, OPTS, { desc = "lsp show signature help" })
+  set_keymap("n", "<Leader>wa", vim.lsp.buf.add_workspace_folder, OPTS, { desc = "lsp add workspace folder" })
+  set_keymap("n", "<Leader>wr", vim.lsp.buf.remove_workspace_folder, OPTS, { desc = "lsp remove workspace folder" })
+  set_keymap(
+    "n",
+    "<Leader>wl",
+    "<Cmd>vim.pretty_print(vim.lsp.buf.list_workspace_folders())<CR>",
+    OPTS,
+    { desc = "lsp show workspace folders" }
+  )
+  set_keymap("n", "<Leader>D", vim.lsp.buf.type_definition, OPTS, { desc = "lsp type definition" })
   -- set_keymap('n', '<Leader>rn', '<cmd>Lspsaga rename<cr>', OPTS)
   if CAPABILITIES.renameProvider then
-    set_keymap('n', '<Leader>rn', vim.lsp.buf.rename, OPTS, { desc = 'lsp rename' })
+    set_keymap("n", "<Leader>rn", vim.lsp.buf.rename, OPTS, { desc = "lsp rename" })
   end
   -- set_keymap({ 'n', 'x' }, '<Leader>ca', '<cmd>Lspsaga code_action<cr>', OPTS, { desc = 'lsp code action' })
-  set_keymap('n', '<Leader>ca', vim.lsp.buf.code_action, OPTS, { desc = 'lsp code action' })
+  set_keymap("n", "<Leader>ca", vim.lsp.buf.code_action, OPTS, { desc = "lsp code action" })
   -- set_keymap('n', 'gr', '<cmd>Lspsaga lsp_finder<cr>', OPTS, { desc = 'lsp reference' })
-  set_keymap('n', 'gr', telescope('lsp_references'), OPTS, { desc = 'lsp reference' })
+  set_keymap("n", "gr", telescope("lsp_references"), OPTS, { desc = "lsp reference" })
   -- set_keymap('n', 'gr', vim.lsp.buf.references, OPTS)
-  set_keymap('n', '<Leader>lf', function() vim.lsp.buf.format({ async = true }) end, OPTS, { desc = 'lsp format' })
+  set_keymap("n", "<Leader>lf", function()
+    vim.lsp.buf.format({ async = true })
+  end, OPTS, { desc = "lsp format" })
 end
 
 local function setup_nvim_lsp()
   require("mason").setup()
   require("mason-lspconfig").setup()
-  require('neodev').setup()
-  local Lspconfig = require 'lspconfig'
+  require("neodev").setup()
+  local Lspconfig = require("lspconfig")
   local function setup_lsp(lsp, config)
     local config2 = { on_attach = on_attach, flags = { debounce_text_changes = 150 } }
     for k, v in pairs(config or {}) do
@@ -140,11 +159,11 @@ local function setup_nvim_lsp()
     Lspconfig[lsp].setup(config2)
   end
 
-  for lsp, config in pairs {
+  for lsp, config in pairs({
     pyright = {}, -- pip install --user pyright
     r_language_server = {}, -- R -e "remotes::install_github('languageserver')"
     denols = {},
-    bashls = { filetypes = { 'sh', 'bash', 'zsh' } }, -- npm i -g bash-language-server
+    bashls = { filetypes = { "sh", "bash", "zsh" } }, -- npm i -g bash-language-server
     terraformls = { filetypes = { "terraform", "tf" } },
     lua_ls = {
       settings = {
@@ -152,29 +171,36 @@ local function setup_nvim_lsp()
         Lua = {
           workspace = { checkThirdParty = false },
           completion = { workspaceWord = true, callSnippet = "Both" },
-          format = { enable = false },
+          format = {
+            enable = false,
+            defaultConfig = {
+              indent_style = "space",
+              indent_size = "2",
+              continuation_indent_size = "2",
+            },
+          },
           -- telemetry = { enable = false },
         },
       },
     }, -- pacman -S lua-language-server
     gopls = {},
-  } do
+  }) do
     setup_lsp(lsp, config)
   end
 end
 
 return {
   {
-    'neovim/nvim-lspconfig',
+    "neovim/nvim-lspconfig",
     dependencies = {
-      { 'williamboman/mason.nvim' },
-      { 'williamboman/mason-lspconfig.nvim' },
-      { 'jose-elias-alvarez/null-ls.nvim' },
-      { 'matsui54/denops-signature_help' },
-      { 'ii14/emmylua-nvim' },
-      { 'tamago324/nlsp-settings.nvim' },
-      { 'folke/neodev.nvim' },
-      { 'j-hui/fidget.nvim' },
+      { "williamboman/mason.nvim" },
+      { "williamboman/mason-lspconfig.nvim" },
+      { "jose-elias-alvarez/null-ls.nvim" },
+      { "matsui54/denops-signature_help" },
+      { "ii14/emmylua-nvim" },
+      { "tamago324/nlsp-settings.nvim" },
+      { "folke/neodev.nvim" },
+      { "j-hui/fidget.nvim" },
       -- { 'glepnir/lspsaga.nvim' },
     },
     config = function()
@@ -182,14 +208,14 @@ return {
       setup_global_keymaps()
       setup_nvim_lsp()
       setup_null_ls()
-      vim.fn['signature_help#enable']()
-    end
+      vim.fn["signature_help#enable"]()
+    end,
   },
   {
-    'j-hui/fidget.nvim',
+    "j-hui/fidget.nvim",
     lazy = true,
     config = function()
-      require('fidget').setup()
+      require("fidget").setup()
     end,
   },
   {
@@ -207,8 +233,8 @@ return {
           virtual_text = true,
           signs = true,
           underline = true,
-        }
+        },
       })
-    end
-  }
+    end,
+  },
 }
