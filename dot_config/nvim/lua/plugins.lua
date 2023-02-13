@@ -276,7 +276,7 @@ local deps = {
   {
     "nvim-lualine/lualine.nvim",
     event = "WinNew",
-    dependencies = { "kyazdani42/nvim-web-devicons" },
+    dependencies = { "nvim-tree/nvim-web-devicons" },
     init = function()
       vim.opt.laststatus = 0
     end,
