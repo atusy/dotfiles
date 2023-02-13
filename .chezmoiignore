@@ -4,3 +4,4 @@ __ignored
 .nvim.lua
 .gitmessage
 .envrc
+stylua.toml
