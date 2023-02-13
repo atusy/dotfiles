@@ -39,6 +39,7 @@ end
 return {
   "nvim-tree/nvim-tree.lua",
   lazy = true,
+  dependencies = { "nvim-tree/nvim-web-devicons" },
   init = function()
     set_keymap("n", "S", function()
       require("nvim-tree.api").tree.focus()
