@@ -1,7 +1,7 @@
 local utils = require("utils")
 local set_keymap = utils.set_keymap
 
-local setup_autocmd = function()
+local function setup_autocmd()
   vim.api.nvim_create_autocmd("FileType", {
     pattern = "*",
     group = utils.augroup,
@@ -36,31 +36,6 @@ local function setup_global_keymaps()
       return "K"
     end
   end, { expr = true })
-end
-
-local function setup_null_ls()
-  local null_ls = require("null-ls")
-
-  local gitshow = {
-    name = "git-show",
-    method = null_ls.methods.HOVER,
-    filetypes = { "gintonic-graph", "gitrebase" },
-    generator = {
-      fn = function(_)
-        local gintonic = require("gintonic")
-        local obj = gintonic.utils.object_getters.default()
-        local stdout = vim.fn.system("git show " .. obj .. " --name-status")
-        return vim.fn.split(stdout, "\n")
-      end,
-    },
-  }
-
-  null_ls.setup({
-    sources = {
-      gitshow,
-      null_ls.builtins.formatting.stylua,
-    },
-  })
 end
 
 local function _setup_lspsaga(enable)
@@ -123,9 +98,6 @@ local on_attach = function(client, bufnr)
 end
 
 local function setup_nvim_lsp()
-  require("mason").setup()
-  require("mason-lspconfig").setup()
-  require("neodev").setup()
   local Lspconfig = require("lspconfig")
   local function setup_lsp(lsp, config)
     local config2 = { on_attach = on_attach, flags = { debounce_text_changes = 150 } }
@@ -183,7 +155,49 @@ return {
       setup_autocmd()
       setup_global_keymaps()
       setup_nvim_lsp()
-      setup_null_ls()
+    end,
+  },
+  {
+    "jose-elias-alvarez/null-ls.nvim",
+    lazy = true,
+    config = function()
+      local null_ls = require("null-ls")
+
+      local gitshow = {
+        name = "git-show",
+        method = null_ls.methods.HOVER,
+        filetypes = { "gintonic-graph", "gitrebase" },
+        generator = {
+          fn = function(_)
+            local gintonic = require("gintonic")
+            local obj = gintonic.utils.object_getters.default()
+            local stdout = vim.fn.system("git show " .. obj .. " --name-status")
+            return vim.fn.split(stdout, "\n")
+          end,
+        },
+      }
+
+      null_ls.setup({
+        sources = {
+          gitshow,
+          null_ls.builtins.formatting.stylua,
+        },
+      })
+    end,
+  },
+  {
+    "williamboman/mason.nvim",
+    lazy = true,
+    config = function()
+      require("mason").setup()
+    end,
+  },
+  {
+    "williamboman/mason-lspconfig.nvim",
+    lazy = true,
+    dependencies = { "williamboman/mason.nvim" },
+    config = function()
+      require("mason-lspconfig").setup()
     end,
   },
   {
@@ -198,6 +212,13 @@ return {
     lazy = true,
     config = function()
       require("fidget").setup()
+    end,
+  },
+  {
+    "folke/neodev.nvim",
+    lazy = true,
+    config = function()
+      require("neodev").setup()
     end,
   },
   {
