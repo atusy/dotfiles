@@ -1,36 +1,12 @@
 local utils = require("utils")
 local set_keymap = utils.set_keymap
 
-local function has_lsp_client(bufnr)
-  bufnr = bufnr or vim.api.nvim_get_current_buf()
-  for _, _ in pairs(vim.lsp.get_active_clients({ bufnr = bufnr })) do
-    return true
-  end
-  return false
-end
-
-local function attach_lsp(filetype)
-  filetype = filetype or vim.api.nvim_buf_get_option(0, "filetype")
-  local clients = {}
-  for _, cl in ipairs(vim.lsp.get_active_clients()) do
-    if cl.config and cl.config.filetypes then
-      for _, ft in ipairs(cl.config.filetypes) do
-        if ft == filetype then
-          vim.lsp.buf_attach_client(0, cl.id)
-          table.insert(clients, cl)
-        end
-      end
-    end
-  end
-  return clients
-end
-
 local setup_autocmd = function()
   vim.api.nvim_create_autocmd("FileType", {
     pattern = "*",
     group = utils.augroup,
     callback = function(args)
-      attach_lsp(args.match)
+      require("plugins.lsp.utils").attach_lsp(args.match)
     end,
   })
   vim.api.nvim_create_autocmd({ "BufWritePre" }, {
@@ -54,7 +30,7 @@ local function setup_global_keymaps()
   )
   set_keymap("n", "K", function()
     -- null-ls won't map this on_attach, so it should be mapped globally
-    if has_lsp_client() then
+    if require("plugins.lsp.utils").has_lsp_client() then
       vim.lsp.buf.hover()
     else
       return "K"
@@ -208,6 +184,12 @@ return {
       setup_global_keymaps()
       setup_nvim_lsp()
       setup_null_ls()
+    end,
+  },
+  {
+    "matsui54/denops-signature_help",
+    lazy = true,
+    config = function()
       vim.fn["signature_help#enable"]()
     end,
   },
