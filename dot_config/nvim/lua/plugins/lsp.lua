@@ -117,7 +117,15 @@ local function setup_nvim_lsp()
       settings = {
         single_file_support = true,
         Lua = {
-          workspace = { checkThirdParty = false },
+          -- runtime and workspace.library are required to suppress vim being undefined global
+          runtime = { version = "LuaJIT", path = vim.split(package.path, ";") },
+          diagnostics = {
+            global = { "vim", "pandoc" },
+          },
+          workspace = {
+            library = vim.env.NVIM_LUA_LIBRARY == 1 and vim.api.nvim_get_runtime_file("", true),
+            checkThirdParty = false,
+          },
           completion = { workspaceWord = true, callSnippet = "Both" },
           format = {
             enable = false,
