@@ -38,24 +38,7 @@ local function setup_global_keymaps()
   end, { expr = true })
 end
 
-local function _setup_lspsaga(enable)
-  if enable == false then
-    return _setup_lspsaga
-  end
-  require("lspsaga").init_lsp_saga({
-    code_action_lightbulb = { virtual_text = false, sign = false },
-    finder_action_keys = {
-      open = { "o", "<CR>" },
-      vsplit = "v",
-      split = "s",
-      tabe = "t",
-      quit = { "q", "<ESC>" },
-    },
-  })
-end
-
 local on_attach = function(client, bufnr)
-  _setup_lspsaga = _setup_lspsaga(false) or function(_) end
   local CAPABILITIES = client.server_capabilities
 
   -- Enable completion triggered by <c-x><c-o>
@@ -164,6 +147,18 @@ return {
       setup_global_keymaps()
       setup_nvim_lsp()
     end,
+  },
+  {
+    "glepnir/lspsaga.nvim",
+    enabled = false,
+    event = "BufRead",
+    config = function()
+      require("lspsaga").setup({})
+    end,
+    dependencies = {
+      { "nvim-tree/nvim-web-devicons" },
+      { "nvim-treesitter/nvim-treesitter" }, -- needs markdown and markdown_inline parser
+    },
   },
   {
     "jose-elias-alvarez/null-ls.nvim",
