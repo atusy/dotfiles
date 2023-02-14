@@ -103,7 +103,7 @@ local function setup_nvim_lsp()
           -- runtime and workspace.library are required to suppress vim being undefined global
           runtime = { version = "LuaJIT", path = vim.split(package.path, ";") },
           diagnostics = {
-            global = { "vim", "pandoc" },
+            globals = { "vim", "pandoc" },
           },
           workspace = {
             library = vim.env.NVIM_LUA_LIBRARY == 1 and vim.api.nvim_get_runtime_file("", true),
