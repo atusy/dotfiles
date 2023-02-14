@@ -221,7 +221,7 @@ return {
     "folke/neodev.nvim",
     lazy = true,
     config = function()
-      require("neodev").setup()
+      require("neodev").setup({ experimental = { pathStrict = true } })
     end,
   },
   {
