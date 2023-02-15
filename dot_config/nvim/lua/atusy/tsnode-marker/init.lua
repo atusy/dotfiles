@@ -4,10 +4,10 @@
 ---@field hl_group string
 ---@field linewise? boolean
 ---@field priority? number
----@class Opts: Opts_automark
+---@class Opts_mark: Opts_automark
 ---@field namespace number
----@field start_row number
----@field end_row number
+---@field start_row? number
+---@field end_row? number
 
 local M = {}
 
@@ -44,7 +44,7 @@ end
 
 ---@param buf number
 ---@param range number[]
----@param opts Opts
+---@param opts Opts_mark
 local function set_extmark(buf, range, opts)
   if opts.linewise ~= false then
     range = { range[1], 0, range[3] + (range[4] == 0 and 0 or 1), 0 }
@@ -61,7 +61,7 @@ end
 
 ---@param buf number
 ---@param node Tsnode
----@param opts Opts
+---@param opts Opts_mark
 local function mark_children(buf, node, opts)
   for k in node:iter_children() do
     if opts.is_target(k) then
@@ -77,7 +77,7 @@ end
 
 ---@param buf number
 ---@param node Tsnode
----@param opts Opts
+---@param opts Opts_mark
 local function mark_next_sibling(buf, node, opts)
   local n = node
   while true do
@@ -97,8 +97,13 @@ local function mark_next_sibling(buf, node, opts)
 end
 
 ---@param buf number
----@param opts Opts
-function M.mark_range(buf, opts)
+---@param opts Opts_mark
+function M.mark(buf, opts)
+  if not opts.start_row or not opts.end_row then
+    opts = vim.deepcopy(opts)
+    opts.start_row = opts.start_row or 0
+    opts.end_row = opts.end_row or (vim.fn.getpos("$") - 1)
+  end
   local first_node = get_first_node_in_range(buf, opts.start_row, opts.end_row)
 
   if first_node == nil then
@@ -129,7 +134,7 @@ local _current_ns_key = false
 ---@param end_row number
 ---@param opts Opts_automark
 local function update_namespaces(buf, ns_key, start_row, end_row, opts)
-  M.mark_range(buf, {
+  M.mark(buf, {
     is_target = opts.is_target,
     hl_group = opts.hl_group,
     linewise = opts.linewise,

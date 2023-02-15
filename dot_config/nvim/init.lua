@@ -375,7 +375,12 @@ vim.api.nvim_create_autocmd("FileType", {
   group = utils.augroup,
   pattern = "markdown",
   callback = function(ctx)
-    require("atusy.misc").highlight_codeblock(ctx)
+    require("atusy.tsnode-marker").automark(ctx.buf, {
+      is_target = function(node)
+        return node:type() == "code_fence_content"
+      end,
+      hl_group = "@illuminate",
+    })
   end,
 })
 
