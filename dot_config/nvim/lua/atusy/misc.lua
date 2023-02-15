@@ -111,16 +111,18 @@ end
 
 local function hl_codeblocks_in_range(bufnr, ns, node, start_row, end_row)
   local ancestors = list_parent_nodes(node)
+  local process_children = true
   for i = #ancestors, 1, -1 do
     local n = ancestors[i]
     if n:type() == "code_fence_content" then
+      process_children = false
       set_extmark(bufnr, ns, { n:range(0) })
     end
     hl_next_codeblocks(bufnr, ns, n, start_row, end_row)
   end
 end
 
-local NAMESPACES = {
+local NAMESPACES_CODEBLOCKS = {
   [false] = vim.api.nvim_create_namespace("atusy-extmark-1"),
   [true] = vim.api.nvim_create_namespace("atusy-extmark-2"),
 }
@@ -133,24 +135,25 @@ local function update_namespaces(bufnr, ns_key, start_row, end_row)
 
   -- highlight
   if first_node ~= nil then
-    hl_codeblocks_in_range(bufnr, NAMESPACES[ns_key], first_node, start_row, end_row)
+    hl_codeblocks_in_range(bufnr, NAMESPACES_CODEBLOCKS[ns_key], first_node, start_row, end_row)
   end
 
   -- clear previous highlight
-  vim.api.nvim_buf_clear_namespace(bufnr, NAMESPACES[not ns_key], 0, -1)
+  vim.api.nvim_buf_clear_namespace(bufnr, NAMESPACES_CODEBLOCKS[not ns_key], 0, -1)
   return ns_key
 end
 
-function M.mark(ctx)
+function M.highlight_codeblock(ctx)
   local first_row = vim.fn.getpos("w0")[2] - 1
   local last_row = vim.fn.getpos("w$")[2] - 1
   update_namespaces(ctx.buf, _current_ns_key, first_row, last_row)
 
-  local augroup = vim.api.nvim_create_augroup("tsnode-marker", {})
+  local augroup = vim.api.nvim_create_augroup("hoge", {})
   vim.api.nvim_create_autocmd({
     "TextChanged",
     "TextChangedI",
     "TextChangedP",
+    -- 'WinScrolled'
   }, {
     group = augroup,
     buffer = ctx.buf,
