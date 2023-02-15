@@ -40,14 +40,14 @@ function M.reload()
   local loaded = vim.tbl_keys(package.loaded)
   for _, p in pairs(loaded) do
     if p == 'atusy' or vim.startswith(p, 'atusy.') then
-      require('utils').require(p)
+      require("atusy.utils").require(p)
     end
   end
 
   local configurable
   for _, p in pairs(loaded) do
     if p == 'plugins' or vim.startswith(p, 'plugins.') then
-      for _, d in pairs(require('utils').require(p)) do
+      for _, d in pairs(require("atusy.utils").require(p)) do
         if type(d) == "table" and d.enabled ~= false and d.cond ~= false then
           local pname = d[1]:gsub('.*/', '')
           require('lazy').load({ plugins = pname })

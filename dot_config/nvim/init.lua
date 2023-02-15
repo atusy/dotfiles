@@ -52,7 +52,7 @@ https://github.com/Exafunction/codeium.vim
 ]]
 
 -- [[ helpers ]]
-local utils = require("utils").require("utils") -- force reloading self
+local utils = require("atusy.utils").require("atusy.utils") -- force reloading self
 utils.setup()
 local set_keymap = utils.set_keymap
 
@@ -381,7 +381,7 @@ vim.api.nvim_create_autocmd("FileType", {
 
 --[[ lazy.nvim ]]
 if vim.v.vim_did_enter == 1 then
-  require("utils").require("atusy.lazy").reload()
+  require("atusy.utils").require("atusy.lazy").reload()
   return
 end
 

@@ -1,4 +1,4 @@
-local set_palette = require('utils').set_palette
+local set_palette = require("atusy.utils").set_palette
 
 --[[ clipboard ]]
 set_palette('n', 'clipboard cwd', '<Cmd>let @+=getcwd()<CR>')

@@ -1,4 +1,4 @@
-local utils = require("utils")
+local utils = require("atusy.utils")
 local set_keymap, set_palette = utils.set_keymap, utils.set_palette
 
 vim.api.nvim_create_autocmd("User", {

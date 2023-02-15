@@ -1,4 +1,4 @@
-local utils = require("utils")
+local utils = require("atusy.utils")
 local set_keymap, set_palette = utils.set_keymap, utils.set_palette
 
 local function filter_only_sorter(sorter)

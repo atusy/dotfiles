@@ -1,6 +1,6 @@
 local api = vim.api
 
-local utils = require("utils")
+local utils = require("atusy.utils")
 local _require = utils.require
 local set_keymap = utils.set_keymap
 local set_palette = utils.set_palette

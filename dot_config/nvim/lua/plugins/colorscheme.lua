@@ -1,7 +1,7 @@
 -- const
 local api = vim.api
 local fn = vim.fn
-local utils = require('utils')
+local utils = require("atusy.utils")
 local set_keymap = utils.set_keymap
 local ACTIVE_COLORSCHEME = 'duskfox' -- for the active buffer the first tabpage
 local INACTIVE_COLORSCHEME = 'nordfox'

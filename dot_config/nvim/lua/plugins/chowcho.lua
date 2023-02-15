@@ -1,7 +1,7 @@
 local api = vim.api
 local list_wins = api.nvim_tabpage_list_wins
 
-local utils = require('utils')
+local utils = require("atusy.utils")
 local safely, set_keymap = utils.safely, utils.set_keymap
 
 local function is_win_focusable(win)

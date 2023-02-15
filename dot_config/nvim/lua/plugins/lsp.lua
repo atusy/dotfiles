@@ -1,4 +1,4 @@
-local utils = require("utils")
+local utils = require("atusy.utils")
 local set_keymap = utils.set_keymap
 
 local function setup_autocmd()

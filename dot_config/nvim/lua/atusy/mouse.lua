@@ -1,4 +1,4 @@
-local set_keymap = require('utils').set_keymap
+local set_keymap = require("atusy.utils").set_keymap
 local M = {}
 
 function M.toggle_left_drag()
