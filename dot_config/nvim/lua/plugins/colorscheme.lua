@@ -3,31 +3,35 @@ local api = vim.api
 local fn = vim.fn
 local utils = require("atusy.utils")
 local set_keymap = utils.set_keymap
-local ACTIVE_COLORSCHEME = 'duskfox' -- for the active buffer the first tabpage
-local INACTIVE_COLORSCHEME = 'nordfox'
-local OUTSIDE_COLORSCHEME = 'carbonfox'
-local TAB_COLORSCHEME = 'terafox' -- for the active buffer in the other tabpages
+local ACTIVE_COLORSCHEME = "duskfox" -- for the active buffer the first tabpage
+local INACTIVE_COLORSCHEME = "nordfox"
+local OUTSIDE_COLORSCHEME = "carbonfox"
+local TAB_COLORSCHEME = "terafox" -- for the active buffer in the other tabpages
 
 local function likely_cwd(buf)
   buf = buf or api.nvim_win_get_buf(0)
-  if api.nvim_buf_get_option(buf, "buftype") ~= '' then return true end
+  if api.nvim_buf_get_option(buf, "buftype") ~= "" then
+    return true
+  end
 
   local file = api.nvim_buf_get_name(buf)
-  return file == '' or vim.startswith(file, fn.getcwd() .. '/')
+  return file == "" or vim.startswith(file, fn.getcwd() .. "/")
 end
 
 local function set_theme(win, colorscheme)
   if colorscheme == vim.g.colors_name then
     -- if default colorscheme, clear() should be enough
-    require('styler').clear(win)
+    require("styler").clear(win)
   elseif colorscheme ~= (vim.w[win].theme or {}).colorscheme then
-    require('styler').set_theme(win, { colorscheme = colorscheme })
+    require("styler").set_theme(win, { colorscheme = colorscheme })
   end
 end
 
 local function theme_active_win(win)
   -- use default colorscheme on floating windows
-  if api.nvim_win_get_config(win).relative ~= "" then return end
+  if api.nvim_win_get_config(win).relative ~= "" then
+    return
+  end
 
   -- apply colorscheme
   local COLORSCHEME = ACTIVE_COLORSCHEME
@@ -41,8 +45,12 @@ end
 
 local function theme_inactive_win(win)
   -- skip for certain situations
-  if not api.nvim_win_is_valid(win) then return end
-  if api.nvim_win_get_config(win).relative ~= "" then return end
+  if not api.nvim_win_is_valid(win) then
+    return
+  end
+  if api.nvim_win_get_config(win).relative ~= "" then
+    return
+  end
 
   -- apply colorscheme
   local COLORSCHEME = INACTIVE_COLORSCHEME
@@ -53,7 +61,7 @@ local function theme_inactive_win(win)
 end
 
 local function theme(win_event)
-  local win_pre = fn.win_getid(fn.winnr('#'))
+  local win_pre = fn.win_getid(fn.winnr("#"))
   local win_cursor = api.nvim_get_current_win()
 
   -- Activate
@@ -71,27 +79,26 @@ local function theme(win_event)
 end
 
 local function set_styler()
-  api.nvim_create_autocmd(
-    {
-      'BufWinEnter', -- instead of BufEnter
-      'WinLeave', -- supports changes without WinEnter (e.g., cmdbuf.nvim)
-      'WinNew', -- supports new windows without focus (e.g., `vim.api.nvim_win_call(0, vim.cmd.vsplit)`)
-      'WinClosed', --[[
+  api.nvim_create_autocmd({
+    "BufWinEnter", -- instead of BufEnter
+    "WinLeave", -- supports changes without WinEnter (e.g., cmdbuf.nvim)
+    "WinNew", -- supports new windows without focus (e.g., `vim.api.nvim_win_call(0, vim.cmd.vsplit)`)
+    "WinClosed", --[[
         supports active window being closed via win_call
             ``` vim
             vsplit
             lua (function(w) vim.api.nvim_win_call(vim.fn.win_getid(vim.fn.winnr('#')), function() vim.api.nvim_win_close(w, true) end) end)(vim.api.nvim_get_current_win())
             ```
       ]]
-    },
-    {
-      group = utils.augroup,
-      callback = function(_)
-        local win_event = api.nvim_get_current_win()
-        vim.schedule(function() theme(win_event) end)
-      end
-    }
-  )
+  }, {
+    group = utils.augroup,
+    callback = function(_)
+      local win_event = api.nvim_get_current_win()
+      vim.schedule(function()
+        theme(win_event)
+      end)
+    end,
+  })
 end
 
 -- return
@@ -103,73 +110,76 @@ return {
   -- { 'levouh/tint.nvim' }, -- conflicts with styler.nvim
   -- { "RRethy/nvim-base16" },
   {
-    'm-demare/hlargs.nvim',
+    "m-demare/hlargs.nvim",
     -- maybe nolonger used because @parameter highlights well, also conflicts with neodim
     -- event = 'BufReadPre',
     cond = false,
     lazy = true,
     config = function()
       local function setup()
-        require('hlargs').setup()
+        require("hlargs").setup()
       end
 
       vim.api.nvim_create_autocmd("ColorScheme", { group = utils.augroup, callback = setup })
       setup()
-    end
+    end,
   },
   {
-    'RRethy/vim-illuminate',
+    "RRethy/vim-illuminate",
+    -- or https://github.com/tzachar/local-highlight.nvim
     lazy = true,
-    event = 'BufReadPre',
-    dependencies = { 'nvim-treesitter/nvim-treesitter' },
+    event = "BufReadPre",
+    dependencies = { "nvim-treesitter/nvim-treesitter" },
     init = function()
-      set_keymap(
-        'n', '<Left>',
-        function() require('illuminate').goto_prev_reference() end
-      )
-      set_keymap(
-        'n', '<Right>',
-        function() require('illuminate').goto_next_reference() end
-      )
+      set_keymap("n", "<Left>", function()
+        require("illuminate").goto_prev_reference()
+      end)
+      set_keymap("n", "<Right>", function()
+        require("illuminate").goto_next_reference()
+      end)
     end,
     config = function()
       local function hi()
         -- @illuminate is defined on configure of treesitter
-        api.nvim_set_hl(0, "IlluminatedWordText", { link = '@illuminate' })
-        api.nvim_set_hl(0, "IlluminatedWordRead", { link = '@illuminate' })
-        api.nvim_set_hl(0, "IlluminatedWordWrite", { link = '@illuminate' })
+        api.nvim_set_hl(0, "IlluminatedWordText", { link = "@illuminate" })
+        api.nvim_set_hl(0, "IlluminatedWordRead", { link = "@illuminate" })
+        api.nvim_set_hl(0, "IlluminatedWordWrite", { link = "@illuminate" })
       end
 
-      require('illuminate').configure({
-        filetype_denylist = { 'fern' },
-        modes_allowlist = { 'n' }
+      require("illuminate").configure({
+        filetype_denylist = { "fern" },
+        modes_allowlist = { "n" },
       })
       vim.api.nvim_create_autocmd("ColorScheme", { group = utils.augroup, callback = hi })
       hi()
     end,
   },
   {
-    'norcalli/nvim-colorizer.lua',
+    "norcalli/nvim-colorizer.lua",
     event = { "BufReadPre" },
     config = function()
       local function setup()
-        require('colorizer').setup()
+        require("colorizer").setup()
       end
 
       vim.api.nvim_create_autocmd("ColorScheme", { group = utils.augroup, callback = setup })
       setup()
-    end
+    end,
   },
   {
-    'folke/lsp-colors.nvim',
-    event = 'LspAttach',
-    config = function() require('lsp-colors').setup() end
+    "folke/lsp-colors.nvim",
+    event = "LspAttach",
+    config = function()
+      require("lsp-colors").setup()
+    end,
   },
   {
-    'folke/styler.nvim',
+    "folke/styler.nvim",
     event = { "WinNew", "BufRead", "BufNewFile" },
-    dependencies = { 'EdenEast/nightfox.nvim' },
-    config = function() set_styler() end,
+    dependencies = { "EdenEast/nightfox.nvim" },
+    config = function()
+      set_styler()
+    end,
   },
   {
     "EdenEast/nightfox.nvim",
@@ -177,18 +187,18 @@ return {
     priority = 9999,
     build = function()
       -- thanks to cache, this needs run only on build (unless changed)
-      require('nightfox').setup({
+      require("nightfox").setup({
         groups = {
           all = {
-            ['@text.literal'] = { link = 'String' },
-            NvimTreeNormal = { link = 'Normal' }
-          }
+            ["@text.literal"] = { link = "String" },
+            NvimTreeNormal = { link = "Normal" },
+          },
         },
         options = { inverse = { visual = true } },
       })
     end,
     config = function()
-      vim.cmd.colorscheme('duskfox')
+      vim.cmd.colorscheme("duskfox")
     end,
   },
 }
