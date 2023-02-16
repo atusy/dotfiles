@@ -10,6 +10,22 @@ vim.api.nvim_create_autocmd("User", {
 })
 
 local deps = {
+  {
+    "atusy/tsnode-marker.nvim",
+    lazy = true,
+    init = function()
+      vim.api.nvim_create_autocmd("FileType", {
+        group = utils.augroup,
+        pattern = "markdown",
+        callback = function(ctx)
+          require("tsnode-marker").set_automark(ctx.buf, {
+            target = { "code_fence_content" },
+            hl_group = "@illuminate",
+          })
+        end,
+      })
+    end,
+  },
   -- basic dependencies
   "tpope/vim-repeat",
   "vim-denops/denops.vim",

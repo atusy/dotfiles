@@ -370,20 +370,6 @@ if vim.fn.executable("nvr") == 1 then
   })
 end
 
---[[ filetype ]]
-vim.api.nvim_create_autocmd("FileType", {
-  group = utils.augroup,
-  pattern = "markdown",
-  callback = function(ctx)
-    require("atusy.tsnode-marker").automark(ctx.buf, {
-      is_target = function(node)
-        return node:type() == "code_fence_content"
-      end,
-      hl_group = "@illuminate",
-    })
-  end,
-})
-
 --[[ lazy.nvim ]]
 if vim.v.vim_did_enter == 1 then
   require("atusy.utils").require("atusy.lazy").reload()
