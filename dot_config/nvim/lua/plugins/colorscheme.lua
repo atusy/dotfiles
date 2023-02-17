@@ -76,6 +76,10 @@ local function theme(win_event)
   if win_event ~= win_cursor then
     theme_inactive_win(win_event)
   end
+
+  -- redraw is required for instant theming on CmdlineEnter
+  -- after closing of focused floating windows,
+  vim.cmd([[redraw]])
 end
 
 local function set_styler()
