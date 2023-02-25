@@ -24,7 +24,7 @@ local function setup_gitsigns()
     },
     on_attach = function(bufnr)
       local OPTS = { buffer = bufnr, fav = "false" }
-      set_keymap("x", "<Plug>(C-G)<C-A>", ":Gitsigns stage_hunk<CR>", OPTS, { desc = "git add hunk" })
+      set_keymap("x", "<Plug>(C-G)<C-A>", after_save("stage_hunk", [[<C-\><C-N>gv:]]), OPTS, { desc = "git add hunk" })
       set_keymap("n", "<Plug>(C-G)<C-A>", after_save("stage_hunk"), OPTS, { desc = "git add hunk" })
       set_keymap("n", "<Plug>(C-G)a", after_save("stage_buffer"), OPTS, { desc = "git add buffer" })
       set_keymap("n", "<Plug>(C-G)<C-R>", after_save("reset_hunk"), OPTS, { desc = "git reset hunk" })
