@@ -367,14 +367,6 @@ local deps = {
   {
     "ggandor/leap.nvim",
     lazy = true,
-    --[[ init = function()
-      set_keymap(
-        { 'n', 'x' }, ';',
-        function()
-          require('leap').leap({ target_windows = { vim.api.nvim_get_current_win() } })
-        end
-      )
-    end, ]]
     config = function()
       -- LeapBackdrop highlight is defined at colorscheme.lua
       local function hi(_)
@@ -388,14 +380,9 @@ local deps = {
     end,
   },
   {
-    "ggandor/leap-ast.nvim",
+    "ggandor/leap-ast.nvim", -- prefer nvim-treehopper
     dependencies = { "ggandor/leap.nvim" },
     lazy = true,
-    init = function()
-      vim.keymap.set({ "x", "o" }, "<Plug>(leap-ast)", function()
-        require("leap-ast").leap()
-      end, { silent = true })
-    end,
   },
   -- 'ggandor/flit.nvim',
 
@@ -622,47 +609,19 @@ local deps = {
     "mfussenegger/nvim-treehopper",
     lazy = true,
     init = function()
-      local function with_tsht()
-        -- tsht fails if filetype differs from parser's language
-        local ok = pcall(vim.treesitter.get_parser, 0)
-        if not ok then
-          return false
-        end
-
-        -- tsht does not support injection
-        -- injected language could be detected by vim.inspect_pos().treesitter
-        local cursor = vim.api.nvim_win_get_cursor(0)
-        local function f(ignore)
-          return { vim.treesitter.get_node_at_pos(0, cursor[1], cursor[2], { ignore_injections = ignore }):range() }
-        end
-
-        local range_original = f(true)
-        local range_injection = f(false)
-        for i, v in pairs(range_original) do
-          if range_injection[i] ~= v then
-            return false
-          end
-        end
-
-        -- otherwise, set highlight and return true
+      local function hi()
         vim.api.nvim_set_hl(0, "TSNodeUnmatched", { link = "Comment" })
         vim.api.nvim_set_hl(0, "TSNodeKey", { link = "IncSearch" })
-        return true
       end
-
-      set_keymap("o", "m", function()
-        return with_tsht() and ":<C-U>lua require('tsht').nodes()<CR>" or [[<Plug>(leap-ast)]]
-      end, { expr = true, silent = true })
-      set_keymap("x", "m", function()
-        return with_tsht() and ":lua require('tsht').nodes()<CR>" or [[<Plug>(leap-ast)]]
-      end, { silent = true, expr = true })
+      local function tsht()
+        hi()
+        return ":<C-U>lua require('tsht').nodes({ignore_injections = false})<CR>"
+      end
+      set_keymap("o", "m", tsht, { expr = true, silent = true })
+      set_keymap("x", "m", tsht, { expr = true, silent = true })
       set_keymap("n", "zf", function()
-        if with_tsht() then
-          require("tsht").nodes()
-        else
-          vim.cmd("normal! v")
-          require("leap-ast").leap()
-        end
+        hi()
+        require("tsht").nodes({ ignore_injections = false })
         vim.cmd("normal! Vzf")
       end, { silent = true })
     end,
