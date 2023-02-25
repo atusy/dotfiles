@@ -1,4 +1,5 @@
 ;; extends
+(( code_fence_content ) @tsnodemarker.markdown)
 (list_item [
   (list_marker_plus)
   (list_marker_minus)

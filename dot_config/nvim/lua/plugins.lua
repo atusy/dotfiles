@@ -16,10 +16,44 @@ local deps = {
     init = function()
       vim.api.nvim_create_autocmd("FileType", {
         group = utils.augroup,
+        pattern = { "lua", "python", "go" },
+        callback = function(ctx)
+          local function is_def(n)
+            return vim.tbl_contains({
+              "func_literal",
+              "function_declaration",
+              "function_definition",
+              "method_declaration",
+              "method_definition",
+              "class_definition",
+            }, n:type())
+          end
+          require("tsnode-marker").set_automark(ctx.buf, {
+            target = function(_, node)
+              if not is_def(node) then
+                return false
+              end
+              local parent = node:parent()
+              while parent do
+                if is_def(parent) then
+                  return true
+                end
+                parent = parent:parent()
+              end
+              return false
+            end,
+            hl_group = "@illuminate",
+          })
+        end,
+      })
+      vim.api.nvim_create_autocmd("FileType", {
+        group = utils.augroup,
         pattern = "markdown",
         callback = function(ctx)
+          -- blank target requires capture group @tsodemarker
+          -- dot_config/nvim/after/queries/markdown/highlights.scm
           require("tsnode-marker").set_automark(ctx.buf, {
-            target = { "code_fence_content" },
+            -- target = { "code_fence_content" },
             hl_group = "@illuminate",
           })
         end,
