@@ -500,9 +500,14 @@ local deps = {
         },
         indent = { enable = true },
       })
-      local ft_to_parser = require("nvim-treesitter.parsers").filetype_to_parsername
-      ft_to_parser.zsh = "bash"
-      ft_to_parser.tf = "hcl"
+
+      local register = vim.treesitter.language.register -- since Nvim 0.9
+        or function(lang, ft)
+          require("nvim-treesitter.parsers").filetype_to_parsername[ft] = lang
+        end
+      register("bash", "zsh")
+      register("hcl", "tf")
+      register("diff", "gin-diff")
 
       local function hi()
         -- require('atusy.ts-highlight').setup()
