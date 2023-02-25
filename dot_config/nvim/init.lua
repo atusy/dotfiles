@@ -173,6 +173,10 @@ set_keymap("x", " ud", function()
 end)
 set_keymap("n", "gf", "gF")
 
+-- mappings: don't start a new undo block on horizontal moves on insert mode
+set_keymap("i", "<Left>", "<C-G>U<Left>")
+set_keymap("i", "<Right>", "<C-G>U<Right>")
+
 -- mappings: register
 set_keymap({ "n", "x" }, "x", '"_x')
 set_keymap({ "n", "x" }, "X", '"_X')
