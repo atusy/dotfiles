@@ -510,7 +510,6 @@ local deps = {
       register("diff", "gin-diff")
 
       local function hi()
-        -- require('atusy.ts-highlight').setup()
         vim.api.nvim_set_hl(0, "@illuminate", { bg = "#383D47" })
       end
 
