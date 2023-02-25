@@ -128,6 +128,11 @@ local function setup(_)
         hidden = true,
         search_dirs = { ".", "__ignored" },
       },
+      live_grep = {
+        additional_args = function(opts)
+          return { "--hidden" }
+        end,
+      },
     },
     extensions = {
       fzf = {
