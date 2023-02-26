@@ -237,6 +237,14 @@ local deps = {
 
   -- better something
   {
+    "lambdalisue/kensaku.vim",
+    dependencies = { "vim-denops/denops.vim", "yuki-yano/denops-lazy.nvim" },
+    lazy = true,
+    config = function()
+      require("denops-lazy").load("kensaku.vim")
+    end,
+  },
+  {
     "yuki-yano/fuzzy-motion.vim",
     dependencies = { "lambdalisue/kensaku.vim", "vim-denops/denops.vim", "yuki-yano/denops-lazy.nvim" },
     cmd = "FuzzyMotion",
@@ -245,7 +253,6 @@ local deps = {
     end,
     config = function()
       vim.g.fuzzy_motion_matchers = { "fzf", "kensaku" }
-      require("denops-lazy").load("kensaku.vim")
       require("denops-lazy").load("fuzzy-motion.vim")
     end,
   },
