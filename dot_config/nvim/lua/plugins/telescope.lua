@@ -106,9 +106,23 @@ return {
           end,
         },
         { "n", leader .. "<Tab>", "jumplist" },
-        { "n", leader .. "o", "outline", telescope_outline },
+        {
+          "n",
+          leader .. "o",
+          "outline",
+          function()
+            require("plugins.telescope.picker").outline()
+          end,
+        },
         -- sr is occupied by sandwich
-        { "n", leader .. "s", "keymaps normal favorites", telescope_keymaps },
+        {
+          "n",
+          leader .. "s",
+          "keymaps normal favorites",
+          function()
+            require("plugins.telescope.picker").keymaps()
+          end,
+        },
         { "n", leader .. "m", "keymaps" },
         { "n", leader .. "q", "quickfixhistory" },
         { "n", leader .. [[']], "marks" },
