@@ -6,6 +6,7 @@ function M.outline()
   local picker
   if vim.tbl_contains({ "markdown" }, vim.bo.filetype) then
     local ok, aerial = pcall(function()
+      require("aerial") -- ensure lazy loading
       return require("telescope._extensions").manager.aerial.aerial
     end)
     picker = ok and aerial
