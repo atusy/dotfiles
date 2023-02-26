@@ -1,32 +1,6 @@
 local utils = require("atusy.utils")
 local set_keymap, set_palette = utils.set_keymap, utils.set_palette
 
-local function telescope_outline()
-  local picker
-  if vim.tbl_contains({ "markdown" }, vim.bo.filetype) then
-    local ok, aerial = pcall(function()
-      return require("telescope._extensions").manager.aerial.aerial
-    end)
-    picker = ok and aerial
-  end
-  (picker or require("telescope.builtin").treesitter)({
-    sorter = require("plugins.telescope.sorter").filter_only_sorter(),
-  })
-end
-
-local telescope_keymaps_filter = {
-  fern = "'fern-action ",
-  ["gin-status"] = "'gin-action ",
-}
-
-local function telescope_keymaps()
-  local ft = vim.api.nvim_buf_get_option(0, "filetype")
-  require("telescope.builtin").keymaps({
-    modes = { vim.api.nvim_get_mode().mode },
-    default_text = vim.b.telescope_keymaps_default_text or telescope_keymaps_filter[ft] or utils.star,
-  })
-end
-
 local function telescope(key)
   return "<Cmd>Telescope " .. key .. "<CR>"
 end
@@ -71,7 +45,6 @@ local function setup(_)
       },
     },
   })
-  Telescope.load_extension("aerial")
   Telescope.load_extension("fzf")
 end
 
@@ -163,6 +136,8 @@ return {
   {
     "stevearc/aerial.nvim",
     lazy = true,
+    cmd = { "Telescope" },
+    dependencies = { "nvim-telescope/telescope.nvim" },
     init = function()
       set_keymap("n", "gO", function()
         require("aerial").open()
@@ -170,6 +145,7 @@ return {
     end,
     config = function()
       require("aerial").setup()
+      require("telescope").load_extension("aerial")
     end,
   },
   -- { 'tknightz/telescope-termfinder.nvim' },  -- finds toggleterm terminals
