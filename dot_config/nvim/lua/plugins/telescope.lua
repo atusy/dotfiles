@@ -206,11 +206,12 @@ return {
         group = utils.augroup,
         pattern = "gitcommit",
         callback = function(args)
-          set_keymap("n", leader .. "e", prefix_emoji, { buffer = args.buf })
+          local p = require("plugins.telescope.git-prefix")
+          set_keymap("n", leader .. "e", p.prefix_emoji, { buffer = args.buf })
           local line = vim.api.nvim_buf_get_lines(args.buf, 0, 1, false)
-          if vim.fn.match(line, "^" .. regex_emoji) == -1 then
+          if vim.fn.match(line, "^" .. p.regex_emoji) == -1 then
             vim.schedule(function()
-              prefix_emoji(args.buf)
+              p.prefix_emoji(args.buf)
             end)
           end
         end,
