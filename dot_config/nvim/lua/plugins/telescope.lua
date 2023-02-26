@@ -106,7 +106,6 @@ return {
         { "n", "q;", "command_history" },
         -- { 'n', 'q:', 'command_history' }, -- prefer cmdbuf.nvim
         { "n", "q/", "search_history" },
-        { "i", "<C-R>'", "registers" },
         { "n", "<Plug>(C-G)<C-S>", "git_status" },
         -- { 'n', '<Plug>(C-G)<C-M>', 'keymaps' },
         -- { 'n', '<Plug>(C-G)<CR>', 'keymaps' },
