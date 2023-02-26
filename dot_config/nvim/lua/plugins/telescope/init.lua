@@ -16,16 +16,25 @@ local function setup_memo()
   end)
 end
 
+local function telescope(key, opts)
+  -- call builtin pickers as functions instead of <Cmd> mappings
+  -- because lazy loading may fail if <Cmd> mappings are invoked
+  -- immediately after VimEnter
+  return function()
+    require("telescope.builtin")[key](opts)
+  end
+end
+
 local function telescope_init()
   local leader = "s"
-  set_keymap("n", leader .. "<CR>", "<Cmd>Telescope builtin<CR>")
-  set_keymap("n", leader .. "<Tab>", "<Cmd>Telescope jumplist<CR>")
+  set_keymap("n", leader .. "<CR>", telescope("builtin"))
+  set_keymap("n", leader .. "<Tab>", telescope("jumplist"))
   -- sa is occupied by mini.surround
-  set_keymap("n", leader .. "b", "<Cmd>Telescope buffers<CR>")
-  set_keymap("n", leader .. "c", "<Cmd>Telescope commands<CR>")
+  set_keymap("n", leader .. "b", telescope("buffers"))
+  set_keymap("n", leader .. "c", telescope("commands"))
   -- sd is occupied by mini.surround
-  set_keymap("n", leader .. "f", "<Cmd>Telescope find_files<CR>")
-  set_keymap("n", leader .. "g", "<Cmd>Telescope live_grep<CR>")
+  set_keymap("n", leader .. "f", telescope("find_files"))
+  set_keymap("n", leader .. "g", telescope("live_grep"))
   set_keymap("n", leader .. "h", function()
     pcall(require("atusy.lazy").load_all)
     require("telescope.builtin").help_tags()
@@ -38,17 +47,17 @@ local function telescope_init()
   set_keymap("n", leader .. "s", function()
     require("plugins.telescope.picker").keymaps()
   end, { desc = "Telescope normal favorite keymaps" })
-  set_keymap("n", leader .. "m", "<Cmd>Telescope keymaps<CR>")
-  set_keymap("n", leader .. "q", "<Cmd>Telescope quickfixhistory<CR>")
-  set_keymap("n", leader .. [[']], "<Cmd>Telescope marks<CR>")
-  set_keymap("n", leader .. [["]], "<Cmd>Telescope registers<CR>")
-  set_keymap("n", leader .. ".", "<Cmd>Telescope resume<CR>")
-  set_keymap("n", leader .. "/", "<Cmd>Telescope current_buffer_fuzzy_find<CR>")
-  set_keymap("n", leader .. "?", "<Cmd>Telescope man_pages<CR>")
-  set_keymap("n", "q;", "<Cmd>Telescope command_history<CR>")
+  set_keymap("n", leader .. "m", telescope("keymaps"))
+  set_keymap("n", leader .. "q", telescope("quickfixhistory"))
+  set_keymap("n", leader .. [[']], telescope("marks"))
+  set_keymap("n", leader .. [["]], telescope("registers"))
+  set_keymap("n", leader .. ".", telescope("resume"))
+  set_keymap("n", leader .. "/", telescope("current_buffer_fuzzy_find"))
+  set_keymap("n", leader .. "?", telescope("man_pages"))
+  set_keymap("n", "q;", telescope("command_history"))
   -- q: is occupied by cmdbuf.nvim
-  set_keymap("n", "q/", "<Cmd>Telescope search_history<CR>")
-  set_keymap("n", "<Plug>(C-G)<C-S>", "<Cmd>Telescope git_status<CR>")
+  set_keymap("n", "q/", telescope("search_history"))
+  set_keymap("n", "<Plug>(C-G)<C-S>", telescope("git_status"))
 
   setup_memo()
   vim.api.nvim_create_autocmd("FileType", {
