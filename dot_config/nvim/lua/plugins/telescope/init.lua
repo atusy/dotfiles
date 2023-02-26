@@ -23,8 +23,8 @@ local function telescope_init()
   -- sa is occupied by mini.surround
   set_keymap("n", leader .. "b", "<Cmd>Telescope buffers<CR>")
   set_keymap("n", leader .. "c", "<Cmd>Telescope commands<CR>")
-  set_keymap("n", leader .. "b", "<Cmd>Telescope find_files<CR>")
   -- sd is occupied by mini.surround
+  set_keymap("n", leader .. "f", "<Cmd>Telescope find_files<CR>")
   set_keymap("n", leader .. "g", "<Cmd>Telescope live_grep<CR>")
   set_keymap("n", leader .. "h", function()
     pcall(require("atusy.lazy").load_all)
