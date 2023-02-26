@@ -62,11 +62,10 @@ return {
       local leader = "s"
       for _, v in pairs({
         { "n", leader .. "<CR>", "builtin" },
-        -- sa is occupied by sandwich
+        -- sa is occupied by mini.surround
         { "n", leader .. "b", "buffers" },
         { "n", leader .. "c", "commands" },
-        -- sd is occupied by sandwich
-        -- se is occupied by emoji-prefix
+        -- sd is occupied by mini.surround
         { "n", leader .. "f", "find_files" },
         { "n", leader .. "g", "live_grep" },
         {
@@ -87,7 +86,8 @@ return {
             require("plugins.telescope.picker").outline()
           end,
         },
-        -- sr is occupied by sandwich
+        -- sp is occupied by emoji-prefix
+        -- sr is occupied by mini.surround
         {
           "n",
           leader .. "s",
