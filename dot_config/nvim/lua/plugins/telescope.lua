@@ -1,21 +1,6 @@
 local utils = require("atusy.utils")
 local set_keymap, set_palette = utils.set_keymap, utils.set_palette
 
-local function filter_only_sorter(sorter)
-  sorter = sorter or require("telescope.config").values.file_sorter()
-  local base_scorer = sorter.scoring_function
-  local score_match = require("telescope.sorters").empty().scoring_function()
-  sorter.scoring_function = function(self, prompt, line)
-    local score = base_scorer(self, prompt, line)
-    if score <= 0 then
-      return -1
-    else
-      return score_match
-    end
-  end
-  return sorter
-end
-
 local function telescope_outline()
   local picker
   if vim.tbl_contains({ "markdown" }, vim.bo.filetype) then
@@ -24,7 +9,9 @@ local function telescope_outline()
     end)
     picker = ok and aerial
   end
-  (picker or require("telescope.builtin").treesitter)({ sorter = filter_only_sorter() })
+  (picker or require("telescope.builtin").treesitter)({
+    sorter = require("plugins.telescope.sorter").filter_only_sorter(),
+  })
 end
 
 local telescope_keymaps_filter = {
