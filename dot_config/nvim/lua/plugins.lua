@@ -25,7 +25,6 @@ local deps = {
               "function_definition",
               "method_declaration",
               "method_definition",
-              "class_definition",
             }, n:type())
           end
           require("tsnode-marker").set_automark(ctx.buf, {
