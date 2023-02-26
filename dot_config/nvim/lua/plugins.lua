@@ -53,10 +53,13 @@ local deps = {
           -- dot_config/nvim/after/queries/markdown/highlights.scm
           require("tsnode-marker").set_automark(ctx.buf, {
             -- target = { "code_fence_content" },
-            hl_group = "@illuminate",
+            -- hl_group = "@illuminate",
           })
         end,
       })
+    end,
+    config = function()
+      vim.api.nvim_set_hl(0, "@tsnodemarker", { link = "@illuminate" })
     end,
   },
   -- basic dependencies
