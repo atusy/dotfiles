@@ -107,7 +107,6 @@ return {
       { "tamago324/nlsp-settings.nvim" },
       { "folke/neodev.nvim" },
       { "j-hui/fidget.nvim" },
-      -- { 'glepnir/lspsaga.nvim' },
     },
     config = function()
       setup_autocmd()
