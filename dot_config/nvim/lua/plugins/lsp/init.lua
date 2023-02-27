@@ -52,7 +52,6 @@ local function lspconfig()
     settings = {
       single_file_support = true,
       Lua = {
-        -- runtime and workspace.library are required to suppress vim being undefined global
         runtime = { version = "LuaJIT", path = vim.split(package.path, ";") },
         diagnostics = {
           globals = { "vim", "pandoc" },
