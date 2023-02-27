@@ -80,13 +80,13 @@ return {
   {
     "neovim/nvim-lspconfig",
     dependencies = {
-      { "williamboman/mason.nvim" },
-      { "williamboman/mason-lspconfig.nvim" },
-      { "jose-elias-alvarez/null-ls.nvim" },
-      { "ii14/emmylua-nvim" },
-      { "tamago324/nlsp-settings.nvim" },
-      { "folke/neodev.nvim" },
-      { "j-hui/fidget.nvim" },
+      "williamboman/mason.nvim",
+      "williamboman/mason-lspconfig.nvim",
+      "jose-elias-alvarez/null-ls.nvim",
+      "ii14/emmylua-nvim",
+      "tamago324/nlsp-settings.nvim",
+      "folke/neodev.nvim",
+      "j-hui/fidget.nvim",
     },
     config = function()
       vim.api.nvim_create_autocmd("FileType", {
@@ -120,8 +120,8 @@ return {
       require("lspsaga").setup({})
     end,
     dependencies = {
-      { "nvim-tree/nvim-web-devicons" },
-      { "nvim-treesitter/nvim-treesitter" }, -- needs markdown and markdown_inline parser
+      "nvim-tree/nvim-web-devicons",
+      "nvim-treesitter/nvim-treesitter", -- needs markdown and markdown_inline parser
     },
   },
   {
