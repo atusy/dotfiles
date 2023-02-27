@@ -64,52 +64,43 @@ local on_attach = function(client, bufnr)
   end, OPTS, { desc = "lsp format" })
 end
 
-local function setup_nvim_lsp()
-  local Lspconfig = require("lspconfig")
-  local function setup_lsp(lsp, config)
-    local config2 = { on_attach = on_attach, flags = { debounce_text_changes = 150 } }
-    for k, v in pairs(config or {}) do
-      config2[k] = v
-    end
-    Lspconfig[lsp].setup(config2)
-  end
+local function setup_ls(nm, opts)
+  opts.on_attach = on_attach
+  require("lspconfig")[nm].setup(opts)
+end
 
-  for lsp, config in pairs({
-    pyright = {}, -- pip install --user pyright
-    r_language_server = {}, -- R -e "remotes::install_github('languageserver')"
-    denols = {},
-    bashls = { filetypes = { "sh", "bash", "zsh" } }, -- npm i -g bash-language-server
-    terraformls = { filetypes = { "terraform", "tf" } },
-    lua_ls = {
-      settings = {
-        single_file_support = true,
-        Lua = {
-          -- runtime and workspace.library are required to suppress vim being undefined global
-          runtime = { version = "LuaJIT", path = vim.split(package.path, ";") },
-          diagnostics = {
-            globals = { "vim", "pandoc" },
-          },
-          workspace = {
-            library = vim.env.NVIM_LUA_LIBRARY == 1 and vim.api.nvim_get_runtime_file("", true),
-            checkThirdParty = false,
-          },
-          completion = { workspaceWord = true, callSnippet = "Both" },
-          format = {
-            enable = false,
-            defaultConfig = {
-              indent_style = "space",
-              indent_size = "2",
-              continuation_indent_size = "2",
-            },
-          },
-          -- telemetry = { enable = false },
+local function setup_nvim_lsp()
+  setup_ls("pyright", {}) -- pip install --user pyright
+  setup_ls("r_language_server", {}) -- R -e "remotes::install_github('languageserver')"
+  setup_ls("denols", {})
+  setup_ls("bashls", { filetypes = { "sh", "bash", "zsh" } }) -- npm i -g bash-language-server
+  setup_ls("terraformls", { filetypes = { "terraform", "tf" } })
+  setup_ls("lua_ls", {
+    settings = {
+      single_file_support = true,
+      Lua = {
+        -- runtime and workspace.library are required to suppress vim being undefined global
+        runtime = { version = "LuaJIT", path = vim.split(package.path, ";") },
+        diagnostics = {
+          globals = { "vim", "pandoc" },
         },
+        workspace = {
+          library = vim.env.NVIM_LUA_LIBRARY == 1 and vim.api.nvim_get_runtime_file("", true),
+          checkThirdParty = false,
+        },
+        completion = { workspaceWord = true, callSnippet = "Both" },
+        format = {
+          enable = false,
+          defaultConfig = {
+            indent_style = "space",
+            indent_size = "2",
+            continuation_indent_size = "2",
+          },
+        },
+        -- telemetry = { enable = false },
       },
-    }, -- pacman -S lua-language-server
-    gopls = {},
-  }) do
-    setup_lsp(lsp, config)
-  end
+    },
+  })
 end
 
 return {
