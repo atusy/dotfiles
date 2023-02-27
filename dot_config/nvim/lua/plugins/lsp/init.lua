@@ -29,14 +29,13 @@ local on_attach = function(client, bufnr)
   -- Mappings.
   -- See `:help vim.lsp.*` for documentation on any of the below functions
   local OPTS = { silent = true, buffer = bufnr }
-  local telescope = function(key)
-    return "<Cmd>Telescope " .. key .. "<CR>"
-  end
   set_keymap("n", "gD", vim.lsp.buf.declaration, OPTS, { desc = "lsp declaration" })
-  set_keymap("n", "gd", telescope("lsp_definitions"), OPTS, { desc = "lsp definitions" })
+  set_keymap("n", "gd", ":Telescope lsp_definitions<CR>", OPTS, { desc = "lsp definitions" })
   -- set_keymap('n', 'gd', vim.lsp.buf.definition, OPTS)
-  set_keymap("n", "gi", telescope("lsp_implementations"), OPTS, { desc = "lsp implementation" })
+  set_keymap("n", "gi", ":Telescope lsp_implementations<CR>", OPTS, { desc = "lsp implementation" })
   -- set_keymap('n', 'gi', vim.lsp.buf.implementation, OPTS)
+  set_keymap("n", "gr", ":Telescope lsp_references<CR>", OPTS, { desc = "lsp reference" })
+  -- set_keymap('n', 'gr', vim.lsp.buf.references, OPTS)
   set_keymap("n", "<C-K>", vim.lsp.buf.signature_help, OPTS, { desc = "lsp show signature help" })
   set_keymap("n", "<Leader>wa", vim.lsp.buf.add_workspace_folder, OPTS, { desc = "lsp add workspace folder" })
   set_keymap("n", "<Leader>wr", vim.lsp.buf.remove_workspace_folder, OPTS, { desc = "lsp remove workspace folder" })
@@ -48,15 +47,10 @@ local on_attach = function(client, bufnr)
     { desc = "lsp show workspace folders" }
   )
   set_keymap("n", "<Leader>D", vim.lsp.buf.type_definition, OPTS, { desc = "lsp type definition" })
-  -- set_keymap('n', '<Leader>rn', '<cmd>Lspsaga rename<cr>', OPTS)
   if client.server_capabilities.renameProvider then
     set_keymap("n", "<Leader>rn", vim.lsp.buf.rename, OPTS, { desc = "lsp rename" })
   end
-  -- set_keymap({ 'n', 'x' }, '<Leader>ca', '<cmd>Lspsaga code_action<cr>', OPTS, { desc = 'lsp code action' })
   set_keymap("n", "<Leader>ca", vim.lsp.buf.code_action, OPTS, { desc = "lsp code action" })
-  -- set_keymap('n', 'gr', '<cmd>Lspsaga lsp_finder<cr>', OPTS, { desc = 'lsp reference' })
-  set_keymap("n", "gr", telescope("lsp_references"), OPTS, { desc = "lsp reference" })
-  -- set_keymap('n', 'gr', vim.lsp.buf.references, OPTS)
   set_keymap("n", "<Leader>lf", function()
     vim.lsp.buf.format({ async = true })
   end, OPTS, { desc = "lsp format" })
