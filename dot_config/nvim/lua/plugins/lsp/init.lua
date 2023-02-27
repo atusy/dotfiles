@@ -9,13 +9,6 @@ local function setup_autocmd()
       require("plugins.lsp.utils").attach_lsp(args.match)
     end,
   })
-  vim.api.nvim_create_autocmd({ "BufWritePre" }, {
-    pattern = { "*.tf", "*.tfvars" },
-    group = utils.augroup,
-    callback = function()
-      pcall(vim.lsp.buf.format)
-    end,
-  })
 end
 
 local function setup_global_keymaps()
