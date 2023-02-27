@@ -1,27 +1,6 @@
 local utils = require("atusy.utils")
 local set_keymap = utils.set_keymap
 
-local function setup_autocmd()
-  vim.api.nvim_create_autocmd("FileType", {
-    pattern = "*",
-    group = utils.augroup,
-    callback = function(args)
-      require("plugins.lsp.utils").attach_lsp(args.match)
-    end,
-  })
-end
-
-local function setup_global_keymaps()
-  set_keymap("n", "K", function()
-    -- null-ls won't map this on_attach, so it should be mapped globally
-    if require("plugins.lsp.utils").has_lsp_client() then
-      vim.lsp.buf.hover()
-    else
-      return "K"
-    end
-  end, { expr = true })
-end
-
 local on_attach = function(client, bufnr)
   -- Enable completion triggered by <c-x><c-o>
   vim.api.nvim_buf_set_option(bufnr, "omnifunc", "v:lua.vim.lsp.omnifunc")
@@ -109,9 +88,22 @@ return {
       { "j-hui/fidget.nvim" },
     },
     config = function()
-      setup_autocmd()
-      setup_global_keymaps()
-      setup_nvim_lsp()
+      vim.api.nvim_create_autocmd("FileType", {
+        pattern = "*",
+        group = utils.augroup,
+        callback = function(args)
+          require("plugins.lsp.utils").attach_lsp(args.match)
+        end,
+      })
+      set_keymap("n", "K", function()
+        -- null-ls won't map this on_attach, so it should be mapped globally
+        if require("plugins.lsp.utils").has_lsp_client() then
+          vim.lsp.buf.hover()
+        else
+          vim.cmd("normal! K")
+        end
+      end)
+      lspconfig()
     end,
   },
   {
