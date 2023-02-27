@@ -56,18 +56,18 @@ local on_attach = function(client, bufnr)
   end, OPTS, { desc = "lsp format" })
 end
 
-local function setup_ls(nm, opts)
+local function _ls(nm, opts)
   opts.on_attach = on_attach
   require("lspconfig")[nm].setup(opts)
 end
 
-local function setup_nvim_lsp()
-  setup_ls("pyright", {}) -- pip install --user pyright
-  setup_ls("r_language_server", {}) -- R -e "remotes::install_github('languageserver')"
-  setup_ls("denols", {})
-  setup_ls("bashls", { filetypes = { "sh", "bash", "zsh" } }) -- npm i -g bash-language-server
-  setup_ls("terraformls", { filetypes = { "terraform", "tf" } })
-  setup_ls("lua_ls", {
+local function lspconfig()
+  _ls("pyright", {}) -- pip install --user pyright
+  _ls("r_language_server", {}) -- R -e "remotes::install_github('languageserver')"
+  _ls("denols", {})
+  _ls("bashls", { filetypes = { "sh", "bash", "zsh" } }) -- npm i -g bash-language-server
+  _ls("terraformls", { filetypes = { "terraform", "tf" } })
+  _ls("lua_ls", {
     settings = {
       single_file_support = true,
       Lua = {
