@@ -2,7 +2,7 @@ local utils = require("atusy.utils")
 local set_keymap = utils.set_keymap
 
 local on_attach = function(client, bufnr)
-  require("lsp_signature").on_attach({ hint_enable = false }, bufnr)
+  require("lsp_signature").on_attach({ hint_enable = false, handler_opts = { border = "none" } }, bufnr)
   set_keymap("i", "<C-G><C-H>", require("lsp_signature").toggle_float_win, { buffer = bufnr })
 
   -- Enable completion triggered by <c-x><c-o>
