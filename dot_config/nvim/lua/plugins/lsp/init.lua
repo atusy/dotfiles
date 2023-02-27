@@ -2,6 +2,9 @@ local utils = require("atusy.utils")
 local set_keymap = utils.set_keymap
 
 local on_attach = function(client, bufnr)
+  require("lsp_signature").on_attach({ hint_enable = false }, bufnr)
+  set_keymap("i", "<C-G><C-H>", require("lsp_signature").toggle_float_win, { buffer = bufnr })
+
   -- Enable completion triggered by <c-x><c-o>
   vim.api.nvim_buf_set_option(bufnr, "omnifunc", "v:lua.vim.lsp.omnifunc")
 
@@ -80,7 +83,6 @@ return {
       { "williamboman/mason.nvim" },
       { "williamboman/mason-lspconfig.nvim" },
       { "jose-elias-alvarez/null-ls.nvim" },
-      { "matsui54/denops-signature_help" },
       { "ii14/emmylua-nvim" },
       { "tamago324/nlsp-settings.nvim" },
       { "folke/neodev.nvim" },
@@ -104,6 +106,11 @@ return {
       end)
       lspconfig()
     end,
+  },
+  {
+    "ray-x/lsp_signature.nvim", -- or { "matsui54/denops-signature_help" }
+    lazy = true,
+    -- configured via on_attach
   },
   {
     "glepnir/lspsaga.nvim",
@@ -158,13 +165,6 @@ return {
     dependencies = { "williamboman/mason.nvim" },
     config = function()
       require("mason-lspconfig").setup()
-    end,
-  },
-  {
-    "matsui54/denops-signature_help",
-    lazy = true,
-    config = function()
-      vim.fn["signature_help#enable"]()
     end,
   },
   {
