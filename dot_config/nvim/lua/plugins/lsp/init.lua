@@ -12,15 +12,6 @@ local function setup_autocmd()
 end
 
 local function setup_global_keymaps()
-  set_keymap("n", "<Leader>e", vim.diagnostic.open_float, { silent = true, desc = "float diagnostic" })
-  set_keymap("n", "[d", vim.diagnostic.goto_prev, { silent = true, desc = "previous diagnostic" })
-  set_keymap("n", "]d", vim.diagnostic.goto_next, { silent = true, desc = "next diagnositc" })
-  set_keymap(
-    "n",
-    "<Leader>q",
-    vim.diagnostic.setloclist,
-    { silent = true, desc = "add buffer diagnositcs to the location list" }
-  )
   set_keymap("n", "K", function()
     -- null-ls won't map this on_attach, so it should be mapped globally
     if require("plugins.lsp.utils").has_lsp_client() then
