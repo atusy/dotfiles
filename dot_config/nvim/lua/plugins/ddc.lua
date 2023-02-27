@@ -94,7 +94,7 @@ local function setup()
   patch_global("ui", "pum")
   patch_global("sources", { "nvim-lsp", "around", "file" })
   patch_global("sourceOptions", {
-    around = { mark = "A", maxSize = 500 },
+    around = { mark = "A" },
     ["nvim-lsp"] = { mark = "L" },
     file = {
       mark = "F",
@@ -108,6 +108,9 @@ local function setup()
       sorters = { "sorter_fuzzy" },
       converters = { "converter_fuzzy" },
     },
+  })
+  patch_global("sourceParams", {
+    around = { maxSize = 500 },
   })
   patch_global(
     "autoCompleteEvents",
