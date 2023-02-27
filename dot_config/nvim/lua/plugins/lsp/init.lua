@@ -23,8 +23,6 @@ local function setup_global_keymaps()
 end
 
 local on_attach = function(client, bufnr)
-  local CAPABILITIES = client.server_capabilities
-
   -- Enable completion triggered by <c-x><c-o>
   vim.api.nvim_buf_set_option(bufnr, "omnifunc", "v:lua.vim.lsp.omnifunc")
 
@@ -51,7 +49,7 @@ local on_attach = function(client, bufnr)
   )
   set_keymap("n", "<Leader>D", vim.lsp.buf.type_definition, OPTS, { desc = "lsp type definition" })
   -- set_keymap('n', '<Leader>rn', '<cmd>Lspsaga rename<cr>', OPTS)
-  if CAPABILITIES.renameProvider then
+  if client.server_capabilities.renameProvider then
     set_keymap("n", "<Leader>rn", vim.lsp.buf.rename, OPTS, { desc = "lsp rename" })
   end
   -- set_keymap({ 'n', 'x' }, '<Leader>ca', '<cmd>Lspsaga code_action<cr>', OPTS, { desc = 'lsp code action' })
