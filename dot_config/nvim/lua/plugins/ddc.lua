@@ -21,12 +21,27 @@ local function commandline_post(maps)
 end
 
 local pum_visible = fn["pum#visible"]
+---@return string?, boolean
+local function pumstate()
+  local ui = vim.fn["ddc#custom#get_current"]().ui
+  if ui == "pum" then
+    return ui, vim.fn["pum#visible"]()
+  end
+  if ui == "native" then
+    return ui, vim.fn.pumvisible() ~= 0
+  end
+  return nil, false
+end
 
 local maps = {
   ["<Tab>"] = function()
-    if pum_visible() then
-      vim.fn["pum#map#insert_relative"](1)
-      return
+    local ui, visible = pumstate()
+    if visible then
+      if ui == "pum" then
+        vim.fn["pum#map#insert_relative"](1)
+        return
+      end
+      return "<C-N>"
     end
     local col = fn.col(".")
     if
@@ -40,23 +55,30 @@ local maps = {
     return "<Tab>"
   end,
   ["<S-Tab>"] = function()
-    if pum_visible() then
-      fn["pum#map#insert_relative"](-1)
-    else
-      return "<S-Tab>"
+    local ui, visible = pumstate()
+    if visible then
+      if ui == "pum" then
+        fn["pum#map#insert_relative"](-1)
+        return
+      end
+      return "<C-P>"
     end
+    return "<S-Tab>"
   end,
   ["<C-Y>"] = function()
-    if pum_visible() then
+    local ui, visible = pumstate()
+    if visible and ui == "pum" then
       fn["pum#map#confirm"]()
-    else
-      return "<C-Y>"
+      return
     end
+    return "<C-Y>"
   end,
-  ["<C-X><C-E>"] = function()
-    if pum_visible() then
+  ["<C-X><C-Z>"] = function()
+    local ui, visible = pumstate()
+    if visible and ui == "pum" then
       fn["pum#map#cancel"]()
     end
+    return "<C-X><C-Z>"
   end,
 }
 
