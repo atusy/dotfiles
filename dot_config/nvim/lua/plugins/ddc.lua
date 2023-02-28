@@ -169,7 +169,6 @@ local function setup()
 
   -- cmdline
   set_keymap("n", ":", function()
-    pcall(commandline_pre, vim.api.nvim_get_current_buf())
     local ok, mes = pcall(commandline_pre, vim.api.nvim_get_current_buf())
     if DEBUG and not ok and mes then
       vim.notify(mes)
