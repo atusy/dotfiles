@@ -169,6 +169,13 @@ local function setup()
   end
 
   -- cmdline
+  set_keymap("n", "/", function()
+    local ok, mes = pcall(commandline_pre, vim.api.nvim_get_current_buf(), { "buffer" })
+    if DEBUG and not ok and mes then
+      vim.notify(mes)
+    end
+    return "/"
+  end, { expr = true })
   set_keymap("n", ":", function()
     local ok, mes = pcall(commandline_pre, vim.api.nvim_get_current_buf())
     if DEBUG and not ok and mes then
@@ -196,6 +203,7 @@ return {
       { "Shougo/ddc-source-nvim-lsp" }, -- 入力中の単語を補完
       { "Shougo/ddc-ui-native" },
       { "Shougo/ddc-ui-pum" },
+      { "matsui54/ddc-buffer" },
       { "LumaKernel/ddc-source-file" }, -- Suggest file paths
       { "Shougo/ddc-converter_remove_overlap" }, -- remove duplicates
       { "Shougo/ddc-sorter_rank" }, -- Sort suggestions
