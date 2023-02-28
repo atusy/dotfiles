@@ -82,7 +82,7 @@ local maps = {
   end,
 }
 
-local function commandline_pre()
+local function commandline_pre(bufnr)
   -- register autocmd first so that they are registered regradless of
   -- the later errors
   vim.api.nvim_create_autocmd("User", {
