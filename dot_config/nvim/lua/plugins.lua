@@ -104,10 +104,17 @@ local deps = {
   {
     "numToStr/Comment.nvim",
     dependencies = { "JoosepAlviste/nvim-ts-context-commentstring" },
-    keys = { { "g", mode = "" } },
+    lazy = true,
+    init = function()
+      set_keymap("n", "gcc", function()
+        require("Comment.api").toggle.linewise.current()
+      end)
+      set_keymap("x", "gc", [[<Esc><Cmd>lua require("Comment.api").toggle.linewise(vim.fn.visualmode())<CR>]])
+      set_keymap("x", "gb", [[<Esc><Cmd>lua require("Comment.api").toggle.blockwise(vim.fn.visualmode())<CR>]])
+    end,
     config = function()
       require("Comment").setup({
-        toggler = { line = "gcc", block = "gcb" },
+        mappings = false,
         pre_hook = function()
           require("ts_context_commentstring.integrations.comment_nvim").create_pre_hook()
         end,
