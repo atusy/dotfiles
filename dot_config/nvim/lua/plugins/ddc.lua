@@ -131,7 +131,8 @@ end
 local function setup()
   -- insert
   local patch_global = fn["ddc#custom#patch_global"]
-  patch_global("ui", "native") -- pum does not trigger PumCompleteDone or other events...
+  vim.opt.shortmess:append("c") -- to suppress "Pattern not found" message on ui-native
+  patch_global("ui", "native") -- prefer native on insert mode because popup_preview cannot be closed on PumClose
   patch_global("sources", { "nvim-lsp", "around", "file" })
   patch_global("sourceOptions", {
     around = { mark = "A" },
