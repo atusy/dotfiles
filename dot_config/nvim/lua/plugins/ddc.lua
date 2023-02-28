@@ -115,7 +115,7 @@ local function commandline_pre(bufnr)
 
   -- do initialization after registering autocmd
   for lhs, rhs in pairs(maps) do
-    set_keymap("c", lhs, rhs, { silent = true, expr = true })
+    set_keymap("c", lhs, rhs, { silent = true, expr = false }) -- pum.vim does not allow expr mappings
   end
   if vim.b.prev_buffer_config == nil then
     -- Overwrite sources
