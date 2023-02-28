@@ -1,3 +1,8 @@
+--[[
+NOTE:
+For some reason, ddc-ui-pum does not trigger User events...
+So I prefer ddc-ui-native and use ddc-ui-pum only on cmdline.
+--]]
 local fn = vim.fn
 local utils = require("atusy.utils")
 local set_keymap = utils.set_keymap
@@ -6,6 +11,7 @@ local function commandline_post(maps)
   for lhs, _ in pairs(maps) do
     pcall(vim.keymap.del, "c", lhs)
   end
+  fn["ddc#custom#patch_global"]("ui", "native") -- switch back
   if vim.b.prev_buffer_config ~= nil then
     fn["ddc#custom#set_buffer"](vim.b.prev_buffer_config)
     vim.b.prev_buffer_config = nil
@@ -85,13 +91,14 @@ local function commandline_pre()
   fn["ddc#custom#patch_buffer"]("cmdlineSources", { "cmdline", "cmdline-history", "file", "around" })
 
   -- Enable command line completion
+  fn["ddc#custom#patch_global"]("ui", "pum") -- ensure pum
   fn["ddc#enable_cmdline_completion"]()
 end
 
 local function setup()
   -- insert
   local patch_global = fn["ddc#custom#patch_global"]
-  patch_global("ui", "pum")
+  patch_global("ui", "native") -- pum does not trigger PumCompleteDone or other events...
   patch_global("sources", { "nvim-lsp", "around", "file" })
   patch_global("sourceOptions", {
     around = { mark = "A" },
