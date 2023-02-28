@@ -46,6 +46,7 @@ local function lspconfig()
   config("pyright", {}) -- pip install --user pyright
   config("r_language_server", {}) -- R -e "remotes::install_github('languageserver')"
   config("denols", {})
+  config("gopls", {})
   config("bashls", { filetypes = { "sh", "bash", "zsh" } }) -- npm i -g bash-language-server
   config("terraformls", { filetypes = { "terraform", "tf" } })
   config("lua_ls", {

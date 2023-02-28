@@ -537,6 +537,7 @@ local deps = {
           require("nvim-treesitter.parsers").filetype_to_parsername[ft] = lang
         end
       register("bash", "zsh")
+      register("bash", "sh")
       register("hcl", "tf")
       register("diff", "gin-diff")
 
