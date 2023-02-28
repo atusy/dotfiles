@@ -92,7 +92,7 @@ local maps = {
   end,
 }
 
-local function commandline_pre(bufnr)
+local function commandline_pre(bufnr, sources)
   -- register autocmd first so that they are registered regradless of
   -- the later errors
   local function cb()
@@ -121,7 +121,7 @@ local function commandline_pre(bufnr)
     -- Overwrite sources
     vim.b.prev_buffer_config = fn["ddc#custom#get_buffer"]()
   end
-  fn["ddc#custom#patch_buffer"]("cmdlineSources", { "cmdline", "cmdline-history", "file", "around" })
+  fn["ddc#custom#patch_buffer"]("cmdlineSources", sources or { "cmdline", "cmdline-history", "file", "around" })
 
   -- Enable command line completion
   fn["ddc#custom#patch_global"]("ui", "pum") -- ensure pum
