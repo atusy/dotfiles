@@ -7,11 +7,9 @@ local fn = vim.fn
 local utils = require("atusy.utils")
 local set_keymap = utils.set_keymap
 
-local function commandline_post(maps)
-  for lhs, _ in pairs(maps) do
-    pcall(vim.keymap.del, "c", lhs)
-  end
-  fn["ddc#custom#patch_global"]("ui", "native") -- switch back
+local DEBUG = false
+
+local function commandline_post_buf()
   if vim.b.prev_buffer_config ~= nil then
     fn["ddc#custom#set_buffer"](vim.b.prev_buffer_config)
     vim.b.prev_buffer_config = nil
@@ -20,7 +18,19 @@ local function commandline_post(maps)
   end
 end
 
-local pum_visible = fn["pum#visible"]
+local function commandline_post(bufnr, maps)
+  -- reset buffer
+  if vim.api.nvim_buf_is_valid(bufnr) then
+    vim.api.nvim_buf_call(bufnr, commandline_post_buf)
+  end
+
+  -- reset global
+  for lhs, _ in pairs(maps) do
+    pcall(vim.keymap.del, "c", lhs)
+  end
+  fn["ddc#custom#patch_global"]("ui", "native") -- switch back
+end
+
 ---@return string?, boolean
 local function pumstate()
   local ui = vim.fn["ddc#custom#get_current"]().ui
@@ -85,21 +95,22 @@ local maps = {
 local function commandline_pre(bufnr)
   -- register autocmd first so that they are registered regradless of
   -- the later errors
+  local function cb()
+    local ok, mes = pcall(commandline_post, bufnr, maps)
+    if DEBUG and not ok and mes then
+      vim.notify(mes)
+    end
+  end
+
   vim.api.nvim_create_autocmd("User", {
     pattern = "DDCCmdlineLeave",
-    group = utils.augroup,
     once = true,
-    callback = function()
-      pcall(commandline_post, maps)
-    end,
+    callback = cb,
   })
   vim.api.nvim_create_autocmd("InsertEnter", {
-    group = utils.augroup,
     once = true,
     buffer = 0,
-    callback = function()
-      pcall(commandline_post, maps)
-    end,
+    callback = cb,
   })
 
   -- do initialization after registering autocmd
@@ -158,7 +169,11 @@ local function setup()
 
   -- cmdline
   set_keymap("n", ":", function()
-    pcall(commandline_pre)
+    pcall(commandline_pre, vim.api.nvim_get_current_buf())
+    local ok, mes = pcall(commandline_pre, vim.api.nvim_get_current_buf())
+    if DEBUG and not ok and mes then
+      vim.notify(mes)
+    end
     return ":"
   end, { expr = true })
 
