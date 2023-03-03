@@ -610,22 +610,7 @@ local deps = {
     config = function()
       require("nvim-treesitter.configs").setup({
         textobjects = {
-          select = {
-            enable = false, -- prefer mini.ai
-            lookahead = true,
-            keymaps = {
-              ["af"] = { query = "@function.outer", desc = "around function" },
-              ["if"] = { query = "@function.inner", desc = "inside function" },
-              ["ac"] = { query = "@class.outer", desc = "around class" },
-              ["ic"] = { query = "@class.inner", desc = "inside class" },
-            },
-            selection_modes = {
-              ["@parameter.outer"] = "v", -- charwise
-              ["@function.outer"] = "V", -- linewise
-              ["@class.outer"] = "<c-v>", -- blockwise
-            },
-            include_surrounding_whitespace = false,
-          },
+          -- select = {}, -- done via mini.ai
           move = {
             enable = true,
             set_jumps = true, -- whether to set jumps in the jumplist
