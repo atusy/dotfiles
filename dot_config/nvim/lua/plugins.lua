@@ -378,6 +378,12 @@ local deps = {
       require("highlight-undo").setup({})
     end,
   },
+  {
+    "tversteeg/registers.nvim",
+    config = function()
+      require("registers").setup()
+    end,
+  },
 
   -- statusline
   {
