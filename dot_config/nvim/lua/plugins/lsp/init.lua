@@ -48,6 +48,7 @@ local function lspconfig()
     opts.on_attach = on_attach
     require("lspconfig")[nm].setup(opts)
   end
+  config("clangd", {})
   config("pyright", {}) -- pip install --user pyright
   config("r_language_server", {}) -- R -e "remotes::install_github('languageserver')"
   config("denols", {})
