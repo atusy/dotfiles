@@ -198,6 +198,7 @@ return {
       { "Shougo/pum.vim" },
       { "Shougo/ddc-matcher_head" }, -- 入力中の単語を補完
       { "Shougo/ddc-source-around" },
+      { "Shougo/ddc-source-line" },
       { "Shougo/ddc-source-cmdline" },
       { "Shougo/ddc-source-cmdline-history" },
       { "Shougo/ddc-source-nvim-lsp" }, -- 入力中の単語を補完
