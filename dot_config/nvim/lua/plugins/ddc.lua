@@ -28,7 +28,6 @@ local function commandline_post(bufnr, maps)
   for lhs, _ in pairs(maps) do
     pcall(vim.keymap.del, "c", lhs)
   end
-  fn["ddc#custom#patch_global"]("ui", "native") -- switch back
 end
 
 ---@return string?, boolean
@@ -124,14 +123,13 @@ local function commandline_pre(bufnr, sources)
   fn["ddc#custom#patch_buffer"]("cmdlineSources", sources or { "cmdline", "cmdline-history", "file", "around" })
 
   -- Enable command line completion
-  fn["ddc#custom#patch_global"]("ui", "pum") -- ensure pum
   fn["ddc#enable_cmdline_completion"]()
 end
 
 local function setup()
   -- insert
   local patch_global = fn["ddc#custom#patch_global"]
-  vim.opt.shortmess:append("c") -- to suppress "Pattern not found" message on ui-native
+  patch_global("ui", "pum")
   patch_global("sources", { "nvim-lsp", "around", "file", "buffer" })
   patch_global("sourceOptions", {
     around = { mark = "A" },
