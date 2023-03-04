@@ -667,6 +667,7 @@ local deps = {
   {
     "atusy/tsnode-marker.nvim",
     lazy = true,
+    dir = "~/ghq/github.com/atusy/tsnode-marker.nvim",
     init = function()
       vim.api.nvim_create_autocmd("FileType", {
         group = utils.augroup,
