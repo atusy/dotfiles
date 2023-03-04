@@ -1,6 +1,11 @@
 local utils = require("atusy.utils")
 local set_keymap = utils.set_keymap
 
+local function telescope(cmd)
+  return function()
+    require("telescope.builtin")[cmd]()
+  end
+end
 local on_attach = function(client, bufnr)
   require("lsp_signature").on_attach({ hint_enable = false, handler_opts = { border = "none" } }, bufnr)
   set_keymap("i", "<C-G><C-H>", require("lsp_signature").toggle_float_win, { buffer = bufnr })
@@ -12,11 +17,11 @@ local on_attach = function(client, bufnr)
   -- See `:help vim.lsp.*` for documentation on any of the below functions
   local OPTS = { silent = true, buffer = bufnr }
   set_keymap("n", "gD", vim.lsp.buf.declaration, OPTS, { desc = "lsp declaration" })
-  set_keymap("n", "gd", ":Telescope lsp_definitions<CR>", OPTS, { desc = "lsp definitions" })
+  set_keymap("n", "gd", telescope("lsp_definitions"), OPTS, { desc = "lsp definitions" })
   -- set_keymap('n', 'gd', vim.lsp.buf.definition, OPTS)
-  set_keymap("n", "gi", ":Telescope lsp_implementations<CR>", OPTS, { desc = "lsp implementation" })
+  set_keymap("n", "gi", telescope("lsp_implementations"), OPTS, { desc = "lsp implementation" })
   -- set_keymap('n', 'gi', vim.lsp.buf.implementation, OPTS)
-  set_keymap("n", "gr", ":Telescope lsp_references<CR>", OPTS, { desc = "lsp reference" })
+  set_keymap("n", "gr", telescope("lsp_references"), OPTS, { desc = "lsp reference" })
   -- set_keymap('n', 'gr', vim.lsp.buf.references, OPTS)
   set_keymap("n", "<C-K>", vim.lsp.buf.signature_help, OPTS, { desc = "lsp show signature help" })
   set_keymap("n", "<Leader>wa", vim.lsp.buf.add_workspace_folder, OPTS, { desc = "lsp add workspace folder" })
