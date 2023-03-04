@@ -1,3 +1,6 @@
+--[[
+https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md
+--]]
 local utils = require("atusy.utils")
 local set_keymap = utils.set_keymap
 
