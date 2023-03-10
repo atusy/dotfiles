@@ -314,6 +314,7 @@ if [[ -n $NVIM ]] && [[ -n $NVREPL_LOADED ]]; then
   }
   zle -N my-accept-line
   bindkey '^m' my-accept-line
+  ZSH_AUTOSUGGEST_CLEAR_WIDGETS+=(my-accept-line)
 fi
 
 # direnv
