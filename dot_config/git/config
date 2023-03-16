@@ -59,8 +59,6 @@
 	prune = true
 [credential]
 	helper = cache
-[url "ssh://git@github.com"]
-	insteadOf = https://github.com
 [commit]
 	cleanup = scissors
 	verbose = true
