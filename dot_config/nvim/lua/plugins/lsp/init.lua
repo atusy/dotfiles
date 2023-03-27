@@ -85,6 +85,10 @@ local function lspconfig()
   })
 end
 
+vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, {
+  max_width = 80,
+})
+
 return {
   {
     "neovim/nvim-lspconfig",
