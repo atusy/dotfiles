@@ -26,7 +26,8 @@ function kube_ps1 {
   :
 }
 function kubeprompt() {
-  if [[ "${KUBE_PS1_CONTEXT:-N/A}" != "N/A" ]]; then
+  # show if KUBECONFIG is set or any context is being used
+  if [[ -n "$KUBECONFIG" ]] && [[ "${KUBE_PS1_CONTEXT:-N/A}" != "N/A" ]]; then
     kube_ps1 # will be defined by jonmosco/kube-ps1
   fi
 }
@@ -214,29 +215,24 @@ fi
 if which cd-gitroot 1>/dev/null; then
   alias gd='cd-gitroot'
 fi
-if command -v kubectx > /dev/null; then
-  function _kubectx() {
-    command kubectx && export KUBE_CONTEXT="$( command kubectl config current-context || echo "" )"
-  }
-  alias kubectx='_kubectx'
-fi
 if command -v kubectl > /dev/null; then
+  export KUBECONFIG="${KUBECONFIG:-/dev/null}"
+  function kubeconfig() {
+    local RES
+    local CODE
+    RES="$( find "${1:-${HOME}/.kube}" -mindepth 1 -maxdepth 1 -type f | fzf --preview 'cat {}' )"
+    CODE="$?"
+    if [[ $CODE -ne 0 ]]; then
+      return $CODE
+    fi
+    export KUBECONFIG="$RES"
+  }
   function _kubectl() {
-    if [[ -z "${KUBE_CONTEXT:-}" ]]; then
-      echo "Check the current context and run below running kubectl" 1>&2
-      echo ': export KUBE_CONTEXT="$( command kubectl current-context )"' 1>&2
+    if [[ -z "${KUBECONFIG:-}" ]]; then
+      echo 'explicitly export KUBECONFIG before using kubectl' 1>&2
       return 1
     else
-      local CURRENT_CONTEXT="$( command kubectl config current-context )"
-      if [[ "$KUBE_CONTEXT" != "$CURRENT_CONTEXT" ]]; then
-        echo "Current context has been changed to ${CURRENT_CONTEXT} from ${KUBE_CONTEXT}." 1>&2
-        echo "The change probably comes from other sessions." 1>&2
-        echo "To continue, reconfigure current context and export the value as KUBE_CONTEXT." 1>&2
-        echo ': export KUBE_CONTEXT="{{CONTEXT}}"' 1>&2
-        echo ': command kubectl config set current-context "${KUBE_CONTEXT}"' 1>&2
-      else
-        command kubectl "$@"
-      fi
+      command kubectl "$@"
     fi
   }
   alias kubectl='_kubectl'
