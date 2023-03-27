@@ -69,6 +69,7 @@ zinit light-mode for \
   atusy/gh-fzf
 
 bindkey -e
+bindkey "^[[3~" delete-char # Del is delete-char, not tilde
 
 # History
 HISTFILE=~/.zsh_history
