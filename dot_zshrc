@@ -242,6 +242,24 @@ if command -v kubectl > /dev/null; then
   alias kunset='command kubectl config unset current-context'
 fi
 
+if command -v asdf >/dev/null; then
+  function asdff() {
+    local CHOICE
+    CHOICE="$( asdf list all "$1" | fzf )"
+
+    if [[ "$CHOICE" == "" ]]; then
+      return 1
+    fi
+
+    if asdf list "$1" "$CHOICE" >/dev/null
+    then
+      asdf local "$1" "$CHOICE"
+    else
+      asdf install "$1" "$CHOICE" && asdf local "$1" "$CHOICE"
+    fi
+  }
+fi
+
 if command -v pyenv >/dev/null; then
   function pyset() {
     local PYSET_IMPLICIT_GLOBAL=${PYSET_IMPLICIT_GLOBAL:-true}
