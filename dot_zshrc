@@ -243,19 +243,31 @@ if command -v kubectl > /dev/null; then
 fi
 
 if command -v asdf >/dev/null; then
+  # asdf meets fzf
   function asdff() {
-    local CHOICE
-    CHOICE="$( asdf list all "$1" | fzf )"
+    # determine plugin with fzf if not given
+    local PLUGIN="$1"
+    if [[ -z "$PLUGIN" ]]; then
+      PLUGIN="$( asdf plugin list | fzf )"
+      if [[ -z "$PLUGIN" ]]; then
+        return 1
+      fi
+    fi
 
-    if [[ "$CHOICE" == "" ]]; then
+    # determine version with fzf
+    local VERSION
+    VERSION="$( asdf list all "$PLUGIN" | fzf )"
+    if [[ -z "$VERSION" ]]; then
       return 1
     fi
 
-    if asdf list "$1" "$CHOICE" >/dev/null
+    # apply plugin with the given version
+    # install the specified version if necessary
+    if asdf list "$PLUGIN" "$VERSION" >/dev/null
     then
-      asdf local "$1" "$CHOICE"
+      asdf local "$PLUGIN" "$VERSION"
     else
-      asdf install "$1" "$CHOICE" && asdf local "$1" "$CHOICE"
+      asdf install "$PLUGIN" "$VERSION" && asdf local "$PLUGIN" "$VERSION"
     fi
   }
 fi
