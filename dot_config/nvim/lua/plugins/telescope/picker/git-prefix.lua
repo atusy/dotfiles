@@ -2,7 +2,7 @@ local M = {}
 
 local function search_filelines(fname, pat)
   return vim.tbl_filter(function(x)
-    return vim.fn.match(x, pat) ~= -1
+    return vim.regex(pat):match_str(x) ~= nil -- much faster than vim.fn.match
   end, vim.fn.readfile(fname))
 end
 
