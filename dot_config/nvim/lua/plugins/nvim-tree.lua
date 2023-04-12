@@ -6,7 +6,6 @@ local function node_open_edit()
   local has_chowcho, chowcho = pcall(require, "chowcho")
   local nwins = #vim.api.nvim_tabpage_list_wins(0)
   if (nwins <= 2) or (vim.fn.isdirectory(p) == 1) or not has_chowcho then
-    vim.pretty_print({ nwins = nwins, has_chowcho = has_chowcho, p = p })
     require("nvim-tree.api").node.open.edit()
     return
   end
