@@ -189,8 +189,7 @@ return {
     "EdenEast/nightfox.nvim",
     lazy = false,
     priority = 9999,
-    build = function()
-      -- thanks to cache, this needs run only on build (unless changed)
+    config = function()
       require("nightfox").setup({
         groups = {
           all = {
@@ -200,8 +199,6 @@ return {
         },
         options = { inverse = { visual = true } },
       })
-    end,
-    config = function()
       vim.cmd.colorscheme("duskfox")
     end,
   },
