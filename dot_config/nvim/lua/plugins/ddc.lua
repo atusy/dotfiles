@@ -101,15 +101,23 @@ local function commandline_pre(bufnr)
     end
   end
 
-  vim.api.nvim_create_autocmd("User", {
-    pattern = "DDCCmdlineLeave",
+  local group = vim.api.nvim_create_augroup("myccdcmdlineleave", {})
+  vim.api.nvim_create_autocmd("CmdlineEnter", {
     once = true,
-    callback = cb,
-  })
-  vim.api.nvim_create_autocmd("InsertEnter", {
-    once = true,
-    buffer = 0,
-    callback = cb,
+    callback = function()
+      vim.api.nvim_create_autocmd("User", {
+        group = group,
+        pattern = "DDCCmdlineLeave",
+        once = true,
+        callback = cb,
+      })
+      vim.api.nvim_create_autocmd("InsertEnter", {
+        group = group,
+        once = true,
+        buffer = 0,
+        callback = cb,
+      })
+    end,
   })
 
   -- do initialization after registering autocmd
@@ -187,7 +195,7 @@ local function setup()
     end
     return "/"
   end, { expr = true })
-  set_keymap("n", ":", function()
+  set_keymap({ "n", "x" }, ":", function()
     local ok, mes = pcall(commandline_pre, vim.api.nvim_get_current_buf())
     if DEBUG and not ok and mes then
       vim.notify(mes)
