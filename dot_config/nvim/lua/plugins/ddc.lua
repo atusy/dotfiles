@@ -91,7 +91,7 @@ local maps = {
   end,
 }
 
-local function commandline_pre(bufnr, sources)
+local function commandline_pre(bufnr)
   -- register autocmd first so that they are registered regradless of
   -- the later errors
   local function cb()
@@ -117,10 +117,8 @@ local function commandline_pre(bufnr, sources)
     set_keymap("c", lhs, rhs, { silent = true, expr = false }) -- pum.vim does not allow expr mappings
   end
   if vim.b.prev_buffer_config == nil then
-    -- Overwrite sources
     vim.b.prev_buffer_config = fn["ddc#custom#get_buffer"]()
   end
-  fn["ddc#custom#patch_buffer"]("cmdlineSources", sources or { "cmdline", "cmdline-history", "file", "around" })
 
   -- Enable command line completion
   fn["ddc#enable_cmdline_completion"]()
@@ -129,8 +127,26 @@ end
 local function setup()
   -- insert
   local patch_global = fn["ddc#custom#patch_global"]
-  patch_global("ui", "pum")
-  patch_global("sources", { "nvim-lsp", "around", "file", "buffer" })
+  patch_global({
+    ui = "pum",
+    sources = { "nvim-lsp", "around", "file", "buffer" },
+    autoCompleteEvents = {
+      "InsertEnter",
+      "TextChangedI",
+      "TextChangedP",
+      "CmdlineEnter",
+      "CmdlineChanged",
+    },
+    cmdlineSources = {
+      [":"] = { "cmdline-history", "cmdline", "around" },
+      ["@"] = { "cmdline-history", "input", "file", "around" },
+      [">"] = { "cmdline-history", "input", "file", "around" },
+      ["/"] = { "around", "line" },
+      ["?"] = { "around", "line" },
+      ["-"] = { "around", "line" },
+      ["="] = { "input" },
+    },
+  })
   patch_global("sourceOptions", {
     around = { mark = "A" },
     buffer = { mark = "B" },
@@ -143,6 +159,7 @@ local function setup()
     cmdline = { mark = "CMD" },
     ["cmdline-history"] = { mark = "CMD" },
     ["_"] = {
+      ignoreCase = true,
       matchers = { "matcher_fuzzy" },
       sorters = { "sorter_fuzzy" },
       converters = { "converter_fuzzy" },
@@ -151,10 +168,6 @@ local function setup()
   patch_global("sourceParams", {
     around = { maxSize = 500 },
   })
-  patch_global(
-    "autoCompleteEvents",
-    { "InsertEnter", "TextChangedI", "TextChangedP", "CmdlineEnter", "CmdlineChanged" }
-  )
   fn["ddc#custom#patch_buffer"]("sourceOptions", {
     file = {
       mark = "F",
@@ -168,7 +181,7 @@ local function setup()
 
   -- cmdline
   set_keymap("n", "/", function()
-    local ok, mes = pcall(commandline_pre, vim.api.nvim_get_current_buf(), { "buffer" })
+    local ok, mes = pcall(commandline_pre, vim.api.nvim_get_current_buf())
     if DEBUG and not ok and mes then
       vim.notify(mes)
     end
