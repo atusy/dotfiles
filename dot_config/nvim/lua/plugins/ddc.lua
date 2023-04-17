@@ -47,8 +47,7 @@ local maps = {
     local ui, visible = pumstate()
     if visible then
       if ui == "pum" then
-        vim.fn["pum#map#insert_relative"](1)
-        return
+        return "<Cmd>call pum#map#insert_relative(+1)<CR>"
       end
       return "<C-N>"
     end
@@ -58,8 +57,7 @@ local maps = {
       or (col > 1 and string.match(fn.strpart(fn.getline("."), col - 2), "%s") == nil)
     then
       -- requires feedkeys because mappings are replaced by internal representations
-      vim.api.nvim_feedkeys(fn["ddc#map#manual_complete"](), "n", false)
-      return
+      return fn["ddc#map#manual_complete"]()
     end
     return "<Tab>"
   end,
@@ -67,8 +65,7 @@ local maps = {
     local ui, visible = pumstate()
     if visible then
       if ui == "pum" then
-        fn["pum#map#insert_relative"](-1)
-        return
+        return "<Cmd>call pum#map#insert_relative(-1)<CR>"
       end
       return "<C-P>"
     end
@@ -77,15 +74,14 @@ local maps = {
   ["<C-Y>"] = function()
     local ui, visible = pumstate()
     if visible and ui == "pum" then
-      fn["pum#map#confirm"]()
-      return
+      return "<Cmd>call pum#map#confirm()<CR>"
     end
     return "<C-Y>"
   end,
   ["<C-X><C-Z>"] = function()
     local ui, visible = pumstate()
     if visible and ui == "pum" then
-      fn["pum#map#cancel"]()
+      return "<Cmd>call pum#map#cancel()<CR>"
     end
     return "<C-X><C-Z>"
   end,
@@ -102,27 +98,16 @@ local function commandline_pre(bufnr)
   end
 
   local group = vim.api.nvim_create_augroup("myccdcmdlineleave", {})
-  vim.api.nvim_create_autocmd("CmdlineEnter", {
+  vim.api.nvim_create_autocmd("User", {
+    group = group,
+    pattern = "DDCCmdlineLeave",
     once = true,
-    callback = function()
-      vim.api.nvim_create_autocmd("User", {
-        group = group,
-        pattern = "DDCCmdlineLeave",
-        once = true,
-        callback = cb,
-      })
-      vim.api.nvim_create_autocmd("InsertEnter", {
-        group = group,
-        once = true,
-        buffer = 0,
-        callback = cb,
-      })
-    end,
+    callback = cb,
   })
 
   -- do initialization after registering autocmd
   for lhs, rhs in pairs(maps) do
-    set_keymap("c", lhs, rhs, { silent = true, expr = false }) -- pum.vim does not allow expr mappings
+    set_keymap("c", lhs, rhs, { silent = true, expr = true }) -- pum.vim does not allow expr mappings
   end
   if vim.b.prev_buffer_config == nil then
     vim.b.prev_buffer_config = fn["ddc#custom#get_buffer"]()
