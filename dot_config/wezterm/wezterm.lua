@@ -37,4 +37,5 @@ return {
   adjust_window_size_when_changing_font_size = false,
   exit_behavior = "Close",
   check_for_updates = false,
+  use_ime = true,
 }
