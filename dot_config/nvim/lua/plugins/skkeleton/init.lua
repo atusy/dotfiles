@@ -39,7 +39,7 @@ return {
         group = utils.augroup,
         pattern = "skkeleton-disable-post",
         callback = function()
-          vim.keymap.del("l", ":", { buffer = true })
+          pcall(vim.keymap.del, "l", ":", { buffer = true })
         end,
       })
     end,
