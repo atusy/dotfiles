@@ -80,6 +80,13 @@ local function telescope_config(_)
   require("atusy.mappings-extra")
   local Telescope = require("telescope")
   Telescope.setup({
+    defaults = {
+      mappings = {
+        i = {
+          ["<C-J>"] = false, -- to support skkeleton.vim
+        },
+      },
+    },
     pickers = {
       find_files = {
         hidden = true,
