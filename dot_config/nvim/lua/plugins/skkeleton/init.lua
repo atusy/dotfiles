@@ -29,8 +29,7 @@ return {
             "l",
             ":",
             [[<Cmd>call skkeleton#handle('handleKey', {'key': '"'})<CR>]]
-              .. [[<Cmd>call skkeleton#handle('handleKey', {'key': ';'})<CR>]]
-              .. [[<Cmd>call skkeleton#handle('handleKey', {'key': ' '})<CR>]],
+              .. [[<Cmd>call skkeleton#handle('handleKey', {'key': ';'})<CR>]],
             { buffer = true, remap = true }
           )
         end,
