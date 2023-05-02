@@ -1,5 +1,6 @@
 -- skkeleton
-local set_keymap = require("atusy.utils").set_keymap
+local utils = require("atusy.utils")
+local set_keymap = utils.set_keymap
 
 return {
   {
@@ -14,7 +15,31 @@ return {
         ["'"] = "katakana",
         ["z "] = { "　", "" },
         [";"] = { "っ", "" },
-        [":"] = { ":", "" },
+        [":"] = { "っ", "" },
+      })
+      vim.fn["skkeleton#register_keymap"]("input", '"', "henkanPoint")
+
+      vim.api.nvim_create_autocmd("User", {
+        group = utils.augroup,
+        pattern = "skkeleton-enable-post",
+        callback = function()
+          vim.keymap.set(
+            "l",
+            ":",
+            [[<Cmd>call skkeleton#handle('handleKey', {'key': '"'})<CR>]]
+              .. [[<Cmd>call skkeleton#handle('handleKey', {'key': ';'})<CR>]]
+              .. [[<Cmd>call skkeleton#handle('handleKey', {'key': ' '})<CR>]],
+            { buffer = true, remap = true }
+          )
+        end,
+      })
+
+      vim.api.nvim_create_autocmd("User", {
+        group = utils.augroup,
+        pattern = "skkeleton-disable-post",
+        callback = function()
+          vim.keymap.del("l", ":", { buffer = true })
+        end,
       })
     end,
   },
