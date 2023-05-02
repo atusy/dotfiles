@@ -17,6 +17,8 @@ return {
         [";"] = { "っ", "" },
         [":"] = { "っ", "" },
       })
+
+      -- `:`で`っ`を送りがなとした変換を開始
       vim.fn["skkeleton#register_keymap"]("input", '"', "henkanPoint")
 
       vim.api.nvim_create_autocmd("User", {
