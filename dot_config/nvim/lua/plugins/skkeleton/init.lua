@@ -30,7 +30,7 @@ return {
             ":",
             [[<Cmd>call skkeleton#handle('handleKey', {'key': '"'})<CR>]]
               .. [[<Cmd>call skkeleton#handle('handleKey', {'key': ';'})<CR>]],
-            { buffer = true, remap = true }
+            { buffer = true }
           )
         end,
       })
