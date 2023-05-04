@@ -150,6 +150,9 @@ local deps = {
           vim.v.count - 1,
         })
       end)
+      set_palette("n", "toggle indent blankline", function()
+        require("indent_blankline.commands").toggle(true)
+      end)
     end,
     config = function()
       vim.g.indent_blankline_char_priority = 3 -- should be higher than tsnode-marker's priority
