@@ -104,6 +104,12 @@ local function commandline_pre(bufnr)
     once = true,
     callback = cb,
   })
+  --[[ vim.api.nvim_create_autocmd("InsertEnter", {
+    group = group,
+    once = true,
+    buffer = 0,
+    callback = cb,
+  }) ]]
 
   -- do initialization after registering autocmd
   for lhs, rhs in pairs(maps) do
