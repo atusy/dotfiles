@@ -237,6 +237,10 @@ local deps = {
 
   -- better something
   {
+    "chrisbra/Recover.vim",
+    lazy = false,
+  },
+  {
     "lambdalisue/kensaku.vim",
     dependencies = { "vim-denops/denops.vim", "yuki-yano/denops-lazy.nvim" },
     lazy = true,
