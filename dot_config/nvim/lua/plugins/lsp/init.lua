@@ -32,7 +32,7 @@ local on_attach = function(client, bufnr)
   set_keymap(
     "n",
     "<Leader>wl",
-    "<Cmd>vim.pretty_print(vim.lsp.buf.list_workspace_folders())<CR>",
+    "<Cmd>vim.print(vim.lsp.buf.list_workspace_folders())<CR>",
     OPTS,
     { desc = "lsp show workspace folders" }
   )
