@@ -218,6 +218,18 @@ fi
 if which cd-gitroot 1>/dev/null; then
   alias gd='cd-gitroot'
 fi
+
+# example: printpath | fzf --ansi --preview 'exa --oneline {}'
+function printpath() {
+  if [[ -z "$path" ]]; then
+    echo "$PATH" | grep -oE "[^:]+"
+  else
+    for i in "${path[@]}"; do
+      echo "$i"
+    done
+  fi
+}
+
 if command -v kubectl > /dev/null; then
   export KUBECONFIG="${KUBECONFIG:-/dev/null}"
   function kubeconfig() {
