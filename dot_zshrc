@@ -223,7 +223,12 @@ if command -v kubectl > /dev/null; then
   function kubeconfig() {
     local RES
     local CODE
-    RES="$( find "${1:-${HOME}/.kube}" -mindepth 1 -maxdepth 1 -type f | fzf --preview 'cat {}' )"
+    local LIST
+    LIST="$(
+      find "${1:-${HOME}/.kube}" -mindepth 1 -maxdepth 1 -type f | grep -v '/kubectx$' # exclude kubectx
+      echo "/dev/null" # to disable kubectl
+    )"
+    RES="$( echo "$LIST" | fzf --preview 'cat {}' )"
     CODE="$?"
     if [[ $CODE -ne 0 ]]; then
       return $CODE
