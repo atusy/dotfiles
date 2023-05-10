@@ -261,13 +261,6 @@ local deps = {
     end,
   },
   {
-    "haya14busa/vim-asterisk",
-    keys = {
-      { "*", "<Plug>(asterisk-z*)", mode = "n" },
-      { "*", "<Plug>(asterisk-gz*)", mode = "x" },
-    },
-  },
-  {
     "wsdjeg/vim-fetch", -- :e with linenumber
     lazy = false, -- some how event-based lazy loading won't work as expected
   },
@@ -407,9 +400,6 @@ local deps = {
       set_keymap("", "F", hopper("BEFORE_CURSOR"))
       set_keymap("", "t", hopper("AFTER_CURSOR", -1))
       set_keymap("", "T", hopper("BEFORE_CURSOR", 1))
-      set_keymap("n", "gn", function()
-        require("hop").hint_patterns({}, vim.fn.getreg("/"))
-      end)
     end,
     config = function()
       require("hop").setup()
@@ -436,6 +426,54 @@ local deps = {
     lazy = true,
   },
   -- 'ggandor/flit.nvim',
+  {
+    "atusy/leap-wide.nvim",
+    lazy = true,
+  },
+  {
+    "atusy/leap-search.nvim",
+    lazy = true,
+    dependencies = { "rapan931/lasterisk.nvim" },
+    init = function()
+      local function search(back)
+        local pat = vim.fn.getreg("/")
+        if vim.o.hlsearch then
+          vim.o.hlsearch = false
+          vim.o.hlsearch = true
+        end
+        local leapable = require("leap-search").leap(pat, {}, { backward = back })
+        if not leapable then
+          return vim.fn.search(pat, back and "b" or "")
+        end
+      end
+
+      set_keymap("n", "gn", function()
+        search()
+      end)
+      set_keymap("n", "gN", function()
+        search(true)
+      end)
+
+      local function search_win()
+        local pat = vim.fn.getreg("/")
+        require("leap-search").leap(pat, {}, { target_windows = { vim.api.nvim_get_current_win() } })
+      end
+
+      set_keymap("n", "*", function()
+        require("lasterisk").search()
+        search_win()
+      end)
+      set_keymap("x", "*", function()
+        require("lasterisk").search({ is_whole = false })
+        vim.schedule(search_win)
+        return "<C-\\><C-N>"
+      end, { expr = true })
+      set_keymap("n", "g*", function()
+        require("lasterisk").search({ is_whole = false })
+        search_win()
+      end)
+    end,
+  },
 
   -- treesitter
   {
