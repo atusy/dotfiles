@@ -443,6 +443,22 @@ local deps = {
     lazy = true,
   },
   {
+    "rapan931/lasterisk.nvim",
+    lazy = true,
+    init = function()
+      set_keymap("n", "*", function()
+        require("lasterisk").search()
+      end)
+      set_keymap("x", "*", function()
+        require("lasterisk").search({ is_whole = false })
+        return "<C-\\><C-N>"
+      end, { expr = true })
+      set_keymap("n", "g*", function()
+        require("lasterisk").search({ is_whole = false })
+      end)
+    end,
+  },
+  {
     "atusy/leap-search.nvim",
     lazy = true,
     dependencies = { "rapan931/lasterisk.nvim" },
@@ -483,16 +499,16 @@ local deps = {
         require("leap-search").leap(pat, {}, { target_windows = { vim.api.nvim_get_current_win() } })
       end
 
-      set_keymap("n", "*", function()
+      set_keymap("n", "#", function()
         require("lasterisk").search()
         search_win()
       end)
-      set_keymap("x", "*", function()
+      set_keymap("x", "#", function()
         require("lasterisk").search({ is_whole = false })
         vim.schedule(search_win)
         return "<C-\\><C-N>"
       end, { expr = true })
-      set_keymap("n", "g*", function()
+      set_keymap("n", "g#", function()
         require("lasterisk").search({ is_whole = false })
         search_win()
       end)
