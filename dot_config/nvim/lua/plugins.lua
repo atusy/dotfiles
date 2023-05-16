@@ -483,7 +483,7 @@ local deps = {
         end
         local leapable = require("leap-search").leap(pat, {}, { backward = back })
         if not leapable then
-          return vim.fn.search(pat, back and "b" or "")
+          vim.cmd("normal! " .. (back and "N" or "n"))
         end
       end
 
