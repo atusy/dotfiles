@@ -243,9 +243,9 @@ local deps = {
   {
     "lambdalisue/kensaku.vim",
     dependencies = { "vim-denops/denops.vim", "yuki-yano/denops-lazy.nvim" },
-    lazy = true,
+    lazy = false,
     config = function()
-      require("denops-lazy").load("kensaku.vim")
+      -- require("denops-lazy").load("kensaku.vim")
     end,
   },
   {
@@ -253,7 +253,7 @@ local deps = {
     dependencies = { "lambdalisue/kensaku.vim", "vim-denops/denops.vim", "yuki-yano/denops-lazy.nvim" },
     cmd = "FuzzyMotion",
     init = function()
-      set_keymap({ "n", "x" }, ";", "<Cmd>FuzzyMotion<CR>")
+      -- set_keymap({ "n", "x" }, ";", "<Cmd>FuzzyMotion<CR>")
     end,
     config = function()
       vim.g.fuzzy_motion_matchers = { "fzf", "kensaku" }
@@ -447,6 +447,18 @@ local deps = {
     lazy = true,
     dependencies = { "rapan931/lasterisk.nvim" },
     init = function()
+      vim.keymap.set({ "n", "x", "o" }, ";", function()
+        require("leap-search").leap(nil, {
+          engines = {
+            { name = "string.find", plain = true, ignorecase = true },
+            { name = "kensaku.query" },
+          },
+          experimental = {
+            backspace = true,
+          },
+        }, { target_windows = { vim.api.nvim_get_current_win() } })
+      end)
+
       local function search(back)
         local pat = vim.fn.getreg("/")
         if vim.o.hlsearch then
