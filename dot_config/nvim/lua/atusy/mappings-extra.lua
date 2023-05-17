@@ -28,3 +28,7 @@ set_palette("n", "lsp: list attached clients", function()
   end
   print(table.concat(res, ", "))
 end)
+set_palette("n", "lsp: restart attached clients", function()
+  vim.lsp.stop_client(vim.lsp.get_active_clients({ bufnr = 0 }))
+  vim.cmd("edit!")
+end)
