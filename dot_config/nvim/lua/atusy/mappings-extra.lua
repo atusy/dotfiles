@@ -19,3 +19,12 @@ set_palette(
   [[<Cmd>call setline(1, getline(1, '$'))<CR><Cmd>silent undo<CR><Cmd>redraw!<CR>]],
   { desc = "with full rewrite of the current buffer, which may possibly fixes broken highlights by treesitter" }
 )
+
+--[[ lsp ]]
+set_palette("n", "lsp: list attached clients", function()
+  local res = {}
+  for _, c in pairs(vim.lsp.get_active_clients({ bufnr = 0 })) do
+    table.insert(res, tostring(c.id) .. ":" .. c.config.name)
+  end
+  print(table.concat(res, ", "))
+end)
