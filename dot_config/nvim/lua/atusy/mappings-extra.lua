@@ -5,9 +5,9 @@ set_palette("n", "window: equalize horizontally", "<Cmd>hroizontal wincmd =<CR>"
 set_palette("n", "window: equalize vertically", "<Cmd>vertical wincmd =<CR>")
 
 --[[ clipboard ]]
-set_palette("n", "clipboard: copy cwd", "<Cmd>let @+=getcwd()<CR>")
-set_palette("n", "clipboard: copy abs path of of %", '<Cmd>let @+=expand("%:p")<CR>')
-set_palette("n", "clipboard: copy abs path of dirname of %", '<Cmd>let @+=expand("%:p:h")<CR>')
+set_palette("n", "clipboard: cwd", "<Cmd>let @+=getcwd()<CR>")
+set_palette("n", "clipboard: abs path of %", '<Cmd>let @+=expand("%:p")<CR>')
+set_palette("n", "clipboard: abs path of dirname of %", '<Cmd>let @+=expand("%:p:h")<CR>')
 
 --[[ treesitter ]]
 set_palette("n", "treesitter: inspect tree", function()
