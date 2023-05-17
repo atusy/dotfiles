@@ -73,7 +73,7 @@ local function lspconfig()
     single_file_support = true,
   })
   config("gopls", {})
-  config("bashls", { filetypes = { "sh", "bash", "zsh" } }) -- npm i -g bash-language-server
+  config("bashls", { filetypes = { "sh", "bash", "zsh" } })
   config("terraformls", { filetypes = { "terraform", "tf" } })
   config("lua_ls", {
     settings = {
