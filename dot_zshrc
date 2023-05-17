@@ -273,7 +273,14 @@ if command -v asdf >/dev/null; then
 
     # determine version with fzf
     local VERSION
-    VERSION="$( asdf list all "$PLUGIN" | fzf )"
+    local QUERY="${2:-}"
+    if [[ -z "$QUERY" ]]; then
+      # set default query for specific plugin
+      if [[ "$PLUGIN" == "python" ]]; then
+        QUERY="^3."
+      fi
+    fi
+    VERSION="$( asdf list all "$PLUGIN" | fzf --tac --no-sort -q "$QUERY" )"
     if [[ -z "$VERSION" ]]; then
       return 1
     fi
