@@ -53,7 +53,25 @@ local function lspconfig()
   config("clangd", {})
   config("pyright", {}) -- pip install --user pyright
   config("r_language_server", {}) -- R -e "remotes::install_github('languageserver')"
-  config("denols", {})
+  config("tsserver", {
+    root_dir = function(fname)
+      local node_root = require("lspconfig").util.find_node_modules_ancestor(fname)
+      if node_root then
+        return node_root
+      end
+    end,
+    single_file_support = false, -- do support by denols
+  })
+  config("denols", {
+    root_dir = function(fname)
+      local node_root = require("lspconfig").util.find_node_modules_ancestor(fname)
+      if node_root then
+        return nil
+      end
+      return require("lspconfig").util.find_package_json_ancestor(fname) or vim.fn.getcwd(0, 0)
+    end,
+    single_file_support = true,
+  })
   config("gopls", {})
   config("bashls", { filetypes = { "sh", "bash", "zsh" } }) -- npm i -g bash-language-server
   config("terraformls", { filetypes = { "terraform", "tf" } })
