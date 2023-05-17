@@ -48,7 +48,6 @@ end
 
 local function lspconfig()
   local function config(nm, opts)
-    opts.on_attach = on_attach
     require("lspconfig")[nm].setup(opts)
   end
   config("clangd", {})
@@ -102,6 +101,12 @@ return {
       "j-hui/fidget.nvim",
     },
     config = function()
+      vim.api.nvim_create_autocmd("LspAttach", {
+        group = utils.augroup,
+        callback = function(ctx)
+          on_attach(vim.lsp.get_client_by_id(ctx.data.client_id), ctx.buf)
+        end,
+      })
       vim.api.nvim_create_autocmd("FileType", {
         pattern = "*",
         group = utils.augroup,
