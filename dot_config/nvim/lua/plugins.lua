@@ -499,7 +499,36 @@ local deps = {
         require("leap-search").leap(pat, {}, { target_windows = { vim.api.nvim_get_current_win() } })
       end
 
+      local function search_ref()
+        local ref = require("illuminate.reference").buf_get_references(vim.api.nvim_get_current_buf())
+        if not ref or #ref == 0 then
+          return false
+        end
+
+        local targets = {}
+        for _, v in pairs(ref) do
+          table.insert(targets, {
+            pos = { v[1][1] + 1, v[1][2] + 1 },
+          })
+        end
+
+        require("leap").leap({ targets = targets, target_windows = { vim.api.nvim_get_current_win() } })
+
+        return true
+      end
+
+      set_keymap("n", "<Plug>(leap-prefix)*", search_win)
+      set_keymap("n", "*", [[<Cmd>lua require("lasterisk").search()<CR><Plug>(leap-prefix)]])
+      set_keymap("n", "g*", [[<Cmd>lua require("lasterisk").search({ is_whole = false })<CR><Plug>(leap-prefix)]])
+      set_keymap("x", "*", function()
+        require("lasterisk").search({ is_whole = false })
+        return "<C-\\><C-N>"
+      end, { expr = true })
+
       set_keymap("n", "#", function()
+        if search_ref() then
+          return
+        end
         require("lasterisk").search()
         search_win()
       end)
