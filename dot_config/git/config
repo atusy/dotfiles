@@ -62,3 +62,7 @@
 [commit]
 	cleanup = scissors
 	verbose = true
+[credential "https://github.com"]
+	helper = !/usr/bin/env gh auth git-credential
+[credential "https://gist.github.com"]
+	helper = !/usr/bin/env gh auth git-credential
