@@ -74,12 +74,14 @@ end
 local function setup_gin()
   local has_delta = vim.fn.executable("delta") == 1
   -- disable delta as <CR> won't work
-  --[[if has_delta then
-    vim.g.gin_diff_default_args = { "++processor=delta --diff-highlight --keep-plus-minus-markers" }
-  end]]
+  local processor = nil
+  if has_delta then
+    processor = "delta --diff-highlight --keep-plus-minus-markers"
+    vim.g.gin_diff_default_args = { "++processor=" .. processor }
+  end
   _require("gintonic").setup({
     params = {
-      GinBuffer = { processor = has_delta and "delta" or nil },
+      GinBuffer = { processor = processor },
     },
   })
   api.nvim_create_autocmd("FileType", {
