@@ -118,11 +118,11 @@ local function setup_gin()
   set_keymap("n", "<Plug>(C-G)s", "<Cmd>GinStatus<CR>", { desc = "git status", fav = false })
   set_palette("n", "git amend", ":Gin commit --amend ")
   set_palette("n", "git amend --no-edit", ":Gin commit --amend --no-edit ")
-  set_palette("n", "git rebase -i", ":Gin rebase -i ")
+  set_palette("n", "git rebase -i", ":Gin rebase --rebase-merge -i ")
   set_palette(
     "n",
     "git rebase --onto A B C",
-    ":Gin rebase --onto ",
+    ":Gin rebase --rebase-merge --onto ",
     { desc = "AにBからCまでの差分を乗せる" }
   )
   set_palette("n", "git push", ":Gin push origin HEAD ")
