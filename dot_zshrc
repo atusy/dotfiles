@@ -263,6 +263,11 @@ if command -v asdf >/dev/null; then
   # asdf meets fzf
   function asdff() {
     # determine plugin with fzf if not given
+    local TARGET="local"
+    if [[ "$1" == "global" ]]; then
+      TARGET="global"
+      shift 1
+    fi
     local PLUGIN="$1"
     if [[ -z "$PLUGIN" ]]; then
       PLUGIN="$( asdf plugin list | fzf )"
@@ -289,9 +294,9 @@ if command -v asdf >/dev/null; then
     # install the specified version if necessary
     if asdf list "$PLUGIN" "$VERSION" >/dev/null
     then
-      asdf local "$PLUGIN" "$VERSION"
+      asdf "$TARGET" "$PLUGIN" "$VERSION"
     else
-      asdf install "$PLUGIN" "$VERSION" && asdf local "$PLUGIN" "$VERSION"
+      asdf install "$PLUGIN" "$VERSION" && asdf "$TARGET" "$PLUGIN" "$VERSION"
     fi
   }
 fi
