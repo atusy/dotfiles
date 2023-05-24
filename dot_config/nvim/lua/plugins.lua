@@ -484,6 +484,7 @@ local deps = {
             autojump = false,
             ctrl_v = true,
           },
+          hl_group = "WarningMsg",
         }, { target_windows = { vim.api.nvim_get_current_win() } })
       end)
 
