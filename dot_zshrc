@@ -274,6 +274,12 @@ if command -v asdf >/dev/null; then
       if [[ -z "$PLUGIN" ]]; then
         return 1
       fi
+    elif [[ "$PLUGIN" == "-" ]]; then
+      PLUGIN="$( asdf plugin list all | fzf | awk '{print $1}' )"
+      if [[ -z "$PLUGIN" ]]; then
+        return 1
+      fi
+      asdf plugin add "$PLUGIN"
     fi
 
     # determine version with fzf
