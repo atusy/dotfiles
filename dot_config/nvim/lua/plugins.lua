@@ -455,18 +455,6 @@ local deps = {
   {
     "rapan931/lasterisk.nvim",
     lazy = true,
-    init = function()
-      set_keymap("n", "*", function()
-        require("lasterisk").search()
-      end)
-      set_keymap("x", "*", function()
-        require("lasterisk").search({ is_whole = false })
-        return "<C-\\><C-N>"
-      end, { expr = true })
-      set_keymap("n", "g*", function()
-        require("lasterisk").search({ is_whole = false })
-      end)
-    end,
   },
   {
     "atusy/leap-search.nvim",
