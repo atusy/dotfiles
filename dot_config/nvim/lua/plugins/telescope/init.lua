@@ -95,6 +95,7 @@ local function telescope_config(_)
           end,
         },
       },
+      dynamic_preview_title = true,
     },
     pickers = {
       find_files = {
