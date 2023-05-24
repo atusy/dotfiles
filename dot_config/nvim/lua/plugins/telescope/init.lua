@@ -84,6 +84,7 @@ local function telescope_config(_)
       mappings = {
         i = {
           ["<C-J>"] = false, -- to support skkeleton.vim
+          ["<C-P>"] = require("telescope.actions.layout").toggle_preview,
         },
       },
     },
