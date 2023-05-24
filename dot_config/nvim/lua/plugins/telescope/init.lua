@@ -86,6 +86,14 @@ local function telescope_config(_)
           ["<C-J>"] = false, -- to support skkeleton.vim
           ["<C-P>"] = require("telescope.actions.layout").toggle_preview,
         },
+        n = {
+          K = function(prompt_bufnr)
+            vim.print(require("telescope.actions.state").get_selected_entry())
+          end,
+          ["<C-K>"] = function(prompt_bufnr)
+            vim.print(require("telescope.actions.state").get_current_picker(prompt_bufnr))
+          end,
+        },
       },
     },
     pickers = {
