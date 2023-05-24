@@ -36,7 +36,7 @@ local function gincmd(cmd, params, args)
   return vim.cmd(table.concat({
     cmd,
     ginparams(params, cmd),
-    args or ""
+    args or "",
   }, " "))
 end
 
@@ -91,15 +91,21 @@ local function get_cursor_word(win)
   local line = vim.api.nvim_get_current_line()
   local col = vim.api.nvim_win_get_cursor(win or 0)[2] + 1
   local cur = line:sub(col, col)
-  if cur == " " or cur == "" then return "" end
+  if cur == " " or cur == "" then
+    return ""
+  end
   local left = line:sub(1, col):gsub(".*%W", "")
   local right = line:sub(col + 1, -1):gsub("%W.*", "")
   return left .. right
 end
 
 gintonic.utils.object_getters = {
-  gitrebase = create_object_getter(function() return get_nth_word(nil, 2) end),
-  ['gintonic-graph'] = create_object_getter(function() return get_nth_word(nil, 1) end),
+  gitrebase = create_object_getter(function()
+    return get_nth_word(nil, 2)
+  end),
+  ["gintonic-graph"] = create_object_getter(function()
+    return get_nth_word(nil, 1)
+  end),
   default = function(x, target)
     if x ~= nil then
       return gintonic.utils.is_object(x) and x or nil
@@ -118,13 +124,15 @@ gintonic.utils.object_getters = {
         end
       end
     end
-  end
+  end,
 }
 
 local function _keymap_ginshow(opt)
   -- shortcuts
   local get = gintonic.opt.get_object or gintonic.utils.object_getters.default
-  local show = function(obj, params) return gintonic.tonic.show(obj, params, "--stat --patch") end
+  local show = function(obj, params)
+    return gintonic.tonic.show(obj, params, "--stat --patch")
+  end
   local show_split = function(obj)
     return show(obj, { opener = "belowright split" })
   end
@@ -154,9 +162,9 @@ local function _keymap_ginshow(opt)
 
   -- keymaps
   for _, v in ipairs({
-    { "<Plug>(gintonic-show)", function() show() end },
-    { "<Plug>(gintonic-show-split)", function() show_split() end },
-    { "<Plug>(gintonic-preview)", function() preview() end },
+    { "<Plug>(gintonic-show)", show },
+    { "<Plug>(gintonic-show-split)", show_split },
+    { "<Plug>(gintonic-preview)", preview },
   }) do
     vim.keymap.set("n", v[1], v[2], { buffer = 0 })
   end
@@ -180,13 +188,10 @@ gintonic.tonic.graph = function(params, args)
   local has_alias = vim.fn.system("git config alias.gintonic-graph") ~= ""
   gintonic.gin.ginbuffer(
     params,
-    table.concat(
-      {
-        has_alias and "gintonic-graph" or "log --oneline --graph",
-        args or ""
-      },
-      " "
-    ),
+    table.concat({
+      has_alias and "gintonic-graph" or "log --oneline --graph",
+      args or "",
+    }, " "),
     { filetype = "gintonic-graph" }
   )
 end
@@ -195,8 +200,10 @@ end
 local function create_command()
   for nm, val in pairs({
     GintonicGraph = {
-      function(params) gintonic.tonic.graph(nil, params.args) end
-    }
+      function(params)
+        gintonic.tonic.graph(nil, params.args)
+      end,
+    },
   }) do
     vim.api.nvim_create_user_command(nm, val[1], { force = true, nargs = "*" })
   end
@@ -216,15 +223,23 @@ local function create_autocmd(opt)
   })
   vim.api.nvim_create_autocmd("FileType", {
     pattern = { "gitrebase", "gintonic-graph" },
-    callback = function(_) _keymap_ginshow(opt) end,
+    callback = function(_)
+      _keymap_ginshow(opt)
+    end,
     group = "gintonic-default",
   })
 end
 
 local default = {
-  keymap = function() return true end,
-  params = function() return {} end,
-  get_object = function() return gintonic.utils.object_getters.default end
+  keymap = function()
+    return true
+  end,
+  params = function()
+    return {}
+  end,
+  get_object = function()
+    return gintonic.utils.object_getters.default
+  end,
 }
 
 gintonic.opt = {}
