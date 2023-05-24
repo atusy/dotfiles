@@ -481,6 +481,8 @@ local deps = {
           },
           experimental = {
             backspace = true,
+            autojump = false,
+            ctrl_v = true,
           },
         }, { target_windows = { vim.api.nvim_get_current_win() } })
       end)
