@@ -122,7 +122,16 @@ return {
       vim.api.nvim_create_autocmd("LspAttach", {
         group = utils.augroup,
         callback = function(ctx)
-          on_attach(vim.lsp.get_client_by_id(ctx.data.client_id), ctx.buf)
+          local client = vim.lsp.get_client_by_id(ctx.data.client_id), ctx.buf
+          if client.name == "denols" then
+            if require("lspconfig").util.find_node_modules_ancestor(ctx.file) then
+              vim.schedule(function()
+                vim.lsp.buf_detach_client(ctx.buf, ctx.data.client_id)
+              end)
+              return
+            end
+          end
+          on_attach(client, ctx.buf)
         end,
       })
       vim.api.nvim_create_autocmd("FileType", {
