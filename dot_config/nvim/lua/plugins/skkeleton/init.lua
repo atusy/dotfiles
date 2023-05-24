@@ -5,6 +5,9 @@ local set_keymap = utils.set_keymap
 return {
   {
     "vim-skk/skkeleton",
+    dependencies = {
+      { "vim-denops/denops.vim" },
+    },
     config = function()
       set_keymap({ "i", "c" }, "<C-J>", "<Plug>(skkeleton-enable)")
       local register_kanatable = vim.fn["skkeleton#register_kanatable"]
