@@ -471,7 +471,7 @@ local deps = {
   {
     "atusy/leap-search.nvim",
     lazy = true,
-    dependencies = { "rapan931/lasterisk.nvim" },
+    dependencies = { "rapan931/lasterisk.nvim", "RRethy/vim-illuminate" },
     init = function()
       vim.keymap.set({ "n", "x", "o" }, ";", function()
         require("leap-search").leap(nil, {
