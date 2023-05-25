@@ -22,6 +22,11 @@ fi
 
 export PIPENV_VENV_IN_PROJECT=true
 
+# Rust
+if [[ -d "$HOME/.cargo" ]]; then
+  export PATH="$HOME/.cargo/bin:$PATH"
+fi
+
 # linuxbrew
 if [[ -d "$HOME/.linuxbrew" ]]; then
   eval "$($HOME/.linuxbrew/bin/brew shellenv)"
