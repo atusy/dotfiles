@@ -46,20 +46,23 @@ return {
         end,
       })
 
-      local dictdir = vim.fs.joinpath(vim.fs.dirname(p.dir), "dict")
+      local lazyroot = require("lazy.core.config").options.root
+      local function dict(nm)
+        vim.fs.joinpath(lazyroot, "dict", "SKK-JISYO." .. nm)
+      end
       vim.fn["skkeleton#config"]({
         globalDictionaries = {
-          vim.fs.joinpath(dictdir, "SKK-JISYO.L"),
-          vim.fs.joinpath(dictdir, "SKK-JISYO.assoc"),
-          vim.fs.joinpath(dictdir, "SKK-JISYO.emoji"),
-          vim.fs.joinpath(dictdir, "SKK-JISYO.edict"),
-          vim.fs.joinpath(dictdir, "SKK-JISYO.edict2"),
-          vim.fs.joinpath(dictdir, "SKK-JISYO.fullname"),
-          vim.fs.joinpath(dictdir, "SKK-JISYO.geo"),
-          vim.fs.joinpath(dictdir, "SKK-JISYO.hukugougo"),
-          vim.fs.joinpath(dictdir, "SKK-JISYO.mazegaki"),
-          vim.fs.joinpath(dictdir, "SKK-JISYO.propernoun"),
-          vim.fs.joinpath(dictdir, "SKK-JISYO.station"),
+          dict("L"),
+          dict("assoc"),
+          dict("emoji"),
+          dict("edict"),
+          dict("edict2"),
+          dict("fullname"),
+          dict("geo"),
+          dict("hukugougo"),
+          dict("mazegaki"),
+          dict("propernoun"),
+          dict("station"),
         },
       })
     end,
