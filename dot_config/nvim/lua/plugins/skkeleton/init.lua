@@ -8,7 +8,7 @@ return {
     dependencies = {
       { "vim-denops/denops.vim" },
     },
-    config = function()
+    config = function(p)
       set_keymap({ "i", "c" }, "<C-J>", "<Plug>(skkeleton-enable)")
       local register_kanatable = vim.fn["skkeleton#register_kanatable"]
       register_kanatable("rom", require("plugins.skkeleton.azik"))
@@ -45,6 +45,27 @@ return {
           pcall(vim.keymap.del, "l", ":", { buffer = true })
         end,
       })
+
+      local dictdir = vim.fs.joinpath(vim.fs.dirname(p.dir), "dict")
+      vim.fn["skkeleton#config"]({
+        globalDictionaries = {
+          vim.fs.joinpath(dictdir, "SKK-JISYO.L"),
+          vim.fs.joinpath(dictdir, "SKK-JISYO.assoc"),
+          vim.fs.joinpath(dictdir, "SKK-JISYO.emoji"),
+          vim.fs.joinpath(dictdir, "SKK-JISYO.edict"),
+          vim.fs.joinpath(dictdir, "SKK-JISYO.edict2"),
+          vim.fs.joinpath(dictdir, "SKK-JISYO.fullname"),
+          vim.fs.joinpath(dictdir, "SKK-JISYO.geo"),
+          vim.fs.joinpath(dictdir, "SKK-JISYO.hukugougo"),
+          vim.fs.joinpath(dictdir, "SKK-JISYO.mazegaki"),
+          vim.fs.joinpath(dictdir, "SKK-JISYO.propernoun"),
+          vim.fs.joinpath(dictdir, "SKK-JISYO.station"),
+        },
+      })
     end,
+  },
+  {
+    "skk-dev/dict",
+    cond = false,
   },
 }
