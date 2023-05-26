@@ -122,7 +122,7 @@ return {
       vim.api.nvim_create_autocmd("LspAttach", {
         group = utils.augroup,
         callback = function(ctx)
-          local client = vim.lsp.get_client_by_id(ctx.data.client_id), ctx.buf
+          local client = vim.lsp.get_client_by_id(ctx.data.client_id)
           if client.name == "denols" then
             if require("lspconfig").util.find_node_modules_ancestor(ctx.file) then
               vim.schedule(function()
