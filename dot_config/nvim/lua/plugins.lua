@@ -475,18 +475,14 @@ local deps = {
           prefix_label = false,
           on_targets = function()
             local currow = vim.fn.getcurpos()[2]
-            local n = 0
-            local idx = 0
             local targets = require("leap").state.args.targets
-            for i, t in pairs(targets) do
+            local new_targets = {}
+            for _, t in pairs(targets) do
               if t.pos[1] == currow then
-                n = n + 1
-                idx = i
+                table.insert(new_targets, t)
               end
             end
-            if n == 1 then
-              require("leap").state.args.targets = { targets[idx] }
-            end
+            require("leap").state.args.targets = new_targets
           end,
         }, {
           backward = backward,
