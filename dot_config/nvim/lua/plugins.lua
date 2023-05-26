@@ -395,7 +395,11 @@ local deps = {
   {
     "phaazon/hop.nvim",
     lazy = true,
-    init = function()
+    cond = false,
+    init = function(p)
+      if p.cond == false then
+        return
+      end
       local function hopper(direction, offset)
         return function()
           require("hop").hint_char1({
@@ -461,6 +465,47 @@ local deps = {
     lazy = true,
     dependencies = { "rapan931/lasterisk.nvim", "RRethy/vim-illuminate" },
     init = function()
+      local function motion(offset, backward)
+        local pat = vim.fn.getcharstr()
+        require("leap-search").leap(pat, {
+          engines = {
+            { name = "string.find", ignorecase = false, plain = true },
+            { name = "kensaku.query" },
+          },
+          prefix_label = false,
+          on_targets = function()
+            local currow = vim.fn.getcurpos()[2]
+            local n = 0
+            local idx = 0
+            local targets = require("leap").state.args.targets
+            for i, t in pairs(targets) do
+              if t.pos[1] == currow then
+                n = n + 1
+                idx = i
+              end
+            end
+            if n == 1 then
+              require("leap").state.args.targets = { targets[idx] }
+            end
+          end,
+        }, {
+          backward = backward,
+        })
+      end
+
+      set_keymap({ "n", "x", "o" }, "f", function()
+        motion(0, false)
+      end)
+      set_keymap({ "n", "x", "o" }, "F", function()
+        motion(0, true)
+      end)
+      set_keymap({ "n", "x", "o" }, "t", function()
+        motion(-1, false)
+      end)
+      set_keymap({ "n", "x", "o" }, "T", function()
+        motion(1, true)
+      end)
+
       vim.keymap.set({ "n", "x", "o" }, ";", function()
         require("leap-search").leap(nil, {
           engines = {
