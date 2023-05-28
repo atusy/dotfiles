@@ -469,21 +469,10 @@ local deps = {
         local pat = vim.fn.getcharstr()
         require("leap-search").leap(pat, {
           engines = {
-            { name = "string.find", ignorecase = false, plain = true },
-            { name = "kensaku.query" },
+            { name = "string.find", ignorecase = false, plain = true, nlines = 1 },
+            { name = "kensaku.query", nlines = 1 },
           },
           prefix_label = false,
-          on_targets = function()
-            local currow = vim.fn.getcurpos()[2]
-            local targets = require("leap").state.args.targets
-            local new_targets = {}
-            for _, t in pairs(targets) do
-              if t.pos[1] == currow then
-                table.insert(new_targets, t)
-              end
-            end
-            require("leap").state.args.targets = new_targets
-          end,
         }, {
           backward = backward,
         })
