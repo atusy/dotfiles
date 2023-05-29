@@ -130,6 +130,10 @@ local deps = {
     "tpope/vim-characterize",
     keys = { "ga" },
   },
+  {
+    "thinca/vim-partedit",
+    cmd = "Partedit",
+  },
 
   -- ui
   {
