@@ -231,7 +231,7 @@ function printpath() {
 }
 
 if command -v kubectl > /dev/null; then
-  export KUBECONFIG="${KUBECONFIG:-/dev/null}"
+  # export KUBECONFIG="${KUBECONFIG:-/dev/null}"
   function kubeconfig() {
     local RES
     local CODE
@@ -247,15 +247,15 @@ if command -v kubectl > /dev/null; then
     fi
     export KUBECONFIG="$RES"
   }
-  function _kubectl() {
-    if [[ -z "${KUBECONFIG:-}" ]]; then
-      echo 'explicitly export KUBECONFIG before using kubectl' 1>&2
-      return 1
-    else
-      command kubectl "$@"
-    fi
-  }
-  alias kubectl='_kubectl'
+  # function _kubectl() {
+  #   if [[ -z "${KUBECONFIG:-}" ]]; then
+  #     echo 'explicitly export KUBECONFIG before using kubectl' 1>&2
+  #     return 1
+  #   else
+  #     command kubectl "$@"
+  #   fi
+  # }
+  # alias kubectl='_kubectl'
   alias kunset='command kubectl config unset current-context'
 fi
 
