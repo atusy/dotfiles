@@ -54,7 +54,7 @@ local function telescope_init()
   set_keymap("n", leader .. ".", telescope("resume"))
   set_keymap("n", leader .. "/", telescope("current_buffer_fuzzy_find"))
   set_keymap("n", leader .. "?", telescope("man_pages"))
-  set_keymap("n", "q;", telescope("command_history"))
+  set_keymap("n", "q:", telescope("command_history"))
   -- q: is occupied by cmdbuf.nvim
   set_keymap("n", "q/", telescope("search_history"))
   set_keymap("n", "<Plug>(C-G)<C-S>", telescope("git_status"))
@@ -105,6 +105,12 @@ local function telescope_config(_)
       live_grep = {
         additional_args = function(opts)
           return { "--hidden" }
+        end,
+      },
+      command_history = {
+        attach_mappings = function(_, map)
+          map({ "i", "n" }, "<CR>", require("telescope.actions").edit_command_line)
+          return true
         end,
       },
     },

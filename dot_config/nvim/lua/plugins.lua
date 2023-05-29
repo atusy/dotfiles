@@ -917,26 +917,24 @@ local deps = {
   -- cmdwin
   {
     "notomo/cmdbuf.nvim",
-    -- dependencies = { 'nvim-telescope/telescope.nvim' }, -- not required on config
-    config = function()
-      set_keymap("n", "q:", function()
-        require("cmdbuf").split_open(vim.o.cmdwinheight)
-        local ok, telescope = pcall(require, "telescope.builtin")
-        if ok then
-          vim.schedule(function()
-            vim.cmd("e!")
-            telescope.current_buffer_fuzzy_find()
-          end)
-        end
+    lazy = true,
+    init = function()
+      vim.keymap.set("c", "<C-F>", function()
+        require("cmdbuf").split_open(vim.o.cmdwinheight, { line = vim.fn.getcmdline(), column = vim.fn.getcmdpos() })
+        vim.api.nvim_feedkeys(vim.keycode("<C-C>"), "n", true)
       end)
-      set_keymap("c", "<C-F>", function()
-        local opt = { line = vim.fn.getcmdline(), column = vim.fn.getcmdpos() }
-        local open = require("cmdbuf").split_open
-        vim.schedule(function()
-          open(vim.o.cmdwinheight, opt)
-        end)
-        return [[<C-\><C-N>]]
-      end, { expr = true })
+    end,
+    config = function()
+      vim.api.nvim_create_autocmd({ "User" }, {
+        group = utils.augroup,
+        pattern = { "CmdbufNew" },
+        callback = function(args)
+          vim.bo.bufhidden = "wipe"
+          local max_count = 10
+          local lines = vim.api.nvim_buf_get_lines(args.buf, 0, -1, false)
+          vim.api.nvim_buf_set_lines(args.buf, 0, -1, false, vim.list_slice(lines, #lines - max_count))
+        end,
+      })
     end,
   },
 
