@@ -470,7 +470,17 @@ local deps = {
         require("leap-search").leap(pat, {
           engines = {
             { name = "string.find", ignorecase = false, plain = true, nlines = 1 },
-            { name = "kensaku.query", nlines = 1 },
+            {
+              -- wrap kensaku.query to avoid ignorecase matches on alphabetic letters
+              fn = function(s, ...)
+                local query = require("leap-search.engine.kensaku.query").search(s, ...)
+                if string.match(s, "^[A-Z]$") then
+                  query = string.gsub(query, [[^(\m\%%%(%[)]] .. s .. string.lower(s), "%1")
+                end
+                return query
+              end,
+              nlines = 1,
+            },
           },
           prefix_label = false,
         }, {
