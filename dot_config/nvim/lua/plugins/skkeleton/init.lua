@@ -28,6 +28,8 @@ return {
         group = utils.augroup,
         pattern = "skkeleton-enable-post",
         callback = function()
+          vim.keymap.del("l", "<Up>", { buffer = true })
+          vim.keymap.del("l", "<Down>", { buffer = true })
           vim.keymap.set(
             "l",
             ":",
