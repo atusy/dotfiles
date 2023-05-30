@@ -55,7 +55,7 @@ return {
 
       local lazyroot = require("lazy.core.config").options.root
       local function dict(nm)
-        vim.fs.joinpath(lazyroot, "dict", "SKK-JISYO." .. nm)
+        return vim.fs.joinpath(lazyroot, "dict", "SKK-JISYO." .. nm)
       end
       vim.fn["skkeleton#config"]({
         globalDictionaries = {
