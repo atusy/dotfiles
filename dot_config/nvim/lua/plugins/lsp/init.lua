@@ -53,25 +53,8 @@ local function lspconfig()
   config("clangd", {})
   config("pyright", {}) -- pip install --user pyright
   config("r_language_server", {}) -- R -e "remotes::install_github('languageserver')"
-  config("tsserver", {
-    root_dir = function(fname)
-      local node_root = require("lspconfig").util.find_node_modules_ancestor(fname)
-      if node_root then
-        return node_root
-      end
-    end,
-    single_file_support = false, -- do support by denols
-  })
-  config("denols", {
-    root_dir = function(fname)
-      local node_root = require("lspconfig").util.find_node_modules_ancestor(fname)
-      if node_root then
-        return nil
-      end
-      return require("lspconfig").util.find_package_json_ancestor(fname) or vim.fn.getcwd(0, 0)
-    end,
-    single_file_support = true,
-  })
+  config("tsserver", {})
+  config("denols", {})
   config("gopls", {})
   config("bashls", { filetypes = { "sh", "bash", "zsh" } })
   config("terraformls", { filetypes = { "terraform", "tf" } })
@@ -123,13 +106,18 @@ return {
         group = utils.augroup,
         callback = function(ctx)
           local client = vim.lsp.get_client_by_id(ctx.data.client_id)
-          if client.name == "denols" then
-            if require("lspconfig").util.find_node_modules_ancestor(ctx.file) then
-              vim.schedule(function()
-                vim.lsp.buf_detach_client(ctx.buf, ctx.data.client_id)
-              end)
-              return
-            end
+          local is_node = require("lspconfig").util.find_node_modules_ancestor(ctx.file)
+          if is_node and client.name == "denols" then
+            vim.schedule(function()
+              vim.lsp.buf_detach_client(ctx.buf, ctx.data.client_id)
+            end)
+            return
+          end
+          if not is_node and client.name == "tsserver" then
+            vim.schedule(function()
+              vim.lsp.buf_detach_client(ctx.buf, ctx.data.client_id)
+            end)
+            return
           end
           on_attach(client, ctx.buf)
         end,
