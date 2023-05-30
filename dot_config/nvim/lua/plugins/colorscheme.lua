@@ -8,14 +8,27 @@ local INACTIVE_COLORSCHEME = "nordfox"
 local OUTSIDE_COLORSCHEME = "carbonfox"
 local TAB_COLORSCHEME = "terafox" -- for the active buffer in the other tabpages
 
+local function in_cwd(path)
+  return path == "" or vim.startswith(path, fn.getcwd() .. "/")
+end
+
 local function likely_cwd(buf)
   buf = buf or api.nvim_win_get_buf(0)
-  if api.nvim_buf_get_option(buf, "buftype") ~= "" then
+  if api.nvim_get_option_value("buftype", { buf = buf }) ~= "" then
     return true
   end
 
+  local ft = vim.api.nvim_get_option_value("filetype", {
+    buf = buf,
+  })
+  if ft == "oil" then
+    -- current implementation only works on entering oil
+    -- not on directory navigations
+    return in_cwd(require("oil").get_current_dir())
+  end
+
   local file = api.nvim_buf_get_name(buf)
-  return file == "" or vim.startswith(file, fn.getcwd() .. "/")
+  return in_cwd(file)
 end
 
 local function set_theme(win, colorscheme)
