@@ -27,7 +27,7 @@ return {
       vim.api.nvim_create_autocmd("User", {
         group = utils.augroup,
         pattern = "skkeleton-enable-post",
-        callback = function()
+        callback = function(ctx)
           vim.keymap.del("l", "<Up>", { buffer = true })
           vim.keymap.del("l", "<Down>", { buffer = true })
           vim.keymap.set(
@@ -37,6 +37,11 @@ return {
               .. [[<Cmd>call skkeleton#handle('handleKey', {'key': ';'})<CR>]],
             { buffer = true }
           )
+
+          local ft = vim.api.nvim_get_option_value("filetype", { buf = ctx.buf })
+          if ft == "TelescopePrompt" then
+            vim.keymap.del("l", "<CR>", { buffer = true })
+          end
         end,
       })
 
