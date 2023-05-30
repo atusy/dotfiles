@@ -21,7 +21,7 @@ return {
     { family = "UDEV Gothic NF" },
     { family = "Noto Color Emoji" },
   }),
-  font_size = 16,
+  font_size = 11,
   keys = {
     { key = "e", mods = "ALT|CTRL", action = wezterm.action({ EmitEvent = "trigger-nvim-with-scrollback" }) },
     { key = "v", mods = "ALT|CTRL", action = wezterm.action({ SplitHorizontal = { domain = "CurrentPaneDomain" } }) },
