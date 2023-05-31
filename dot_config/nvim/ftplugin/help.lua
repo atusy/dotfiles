@@ -11,7 +11,9 @@ local function wincmd_L()
     wins
   )
   if #wins_help == 1 then
-    vim.api.nvim_win_call(wins_help[1], function() vim.cmd('wincmd L') end)
+    vim.api.nvim_win_call(wins_help[1], function()
+      vim.cmd("wincmd L")
+    end)
   end
 end
 
@@ -21,5 +23,5 @@ wincmd_L()
 -- Run on BufWinEnter
 vim.api.nvim_create_autocmd("BufWinEnter", {
   buffer = vim.api.nvim_get_current_buf(),
-  callback = wincmd_L
+  callback = wincmd_L,
 })
