@@ -521,6 +521,7 @@ local deps = {
           prefix_label = false,
         }, {
           backward = backward,
+          offset = offset,
         })
       end
 
