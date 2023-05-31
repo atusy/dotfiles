@@ -47,7 +47,7 @@ gintonic.gin.ginbuffer = function(params, args, bo)
     callback = function()
       vim.b.gintonic_filetype = bo.filetype
       for k, v in pairs(bo) do
-        vim.api.nvim_buf_set_option(0, k, v)
+        vim.api.nvim_set_option_value(k, v, { buf = 0 })
       end
     end,
     once = true,
@@ -216,7 +216,7 @@ local function create_autocmd(opt)
     pattern = { "gin" },
     callback = function(_)
       if vim.b.gintonic_filetype then
-        vim.api.nvim_buf_set_option(0, "filetype", vim.b.gintonic_filetype)
+        vim.api.nvim_set_option_value("filetype", vim.b.gintonic_filetype, { buf = 0 })
       end
     end,
     group = "gintonic-default",
