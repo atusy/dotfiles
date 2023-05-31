@@ -29,12 +29,6 @@ local function node_open_edit()
   })
 end
 
-local function list_marked_paths()
-  return vim.tbl_map(function(x)
-    return x.absolute_path
-  end, require("nvim-tree.api").marks.list())
-end
-
 return {
   "nvim-tree/nvim-tree.lua",
   lazy = true,
