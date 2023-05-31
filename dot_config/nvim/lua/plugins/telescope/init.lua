@@ -87,7 +87,7 @@ local function telescope_config(_)
           ["<C-P>"] = require("telescope.actions.layout").toggle_preview,
         },
         n = {
-          K = function(prompt_bufnr)
+          K = function(_)
             vim.print(require("telescope.actions.state").get_selected_entry())
           end,
           ["<C-K>"] = function(prompt_bufnr)
@@ -103,7 +103,7 @@ local function telescope_config(_)
         search_dirs = { ".", "__ignored" },
       },
       live_grep = {
-        additional_args = function(opts)
+        additional_args = function(_)
           return { "--hidden" }
         end,
       },
