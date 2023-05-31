@@ -83,12 +83,12 @@ local deps = {
       vim.g["fern#renderer#nerdfont#indent_markers"] = 1
       vim.g["fern#window_selector_use_popup"] = 1
       local function fern_chowcho()
-        local node = vim.api.nvim_exec(
+        local node = vim.api.nvim_exec2(
           [[
           let helper = fern#helper#new()
           echo helper.sync.get_selected_nodes()[0]["_path"]
         ]],
-          true
+          { output = true }
         )
         require("chowcho").run(function(n)
           vim.api.nvim_set_current_win(n)
