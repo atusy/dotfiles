@@ -22,7 +22,7 @@ local keymaps_default_text = {
 }
 
 function M.keymaps()
-  local ft = vim.api.nvim_buf_get_option(0, "filetype")
+  local ft = vim.api.nvim_get_option_value("filetype", { buf = 0 })
   require("telescope.builtin").keymaps({
     modes = { vim.api.nvim_get_mode().mode },
     default_text = vim.b.telescope_keymaps_default_text or keymaps_default_text[ft] or utils.star,

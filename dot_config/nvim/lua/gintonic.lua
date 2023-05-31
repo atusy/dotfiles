@@ -110,7 +110,7 @@ gintonic.utils.object_getters = {
     if x ~= nil then
       return gintonic.utils.is_object(x) and x or nil
     end
-    local get = gintonic.utils.object_getters[vim.api.nvim_buf_get_option(0, "filetype")]
+    local get = gintonic.utils.object_getters[vim.api.nvim_get_option_value("filetype", { buf = 0 })]
     if get ~= nil then
       return get()
     end
@@ -118,7 +118,7 @@ gintonic.utils.object_getters = {
       return create_object_getter(get_cursor_word)()
     end
     if target == "line" then
-      for w in vim.api.nvim_get_current_line("%w+") do
+      for w in vim.api.nvim_get_current_line() do
         if gintonic.utils.is_object(w) then
           return w
         end

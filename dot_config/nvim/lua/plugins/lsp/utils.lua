@@ -1,7 +1,7 @@
 local M = {}
 
 function M.attach_lsp(filetype)
-  filetype = filetype or vim.api.nvim_buf_get_option(0, "filetype")
+  filetype = filetype or vim.api.nvim_get_option_value("filetype", { buf = 0 })
   local clients = {}
   for _, cl in ipairs(vim.lsp.get_active_clients()) do
     if cl.config and cl.config.filetypes then

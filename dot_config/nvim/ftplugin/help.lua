@@ -3,13 +3,10 @@ vim.wo.conceallevel = 0
 
 local function wincmd_L()
   local wins = vim.api.nvim_tabpage_list_wins(0)
-  local wins_help = vim.tbl_filter(
-    function(w)
-      local ft = vim.api.nvim_buf_get_option(vim.api.nvim_win_get_buf(w), 'filetype')
-      return ft == 'help'
-    end,
-    wins
-  )
+  local wins_help = vim.tbl_filter(function(w)
+    local ft = vim.api.nvim_get_option_value("filetype", { buf = vim.api.nvim_win_get_buf(w) })
+    return ft == "help"
+  end, wins)
   if #wins_help == 1 then
     vim.api.nvim_win_call(wins_help[1], function()
       vim.cmd("wincmd L")

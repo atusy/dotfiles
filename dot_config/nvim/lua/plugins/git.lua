@@ -103,7 +103,7 @@ local function setup_gin()
   set_keymap("n", "<Plug>(C-G)<C-P>", "<Cmd>GinPatch ++opener=tabnew %<CR>")
   local graph = function(opts)
     opts = opts and (" " .. opts) or ""
-    if vim.api.nvim_buf_get_option(0, "filetype") ~= "gintonic-graph" then
+    if vim.api.nvim_get_option_value("filetype", { buf = 0 }) ~= "gintonic-graph" then
       opts = [[ ++opener=rightbelow\ vsplit --first-parent]] .. opts
     end
     vim.cmd("GintonicGraph" .. opts)
