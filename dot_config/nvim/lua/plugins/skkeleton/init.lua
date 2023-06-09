@@ -54,8 +54,8 @@ return {
       })
 
       local lazyroot = require("lazy.core.config").options.root
-      local function dict(nm)
-        return vim.fs.joinpath(lazyroot, "dict", "SKK-JISYO." .. nm)
+      local function dict(nm, repo)
+        return vim.fs.joinpath(lazyroot, repo or "dict", "SKK-JISYO." .. nm)
       end
       vim.fn["skkeleton#config"]({
         globalDictionaries = {
@@ -70,12 +70,17 @@ return {
           dict("mazegaki"),
           dict("propernoun"),
           dict("station"),
+          dict("jawiki", "jawiki-kana-kanji-dict"),
         },
       })
     end,
   },
   {
     "skk-dev/dict",
+    cond = false,
+  },
+  {
+    "tokuhirom/jawiki-kana-kanji-dict",
     cond = false,
   },
 }
