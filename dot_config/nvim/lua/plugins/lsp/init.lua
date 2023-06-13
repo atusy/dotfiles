@@ -9,7 +9,7 @@ local function telescope(cmd)
     require("telescope.builtin")[cmd]()
   end
 end
-local on_attach = function(client, bufnr)
+local function on_attach(client, bufnr)
   require("lsp_signature").on_attach({ hint_enable = false, handler_opts = { border = "none" } }, bufnr)
   set_keymap("i", "<C-G><C-H>", require("lsp_signature").toggle_float_win, { buffer = bufnr })
 
