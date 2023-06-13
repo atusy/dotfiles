@@ -53,8 +53,14 @@ local function lspconfig()
   config("clangd", {})
   config("pyright", {}) -- pip install --user pyright
   config("r_language_server", {}) -- R -e "remotes::install_github('languageserver')"
-  config("tsserver", {})
-  config("denols", {})
+  local is_node = require("lspconfig").util.find_node_modules_ancestor(".")
+  if is_node then
+    config("tsserver", {})
+  else
+    config("denols", {
+      single_file_support = true,
+    })
+  end
   config("gopls", {})
   config("bashls", { filetypes = { "sh", "bash", "zsh" } })
   config("terraformls", { filetypes = { "terraform", "tf" } })
@@ -106,19 +112,6 @@ return {
         group = utils.augroup,
         callback = function(ctx)
           local client = vim.lsp.get_client_by_id(ctx.data.client_id)
-          local is_node = require("lspconfig").util.find_node_modules_ancestor(ctx.file)
-          if is_node and client.name == "denols" then
-            vim.schedule(function()
-              vim.lsp.buf_detach_client(ctx.buf, ctx.data.client_id)
-            end)
-            return
-          end
-          if not is_node and client.name == "tsserver" then
-            vim.schedule(function()
-              vim.lsp.buf_detach_client(ctx.buf, ctx.data.client_id)
-            end)
-            return
-          end
           on_attach(client, ctx.buf)
         end,
       })
