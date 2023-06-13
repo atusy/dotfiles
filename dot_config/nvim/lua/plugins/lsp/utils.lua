@@ -1,14 +1,17 @@
 local M = {}
 
-function M.attach_lsp(filetype)
-  filetype = filetype or vim.api.nvim_get_option_value("filetype", { buf = 0 })
+function M.attach_lsp(bufnr, filetype)
+  bufnr = bufnr or vim.api.nvim_get_current_buf()
+  filetype = filetype or vim.api.nvim_get_option_value("filetype", { buf = bufnr })
   local clients = {}
   for _, cl in ipairs(vim.lsp.get_active_clients()) do
-    if cl.config and cl.config.filetypes then
-      for _, ft in ipairs(cl.config.filetypes) do
-        if ft == filetype then
-          vim.lsp.buf_attach_client(0, cl.id)
-          table.insert(clients, cl)
+    if not cl.attached_buffers[bufnr] then
+      if cl.config and cl.config.filetypes then
+        for _, ft in ipairs(cl.config.filetypes) do
+          if ft == filetype then
+            vim.lsp.buf_attach_client(bufnr, cl.id)
+            table.insert(clients, cl)
+          end
         end
       end
     end

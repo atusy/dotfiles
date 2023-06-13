@@ -119,7 +119,7 @@ return {
         pattern = "*",
         group = utils.augroup,
         callback = function(args)
-          require("plugins.lsp.utils").attach_lsp(args.match)
+          require("plugins.lsp.utils").attach_lsp(args.buf, args.match)
         end,
       })
       set_keymap("n", "K", function()
