@@ -27,7 +27,7 @@ function kube_ps1 {
 }
 function kubeprompt() {
   # show if KUBECONFIG is set or any context is being used
-  if [[ -n "$KUBECONFIG" ]] && [[ "${KUBE_PS1_CONTEXT:-N/A}" != "N/A" ]]; then
+  if [[ "${KUBE_PS1_CONTEXT:-N/A}" != "N/A" ]]; then
     kube_ps1 # will be defined by jonmosco/kube-ps1
   fi
 }
