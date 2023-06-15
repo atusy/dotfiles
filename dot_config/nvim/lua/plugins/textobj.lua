@@ -152,6 +152,9 @@ return {
           end
           local tag, residue
           tag, residue = emmet:match("^%s*([^#.[]+)(.+)")
+          if not tag then
+            return
+          end
           local attr = {
             ["#"] = {},
             ["."] = {},
