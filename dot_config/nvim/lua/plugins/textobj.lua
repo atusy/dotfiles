@@ -142,6 +142,50 @@ return {
         saiwj[ surrounds inner word with 「」
         srj[j] replaces 「」 with 『』
       ]=]
+
+      local t = {
+        input = { "<(%w-)%f[^<%w][^<>]->.-</%1>", "^<.->().*()</[^/]->$" }, -- from https://github.com/echasnovski/mini.surround/blob/14f418209ecf52d1a8de9d091eb6bd63c31a4e01/lua/mini/surround.lua#LL1048C13-L1048C72
+        output = function()
+          local emmet = require("mini.surround").user_input("Emmet")
+          if not emmet then
+            return nil
+          end
+          local tag, residue
+          tag, residue = emmet:match("^%s*([^#.[]+)(.+)")
+          local attr = {
+            ["#"] = {},
+            ["."] = {},
+            ["[]"] = {},
+          }
+          for a in residue:gmatch("%b[]") do
+            local value = string.match(a, ".(.*).")
+            table.insert(attr["[]"], value)
+          end
+          for a in residue:gsub("%b[]", ""):gmatch("[.#][^.#]+") do
+            local key, value = string.match(a, "(.)(.+)")
+            table.insert(attr[key], value)
+          end
+
+          if #attr["#"] > 1 then
+            error("id should be unique")
+          end
+
+          local left = { tag }
+          if attr["#"][1] then
+            table.insert(left, string.format('id="%s"', attr["#"][1]))
+          end
+          if attr["."][1] then
+            table.insert(left, string.format('class="%s"', table.concat(attr["."], " ")))
+          end
+          if attr["[]"][1] then
+            table.insert(left, attr["[]"][1] and table.concat(attr["[]"], " "))
+          end
+          return {
+            left = string.format("<%s>", table.concat(left, " ")),
+            right = string.format("</%s>", tag),
+          }
+        end,
+      }
       require("mini.surround").setup({
         n_lines = 100,
         mappings = {
@@ -149,7 +193,9 @@ return {
           find_left = "sT",
           highlight = "sH",
         },
-        custom_surroundings = recipes,
+        custom_surroundings = vim.tbl_extend("force", recipes, {
+          t = t,
+        }),
       })
     end,
   },
