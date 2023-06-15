@@ -178,7 +178,7 @@ return {
             table.insert(left, string.format('class="%s"', table.concat(attr["."], " ")))
           end
           if attr["[]"][1] then
-            table.insert(left, attr["[]"][1] and table.concat(attr["[]"], " "))
+            table.insert(left, table.concat(attr["[]"], " "))
           end
           return {
             left = string.format("<%s>", table.concat(left, " ")),
