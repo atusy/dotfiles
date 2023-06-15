@@ -150,43 +150,7 @@ return {
           if not emmet then
             return nil
           end
-          local tag, residue
-          tag, residue = emmet:match("^%s*([^#.[]+)(.+)")
-          if not tag then
-            return
-          end
-          local attr = {
-            ["#"] = {},
-            ["."] = {},
-            ["[]"] = {},
-          }
-          for a in residue:gmatch("%b[]") do
-            local value = string.match(a, ".(.*).")
-            table.insert(attr["[]"], value)
-          end
-          for a in residue:gsub("%b[]", ""):gmatch("[.#][^.#]+") do
-            local key, value = string.match(a, "(.)(.+)")
-            table.insert(attr[key], value)
-          end
-
-          if #attr["#"] > 1 then
-            error("id should be unique")
-          end
-
-          local left = { tag }
-          if attr["#"][1] then
-            table.insert(left, string.format('id="%s"', attr["#"][1]))
-          end
-          if attr["."][1] then
-            table.insert(left, string.format('class="%s"', table.concat(attr["."], " ")))
-          end
-          if attr["[]"][1] then
-            table.insert(left, table.concat(attr["[]"], " "))
-          end
-          return {
-            left = string.format("<%s>", table.concat(left, " ")),
-            right = string.format("</%s>", tag),
-          }
+          return require("atusy.parser.emmet").totag(emmet)
         end,
       }
       require("mini.surround").setup({
