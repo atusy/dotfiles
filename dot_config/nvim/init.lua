@@ -196,10 +196,10 @@ set_keymap({ "n", "x" }, "gY", '"+Y')
 
 -- mappings: textobj
 set_keymap({ "o", "x" }, "ii", "2i") -- e.g., vii' to select 'foo' including quotes but outer spaces
-set_keymap({ "o", "x" }, "il", "m`:<c-u>keepjumps normal! g_v^<cr>", { silent = true })
-set_keymap({ "o", "x" }, "al", "m`:<c-u>keepjumps normal! $v0<cr>", { silent = true })
-set_keymap({ "o", "x" }, "ie", "m`:<c-u>keepjumps normal! G$()bevgoeb<cr>", { silent = true })
-set_keymap({ "o", "x" }, "ae", "m`:<c-u>keepjumps normal! G$vgo<cr>", { silent = true })
+set_keymap({ "o", "x" }, "il", ":<c-u>keepjumps normal! g_v^<cr>", { silent = true })
+set_keymap({ "o", "x" }, "al", ":<c-u>keepjumps normal! $v0<cr>", { silent = true })
+set_keymap({ "o", "x" }, "ie", ":<c-u>keepjumps normal! G$()bevgoeb<cr>", { silent = true })
+set_keymap({ "o", "x" }, "ae", ":<c-u>keepjumps normal! G$vgo<cr>", { silent = true })
 
 -- mappings: mouse
 -- <2-LeftMouse> is for tyru/open-browser
