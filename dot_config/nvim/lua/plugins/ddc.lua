@@ -30,57 +30,38 @@ local function commandline_post(bufnr, maps)
   end
 end
 
----@return string?, boolean
-local function pumstate()
-  local ui = vim.fn["ddc#custom#get_current"]().ui
-  if ui == "pum" then
-    return ui, vim.fn["pum#visible"]()
-  end
-  if ui == "native" then
-    return ui, vim.fn.pumvisible() ~= 0
-  end
-  return nil, false
+local function pumvisible()
+  return vim.fn["pum#visible"]()
 end
 
 local maps = {
   ["<Tab>"] = function()
-    local ui, visible = pumstate()
-    if visible then
-      if ui == "pum" then
-        return "<Cmd>call pum#map#insert_relative(+1)<CR>"
-      end
-      return "<C-N>"
+    if pumvisible() then
+      return "<Cmd>call pum#map#insert_relative(+1)<CR>"
+    end
+    if vim.api.nvim_get_mode().mode == "c" then
+      return fn["ddc#map#manual_complete"]()
     end
     local col = fn.col(".")
-    if
-      vim.api.nvim_get_mode().mode == "c"
-      or (col > 1 and string.match(fn.strpart(fn.getline("."), col - 2), "%s") == nil)
-    then
-      -- requires feedkeys because mappings are replaced by internal representations
+    if col > 1 and string.match(fn.strpart(fn.getline("."), col - 2), "%s") == nil then
       return fn["ddc#map#manual_complete"]()
     end
     return "<Tab>"
   end,
   ["<S-Tab>"] = function()
-    local ui, visible = pumstate()
-    if visible then
-      if ui == "pum" then
-        return "<Cmd>call pum#map#insert_relative(-1)<CR>"
-      end
-      return "<C-P>"
+    if pumvisible() then
+      return "<Cmd>call pum#map#insert_relative(-1)<CR>"
     end
     return "<S-Tab>"
   end,
   ["<C-Y>"] = function()
-    local ui, visible = pumstate()
-    if visible and ui == "pum" then
+    if pumvisible() then
       return "<Cmd>call pum#map#confirm()<CR>"
     end
     return "<C-Y>"
   end,
   ["<C-X><C-Z>"] = function()
-    local ui, visible = pumstate()
-    if visible and ui == "pum" then
+    if pumvisible() then
       return "<Cmd>call pum#map#cancel()<CR>"
     end
     return "<C-X><C-Z>"
@@ -212,7 +193,6 @@ return {
       { "Shougo/ddc-source-cmdline" },
       { "Shougo/ddc-source-cmdline-history" },
       { "Shougo/ddc-source-nvim-lsp" }, -- 入力中の単語を補完
-      { "Shougo/ddc-ui-native" },
       { "Shougo/ddc-ui-pum" },
       { "matsui54/ddc-buffer" },
       { "LumaKernel/ddc-source-file" }, -- Suggest file paths
