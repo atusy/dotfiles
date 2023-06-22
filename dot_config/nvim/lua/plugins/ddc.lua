@@ -125,6 +125,11 @@ local function setup()
   for lhs, rhs in pairs(maps) do
     set_keymap({ "i", "c" }, lhs, rhs, { silent = true, expr = true })
   end
+  -- for some reason, lua-based mapping fails to update commandline text after insert_relative
+  vim.cmd([[cnoremap <expr> <Tab>
+      \ pum#visible() ? '<Cmd>call pum#map#insert_relative(+1)<CR>' :
+      \ ddc#map#manual_complete()
+  ]])
 
   -- cmdline
   set_keymap("n", "/", function()
