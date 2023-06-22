@@ -18,25 +18,9 @@ local function commandline_post_buf()
   end
 end
 
-local function commandline_post(bufnr, maps)
-  -- reset buffer
-  if vim.api.nvim_buf_is_valid(bufnr) then
-    vim.api.nvim_buf_call(bufnr, commandline_post_buf)
-  end
-
-  -- reset global
-  for lhs, _ in pairs(maps) do
-    pcall(vim.keymap.del, "c", lhs)
-  end
-end
-
-local function pumvisible()
-  return vim.fn["pum#visible"]()
-end
-
 local maps = {
   ["<Tab>"] = function()
-    if pumvisible() then
+    if vim.fn["pum#visible"]() then
       return "<Cmd>call pum#map#insert_relative(+1)<CR>"
     end
     if vim.api.nvim_get_mode().mode == "c" then
@@ -49,19 +33,19 @@ local maps = {
     return "<Tab>"
   end,
   ["<S-Tab>"] = function()
-    if pumvisible() then
+    if vim.fn["pum#visible"]() then
       return "<Cmd>call pum#map#insert_relative(-1)<CR>"
     end
     return "<S-Tab>"
   end,
   ["<C-Y>"] = function()
-    if pumvisible() then
+    if vim.fn["pum#visible"]() then
       return "<Cmd>call pum#map#confirm()<CR>"
     end
     return "<C-Y>"
   end,
   ["<C-X><C-Z>"] = function()
-    if pumvisible() then
+    if vim.fn["pum#visible"]() then
       return "<Cmd>call pum#map#cancel()<CR>"
     end
     return "<C-X><C-Z>"
@@ -69,36 +53,19 @@ local maps = {
 }
 
 local function commandline_pre(bufnr)
-  -- register autocmd first so that they are registered regradless of
-  -- the later errors
-  local function cb()
-    local ok, mes = pcall(commandline_post, bufnr, maps)
-    if DEBUG and not ok and mes then
-      vim.notify(mes)
-    end
-  end
-
-  local group = vim.api.nvim_create_augroup("myccdcmdlineleave", {})
   vim.api.nvim_create_autocmd("User", {
-    group = group,
+    group = utils.augroup,
     pattern = "DDCCmdlineLeave",
     once = true,
-    callback = cb,
+    callback = function()
+      if vim.api.nvim_buf_is_valid(bufnr) then
+        vim.api.nvim_buf_call(bufnr, commandline_post_buf)
+      end
+    end,
   })
-  --[[ vim.api.nvim_create_autocmd("InsertEnter", {
-    group = group,
-    once = true,
-    buffer = 0,
-    callback = cb,
-  }) ]]
 
   -- do initialization after registering autocmd
-  for lhs, rhs in pairs(maps) do
-    set_keymap("c", lhs, rhs, { silent = true, expr = true }) -- pum.vim does not allow expr mappings
-  end
-  if vim.b.prev_buffer_config == nil then
-    vim.b.prev_buffer_config = fn["ddc#custom#get_buffer"]()
-  end
+  vim.b.prev_buffer_config = fn["ddc#custom#get_buffer"]()
 
   -- Enable command line completion
   fn["ddc#enable_cmdline_completion"]()
@@ -156,7 +123,7 @@ local function setup()
     },
   })
   for lhs, rhs in pairs(maps) do
-    set_keymap("i", lhs, rhs, { silent = true, expr = true })
+    set_keymap({ "i", "c" }, lhs, rhs, { silent = true, expr = true })
   end
 
   -- cmdline
