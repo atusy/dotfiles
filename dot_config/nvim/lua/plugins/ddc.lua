@@ -18,40 +18,6 @@ local function commandline_post_buf()
   end
 end
 
-local maps = {
-  ["<Tab>"] = function()
-    if vim.fn["pum#visible"]() then
-      return "<Cmd>call pum#map#insert_relative(+1)<CR>"
-    end
-    if vim.api.nvim_get_mode().mode == "c" then
-      return fn["ddc#map#manual_complete"]()
-    end
-    local col = fn.col(".")
-    if col > 1 and string.match(fn.strpart(fn.getline("."), col - 2), "%s") == nil then
-      return fn["ddc#map#manual_complete"]()
-    end
-    return "<Tab>"
-  end,
-  ["<S-Tab>"] = function()
-    if vim.fn["pum#visible"]() then
-      return "<Cmd>call pum#map#insert_relative(-1)<CR>"
-    end
-    return "<S-Tab>"
-  end,
-  ["<C-Y>"] = function()
-    if vim.fn["pum#visible"]() then
-      return "<Cmd>call pum#map#confirm()<CR>"
-    end
-    return "<C-Y>"
-  end,
-  ["<C-X><C-Z>"] = function()
-    if vim.fn["pum#visible"]() then
-      return "<Cmd>call pum#map#cancel()<CR>"
-    end
-    return "<C-X><C-Z>"
-  end,
-}
-
 local function commandline_pre(bufnr)
   vim.api.nvim_create_autocmd("User", {
     group = utils.augroup,
@@ -122,9 +88,38 @@ local function setup()
       forceCompletionPattern = [[(^e\s+|\S/\S*)]],
     },
   })
-  for lhs, rhs in pairs(maps) do
-    set_keymap({ "i", "c" }, lhs, rhs, { expr = true })
-  end
+
+  vim.keymap.set({ "i", "c" }, "<Tab>", function()
+    if vim.fn["pum#visible"]() then
+      return "<Cmd>call pum#map#insert_relative(+1)<CR>"
+    end
+    if vim.api.nvim_get_mode().mode == "c" then
+      return vim.fn["ddc#map#manual_complete"]()
+    end
+    local col = fn.col(".")
+    if col > 1 and string.match(fn.strpart(fn.getline("."), col - 2), "%s") == nil then
+      return fn["ddc#map#manual_complete"]()
+    end
+    return "<Tab>"
+  end, { expr = true })
+  vim.keymap.set({ "i", "c" }, "<s-tab>", function()
+    if vim.fn["pum#visible"]() then
+      return "<Cmd>call pum#map#insert_relative(-1)<CR>"
+    end
+    return "<S-Tab>"
+  end, { expr = true })
+  vim.keymap.set({ "i", "c" }, "<c-y>", function()
+    if vim.fn["pum#visible"]() then
+      return "<Cmd>call pum#map#confirm()<CR>"
+    end
+    return "<C-Y>"
+  end, { expr = true })
+  vim.keymap.set({ "i", "c" }, "<c-c>", function()
+    if vim.fn["pum#visible"]() then
+      return "<Cmd>call pum#map#cancel()<CR>"
+    end
+    return "<c-c>"
+  end, { expr = true })
 
   -- cmdline
   set_keymap("n", "/", function()
