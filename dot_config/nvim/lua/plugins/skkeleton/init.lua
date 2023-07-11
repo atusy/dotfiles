@@ -2,6 +2,126 @@
 local utils = require("atusy.utils")
 local set_keymap = utils.set_keymap
 
+local function set_mapped_keys(exceptions)
+  local default = {
+    "a",
+    "b",
+    "c",
+    "d",
+    "e",
+    "f",
+    "g",
+    "h",
+    "i",
+    "j",
+    "k",
+    "l",
+    "m",
+    "n",
+    "o",
+    "p",
+    "q",
+    "r",
+    "s",
+    "t",
+    "u",
+    "v",
+    "w",
+    "x",
+    "y",
+    "z",
+    "A",
+    "B",
+    "C",
+    "D",
+    "E",
+    "F",
+    "G",
+    "H",
+    "I",
+    "J",
+    "K",
+    "L",
+    "M",
+    "N",
+    "O",
+    "P",
+    "Q",
+    "R",
+    "S",
+    "T",
+    "U",
+    "V",
+    "W",
+    "X",
+    "Y",
+    "Z",
+    "1",
+    "2",
+    "3",
+    "4",
+    "5",
+    "6",
+    "7",
+    "8",
+    "9",
+    "0",
+    "!",
+    '"',
+    "#",
+    "$",
+    "%",
+    "&",
+    "'",
+    "(",
+    ")",
+    ",",
+    ".",
+    "/",
+    ";",
+    ":",
+    "]",
+    "@",
+    "[",
+    "-",
+    "^",
+    "\\",
+    ">",
+    "?",
+    "_",
+    "+",
+    "*",
+    "}",
+    "`",
+    "{",
+    "=",
+    "~",
+    "<lt>",
+    "<Bar>",
+    "<BS>",
+    "<C-h>",
+    "<CR>",
+    "<Space>",
+    "<C-q>",
+    "<PageUp>",
+    "<PageDown>",
+    "<C-j>",
+    "<C-g>",
+    "<Esc>",
+  }
+  local _exceptions = {}
+  for _, v in pairs(exceptions) do
+    _exceptions[v] = true
+  end
+  local maps = {}
+  for _, m in pairs(default) do
+    if _exceptions[m] ~= true then
+      table.insert(maps, m)
+    end
+  end
+  vim.g["skkeleton#mapped_keys"] = maps
+end
+
 return {
   {
     "vim-skk/skkeleton",
@@ -26,23 +146,29 @@ return {
       vim.fn["skkeleton#register_keymap"]("input", '"', "henkanPoint")
 
       vim.api.nvim_create_autocmd("User", {
+        group = utils.group,
+        pattern = "skkeleton-enable-pre",
+        callback = function(ctx)
+          local ft = vim.api.nvim_get_option_value("filetype", { buf = ctx.buf })
+          local exceptions = {}
+          if ft == "TelescopePrompt" then
+            table.insert(exceptions, "<CR>")
+          end
+          set_mapped_keys(exceptions)
+        end,
+      })
+
+      vim.api.nvim_create_autocmd("User", {
         group = utils.augroup,
         pattern = "skkeleton-enable-post",
         callback = function(ctx)
-          vim.keymap.del("l", "<Up>", { buffer = true })
-          vim.keymap.del("l", "<Down>", { buffer = true })
           vim.keymap.set(
-            "l",
+            "i",
             ":",
             [[<Cmd>call skkeleton#handle('handleKey', {'key': '"'})<CR>]]
               .. [[<Cmd>call skkeleton#handle('handleKey', {'key': ';'})<CR>]],
             { buffer = true }
           )
-
-          local ft = vim.api.nvim_get_option_value("filetype", { buf = ctx.buf })
-          if ft == "TelescopePrompt" then
-            vim.keymap.del("l", "<CR>", { buffer = true })
-          end
         end,
       })
 
@@ -50,7 +176,7 @@ return {
         group = utils.augroup,
         pattern = "skkeleton-disable-post",
         callback = function()
-          pcall(vim.keymap.del, "l", ":", { buffer = true })
+          pcall(vim.keymap.del, "i", ":", { buffer = true })
         end,
       })
 
