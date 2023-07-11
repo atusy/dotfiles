@@ -204,10 +204,10 @@ return {
   },
   {
     "skk-dev/dict",
-    cond = false,
+    lazy = true,
   },
   {
     "tokuhirom/jawiki-kana-kanji-dict",
-    cond = false,
+    lazy = true,
   },
 }
