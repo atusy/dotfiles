@@ -145,7 +145,6 @@ return {
     lazy = true,
     dir = "~/ghq/github.com/folke/flash.nvim",
     init = function(p)
-      local Config = require("flash.config")
       local motions = {
         f = { label = { after = false, before = { 0, 0 } } },
         t = { label = { after = false, before = { 0, 1 } }, jump = { pos = "start" } },
@@ -163,31 +162,19 @@ return {
 
       for _, motion in ipairs({ "f", "t", "F", "T" }) do
         vim.keymap.set({ "n", "x", "o" }, motion, function()
+          local Config = require("flash.config")
           require("flash").jump(Config.get({
             mode = "char",
-            jump = {
-              autojump = true,
-            },
+            jump = { autojump = true },
             search = {
               multi_window = false,
               mode = function(str)
-                -- do migemo search on the current line
                 local pos = vim.api.nvim_win_get_cursor(0)
-                local prefix = ("\\%%%dl"):format(pos[1])
-                local pattern = vim.fn["kensaku#query"](str)
-                if pattern == [[\m]] then
-                  pattern = str
-                end
-                if motion == "t" then
-                  pattern = "." .. pattern
-                end
-                return prefix .. pattern
+                return string.format("\\%%%dl%s%s", pos[1], motion == "t" and "." or "", kensaku_query(str))
               end,
               max_length = 1,
             },
-            highlight = {
-              matches = false,
-            },
+            highlight = { matches = false },
           }, motions[motion]))
         end)
       end
