@@ -93,7 +93,7 @@ local function conv_default(str)
   return [[\c]] .. kensaku_query(str)
 end
 
-local function matcher(conv, cache)
+local function incremental_matcher(conv, cache)
   local curwin = vim.api.nvim_get_current_win()
   conv = conv or conv_default
   if cache then
@@ -202,7 +202,7 @@ return {
         require("flash").jump({
           labels = [[ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890!@#$%^&*()[]`'=-{}~"+_ ]],
           label = { before = true, after = false },
-          matcher = matcher(nil, cache),
+          matcher = incremental_matcher(nil, cache),
           labeler = function() end,
         })
 
