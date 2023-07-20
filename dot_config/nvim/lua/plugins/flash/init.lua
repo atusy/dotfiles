@@ -62,7 +62,7 @@ local function search(buf, pat, start, _end, strict_indexing)
   _end = _end or { -1, 0 }
   local end_ = _end[1] + ((_end[1] > 0 and _end[2] > 0) and 1 or 0)
   local lines = vim.api.nvim_buf_get_lines(buf, start[1], end_, strict_indexing or true)
-  return search_lines(lines, pat, start[2], _end[2], start[1]), lines
+  return search_lines(lines, pat, start[2], _end[2], start[1]), table.concat(lines, "\n")
 end
 
 local function key(m)
@@ -196,7 +196,7 @@ return {
         require("flash").jump({
           labels = [[ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890!@#$%^&*()[]`'=-{}~"+_ ]],
           label = { before = true, after = false },
-          matcher = matcher(cache),
+          matcher = matcher(nil, cache),
           labeler = function() end,
         })
 
