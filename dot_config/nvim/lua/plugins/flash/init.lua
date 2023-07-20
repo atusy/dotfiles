@@ -102,6 +102,12 @@ local function matcher(conv, cache)
     end
     local buf, top, bot = wininfo[1].bufnr, wininfo[1].topline - 1, wininfo[1].botline
     local matches, lines = search(buf, conv(state.pattern.pattern), { top, 0 }, { bot, 0 })
+    local test = setmetatable({}, {
+      __index = function(self, k)
+        self[k] = not vim.regex(conv(state.pattern.pattern .. k)):match_str(lines)
+        return self[k]
+      end,
+    })
     local used = {}
     for _, m in pairs(matches) do
       m.win = win
@@ -119,18 +125,11 @@ local function matcher(conv, cache)
 
     -- 大文字以外はmigemoと干渉しないように扱う
     local i = 0
-    local s = table.concat(lines, "\n")
     for lab in string.gmatch(state.opts.labels, ".") do
       if not matches[i + 1] then
         return matches
       end
-      if
-        not used[lab]
-        and (
-          string.match(lab, "[ABCDEFGHIJKLMNOPQRSTUVWXYZ]")
-          or not vim.regex(conv(state.pattern.pattern .. lab)):match_str(s)
-        )
-      then
+      if not used[lab] and (string.match(lab, "[ABCDEFGHIJKLMNOPQRSTUVWXYZ]") or test[lab]) then
         i = i + 1
         if not matches[i].label then
           matches[i].label = lab
