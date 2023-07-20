@@ -21,7 +21,7 @@ local function search_lines(lines, pat, col1, col2, row)
   col2 = col2 or 0
   local match_str = pat
   if type(pat) == "string" then
-    local re = vim.regex([[\c]] .. kensaku_query(pat))
+    local re = vim.regex(pat)
     match_str = function(...)
       return re:match_str(...)
     end
@@ -83,9 +83,14 @@ local function sort(tbl, win)
   return tbl
 end
 
-local function matcher(cache)
+local function conv_default(str)
+  return [[\c]] .. kensaku_query(str)
+end
+
+local function matcher(conv, cache)
   local curwin = vim.api.nvim_get_current_win()
   local labels
+  conv = conv or conv_default
   if cache then
     cache.labels = {}
     labels = {}
@@ -96,7 +101,7 @@ local function matcher(cache)
       return {}
     end
     local buf, top, bot = wininfo[1].bufnr, wininfo[1].topline - 1, wininfo[1].botline
-    local matches, lines = search(buf, state.pattern.pattern, { top, 0 }, { bot, 0 })
+    local matches, lines = search(buf, conv(state.pattern.pattern), { top, 0 }, { bot, 0 })
     local used = {}
     for _, m in pairs(matches) do
       m.win = win
@@ -123,7 +128,7 @@ local function matcher(cache)
         not used[lab]
         and (
           string.match(lab, "[ABCDEFGHIJKLMNOPQRSTUVWXYZ]")
-          or not vim.regex([[\c]] .. kensaku_query(state.pattern.pattern .. lab)):match_str(s)
+          or not vim.regex(conv(state.pattern.pattern .. lab)):match_str(s)
         )
       then
         i = i + 1
