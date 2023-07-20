@@ -72,6 +72,12 @@ end
 local function sort(tbl, win)
   local cursor = vim.api.nvim_win_get_cursor(win)
   table.sort(tbl, function(a, b)
+    if a.label and not b.label then
+      return false
+    end
+    if b.label and not a.label then
+      return true
+    end
     local ap, bp = a.pos, b.pos
     if ap[1] == bp[1] then
       return ap[2] < bp[2]
@@ -129,15 +135,14 @@ local function matcher(conv, cache)
     -- 大文字以外はmigemoと干渉しないように扱う
     local i = 1
     for lab in string.gmatch(state.opts.labels, ".") do
-      if not matches[i] then
+      local m = matches[i]
+      if not m or m.label then
         return matches
       end
       if not used[lab] and (string.match(lab, "[ABCDEFGHIJKLMNOPQRSTUVWXYZ]") or test[lab]) then
-        if not matches[i].label then
-          matches[i].label = lab
-          if labels then
-            labels[key(matches[i])] = lab
-          end
+        matches[i].label = lab
+        if labels then
+          labels[key(matches[i])] = lab
         end
         i = i + 1
       end
