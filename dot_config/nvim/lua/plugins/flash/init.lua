@@ -95,11 +95,9 @@ end
 
 local function matcher(conv, cache)
   local curwin = vim.api.nvim_get_current_win()
-  local labels
   conv = conv or conv_default
   if cache then
     cache.labels = {}
-    labels = {}
   end
   return function(win, state)
     local wininfo = vim.fn.getwininfo(win)
@@ -116,36 +114,43 @@ local function matcher(conv, cache)
       end,
     })
     local used = {}
+
+    -- 候補にwinidの付与し、可能ならキャッシュから前回からラベルを継承する
     for _, m in pairs(matches) do
       m.win = win
-      local lab = labels[key(m)]
+      local k = key(m)
+      local lab = cache and cache.labels[k]
       if lab then
         if test[lab] then
           m.label = lab
           used[lab] = true
         else
-          labels[key(m)] = nil
+          cache.labels[k] = nil
         end
       end
     end
 
+    -- multi_window対応時への備え
     if win == curwin then
       matches = sort(matches, win)
     end
 
-    -- 大文字以外はmigemoと干渉しないように扱う
-    local i = 1
-    for lab in string.gmatch(state.opts.labels, ".") do
-      local m = matches[i]
-      if not m or m.label then
+    -- ラベルを持たない候補に可能な限りラベルをあたえる
+    for _, m in pairs(matches) do
+      if m.label then
+        -- sortでlabel付きを後ろにしてある
         return matches
       end
-      if not used[lab] and test[lab] then
-        matches[i].label = lab
-        if labels then
-          labels[key(matches[i])] = lab
+      local it = string.gmatch(state.opts.labels, ".")
+      for lab in it do
+        if not used[lab] and test[lab] then
+          used[lab] = true
+          m.label = lab
+          break
         end
-        i = i + 1
+      end
+      if not it() then
+        return matches
       end
     end
     return matches
