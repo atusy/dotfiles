@@ -110,7 +110,8 @@ local function matcher(conv, cache)
     local matches, lines = search(buf, conv(state.pattern.pattern), { top, 0 }, { bot, 0 })
     local test = setmetatable({}, {
       __index = function(self, k)
-        self[k] = not vim.regex(conv(state.pattern.pattern .. k)):match_str(lines)
+        self[k] = string.match(k, "[ABCDEFGHIJKLMNOPQRSTUVWXYZ]")
+          or not vim.regex(conv(state.pattern.pattern .. k)):match_str(lines)
         return self[k]
       end,
     })
@@ -139,7 +140,7 @@ local function matcher(conv, cache)
       if not m or m.label then
         return matches
       end
-      if not used[lab] and (string.match(lab, "[ABCDEFGHIJKLMNOPQRSTUVWXYZ]") or test[lab]) then
+      if not used[lab] and test[lab] then
         matches[i].label = lab
         if labels then
           labels[key(matches[i])] = lab
