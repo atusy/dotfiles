@@ -127,19 +127,19 @@ local function matcher(conv, cache)
     end
 
     -- 大文字以外はmigemoと干渉しないように扱う
-    local i = 0
+    local i = 1
     for lab in string.gmatch(state.opts.labels, ".") do
-      if not matches[i + 1] then
+      if not matches[i] then
         return matches
       end
       if not used[lab] and (string.match(lab, "[ABCDEFGHIJKLMNOPQRSTUVWXYZ]") or test[lab]) then
-        i = i + 1
         if not matches[i].label then
           matches[i].label = lab
           if labels then
             labels[key(matches[i])] = lab
           end
         end
+        i = i + 1
       end
     end
     return matches
