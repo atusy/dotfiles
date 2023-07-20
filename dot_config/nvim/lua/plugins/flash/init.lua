@@ -111,10 +111,13 @@ local function matcher(conv, cache)
     local used = {}
     for _, m in pairs(matches) do
       m.win = win
-      if labels then
-        m.label = labels[key(m)]
-        if m.label then
-          used[m.label] = true
+      local lab = labels[key(m)]
+      if lab then
+        if test[lab] then
+          m.label = lab
+          used[lab] = true
+        else
+          labels[key(m)] = nil
         end
       end
     end
