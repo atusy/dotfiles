@@ -10,6 +10,10 @@ local set_keymap = utils.set_keymap
 local DEBUG = false
 
 local function commandline_post_buf()
+  vim.fn["pum#set_option"]({
+    reversed = false,
+  })
+
   if vim.b.prev_buffer_config ~= nil then
     fn["ddc#custom#set_buffer"](vim.b.prev_buffer_config)
     vim.b.prev_buffer_config = nil
@@ -28,6 +32,9 @@ local function commandline_pre(bufnr)
         vim.api.nvim_buf_call(bufnr, commandline_post_buf)
       end
     end,
+  })
+  vim.fn["pum#set_option"]({
+    reversed = true,
   })
 
   -- do initialization after registering autocmd
@@ -69,8 +76,17 @@ local function setup()
       isVolatile = true,
       forceCompletionPattern = [[\S/\S*]],
     },
-    cmdline = { mark = "CMD" },
-    ["cmdline-history"] = { mark = "CMD" },
+    cmdline = {
+      mark = "CMD",
+      minAutoCompleteLength = 0,
+    },
+    ["cmdline-history"] = {
+      mark = "HIST",
+      maxItems = 1,
+      minAutoCompleteLength = 0,
+      minKeywordLength = 2,
+      sorters = {}, -- no sorters to prioritize latest history
+    },
     ["_"] = {
       ignoreCase = true,
       matchers = { "matcher_fuzzy" },
