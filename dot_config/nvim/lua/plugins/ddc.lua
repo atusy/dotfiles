@@ -159,19 +159,19 @@ return {
     dependencies = {
       { "vim-denops/denops.vim" },
       { "Shougo/pum.vim" },
-      { "Shougo/ddc-matcher_head" }, -- 入力中の単語を補完
+      { "Shougo/ddc-matcher_head" },
       { "Shougo/ddc-source-around" },
       { "Shougo/ddc-source-line" },
       { "Shougo/ddc-source-cmdline" },
       { "Shougo/ddc-source-cmdline-history" },
-      { "Shougo/ddc-source-nvim-lsp" }, -- 入力中の単語を補完
+      { "Shougo/ddc-source-nvim-lsp" },
       { "Shougo/ddc-ui-pum" },
       { "matsui54/ddc-buffer" },
-      { "LumaKernel/ddc-source-file" }, -- Suggest file paths
-      { "Shougo/ddc-converter_remove_overlap" }, -- remove duplicates
-      { "Shougo/ddc-sorter_rank" }, -- Sort suggestions
+      { "LumaKernel/ddc-source-file" },
+      { "Shougo/ddc-sorter_rank" },
       { "tani/ddc-fuzzy" },
-      { "matsui54/denops-popup-preview.vim", dependencies = { "vim-denops/denops.vim" } },
+      { "matsui54/denops-popup-preview.vim" },
+      -- { "Shougo/ddc-converter_remove_overlap" },
     },
     config = setup,
   },
