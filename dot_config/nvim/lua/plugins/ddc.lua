@@ -9,36 +9,29 @@ local set_keymap = utils.set_keymap
 
 local DEBUG = false
 
-local function commandline_post_buf()
-  vim.fn["pum#set_option"]({
-    reversed = false,
-  })
-
-  if vim.b.prev_buffer_config ~= nil then
-    fn["ddc#custom#set_buffer"](vim.b.prev_buffer_config)
-    vim.b.prev_buffer_config = nil
-  else
-    fn["ddc#custom#set_buffer"](vim.empty_dict())
+local function commandline_post_buf(buf, opts)
+  if not vim.api.nvim_buf_is_valid(buf) then
+    return
   end
+  vim.api.nvim_buf_call(buf, function()
+    vim.fn["pum#set_option"]({ reversed = false })
+    fn["ddc#custom#set_buffer"](opts or vim.empty_dict())
+  end)
 end
 
 local function commandline_pre(bufnr)
+  local opts = vim.fn["ddc#custom#get_buffer"]()
   vim.api.nvim_create_autocmd("User", {
     group = utils.augroup,
     pattern = "DDCCmdlineLeave",
     once = true,
     callback = function()
-      if vim.api.nvim_buf_is_valid(bufnr) then
-        vim.api.nvim_buf_call(bufnr, commandline_post_buf)
-      end
+      commandline_post_buf(bufnr, opts)
     end,
   })
   vim.fn["pum#set_option"]({
     reversed = true,
   })
-
-  -- do initialization after registering autocmd
-  vim.b.prev_buffer_config = fn["ddc#custom#get_buffer"]()
 
   -- Enable command line completion
   fn["ddc#enable_cmdline_completion"]()
