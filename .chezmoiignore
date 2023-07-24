@@ -5,3 +5,4 @@ __ignored
 .gitmessage
 .envrc
 stylua.toml
+.worktree
