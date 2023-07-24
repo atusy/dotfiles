@@ -68,7 +68,7 @@ local function setup()
   patch_global("sourceOptions", {
     around = { mark = "A" },
     buffer = { mark = "B" },
-    ["nvim-lsp"] = { mark = "L" },
+    ["nvim-lsp"] = { mark = "L", forceCompletionPattern = [[\S]] },
     file = {
       mark = "F",
       isVolatile = true,
