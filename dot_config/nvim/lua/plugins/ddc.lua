@@ -29,8 +29,13 @@ local function commandline_pre(bufnr)
       commandline_post_buf(bufnr, opts)
     end,
   })
-  vim.fn["pum#set_option"]({
-    reversed = true,
+  vim.fn["pum#set_option"]({ reversed = true })
+  fn["ddc#custom#patch_buffer"]("sourceOptions", {
+    file = {
+      mark = "F",
+      isVolatile = true,
+      forceCompletionPattern = [[(^e\s+|\S/\S*)]],
+    },
   })
 
   -- Enable command line completion
@@ -51,7 +56,7 @@ local function setup()
       "CmdlineChanged",
     },
     cmdlineSources = {
-      [":"] = { "cmdline-history", "cmdline", "around" },
+      [":"] = { "cmdline-history", "cmdline", "file", "around" },
       ["@"] = { "cmdline-history", "input", "file", "around" },
       [">"] = { "cmdline-history", "input", "file", "around" },
       ["/"] = { "around", "line" },
@@ -86,13 +91,6 @@ local function setup()
   })
   patch_global("sourceParams", {
     around = { maxSize = 500 },
-  })
-  fn["ddc#custom#patch_buffer"]("sourceOptions", {
-    file = {
-      mark = "F",
-      isVolatile = true,
-      forceCompletionPattern = [[(^e\s+|\S/\S*)]],
-    },
   })
 
   vim.keymap.set({ "i", "c" }, "<Tab>", function()
