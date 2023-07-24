@@ -163,6 +163,19 @@ function edit-command-line2() {
 zle -N edit-command-line2
 bindkey "^x^e" edit-command-line2
 
+# Set title of the session according to the working directory
+autoload -Uz add-zsh-hook
+function update_session_title() {
+  # .../github.com/atusy/dotfiles -> dotfiles
+  # .../github.com/atusy/dotfiles/dot_config/nvim -> dotfiles/.../nvim
+  # .../dotfiles/.worktree/branch -> dotfiles@branch
+  # .../dotfiles/.worktree/branch/dot_config/nvim -> dotfiles@branch/.../nvim
+  export SESSION_TITLE="${1:-${SESSION_TITLE:-}}"
+  echo -en "\e]2;${SESSION_TITLE:-$( pwd | sed -E -e 's#.*/\.github\.com/##' -e "s#.*/([^/]+)/\.worktree/#\1@#" -e "s#/.*/#/.../#" -e "s#^/\.\.\./##" )}\a"
+}
+update_session_title
+add-zsh-hook chpwd update_session_title
+
 # Aliases and some useful functions
 alias sudo='sudo '
 if command -v zoxide > /dev/null; then

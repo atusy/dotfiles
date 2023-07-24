@@ -60,6 +60,22 @@ local set_keymap = utils.set_keymap
 vim.opt.exrc = true
 vim.opt.updatetime = 250
 
+-- title
+-- .../github.com/atusy/dotfiles -> dotfiles
+-- .../github.com/atusy/dotfiles/dot_config/nvim -> dotfiles/.../nvim
+-- .../dotfiles/.worktree/branch -> dotfiles@branch
+-- .../dotfiles/.worktree/branch/dot_config/nvim -> dotfiles@branch/.../nvim
+local function titlestring()
+  local pwd = vim.env.PWD or vim.fn.getcwd()
+  return pwd
+      :gsub(".*/github%.com/.-/", "")
+      :gsub(".*/(.-)/%.worktree/", "%1@")
+      :gsub("/.*/", "/.../")
+      :gsub("^/%.%.%./", "")
+end
+vim.opt.titlestring = vim.env.SESSION_TITLE or titlestring()
+vim.opt.title = true
+
 -- statuscolumn
 vim.opt.signcolumn = "yes"
 vim.opt.foldcolumn = "auto"
