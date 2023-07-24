@@ -10,13 +10,12 @@ local set_keymap = utils.set_keymap
 local DEBUG = false
 
 local function commandline_post_buf(buf, opts)
-  if not vim.api.nvim_buf_is_valid(buf) then
-    return
+  if vim.api.nvim_buf_is_valid(buf) then
+    vim.api.nvim_buf_call(buf, function()
+      vim.fn["pum#set_option"]({ reversed = false })
+      fn["ddc#custom#set_buffer"](opts or vim.empty_dict())
+    end)
   end
-  vim.api.nvim_buf_call(buf, function()
-    vim.fn["pum#set_option"]({ reversed = false })
-    fn["ddc#custom#set_buffer"](opts or vim.empty_dict())
-  end)
 end
 
 local function commandline_pre(bufnr)
@@ -31,11 +30,7 @@ local function commandline_pre(bufnr)
   })
   vim.fn["pum#set_option"]({ reversed = true })
   fn["ddc#custom#patch_buffer"]("sourceOptions", {
-    file = {
-      mark = "F",
-      isVolatile = true,
-      forceCompletionPattern = [[(^e\s+|\S/\S*)]],
-    },
+    file = { forceCompletionPattern = [[(^e\s+|\S/\S*)]] },
   })
 
   -- Enable command line completion
