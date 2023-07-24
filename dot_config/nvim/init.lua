@@ -326,6 +326,18 @@ end, {
 --[[ autocmd ]]
 vim.api.nvim_create_autocmd("TermOpen", { pattern = "*", group = utils.augroup, command = "startinsert" })
 
+vim.api.nvim_create_autocmd("ModeChanged", {
+  pattern = "c:*",
+  group = utils.augroup,
+  desc = "cleanup cmdline history",
+  callback = function()
+    local cmd = vim.fn.histget(":", -1)
+    if cmd:match("^..?!?$") or cmd:match("^wqa!?$") then
+      vim.fn.histdel(":", -1)
+    end
+  end,
+})
+
 vim.api.nvim_create_autocmd("InsertEnter", {
   desc = "Toggle cursorline on InsertEnter/Leave iff cursorline is set on normal mode",
   group = utils.augroup,
