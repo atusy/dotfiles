@@ -68,10 +68,10 @@ vim.opt.updatetime = 250
 local function titlestring()
   local pwd = vim.env.PWD or vim.fn.getcwd()
   return pwd
-      :gsub(".*/github%.com/.-/", "")
-      :gsub(".*/(.-)/%.worktree/", "%1@")
-      :gsub("/.*/", "/.../")
-      :gsub("^/%.%.%./", "")
+    :gsub(".*/github%.com/.-/", "")
+    :gsub(".*/(.-)/%.worktree/", "%1@")
+    :gsub("/.*/", "/.../")
+    :gsub("^/%.%.%./", "")
 end
 vim.opt.titlestring = vim.env.SESSION_TITLE or titlestring()
 vim.opt.title = true
