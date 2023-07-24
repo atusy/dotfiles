@@ -76,12 +76,9 @@ local function setup()
       isVolatile = true,
       forceCompletionPattern = [[\S/\S*]],
     },
-    cmdline = {
-      mark = "CMD",
-      minAutoCompleteLength = 0,
-    },
+    ["cmdline"] = { mark = "C", minAutoCompleteLength = 1 },
     ["cmdline-history"] = {
-      mark = "HIST",
+      mark = "H",
       maxItems = 1,
       minAutoCompleteLength = 0,
       minKeywordLength = 2,
