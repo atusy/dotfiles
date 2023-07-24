@@ -118,7 +118,7 @@ local function setup()
     end
     return "<C-Y>"
   end, { expr = true })
-  vim.keymap.set({ "i", "c" }, "<c-c>", function()
+  vim.keymap.set("i", "<c-c>", function()
     if vim.fn["pum#visible"]() then
       return "<Cmd>call pum#map#cancel()<CR>"
     end
@@ -139,6 +139,12 @@ local function setup()
       vim.notify(mes)
     end
     return ":"
+  end, { expr = true })
+  vim.keymap.set("i", "<c-c>", function()
+    if vim.fn["pum#visible"]() then
+      return "<Cmd>call pum#map#cancel()<CR>"
+    end
+    return "<c-u><bs>" -- Leave without histadd
   end, { expr = true })
 
   -- enable
