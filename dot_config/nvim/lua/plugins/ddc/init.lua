@@ -1,8 +1,3 @@
---[[
-NOTE:
-For some reason, ddc-ui-pum does not trigger User events...
-So I prefer ddc-ui-native and use ddc-ui-pum only on cmdline.
---]]
 local fn = vim.fn
 local utils = require("atusy.utils")
 local set_keymap = utils.set_keymap
