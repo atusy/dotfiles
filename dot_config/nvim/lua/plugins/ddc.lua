@@ -43,14 +43,8 @@ local function setup()
   local patch_global = fn["ddc#custom#patch_global"]
   patch_global({
     ui = "pum",
-    sources = { "nvim-lsp", "around", "file", "buffer" },
-    autoCompleteEvents = {
-      "InsertEnter",
-      "TextChangedI",
-      "TextChangedP",
-      "CmdlineEnter",
-      "CmdlineChanged",
-    },
+    autoCompleteEvents = { "InsertEnter", "TextChangedI", "TextChangedP", "CmdlineEnter", "CmdlineChanged" },
+    sources = { "nvim-lsp", "around", "file", "buffer", "skkeleton" },
     cmdlineSources = {
       [":"] = { "cmdline-history", "cmdline", "zsh", "file", "around" },
       ["@"] = { "cmdline-history", "input", "file", "around" },
