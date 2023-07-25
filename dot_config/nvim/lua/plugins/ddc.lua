@@ -60,6 +60,13 @@ local function setup()
     around = { mark = "A" },
     buffer = { mark = "B" },
     ["nvim-lsp"] = { mark = "L", forceCompletionPattern = [[\S]] },
+    skkeleton = {
+      mark = "J",
+      matchers = { "skkeleton" },
+      sorters = {},
+      minAutoCompleteLength = 2,
+      isVolatile = true,
+    },
     file = {
       mark = "F",
       isVolatile = true,
