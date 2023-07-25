@@ -136,7 +136,7 @@ local function setup()
     end
     return ":"
   end, { expr = true })
-  vim.keymap.set("i", "<c-c>", function()
+  vim.keymap.set("c", "<c-c>", function()
     if vim.fn["pum#visible"]() then
       return "<Cmd>call pum#map#cancel()<CR>"
     end
