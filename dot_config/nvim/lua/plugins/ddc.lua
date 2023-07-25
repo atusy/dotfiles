@@ -18,7 +18,7 @@ local function commandline_post_buf(buf, opts)
   end
 end
 
-local function commandline_pre(bufnr)
+local function commandline_pre(bufnr, mode)
   local opts = vim.fn["ddc#custom#get_buffer"]()
   vim.api.nvim_create_autocmd("User", {
     group = utils.augroup,
@@ -32,6 +32,7 @@ local function commandline_pre(bufnr)
   fn["ddc#custom#patch_buffer"]("sourceOptions", {
     file = { forceCompletionPattern = [[(^e\s+|\S/\S*)]] },
     zsh = { enabledIf = [[getcmdline() =~# "^\\(!\\|Gin\\(Buffer\\)\\? \\)" ? v:true : v:false]] },
+    -- ["_"] = mode == ":" and { keywordPattern = "[0-9a-zA-Z_:#-]*" },
   })
 
   -- Enable command line completion
@@ -138,7 +139,7 @@ local function setup()
     return "/"
   end, { expr = true })
   set_keymap({ "n", "x" }, ":", function()
-    local ok, mes = pcall(commandline_pre, vim.api.nvim_get_current_buf())
+    local ok, mes = pcall(commandline_pre, vim.api.nvim_get_current_buf(), ":")
     if DEBUG and not ok and mes then
       vim.notify(mes)
     end
