@@ -31,6 +31,7 @@ local function commandline_pre(bufnr)
   vim.fn["pum#set_option"]({ reversed = true })
   fn["ddc#custom#patch_buffer"]("sourceOptions", {
     file = { forceCompletionPattern = [[(^e\s+|\S/\S*)]] },
+    zsh = { enabledIf = [[getcmdline() =~# "^\\(!\\|Gin\\(Buffer\\)\\? \\)" ? v:true : v:false]] },
   })
 
   -- Enable command line completion
@@ -51,7 +52,7 @@ local function setup()
       "CmdlineChanged",
     },
     cmdlineSources = {
-      [":"] = { "cmdline-history", "cmdline", "file", "around" },
+      [":"] = { "cmdline-history", "cmdline", "zsh", "file", "around" },
       ["@"] = { "cmdline-history", "input", "file", "around" },
       [">"] = { "cmdline-history", "input", "file", "around" },
       ["/"] = { "around", "line" },
@@ -78,6 +79,11 @@ local function setup()
       minKeywordLength = 2,
       sorters = {}, -- no sorters to prioritize latest history
     },
+    zsh = {
+      mark = "Z",
+      minAutoCompleteLength = 0,
+      minKeywordLength = 2,
+    },
     ["_"] = {
       ignoreCase = true,
       matchers = { "matcher_fuzzy" },
@@ -87,6 +93,14 @@ local function setup()
   })
   patch_global("sourceParams", {
     around = { maxSize = 500 },
+    ["nvim-lsp"] = {
+      enableResolveItem = true,
+      enableAdditionalTextEdit = true,
+    },
+    zsh = { envs = { FPATH = vim.fn.system([[zsh -i -c 'echo -n "$FPATH"']]) } },
+  })
+  fn["ddc#custom#patch_filetype"]({ "bash", "zsh", "sh" }, {
+    sources = { "nvim-lsp", "zsh", "around", "file", "buffer", "skkeleton" },
   })
 
   vim.keymap.set({ "i", "c" }, "<Tab>", function()
