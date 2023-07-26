@@ -30,7 +30,7 @@ local function commandline_pre(buf, mode)
 end
 
 local function config()
-  -- insert or cmdline
+  -- general
   vim.keymap.set({ "i", "c" }, "<Tab>", function()
     if vim.fn["pum#visible"]() then
       return "<Cmd>call pum#map#insert_relative(+1)<CR>"
@@ -56,30 +56,23 @@ local function config()
     end
     return "<C-Y>"
   end, { expr = true })
-
-  -- insert
-  vim.keymap.set("i", "<c-c>", function()
+  vim.keymap.set({ "i", "c" }, "<c-c>", function()
     if vim.fn["pum#visible"]() then
       return "<Cmd>call pum#map#cancel()<CR>"
+    end
+    if vim.api.nvim_get_mode().mode == "c" then
+      return "<c-u><c-c>"
     end
     return "<c-c>"
   end, { expr = true })
 
-  -- cmdline
-  set_keymap("n", "/", function()
-    pcall(commandline_pre, vim.api.nvim_get_current_buf(), "/")
-    return "/"
-  end, { expr = true })
-  set_keymap({ "n", "x" }, ":", function()
-    pcall(commandline_pre, vim.api.nvim_get_current_buf(), ":")
-    return ":"
-  end, { expr = true })
-  vim.keymap.set("c", "<c-c>", function()
-    if vim.fn["pum#visible"]() then
-      return "<Cmd>call pum#map#cancel()<CR>"
-    end
-    return "<c-u><bs>" -- Leave without histadd
-  end, { expr = true })
+  -- on entering cmdline
+  for _, lhs in pairs({ "/", ":" }) do
+    set_keymap({ "n", "x" }, lhs, function()
+      pcall(commandline_pre, vim.api.nvim_get_current_buf(), lhs)
+      return lhs
+    end, { expr = true })
+  end
 
   -- enable
   fn["ddc#custom#load_config"](vim.fs.joinpath(vim.fs.dirname(debug.getinfo(1, "S").source:sub(2)), "ddc.ts"))
