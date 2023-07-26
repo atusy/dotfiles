@@ -29,7 +29,7 @@ local function commandline_pre(buf, mode)
   fn["ddc#enable_cmdline_completion"]()
 end
 
-local function setup()
+local function config()
   -- insert or cmdline
   vim.keymap.set({ "i", "c" }, "<Tab>", function()
     if vim.fn["pum#visible"]() then
@@ -110,6 +110,6 @@ return {
       { "matsui54/denops-popup-preview.vim" },
       -- { "Shougo/ddc-converter_remove_overlap" },
     },
-    config = setup,
+    config = config,
   },
 }
