@@ -82,7 +82,7 @@ local function setup()
   end, { expr = true })
 
   -- enable
-  fn["ddc#custom#load_config"]("/home/atusy/.config/nvim/lua/plugins/ddc/ddc.ts")
+  fn["ddc#custom#load_config"](vim.fs.joinpath(vim.fs.dirname(debug.getinfo(1, "S").source:sub(2)), "ddc.ts"))
   fn["popup_preview#enable"]()
   fn["ddc#enable"]()
 end
