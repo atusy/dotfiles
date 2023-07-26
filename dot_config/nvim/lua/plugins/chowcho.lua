@@ -81,6 +81,9 @@ local setup_chowcho = function()
   ---@param target integer of the target winid
   ---@return integer? count to be passed to wincmd x if available
   local function find_wincmd_x_target(layout, cur, target)
+    if layout[1] == "leaf" then
+      return
+    end
     local leaves = {}
     for i, item in pairs(layout[2]) do
       if item[1] == "leaf" then
