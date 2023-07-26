@@ -501,7 +501,7 @@ local deps = {
     lazy = true,
     dependencies = { "rapan931/lasterisk.nvim", "RRethy/vim-illuminate" },
     init = function()
-      local function motion(offset, backward)
+      local function motion(offset, backward, inclusive_op)
         local pat = vim.fn.getcharstr()
         require("leap-search").leap(pat, {
           engines = {
@@ -522,19 +522,32 @@ local deps = {
         }, {
           backward = backward,
           offset = offset,
+          inclusive_op = inclusive_op,
         })
       end
 
-      set_keymap({ "n", "x", "o" }, "f", function()
+      set_keymap("o", "f", function()
+        motion(1, false, true)
+      end)
+      set_keymap("o", "F", function()
+        motion(0, true, true)
+      end)
+      set_keymap("o", "t", function()
+        motion(0, false, true)
+      end)
+      set_keymap("o", "T", function()
+        motion(1, true, true)
+      end)
+      set_keymap({ "n", "x" }, "f", function()
         motion(0, false)
       end)
-      set_keymap({ "n", "x", "o" }, "F", function()
+      set_keymap({ "n", "x" }, "F", function()
         motion(0, true)
       end)
-      set_keymap({ "n", "x", "o" }, "t", function()
+      set_keymap({ "n", "x" }, "t", function()
         motion(-1, false)
       end)
-      set_keymap({ "n", "x", "o" }, "T", function()
+      set_keymap({ "n", "x" }, "T", function()
         motion(1, true)
       end)
 
