@@ -36,70 +36,6 @@ end
 
 local function setup()
   -- insert
-  local patch_global = fn["ddc#custom#patch_global"]
-  patch_global({
-    ui = "pum",
-    autoCompleteEvents = { "InsertEnter", "TextChangedI", "TextChangedP", "CmdlineEnter", "CmdlineChanged" },
-    sources = { "nvim-lsp", "around", "file", "buffer", "skkeleton" },
-    cmdlineSources = {
-      [":"] = { "cmdline-history", "cmdline", "zsh", "file", "around" },
-      ["@"] = { "cmdline-history", "input", "file", "around" },
-      [">"] = { "cmdline-history", "input", "file", "around" },
-      ["/"] = { "around", "line" },
-      ["?"] = { "around", "line" },
-      ["-"] = { "around", "line" },
-      ["="] = { "input" },
-    },
-  })
-  patch_global("sourceOptions", {
-    around = { mark = "A" },
-    buffer = { mark = "B" },
-    ["nvim-lsp"] = { mark = "L", forceCompletionPattern = [[\S]] },
-    skkeleton = {
-      mark = "J",
-      matchers = { "skkeleton" },
-      sorters = {},
-      minAutoCompleteLength = 2,
-      isVolatile = true,
-    },
-    file = {
-      mark = "F",
-      isVolatile = true,
-      forceCompletionPattern = [[\S/\S*]],
-    },
-    input = { mark = "I", isVolatile = true, minAutoCompleteLength = 1 },
-    ["cmdline"] = { mark = "C", minAutoCompleteLength = 1 },
-    ["cmdline-history"] = {
-      mark = "H",
-      maxItems = 1,
-      minAutoCompleteLength = 0,
-      minKeywordLength = 2,
-      sorters = {}, -- no sorters to prioritize latest history
-    },
-    zsh = {
-      mark = "Z",
-      minAutoCompleteLength = 0,
-      minKeywordLength = 2,
-    },
-    ["_"] = {
-      ignoreCase = true,
-      matchers = { "matcher_fuzzy" },
-      sorters = { "sorter_fuzzy" },
-      converters = { "converter_fuzzy" },
-    },
-  })
-  patch_global("sourceParams", {
-    around = { maxSize = 500 },
-    ["nvim-lsp"] = {
-      enableResolveItem = true,
-      enableAdditionalTextEdit = true,
-    },
-    zsh = { envs = { FPATH = vim.fn.system([[zsh -i -c 'echo -n "$FPATH"']]) } },
-  })
-  fn["ddc#custom#patch_filetype"]({ "bash", "zsh", "sh" }, {
-    sources = { "nvim-lsp", "zsh", "around", "file", "buffer", "skkeleton" },
-  })
-
   vim.keymap.set({ "i", "c" }, "<Tab>", function()
     if vim.fn["pum#visible"]() then
       return "<Cmd>call pum#map#insert_relative(+1)<CR>"
@@ -155,6 +91,7 @@ local function setup()
   end, { expr = true })
 
   -- enable
+  fn["ddc#custom#load_config"]("/home/atusy/.config/nvim/lua/plugins/ddc/ddc.ts")
   fn["popup_preview#enable"]()
   fn["ddc#enable"]()
 end
