@@ -76,6 +76,25 @@ local setup_chowcho = function()
   set_keymap({ "", "t" }, "<C-W>e", _chowcho_edit)
   set_keymap({ "", "t" }, "<C-W><C-E>", _chowcho_edit)
 
+  ---@param layout table returnd by vim.fn.winlayout()
+  ---@param cur integer of the current winid
+  ---@param target integer of the target winid
+  ---@return integer? count to be passed to wincmd x if available
+  local function find_wincmd_x_target(layout, cur, target)
+    local leaves = {}
+    for i, item in pairs(layout[2]) do
+      if item[1] == "leaf" then
+        leaves[item[2]] = i
+      else
+        local res = find_wincmd_x_target(item, cur, target)
+        if res then
+          return res
+        end
+      end
+    end
+    return leaves[cur] and leaves[target]
+  end
+
   local function _chowcho_exchange()
     -- Swaps buffers between windows
     -- also moves between windows to apply styler.nvim theming
@@ -84,26 +103,20 @@ local setup_chowcho = function()
       return
     end
     run(
-      safely(function(winid)
+      safely(function(n)
         local cur = api.nvim_get_current_win()
-
-        -- skip
-        if winid == cur then
+        if n == cur then
           return
         end
-
-        -- try exchange window by wincmd x
-        local winnr = vim.fn.getwininfo(winid)[1].winnr
-        vim.cmd(winnr .. "wincmd x")
-        if api.nvim_get_current_win() ~= cur then
+        local count = find_wincmd_x_target(vim.fn.winlayout(), cur, n)
+        if count then
+          vim.cmd(count .. "wincmd x")
           return
         end
-
-        -- force exchange buffer between windows
         local bufnr0 = api.nvim_win_get_buf(cur)
-        local bufnrn = api.nvim_win_get_buf(winid)
+        local bufnrn = api.nvim_win_get_buf(n)
         api.nvim_win_set_buf(cur, bufnrn)
-        api.nvim_win_set_buf(winid, bufnr0)
+        api.nvim_win_set_buf(n, bufnr0)
       end),
       {
         use_exclude_default = false,
