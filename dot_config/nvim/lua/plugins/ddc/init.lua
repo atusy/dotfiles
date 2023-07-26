@@ -2,25 +2,20 @@ local fn = vim.fn
 local utils = require("atusy.utils")
 local set_keymap = utils.set_keymap
 
-local DEBUG = false
-
-local function commandline_post_buf(buf, opts)
-  if vim.api.nvim_buf_is_valid(buf) then
-    vim.api.nvim_buf_call(buf, function()
-      vim.fn["pum#set_option"]({ reversed = false })
-      fn["ddc#custom#set_buffer"](opts or vim.empty_dict())
-    end)
-  end
-end
-
-local function commandline_pre(bufnr, mode)
+local function commandline_pre(buf, mode)
   local opts = vim.fn["ddc#custom#get_buffer"]()
   vim.api.nvim_create_autocmd("User", {
     group = utils.augroup,
     pattern = "DDCCmdlineLeave",
     once = true,
+    desc = "revert temporary settings",
     callback = function()
-      commandline_post_buf(bufnr, opts)
+      if vim.api.nvim_buf_is_valid(buf) then
+        vim.api.nvim_buf_call(buf, function()
+          vim.fn["pum#set_option"]({ reversed = false })
+          fn["ddc#custom#set_buffer"](opts or vim.empty_dict())
+        end)
+      end
     end,
   })
   vim.fn["pum#set_option"]({ reversed = true })
@@ -70,17 +65,11 @@ local function setup()
 
   -- cmdline
   set_keymap("n", "/", function()
-    local ok, mes = pcall(commandline_pre, vim.api.nvim_get_current_buf())
-    if DEBUG and not ok and mes then
-      vim.notify(mes)
-    end
+    pcall(commandline_pre, vim.api.nvim_get_current_buf(), "/")
     return "/"
   end, { expr = true })
   set_keymap({ "n", "x" }, ":", function()
-    local ok, mes = pcall(commandline_pre, vim.api.nvim_get_current_buf(), ":")
-    if DEBUG and not ok and mes then
-      vim.notify(mes)
-    end
+    pcall(commandline_pre, vim.api.nvim_get_current_buf(), ":")
     return ":"
   end, { expr = true })
   vim.keymap.set("c", "<c-c>", function()
