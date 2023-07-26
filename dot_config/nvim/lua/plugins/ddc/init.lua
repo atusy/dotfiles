@@ -88,6 +88,7 @@ return {
       { "vim-denops/denops.vim" },
       { "Shougo/pum.vim" },
       { "Shougo/ddc-matcher_head" },
+      { "Shougo/ddc-filter-matcher_vimregexp" },
       { "Shougo/ddc-source-around" },
       { "Shougo/ddc-source-cmdline" },
       { "Shougo/ddc-source-cmdline-history" },
