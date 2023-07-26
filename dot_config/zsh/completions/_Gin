@@ -1,0 +1,3 @@
+#compdef Gin
+service=git
+_git
