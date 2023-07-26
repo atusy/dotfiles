@@ -1,6 +1,8 @@
 setopt no_global_rcs
 typeset -U path fpath
 
+fpath=( "$HOME/.config/zsh/completions" "${fpath[@]}" )
+
 if [[ -n "${NVIM:-$NVIM_LISTEN_ADDRESS}" ]] && command -v nvr > /dev/null
 then
   export NVIM_LISTEN_ADDRESS="${NVIM_LISTEN_ADDRESS:-$NVIM}"
