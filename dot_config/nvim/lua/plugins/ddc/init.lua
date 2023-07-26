@@ -30,7 +30,7 @@ local function commandline_pre(buf, mode)
 end
 
 local function setup()
-  -- insert
+  -- insert or cmdline
   vim.keymap.set({ "i", "c" }, "<Tab>", function()
     if vim.fn["pum#visible"]() then
       return "<Cmd>call pum#map#insert_relative(+1)<CR>"
@@ -56,6 +56,8 @@ local function setup()
     end
     return "<C-Y>"
   end, { expr = true })
+
+  -- insert
   vim.keymap.set("i", "<c-c>", function()
     if vim.fn["pum#visible"]() then
       return "<Cmd>call pum#map#cancel()<CR>"
