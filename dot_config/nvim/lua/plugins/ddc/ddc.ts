@@ -40,30 +40,26 @@ export class Config extends BaseConfig {
           converters: ["converter_fuzzy"],
           timeout: 1000,
         },
-        around: {
-          mark: "A",
-        },
-        buffer: {
-          mark: "B",
-        },
+        around: { mark: "A" },
+        buffer: { mark: "B" },
         cmdline: {
-          mark: "C",
+          mark: "CMD",
           forceCompletionPattern: "\\S/\\S*|\\.\\w*",
         },
         "cmdline-history": {
-          mark: "H",
+          mark: "HIST",
           maxItems: 5,
           minAutoCompleteLength: 0,
           minKeywordLength: 2,
           sorters: [],
         },
         input: {
-          mark: "input",
+          mark: "INPUT",
           forceCompletionPattern: "\\S/\\S*",
           isVolatile: true,
         },
         line: {
-          mark: "line",
+          mark: "LINE",
           matchers: ["matcher_vimregexp"],
           sorters: [],
         },
@@ -78,13 +74,13 @@ export class Config extends BaseConfig {
           forceCompletionPattern: "\\S/\\S*",
         },
         zsh: {
-          mark: "Z",
+          mark: "ZSH",
           isVolatile: true,
           minAutoCompleteLength: 0,
           minKeywordLength: 2,
         },
         skkeleton: {
-          mark: "skk",
+          mark: "SKK",
           matchers: ["skkeleton"],
           sorters: [],
           minAutoCompleteLength: 2,
