@@ -164,8 +164,8 @@ return {
           fn = function(_)
             local gintonic = require("gintonic")
             local obj = gintonic.utils.object_getters.default()
-            local stdout = vim.fn.system("git show " .. obj .. " --name-status")
-            return vim.fn.split(stdout, "\n")
+            local stdout = vim.system("git show " .. obj .. " --name-status"):wait().stdout
+            return vim.fn.split(stdout or "", "\n")
           end,
         },
       }

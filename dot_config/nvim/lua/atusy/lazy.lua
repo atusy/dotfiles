@@ -1,7 +1,7 @@
 local M = {}
 
 function M.install(lazypath)
-  vim.fn.system({
+  local cmd = vim.system({
     "git",
     "clone",
     "--filter=blob:none",
@@ -9,6 +9,7 @@ function M.install(lazypath)
     "https://github.com/folke/lazy.nvim.git",
     lazypath,
   })
+  return cmd:wait()
 end
 
 local did_load_all = false

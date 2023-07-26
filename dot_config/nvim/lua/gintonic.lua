@@ -185,7 +185,7 @@ end
 
 gintonic.tonic.graph = function(params, args)
   -- local has_alias = os.execute("git config alias.gintonic-graph") == 0
-  local has_alias = vim.fn.system("git config alias.gintonic-graph") ~= ""
+  local has_alias = vim.system({ "git", "config", "alias.gintonic-graph" }):wait().code == 0
   gintonic.gin.ginbuffer(
     params,
     table.concat({
