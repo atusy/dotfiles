@@ -11,6 +11,8 @@ async function get_fpath() {
 
 export class Config extends BaseConfig {
   override async config(args: ConfigArguments): Promise<void> {
+    const sources = [ "nvim-lsp", "around", "file", "buffer", "skkeleton" ];
+
     ["zsh", "fish", "xonsh"].map((x) =>
       args.setAlias("source", x, "shell-native")
     );
@@ -27,13 +29,7 @@ export class Config extends BaseConfig {
         "CmdlineChanged",
         // "TextChangedT",
       ],
-      sources: [
-        "nvim-lsp",
-        "around",
-        "file",
-        "buffer",
-        "skkeleton",
-      ],
+      sources: sources,
       cmdlineSources: {
         ":": ["fish", "zsh", "cmdline", "cmdline-history", "around"],
         "@": ["input", "cmdline-history", "file", "around"],
@@ -149,18 +145,9 @@ export class Config extends BaseConfig {
       },
     });
 
-    [["sh", "zsh"], ["bash", "zsh"], ["zsh"], ["fish"], ["xonsh"]].map(
-      (x) =>
-        args.contextBuilder.patchFiletype(x[0], {
-          sources: [
-            "nvim-lsp",
-            x[1] ?? x[0],
-            "around",
-            "file",
-            "buffer",
-            "skkeleton",
-          ],
-        }),
+    const shellSources = ["fish", "zsh", "xonsh", ...sources];
+    ["sh", "bash", "fish", "xonsh", "zsh"].map(
+      (x) => args.contextBuilder.patchFiletype(x[0], { sources: shellSources }),
     );
   }
 }
