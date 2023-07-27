@@ -11,8 +11,11 @@ async function get_fpath() {
 
 export class Config extends BaseConfig {
   override async config(args: ConfigArguments): Promise<void> {
+    ["zsh", "fish", "xonsh"].map((x) =>
+      args.setAlias("source", x, "shell-native")
+    );
 
-    ["zsh", "fish", "xonsh"].map(x => args.setAlias("source", x, "shell-native"));
+    args.setAlias("filter", "converter_first_char", "converter_truncate_abbr");
 
     args.contextBuilder.patchGlobal({
       ui: "pum",
@@ -24,7 +27,13 @@ export class Config extends BaseConfig {
         "CmdlineChanged",
         // "TextChangedT",
       ],
-      sources: ["nvim-lsp", "around", "file", "buffer", "skkeleton"],
+      sources: [
+        "nvim-lsp",
+        "around",
+        "file",
+        "buffer",
+        "skkeleton",
+      ],
       cmdlineSources: {
         ":": ["fish", "zsh", "cmdline", "cmdline-history", "around"],
         "@": ["input", "cmdline-history", "file", "around"],
@@ -64,6 +73,7 @@ export class Config extends BaseConfig {
           mark: "LINE",
           matchers: ["matcher_vimregexp"],
           sorters: [],
+          converters: ["converter_remove_overlap"],
         },
         "nvim-lsp": {
           mark: "L",
@@ -97,6 +107,7 @@ export class Config extends BaseConfig {
           mark: "SKK",
           matchers: ["skkeleton"],
           sorters: [],
+          converters: [],
           minAutoCompleteLength: 2,
           isVolatile: true,
         },
@@ -134,14 +145,22 @@ export class Config extends BaseConfig {
           envs: {
             COLUMNS: "200", // to get more preview info
           },
-        }
+        },
       },
     });
 
     [["sh", "zsh"], ["bash", "zsh"], ["zsh"], ["fish"], ["xonsh"]].map(
-      x => args.contextBuilder.patchFiletype(x[0], {
-        sources: ["nvim-lsp", x[1] ?? x[0], "around", "file", "buffer", "skkeleton"],
-      })
+      (x) =>
+        args.contextBuilder.patchFiletype(x[0], {
+          sources: [
+            "nvim-lsp",
+            x[1] ?? x[0],
+            "around",
+            "file",
+            "buffer",
+            "skkeleton",
+          ],
+        }),
     );
   }
 }
