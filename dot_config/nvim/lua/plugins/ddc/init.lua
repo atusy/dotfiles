@@ -95,7 +95,7 @@ return {
       { "Shougo/ddc-source-input" },
       { "Shougo/ddc-source-line" },
       { "Shougo/ddc-source-nvim-lsp" },
-      { "Shougo/ddc-source-zsh" },
+      { "Shougo/ddc-source-shell-native" },
       { "Shougo/ddc-ui-pum" },
       { "matsui54/ddc-buffer" },
       { "LumaKernel/ddc-source-file" },

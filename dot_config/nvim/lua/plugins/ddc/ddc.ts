@@ -12,6 +12,8 @@ async function get_fpath() {
 export class Config extends BaseConfig {
   override async config(args: ConfigArguments): Promise<void> {
 
+    ["zsh", "fish", "xonsh"].map(x => args.setAlias("source", x, "shell-native"));
+
     args.contextBuilder.patchGlobal({
       ui: "pum",
       autoCompleteEvents: [
@@ -24,7 +26,7 @@ export class Config extends BaseConfig {
       ],
       sources: ["nvim-lsp", "around", "file", "buffer", "skkeleton"],
       cmdlineSources: {
-        ":": ["zsh", "cmdline", "cmdline-history", "around"],
+        ":": ["fish", "zsh", "cmdline", "cmdline-history", "around"],
         "@": ["input", "cmdline-history", "file", "around"],
         ">": ["input", "cmdline-history", "file", "around"],
         "/": ["around", "line"],
@@ -73,6 +75,18 @@ export class Config extends BaseConfig {
           isVolatile: true,
           forceCompletionPattern: "\\S/\\S*",
         },
+        xonsh: {
+          mark: "XONSH",
+          isVolatile: true,
+          minAutoCompleteLength: 0,
+          minKeywordLength: 2,
+        },
+        fish: {
+          mark: "FISH",
+          isVolatile: true,
+          minAutoCompleteLength: 0,
+          minKeywordLength: 2,
+        },
         zsh: {
           mark: "ZSH",
           isVolatile: true,
@@ -102,16 +116,32 @@ export class Config extends BaseConfig {
           enableResolveItem: true,
           enableAdditionalTextEdit: true,
         },
-        zsh: { envs: { FPATH: await get_fpath() } },
+        fish: {
+          shell: "fish",
+          envs: {
+            COLUMNS: "200", // to get more preview info
+          },
+        },
+        zsh: {
+          shell: "zsh",
+          envs: {
+            FPATH: await get_fpath(),
+            COLUMNS: "200", // to get more preview info
+          },
+        },
+        xonsh: {
+          shell: "xonsh",
+          envs: {
+            COLUMNS: "200", // to get more preview info
+          },
+        }
       },
     });
 
-    for (
-      const filetype of ["sh", "bash", "zsh"]
-    ) {
-      args.contextBuilder.patchFiletype(filetype, {
-        sources: ["nvim-lsp", "zsh", "around", "file", "buffer", "skkeleton"],
-      });
-    }
+    [["sh", "zsh"], ["bash", "zsh"], ["zsh"], ["fish"], ["xonsh"]].map(
+      x => args.contextBuilder.patchFiletype(x[0], {
+        sources: ["nvim-lsp", x[1] ?? x[0], "around", "file", "buffer", "skkeleton"],
+      })
+    );
   }
 }
