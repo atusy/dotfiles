@@ -17,8 +17,6 @@ export class Config extends BaseConfig {
       args.setAlias("source", x, "shell-native")
     );
 
-    args.setAlias("filter", "converter_first_char", "converter_truncate_abbr");
-
     args.contextBuilder.patchGlobal({
       ui: "pum",
       autoCompleteEvents: [
