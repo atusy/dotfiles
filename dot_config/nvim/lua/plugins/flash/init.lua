@@ -227,7 +227,7 @@ return {
         local cache = {}
 
         require("flash").jump({
-          labels = [[ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890!@#$%^&*()[]`'=-{}~"+_ ]],
+          labels = [[ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890!@#$%^&*()[]`'=-{}~"+_]],
           label = { before = true, after = false },
           matcher = incremental_matcher(nil, cache),
           labeler = function() end,
