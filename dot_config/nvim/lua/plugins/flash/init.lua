@@ -190,7 +190,6 @@ return {
   {
     "folke/flash.nvim",
     lazy = true,
-    dir = "~/ghq/github.com/folke/flash.nvim",
     init = function(p)
       local motions = {
         f = { label = { after = false, before = { 0, 0 } }, jump = { autojump = true } },
