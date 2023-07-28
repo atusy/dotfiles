@@ -83,6 +83,6 @@ completions:
     sourceCommand: "fd --no-ignore-vcs"
     options:
       --multi: true
-    callback: "sed -e 's/^\\.\\///'"
+    callback: "sed -e 's#^\\./##'"
 
 
