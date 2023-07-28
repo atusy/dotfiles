@@ -114,6 +114,8 @@ return {
       { "Shougo/ddc-converter_remove_overlap" },
       { "Shougo/ddc-converter_truncate_abbr" },
       { "atusy/ddc-filter-converter_string_match" },
+      -- dict
+      { "dwyl/english-words", lazy = true },
     },
     config = config,
   },

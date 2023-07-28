@@ -1,5 +1,6 @@
 import { BaseConfig } from "https://deno.land/x/ddc_vim@v3.9.0/types.ts";
 import { ConfigArguments } from "https://deno.land/x/ddc_vim@v3.9.0/base/config.ts";
+import { join } from "https://deno.land/std@0.196.0/path/mod.ts";
 
 async function get_fpath() {
   const cmd = new Deno.Command("zsh", {
@@ -11,11 +12,19 @@ async function get_fpath() {
 
 export class Config extends BaseConfig {
   override async config(args: ConfigArguments): Promise<void> {
-    const sources = [ "nvim-lsp", "around", "file", "buffer", "skkeleton" ];
+    const sources = [
+      "nvim-lsp",
+      "around",
+      "file",
+      "buffer",
+      "skkeleton",
+      "dictionary",
+    ];
 
     ["zsh", "fish", "xonsh"].map((x) =>
       args.setAlias("source", x, "shell-native")
     );
+    args.setAlias("filter", "matcher_head_2chars", "matcher_head");
 
     args.contextBuilder.patchGlobal({
       ui: "pum",
@@ -44,6 +53,12 @@ export class Config extends BaseConfig {
           sorters: ["sorter_fuzzy"],
           converters: ["converter_fuzzy"],
           timeout: 1000,
+        },
+        dictionary: {
+          mark: "Dict",
+          matchers: ["matcher_head_2chars", "matcher_fuzzy"],
+          isVolatile: true,
+          maxItems: 30,
         },
         around: { mark: "A" },
         buffer: { mark: "B" },
@@ -107,6 +122,20 @@ export class Config extends BaseConfig {
         },
       },
       sourceParams: {
+        dictionary: {
+          showMenu: false,
+          dictPaths: await (async () => {
+            const dictPaths = [];
+            const lazyroot = await args.denops.call(
+              "luaeval",
+              `require("lazy.core.config").options.root`,
+            );
+            if (typeof lazyroot === "string") {
+              dictPaths.push(join(lazyroot, "english-words/words_alpha.txt"));
+            }
+            return dictPaths;
+          })(),
+        },
         around: { maxSize: 500 },
         buffer: {
           requireSameFiletype: false,
@@ -139,6 +168,11 @@ export class Config extends BaseConfig {
           envs: {
             COLUMNS: "200", // to get more preview info
           },
+        },
+      },
+      filterParams: {
+        matcher_head_2chars: {
+          maxMatchLength: 2,
         },
       },
     });
