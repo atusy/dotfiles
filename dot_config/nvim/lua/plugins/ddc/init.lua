@@ -86,9 +86,13 @@ return {
     -- dir = "/home/atusy/ghq/github.com/Shougo/ddc.vim",
     dependencies = {
       { "vim-denops/denops.vim" },
+      -- ui
+      { "matsui54/denops-popup-preview.vim" },
       { "Shougo/pum.vim" },
-      { "Shougo/ddc-matcher_head" },
-      { "Shougo/ddc-filter-matcher_vimregexp" },
+      -- { "Shougo/ddc-ui-native" },
+      -- source
+      { "atusy/ddc-source-parametric" },
+      { "matsui54/ddc-dictionary" },
       { "Shougo/ddc-source-around" },
       { "Shougo/ddc-source-cmdline" },
       { "Shougo/ddc-source-cmdline-history" },
@@ -100,9 +104,15 @@ return {
       { "matsui54/ddc-buffer" },
       { "LumaKernel/ddc-source-file" },
       { "Shougo/ddc-sorter_rank" },
+      -- filter
       { "tani/ddc-fuzzy" },
-      { "matsui54/denops-popup-preview.vim" },
-      -- { "Shougo/ddc-converter_remove_overlap" },
+      -- matcher
+      { "Shougo/ddc-matcher_head" },
+      { "Shougo/ddc-filter-matcher_vimregexp" },
+      -- converter
+      { "Shougo/ddc-converter_remove_overlap" },
+      { "Shougo/ddc-converter_truncate_abbr" },
+      { "atusy/ddc-filter-converter_string_match" },
     },
     config = config,
   },
