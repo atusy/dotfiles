@@ -463,7 +463,7 @@ local deps = {
       vim.api.nvim_create_autocmd("User", { pattern = "LeapEnter", group = utils.augroup, callback = hi })
 
       require("leap").setup({
-        safe_labels = {},
+        safe_labels = { "s" },
         special_keys = {
           repeat_search = "<enter>",
           next_phase_one_target = "<enter>",
