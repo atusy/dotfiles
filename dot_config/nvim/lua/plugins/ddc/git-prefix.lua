@@ -49,7 +49,7 @@ local function setting(buf)
   if row > 0 then
     return {}
   end
-  local text = vim.api.nvim_buf_get_lines(0, row, row + 1, true)[1] or ""
+  local text = vim.api.nvim_buf_get_text(0, row, 0, row, col, {})[1] or ""
   if text:match("%s") then
     return {}
   end
