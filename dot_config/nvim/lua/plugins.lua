@@ -496,6 +496,7 @@ local deps = {
     lazy = true,
     dependencies = { "rapan931/lasterisk.nvim", "RRethy/vim-illuminate" },
     init = function()
+      --[====[
       local function motion(offset, backward, inclusive_op)
         local pat = vim.fn.getcharstr()
         require("leap-search").leap(pat, {
@@ -560,6 +561,7 @@ local deps = {
           hl_group = "WarningMsg",
         }, { target_windows = { vim.api.nvim_get_current_win() } })
       end)
+      ]====]
 
       local function search(back)
         local pat = vim.fn.getreg("/")
