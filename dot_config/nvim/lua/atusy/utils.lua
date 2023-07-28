@@ -14,11 +14,11 @@ local function default_handler(err)
   vim.notify(err, vim.log.levels.ERROR)
 end
 
-function M.safely(f, handler)
+function M.safely(f, default, handler)
   return function(...)
     local ok, res = pcall(f, ...)
     if not ok then
-      return (handler or default_handler)(res)
+      return default, (handler or default_handler)(res)
     end
     return res
   end
