@@ -11,10 +11,6 @@ M.regex_emoji = "["
   .. "]"
 
 function M.prefix_emoji(buf, sources)
-  if true then
-    -- currently testing ddc.git-prefix
-    return
-  end
   buf = buf or vim.api.nvim_get_current_buf()
   if not sources then
     local bufname = vim.api.nvim_buf_get_name(buf)
