@@ -99,7 +99,7 @@ local function incremental_matcher(conv, cache)
   if cache then
     cache.labels = {}
   end
-  return function(win, state)
+  return require("atusy.utils").safely(function(win, state)
     local wininfo = vim.fn.getwininfo(win)
     if win ~= curwin or state.pattern.pattern == "" or not wininfo or #wininfo == 0 then
       return {}
@@ -154,7 +154,7 @@ local function incremental_matcher(conv, cache)
       end
     end
     return matches
-  end
+  end, {})
 end
 
 return {
