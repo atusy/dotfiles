@@ -303,10 +303,14 @@ local deps = {
   },
   {
     "yuki-yano/fuzzy-motion.vim",
+    cond = false,
     dependencies = { "lambdalisue/kensaku.vim", "vim-denops/denops.vim", "yuki-yano/denops-lazy.nvim" },
     cmd = "FuzzyMotion",
-    init = function()
-      -- set_keymap({ "n", "x" }, ";", "<Cmd>FuzzyMotion<CR>")
+    init = function(p)
+      if not p.cond then
+        return
+      end
+      set_keymap({ "n", "x" }, ";", "<Cmd>FuzzyMotion<CR>")
     end,
     config = function()
       vim.g.fuzzy_motion_matchers = { "fzf", "kensaku" }
