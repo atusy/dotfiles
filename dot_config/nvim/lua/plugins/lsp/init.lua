@@ -63,6 +63,7 @@ local function lspconfig()
   end
   config("gopls", {})
   config("bashls", { filetypes = { "sh", "bash", "zsh" } })
+  config("svelte", {})
   config("terraformls", { filetypes = { "terraform", "tf" } })
   config("lua_ls", {
     settings = {
