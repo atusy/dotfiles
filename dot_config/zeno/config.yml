@@ -14,16 +14,6 @@ snippets:
   - name: list colors
     keyword: ls-colors
     snippet: for c in {000..255}; do echo -n "\e[38;5;${c}m $c"; [ $(($c%16)) -eq 15 ] && echo; done; echo
-  - name: gh fzf
-    keyword: gh
-    snippet: ghf
-    context:
-      buffer: '^((.+\|\s+gh)|gh)$'
-  - name: glab fzf
-    keyword: gl
-    snippet: glabf
-    context:
-      buffer: '^((.+\|\s+gl)|gl)$'
   - name: fzf
     keyword: fzf
     snippet: fzf --ansi
