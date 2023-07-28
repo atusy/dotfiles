@@ -188,8 +188,15 @@ local deps = {
   },
   {
     "stevearc/oil.nvim",
-    init = function()
+    cond = false,
+    init = function(p)
+      if p.cond == false then
+        return
+      end
       set_keymap("n", "S", function()
+        require("oil").open()
+      end)
+      set_keymap("n", "SS", function()
         require("oil").open()
       end)
     end,
