@@ -54,6 +54,8 @@
 [status]
 	short = true
 	branch = true
+[tag]
+	sort = v:refname
 [advice]
 	detachedHead = false
 [fetch]
