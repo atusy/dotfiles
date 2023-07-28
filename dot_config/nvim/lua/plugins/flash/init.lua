@@ -93,6 +93,31 @@ local function conv_default(str)
   return [[\c]] .. kensaku_query(str)
 end
 
+local function char_matcher(conv, forward, cache)
+  local f = function(win, state)
+    local curwin = vim.api.nvim_get_current_win()
+    if win ~= curwin or state.pattern.pattern == "" then
+      return {}
+    end
+    local buf = vim.api.nvim_win_get_buf(win)
+    local cursor = vim.api.nvim_win_get_cursor(win)
+    local top = cursor[1] - 1
+    local bot = top + (forward and 1 or 0)
+    local left = forward and cursor[2] or 0
+    local right = forward and 0 or cursor[2]
+    local matches = search(buf, conv(state.pattern.pattern), { top, left }, { bot, right })
+    local labels = string.sub(state.opts.labels, 0, #matches)
+    local delta = forward and 1 or -1
+    local i = forward and 1 or #matches
+    for lab in labels:gmatch(".") do
+      matches[i].label = lab
+      i = i + delta
+    end
+    return matches
+  end
+  return require("atusy.utils").safely(f, {})
+end
+
 local function incremental_matcher(conv, cache)
   local curwin = vim.api.nvim_get_current_win()
   conv = conv or conv_default
@@ -168,38 +193,36 @@ return {
     dir = "~/ghq/github.com/folke/flash.nvim",
     init = function(p)
       local motions = {
-        f = { label = { after = false, before = { 0, 0 } } },
-        t = { label = { after = false, before = { 0, 1 } }, jump = { pos = "start" } },
+        f = { label = { after = false, before = { 0, 0 } }, jump = { autojump = true } },
+        t = { label = { after = false, before = { 0, 1 } }, jump = { autojump = true, pos = "start" } },
         F = {
           label = { after = false, before = { 0, 0 } },
           search = { forward = false },
-          jump = { pos = "start", inclusive = false },
+          jump = { autojump = true, pos = "start", inclusive = false },
         },
         T = {
           label = { after = false, before = { 0, 0 } },
           search = { forward = false },
-          jump = { pos = "end", inclusive = false },
+          jump = { autojump = true, pos = "end", inclusive = false },
         },
       }
 
-      for _, motion in ipairs({ "f", "t", "F", "T" }) do
-        vim.keymap.set({ "n", "x", "o" }, motion, function()
-          local Config = require("flash.config")
-          require("flash").jump(Config.get({
+      for k, conf in pairs(motions) do
+        local conv = k == "t" and function(x)
+          return "." .. kensaku_query(x)
+        end or kensaku_query
+        local matcher = char_matcher(conv, k == "f" or k == "t")
+        vim.keymap.set({ "n", "x", "o" }, k, function()
+          require("flash").jump(vim.tbl_extend("force", {
+            labels = [[abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890!@#$%^&*()[]`'=-{}~"+_]],
             mode = "char",
-            jump = { autojump = true },
-            search = {
-              multi_window = false,
-              mode = function(str)
-                local pos = vim.api.nvim_win_get_cursor(0)
-                return string.format("\\%%%dl%s%s", pos[1], motion == "t" and "." or "", kensaku_query(str))
-              end,
-              max_length = 1,
-            },
+            matcher = matcher,
+            labeler = function() end,
             highlight = { matches = false },
-          }, motions[motion]))
+          }, conf))
         end)
       end
+
       vim.keymap.set({ "n", "x", "o" }, ";", function()
         local cache = {}
 
