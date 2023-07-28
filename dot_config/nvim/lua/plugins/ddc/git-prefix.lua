@@ -86,8 +86,8 @@ local function setting(buf)
   end
 
   return {
+    sources = { "parametric" },
     sourceOptions = {
-      sources = { "parametric" },
       parametric = {
         mark = "  emoji-prefix",
         minAutoCompleteLength = 0,
