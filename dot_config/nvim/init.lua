@@ -345,10 +345,10 @@ vim.api.nvim_create_autocmd("TermOpen", { pattern = "*", group = utils.augroup, 
 vim.api.nvim_create_autocmd("ModeChanged", {
   pattern = "c:*",
   group = utils.augroup,
-  desc = "cleanup cmdline history",
+  desc = "cleanup cmdline history which are short enough or prefixed by space",
   callback = function()
     local cmd = vim.fn.histget(":", -1)
-    if cmd:match("^..?!?$") or cmd:match("^wqa!?$") then
+    if cmd:match("^..?!?$") or cmd:match("^wqa!?$") or cmd == "source %" or cmd:sub(0, 1) == " " then
       vim.fn.histdel(":", -1)
     end
   end,
