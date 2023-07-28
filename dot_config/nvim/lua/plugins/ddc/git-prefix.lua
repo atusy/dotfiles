@@ -47,52 +47,42 @@ local function setting(buf)
   local curpos = vim.fn.getcurpos()
   local row, col = curpos[2] - 1, curpos[3]
   if row > 0 then
+    vim.fn["pum#set_option"]({ max_height = vim.o.pumheight })
     return {}
   end
   local text = vim.api.nvim_buf_get_text(0, row, 0, row, col, {})[1] or ""
   if text:match("%s") then
+    vim.fn["pum#set_option"]({ max_height = vim.o.pumheight })
     return {}
   end
 
   local items = gather(read_template(buf), regex_emoji)
 
-  if #items == 0 then
-    return {
-      sources = { "parametric" },
-      sourceOptions = {
-        parametric = {
-          mark = "  semantic-commit",
-          minAutoCompleteLength = 0,
-          matchers = { "matcher_fuzzy" },
-          converters = { "converter_fuzzy" },
-          sorters = { "sorter_fuzzy" },
-          isVolatile = true,
-        },
-      },
-      sourceParams = {
-        parametric = {
-          items = {
-            { word = "feat" },
-            { word = "fix" },
-            { word = "chore" },
-            { word = "docs" },
-            { word = "refactor" },
-            { word = "style" },
-            { word = "test" },
-          },
-        },
-      },
+  local emoji = #items > 0
+
+  if not emoji then
+    items = {
+      { word = "feat" },
+      { word = "fix" },
+      { word = "chore" },
+      { word = "docs" },
+      { word = "refactor" },
+      { word = "style" },
+      { word = "test" },
     }
   end
 
+  vim.fn["pum#set_option"]({ max_height = #items })
+
   return {
     sources = { "parametric" },
+    backspaceCompletion = true,
     sourceOptions = {
       parametric = {
-        mark = "  emoji-prefix",
+        mark = "  commit-prefix",
         minAutoCompleteLength = 0,
         matchers = { "matcher_fuzzy" },
-        converters = { "converter_fuzzy", "converter_string_match" },
+        converters = emoji and { "converter_fuzzy", "converter_string_match" } or { "converter_fuzzy" },
         sorters = { "sorter_fuzzy" },
         isVolatile = true,
       },
