@@ -260,7 +260,17 @@ local deps = {
     "tyru/capture.vim",
     cmd = "Capture",
     init = function()
-      set_palette("n", "Capture", ":Capture ", { remap = true })
+      vim.keymap.set("c", "<c-x><c-c>", function()
+        local t = vim.fn.getcmdtype()
+        if t ~= ":" then
+          return
+        end
+        local l = vim.fn.getcmdline()
+        vim.schedule(function()
+          vim.cmd("Capture " .. l)
+        end)
+        return "<c-c>"
+      end, { expr = true })
     end,
   },
   {
