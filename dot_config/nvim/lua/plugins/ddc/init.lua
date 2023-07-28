@@ -92,7 +92,7 @@ return {
       -- ui
       { "matsui54/denops-popup-preview.vim" },
       { "Shougo/pum.vim" },
-      -- { "Shougo/ddc-ui-native" },
+      { "Shougo/ddc-ui-native", lazy = true }, -- install only
       -- source
       { "atusy/ddc-source-parametric" },
       { "matsui54/ddc-dictionary" },
@@ -117,7 +117,7 @@ return {
       { "Shougo/ddc-converter_truncate_abbr" },
       { "atusy/ddc-filter-converter_string_match" },
       -- dict
-      { "dwyl/english-words", lazy = true },
+      { "dwyl/english-words", lazy = true }, -- install only
     },
     config = config,
   },
