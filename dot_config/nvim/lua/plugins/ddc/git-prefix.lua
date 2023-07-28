@@ -58,9 +58,9 @@ local function setting(buf)
 
   local items = gather(read_template(buf), regex_emoji)
 
-  local emoji = #items > 0
+  local semantic = #items == 0
 
-  if not emoji then
+  if semantic then
     items = {
       { word = "feat" },
       { word = "fix" },
@@ -82,7 +82,7 @@ local function setting(buf)
         mark = "  commit-prefix",
         minAutoCompleteLength = 0,
         matchers = { "matcher_fuzzy" },
-        converters = emoji and { "converter_fuzzy", "converter_string_match" } or { "converter_fuzzy" },
+        converters = semantic and { "converter_fuzzy" } or { "converter_fuzzy", "converter_string_match" },
         sorters = { "sorter_fuzzy" },
         isVolatile = true,
       },
@@ -93,7 +93,6 @@ local function setting(buf)
         regexp = [==[\p{RI}\p{RI}|\p{Emoji}(\p{EMod}+|\u{FE0F}\u{20E3}?|[\u{E0020}-\u{E007E}]+\u{E007F})?(\u{200D}\p{Emoji}(\p{EMod}+|\u{FE0F}\u{20E3}?|[\u{E0020}-\u{E007E}]+\u{E007F})?)+|\p{EPres}(\p{EMod}+|\u{FE0F}\u{20E3}?|[\u{E0020}-\u{E007E}]+\u{E007F})?|\p{Emoji}(\p{EMod}+|\u{FE0F}\u{20E3}?|[\u{E0020}-\u{E007E}]+\u{E007F})]==],
         flags = "ug",
       },
-      -- converter_nth_word = { nth = 1 },
     },
   }
 end
