@@ -108,8 +108,12 @@ local function incremental_matcher(conv, cache)
     local matches, lines = search(buf, conv(state.pattern.pattern), { top, 0 }, { bot, 0 })
     local test = setmetatable({}, {
       __index = function(self, k)
-        self[k] = string.match(k, "[ABCDEFGHIJKLMNOPQRSTUVWXYZ]")
-          or not vim.regex(conv(state.pattern.pattern .. k)):match_str(lines)
+        if string.match(k, "[ABCDEFGHIJKLMNOPQRSTUVWXYZ]") then
+          self[k] = true
+        else
+          local ok, re = pcall(vim.regex, conv(state.pattern.pattern .. k))
+          self[k] = not ok or (re and not re:match_str(lines))
+        end
         return self[k]
       end,
     })
