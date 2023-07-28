@@ -10,9 +10,17 @@ function M.require(name)
   return require(name)
 end
 
-function M.safely(f)
+local function default_handler(err)
+  vim.notify(err, vim.log.levels.ERROR)
+end
+
+function M.safely(f, handler)
   return function(...)
-    pcall(f, ...)
+    local ok, res = pcall(f, ...)
+    if not ok then
+      return (handler or default_handler)(res)
+    end
+    return res
   end
 end
 
