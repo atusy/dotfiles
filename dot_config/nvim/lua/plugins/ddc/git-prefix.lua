@@ -100,7 +100,8 @@ local function setting(buf)
     sourceParams = { parametric = { items = items } },
     filterParams = {
       converter_string_match = {
-        regexp = regex_emoji,
+        regexp = [==[\p{RI}\p{RI}|\p{Emoji}(\p{EMod}+|\u{FE0F}\u{20E3}?|[\u{E0020}-\u{E007E}]+\u{E007F})?(\u{200D}\p{Emoji}(\p{EMod}+|\u{FE0F}\u{20E3}?|[\u{E0020}-\u{E007E}]+\u{E007F})?)+|\p{EPres}(\p{EMod}+|\u{FE0F}\u{20E3}?|[\u{E0020}-\u{E007E}]+\u{E007F})?|\p{Emoji}(\p{EMod}+|\u{FE0F}\u{20E3}?|[\u{E0020}-\u{E007E}]+\u{E007F})]==],
+        flags = "ug",
       },
       -- converter_nth_word = { nth = 1 },
     },
