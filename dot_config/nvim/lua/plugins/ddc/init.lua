@@ -21,6 +21,8 @@ local function commandline_pre(buf, mode)
   vim.fn["pum#set_option"]({ reversed = true })
   fn["ddc#custom#patch_buffer"]("sourceOptions", {
     file = { forceCompletionPattern = [[(^e\s+|\S/\S*)]] },
+    fish = { enabledIf = [[getcmdline()[0] == "!" ? v:true : v:false]] },
+    xonsh = { enabledIf = [[getcmdline()[0] == "!" ? v:true : v:false]] },
     zsh = { enabledIf = [[getcmdline() =~# "^\\(!\\|Gin\\(Buffer\\)\\? \\)" ? v:true : v:false]] },
     -- ["_"] = mode == ":" and { keywordPattern = "[0-9a-zA-Z_:#-]*" },
   })
