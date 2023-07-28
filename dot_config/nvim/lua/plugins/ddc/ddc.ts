@@ -38,7 +38,7 @@ export class Config extends BaseConfig {
       ],
       sources: sources,
       cmdlineSources: {
-        ":": ["fish", "zsh", "cmdline", "cmdline-history", "around"],
+        ":": ["cmdline", "fish", "zsh", "cmdline-history", "around"],
         "@": ["input", "cmdline-history", "file", "around"],
         ">": ["input", "cmdline-history", "file", "around"],
         "/": ["around", "line"],
