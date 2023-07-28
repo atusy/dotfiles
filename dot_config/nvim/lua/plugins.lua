@@ -451,33 +451,6 @@ local deps = {
     },
   },
   {
-    "phaazon/hop.nvim",
-    lazy = true,
-    cond = false,
-    init = function(p)
-      if p.cond == false then
-        return
-      end
-      local function hopper(direction, offset)
-        return function()
-          require("hop").hint_char1({
-            direction = require("hop.hint").HintDirection[direction],
-            current_line_only = true,
-            hint_offset = offset == nil and 0 or offset,
-          })
-        end
-      end
-
-      set_keymap("", "f", hopper("AFTER_CURSOR"))
-      set_keymap("", "F", hopper("BEFORE_CURSOR"))
-      set_keymap("", "t", hopper("AFTER_CURSOR", -1))
-      set_keymap("", "T", hopper("BEFORE_CURSOR", 1))
-    end,
-    config = function()
-      require("hop").setup()
-    end,
-  },
-  {
     "ggandor/leap.nvim",
     lazy = true,
     config = function()
