@@ -395,6 +395,7 @@ local deps = {
   },
   {
     "tversteeg/registers.nvim",
+    cond = false,
     config = function()
       require("registers").setup()
     end,
