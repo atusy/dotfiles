@@ -71,7 +71,9 @@ export class Config extends BaseConfig {
           maxItems: 5,
           minAutoCompleteLength: 0,
           minKeywordLength: 2,
+          matchers: ["matcher_head"],
           sorters: [],
+          converters: [],
         },
         input: {
           mark: "INPUT",
