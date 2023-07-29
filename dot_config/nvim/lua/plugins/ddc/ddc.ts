@@ -24,7 +24,7 @@ export class Config extends BaseConfig {
     ["zsh", "fish", "xonsh"].map((x) =>
       args.setAlias("source", x, "shell-native")
     );
-    args.setAlias("filter", "matcher_head_2chars", "matcher_head");
+    args.setAlias("filter", "matcher_head_dictionary", "matcher_head");
 
     args.contextBuilder.patchGlobal({
       ui: "pum",
@@ -56,7 +56,9 @@ export class Config extends BaseConfig {
         },
         dictionary: {
           mark: "Dict",
-          matchers: ["matcher_head_2chars", "matcher_fuzzy"],
+          matchers: ["matcher_head_dictionary", "matcher_editdistance"],
+          sorters: [], // sorted by matcher_editdistance
+          converters: ["converter_fuzzy"],
           isVolatile: true,
           maxItems: 30,
         },
@@ -173,8 +175,8 @@ export class Config extends BaseConfig {
         },
       },
       filterParams: {
-        matcher_head_2chars: {
-          maxMatchLength: 2,
+        matcher_head_dictionary: {
+          maxMatchLength: 1,
         },
       },
     });
