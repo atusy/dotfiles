@@ -28,6 +28,7 @@ export class Config extends BaseConfig {
 
     args.contextBuilder.patchGlobal({
       ui: "pum",
+      backspaceCompletion: true, // NOTE: manual mentions occasional flickers
       autoCompleteEvents: [
         "InsertEnter",
         "TextChangedI",
