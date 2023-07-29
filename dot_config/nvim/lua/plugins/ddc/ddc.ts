@@ -90,7 +90,7 @@ export class Config extends BaseConfig {
         },
         "nvim-lsp": {
           mark: "L",
-          forceCompletionPattern: "\\.\\w*|::\\w*|->\\w*",
+          // forceCompletionPattern: "\\.\\w*|::\\w*|->\\w*", // NOTE: some LSPs (denols) fails to suggest methods/fields
           dup: "force",
         },
         file: {
