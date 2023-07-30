@@ -112,6 +112,7 @@ return {
       -- matcher
       { "Shougo/ddc-matcher_head" },
       { "Shougo/ddc-filter-matcher_vimregexp" },
+      { "matsui54/ddc-filter_editdistance" },
       -- converter
       { "Shougo/ddc-converter_remove_overlap" },
       { "Shougo/ddc-converter_truncate_abbr" },
