@@ -12,6 +12,11 @@ async function get_fpath() {
 
 export class Config extends BaseConfig {
   override async config(args: ConfigArguments): Promise<void> {
+    const lazyroot = await args.denops.call(
+      "luaeval",
+      `require("lazy.core.config").options.root`,
+    ) as string;
+
     const sources = [
       "nvim-lsp",
       "around",
@@ -59,7 +64,7 @@ export class Config extends BaseConfig {
           mark: "Dict",
           matchers: ["matcher_head_dictionary", "matcher_editdistance"],
           sorters: [], // sorted by matcher_editdistance
-          converters: ["converter_fuzzy"],
+          converters: ["converter_fuzzy", "converter_dictionary"],
           isVolatile: true,
           maxItems: 30,
         },
@@ -129,17 +134,8 @@ export class Config extends BaseConfig {
       sourceParams: {
         dictionary: {
           showMenu: false,
-          dictPaths: await (async () => {
-            const dictPaths = [];
-            const lazyroot = await args.denops.call(
-              "luaeval",
-              `require("lazy.core.config").options.root`,
-            );
-            if (typeof lazyroot === "string") {
-              dictPaths.push(join(lazyroot, "english-words/words_alpha.txt"));
-            }
-            return dictPaths;
-          })(),
+          smartCase: false,
+          dictPaths: [join(lazyroot, "english-words/words_alpha.txt")],
         },
         around: { maxSize: 500 },
         buffer: {
@@ -178,6 +174,12 @@ export class Config extends BaseConfig {
       filterParams: {
         matcher_head_dictionary: {
           maxMatchLength: 1,
+        },
+        converter_dictionary: {
+          dicts: [
+            "kantan-ej-dictionary/kantan-ej-dictionary.json",
+            "WebstersEnglishDictionary/dictionary.json",
+          ].map((x) => join(lazyroot, x)),
         },
       },
     });
