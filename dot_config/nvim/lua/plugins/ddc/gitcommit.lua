@@ -43,7 +43,7 @@ local function read_template(buf)
   return ok and lines or {}
 end
 
-local function setting(buf, completion_items, semantic)
+local function setting(buf, completion_items, semantic, scopes)
   local curpos = vim.fn.getcurpos()
   local row, col = curpos[2] - 1, curpos[3]
   if row > 0 then
@@ -51,7 +51,7 @@ local function setting(buf, completion_items, semantic)
     return {}
   end
   local text = vim.api.nvim_buf_get_text(0, row, 0, row, col, {})[1] or ""
-  if text:match("%s") then
+  if text:match("%s") or (semantic and text:match(":")) then
     vim.fn["pum#set_option"]({ max_height = vim.o.pumheight })
     return {}
   end
@@ -71,7 +71,7 @@ local function setting(buf, completion_items, semantic)
         isVolatile = true,
       },
     },
-    sourceParams = { parametric = { items = completion_items } },
+    sourceParams = { parametric = { items = semantic and text:match("%(") and scopes or completion_items } },
     filterParams = {
       converter_string_match = {
         regexp = [==[\p{RI}\p{RI}|\p{Emoji}(\p{EMod}+|\u{FE0F}\u{20E3}?|[\u{E0020}-\u{E007E}]+\u{E007F})?(\u{200D}\p{Emoji}(\p{EMod}+|\u{FE0F}\u{20E3}?|[\u{E0020}-\u{E007E}]+\u{E007F})?)+|\p{EPres}(\p{EMod}+|\u{FE0F}\u{20E3}?|[\u{E0020}-\u{E007E}]+\u{E007F})?|\p{Emoji}(\p{EMod}+|\u{FE0F}\u{20E3}?|[\u{E0020}-\u{E007E}]+\u{E007F})]==],
@@ -87,17 +87,20 @@ local function gitprefix()
     callback = function(ctx)
       local completion_items = gather(read_template(ctx.buf), regex_emoji)
       local semantic = #completion_items == 0
+      local scopes = {}
 
       if semantic then
         local logs = vim.system({ "git", "log", "-n", "100", "--format=%s" }):wait().stdout or ""
         completion_items = {}
-        local prefixes = {}
+        local skip = {}
         for log in string.gmatch(logs, "[^\n]+") do
-          local word = string.match(log, "^%S+%(%S+%)!?:")
-          if word then
-            if not prefixes[word] then
-              prefixes[word] = true
-              table.insert(completion_items, { word = word })
+          local prefix = string.match(log, "^%S+%(%S+%)!?:")
+          if prefix then
+            table.insert(completion_items, { word = prefix })
+            local word = prefix:gsub(".*%(", ""):gsub("%).*", "")
+            if not skip[word] then
+              skip[word] = true
+              table.insert(scopes, { word = word })
             end
           end
         end
@@ -107,7 +110,7 @@ local function gitprefix()
       end
 
       vim.fn["ddc#custom#set_context_filetype"]("gitcommit", function()
-        return setting(ctx.buf, completion_items, semantic)
+        return setting(ctx.buf, completion_items, semantic, scopes)
       end)
     end,
   })
