@@ -29,7 +29,9 @@ export class Config extends BaseConfig {
     ["zsh", "fish", "xonsh"].map((x) =>
       args.setAlias("source", x, "shell-native")
     );
+    args.setAlias("source", "shell_history", "dictionary")
     args.setAlias("filter", "matcher_head_dictionary", "matcher_head");
+    args.setAlias("filter", "matcher_head_shell_history", "matcher_head");
 
     args.contextBuilder.patchGlobal({
       ui: "pum",
@@ -44,7 +46,7 @@ export class Config extends BaseConfig {
       ],
       sources: sources,
       cmdlineSources: {
-        ":": ["fish", "zsh", "cmdline", "cmdline-history", "around"],
+        ":": ["fish", "zsh", "cmdline", "cmdline-history", "shell_history", "around"],
         "@": ["input", "cmdline-history", "file", "around"],
         ">": ["input", "cmdline-history", "file", "around"],
         "/": ["around", "line"],
@@ -128,6 +130,11 @@ export class Config extends BaseConfig {
           minAutoCompleteLength: 0,
           minKeywordLength: 2,
         },
+        "shell_history": {
+          mark: "HIST_SH",
+          matchers: ["matcher_head_dictionary", "matcher_fuzzy"],
+          keywordPattern: "[^! ].*",
+        },
         skkeleton: {
           mark: "SKK",
           matchers: ["skkeleton"],
@@ -142,6 +149,11 @@ export class Config extends BaseConfig {
           showMenu: false,
           smartCase: false,
           dictPaths: [join(lazyroot, "english-words/words_alpha.txt")],
+        },
+        "shell_history": {
+          showMenu: false,
+          smartCase: false,
+          dictPaths: ["/home/atusy/.zsh_history"],
         },
         around: { maxSize: 500 },
         buffer: {
@@ -181,6 +193,9 @@ export class Config extends BaseConfig {
         matcher_head_dictionary: {
           maxMatchLength: 1,
         },
+        matcher_head_shell_history: {
+          maxMatchLength: 2,
+        },
         converter_dictionary: {
           dicts: [
             "kantan-ej-dictionary/kantan-ej-dictionary.json",
@@ -190,7 +205,7 @@ export class Config extends BaseConfig {
       },
     });
 
-    const shellSources = ["fish", "zsh", "xonsh", ...sources];
+    const shellSources = ["shell_history", "fish", "zsh", "xonsh"];
     ["sh", "bash", "fish", "xonsh", "zsh"].map(
       (x) => args.contextBuilder.patchFiletype(x, { sources: shellSources }),
     );
