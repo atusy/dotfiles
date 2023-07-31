@@ -81,7 +81,7 @@ local function setting(buf, completion_items, semantic, scopes)
   }
 end
 
-local function gitprefix()
+local function setup()
   vim.api.nvim_create_autocmd("FileType", {
     pattern = "gitcommit",
     callback = function(ctx)
@@ -116,4 +116,4 @@ local function gitprefix()
   })
 end
 
-return gitprefix
+return setup
