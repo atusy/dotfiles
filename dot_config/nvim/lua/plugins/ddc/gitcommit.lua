@@ -43,7 +43,7 @@ local function read_template(buf)
   return ok and lines or {}
 end
 
-local function setting(buf)
+local function setting(buf, completion_items, semantic)
   local curpos = vim.fn.getcurpos()
   local row, col = curpos[2] - 1, curpos[3]
   if row > 0 then
@@ -56,29 +56,7 @@ local function setting(buf)
     return {}
   end
 
-  local items = gather(read_template(buf), regex_emoji)
-
-  local semantic = #items == 0
-
-  if semantic then
-    local logs = vim.system({ "git", "log", "-n", "100", "--format=%s" }):wait().stdout or ""
-    items = {}
-    local prefixes = {}
-    for log in string.gmatch(logs, "[^\n]+") do
-      local word = string.match(log, "^%S+%(%S+%)!?:")
-      if word then
-        if not prefixes[word] then
-          prefixes[word] = true
-          table.insert(items, { word = word })
-        end
-      end
-    end
-    for _, word in pairs({ "feat", "prefix", "fix", "chore", "refactor", "style", "test" }) do
-      table.insert(items, { word = word })
-    end
-  end
-
-  vim.fn["pum#set_option"]({ max_height = #items })
+  vim.fn["pum#set_option"]({ max_height = #completion_items })
 
   return {
     sources = { "parametric" },
@@ -93,7 +71,7 @@ local function setting(buf)
         isVolatile = true,
       },
     },
-    sourceParams = { parametric = { items = items } },
+    sourceParams = { parametric = { items = completion_items } },
     filterParams = {
       converter_string_match = {
         regexp = [==[\p{RI}\p{RI}|\p{Emoji}(\p{EMod}+|\u{FE0F}\u{20E3}?|[\u{E0020}-\u{E007E}]+\u{E007F})?(\u{200D}\p{Emoji}(\p{EMod}+|\u{FE0F}\u{20E3}?|[\u{E0020}-\u{E007E}]+\u{E007F})?)+|\p{EPres}(\p{EMod}+|\u{FE0F}\u{20E3}?|[\u{E0020}-\u{E007E}]+\u{E007F})?|\p{Emoji}(\p{EMod}+|\u{FE0F}\u{20E3}?|[\u{E0020}-\u{E007E}]+\u{E007F})]==],
@@ -107,8 +85,29 @@ local function gitprefix()
   vim.api.nvim_create_autocmd("FileType", {
     pattern = "gitcommit",
     callback = function(ctx)
+      local completion_items = gather(read_template(ctx.buf), regex_emoji)
+      local semantic = #completion_items == 0
+
+      if semantic then
+        local logs = vim.system({ "git", "log", "-n", "100", "--format=%s" }):wait().stdout or ""
+        completion_items = {}
+        local prefixes = {}
+        for log in string.gmatch(logs, "[^\n]+") do
+          local word = string.match(log, "^%S+%(%S+%)!?:")
+          if word then
+            if not prefixes[word] then
+              prefixes[word] = true
+              table.insert(completion_items, { word = word })
+            end
+          end
+        end
+        for _, word in pairs({ "feat", "prefix", "fix", "chore", "refactor", "style", "test" }) do
+          table.insert(completion_items, { word = word })
+        end
+      end
+
       vim.fn["ddc#custom#set_context_filetype"]("gitcommit", function()
-        return setting(ctx.buf)
+        return setting(ctx.buf, completion_items, semantic)
       end)
     end,
   })
