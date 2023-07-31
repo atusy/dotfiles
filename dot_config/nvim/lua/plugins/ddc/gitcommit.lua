@@ -47,16 +47,16 @@ local function setting(buf, completion_items, semantic, scopes)
   local curpos = vim.fn.getcurpos()
   local row, col = curpos[2] - 1, curpos[3]
   if row > 0 then
-    vim.fn["pum#set_option"]({ max_height = vim.o.pumheight })
+    vim.fn["pum#set_buffer_option"]({ max_height = vim.o.pumheight })
     return {}
   end
   local text = vim.api.nvim_buf_get_text(0, row, 0, row, col, {})[1] or ""
   if text:match("%s") or (semantic and text:match(":")) then
-    vim.fn["pum#set_option"]({ max_height = vim.o.pumheight })
+    vim.fn["pum#set_buffer_option"]({ max_height = vim.o.pumheight })
     return {}
   end
 
-  vim.fn["pum#set_option"]({ max_height = #completion_items })
+  vim.fn["pum#set_buffer_option"]({ max_height = #completion_items })
 
   return {
     sources = { "parametric" },
