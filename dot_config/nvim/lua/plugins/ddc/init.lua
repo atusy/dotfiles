@@ -80,7 +80,7 @@ local function config()
   fn["ddc#custom#load_config"](vim.fs.joinpath(vim.fs.dirname(debug.getinfo(1, "S").source:sub(2)), "ddc.ts"))
   fn["popup_preview#enable"]()
   fn["ddc#enable"]()
-  require("plugins.ddc.git-prefix")()
+  require("plugins.ddc.gitcommit")()
 end
 
 return {
