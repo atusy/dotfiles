@@ -37,11 +37,6 @@ if [[ -f /opt/asdf-vm/asdf.sh ]]; then
   . /opt/asdf-vm/asdf.sh
 fi
 
-# local
-export PATH="$(
-  find "$HOME/.local/extra" -maxdepth 2 -type d -name bin -printf '%p:'
-)$PATH"
-
 export TMUX_SHELL="$( command -v zsh || echo "$SHELL" )"
 
 if command -v fcitx5 >/dev/null || command -v fcitx >/dev/null; then
