@@ -62,14 +62,20 @@ export class Config extends BaseConfig {
         },
         dictionary: {
           mark: "Dict",
-          matchers: ["matcher_head_dictionary", "matcher_editdistance"],
+          matchers: ["matcher_head_dictionary"],
           sorters: [], // sorted by matcher_editdistance
           converters: ["converter_fuzzy", "converter_dictionary"],
           isVolatile: true,
           maxItems: 30,
         },
-        around: { mark: "A" },
-        buffer: { mark: "B" },
+        around: {
+          mark: "A",
+          converters: ["converter_fuzzy", "converter_dictionary"],
+        },
+        buffer: {
+          mark: "B",
+          converters: ["converter_fuzzy", "converter_dictionary"],
+        },
         cmdline: {
           mark: "CMD",
           forceCompletionPattern: "\\S/\\S*|\\.\\w*",
