@@ -12,13 +12,12 @@ local function commandline_pre(buf, mode)
     callback = function()
       if vim.api.nvim_buf_is_valid(buf) then
         vim.api.nvim_buf_call(buf, function()
-          vim.fn["pum#set_option"]({ reversed = false })
           fn["ddc#custom#set_buffer"](opts or vim.empty_dict())
         end)
       end
     end,
   })
-  vim.fn["pum#set_option"]({ reversed = true })
+  vim.fn["pum#set_local_option"](mode, { reversed = true })
   fn["ddc#custom#patch_buffer"]("sourceOptions", {
     file = { forceCompletionPattern = [[(^e\s+|\S/\S*)]] },
     fish = { enabledIf = [[getcmdline()[0] == "!" ? v:true : v:false]] },
