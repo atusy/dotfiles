@@ -24,6 +24,7 @@ local function commandline_pre(buf, mode)
     fish = { enabledIf = [[getcmdline()[0] == "!" ? v:true : v:false]] },
     xonsh = { enabledIf = [[getcmdline()[0] == "!" ? v:true : v:false]] },
     zsh = { enabledIf = [[getcmdline() =~# "^\\(!\\|Gin\\(Buffer\\)\\? \\)" ? v:true : v:false]] },
+    shell_history = { enabledIf = [[getcmdline()[0] == "!" ? v:true : v:false]] },
     -- ["_"] = mode == ":" and { keywordPattern = "[0-9a-zA-Z_:#-]*" },
   })
 
