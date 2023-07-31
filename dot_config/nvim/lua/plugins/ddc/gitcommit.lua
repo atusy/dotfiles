@@ -61,15 +61,21 @@ local function setting(buf)
   local semantic = #items == 0
 
   if semantic then
-    items = {
-      { word = "feat" },
-      { word = "fix" },
-      { word = "chore" },
-      { word = "docs" },
-      { word = "refactor" },
-      { word = "style" },
-      { word = "test" },
-    }
+    local logs = vim.system({ "git", "log", "-n", "100", "--format=%s" }):wait().stdout or ""
+    items = {}
+    local prefixes = {}
+    for log in string.gmatch(logs, "[^\n]+") do
+      local word = string.match(log, "^%S+%(%S+%)!?:")
+      if word then
+        if not prefixes[word] then
+          prefixes[word] = true
+          table.insert(items, { word = word })
+        end
+      end
+    end
+    for _, word in pairs({ "feat", "prefix", "fix", "chore", "refactor", "style", "test" }) do
+      table.insert(items, { word = word })
+    end
   end
 
   vim.fn["pum#set_option"]({ max_height = #items })
