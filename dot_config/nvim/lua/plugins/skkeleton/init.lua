@@ -62,7 +62,8 @@ return {
             "i",
             ":",
             [[<Cmd>call skkeleton#handle('handleKey', {'key': '"'})<CR>]]
-              .. [[<Cmd>call skkeleton#handle('handleKey', {'key': ';'})<CR>]],
+              .. [[<Cmd>call skkeleton#handle('handleKey', {'key': ';'})<CR>]]
+              .. [[<Cmd>call skkeleton#handle('handleKey', {'key': '<space>'})<CR>]],
             { buffer = true }
           )
         end,
