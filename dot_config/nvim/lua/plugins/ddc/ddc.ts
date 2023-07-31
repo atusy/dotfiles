@@ -186,7 +186,7 @@ export class Config extends BaseConfig {
 
     const shellSources = ["fish", "zsh", "xonsh", ...sources];
     ["sh", "bash", "fish", "xonsh", "zsh"].map(
-      (x) => args.contextBuilder.patchFiletype(x[0], { sources: shellSources }),
+      (x) => args.contextBuilder.patchFiletype(x, { sources: shellSources }),
     );
   }
 }
