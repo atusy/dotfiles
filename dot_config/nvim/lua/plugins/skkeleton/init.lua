@@ -35,7 +35,7 @@ return {
         ["z "] = { "　", "" },
         ["z."] = { "……", "" },
         [";"] = { "っ", "" },
-        [":"] = { "っ", "" },
+        [":"] = { "：", "" },
       })
 
       -- `:`で`っ`を送りがなとした変換を開始
@@ -58,14 +58,15 @@ return {
         group = utils.augroup,
         pattern = "skkeleton-enable-post",
         callback = function(ctx)
-          vim.keymap.set(
-            "i",
-            ":",
-            [[<Cmd>call skkeleton#handle('handleKey', {'key': '"'})<CR>]]
-              .. [[<Cmd>call skkeleton#handle('handleKey', {'key': ';'})<CR>]]
-              .. [[<Cmd>call skkeleton#handle('handleKey', {'key': '<space>'})<CR>]],
-            { buffer = true }
-          )
+          vim.keymap.set("i", ":", function()
+            local state = vim.g["skkeleton#state"]
+            if state.phase == "input:okurinasi" then
+              return [[<Cmd>call skkeleton#handle('handleKey', {'key': '"'})<CR>]]
+                .. [[<Cmd>call skkeleton#handle('handleKey', {'key': ';'})<CR>]]
+                .. [[<Cmd>call skkeleton#handle('handleKey', {'key': '<space>'})<CR>]]
+            end
+            return string.format([[<Cmd>call skkeleton#handle('handleKey', {'key': ':'})<CR>]])
+          end, { buffer = true, expr = true })
         end,
       })
 
