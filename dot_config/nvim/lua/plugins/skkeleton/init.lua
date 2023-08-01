@@ -52,7 +52,6 @@ return {
             if mode ~= "abbrev" and state.phase == "input:okurinasi" then
               return [[<Cmd>call skkeleton#handle('handleKey', {'key': '"'})<CR>]] -- henkanPoint
                 .. [[<Cmd>call skkeleton#handle('handleKey', {'key': ';'})<CR>]] -- っ
-                .. [[<Cmd>call skkeleton#handle('handleKey', {'key': '<space>'})<CR>]] -- henkanFirst
             end
             return [[<Cmd>call skkeleton#handle('handleKey', {'key': ':'})<CR>]]
           end, { buffer = true, expr = true })
