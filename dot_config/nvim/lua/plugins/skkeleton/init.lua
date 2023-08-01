@@ -46,6 +46,7 @@ return {
         pattern = "skkeleton-enable-post",
         callback = function(ctx)
           vim.keymap.set("i", ":", function()
+            -- NOTE: do not call skkeleton#handle directory. Instead, use expr mapping to handle keys in sync
             local state = vim.g["skkeleton#state"]
             if state.phase == "input:okurinasi" then
               return [[<Cmd>call skkeleton#handle('handleKey', {'key': '"'})<CR>]]
