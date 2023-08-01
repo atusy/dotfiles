@@ -42,19 +42,6 @@ return {
       vim.fn["skkeleton#register_keymap"]("input", '"', "henkanPoint")
 
       vim.api.nvim_create_autocmd("User", {
-        group = utils.group,
-        pattern = "skkeleton-enable-pre",
-        callback = function(ctx)
-          local ft = vim.api.nvim_get_option_value("filetype", { buf = ctx.buf })
-          local exceptions = {}
-          if ft == "TelescopePrompt" then
-            table.insert(exceptions, "<CR>")
-          end
-          set_mapped_keys(exceptions)
-        end,
-      })
-
-      vim.api.nvim_create_autocmd("User", {
         group = utils.augroup,
         pattern = "skkeleton-enable-post",
         callback = function(ctx)
@@ -78,6 +65,21 @@ return {
         end,
       })
 
+      -- filetypeに応じた一部キーの無効化
+      vim.api.nvim_create_autocmd("User", {
+        group = utils.group,
+        pattern = "skkeleton-enable-pre",
+        callback = function(ctx)
+          local ft = vim.api.nvim_get_option_value("filetype", { buf = ctx.buf })
+          local exceptions = {}
+          if ft == "TelescopePrompt" then
+            table.insert(exceptions, "<CR>")
+          end
+          set_mapped_keys(exceptions)
+        end,
+      })
+
+      -- 辞書
       local lazyroot = require("lazy.core.config").options.root
       local function dict(nm, repo)
         return vim.fs.joinpath(lazyroot, repo or "dict", "SKK-JISYO." .. nm)
