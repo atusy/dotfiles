@@ -35,6 +35,7 @@ return {
         ["z "] = { "　", "" },
         ["z."] = { "……", "" },
         [";"] = { "っ", "" },
+        [":"] = { "：", "" },
       })
 
       -- `:`で`っ`を送りがなとした変換を開始
@@ -48,16 +49,12 @@ return {
             -- NOTE: do not call skkeleton#handle directory. Instead, use expr mapping to handle keys in sync
             local state = vim.g["skkeleton#state"]
             if state.phase == "input:okurinasi" then
-              register_kanatable("rom", {
-                [":"] = { "っ", "" },
-              })
+              register_kanatable("rom", { [":"] = { "っ", "" } })
               return [[<Cmd>call skkeleton#handle('handleKey', {'key': '"'})<CR>]]
                 .. [[<Cmd>call skkeleton#handle('handleKey', {'key': ';'})<CR>]]
                 .. [[<Cmd>call skkeleton#handle('handleKey', {'key': '<space>'})<CR>]]
             end
-            register_kanatable("rom", {
-              [":"] = { "：", "" },
-            })
+            register_kanatable("rom", { [":"] = { "：", "" } })
             return string.format([[<Cmd>call skkeleton#handle('handleKey', {'key': ':'})<CR>]])
           end, { buffer = true, expr = true })
         end,
