@@ -103,6 +103,13 @@ return {
           dict("jawiki", "jawiki-kana-kanji-dict"),
         },
       })
+
+      -- init
+      vim.api.nvim_create_autocmd("InsertEnter", {
+        group = utils.group,
+        once = true,
+        callback = "skkeleton#initialize",
+      })
     end,
   },
   {
