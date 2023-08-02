@@ -51,6 +51,9 @@
 	prompt = false
 [mergetool]
 	prompt = false
+[rebase]
+	autoSquash = true
+	rebaseMerges = true
 [status]
 	short = true
 	branch = true
