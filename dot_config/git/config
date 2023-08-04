@@ -67,7 +67,8 @@
 	helper = cache
 [commit]
 	cleanup = scissors
-	verbose = true
+	; disabled in preference of ~/.config/git/hooks/prepare-commit-msg-files/verbose-message.bash
+	; verbose = true
 [credential "https://github.com"]
 	helper = !/usr/bin/env gh auth git-credential
 [credential "https://gist.github.com"]
