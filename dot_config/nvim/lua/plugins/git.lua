@@ -99,6 +99,19 @@ local function setup_gin()
       vim.opt_local.cursorline = true
     end,
   })
+  api.nvim_create_autocmd("FileType", {
+    group = utils.augroup,
+    pattern = "gitcommit",
+    callback = function()
+      vim.api.nvim_exec2(
+        [[
+          cabbrev <expr> wq (getcmdtype() ==# ':' && exists(':Apply') > 0 && getcmdline() ==# 'wq') ? 'Apply' : 'wq'
+          cabbrev <expr> q! (getcmdtype() ==# ':' && exists(':Cancel') > 0 && getcmdline() ==# 'q!') ? 'Cancel' : 'q!'
+        ]],
+        {}
+      )
+    end,
+  })
   set_keymap("n", "dd", "dd") -- workaround waiting dd after GinPatch
   set_keymap("n", "<Plug>(C-G)<C-P>", "<Cmd>GinPatch ++opener=tabnew %<CR>")
   local graph = function(opts)
