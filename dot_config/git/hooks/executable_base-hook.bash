@@ -4,7 +4,7 @@ set -euo pipefail
 
 # Constants
 HOOKDIR="$( cd "$( dirname "$0" )" && pwd )"
-readonly HOOKNAME="$1"
+HOOKNAME="$1"
 shift 1
 
 readonly GIT_HOOK_VERBOSE="${GIT_HOOK_VERBOSE:-0}"
