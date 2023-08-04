@@ -336,6 +336,7 @@ set_keymap("n", "q", function()
     return "q" .. char
   end
   vim.notify("q[a-z] are disabled except qq", vim.log.levels.ERROR)
+  return "<Ignored>"
 end, {
   expr = true,
   nowait = true,
