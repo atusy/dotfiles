@@ -2,10 +2,10 @@ local utils = require("atusy.utils")
 local set_keymap, set_palette = utils.set_keymap, utils.set_palette
 
 vim.api.nvim_create_autocmd("User", {
-  pattern = { "LazyInstall", "LazyUpdate", "LazySync" },
+  pattern = { "LazyInstall", "LazyUpdate", "LazySync", "LazyClean" },
   callback = function()
     local lockfile = "~/.config/nvim/lazy-lock.json"
-    os.execute("chezmoi add " .. lockfile)
+    vim.system({ "chezmoi", "add", lockfile })
   end,
 })
 
