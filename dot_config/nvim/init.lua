@@ -332,6 +332,9 @@ set_keymap("n", "q", function()
     return 'q<cmd>echo "stop recording @' .. reg .. '"<cr>'
   end
   local char = vim.fn.getcharstr(0)
+  if not char then
+    return "<Ignored>"
+  end
   if char == "q" or not char:match("[a-z]") then
     return "q" .. char
   end
