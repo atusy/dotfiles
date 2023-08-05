@@ -272,7 +272,16 @@ set_keymap({ "i", "n" }, "<C-S>", [[<C-\><C-N><Plug>(save)<Plug>(C-S)]], { desc 
 set_keymap("n", "<Plug>(C-S)<C-A>", "<cmd>wa<cr>", { desc = "save all" })
 set_keymap("n", "<Plug>(C-S)<C-O>", jump, { desc = "save and jump tp previous buf", expr = true })
 set_keymap("n", "<Plug>(C-S)<C-E>", "<C-6>", { desc = "save and edit alt" })
-set_keymap("n", "<Plug>(C-S)<C-Q>", ":q<CR>", { desc = "save and quit" })
+set_keymap("n", "<Plug>(C-S)<C-Q>", function()
+  if vim.b["gin_internal_proxy_waiter"] then
+    -- NOTE: a hack for applying commit message with gin.vim
+    local ok = pcall(vim.cmd.Apply)
+    if ok then
+      return
+    end
+  end
+  vim.cmd.q()
+end, { desc = "save and quit" })
 set_keymap("n", "<Plug>(C-S)<C-V>", function()
   vim.cmd("!chezmoi apply")
   -- vim.cmd("source $MYVIMRC")
