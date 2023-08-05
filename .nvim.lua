@@ -6,7 +6,9 @@ vim.api.nvim_create_autocmd("VimLeave", {
   group = group,
 })
 vim.api.nvim_create_autocmd({ "BufWritePre" }, {
-  pattern = '*.lua',
+  pattern = "*.lua",
   group = group,
-  callback = function() pcall(vim.lsp.buf.format) end,
+  callback = function()
+    pcall(vim.lsp.buf.format)
+  end,
 })
