@@ -67,6 +67,9 @@ vim.opt.updatetime = 250
 -- .../dotfiles/.worktree/branch/dot_config/nvim -> dotfiles@branch/.../nvim
 local function titlestring()
   local pwd = vim.env.PWD or vim.fn.getcwd()
+  if pwd == nil then
+    return
+  end
   return pwd
     :gsub(".*/github%.com/.-/", "")
     :gsub(".*/(.-)/%.worktree/", "%1@")
