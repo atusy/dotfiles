@@ -362,8 +362,11 @@ vim.api.nvim_create_autocmd("ModeChanged", {
   group = utils.augroup,
   desc = "cleanup cmdline history which are short enough or prefixed by space",
   callback = function()
-    local cmd = vim.fn.histget(":", -1)
-    if cmd:match("^..?!?$") or cmd:match("^wqa!?$") or cmd == "source %" or cmd:sub(0, 1) == " " then
+    local hist = vim.fn.histget(":", -1)
+    if not hist then
+      return
+    end
+    if hist:match("^..?!?$") or hist:match("^wqa!?$") or hist == "source %" or hist:sub(0, 1) == " " then
       vim.fn.histdel(":", -1)
     end
   end,
