@@ -205,7 +205,7 @@ export class Config extends BaseConfig {
       },
     });
 
-    const shellSources = ["shell_history", "fish", "zsh", "xonsh"];
+    const shellSources = ["fish", "zsh", "xonsh"]; // avoid shell_history as it can be too noisy
     ["sh", "bash", "fish", "xonsh", "zsh"].map(
       (x) => args.contextBuilder.patchFiletype(x, { sources: shellSources }),
     );
