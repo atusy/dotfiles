@@ -73,14 +73,22 @@ local deps = {
   { "lambdalisue/guise.vim" },
   {
     "lambdalisue/fern.vim",
-    dependencies = { "lambdalisue/fern-renderer-nerdfont.vim", "lambdalisue/nerdfont.vim" },
+    dependencies = {
+      {
+        "lambdalisue/fern-renderer-nerdfont.vim",
+        lazy = true,
+        config = function()
+          vim.g["fern#renderer#nerdfont#indent_markers"] = 1
+        end,
+      },
+      { "lambdalisue/nerdfont.vim", lazy = true },
+    },
     cmd = { "Fern" },
     init = function()
       set_palette("n", "Fern drawer", "<Cmd>Fern . -drawer -reveal=%<CR>")
     end,
     config = function()
       vim.g["fern#renderer"] = "nerdfont"
-      vim.g["fern#renderer#nerdfont#indent_markers"] = 1
       vim.g["fern#window_selector_use_popup"] = 1
       local function fern_chowcho()
         local node = vim.api.nvim_exec2(
