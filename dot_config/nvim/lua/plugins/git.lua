@@ -152,6 +152,5 @@ return {
     "knsh14/vim-github-link",
     cmd = { "GetCommitLink", "GetCurrentBranchLink", "GetCurrentCommitLink" },
   },
-  -- { 'tanvirtin/vgit.nvim' },
   { "lewis6991/gitsigns.nvim", config = setup_gitsigns },
 }
