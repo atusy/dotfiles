@@ -184,13 +184,6 @@ return {
     end,
   },
   {
-    "folke/lsp-colors.nvim",
-    event = "LspAttach",
-    config = function()
-      require("lsp-colors").setup()
-    end,
-  },
-  {
     "folke/styler.nvim",
     event = { "WinNew", "BufRead", "BufNewFile" },
     dependencies = { "EdenEast/nightfox.nvim" },
