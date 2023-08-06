@@ -148,7 +148,6 @@ return {
     dependencies = { "vim-denops/denops.vim" },
     config = setup_gin,
   },
-  -- { 'tpope/vim-fugitive' },
   {
     "knsh14/vim-github-link",
     cmd = { "GetCommitLink", "GetCurrentBranchLink", "GetCurrentCommitLink" },
