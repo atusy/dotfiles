@@ -441,7 +441,7 @@ local deps = {
           lualine_b = { { "filetype", icon_only = true }, { "filename", path = 1 } },
           lualine_c = {},
           lualine_x = {},
-          lualine_y = {},
+          lualine_y = { { "location" } },
           lualine_z = {},
         },
         extensions = { "fern" },
