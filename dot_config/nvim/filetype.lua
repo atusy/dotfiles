@@ -5,7 +5,7 @@ vim.filetype.add({
     [".tf"] = "terraform",
   },
   pattern = {
-    ["${HOME}/.local/share/chezmoi/.*"] = {
+    ["${HOME}/\\.local/share/chezmoi/.*"] = {
       function(path, bufnr)
         local filename, cnt = path:gsub("/dot_", "/.")
         if cnt == 0 then
