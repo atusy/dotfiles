@@ -16,7 +16,8 @@ local function japanize_bracket(dict, callbacks)
       return dict[char]
     end
 
-    error("j" .. char .. " is unsupported")
+    vim.notify("mini.ai/surround does not support j" .. char, vim.log.levels.ERROR)
+    return nil
   end
 end
 
