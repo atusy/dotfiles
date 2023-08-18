@@ -42,7 +42,6 @@ return {
     require("nvim-tree").setup({
       git = { ignore = false },
       renderer = { icons = { show = { git = false } } },
-      remove_keymaps = true,
       on_attach = function(buffer)
         local api = require("nvim-tree.api")
         local default_text = "★ "
