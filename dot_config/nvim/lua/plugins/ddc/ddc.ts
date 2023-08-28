@@ -64,7 +64,7 @@ export class Config extends BaseConfig {
         },
         dictionary: {
           mark: "Dict",
-          matchers: ["matcher_head_dictionary"],
+          matchers: ["matcher_head_dictionary", "matcher_editdistance"],
           sorters: [], // sorted by matcher_editdistance
           converters: ["converter_fuzzy", "converter_dictionary"],
           isVolatile: true,
