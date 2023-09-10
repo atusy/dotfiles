@@ -51,7 +51,17 @@ local function lspconfig()
     require("lspconfig")[nm].setup(opts)
   end
   config("clangd", {})
-  config("pyright", {}) -- pip install --user pyright
+  config("pyright", {
+    settings = {
+      python = {
+        venvPath = ".",
+        pythonPath = "./.venv/bin/python",
+        analysis = {
+          extraPaths = { "." },
+        },
+      },
+    },
+  }) -- pip install --user pyright
   config("r_language_server", {}) -- R -e "remotes::install_github('languageserver')"
   local is_node = require("lspconfig").util.find_node_modules_ancestor(".")
   if is_node then
