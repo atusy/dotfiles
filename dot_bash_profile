@@ -2,7 +2,5 @@
 # ~/.bash_profile
 #
 
-[[ -f ~/.profile ]] && source ~/.profile
+[[ -f ~/.profile ]] && . ~/.profile
 [[ -f ~/.bashrc ]] && . ~/.bashrc
-
-source /home/atusy/.config/broot/launcher/bash/br
