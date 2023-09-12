@@ -41,6 +41,7 @@
 	defaultBranch = main
 [pull]
 	ff = only
+  recurseSubmodules=yes
 [push]
 	useForceIfIncludes = true
 [diff]
