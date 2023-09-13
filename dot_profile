@@ -33,9 +33,9 @@ if [[ -d "$HOME/.linuxbrew" ]]; then
 fi
 
 # asdf
-if [[ -f /opt/asdf-vm/asdf.sh ]]; then
-  . /opt/asdf-vm/asdf.sh
-fi
+# if [[ -f /opt/asdf-vm/asdf.sh ]]; then
+#   . /opt/asdf-vm/asdf.sh
+# fi
 
 export TMUX_SHELL="$( command -v zsh || echo "$SHELL" )"
 
