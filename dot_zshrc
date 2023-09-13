@@ -234,6 +234,9 @@ fi
 if which cd-gitroot 1>/dev/null; then
   alias gd='cd-gitroot'
 fi
+if which ghf 1>/dev/null; then
+  alias gh='ghf'
+fi
 
 # example: printpath | fzf --ansi --preview 'exa --oneline {}'
 function printpath() {
