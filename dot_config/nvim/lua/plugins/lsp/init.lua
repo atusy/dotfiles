@@ -85,7 +85,7 @@ local function lspconfig()
           globals = { "vim", "pandoc" },
         },
         workspace = {
-          library = vim.env.NVIM_LUA_LIBRARY == 1 and vim.api.nvim_get_runtime_file("", true),
+          library = vim.api.nvim_get_runtime_file("", true),
           checkThirdParty = false,
         },
         completion = { workspaceWord = true, callSnippet = "Both" },
