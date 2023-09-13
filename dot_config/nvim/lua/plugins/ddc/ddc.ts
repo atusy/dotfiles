@@ -168,6 +168,7 @@ export class Config extends BaseConfig {
         "nvim-lsp": {
           enableResolveItem: true,
           enableAdditionalTextEdit: true,
+          confirmBehavior: "replace",
         },
         fish: {
           shell: "fish",
