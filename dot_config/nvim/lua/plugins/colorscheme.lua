@@ -40,7 +40,7 @@ local function set_theme(win, colorscheme)
   end
 end
 
-local function theme_active_win(win)
+local function theme_active_win(win, tab)
   -- use default colorscheme on floating windows
   if api.nvim_win_get_config(win).relative ~= "" then
     return
@@ -48,7 +48,7 @@ local function theme_active_win(win)
 
   -- apply colorscheme
   local COLORSCHEME = ACTIVE_COLORSCHEME
-  if api.nvim_get_current_tabpage() ~= 1 then
+  if tab ~= 1 then
     COLORSCHEME = TAB_COLORSCHEME
   elseif not likely_cwd(api.nvim_win_get_buf(win)) then
     COLORSCHEME = OUTSIDE_COLORSCHEME
@@ -56,7 +56,7 @@ local function theme_active_win(win)
   set_theme(win, COLORSCHEME)
 end
 
-local function theme_inactive_win(win)
+local function theme_inactive_win(win, tab)
   -- skip for certain situations
   if not api.nvim_win_is_valid(win) then
     return
@@ -67,27 +67,23 @@ local function theme_inactive_win(win)
 
   -- apply colorscheme
   local COLORSCHEME = INACTIVE_COLORSCHEME
-  if (api.nvim_get_current_tabpage() == 1) and (not likely_cwd(api.nvim_win_get_buf(win))) then
+  if tab == 1 and not likely_cwd(api.nvim_win_get_buf(win)) then
     COLORSCHEME = OUTSIDE_COLORSCHEME
   end
   set_theme(win, COLORSCHEME)
 end
 
-local function theme(win_event)
-  local win_pre = fn.win_getid(fn.winnr("#"))
+local function theme()
   local win_cursor = api.nvim_get_current_win()
+  local tab = api.nvim_get_current_tabpage()
 
   -- Activate
-  theme_active_win(win_cursor)
+  theme_active_win(win_cursor, tab)
 
-  -- Deactivate previous window
-  if win_pre ~= 0 and win_pre ~= win_cursor then
-    theme_inactive_win(win_pre)
-  end
-
-  -- Deactivate an inactive window that triggered BufWinEnter
-  if win_event ~= win_cursor then
-    theme_inactive_win(win_event)
+  for _, w in pairs(vim.api.nvim_tabpage_list_wins(tab)) do
+    if w ~= win_cursor then
+      theme_inactive_win(w, tab)
+    end
   end
 
   -- redraw is required for instant theming on CmdlineEnter
@@ -95,9 +91,12 @@ local function theme(win_event)
   vim.cmd([[redraw]])
 end
 
+local state = {}
+
 local function set_styler()
   api.nvim_create_autocmd({
     "BufWinEnter", -- instead of BufEnter
+    "WinEnter",
     "WinLeave", -- supports changes without WinEnter (e.g., cmdbuf.nvim)
     "WinNew", -- supports new windows without focus (e.g., `vim.api.nvim_win_call(0, vim.cmd.vsplit)`)
     "WinClosed", --[[
@@ -109,10 +108,17 @@ local function set_styler()
       ]]
   }, {
     group = utils.augroup,
-    callback = function(_)
-      local win_event = api.nvim_get_current_win()
+    callback = function()
+      -- only apply theme from the latest schedule
+      for k, _ in pairs(state) do
+        state[k] = nil
+      end
+      local key = tostring(math.random())
+      state[key] = true
       vim.schedule(function()
-        theme(win_event)
+        if state[key] then
+          theme()
+        end
       end)
     end,
   })
