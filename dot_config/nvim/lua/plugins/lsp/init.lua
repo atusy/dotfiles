@@ -63,6 +63,7 @@ local function lspconfig()
     },
   }) -- pip install --user pyright
   config("r_language_server", {}) -- R -e "remotes::install_github('languageserver')"
+  config("volar", {})
   local is_node = require("lspconfig").util.find_node_modules_ancestor(".")
   if is_node then
     config("tsserver", {})
