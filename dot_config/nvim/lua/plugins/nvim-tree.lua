@@ -62,7 +62,7 @@ return {
         nmap("S", "<Cmd>NvimTreeClose<CR>")
         nmap("h", api.node.navigate.parent_close, "node: close the parent")
         nmap("l", api.node.open.no_window_picker, "node: open in the previous window")
-        nmap("o", api.node.run.system, "node: run system")
+        nmap("gx", api.node.run.system, "node: run system")
         nmap("<CR>", node_open_edit, "node: open in a chosen window")
         nmap("!", api.tree.toggle_hidden_filter, "toggle hidden")
         nmap("<C-R>", "<Cmd>NvimTreeRefresh<CR>", "refresh")
