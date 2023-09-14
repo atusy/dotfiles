@@ -1,8 +1,14 @@
 #!/usr/bin/env zsh
 
 if ! command -v rtx >/dev/null; then
-  curl https://rtx.pub/rtx-latest-linux-x64 > "${HOME}/.local/bin/rtx" && chmod +x "${HOME}/.local/bin/rtx"
-  rtx use -g --yes deno
+  (
+    set -euo pipefail
+    cd "$(mktemp -d)"
+    gpg --keyserver hkps://keyserver.ubuntu.com --recv-keys 0x29DDE9E0
+    curl https://rtx.pub/install.sh.sig | gpg --decrypt > install.sh
+    RTX_INSTALL_PATH="${HOME}/.local/bin/rtx" sh ./install.sh
+    rtx use -g --yes deno
+  )
 fi
 eval "$( rtx activate zsh )"
 eval "$( rtx hook-env -s zsh )"
