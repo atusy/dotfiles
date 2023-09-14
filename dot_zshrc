@@ -1,8 +1,7 @@
 #!/usr/bin/env zsh
 
 if ! command -v rtx >/dev/null; then
-  curl https://rtx.pub/rtx-latest-linux-x64 > "${HOME}/.local/bin/rtx"
-  chmod +x "${HOME}/.local/bin/rtx"
+  curl https://rtx.pub/rtx-latest-linux-x64 > "${HOME}/.local/bin/rtx" && chmod +x "${HOME}/.local/bin/rtx"
 fi
 eval "$( rtx activate zsh )"
 eval "$( rtx hook-env -s zsh )"
