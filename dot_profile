@@ -32,11 +32,6 @@ if [[ -d "$HOME/.linuxbrew" ]]; then
   eval "$($HOME/.linuxbrew/bin/brew shellenv)"
 fi
 
-# asdf
-# if [[ -f /opt/asdf-vm/asdf.sh ]]; then
-#   . /opt/asdf-vm/asdf.sh
-# fi
-
 export TMUX_SHELL="$( command -v zsh || echo "$SHELL" )"
 
 if command -v fcitx5 >/dev/null || command -v fcitx >/dev/null; then
