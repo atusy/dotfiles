@@ -1,0 +1,19 @@
+#!/usr/bin/env zsh
+
+function main() {
+  local n="${1:-10}"
+  local total_msec=0
+  local msec
+  local i
+  for i in $(seq 1 $n); do
+    msec=$((TIMEFMT='%mE'; time zsh -i -c exit) 2>/dev/stdout >/dev/null)
+    msec=$(echo $msec | tr -d "ms")
+    echo "${(l:2:)i}: ${msec} [ms]"
+    total_msec=$(( $total_msec + $msec ))
+  done
+  local average_msec
+  average_msec=$(( ${total_msec} / ${n} ))
+  echo "\naverage: ${average_msec} [ms]"
+}
+
+main "$@"
