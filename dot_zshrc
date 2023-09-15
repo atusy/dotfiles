@@ -163,8 +163,6 @@ if command -v gdu > /dev/null; then
 fi
 if command -v eza > /dev/null; then
   alias ls='eza -l --time-style=iso'
-elif command -v exa > /dev/null; then
-  alias ls='exa -l --time-style=iso --color=always'
 fi
 if command -v bat > /dev/null; then
   alias cat='bat'
