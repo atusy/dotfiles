@@ -288,42 +288,6 @@ if command -v asdf >/dev/null; then
   }
 fi
 
-if command -v pyenv >/dev/null; then
-  function pyset() {
-    local PYSET_IMPLICIT_GLOBAL=${PYSET_IMPLICIT_GLOBAL:-true}
-    local PYSET_MAX_HEIGHT=${PYSET_MAX_HEIGHT:-10}
-    local SCOPE="${1:-local}"
-    local PATTERN="${2:-${PYSET_PATTERN:-^[0-9]+\.}}"
-    local TARGET="$(
-      CANDIDATES="$(
-        pyenv install --list \
-          | awk '{ print $1 }' \
-          | command grep -E "$PATTERN"
-        [[ -f .python-version ]] && echo "$( cat .python-version ) (.python-version)"
-      )"
-      HEIGHT="$(
-        N="$(echo "$CANDIDATES" | wc -l)"
-        echo "$(( $N + 2 ))\n${PYSET_MAX_HEIGHT}" \
-          | sort -nu \
-          | head -n 1
-      )"
-      echo "$CANDIDATES" | command fzf --height="$HEIGHT" --tac | awk '{ print $1 }'
-    )"
-    if [[ "$TARGET" == "" ]]
-    then
-      if ! $PYSET_IMPLICIT_GLOBAL
-      then
-        return 1
-      fi
-      echo "Using global python..." 1>&2
-      TARGET="$( python --version | sed -E -e 's/^Python\s+//' )"
-    fi
-    pyenv install --skip-existing "$TARGET"
-    pyenv "$SCOPE" "$TARGET"
-    pyenv "$SCOPE" 
-  }
-fi
-
 function rename_wezterm_title() {
   local PWD="$( pwd )"
   local GIT_DIR="$( git rev-parse --git-common-dir )"
