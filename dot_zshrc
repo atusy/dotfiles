@@ -250,18 +250,7 @@ fi
 # local configurations
 [[ -f "$HOME/.config/zsh/local.zshrc" ]] && . "$HOME/.config/zsh/local.zshrc"
 
-# zcompile {{{
-
 # .zshrc
-# if [[ ! -f ~/.zshrc.zwc ]] || [[ "$(readlink ~/.zshrc)" -nt ~/.zshrc.zwc ]]; then
 if [[ ! -f ~/.zshrc.zwc ]] || [[ ~/.zshrc -nt ~/.zshrc.zwc ]]; then
   zcompile ~/.zshrc
 fi
-
-# zinit
-if [[ ! -f ~/.zinit/bin/zinit.zsh.zwc ]] || [[ ~/.zinit/bin/zinit.zsh -nt ~/.zinit/bin/zinit.zsh.zwc ]]; then
-  zcompile ~/.zinit/bin/zinit.zsh
-fi
-
-# }}}
-#TODO: https://github.com/lambdalisue/dotfiles/blob/eb825140615da791aa8563009c012092c65bcc13/zsh/init.zsh#L107-L116
