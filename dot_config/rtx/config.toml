@@ -1,0 +1,10 @@
+[tools]
+rust = "latest"
+deno = "latest"
+neovim = "nightly"
+fzf = "latest"
+poetry = "latest"
+node = "latest"
+python = "latest"
+terraform = "latest"
+azure-cli = "latest"
