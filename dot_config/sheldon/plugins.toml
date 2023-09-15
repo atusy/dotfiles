@@ -1,0 +1,49 @@
+shell = "zsh"
+
+[templates]
+defer = "{{ hooks | get: \"pre\" | nl }}{% for file in files %}zsh-defer source \"{{ file }}\"\n{% endfor %}{{ hooks | get: \"post\" | nl }}"
+
+[plugins.zsh-defer]
+github = "romkatv/zsh-defer"
+
+[plugins.fast-syntax-highlighting]
+github = "zdharma-continuum/fast-syntax-highlighting"
+apply = ["defer"]
+
+[plugins.zsh-completions]
+github = "zsh-users/zsh-completions"
+apply = ["defer"]
+hooks.post = 'autoload -Uz compinit; compinit'
+
+[plugins.zsh-autosuggestions]
+github = "zsh-users/zsh-autosuggestions"
+
+[plugins.zsh-async]
+github = "mafredri/zsh-async"
+apply = ["defer"]
+
+[plugins.zsh-256color]
+github = "chrissicool/zsh-256color"
+apply = ["defer"]
+
+[plugins.git-prompt]
+github = "woefe/git-prompt.zsh"
+
+[plugins.kube-ps1]
+github = "jonmosco/kube-ps1"
+
+[plugins.cd-gitroot]
+apply = ["defer"]
+github = "mollifier/cd-gitroot"
+
+[plugins.fzf]
+github = "junegunn/fzf"
+
+[plugins.zeno]
+github = "yuki-yano/zeno.zsh"
+
+[plugins.zsh-nvrepl]
+github = "atusy/zsh-nvrepl"
+
+[plugins.ghf]
+github = "atusy/gh-fzf"

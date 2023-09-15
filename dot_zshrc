@@ -13,39 +13,13 @@ fi
 eval "$( rtx activate zsh )"
 eval "$( rtx hook-env -s zsh )"
 
-### Added by Zinit's installer
-if [[ ! -f $HOME/.zinit/bin/zinit.zsh ]]; then
-    print -P "%F{33}▓▒░ %F{220}Installing %F{33}DHARMA%F{220} Initiative Plugin Manager (%F{33}zdharma-continuum/zinit%F{220})…%f"
-    command mkdir -p "$HOME/.zinit" && command chmod g-rwX "$HOME/.zinit"
-    command git clone https://github.com/zdharma-continuum/zinit "$HOME/.zinit/bin" && \
-        print -P "%F{33}▓▒░ %F{34}Installation successful.%f%b" || \
-        print -P "%F{160}▓▒░ The clone has failed.%f%b"
+if ! command -v sheldon >/dev/null; then
+  curl --proto '=https' -fLsS https://rossmacarthur.github.io/install/crate.sh \
+    | bash -s -- --repo rossmacarthur/sheldon --to ~/.local/bin
 fi
-
-source "$HOME/.zinit/bin/zinit.zsh"
-autoload -Uz _zinit
-(( ${+_comps} )) && _comps[zinit]=_zinit
-### End of Zinit's installer chunk
-
-# Global profile (shared with bash)
-# keep as a comment while testing if .zprofile works
-# [[ -f "$HOME/.profile" ]] && . "$HOME/.profile"
+eval "$(sheldon source)"
 
 # PROMPT
-function gitprompt() {
-  # will be overridden by woefe/git-prompt.zsh
-  # the blank function here suppresses potential error from lazy loading
-  :
-}
-function kube_ps1 {
-  :
-}
-function kubeprompt() {
-  # show if KUBECONFIG is set or any context is being used
-  if [[ "${KUBE_PS1_CONTEXT:-N/A}" != "N/A" ]]; then
-    kube_ps1 # will be defined by jonmosco/kube-ps1
-  fi
-}
 ZSH_THEME_GIT_PROMPT_PREFIX=" "
 ZSH_THEME_GIT_PROMPT_SUFFIX=""
 ZSH_THEME_GIT_PROMPT_UNTRACKED=".."
@@ -53,35 +27,8 @@ ZSH_THEME_GIT_PROMPT_UNMERGED="%{$fg[red]%}x"
 ZSH_THEME_GIT_PROMPT_STAGED="%{$fg[green]%}o"
 ZSH_THEME_GIT_PROMPT_UNSTAGED="%{$fg[red]%}+"
 PROMPT_ACCENT_COLOR="$( test -n "$SSH_CLIENT" && echo cyan || echo 112 )"
-PROMPT='%F{${PROMPT_ACCENT_COLOR}}[ %3~ ]%F{white}$(gitprompt) $(kubeprompt)
+PROMPT='%F{${PROMPT_ACCENT_COLOR}}[ %3~ ]%F{white}$(gitprompt) $( test -n "${KUBE_PS1_CONTEXT%%N/A}" && kube_ps1 )
 %F{${PROMPT_ACCENT_COLOR}}» '
-
-# Load plugins
-zinit light-mode for \
-    zdharma-continuum/zinit-annex-as-monitor \
-    zdharma-continuum/zinit-annex-bin-gem-node \
-    zdharma-continuum/zinit-annex-patch-dl \
-    zdharma-continuum/zinit-annex-rust
-
-zinit wait lucid for \
- atinit"ZINIT[COMPINIT_OPTS]=-C; zicompinit; zicdreplay" \
-    zdharma-continuum/fast-syntax-highlighting \
- blockf \
-    zsh-users/zsh-completions \
- atload"!_zsh_autosuggest_start" \
-    zsh-users/zsh-autosuggestions
-
-zinit ice depth"1" wait lucid
-zinit light-mode for \
-  mafredri/zsh-async \
-  chrissicool/zsh-256color \
-  woefe/git-prompt.zsh \
-  jonmosco/kube-ps1 \
-  mollifier/cd-gitroot \
-  yuki-yano/zeno.zsh \
-  junegunn/fzf \
-  atusy/zsh-nvrepl \
-  atusy/gh-fzf
 
 bindkey -e
 bindkey "^[[3~" delete-char # Del is delete-char, not tilde
