@@ -6,6 +6,24 @@ defer = "{{ hooks | get: \"pre\" | nl }}{% for file in files %}zsh-defer source 
 [plugins.zsh-defer]
 github = "romkatv/zsh-defer"
 
+[plugins.rtx]
+inline = """
+if ! command -v rtx >/dev/null; then
+  (
+    set -euo pipefail
+    cd "$(mktemp -d)"
+    gpg --keyserver hkps://keyserver.ubuntu.com --recv-keys 0x29DDE9E0
+    curl https://rtx.pub/install.sh.sig | gpg --decrypt > install.sh
+    RTX_INSTALL_PATH="${HOME}/.local/bin/rtx" sh ./install.sh
+    rtx use -g --yes deno
+  )
+fi
+function my-rtx-activate() {
+  eval "$( rtx activate zsh )"
+}
+zsh-defer my-rtx-activate
+"""
+
 [plugins.fast-syntax-highlighting]
 github = "zdharma-continuum/fast-syntax-highlighting"
 apply = ["defer"]
@@ -13,10 +31,15 @@ apply = ["defer"]
 [plugins.zsh-completions]
 github = "zsh-users/zsh-completions"
 apply = ["defer"]
-hooks.post = 'autoload -Uz compinit; compinit'
+hooks.post = 'autoload -Uz compinit; zsh-defer compinit'
 
 [plugins.zsh-autosuggestions]
 github = "zsh-users/zsh-autosuggestions"
+apply = ["defer"]
+hooks.post = """
+ZSH_AUTOSUGGEST_USE_ASYNC=1
+ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=244'
+"""
 
 [plugins.zsh-async]
 github = "mafredri/zsh-async"
@@ -28,22 +51,66 @@ apply = ["defer"]
 
 [plugins.git-prompt]
 github = "woefe/git-prompt.zsh"
+apply = ["defer"]
+hooks.pre = 'function gitprompt() { : }'
 
 [plugins.kube-ps1]
 github = "jonmosco/kube-ps1"
+apply = ["defer"]
+hooks.pre = 'function kube_ps1() { : }'
 
 [plugins.cd-gitroot]
 apply = ["defer"]
 github = "mollifier/cd-gitroot"
+hooks.post = "alias gd=cd-gitroot"
 
 [plugins.fzf]
 github = "junegunn/fzf"
 
 [plugins.zeno]
 github = "yuki-yano/zeno.zsh"
+hooks.pre = """
+function zeno-my-pre() {
+  eval "$( rtx hook-env -s zsh )"
+}
+zsh-defer zeno-my-pre
+"""
+apply = ["defer"]
+hooks.post = """
+function zeno-my-post() {
+  ATUSY_ACCEPT_LINE="accept-line"
+  if [[ -n $ZENO_LOADED ]]; then
+    bindkey ' '  zeno-auto-snippet
+    bindkey '^m' zeno-auto-snippet-and-accept-line
+    bindkey '^i' zeno-completion
+    bindkey '^r' zeno-history-selection
+    bindkey '^x^s' zeno-insert-snippet
+    bindkey '^x^f' zeno-ghq-cd
+    ZSH_AUTOSUGGEST_CLEAR_WIDGETS+=(zeno-auto-snippet-and-accept-line)
+    ATUSY_ACCEPT_LINE="zeno-auto-snippet-and-accept-line"
+  fi
+}
+zsh-defer zeno-my-post
+"""
 
 [plugins.zsh-nvrepl]
 github = "atusy/zsh-nvrepl"
+apply = ["defer"]
+hooks.post = """
+function nvrepl-my-post() {
+  if [[ -n $NVIM ]] && [[ -n $NVREPL_LOADED ]]; then
+    function my-accept-line() {
+      nvrepl-line || "$ATUSY_ACCEPT_LINE"
+    }
+    zle -N my-accept-line
+    bindkey '^m' my-accept-line
+    ZSH_AUTOSUGGEST_CLEAR_WIDGETS+=(my-accept-line)
+  fi
+}
+zsh-defer nvrepl-my-post
+"""
 
 [plugins.ghf]
 github = "atusy/gh-fzf"
+apply = ["defer"]
+hooks.post = "alias gh=ghf"

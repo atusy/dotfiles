@@ -1,23 +1,23 @@
 #!/usr/bin/env zsh
+function source {
+  ensure_zcompiled "$@"
+  builtin source "$@"
+}
 
-if ! command -v rtx >/dev/null; then
-  (
-    set -euo pipefail
-    cd "$(mktemp -d)"
-    gpg --keyserver hkps://keyserver.ubuntu.com --recv-keys 0x29DDE9E0
-    curl https://rtx.pub/install.sh.sig | gpg --decrypt > install.sh
-    RTX_INSTALL_PATH="${HOME}/.local/bin/rtx" sh ./install.sh
-    rtx use -g --yes deno
-  )
-fi
-eval "$( rtx activate zsh )"
-eval "$( rtx hook-env -s zsh )"
+function ensure_zcompiled {
+  local compiled="$1.zwc"
+  if [[ ! -r "$compiled" || "$1" -nt "$compiled" ]]; then
+    echo "\033[1;36mCompiling\033[m $1"
+    zcompile "$1"
+  fi
+}
 
 if ! command -v sheldon >/dev/null; then
   curl --proto '=https' -fLsS https://rossmacarthur.github.io/install/crate.sh \
     | bash -s -- --repo rossmacarthur/sheldon --to ~/.local/bin
 fi
 eval "$(sheldon source)"
+zsh-defer unset -f source
 
 # PROMPT
 ZSH_THEME_GIT_PROMPT_PREFIX=" "
@@ -133,8 +133,8 @@ function update_session_title() {
   export SESSION_TITLE="${1:-${SESSION_TITLE:-}}"
   echo -en "\e]2;${SESSION_TITLE:-$( pwd | sed -E -e 's#.*/\.github\.com/##' -e "s#.*/([^/]+)/\.worktree/#\1@#" -e "s#/.*/#/.../#" -e "s#^/\.\.\./##" )}\a"
 }
-update_session_title
-add-zsh-hook chpwd update_session_title
+zsh-defer update_session_title
+zsh-defer add-zsh-hook chpwd update_session_title
 
 # Aliases and some useful functions
 alias sudo='sudo '
@@ -193,12 +193,6 @@ if command -v xdg-open > /dev/null; then
     xdg-open "$@" 2>/dev/null
   }
 fi
-if which cd-gitroot 1>/dev/null; then
-  alias gd='cd-gitroot'
-fi
-if which ghf 1>/dev/null; then
-  alias gh='ghf'
-fi
 
 # example: printpath | fzf --ansi --preview 'exa --oneline {}'
 function printpath() {
@@ -252,35 +246,12 @@ function rename_wezterm_title() {
   echo "\x1b]1337;SetUserVar=panetitle=$(echo "$TITLE" | base64)\x07"
 }
 
-# Plugin: zsh-autosuggestions
-ZSH_AUTOSUGGEST_USE_ASYNC=1
-ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=244'
-
-# Plugin: zeno
-ATUSY_ACCEPT_LINE="accept-line"
-if [[ -n $ZENO_LOADED ]]; then
-  bindkey ' '  zeno-auto-snippet
-  bindkey '^m' zeno-auto-snippet-and-accept-line
-  bindkey '^i' zeno-completion
-  bindkey '^r' zeno-history-selection
-  bindkey '^x^s' zeno-insert-snippet
-  bindkey '^x^f' zeno-ghq-cd
-  ZSH_AUTOSUGGEST_CLEAR_WIDGETS+=(zeno-auto-snippet-and-accept-line)
-  ATUSY_ACCEPT_LINE="zeno-auto-snippet-and-accept-line"
-fi
-
-if [[ -n $NVIM ]] && [[ -n $NVREPL_LOADED ]]; then
-  function my-accept-line() {
-    nvrepl-line || "$ATUSY_ACCEPT_LINE"
-  }
-  zle -N my-accept-line
-  bindkey '^m' my-accept-line
-  ZSH_AUTOSUGGEST_CLEAR_WIDGETS+=(my-accept-line)
-fi
-
 # direnv
 if command -v direnv >/dev/null; then
-  eval "$(direnv hook zsh)"
+  function my-eval-direnv-hook() {
+    eval "$(direnv hook zsh)"
+  }
+  zsh-defer my-eval-direnv-hook
 fi
 
 # local configurations
