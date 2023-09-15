@@ -139,10 +139,13 @@ zsh-defer add-zsh-hook chpwd update_session_title
 # Aliases and some useful functions
 alias sudo='sudo '
 if command -v zoxide > /dev/null; then
-  if [[ "$(command -v zi)" =~ "^alias .+" ]]; then
-    unalias zi
-  fi
-  eval "$(zoxide init zsh)"
+  function my-zoxide-init() {
+    if [[ "$(command -v zi)" =~ "^alias .+" ]]; then
+      unalias zi
+    fi
+    eval "$(zoxide init zsh)"
+  }
+  zsh-defer my-zoxide-init
 fi
 if command -v htop > /dev/null; then
   alias top='htop'
