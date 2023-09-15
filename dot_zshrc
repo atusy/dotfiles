@@ -240,54 +240,6 @@ if command -v kubectl > /dev/null; then
   alias kunset='command kubectl config unset current-context'
 fi
 
-if command -v asdf >/dev/null; then
-  # asdf meets fzf
-  function asdff() {
-    # determine plugin with fzf if not given
-    local TARGET="local"
-    if [[ "$1" == "global" ]]; then
-      TARGET="global"
-      shift 1
-    fi
-    local PLUGIN="$1"
-    if [[ -z "$PLUGIN" ]]; then
-      PLUGIN="$( asdf plugin list | fzf )"
-      if [[ -z "$PLUGIN" ]]; then
-        return 1
-      fi
-    elif [[ "$PLUGIN" == "-" ]]; then
-      PLUGIN="$( asdf plugin list all | fzf | awk '{print $1}' )"
-      if [[ -z "$PLUGIN" ]]; then
-        return 1
-      fi
-      asdf plugin add "$PLUGIN"
-    fi
-
-    # determine version with fzf
-    local VERSION
-    local QUERY="${2:-}"
-    if [[ -z "$QUERY" ]]; then
-      # set default query for specific plugin
-      if [[ "$PLUGIN" == "python" ]]; then
-        QUERY="^3."
-      fi
-    fi
-    VERSION="$( asdf list all "$PLUGIN" | fzf --tac --no-sort -q "$QUERY" )"
-    if [[ -z "$VERSION" ]]; then
-      return 1
-    fi
-
-    # apply plugin with the given version
-    # install the specified version if necessary
-    if asdf list "$PLUGIN" "$VERSION" >/dev/null
-    then
-      asdf "$TARGET" "$PLUGIN" "$VERSION"
-    else
-      asdf install "$PLUGIN" "$VERSION" && asdf "$TARGET" "$PLUGIN" "$VERSION"
-    fi
-  }
-fi
-
 function rename_wezterm_title() {
   local PWD="$( pwd )"
   local GIT_DIR="$( git rev-parse --git-common-dir )"
