@@ -5,19 +5,16 @@ defer = "{{ hooks | get: \"pre\" | nl }}{% for file in files %}zsh-defer source 
 
 [plugins.zsh-defer]
 github = "romkatv/zsh-defer"
-hooks.post = 'zcompile() zsh-defer builtin zcompile "$@"'
+hooks.post = """
+zcompile() zsh-defer builtin zcompile "$@"
 
-[plugins.rtx]
-inline = """
-# bootstrap
-RTX_INSTALL_ONLY=1 . "${HOME}/.local/lastresort/bin/rtx" # no zcompile
-
-# setup
+# setup rtx with bootstrap
+# activate can be deferred but should ensure deno is available for zeno.zsh
 function my-rtx-activate() {
   command -v direnv >/dev/null && eval "$( direnv hook zsh )"
   eval "$( rtx activate zsh )" && eval "$( rtx hook-env -s zsh )"
 }
-zsh-defer my-rtx-activate
+RTX_INSTALL_ONLY=1 . "${HOME}/.local/lastresort/bin/rtx" && zsh-defer my-rtx-activate
 """
 
 [plugins.fast-syntax-highlighting]
