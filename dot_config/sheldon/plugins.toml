@@ -9,15 +9,9 @@ hooks.post = 'zcompile() zsh-defer builtin zcompile "$@"'
 
 [plugins.rtx]
 inline = """
-if ! command -v rtx >/dev/null; then
-  (
-    set -euo pipefail
-    cd "$(mktemp -d)"
-    gpg --keyserver hkps://keyserver.ubuntu.com --recv-keys 0x29DDE9E0
-    curl https://rtx.pub/install.sh.sig | gpg --decrypt > install.sh
-    RTX_INSTALL_PATH="${HOME}/.local/bin/rtx" sh ./install.sh
-    rtx install
-  )
+if ! command -v rtx >/dev/null || [[ "$( command -v rtx )" == "${HOME}/.local/lastresort/bin/rtx" ]]; then
+  # bootstrap without defer to show messages
+  "${HOME}/.local/lastresort/bin/rtx" exec -- echo -n "" 1>&2
 fi
 function my-rtx-activate() {
   eval "$( rtx activate zsh )"
