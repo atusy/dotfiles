@@ -237,14 +237,6 @@ function rename_wezterm_title() {
   echo "\x1b]1337;SetUserVar=panetitle=$(echo "$TITLE" | base64)\x07"
 }
 
-# direnv
-if command -v direnv >/dev/null; then
-  function my-eval-direnv-hook() {
-    eval "$(direnv hook zsh)"
-  }
-  zsh-defer my-eval-direnv-hook
-fi
-
 # local configurations
 [[ -f "$HOME/.config/zsh/local.zshrc" ]] && . "$HOME/.config/zsh/local.zshrc"
 

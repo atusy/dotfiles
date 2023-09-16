@@ -20,6 +20,8 @@ if ! command -v rtx >/dev/null; then
 fi
 function my-rtx-activate() {
   eval "$( rtx activate zsh )"
+  eval "$( rtx hook-env -s zsh )"
+  eval "$( direnv hook zsh )"
 }
 zsh-defer my-rtx-activate
 """
@@ -69,12 +71,6 @@ github = "junegunn/fzf"
 
 [plugins.zeno]
 github = "yuki-yano/zeno.zsh"
-hooks.pre = """
-function zeno-my-pre() {
-  eval "$( rtx hook-env -s zsh )"
-}
-zsh-defer zeno-my-pre
-"""
 apply = ["defer"]
 hooks.post = """
 function zeno-my-post() {
