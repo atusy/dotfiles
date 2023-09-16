@@ -727,14 +727,13 @@ local deps = {
     config = function()
       local treesitterpath = utils.datapath .. "/treesitter"
       vim.opt.runtimepath:append(treesitterpath)
-      local get_query = vim.treesitter.query and vim.treesitter.query.get or vim.treesitter.get_query -- since Nvim 0.9
       require("nvim-treesitter.configs").setup({
         parser_install_dir = treesitterpath,
         ensure_installed = "all",
         highlight = {
           enable = true,
           disable = function(lang)
-            local ok = pcall(get_query, lang, "highlights")
+            local ok = pcall(vim.treesitter.query.get, lang, "highlights")
             return not ok
           end,
           additional_vim_regex_highlighting = false,
