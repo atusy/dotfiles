@@ -1,0 +1,3 @@
+#!/bin/bash
+# like printenv
+echo "${1:-$PATH}" | grep -oE "[^:]+"

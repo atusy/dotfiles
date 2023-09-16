@@ -195,17 +195,6 @@ if command -v xdg-open > /dev/null; then
   }
 fi
 
-# example: printpath | fzf --ansi --preview 'exa --oneline {}'
-function printpath() {
-  if [[ -z "$path" ]]; then
-    echo "$PATH" | grep -oE "[^:]+"
-  else
-    for i in "${path[@]}"; do
-      echo "$i"
-    done
-  fi
-}
-
 if command -v kubectl > /dev/null; then
   function kubeconfig() {
     local RES
