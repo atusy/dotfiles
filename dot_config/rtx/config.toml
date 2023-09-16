@@ -15,3 +15,6 @@ direnv = "latest"
 fd = "latest"
 github-cli = "latest"
 awscli = "latest"
+
+[settings]
+experimental = true
