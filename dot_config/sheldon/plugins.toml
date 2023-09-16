@@ -119,7 +119,31 @@ apply = ["defer"]
 hooks.post = "alias gh=ghf"
 
 [plugins.compinit]
+# should be deferred as much as possible
 inline = """
-autoload -Uz compinit
-zsh-defer compinit
+function mycompinit() {
+  # zsh
+  local ZSHCOMPLETIONS="$HOME/.config/zsh/completions"
+  mkdir -p "$ZSHCOMPLETIONS"
+  if [[ ! -f "${ZSHCOMPLETIONS}/_gh" ]] || [[ "$( whence -p gh  )" -nt "${ZSHCOMPLETIONS}/_gh" ]]; then
+    command gh completion -s zsh > "${ZSHCOMPLETIONS}/_gh"
+  fi
+  autoload -Uz compinit && compinit
+
+  # bash
+  autoload -U +X bashcompinit && bashcompinit
+  local BASHCOMPLETIONS="$HOME/.config/bash/completions"
+  mkdir -p "$BASHCOMPLETIONS"
+
+  if [[ ! -f "${BASHCOMPLETIONS}/az.completion" ]] || [[ "$( whence -p az )" -nt "${BASHCOMPLETIONS}/az.completion" ]]; then
+    curl -sL 'https://raw.githubusercontent.com/Azure/azure-cli/dev/az.completion' -o "${BASHCOMPLETIONS}/az.completion"
+  fi
+  fd . "$BASHCOMPLETIONS" --exclude '*.zwc' --type file | while read -r f; do
+    source "$f"
+  done
+
+  complete -C "$( whence -p aws_completer )" aws
+}
+
+zsh-defer mycompinit
 """
