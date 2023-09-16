@@ -17,7 +17,6 @@ if ! command -v sheldon >/dev/null; then
     | bash -s -- --repo rossmacarthur/sheldon --to ~/.local/bin
 fi
 eval "$(sheldon source)"
-zsh-defer unset -f source
 
 # PROMPT
 ZSH_THEME_GIT_PROMPT_PREFIX=" "
