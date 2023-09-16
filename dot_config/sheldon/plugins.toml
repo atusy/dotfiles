@@ -20,7 +20,7 @@ if ! command -v rtx >/dev/null; then
     gpg --keyserver hkps://keyserver.ubuntu.com --recv-keys 0x29DDE9E0
     curl https://rtx.pub/install.sh.sig | gpg --decrypt > install.sh
     RTX_INSTALL_PATH="${HOME}/.local/bin/rtx" sh ./install.sh
-    rtx use -g --yes deno
+    rtx install
   )
 fi
 function my-rtx-activate() {
