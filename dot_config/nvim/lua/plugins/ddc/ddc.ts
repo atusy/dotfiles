@@ -29,7 +29,7 @@ export class Config extends BaseConfig {
     ["zsh", "fish", "xonsh"].map((x) =>
       args.setAlias("source", x, "shell-native")
     );
-    args.setAlias("source", "shell_history", "dictionary")
+    args.setAlias("source", "shell_history", "dictionary");
     args.setAlias("filter", "matcher_head_dictionary", "matcher_head");
     args.setAlias("filter", "matcher_head_shell_history", "matcher_head");
 
@@ -46,7 +46,14 @@ export class Config extends BaseConfig {
       ],
       sources: sources,
       cmdlineSources: {
-        ":": ["fish", "zsh", "cmdline", "cmdline-history", "shell_history", "around"],
+        ":": [
+          "fish",
+          "zsh",
+          "cmdline",
+          "cmdline-history",
+          "shell_history",
+          "around",
+        ],
         "@": ["input", "cmdline-history", "file", "around"],
         ">": ["input", "cmdline-history", "file", "around"],
         "/": ["around", "line"],
