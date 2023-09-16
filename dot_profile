@@ -22,11 +22,6 @@ if [[ -d "$HOME/.cargo" ]]; then
   export PATH="$HOME/.cargo/bin:$PATH"
 fi
 
-# linuxbrew
-if [[ -d "$HOME/.linuxbrew" ]]; then
-  eval "$($HOME/.linuxbrew/bin/brew shellenv)"
-fi
-
 export TMUX_SHELL="$( command -v zsh || echo "$SHELL" )"
 
 if command -v fcitx5 >/dev/null || command -v fcitx >/dev/null; then
