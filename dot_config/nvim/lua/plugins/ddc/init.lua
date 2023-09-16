@@ -20,7 +20,7 @@ local function commandline_pre(buf, mode)
   vim.fn["pum#set_local_option"](mode, { reversed = true })
   fn["ddc#custom#patch_buffer"]("sourceOptions", {
     file = { forceCompletionPattern = [[(^e\s+|\S/\S*)]] },
-    fish = { enabledIf = [[getcmdline()[0] == "!" ? v:true : v:false]] },
+    fish = { enabledIf = [[getcmdline() =~# "^\\(!\\|Gin\\(Buffer\\)\\? \\)" ? v:true : v:false]] },
     xonsh = { enabledIf = [[getcmdline()[0] == "!" ? v:true : v:false]] },
     zsh = { enabledIf = [[getcmdline() =~# "^\\(!\\|Gin\\(Buffer\\)\\? \\)" ? v:true : v:false]] },
     shell_history = { enabledIf = [[getcmdline()[0] == "!" ? v:true : v:false]] },
