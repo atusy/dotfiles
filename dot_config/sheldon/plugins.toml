@@ -76,22 +76,16 @@ github = "junegunn/fzf"
 [plugins.zeno]
 github = "yuki-yano/zeno.zsh"
 apply = ["defer"]
-hooks.pre = """
-export ZENO_ENABLE_SOCK=1
-"""
+hooks.pre = "export ZENO_ENABLE_SOCK=1"
 hooks.post = """
 function zeno-my-post() {
-  ATUSY_ACCEPT_LINE="accept-line"
-  if [[ -n $ZENO_LOADED ]]; then
-    bindkey ' '  zeno-auto-snippet
-    bindkey '^m' zeno-auto-snippet-and-accept-line
-    bindkey '^i' zeno-completion
-    bindkey '^r' zeno-history-selection
-    bindkey '^x^s' zeno-insert-snippet
-    bindkey '^x^f' zeno-ghq-cd
-    ZSH_AUTOSUGGEST_CLEAR_WIDGETS+=(zeno-auto-snippet-and-accept-line)
-    ATUSY_ACCEPT_LINE="zeno-auto-snippet-and-accept-line"
-  fi
+  bindkey ' '  zeno-auto-snippet
+  bindkey '^m' zeno-auto-snippet-and-accept-line
+  bindkey '^i' zeno-completion
+  bindkey '^r' zeno-history-selection
+  bindkey '^x^s' zeno-insert-snippet
+  bindkey '^x^f' zeno-ghq-cd
+  ZSH_AUTOSUGGEST_CLEAR_WIDGETS+=(zeno-auto-snippet-and-accept-line)
 }
 zsh-defer zeno-my-post
 """
@@ -100,17 +94,14 @@ zsh-defer zeno-my-post
 github = "atusy/zsh-nvrepl"
 apply = ["defer"]
 hooks.post = """
-function nvrepl-my-post() {
-  if [[ -n $NVIM ]] && [[ -n $NVREPL_LOADED ]]; then
-    function my-accept-line() {
-      nvrepl-line || "$ATUSY_ACCEPT_LINE"
-    }
-    zle -N my-accept-line
-    bindkey '^m' my-accept-line
-    ZSH_AUTOSUGGEST_CLEAR_WIDGETS+=(my-accept-line)
-  fi
-}
-zsh-defer nvrepl-my-post
+if [[ -n $NVIM ]]; then
+  function nvrepl-my-post() {
+    NVREPL_FALLBACK_ACCEPT_LINE="zeno-auto-snippet-and-accept-line"
+    bindkey '^m' nvrepl-or-accept-line
+    ZSH_AUTOSUGGEST_CLEAR_WIDGETS+=(nvrepl-or-accept-line)
+  }
+  zsh-defer nvrepl-my-post
+fi
 """
 
 [plugins.ghf]
