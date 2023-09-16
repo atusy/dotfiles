@@ -1,0 +1,11 @@
+#!/bin/sh
+
+set -e
+
+export DENO_INSTALL="${DENO_INSTALL:-${HOME}/.local}"
+
+if [[ ! -f "${DENO_INSTALL}/bin/deno" ]]; then
+  curl -fsSL https://deno.land/x/install/install.sh | sh
+fi
+
+"${DENO_INSTALL}/bin/deno" "$@"
