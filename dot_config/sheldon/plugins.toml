@@ -5,6 +5,11 @@ defer = "{{ hooks | get: \"pre\" | nl }}{% for file in files %}zsh-defer source 
 
 [plugins.zsh-defer]
 github = "romkatv/zsh-defer"
+hooks.post = """
+function zcompile() {
+  zsh-defer builtin zcompile "$@"
+}
+"""
 
 [plugins.rtx]
 inline = """
