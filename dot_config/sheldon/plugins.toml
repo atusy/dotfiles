@@ -58,12 +58,10 @@ apply = ["defer"]
 [plugins.git-prompt]
 github = "woefe/git-prompt.zsh"
 apply = ["defer"]
-hooks.pre = 'function gitprompt() { : }'
 
 [plugins.kube-ps1]
 github = "jonmosco/kube-ps1"
 apply = ["defer"]
-hooks.pre = 'function kube_ps1() { : }'
 
 [plugins.cd-gitroot]
 apply = ["defer"]
