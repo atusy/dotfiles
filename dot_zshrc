@@ -145,9 +145,7 @@ zsh-defer init_update_session_title
 alias sudo='sudo '
 if command -v zoxide > /dev/null; then
   function my-zoxide-init() {
-    if [[ "$(command -v zi)" =~ "^alias .+" ]]; then
-      unalias zi
-    fi
+    unalias zi 2>/dev/null
     eval "$(zoxide init zsh)"
   }
   zsh-defer my-zoxide-init
@@ -238,3 +236,6 @@ function rename_wezterm_title() {
 if [[ ! -f ~/.zshrc.zwc ]] || [[ ~/.zshrc -nt ~/.zshrc.zwc ]]; then
   zcompile ~/.zshrc
 fi
+
+# cleanup
+zsh-defer unset -f source
