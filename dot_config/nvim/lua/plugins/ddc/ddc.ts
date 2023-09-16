@@ -173,6 +173,7 @@ export class Config extends BaseConfig {
         fish: {
           shell: "fish",
           envs: {
+            DDCVIM: "1",
             COLUMNS: "200", // to get more preview info
           },
         },
