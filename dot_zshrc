@@ -213,7 +213,7 @@ if command -v kubectl > /dev/null; then
 fi
 
 # local configurations
-[[ -f "$HOME/.config/zsh/local.zshrc" ]] && . "$HOME/.config/zsh/local.zshrc"
+[[ -f "$HOME/.config/zsh/local.zshrc" ]] && source "$HOME/.config/zsh/local.zshrc"
 
 # .zshrc
 if [[ ! -f ~/.zshrc.zwc ]] || [[ ~/.zshrc -nt ~/.zshrc.zwc ]]; then
