@@ -11,6 +11,9 @@ function main() {
     echo "${(l:2:)i}: ${msec} [ms]"
     total_msec=$(( $total_msec + $msec ))
   done
+  if [[ "$1" -eq 1 ]]; then
+    return
+  fi
   local average_msec
   average_msec=$(( ${total_msec} / ${n} ))
   echo "\naverage: ${average_msec} [ms]"
