@@ -72,6 +72,9 @@ github = "junegunn/fzf"
 [plugins.zeno]
 github = "yuki-yano/zeno.zsh"
 apply = ["defer"]
+hooks.pre = """
+export ZENO_ENABLE_SOCK=1
+"""
 hooks.post = """
 function zeno-my-post() {
   ATUSY_ACCEPT_LINE="accept-line"
