@@ -217,18 +217,6 @@ if command -v kubectl > /dev/null; then
   alias kunset='command kubectl config unset current-context'
 fi
 
-function rename_wezterm_title() {
-  local PWD="$( pwd )"
-  local GIT_DIR="$( git rev-parse --git-common-dir )"
-  if [[ -z "$GIT_DIR" ]]; then
-    local TITLE="$( basename "$PWD" )"
-  else
-    local BASE="$( cd "${GIT_DIR}/../.." && pwd )"
-    local TITLE="$( realpath --relative-to="$BASE" "$PWD" )"
-  fi
-  echo "\x1b]1337;SetUserVar=panetitle=$(echo "$TITLE" | base64)\x07"
-}
-
 # local configurations
 [[ -f "$HOME/.config/zsh/local.zshrc" ]] && . "$HOME/.config/zsh/local.zshrc"
 
