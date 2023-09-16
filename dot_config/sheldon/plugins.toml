@@ -10,8 +10,7 @@ hooks.post = 'zcompile() zsh-defer builtin zcompile "$@"'
 [plugins.rtx]
 inline = """
 if ! command -v rtx >/dev/null || [[ "$( command -v rtx )" == "${HOME}/.local/lastresort/bin/rtx" ]]; then
-  # bootstrap without defer to show messages
-  "${HOME}/.local/lastresort/bin/rtx" exec -- echo -n "" 1>&2
+  "${HOME}/.local/lastresort/bin/rtx" exec -- echo -n "" 1>&2 # bootstrap without defer to show messages
 fi
 function my-rtx-activate() {
   command -v direnv >/dev/null && eval "$( direnv hook zsh )"
