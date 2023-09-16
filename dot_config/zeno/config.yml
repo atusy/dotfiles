@@ -76,13 +76,3 @@ completions:
       --multi: true
       --prompt: "'Kill Process> '"
     callback: "awk '{print $2}'"
-  - name: path
-    patterns:
-      - "\\s\\./"
-      - "^\\./"
-    sourceCommand: "fd --no-ignore-vcs"
-    options:
-      --multi: true
-    callback: "sed -e 's#^\\./##'"
-
-
