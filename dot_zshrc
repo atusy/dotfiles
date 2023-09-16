@@ -133,8 +133,10 @@ function update_session_title() {
   echo -en "\e]2;${SESSION_TITLE:-$( pwd | sed -E -e 's#.*/\.github\.com/##' -e "s#.*/([^/]+)/\.worktree/#\1@#" -e "s#/.*/#/.../#" -e "s#^/\.\.\./##" )}\a"
 }
 function init_update_session_title() {
-  autoload -Uz add-zsh-hook
-  add-zsh-hook chpwd update_session_title
+  typeset -ag chpwd_functions;
+  if [[ -z "${chpwd_functions[(r)update_session_title]+1}" ]]; then
+    chpwd_functions=( update_session_title ${chpwd_functions[@]} )
+  fi
   update_session_title
 }
 zsh-defer init_update_session_title
