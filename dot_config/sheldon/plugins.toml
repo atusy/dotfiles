@@ -5,11 +5,7 @@ defer = "{{ hooks | get: \"pre\" | nl }}{% for file in files %}zsh-defer source 
 
 [plugins.zsh-defer]
 github = "romkatv/zsh-defer"
-hooks.post = """
-function zcompile() {
-  zsh-defer builtin zcompile "$@"
-}
-"""
+hooks.post = 'zcompile() zsh-defer builtin zcompile "$@"'
 
 [plugins.rtx]
 inline = """
@@ -42,10 +38,7 @@ apply = ["defer"]
 [plugins.zsh-autosuggestions]
 github = "zsh-users/zsh-autosuggestions"
 apply = ["defer"]
-hooks.post = """
-ZSH_AUTOSUGGEST_USE_ASYNC=1
-ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=244'
-"""
+hooks.pre = "ZSH_AUTOSUGGEST_USE_ASYNC=1; ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=244'"
 
 [plugins.zsh-async]
 github = "mafredri/zsh-async"
