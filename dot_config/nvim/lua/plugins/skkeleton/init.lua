@@ -45,8 +45,8 @@ return {
         group = utils.augroup,
         pattern = "skkeleton-enable-post",
         callback = function(ctx)
-          vim.keymap.set({ "i", "c" }, ":", function()
-            -- NOTE: do not call skkeleton#handle directory. Instead, use expr mapping to handle keys in sync
+          -- NOTE: do not call skkeleton#handle directory. Instead, use expr mapping to handle keys in sync
+          vim.keymap.set({ "i", "c", "t" }, ":", function()
             local state = vim.g["skkeleton#state"]
             local mode = vim.fn["skkeleton#mode"]()
             if mode ~= "abbrev" and state.phase == "input:okurinasi" then
@@ -61,7 +61,7 @@ return {
         group = utils.augroup,
         pattern = "skkeleton-disable-post",
         callback = function()
-          pcall(vim.keymap.del, { "i", "c" }, ":", { buffer = true })
+          pcall(vim.keymap.del, { "i", "c", "t" }, ":", { buffer = true })
         end,
       })
 
