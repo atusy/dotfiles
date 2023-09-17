@@ -12,7 +12,14 @@ if ! command -v sheldon >/dev/null; then
   curl --proto '=https' -fLsS https://rossmacarthur.github.io/install/crate.sh \
     | bash -s -- --repo rossmacarthur/sheldon --to ~/.local/bin
 fi
-eval "$(sheldon source)"
+
+SHELDON_SOURCE="${HOME}/.cache/sheldon/plugins.zsh"
+if [[ ! -f "$SHELDON_SOURCE" || "${HOME}/.config/sheldon/plugins.toml" -nt "$SHELDON_SOURCE"  ]]; then
+  mkdir -p "$( dirname "$SHELDON_SOURCE" )"
+  sheldon source > "$SHELDON_SOURCE"
+  zcompile "$SHELDON_SOURCE"
+fi
+builtin source "$SHELDON_SOURCE"
 
 # PROMPT
 ZSH_THEME_GIT_PROMPT_PREFIX=" "
