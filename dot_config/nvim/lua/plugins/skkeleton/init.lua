@@ -50,8 +50,7 @@ return {
             local state = vim.g["skkeleton#state"]
             local mode = vim.fn["skkeleton#mode"]()
             if mode ~= "abbrev" and state.phase == "input:okurinasi" then
-              return [[<Cmd>call skkeleton#handle('handleKey', {'key': '"'})<CR>]] -- henkanPoint
-                .. [[<Cmd>call skkeleton#handle('handleKey', {'key': ';'})<CR>]] -- っ
+              return [[<Cmd>call skkeleton#handle('handleKey', {'key': ['"', ";"]})<CR>]] -- 「っ」で変換開始
             end
             return [[<Cmd>call skkeleton#handle('handleKey', {'key': ':'})<CR>]]
           end, { buffer = true, expr = true })
