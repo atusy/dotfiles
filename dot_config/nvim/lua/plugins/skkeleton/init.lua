@@ -54,6 +54,23 @@ return {
             end
             return [[<Cmd>call skkeleton#handle('handleKey', {'key': ':'})<CR>]]
           end, { buffer = true, expr = true })
+          vim.keymap.set({ "i", "c", "t" }, ".", function()
+            local cmdtype = vim.fn.getcmdtype()
+            if cmdtype == "" then
+              local cursor = vim.api.nvim_win_get_cursor(0)
+              local ok, left =
+                pcall(vim.api.nvim_buf_get_text, 0, cursor[1] - 1, cursor[2] - 1, cursor[1] - 1, cursor[2], {})
+              if ok and left[1]:match("[0-9]") then
+                return "."
+              end
+            else
+              local col = vim.fn.getcmdpos()
+              if vim.fn.getcmdline():sub(col - 1, col):find("[0-9]") then
+                return "."
+              end
+            end
+            return [[<Cmd>call skkeleton#handle('handleKey', {'key': '.'})<CR>]]
+          end, { buffer = true, expr = true, remap = true })
         end,
       })
 
@@ -62,6 +79,7 @@ return {
         pattern = "skkeleton-disable-post",
         callback = function()
           pcall(vim.keymap.del, { "i", "c", "t" }, ":", { buffer = true })
+          pcall(vim.keymap.del, { "i", "c", "t" }, ".", { buffer = true })
         end,
       })
 
