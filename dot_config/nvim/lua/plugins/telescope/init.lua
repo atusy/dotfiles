@@ -35,8 +35,12 @@ local function telescope_init()
   -- sd is occupied by mini.surround
   set_keymap("n", leader .. "f", telescope("find_files"))
   set_keymap("n", leader .. "g", telescope("live_grep"))
+  local lazy_all = true
   set_keymap("n", leader .. "h", function()
-    pcall(vim.cmd, "Lazy load all")
+    if lazy_all then
+      pcall(require("lazy").load, { plugins = require("lazy").plugins() })
+      lazy_all = false
+    end
     require("telescope.builtin").help_tags()
   end, { desc = "Telescope lazy help_tags" })
   set_keymap("n", leader .. "o", function()
