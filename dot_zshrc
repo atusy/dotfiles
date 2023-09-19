@@ -14,7 +14,7 @@ if ! command -v sheldon >/dev/null; then
 fi
 
 SHELDON_SOURCE="${HOME}/.cache/sheldon/plugins.zsh"
-if [[ ! -r "$SHELDON_SOURCE" || "${HOME}/.config/sheldon/plugins.toml" -nt "$SHELDON_SOURCE"  ]]; then
+if [[ ! -r "$SHELDON_SOURCE.zwc" || "${HOME}/.config/sheldon/plugins.toml" -nt "$SHELDON_SOURCE"  ]]; then
   mkdir -p "$( dirname "$SHELDON_SOURCE" )"
   sheldon source > "$SHELDON_SOURCE"
   zcompile "$SHELDON_SOURCE"
