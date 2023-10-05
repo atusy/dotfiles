@@ -95,6 +95,9 @@ vim.opt.virtualedit = "block"
 -- buffer
 vim.opt.autoread = true
 vim.opt.matchtime = 1
+vim.opt.matchpairs:append(
+  [[<:>,「:」,（:）,『:』,【:】,《:》,〈:〉,｛:｝,［:］,【:】,‘:’,“:”]]
+)
 vim.opt.mouse = "a"
 vim.opt.pumheight = 10
 vim.opt.pumblend = 25
