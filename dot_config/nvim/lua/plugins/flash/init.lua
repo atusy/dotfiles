@@ -242,6 +242,11 @@ return {
           search = { enabled = false },
           treesitter = { enabled = false },
         },
+        highlight = {
+          groups = {
+            label = "DiagnosticError",
+          },
+        },
       })
     end,
   },
