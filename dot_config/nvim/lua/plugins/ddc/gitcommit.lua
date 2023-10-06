@@ -106,7 +106,7 @@ local function setup()
             end
           end
         end
-        for _, word in pairs({ "feat", "prefix", "fix", "chore", "refactor", "style", "test" }) do
+        for _, word in pairs({ "feat", "prefix", "fix", "chore", "refactor", "style", "test", "release" }) do
           table.insert(completion_items, { word = word })
         end
       end
