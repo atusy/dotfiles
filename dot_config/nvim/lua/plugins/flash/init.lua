@@ -186,6 +186,7 @@ local function incremental_matcher(conv, cache)
   end, {})
 end
 
+local hl_label = "DiagnosticError"
 return {
   {
     "folke/flash.nvim",
@@ -217,7 +218,7 @@ return {
             mode = "char",
             matcher = matcher,
             labeler = function() end,
-            highlight = { matches = false },
+            highlight = { matches = false, groups = { current = hl_label } },
           }, conf))
         end)
       end
@@ -244,7 +245,7 @@ return {
         },
         highlight = {
           groups = {
-            label = "DiagnosticError",
+            label = hl_label,
           },
         },
       })
