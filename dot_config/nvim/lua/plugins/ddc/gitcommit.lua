@@ -51,7 +51,8 @@ local function setting(buf, completion_items, semantic, scopes)
     return {}
   end
   local text = vim.api.nvim_buf_get_text(0, row, 0, row, col, {})[1] or ""
-  if text:match("%s") or (semantic and text:match(":")) then
+  local space = text:find("%s")
+  if (space and space < col) or (semantic and text:match(":")) then
     vim.fn["pum#set_buffer_option"]({ max_height = vim.o.pumheight })
     return {}
   end
