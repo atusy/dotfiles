@@ -46,6 +46,10 @@ snippets:
   - name: curl json
     keyword: curljson
     snippet: "curl -H 'Content-Type: application/json'"
+  - name: sheldon update
+    snippet: 'sheldon lock --update'
+  - name: rtx fzf plugins
+    snippet: 'rtx plugins ls-remote | fzf --ansi --multi'
 
   # Some aliases that I often forget their real names 
   - name: htop
