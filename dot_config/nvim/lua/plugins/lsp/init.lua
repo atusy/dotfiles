@@ -117,7 +117,7 @@ return {
       "ii14/emmylua-nvim",
       "tamago324/nlsp-settings.nvim",
       "folke/neodev.nvim",
-      { "j-hui/fidget.nvim", branch = "legacy" },
+      "j-hui/fidget.nvim",
     },
     config = function()
       vim.api.nvim_create_autocmd("LspAttach", {
@@ -208,6 +208,7 @@ return {
   {
     "j-hui/fidget.nvim",
     lazy = true,
+    branch = "legacy",
     config = function()
       require("fidget").setup()
     end,
