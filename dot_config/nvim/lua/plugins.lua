@@ -152,7 +152,7 @@ local deps = {
         -- without count, toggle indent_blankline
         if vim.v.count == 0 then
           -- must be scheduled to suppress textlock related errors
-          require("indent_blankline.commands").toggle(true)
+          require("ibl").update({ enabled = not require("ibl.config").get_config(-1).enabled })
           return
         end
 
@@ -163,26 +163,28 @@ local deps = {
         })
       end)
       set_palette("n", "toggle indent blankline", function()
-        require("indent_blankline.commands").toggle(true)
+        require("ibl").update({ enabled = not require("ibl.config").get_config(-1).enabled })
       end)
     end,
     config = function()
-      vim.g.indent_blankline_char_priority = 3 -- should be higher than tsnode-marker's priority
-      vim.g.indent_blankline_enabled = false
       vim.api.nvim_set_hl(0, "IndentBlanklineIndent1", { fg = "#E06C75", nocombine = true })
       vim.api.nvim_set_hl(0, "IndentBlanklineIndent2", { fg = "#E5C07B", nocombine = true })
       vim.api.nvim_set_hl(0, "IndentBlanklineIndent3", { fg = "#98C379", nocombine = true })
       vim.api.nvim_set_hl(0, "IndentBlanklineIndent4", { fg = "#56B6C2", nocombine = true })
       vim.api.nvim_set_hl(0, "IndentBlanklineIndent5", { fg = "#61AFEF", nocombine = true })
-      require("indent_blankline").setup({
-        show_current_context = true,
-        show_current_context_start = true,
-        char_highlight_list = {
-          "IndentBlanklineIndent1",
-          "IndentBlanklineIndent2",
-          "IndentBlanklineIndent3",
-          "IndentBlanklineIndent4",
-          "IndentBlanklineIndent5",
+      require("ibl").setup({
+        enabled = false,
+        indent = {
+          highlight = {
+            "IndentBlanklineIndent1",
+            "IndentBlanklineIndent2",
+            "IndentBlanklineIndent3",
+            "IndentBlanklineIndent4",
+            "IndentBlanklineIndent5",
+          },
+        },
+        scope = {
+          enabled = false,
         },
       })
     end,
