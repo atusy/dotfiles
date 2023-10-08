@@ -139,41 +139,26 @@ zsh-defer init_update_session_title
 
 # Aliases and some useful functions
 alias sudo='sudo '
-if command -v zoxide > /dev/null; then
-  function my-zoxide-init() {
+alias ip='ip --color=auto'
+alias ll='eza -l --time-style=iso'
+alias top='htop'
+alias df='duf'
+alias ps='procs'
+alias du='gdu'
+alias cat='bat'
+alias jq='gojq'
+alias yq='gojq --yaml-input'
+function my-zoxide-init() {
+  if command -v zoxide > /dev/null; then
     unalias zi 2>/dev/null
     eval "$(zoxide init zsh)"
-  }
-  zsh-defer my-zoxide-init
-fi
-if command -v htop > /dev/null; then
-  alias top='htop'
-fi
-if command -v duf > /dev/null; then
-  alias df='duf'
-else
-  alias df='df -h'
-fi
-if command -v procs > /dev/null; then
-  alias ps='procs'
-fi
-if command -v gdu > /dev/null; then
-  alias du='gdu'
-fi
-if command -v eza > /dev/null; then
-  alias ls='eza -l --time-style=iso'
-fi
-if command -v bat > /dev/null; then
-  alias cat='bat'
-fi
-if command -v gojq > /dev/null; then
-  alias jq='gojq'
-  alias yq='gojq --yaml-input'
-fi
+  fi
+}
+zsh-defer my-zoxide-init
 if command -v wget2 > /dev/null
 then
   alias wget='wget2 -c' # resumable
-elif command -v wget > /dev/null; then
+else
   alias wget='wget -c' # resumable
 fi
 if command -v nvim > /dev/null; then
