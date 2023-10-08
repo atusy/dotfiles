@@ -97,7 +97,6 @@ local function lspconfig()
             continuation_indent_size = "2",
           },
         },
-        -- telemetry = { enable = false },
       },
     },
   })
