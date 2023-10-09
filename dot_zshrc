@@ -140,6 +140,7 @@ zsh-defer init_update_session_title
 # Aliases and some useful functions
 alias sudo='sudo '
 alias ip='ip --color=auto'
+alias ls='ls --color=auto'
 alias ll='eza -l --time-style=iso'
 alias top='htop'
 alias df='duf'
