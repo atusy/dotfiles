@@ -113,8 +113,8 @@ return {
       "williamboman/mason.nvim",
       "williamboman/mason-lspconfig.nvim",
       "jose-elias-alvarez/null-ls.nvim",
-      "ii14/emmylua-nvim",
-      "folke/neodev.nvim",
+      -- "ii14/emmylua-nvim",
+      -- "folke/neodev.nvim",
       "j-hui/fidget.nvim",
     },
     config = function()
