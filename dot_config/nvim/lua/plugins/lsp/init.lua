@@ -114,7 +114,6 @@ return {
       "williamboman/mason-lspconfig.nvim",
       "jose-elias-alvarez/null-ls.nvim",
       "ii14/emmylua-nvim",
-      "tamago324/nlsp-settings.nvim",
       "folke/neodev.nvim",
       "j-hui/fidget.nvim",
     },
