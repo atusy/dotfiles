@@ -216,7 +216,7 @@ end, { fav = false, expr = true })
 
 -- mappings: save and ...
 set_keymap({ "n", "x" }, "<Plug>(save)", function()
-  vim.cmd((vim.fn.filereadable("%") and "up" or "write") .. " | redraw")
+  vim.cmd((vim.fn.filereadable("%") == 0 and "up" or "write") .. " | redraw")
 end)
 set_keymap({ "i", "n" }, "<C-S>", [[<C-\><C-N><Plug>(save)<Plug>(C-S)]], { desc = "save" })
 set_keymap("n", "<Plug>(C-S)<C-A>", "<cmd>wa<cr>", { desc = "save all" })
