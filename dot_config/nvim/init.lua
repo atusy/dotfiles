@@ -229,14 +229,6 @@ set_keymap({ "o", "x" }, "ae", ":<c-u>keepjumps normal! G$vgo<cr>", { silent = t
 set_keymap("c", "<LeftMouse>", "<Esc><LeftMouse>")
 set_keymap("n", "<LeftDrag>", "<Nop>")
 set_keymap("n", "<LeftRelease>", "<Nop>")
-pcall(
-  vim.api.nvim_exec2,
-  [[
-    nnoremenu PopUp.Toggle\ Drag <Cmd>lua require('atusy.mouse').toggle_left_drag()<CR>
-    aunmenu PopUp.How-to\ disable\ mouse
-  ]],
-  { output = false }
-)
 
 -- mappings: jumplist
 local function jump(forward)
