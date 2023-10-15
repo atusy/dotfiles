@@ -331,7 +331,7 @@ vim.api.nvim_create_autocmd("InsertEnter", {
       once = true,
       group = vim.api.nvim_create_augroup("toggle-cursorline", {}),
       callback = function()
-        pcall(vim.api.nvim_win_set_option, win, "cursorline", true)
+        pcall(vim.api.nivm_set_option_value, "cursorline", true, { win = win })
       end,
     })
   end,
