@@ -198,15 +198,10 @@ end)
 set_keymap("n", "gf", "gF")
 
 -- mappings: diagnostics
-set_keymap("n", "<Leader>e", vim.diagnostic.open_float, { silent = true, desc = "float diagnostic" })
-set_keymap("n", "[d", vim.diagnostic.goto_prev, { silent = true, desc = "previous diagnostic" })
-set_keymap("n", "]d", vim.diagnostic.goto_next, { silent = true, desc = "next diagnositc" })
-set_keymap(
-  "n",
-  "<Leader>q",
-  vim.diagnostic.setloclist,
-  { silent = true, desc = "add buffer diagnositcs to the location list" }
-)
+set_keymap("n", "[d", vim.diagnostic.goto_prev)
+set_keymap("n", "]d", vim.diagnostic.goto_next)
+set_keymap("n", "<Leader>q", vim.diagnostic.setloclist)
+set_keymap("n", "<Leader>e", vim.diagnostic.open_float)
 
 -- mappings: don't start a new undo block on horizontal moves on insert mode
 set_keymap("i", "<Left>", "<C-G>U<Left>")
