@@ -3,6 +3,8 @@ deno = "latest"
 neovim = "nightly"
 node = "latest"
 python = "latest"
+bun = "latest"
+azure-cli = "latest"
 
 # might be useful, but latest can be installed from pacman
 # awscli = "latest"
