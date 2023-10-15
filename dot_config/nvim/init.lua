@@ -352,11 +352,6 @@ if vim.fn.executable("nvr") == 1 then
 end
 
 --[[ lazy.nvim ]]
-if vim.v.vim_did_enter == 1 then
-  require("atusy.utils").require("atusy.lazy").reload()
-  return
-end
-
 local lazypath = utils.datapath .. "/lazy/lazy.nvim"
 
 if not vim.uv.fs_stat(lazypath) then
