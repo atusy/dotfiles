@@ -60,4 +60,20 @@ function M.jump_file(forward)
   end
 end
 
+function M.move_floatwin(row, col)
+  local conf = vim.api.nvim_win_get_config(0)
+  if conf.relative == "" then
+    return false
+  end
+  for k, v in pairs({ row = row, col = col }) do
+    if type(conf[k]) == "table" then
+      conf[k][false] = conf[k][false] + v
+    else
+      conf[k] = conf[k] + v
+    end
+  end
+  vim.api.nvim_win_set_config(0, conf)
+  return true
+end
+
 return M
