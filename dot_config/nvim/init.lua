@@ -231,35 +231,11 @@ set_keymap("n", "<LeftDrag>", "<Nop>")
 set_keymap("n", "<LeftRelease>", "<Nop>")
 
 -- mappings: jumplist
-local function jump(forward)
-  local buf_cur = vim.api.nvim_get_current_buf()
-  local jumplist = vim.fn.getjumplist()
-  local jumps = jumplist[1]
-  local idx_cur = jumplist[2] + 1
-  local function is_target(buf)
-    return buf ~= buf_cur and vim.api.nvim_buf_is_loaded(buf)
-  end
-
-  if forward then
-    for i = 1, #jumps - idx_cur do
-      if is_target(jumps[idx_cur + i].bufnr) then
-        return i .. "<C-I>"
-      end
-    end
-  else
-    for i = 1, idx_cur - 1 do
-      if is_target(jumps[idx_cur - i].bufnr) then
-        return i .. "<C-O>"
-      end
-    end
-  end
-end
-
 set_keymap("n", "g<C-O>", function()
-  return jump(false)
+  return require("atusy.misc").jump_file(false)
 end, { fav = false, expr = true })
 set_keymap("n", "g<C-I>", function()
-  return jump(true)
+  return require("atusy.misc").jump_file(true)
 end, { fav = false, expr = true })
 
 -- mappings: save and ...
