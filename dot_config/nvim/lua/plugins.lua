@@ -878,17 +878,16 @@ local deps = {
   {
     "atusy/tsnode-marker.nvim",
     lazy = true,
-    dir = "~/ghq/github.com/atusy/tsnode-marker.nvim",
     init = function()
       vim.api.nvim_create_autocmd("FileType", {
         group = utils.augroup,
         pattern = "markdown",
         callback = function(ctx)
-          -- blank target requires capture group @tsodemarker
+          -- blank target requires capture group @tsnodemarker
           -- dot_config/nvim/after/queries/markdown/highlights.scm
           require("tsnode-marker").set_automark(ctx.buf, {
             -- target = { "code_fence_content" },
-            -- hl_group = "@illuminate",
+            hl_group = "@illuminate",
           })
         end,
       })
@@ -925,7 +924,7 @@ local deps = {
       })
     end,
     config = function()
-      vim.api.nvim_set_hl(0, "@tsnodemarker", { link = "@illuminate" })
+      -- vim.api.nvim_set_hl(0, "@tsnodemarker", { link = "@illuminate" })
     end,
   },
 
