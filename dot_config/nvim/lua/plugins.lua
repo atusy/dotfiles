@@ -339,7 +339,7 @@ local deps = {
     --   require('denops-lazy').load('denops-open-http.vim')
     -- end
   },
-  "lambdalisue/readablefold.vim", -- or anuvyklack/pretty-fold.nvim
+  { "lambdalisue/readablefold.vim", lazy = true }, -- or anuvyklack/pretty-fold.nvim, but disabled in preference of atusy.fold.foldtext
   { "jghauser/mkdir.nvim", event = { "VeryLazy", "CmdlineEnter" } }, -- :w with mkdir
   {
     "andymass/vim-matchup",
