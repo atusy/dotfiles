@@ -63,7 +63,7 @@ vim.opt.updatetime = 250
 -- statuscolumn
 vim.opt.signcolumn = "yes"
 vim.opt.foldcolumn = "auto"
-vim.opt.statuscolumn = "%=%{&rnu ? v:relnum ? v:relnum : v:lnum : &nu ? v:lnum : ''}%s%C"
+vim.opt.statuscolumn = "%=%{&rnu ? v:relnum ? v:relnum : v:lnum : &nu ? v:lnum : ''}%s"
 
 -- window
 vim.opt.splitright = true
