@@ -122,7 +122,7 @@ local function setup_gin()
   set_keymap("n", "<Plug>(C-G)l", function()
     graph()
   end, { desc = "git graph", fav = false }) -- git log --graph ...
-  set_keymap("n", "<Plug>(C-G)<C-D>", "<Cmd>GinDiff -- %<CR>", { desc = "git commit", fav = false })
+  set_keymap("n", "<Plug>(C-G)<C-D>", "<Cmd>GinDiff -- %<CR>", { desc = "git diff", fav = false })
   set_keymap("n", "<Plug>(C-G)d", "<Cmd>GinDiff<CR>", { desc = "git commit", fav = false })
   set_keymap("n", "<Plug>(C-G)<C-Space>", function()
     require("plugins.git.commit").exec()
