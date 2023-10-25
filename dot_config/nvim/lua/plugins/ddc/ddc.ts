@@ -74,6 +74,7 @@ export class Config extends BaseConfig {
           matchers: ["matcher_head_dictionary", "matcher_fuzzy"],
           converters: ["converter_fuzzy", "converter_dictionary"],
           isVolatile: true,
+          keywordPattern: "[a-zA-Z]+",
           maxItems: 30,
         },
         around: {
