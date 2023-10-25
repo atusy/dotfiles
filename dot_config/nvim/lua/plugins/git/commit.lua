@@ -58,7 +58,6 @@ local function exec()
   )
   local tab = vim.api.nvim_get_current_tabpage()
   local buf = vim.api.nvim_get_current_buf()
-  vim.api.nvim_set_current_buf(buf)
   vim.api.nvim_set_option_value("filetype", "gitcommit", { buf = buf })
 
   -- autocmds
