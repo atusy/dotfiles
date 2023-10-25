@@ -129,7 +129,7 @@ local function setup_gin()
   end, { desc = "git commit", fav = false })
   set_keymap("n", "<Plug>(C-G)s", "<Cmd>GinStatus<CR>", { desc = "git status", fav = false })
   set_palette("n", "git amend", ":Gin commit --amend ")
-  set_palette("n", "git amend --no-edit", ":Gin commit --amend --no-edit ")
+  set_palette("n", "git amend --no-edit", ":Gin ++wait commit --amend --no-edit ")
   set_palette("n", "git rebase -i", ":Gin rebase --rebase-merge -i ")
   set_palette(
     "n",
