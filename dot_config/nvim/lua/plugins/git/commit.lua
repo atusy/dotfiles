@@ -53,12 +53,14 @@ local function exec()
     GinStatus ++opener=aboveleft\ sp
     aboveleft sp
     exe 'e ' .. tempname()
+    set filetype=gitcommit
     ]],
     {}
   )
+
+  -- get ui data
   local tab = vim.api.nvim_get_current_tabpage()
   local buf = vim.api.nvim_get_current_buf()
-  vim.api.nvim_set_option_value("filetype", "gitcommit", { buf = buf })
 
   -- autocmds
   local augroup = vim.api.nvim_create_augroup(tostring(buf), {})
