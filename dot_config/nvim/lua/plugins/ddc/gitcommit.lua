@@ -21,7 +21,9 @@ local function gather(template, pat)
 end
 
 local function read_template(buf)
-  local gitroot = vim.fs.dirname(vim.fs.dirname(vim.api.nvim_buf_get_name(buf)) or "")
+  local bufname = vim.api.nvim_buf_get_name(buf)
+  local gitdir = vim.fs.dirname(bufname) or ""
+  local gitroot = gitdir:match("/%.git$") and vim.fs.dirname(gitdir or "") or vim.fn.getcwd()
   local template = vim.system({ "git", "config", "commit.template" }, { cwd = gitroot }):wait().stdout or ""
   template = template:gsub("\n", "")
   local configured = template ~= ""
