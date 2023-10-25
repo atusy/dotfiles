@@ -31,6 +31,18 @@ local function commit(buf)
   return res.code
 end
 
+local function get_message(ref)
+  local res = vim.system({ "git", "log", "-n", "1", "--format=%s%n%n%b", ref }):wait()
+  if res.code == 0 then
+    local message = {}
+    for line in res.stdout:gmatch("[^\n]*") do
+      table.insert(message, line)
+    end
+    return message
+  end
+  vim.notify(res.stderr, vim.log.levels.ERROR)
+end
+
 local function exec()
   -- init UI
   vim.api.nvim_exec2(
@@ -66,7 +78,7 @@ local function exec()
     end,
   })
 
-  -- commands and keymaps
+  -- Ex-commands
   vim.api.nvim_buf_create_user_command(buf, "Apply", function()
     if commit(buf) == 0 then
       leave(tab, buf, augroup)
@@ -75,7 +87,23 @@ local function exec()
   vim.api.nvim_buf_create_user_command(buf, "Cancel", function()
     leave(tab, buf, augroup)
   end, {})
+
+  -- mappings
   vim.keymap.set("n", "<C-S><C-Q>", "<Cmd>Apply<CR>", { buffer = buf })
+  local n = 0
+  local function replace_message(delta)
+    n = n + delta
+    if n <= 0 then
+      n = 0
+    end
+    vim.api.nvim_buf_set_lines(buf, 0, -1, false, n == 0 and {} or get_message("HEAD~" .. tostring(n)))
+  end
+  vim.keymap.set("n", "g<C-O>", function()
+    replace_message(1)
+  end)
+  vim.keymap.set("n", "g<C-I>", function()
+    replace_message(-1)
+  end)
 end
 
 return {

@@ -289,7 +289,13 @@ vim.api.nvim_create_autocmd("ModeChanged", {
     if not hist then
       return
     end
-    if hist:match("^..?!?$") or hist:match("^wqa!?$") or hist == "source %" or hist:sub(0, 1) == " " then
+    if
+      hist:match("^[a-zA-Z]+$")
+      or hist:match("^..?!?$")
+      or hist:match("^wqa!?$")
+      or hist == "source %"
+      or hist:sub(0, 1) == " "
+    then
       vim.fn.histdel(":", -1)
     end
   end,
