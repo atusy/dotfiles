@@ -92,13 +92,13 @@ local function exec()
 
   -- mappings
   vim.keymap.set("n", "<C-S><C-Q>", "<Cmd>Apply<CR>", { buffer = buf })
-  local n = 0
+  local n = -1
   local function replace_message(delta)
     n = n + delta
-    if n <= 0 then
-      n = 0
+    if n < 0 then
+      n = -1
     end
-    vim.api.nvim_buf_set_lines(buf, 0, -1, false, n == 0 and {} or get_message("HEAD~" .. tostring(n)))
+    vim.api.nvim_buf_set_lines(buf, 0, -1, false, n < 0 and {} or get_message("HEAD~" .. tostring(n)))
   end
   vim.keymap.set("n", "g<C-O>", function()
     replace_message(1)
