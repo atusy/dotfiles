@@ -7,7 +7,7 @@ function M.foldtext()
     return res
   end
 
-  if #res == 2 and res[1][1]:match("^%s+$") and res[2][1] == "{" then
+  if (#res == 1 and res[1][1] == "{") or (#res == 2 and res[1][1]:match("^%s+$") and res[2][1] == "{") then
     local foldstart = vim.v.foldstart
     vim.v.foldstart = foldstart + 1
     local text = vim.treesitter.foldtext()
