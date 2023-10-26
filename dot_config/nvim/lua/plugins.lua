@@ -860,7 +860,42 @@ local deps = {
       end
       set_keymap("o", "m", tsht, { expr = true, silent = true })
       set_keymap("x", "m", tsht, { expr = true, silent = true })
+      local function zc(n)
+        -- init folding without closing any
+        if not vim.api.nvim_get_option_value("foldenable", {}) then
+          vim.cmd("normal! zizR")
+        end
+
+        -- with count, use zc
+        if (n or vim.v.count) > 0 then
+          vim.cmd("normal! " .. vim.v.count .. "zc")
+          return
+        end
+
+        -- without count, use tsht to select a resion to close or create one
+        hi()
+        require("tsht").nodes({ ignore_injections = false })
+        local ok = pcall(function()
+          vim.cmd("normal! Vzc")
+        end)
+        if not ok then
+          vim.cmd("normal! gvzf")
+        end
+      end
+      set_keymap("n", "zc", zc)
       set_keymap("n", "zf", function()
+        -- zc if foldmethod is expr
+        if vim.api.nvim_get_option_value("foldmethod", {}) == "expr" then
+          zc(vim.v.count)
+          return
+        end
+
+        -- init folding without closing any
+        if not vim.api.nvim_get_option_value("foldenable", {}) then
+          vim.cmd("normal! zizR")
+        end
+
+        -- create fold
         hi()
         require("tsht").nodes({ ignore_injections = false })
         vim.cmd("normal! Vzf")
