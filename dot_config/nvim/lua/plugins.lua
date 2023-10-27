@@ -70,61 +70,6 @@ local deps = {
     end,
   },
   { "lambdalisue/guise.vim", dependencies = { "vim-denops/denops.vim" } },
-  {
-    "lambdalisue/fern.vim",
-    dependencies = {
-      {
-        "lambdalisue/fern-renderer-nerdfont.vim",
-        lazy = true,
-        config = function()
-          vim.g["fern#renderer#nerdfont#indent_markers"] = 1
-        end,
-      },
-      { "lambdalisue/nerdfont.vim", lazy = true },
-    },
-    cmd = { "Fern" },
-    init = function()
-      set_palette("n", "Fern drawer", "<Cmd>Fern . -drawer -reveal=%<CR>")
-    end,
-    config = function()
-      vim.g["fern#renderer"] = "nerdfont"
-      vim.g["fern#window_selector_use_popup"] = 1
-      local function fern_chowcho()
-        local node = vim.api.nvim_exec2(
-          [[
-          let helper = fern#helper#new()
-          echo helper.sync.get_selected_nodes()[0]["_path"]
-        ]],
-          { output = true }
-        )
-        require("chowcho").run(function(n)
-          vim.api.nvim_set_current_win(n)
-          vim.cmd("edit " .. node)
-        end)
-      end
-
-      local function init_fern()
-        vim.opt_local.relativenumber = false
-        vim.opt_local.number = false
-        vim.opt_local.cursorline = true
-        vim.opt_local.signcolumn = "auto"
-        set_keymap("n", "S", "<C-W>p", { buffer = 0 })
-        set_keymap("n", "s", "<Nop>", { buffer = 0 })
-        set_keymap("n", " rn", "<Plug>(fern-action-rename)", { buffer = 0 }) -- like lsp rename
-        set_keymap("n", "<CR>", "<Plug>(fern-action-open:select)", { buffer = 0, nowait = true })
-        set_keymap("n", "<C-L>", "<Cmd>nohl<CR>", { buffer = 0 })
-        set_keymap("n", "<Plug>(fern-action-open:chowcho)", fern_chowcho, { buffer = 0 })
-      end
-
-      vim.api.nvim_create_autocmd("FileType", {
-        pattern = "fern",
-        group = utils.augroup,
-        callback = function()
-          pcall(init_fern)
-        end,
-      })
-    end,
-  },
   { "segeljakt/vim-silicon", cmd = { "Silicon", "SiliconHighlight" } }, -- pacman -S silicon
   {
     "tyru/open-browser.vim",
