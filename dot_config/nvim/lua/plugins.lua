@@ -258,10 +258,8 @@ local deps = {
     "m00qek/baleia.nvim",
     lazy = true,
     init = function()
-      local baleia
       set_palette("n", "parse ANSI escape sequences", function()
-        baleia = baleia or require("baleia").setup()
-        baleia.once(vim.api.nvim_get_current_buf())
+        require("baleia").setup().once(vim.api.nvim_get_current_buf())
       end)
     end,
   },
