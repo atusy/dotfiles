@@ -244,12 +244,8 @@ local deps = {
     "echasnovski/mini.bufremove", -- instead of 'moll/vim-bbye',
     lazy = true,
     init = function()
-      set_palette("n", "Bdelete", function()
-        require("mini.bufremove").delete()
-      end)
-      set_palette("n", "Bwipeout", function()
-        require("mini.bufremove").wipeout()
-      end)
+      set_palette("n", "Bdelete", [[<Cmd>lua require("mini.bufremove").delete()<CR>]])
+      set_palette("n", "Bwipeout", [[<Cmd>lua require("mini.bufremove").wipeout()<CR>]])
     end,
   },
   -- 'mhinz/vim-sayonara',
