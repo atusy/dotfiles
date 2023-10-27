@@ -137,8 +137,8 @@ local function setup_gin()
     ":Gin rebase --rebase-merge --onto ",
     { desc = "AにBからCまでの差分を乗せる" }
   )
-  set_palette("n", "git push", ":Gin push origin HEAD ")
-  set_palette("n", "git push --force", ":Gin push --force-with-lease --force-if-includes origin HEAD ")
+  set_palette("n", "git push", ":Gin ++wait push origin HEAD ")
+  set_palette("n", "git push --force", ":Gin ++wait push --force-with-lease --force-if-includes origin HEAD ")
   set_palette("n", "git diff", ":GinDiff ")
   set_palette("n", "git diff --ignore-all-space", ":GinDiff --ignore-all-space")
 end
