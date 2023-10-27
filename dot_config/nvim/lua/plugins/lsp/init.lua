@@ -150,18 +150,6 @@ return {
     -- configured via on_attach
   },
   {
-    "glepnir/lspsaga.nvim",
-    enabled = false,
-    event = "BufRead",
-    config = function()
-      require("lspsaga").setup({})
-    end,
-    dependencies = {
-      "nvim-tree/nvim-web-devicons",
-      "nvim-treesitter/nvim-treesitter", -- needs markdown and markdown_inline parser
-    },
-  },
-  {
     "jose-elias-alvarez/null-ls.nvim",
     lazy = true,
     config = function()
