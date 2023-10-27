@@ -47,7 +47,9 @@ local function on_attach(client, bufnr)
 end
 
 local function lspconfig()
+  local capabilities = require("ddc_nvim_lsp").make_client_capabilities()
   local function config(nm, opts)
+    opts.capabilities = capabilities
     require("lspconfig")[nm].setup(opts)
   end
   config("clangd", {})
