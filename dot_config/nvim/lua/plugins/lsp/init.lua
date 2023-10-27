@@ -117,7 +117,6 @@ return {
       "jose-elias-alvarez/null-ls.nvim",
       -- "ii14/emmylua-nvim",
       -- "folke/neodev.nvim",
-      "j-hui/fidget.nvim",
     },
     config = function()
       vim.api.nvim_create_autocmd("LspAttach", {
@@ -207,7 +206,7 @@ return {
   },
   {
     "j-hui/fidget.nvim",
-    lazy = true,
+    event = "LspAttach",
     branch = "legacy",
     config = function()
       require("fidget").setup()
