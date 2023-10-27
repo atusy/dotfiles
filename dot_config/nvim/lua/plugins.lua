@@ -861,11 +861,6 @@ local deps = {
       set_keymap("o", "m", tsht, { expr = true, silent = true })
       set_keymap("x", "m", tsht, { expr = true, silent = true })
       local function zc(n)
-        -- init folding without closing any
-        if not vim.api.nvim_get_option_value("foldenable", {}) then
-          vim.cmd("normal! zizR")
-        end
-
         -- with count, use zc
         if (n or vim.v.count) > 0 then
           vim.cmd("normal! " .. vim.v.count .. "zc")
@@ -888,11 +883,6 @@ local deps = {
         if vim.api.nvim_get_option_value("foldmethod", {}) == "expr" then
           zc(vim.v.count)
           return
-        end
-
-        -- init folding without closing any
-        if not vim.api.nvim_get_option_value("foldenable", {}) then
-          vim.cmd("normal! zizR")
         end
 
         -- create fold
