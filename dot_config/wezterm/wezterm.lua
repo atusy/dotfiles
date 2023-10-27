@@ -17,6 +17,7 @@ end)
 
 return {
   default_prog = { "/usr/bin/env", "zsh" },
+  window_decorations = "NONE",
   font = wezterm.font_with_fallback({
     { family = "UDEV Gothic NF" },
     { family = "Noto Color Emoji" },
