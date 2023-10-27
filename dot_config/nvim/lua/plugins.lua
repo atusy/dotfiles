@@ -282,20 +282,8 @@ local deps = {
       end, { expr = true })
     end,
   },
-  {
-    "folke/zen-mode.nvim",
-    cmd = "ZenMode",
-    init = function()
-      set_palette("n", "ZenMode", "<Cmd>ZenMode<CR>")
-    end,
-  },
-  {
-    "thinca/vim-qfreplace",
-    cmd = "Qfreplace",
-    init = function()
-      set_palette("n", "Qfreplace", "<Cmd>Qfreplace<CR>")
-    end,
-  },
+  { "folke/zen-mode.nvim", cmd = "ZenMode" },
+  { "thinca/vim-qfreplace", cmd = "Qfreplace" },
 
   -- better something
   {
