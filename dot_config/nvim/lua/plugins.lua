@@ -133,14 +133,8 @@ local deps = {
       { "<2-LeftMouse>", "<Plug>(openbrowser-open)", mode = { "n" } },
     },
   },
-  {
-    "tpope/vim-characterize",
-    keys = { "ga" },
-  },
-  {
-    "thinca/vim-partedit",
-    cmd = "Partedit",
-  },
+  { "tpope/vim-characterize", keys = { "ga" } },
+  { "thinca/vim-partedit", cmd = "Partedit" },
 
   -- ui
   {
