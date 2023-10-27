@@ -69,7 +69,7 @@ local deps = {
       })
     end,
   },
-  { "lambdalisue/guise.vim" },
+  { "lambdalisue/guise.vim", dependencies = { "vim-denops/denops.vim" } },
   {
     "lambdalisue/fern.vim",
     dependencies = {
