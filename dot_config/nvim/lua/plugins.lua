@@ -54,9 +54,7 @@ local deps = {
     dependencies = { "JoosepAlviste/nvim-ts-context-commentstring" },
     lazy = true,
     init = function()
-      set_keymap("n", "gcc", function()
-        require("Comment.api").toggle.linewise.current()
-      end)
+      set_keymap("n", "gcc", [[<Cmd>lua require("Comment.api").toggle.linewise.current()<CR>]])
       set_keymap("x", "gc", [[<Esc><Cmd>lua require("Comment.api").toggle.linewise(vim.fn.visualmode())<CR>]])
       set_keymap("x", "gb", [[<Esc><Cmd>lua require("Comment.api").toggle.blockwise(vim.fn.visualmode())<CR>]])
     end,
