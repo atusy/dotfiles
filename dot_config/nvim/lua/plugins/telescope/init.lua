@@ -1,21 +1,6 @@
 local utils = require("atusy.utils")
 local set_keymap, set_palette = utils.set_keymap, utils.set_palette
 
-local function setup_memo()
-  local memo = "~/Documents/memo"
-  set_palette(
-    "n",
-    "memo edit",
-    ":e " .. memo .. "/" -- recommends https://github.com/jghauser/mkdir.nvim
-  )
-  set_palette("n", "memo find", function()
-    require("telescope.builtin").find_files({ search_dirs = { memo } })
-  end)
-  set_palette("n", "memo grep", function()
-    require("telescope.builtin").live_grep({ cwd = memo })
-  end)
-end
-
 local function telescope(key, opts)
   -- call builtin pickers as functions instead of <Cmd> mappings
   -- because lazy loading may fail if <Cmd> mappings are invoked
@@ -62,8 +47,6 @@ local function telescope_init()
   -- q: is occupied by cmdbuf.nvim
   set_keymap("n", "q/", telescope("search_history"))
   set_keymap("n", "<Plug>(C-G)<C-S>", telescope("git_status"))
-
-  setup_memo()
 end
 
 local function telescope_config(_)
