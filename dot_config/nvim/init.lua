@@ -52,9 +52,9 @@ https://github.com/Exafunction/codeium.vim
 ]]
 
 -- [[ helpers ]]
+local set_keymap = vim.keymap.set
 local utils = require("atusy.utils").require("atusy.utils") -- force reloading self
 utils.setup()
-local set_keymap = utils.set_keymap
 
 --[[ options ]]
 vim.opt.exrc = true
