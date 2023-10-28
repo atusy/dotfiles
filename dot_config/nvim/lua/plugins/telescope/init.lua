@@ -64,21 +64,6 @@ local function telescope_init()
   set_keymap("n", "<Plug>(C-G)<C-S>", telescope("git_status"))
 
   setup_memo()
-  vim.api.nvim_create_autocmd("FileType", {
-    group = utils.augroup,
-    pattern = "gitcommit",
-    callback = function(args)
-      local p = require("plugins.telescope.picker.git-prefix")
-      set_keymap("n", leader .. "p", p.prefix_emoji, { buffer = args.buf })
-      -- prefer ddc
-      --[[ local line = vim.api.nvim_buf_get_lines(args.buf, 0, 1, false)
-      if vim.fn.match(line, "^" .. p.regex_emoji) == -1 then
-        vim.defer_fn(function()
-          p.prefix_emoji(args.buf)
-        end, 200)
-      end ]]
-    end,
-  })
 end
 
 local function telescope_config(_)
