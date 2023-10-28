@@ -114,11 +114,11 @@ return {
       { "Shougo/ddc-converter_truncate_abbr" },
       { "atusy/ddc-filter-converter_string_match" },
       { "atusy/ddc-filter_converter_dictionary" },
-      -- dict
-      { "dwyl/english-words", lazy = true }, -- install only
-      { "gunyarakun/kantan-ej-dictionary", lazy = true }, --install only
-      { "matthewreagan/WebstersEnglishDictionary", lazy = true }, -- install only
     },
     config = config,
   },
+  -- dictionaries for ddc (install only)
+  { "dwyl/english-words", lazy = true },
+  { "gunyarakun/kantan-ej-dictionary", lazy = true },
+  { "matthewreagan/WebstersEnglishDictionary", lazy = true },
 }
