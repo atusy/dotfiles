@@ -28,7 +28,6 @@ local function telescope_init()
   vim.keymap.set("n", leader .. "o", function()
     require("plugins.telescope.picker").outline()
   end, { desc = "Telescope custom outline" })
-  -- sp is occupied by emoji-prefix
   -- sr is occupied by mini.surround
   vim.keymap.set("n", leader .. "s", function()
     require("plugins.telescope.picker").keymaps()
@@ -41,7 +40,6 @@ local function telescope_init()
   vim.keymap.set("n", leader .. "/", telescope("current_buffer_fuzzy_find"))
   vim.keymap.set("n", leader .. "?", telescope("man_pages"))
   vim.keymap.set("n", "q:", telescope("command_history"))
-  -- q: is occupied by cmdbuf.nvim
   vim.keymap.set("n", "q/", telescope("search_history"))
   vim.keymap.set("n", "<Plug>(C-G)<C-S>", telescope("git_status"))
 end
