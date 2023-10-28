@@ -1,6 +1,3 @@
-local utils = require("atusy.utils")
-local set_keymap, set_palette = utils.set_keymap, utils.set_palette
-
 local function telescope(key, opts)
   -- call builtin pickers as functions instead of <Cmd> mappings
   -- because lazy loading may fail if <Cmd> mappings are invoked
@@ -12,41 +9,41 @@ end
 
 local function telescope_init()
   local leader = "s"
-  set_keymap("n", leader .. "<CR>", telescope("builtin"))
-  set_keymap("n", leader .. "<Tab>", telescope("jumplist"))
+  vim.keymap.set("n", leader .. "<CR>", telescope("builtin"))
+  vim.keymap.set("n", leader .. "<Tab>", telescope("jumplist"))
   -- sa is occupied by mini.surround
-  set_keymap("n", leader .. "b", telescope("buffers"))
-  set_keymap("n", leader .. "c", telescope("commands"))
+  vim.keymap.set("n", leader .. "b", telescope("buffers"))
+  vim.keymap.set("n", leader .. "c", telescope("commands"))
   -- sd is occupied by mini.surround
-  set_keymap("n", leader .. "f", telescope("find_files"))
-  set_keymap("n", leader .. "g", telescope("live_grep"))
+  vim.keymap.set("n", leader .. "f", telescope("find_files"))
+  vim.keymap.set("n", leader .. "g", telescope("live_grep"))
   local lazy_all = true
-  set_keymap("n", leader .. "h", function()
+  vim.keymap.set("n", leader .. "h", function()
     if lazy_all then
       pcall(require("lazy").load, { plugins = require("lazy").plugins() })
       lazy_all = false
     end
     require("telescope.builtin").help_tags()
   end, { desc = "Telescope lazy help_tags" })
-  set_keymap("n", leader .. "o", function()
+  vim.keymap.set("n", leader .. "o", function()
     require("plugins.telescope.picker").outline()
   end, { desc = "Telescope custom outline" })
   -- sp is occupied by emoji-prefix
   -- sr is occupied by mini.surround
-  set_keymap("n", leader .. "s", function()
+  vim.keymap.set("n", leader .. "s", function()
     require("plugins.telescope.picker").keymaps()
   end, { desc = "Telescope normal favorite keymaps" })
-  set_keymap("n", leader .. "m", telescope("keymaps"))
-  set_keymap("n", leader .. "q", telescope("quickfixhistory"))
-  set_keymap("n", leader .. [[']], telescope("marks"))
-  set_keymap("n", leader .. [["]], telescope("registers"))
-  set_keymap("n", leader .. ".", telescope("resume"))
-  set_keymap("n", leader .. "/", telescope("current_buffer_fuzzy_find"))
-  set_keymap("n", leader .. "?", telescope("man_pages"))
-  set_keymap("n", "q:", telescope("command_history"))
+  vim.keymap.set("n", leader .. "m", telescope("keymaps"))
+  vim.keymap.set("n", leader .. "q", telescope("quickfixhistory"))
+  vim.keymap.set("n", leader .. [[']], telescope("marks"))
+  vim.keymap.set("n", leader .. [["]], telescope("registers"))
+  vim.keymap.set("n", leader .. ".", telescope("resume"))
+  vim.keymap.set("n", leader .. "/", telescope("current_buffer_fuzzy_find"))
+  vim.keymap.set("n", leader .. "?", telescope("man_pages"))
+  vim.keymap.set("n", "q:", telescope("command_history"))
   -- q: is occupied by cmdbuf.nvim
-  set_keymap("n", "q/", telescope("search_history"))
-  set_keymap("n", "<Plug>(C-G)<C-S>", telescope("git_status"))
+  vim.keymap.set("n", "q/", telescope("search_history"))
+  vim.keymap.set("n", "<Plug>(C-G)<C-S>", telescope("git_status"))
 end
 
 local function telescope_config(_)
@@ -118,7 +115,7 @@ return {
     cmd = { "Telescope" },
     dependencies = { "nvim-telescope/telescope.nvim" },
     init = function()
-      set_keymap("n", "gO", [[<Cmd>lua require("aerial").open()<CR>]])
+      vim.keymap.set("n", "gO", [[<Cmd>lua require("aerial").open()<CR>]])
     end,
     config = function()
       require("aerial").setup()
