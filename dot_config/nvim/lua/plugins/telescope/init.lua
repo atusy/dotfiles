@@ -135,9 +135,7 @@ return {
     cmd = { "Telescope" },
     dependencies = { "nvim-telescope/telescope.nvim" },
     init = function()
-      set_keymap("n", "gO", function()
-        require("aerial").open()
-      end)
+      set_keymap("n", "gO", [[<Cmd>lua require("aerial").open()<CR>]])
     end,
     config = function()
       require("aerial").setup()
