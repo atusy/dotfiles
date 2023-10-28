@@ -20,11 +20,7 @@ function M.attach_lsp(bufnr, filetype)
 end
 
 function M.has_lsp_client(bufnr)
-  bufnr = bufnr or vim.api.nvim_get_current_buf()
-  for _, _ in pairs(vim.lsp.get_clients({ bufnr = bufnr })) do
-    return true
-  end
-  return false
+  return #vim.lsp.get_clients({ bufnr = bufnr }) > 0
 end
 
 return M
