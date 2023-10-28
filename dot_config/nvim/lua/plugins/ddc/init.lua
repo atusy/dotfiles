@@ -1,24 +1,20 @@
-local fn = vim.fn
-local utils = require("atusy.utils")
-local set_keymap = utils.set_keymap
-
 local function commandline_pre(buf, mode)
   local opts = vim.fn["ddc#custom#get_buffer"]()
   vim.api.nvim_create_autocmd("User", {
-    group = utils.augroup,
+    group = require("atusy.utils").augroup,
     pattern = "DDCCmdlineLeave",
     once = true,
     desc = "revert temporary settings",
     callback = function()
       if vim.api.nvim_buf_is_valid(buf) then
         vim.api.nvim_buf_call(buf, function()
-          fn["ddc#custom#set_buffer"](opts or vim.empty_dict())
+          vim.fn["ddc#custom#set_buffer"](opts or vim.empty_dict())
         end)
       end
     end,
   })
   vim.fn["pum#set_local_option"](mode, { reversed = true })
-  fn["ddc#custom#patch_buffer"]("sourceOptions", {
+  vim.fn["ddc#custom#patch_buffer"]("sourceOptions", {
     file = { forceCompletionPattern = [[(^e\s+|\S/\S*)]] },
     fish = { enabledIf = [[getcmdline() =~# "^\\(!\\|Gin\\(Buffer\\)\\? \\)" ? v:true : v:false]] },
     xonsh = { enabledIf = [[getcmdline()[0] == "!" ? v:true : v:false]] },
@@ -28,7 +24,7 @@ local function commandline_pre(buf, mode)
   })
 
   -- Enable command line completion
-  fn["ddc#enable_cmdline_completion"]()
+  vim.fn["ddc#enable_cmdline_completion"]()
 end
 
 local function config()
@@ -40,9 +36,9 @@ local function config()
     if vim.api.nvim_get_mode().mode == "c" then
       return vim.fn["ddc#map#manual_complete"]()
     end
-    local col = fn.col(".")
-    if col > 1 and string.match(fn.strpart(fn.getline("."), col - 2), "%s") == nil then
-      return fn["ddc#map#manual_complete"]()
+    local col = vim.fn.col(".")
+    if col > 1 and string.match(vim.fn.strpart(vim.fn.getline("."), col - 2), "%s") == nil then
+      return vim.fn["ddc#map#manual_complete"]()
     end
     return "<Tab>"
   end, { expr = true })
@@ -70,16 +66,16 @@ local function config()
 
   -- on entering cmdline
   for _, lhs in pairs({ "/", ":" }) do
-    set_keymap({ "n", "x" }, lhs, function()
+    vim.keymap.set({ "n", "x" }, lhs, function()
       pcall(commandline_pre, vim.api.nvim_get_current_buf(), lhs)
       return lhs
     end, { expr = true })
   end
 
   -- enable
-  fn["ddc#custom#load_config"](vim.fs.joinpath(vim.fs.dirname(debug.getinfo(1, "S").source:sub(2)), "ddc.ts"))
-  fn["popup_preview#enable"]()
-  fn["ddc#enable"]()
+  vim.fn["ddc#custom#load_config"](vim.fs.joinpath(vim.fs.dirname(debug.getinfo(1, "S").source:sub(2)), "ddc.ts"))
+  vim.fn["popup_preview#enable"]()
+  vim.fn["ddc#enable"]()
   require("plugins.ddc.gitcommit")()
 end
 
