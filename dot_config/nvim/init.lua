@@ -214,10 +214,10 @@ set_keymap("n", "<LeftRelease>", "<Nop>")
 -- mappings: jumplist
 set_keymap("n", "g<C-O>", function()
   return require("atusy.misc").jump_file(false)
-end, { fav = false, expr = true })
+end, { expr = true })
 set_keymap("n", "g<C-I>", function()
   return require("atusy.misc").jump_file(true)
-end, { fav = false, expr = true })
+end, { expr = true })
 
 -- mappings: save and ...
 set_keymap({ "n", "x" }, "<Plug>(save)", function()
