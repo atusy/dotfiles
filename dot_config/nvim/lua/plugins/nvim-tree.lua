@@ -1,6 +1,3 @@
-local utils = require("atusy.utils")
-local set_keymap = utils.set_keymap
-
 local function node_open_edit()
   local p = require("nvim-tree.api").tree.get_node_under_cursor().absolute_path
   local has_chowcho, chowcho = pcall(require, "chowcho")
@@ -34,7 +31,7 @@ return {
   lazy = true,
   dependencies = { "nvim-tree/nvim-web-devicons" },
   init = function()
-    set_keymap("n", "S", function()
+    vim.keymap.set("n", "S", function()
       require("nvim-tree.api").tree.focus()
     end)
   end,
