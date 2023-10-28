@@ -135,7 +135,7 @@ return {
       })
       set_keymap("n", "K", function()
         -- null-ls won't map this on_attach, so it should be mapped globally
-        if require("plugins.lsp.utils").has_lsp_client() then
+        if #vim.lsp.get_clients({ bufnr = vim.api.nvim_get_current_buf() }) > 0 then
           vim.lsp.buf.hover()
         else
           vim.cmd("normal! K")

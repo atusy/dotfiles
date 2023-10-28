@@ -19,8 +19,4 @@ function M.attach_lsp(bufnr, filetype)
   return clients
 end
 
-function M.has_lsp_client(bufnr)
-  return #vim.lsp.get_clients({ bufnr = bufnr }) > 0
-end
-
 return M
