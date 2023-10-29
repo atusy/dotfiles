@@ -1,6 +1,3 @@
-local utils = require("atusy.utils")
-local set_keymap = utils.set_keymap
-
 local function getchar()
   return vim.fn.nr2char(vim.fn.getchar())
 end

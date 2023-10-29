@@ -26,14 +26,14 @@ local function setup_gitsigns()
         "x",
         "<Plug>(C-G)<C-A>",
         after_save("stage_hunk", [[<C-\><C-N>gv:]]),
-        { bunfr = bufnr, desc = "git add hunk" }
+        { buffer = bufnr, desc = "git add hunk" }
       )
-      set_keymap("n", "<Plug>(C-G)<C-A>", after_save("stage_hunk"), { bunfr = bufnr, desc = "git add hunk" })
-      set_keymap("n", "<Plug>(C-G)a", after_save("stage_buffer"), { bunfr = bufnr, desc = "git add buffer" })
-      set_keymap("n", "<Plug>(C-G)<C-R>", after_save("reset_hunk"), { bunfr = bufnr, desc = "git reset hunk" })
-      set_keymap("x", "<Plug>(C-G)<C-R>", after_save("reset_hunk", ":"), { bunfr = bufnr, desc = "git reset hunk" })
-      set_keymap("n", "<Plug>(C-G)r", after_save("reset_buffer"), { bunfr = bufnr, desc = "git reset buffer" })
-      set_keymap("n", "<Plug>(C-G)<C-H>", after_save("preview_hunk"), { bunfr = bufnr, desc = "git preview hunk" })
+      set_keymap("n", "<Plug>(C-G)<C-A>", after_save("stage_hunk"), { buffer = bufnr, desc = "git add hunk" })
+      set_keymap("n", "<Plug>(C-G)a", after_save("stage_buffer"), { buffer = bufnr, desc = "git add buffer" })
+      set_keymap("n", "<Plug>(C-G)<C-R>", after_save("reset_hunk"), { buffer = bufnr, desc = "git reset hunk" })
+      set_keymap("x", "<Plug>(C-G)<C-R>", after_save("reset_hunk", ":"), { buffer = bufnr, desc = "git reset hunk" })
+      set_keymap("n", "<Plug>(C-G)r", after_save("reset_buffer"), { buffer = bufnr, desc = "git reset buffer" })
+      set_keymap("n", "<Plug>(C-G)<C-H>", after_save("preview_hunk"), { buffer = bufnr, desc = "git preview hunk" })
 
       set_keymap("n", "<Down>", function()
         if vim.wo.diff then
@@ -121,16 +121,16 @@ local function setup_gin()
   end
   set_keymap("n", "<Plug>(C-G)<C-L>", function()
     graph("-- %")
-  end, { desc = "git graph current buffer", fav = false })
+  end, { desc = "git graph current buffer" })
   set_keymap("n", "<Plug>(C-G)l", function()
     graph()
-  end, { desc = "git graph", fav = false }) -- git log --graph ...
-  set_keymap("n", "<Plug>(C-G)<C-D>", "<Cmd>GinDiff -- %<CR>", { desc = "git diff", fav = false })
-  set_keymap("n", "<Plug>(C-G)d", "<Cmd>GinDiff<CR>", { desc = "git commit", fav = false })
+  end, { desc = "git graph" }) -- git log --graph ...
+  set_keymap("n", "<Plug>(C-G)<C-D>", "<Cmd>GinDiff -- %<CR>", { desc = "git diff" })
+  set_keymap("n", "<Plug>(C-G)d", "<Cmd>GinDiff<CR>", { desc = "git commit" })
   set_keymap("n", "<Plug>(C-G)<C-Space>", function()
     require("plugins.git.commit").exec()
-  end, { desc = "git commit", fav = false })
-  set_keymap("n", "<Plug>(C-G)s", "<Cmd>GinStatus<CR>", { desc = "git status", fav = false })
+  end, { desc = "git commit" })
+  set_keymap("n", "<Plug>(C-G)s", "<Cmd>GinStatus<CR>", { desc = "git status" })
   add_palette("n", "git amend", ":Gin commit --amend ")
   add_palette("n", "git amend --no-edit", ":Gin ++wait commit --amend --no-edit ")
   add_palette("n", "git rebase -i", ":Gin rebase --rebase-merge -i ")
