@@ -30,9 +30,21 @@ local function telescope_init()
   end, { desc = "Telescope custom outline" })
   -- sr is occupied by mini.surround
   vim.keymap.set("n", leader .. "s", function()
+    local failed = require("atusy.keymap.palette").update()
+    -- local failed = require("atusy.utils").update_palette()
+    if #failed > 0 then
+      vim.print(failed)
+    end
     require("plugins.telescope.picker").keymaps()
   end, { desc = "Telescope normal favorite keymaps" })
-  vim.keymap.set("n", leader .. "m", telescope("keymaps"))
+  vim.keymap.set("n", leader .. "m", function()
+    local failed = require("atusy.keymap.palette").update()
+    -- local failed = require("atusy.utils").update_palette()
+    if #failed > 0 then
+      vim.print(failed)
+    end
+    require("telescope.builtin").keymaps()
+  end)
   vim.keymap.set("n", leader .. "q", telescope("quickfixhistory"))
   vim.keymap.set("n", leader .. [[']], telescope("marks"))
   vim.keymap.set("n", leader .. [["]], telescope("registers"))
@@ -45,7 +57,6 @@ local function telescope_init()
 end
 
 local function telescope_config(_)
-  require("atusy.mappings-extra")
   local Telescope = require("telescope")
   Telescope.setup({
     defaults = {

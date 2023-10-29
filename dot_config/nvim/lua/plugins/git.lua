@@ -3,7 +3,7 @@ local api = vim.api
 local utils = require("atusy.utils")
 local _require = utils.require
 local set_keymap = utils.set_keymap
-local set_palette = utils.set_palette
+local add_palette = require("atusy.keymap.palette").add_item
 
 -- gitsigns settings
 local function setup_gitsigns()
@@ -14,7 +14,7 @@ local function setup_gitsigns()
   end
 
   vim.api.nvim_set_hl(0, "GitSignsCurrentLineBlame", { link = "Comment" })
-  set_palette("n", "toggle current line git blame", "<Cmd>Gitsigns toggle_current_line_blame<CR>")
+  add_palette("n", "toggle current line git blame", "<Cmd>Gitsigns toggle_current_line_blame<CR>")
 
   gs.setup({
     signcolumn = not has_num,
@@ -53,19 +53,19 @@ local function setup_gitsigns()
       end, { expr = true })
     end,
   })
-  set_palette("n", "gitsigns based on cWORD ref", function()
+  add_palette("n", "gitsigns based on cWORD ref", function()
     require("gitsigns").change_base(vim.fn.expand("<cWORD>"), true)
   end)
-  set_palette("n", "gitsigns based on HEAD", function()
+  add_palette("n", "gitsigns based on HEAD", function()
     require("gitsigns").reset_base(true)
   end)
-  set_palette("n", "gitsigns qflist", function()
+  add_palette("n", "gitsigns qflist", function()
     require("gitsigns").setqflist("all")
   end)
-  set_palette("n", "gitsigns toggle word diff", function()
+  add_palette("n", "gitsigns toggle word diff", function()
     require("gitsigns").toggle_word_diff()
   end)
-  set_palette("n", "gitsings undo add hunk", function()
+  add_palette("n", "gitsings undo add hunk", function()
     require("gitsings").undo_stage_hunk()
   end)
 end
@@ -128,19 +128,19 @@ local function setup_gin()
     require("plugins.git.commit").exec()
   end, { desc = "git commit", fav = false })
   set_keymap("n", "<Plug>(C-G)s", "<Cmd>GinStatus<CR>", { desc = "git status", fav = false })
-  set_palette("n", "git amend", ":Gin commit --amend ")
-  set_palette("n", "git amend --no-edit", ":Gin ++wait commit --amend --no-edit ")
-  set_palette("n", "git rebase -i", ":Gin rebase --rebase-merge -i ")
-  set_palette(
+  add_palette("n", "git amend", ":Gin commit --amend ")
+  add_palette("n", "git amend --no-edit", ":Gin ++wait commit --amend --no-edit ")
+  add_palette("n", "git rebase -i", ":Gin rebase --rebase-merge -i ")
+  add_palette(
     "n",
     "git rebase --onto A B C",
     ":Gin rebase --rebase-merge --onto ",
     { desc = "AにBからCまでの差分を乗せる" }
   )
-  set_palette("n", "git push", ":Gin ++wait push origin HEAD ")
-  set_palette("n", "git push --force", ":Gin ++wait push --force-with-lease --force-if-includes origin HEAD ")
-  set_palette("n", "git diff", ":GinDiff ")
-  set_palette("n", "git diff --ignore-all-space", ":GinDiff --ignore-all-space")
+  add_palette("n", "git push", ":Gin ++wait push origin HEAD ")
+  add_palette("n", "git push --force", ":Gin ++wait push --force-with-lease --force-if-includes origin HEAD ")
+  add_palette("n", "git diff", ":GinDiff ")
+  add_palette("n", "git diff --ignore-all-space", ":GinDiff --ignore-all-space")
 end
 
 -- return

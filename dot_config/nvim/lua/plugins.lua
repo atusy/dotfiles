@@ -1,5 +1,6 @@
 local utils = require("atusy.utils")
-local set_keymap, set_palette = utils.set_keymap, utils.set_palette
+local add_palette = require("atusy.keymap.palette").add_item
+local set_keymap = vim.keymap.set
 
 vim.api.nvim_create_autocmd("User", {
   pattern = { "LazyInstall", "LazyUpdate", "LazySync", "LazyClean" },
@@ -98,7 +99,7 @@ local deps = {
           vim.v.count - 1,
         })
       end)
-      set_palette("n", "toggle indent blankline", function()
+      add_palette("n", "toggle indent blankline", function()
         require("ibl").update({ enabled = not require("ibl.config").get_config(-1).enabled })
       end)
     end,
@@ -142,8 +143,8 @@ local deps = {
     "echasnovski/mini.bufremove", -- instead of 'moll/vim-bbye',
     lazy = true,
     init = function()
-      set_palette("n", "Bdelete", [[<Cmd>lua require("mini.bufremove").delete()<CR>]])
-      set_palette("n", "Bwipeout", [[<Cmd>lua require("mini.bufremove").wipeout()<CR>]])
+      add_palette("n", "Bdelete", [[<Cmd>lua require("mini.bufremove").delete()<CR>]])
+      add_palette("n", "Bwipeout", [[<Cmd>lua require("mini.bufremove").wipeout()<CR>]])
     end,
   },
   -- 'mhinz/vim-sayonara',
@@ -152,7 +153,7 @@ local deps = {
     "m00qek/baleia.nvim",
     lazy = true,
     init = function()
-      set_palette("n", "parse ANSI escape sequences", function()
+      add_palette("n", "parse ANSI escape sequences", function()
         require("baleia").setup().once(vim.api.nvim_get_current_buf())
       end)
     end,
@@ -243,8 +244,8 @@ local deps = {
     lazy = true,
     init = function()
       -- treesj does not support visual mode, so leave the mode and use cursor as the node indicator
-      set_palette("", "join lines based on AST", [[<C-\><C-N>:lua require('treesj').join()<CR>]])
-      set_palette("", "split lines based on AST", [[<C-\><C-N>:lua require('treesj').split()<CR>]])
+      add_palette("", "join lines based on AST", [[<C-\><C-N>:lua require('treesj').join()<CR>]])
+      add_palette("", "split lines based on AST", [[<C-\><C-N>:lua require('treesj').split()<CR>]])
     end,
     config = function()
       require("treesj").setup({ use_default_keymaps = false })
@@ -916,7 +917,7 @@ local deps = {
     "phelipetls/jsonpath.nvim",
     ft = "json",
     config = function()
-      set_palette("n", "clipboard json path", function()
+      add_palette("n", "clipboard json path", function()
         local path = require("jsonpath").get()
         vim.fn.setreg("+", path)
         vim.notify("jsonpath: " .. path)
