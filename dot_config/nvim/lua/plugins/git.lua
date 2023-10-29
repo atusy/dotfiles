@@ -1,8 +1,7 @@
 local api = vim.api
 
 local utils = require("atusy.utils")
-local _require = utils.require
-local set_keymap = utils.set_keymap
+local set_keymap = vim.keymap.set
 local add_palette = require("atusy.keymap.palette").add_item
 
 -- gitsigns settings
@@ -23,14 +22,18 @@ local function setup_gitsigns()
       delay = 150,
     },
     on_attach = function(bufnr)
-      local OPTS = { buffer = bufnr, fav = "false" }
-      set_keymap("x", "<Plug>(C-G)<C-A>", after_save("stage_hunk", [[<C-\><C-N>gv:]]), OPTS, { desc = "git add hunk" })
-      set_keymap("n", "<Plug>(C-G)<C-A>", after_save("stage_hunk"), OPTS, { desc = "git add hunk" })
-      set_keymap("n", "<Plug>(C-G)a", after_save("stage_buffer"), OPTS, { desc = "git add buffer" })
-      set_keymap("n", "<Plug>(C-G)<C-R>", after_save("reset_hunk"), OPTS, { desc = "git reset hunk" })
-      set_keymap("x", "<Plug>(C-G)<C-R>", after_save("reset_hunk", ":"), OPTS, { desc = "git reset hunk" })
-      set_keymap("n", "<Plug>(C-G)r", after_save("reset_buffer"), OPTS, { desc = "git reset buffer" })
-      set_keymap("n", "<Plug>(C-G)<C-H>", after_save("preview_hunk"), OPTS, { desc = "git preview hunk" })
+      set_keymap(
+        "x",
+        "<Plug>(C-G)<C-A>",
+        after_save("stage_hunk", [[<C-\><C-N>gv:]]),
+        { bunfr = bufnr, desc = "git add hunk" }
+      )
+      set_keymap("n", "<Plug>(C-G)<C-A>", after_save("stage_hunk"), { bunfr = bufnr, desc = "git add hunk" })
+      set_keymap("n", "<Plug>(C-G)a", after_save("stage_buffer"), { bunfr = bufnr, desc = "git add buffer" })
+      set_keymap("n", "<Plug>(C-G)<C-R>", after_save("reset_hunk"), { bunfr = bufnr, desc = "git reset hunk" })
+      set_keymap("x", "<Plug>(C-G)<C-R>", after_save("reset_hunk", ":"), { bunfr = bufnr, desc = "git reset hunk" })
+      set_keymap("n", "<Plug>(C-G)r", after_save("reset_buffer"), { bunfr = bufnr, desc = "git reset buffer" })
+      set_keymap("n", "<Plug>(C-G)<C-H>", after_save("preview_hunk"), { bunfr = bufnr, desc = "git preview hunk" })
 
       set_keymap("n", "<Down>", function()
         if vim.wo.diff then
@@ -79,7 +82,7 @@ local function setup_gin()
     processor = "delta --diff-highlight --keep-plus-minus-markers"
     vim.g.gin_diff_default_args = { "++processor=" .. processor }
   end
-  _require("gintonic").setup({
+  require("gintonic").setup({
     params = {
       GinBuffer = { processor = processor },
     },
