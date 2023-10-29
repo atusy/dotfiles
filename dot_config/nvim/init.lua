@@ -325,9 +325,7 @@ vim.api.nvim_create_autocmd("InsertEnter", {
 })
 
 vim.api.nvim_create_autocmd("TextYankPost", {
-  callback = function()
-    pcall(vim.highlight.on_yank)
-  end,
+  command = "lua pcall(vim.highlight.on_yank)",
   group = utils.augroup,
 })
 
