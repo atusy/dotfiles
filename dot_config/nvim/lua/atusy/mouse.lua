@@ -1,4 +1,3 @@
-local set_keymap = require("atusy.utils").set_keymap
 local M = {}
 
 function M.toggle_left_drag()
@@ -11,8 +10,8 @@ function M.toggle_left_drag()
       return
     end
   end
-  set_keymap("n", "<LeftDrag>", "<Nop>")
-  set_keymap("n", "<LeftRelease>", "<Nop>")
+  vim.keymap.set("n", "<LeftDrag>", "<Nop>")
+  vim.keymap.set("n", "<LeftRelease>", "<Nop>")
 end
 
 return M

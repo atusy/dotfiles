@@ -26,25 +26,6 @@ end
 
 M.star = "☆"
 
-local set_keymap = vim.keymap.set
-function M.set_keymap(mode, lhs, rhs, opt1, opt2)
-  local opt = {}
-  if opt2 then
-    for _, o in ipairs({ opt1, opt2 }) do
-      for k, v in pairs(o or {}) do
-        opt[k] = v
-      end
-    end
-  elseif opt1 then
-    opt = opt1
-  end
-  if opt.fav ~= false and opt.desc then
-    opt.desc = M.star .. opt.desc
-  end
-  opt.fav = nil
-  set_keymap(mode, lhs, rhs, opt)
-end
-
 local ready = false
 function M.setup(force)
   if ready and not force then

@@ -1,6 +1,5 @@
 -- skkeleton
 local utils = require("atusy.utils")
-local set_keymap = utils.set_keymap
 
 local function set_mapped_keys(exceptions)
   -- stylua: ignore
@@ -25,8 +24,8 @@ return {
       { "vim-denops/denops.vim" },
     },
     config = function()
-      set_keymap({ "i", "c", "t" }, "<C-J>", "<Plug>(skkeleton-enable)")
-      set_keymap("n", "<C-J>", "i<Plug>(skkeleton-enable)")
+      vim.keymap.set({ "i", "c", "t" }, "<C-J>", "<Plug>(skkeleton-enable)")
+      vim.keymap.set("n", "<C-J>", "i<Plug>(skkeleton-enable)")
       local register_kanatable = vim.fn["skkeleton#register_kanatable"]
       register_kanatable("rom", require("plugins.skkeleton.azik"))
       register_kanatable("rom", {

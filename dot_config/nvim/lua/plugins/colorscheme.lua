@@ -2,7 +2,6 @@
 local api = vim.api
 local fn = vim.fn
 local utils = require("atusy.utils")
-local set_keymap = utils.set_keymap
 local ACTIVE_COLORSCHEME = "duskfox" -- for the active buffer the first tabpage
 local INACTIVE_COLORSCHEME = "nordfox"
 local OUTSIDE_COLORSCHEME = "carbonfox"
@@ -154,10 +153,10 @@ return {
     event = "BufReadPre",
     dependencies = { "nvim-treesitter/nvim-treesitter" },
     init = function()
-      set_keymap("n", "<Left>", function()
+      vim.keymap.set("n", "<Left>", function()
         require("illuminate").goto_prev_reference()
       end)
-      set_keymap("n", "<Right>", function()
+      vim.keymap.set("n", "<Right>", function()
         require("illuminate").goto_next_reference()
       end)
     end,
