@@ -88,7 +88,6 @@ return {
       -- ui
       { "matsui54/denops-popup-preview.vim" },
       { "Shougo/pum.vim" },
-      { "Shougo/ddc-ui-native", lazy = true }, -- install only
       -- source
       { "atusy/ddc-source-parametric" },
       { "matsui54/ddc-dictionary" },
@@ -121,4 +120,6 @@ return {
   { "dwyl/english-words", lazy = true },
   { "gunyarakun/kantan-ej-dictionary", lazy = true },
   { "matthewreagan/WebstersEnglishDictionary", lazy = true },
+  -- for debugging (install only)
+  { "Shougo/ddc-ui-native", lazy = true },
 }
