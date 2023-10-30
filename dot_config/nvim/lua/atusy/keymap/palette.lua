@@ -70,6 +70,11 @@ M.items = {
       vim.cmd("edit!")
     end,
   },
+  {
+    mode = "n",
+    lhs = "lsp: list workspace folders",
+    rhs = "<Cmd>lua = vim.lsp.buf.list_workspace_folders()<CR>",
+  },
 }
 
 return M

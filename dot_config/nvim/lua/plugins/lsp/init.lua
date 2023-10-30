@@ -31,12 +31,6 @@ local function on_attach(client, bufnr)
   set_keymap("n", "<C-K>", vim.lsp.buf.signature_help, opts({ desc = "lsp show signature help" }))
   set_keymap("n", "<Leader>wa", vim.lsp.buf.add_workspace_folder, opts({ desc = "lsp add workspace folder" }))
   set_keymap("n", "<Leader>wr", vim.lsp.buf.remove_workspace_folder, opts({ desc = "lsp remove workspace folder" }))
-  set_keymap(
-    "n",
-    "<Leader>wl",
-    "<Cmd>vim.print(vim.lsp.buf.list_workspace_folders())<CR>",
-    opts({ desc = "lsp show workspace folders" })
-  )
   set_keymap("n", "<Leader>D", vim.lsp.buf.type_definition, opts({ desc = "lsp type definition" }))
   if client.server_capabilities.renameProvider then
     set_keymap("n", "<Leader>rn", vim.lsp.buf.rename, opts({ desc = "lsp rename" }))
