@@ -21,7 +21,6 @@ local function on_attach(client, bufnr)
   local function opts(o)
     vim.tbl_extend("keep", o, { silent = true, buffer = bufnr })
   end
-  local OPTS = { silent = true, buffer = bufnr }
   set_keymap("n", "gD", vim.lsp.buf.declaration, opts({ desc = "lsp declaration" }))
   set_keymap("n", "gd", telescope("lsp_definitions"), opts({ desc = "lsp definitions" }))
   -- set_keymap('n', 'gd', vim.lsp.buf.definition, OPTS)
