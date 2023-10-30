@@ -192,6 +192,7 @@ return {
     "folke/flash.nvim",
     lazy = true,
     init = function(p)
+      --[[ f-motion ]]
       local motions = {
         f = { label = { after = false, before = { 0, 0 } }, jump = { autojump = true } },
         t = { label = { after = false, before = { 0, 1 } }, jump = { autojump = true, pos = "start" } },
@@ -223,6 +224,7 @@ return {
         end)
       end
 
+      --[[ incsearch ]]
       vim.keymap.set({ "n", "x", "o" }, ";", function()
         local cache = {}
 
