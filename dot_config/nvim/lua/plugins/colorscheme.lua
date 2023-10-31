@@ -17,15 +17,6 @@ local function likely_cwd(buf)
     return true
   end
 
-  local ft = vim.api.nvim_get_option_value("filetype", {
-    buf = buf,
-  })
-  if ft == "oil" then
-    -- current implementation only works on entering oil
-    -- not on directory navigations
-    return in_cwd(require("oil").get_current_dir())
-  end
-
   local file = api.nvim_buf_get_name(buf)
   return in_cwd(file)
 end
