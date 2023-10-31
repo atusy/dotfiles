@@ -76,4 +76,9 @@ function M.move_floatwin(row, col)
   return true
 end
 
+---@param path string
+function M.in_cwd(path)
+  return vim.startswith(path, vim.uv.cwd() .. "/")
+end
+
 return M

@@ -1,15 +1,10 @@
 -- const
 local api = vim.api
-local fn = vim.fn
 local utils = require("atusy.utils")
 local ACTIVE_COLORSCHEME = "duskfox" -- for the active buffer the first tabpage
 local INACTIVE_COLORSCHEME = "nordfox"
 local OUTSIDE_COLORSCHEME = "carbonfox"
 local TAB_COLORSCHEME = "terafox" -- for the active buffer in the other tabpages
-
-local function in_cwd(path)
-  return path == "" or vim.startswith(path, fn.getcwd() .. "/")
-end
 
 local function likely_cwd(buf)
   buf = buf or api.nvim_win_get_buf(0)
@@ -18,7 +13,7 @@ local function likely_cwd(buf)
   end
 
   local file = api.nvim_buf_get_name(buf)
-  return in_cwd(file)
+  return file == "" or require("atusy.misc").in_cwd(file)
 end
 
 local function set_theme(win, colorscheme)
