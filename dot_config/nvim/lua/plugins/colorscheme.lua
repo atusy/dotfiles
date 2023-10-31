@@ -103,6 +103,7 @@ local function set_styler()
       vim.schedule(function()
         if state[key] then
           theme()
+          require("atusy.highlight").change_background(require("atusy.highlight").transparent)
         end
       end)
     end,

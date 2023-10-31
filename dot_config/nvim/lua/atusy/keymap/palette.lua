@@ -75,6 +75,15 @@ M.items = {
     lhs = "lsp: list workspace folders",
     rhs = "<Cmd>lua = vim.lsp.buf.list_workspace_folders()<CR>",
   },
+
+  --[[ highlight ]]
+  {
+    mode = "n",
+    lhs = "toggle transparent background",
+    rhs = function()
+      require("atusy.highlight").change_background()
+    end,
+  },
 }
 
 return M
