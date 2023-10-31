@@ -49,7 +49,7 @@ local function exec()
     [[
     GinDiff ++opener=tabnew --staged
     GinBuffer ++opener=topleft\ vs graph -n 20
-    set number
+    setlocal number
     GinStatus ++opener=aboveleft\ sp
     aboveleft sp
     exe 'e ' .. tempname()
