@@ -99,10 +99,6 @@ local function lspconfig()
   })
 end
 
-vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, {
-  max_width = 80,
-})
-
 return {
   {
     "neovim/nvim-lspconfig",
@@ -113,6 +109,7 @@ return {
       -- "ii14/emmylua-nvim",
       -- "folke/neodev.nvim",
     },
+    event = { "BufReadPost", "BufNewFile" },
     config = function()
       vim.api.nvim_create_autocmd("LspAttach", {
         group = utils.augroup,
@@ -128,7 +125,14 @@ return {
           require("plugins.lsp.utils").attach_lsp(args.buf, args.match)
         end,
       })
+      local init_hover = true
       set_keymap("n", "K", function()
+        if init_hover then
+          init_hover = false
+          vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, {
+            max_width = 80,
+          })
+        end
         -- null-ls won't map this on_attach, so it should be mapped globally
         if #vim.lsp.get_clients({ bufnr = vim.api.nvim_get_current_buf() }) > 0 then
           vim.lsp.buf.hover()
