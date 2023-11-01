@@ -7,7 +7,13 @@ return {
   { mode = "n", lhs = "clipboard: abs path of %", rhs = '<Cmd>let @+=expand("%:p")<CR>' },
   { mode = "n", lhs = "clipboard: abs path of dirname of %", rhs = '<Cmd>let @+=expand("%:p:h")<CR>' },
   --[[ treesitter ]]
-  { mode = "n", lhs = "treesitter: inspect tree", rhs = vim.treesitter.inspect_tree },
+  {
+    mode = "n",
+    lhs = "treesitter: inspect tree",
+    rhs = function()
+      vim.treesitter.inspect_tree()
+    end,
+  },
   {
     mode = "n",
     lhs = "redraw!",
