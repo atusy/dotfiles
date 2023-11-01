@@ -541,6 +541,7 @@ local deps = {
   {
     "nvim-treesitter/nvim-treesitter",
     build = ":TSUpdate",
+    event = { "BufReadPost", "BufNewFile" },
     init = function()
       local function is_inner(x, y)
         if x[1] < y[1] then
