@@ -329,6 +329,32 @@ vim.api.nvim_create_autocmd("TextYankPost", {
   group = utils.augroup,
 })
 
+vim.api.nvim_create_autocmd({ "BufReadPre", "BufNewFile" }, {
+  once = true,
+  callback = function()
+    vim.filetype.add({
+      filename = {
+        [".envrc"] = "sh",
+        [".profile"] = "sh",
+        [".tf"] = "terraform",
+      },
+      pattern = {
+        ["${HOME}/%.local/share/chezmoi/.*"] = {
+          function(path, bufnr)
+            local filename, cnt = path:gsub("/dot_", "/.")
+            if cnt == 0 then
+              return
+            end
+            return vim.filetype.match({ filename = filename, buf = bufnr })
+          end,
+          { priority = -math.huge },
+        },
+        ["Dockerfile[._].*"] = { "dockerfile", { priority = -math.huge } },
+      },
+    })
+  end,
+})
+
 --[[ Terminal ]]
 -- nvim-remote for edit-commandline zle
 if vim.fn.executable("nvr") == 1 then
