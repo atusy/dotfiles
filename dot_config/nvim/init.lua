@@ -184,10 +184,10 @@ end)
 set_keymap("n", "gf", "gF")
 
 -- mappings: diagnostics
-set_keymap("n", "[d", vim.diagnostic.goto_prev)
-set_keymap("n", "]d", vim.diagnostic.goto_next)
-set_keymap("n", "<Leader>q", vim.diagnostic.setloclist)
-set_keymap("n", "<Leader>e", vim.diagnostic.open_float)
+set_keymap("n", "[d", [[<Cmd>lua vim.diagnostic.goto_prev()<CR>]])
+set_keymap("n", "]d", [[<Cmd>lua vim.diagnostic.goto_next()<CR>]])
+set_keymap("n", "<Leader>q", [[<Cmd>lua vim.diagnostic.setloclist()<CR>]])
+set_keymap("n", "<Leader>e", [[<Cmd>lua vim.diagnostic.open_float()<CR>]])
 
 -- mappings: don't start a new undo block on horizontal moves on insert mode
 set_keymap("i", "<Left>", "<C-G>U<Left>")
