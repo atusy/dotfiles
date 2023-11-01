@@ -198,6 +198,11 @@ return {
         options = { inverse = { visual = true } },
       })
       vim.cmd.colorscheme("duskfox")
+      vim.schedule(function()
+        if vim.env.NVIM_TRANSPARENT == "1" then
+          require("atusy.highlight").remove_background(0)
+        end
+      end)
     end,
   },
 }

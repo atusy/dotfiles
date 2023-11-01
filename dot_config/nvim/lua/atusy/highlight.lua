@@ -64,7 +64,7 @@ function M.restore_background(nsid)
   M.modified_namespaces[nsid] = nil
 end
 
-M.transparent = false
+M.transparent = vim.env.NVIM_TRANSPARENT == "1"
 
 function M.change_background(transparent)
   -- set state
