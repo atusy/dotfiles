@@ -101,7 +101,7 @@ vim.opt.guicursor = {
 }
 vim.opt.foldenable = false
 vim.opt.foldmethod = "expr"
-vim.opt.foldexpr = "v:lua.vim.treesitter.foldexpr()"
+vim.opt.foldexpr = [[v:lua.require("atusy.fold").foldexpr()]]
 vim.opt.foldtext = [[v:lua.require("atusy.fold").foldtext()]]
 vim.opt.foldlevelstart = 999
 
