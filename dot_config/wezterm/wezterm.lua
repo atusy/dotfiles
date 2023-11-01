@@ -15,6 +15,26 @@ wezterm.on("format-tab-title", function(tab, tabs, panes, config, hover, max_wid
   }
 end)
 
+local default_opacity = 0.80
+
+wezterm.on("increase-opacity", function(window, pane)
+  local overrides = window:get_config_overrides() or {}
+  if not overrides.window_background_opacity then
+    overrides.window_background_opacity = default_opacity
+  end
+  overrides.window_background_opacity = math.min(1, overrides.window_background_opacity + 0.03)
+  window:set_config_overrides(overrides)
+end)
+
+wezterm.on("decrease-opacity", function(window, pane)
+  local overrides = window:get_config_overrides() or {}
+  if not overrides.window_background_opacity then
+    overrides.window_background_opacity = default_opacity
+  end
+  overrides.window_background_opacity = math.max(0, overrides.window_background_opacity - 0.03)
+  window:set_config_overrides(overrides)
+end)
+
 return {
   default_prog = { "/usr/bin/env", "zsh" },
   window_decorations = "INTEGRATED_BUTTONS|RESIZE",
@@ -32,6 +52,8 @@ return {
     { key = "l", mods = "ALT|CTRL", action = wezterm.action({ ActivatePaneDirection = "Right" }) },
     { key = "k", mods = "ALT|CTRL", action = wezterm.action({ ActivatePaneDirection = "Up" }) },
     { key = "j", mods = "ALT|CTRL", action = wezterm.action({ ActivatePaneDirection = "Down" }) },
+    { key = "d", mods = "ALT|CTRL", action = wezterm.action.EmitEvent("decrease-opacity") },
+    { key = "u", mods = "ALT|CTRL", action = wezterm.action.EmitEvent("increase-opacity") },
   },
   color_scheme = "Afterglow",
   -- window_background_opacity = 0.98,
