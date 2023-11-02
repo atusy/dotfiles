@@ -47,7 +47,7 @@ local function exec()
   -- init UI
   vim.api.nvim_exec2(
     [[
-    GinDiff ++opener=tabnew --staged
+    GinDiff! ++opener=tabnew --staged
     GinBuffer ++opener=topleft\ vs graph -n 20
     setlocal number
     GinStatus ++opener=aboveleft\ sp
