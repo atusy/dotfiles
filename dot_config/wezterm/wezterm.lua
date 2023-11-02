@@ -56,7 +56,7 @@ return {
     { key = "u", mods = "ALT|CTRL", action = wezterm.action.EmitEvent("increase-opacity") },
   },
   color_scheme = "Afterglow",
-  -- window_background_opacity = 0.98,
+  window_background_opacity = 0.93,
   adjust_window_size_when_changing_font_size = false,
   exit_behavior = "Close",
   check_for_updates = false,
