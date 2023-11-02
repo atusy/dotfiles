@@ -19,7 +19,7 @@ end
 function M.update()
   local failed = {}
   if M.init then
-    for _, item in pairs(require("atusy.highlight.palette_items")) do
+    for _, item in pairs(require("atusy.keymap.palette_items")) do
       local ok, res = pcall(M.set_item, item)
       if not ok then
         table.insert(failed, { res, item })
