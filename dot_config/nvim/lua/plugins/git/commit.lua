@@ -98,10 +98,10 @@ local function exec()
     end
     vim.api.nvim_buf_set_lines(buf, 0, -1, false, n < 0 and {} or get_message("HEAD~" .. tostring(n)))
   end
-  vim.keymap.set("n", "g<C-O>", function()
+  vim.keymap.set("n", "<C-O>", function()
     replace_message(1)
   end, { buffer = buf })
-  vim.keymap.set("n", "g<C-I>", function()
+  vim.keymap.set("n", "<C-I>", function()
     replace_message(-1)
   end, { buffer = buf })
 end
