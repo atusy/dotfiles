@@ -5,9 +5,7 @@ local utils = require("atusy.utils")
 local set_keymap = vim.keymap.set
 
 local function telescope(cmd)
-  return function()
-    require("telescope.builtin")[cmd]()
-  end
+  return [[<Cmd>lua require("telescope.builtin").]] .. cmd .. [[()<CR>]]
 end
 local function on_attach(client, bufnr)
   require("lsp_signature").on_attach({ hint_enable = false, handler_opts = { border = "none" } }, bufnr)
@@ -21,24 +19,32 @@ local function on_attach(client, bufnr)
   local function opts(o)
     vim.tbl_extend("keep", o, { silent = true, buffer = bufnr })
   end
-  set_keymap("n", "gD", vim.lsp.buf.declaration, opts({ desc = "lsp declaration" }))
+  set_keymap("n", "gD", [[<Cmd>lua vim.lsp.buf.declaration()<CR>]], opts({ desc = "lsp declaration" }))
   set_keymap("n", "gd", telescope("lsp_definitions"), opts({ desc = "lsp definitions" }))
   -- set_keymap('n', 'gd', vim.lsp.buf.definition, OPTS)
   set_keymap("n", "gi", telescope("lsp_implementations"), opts({ desc = "lsp implementation" }))
   -- set_keymap('n', 'gi', vim.lsp.buf.implementation, OPTS)
   set_keymap("n", "gr", telescope("lsp_references"), opts({ desc = "lsp reference" }))
   -- set_keymap('n', 'gr', vim.lsp.buf.references, OPTS)
-  set_keymap("n", "<C-K>", vim.lsp.buf.signature_help, opts({ desc = "lsp show signature help" }))
-  set_keymap("n", "<Leader>wa", vim.lsp.buf.add_workspace_folder, opts({ desc = "lsp add workspace folder" }))
-  set_keymap("n", "<Leader>wr", vim.lsp.buf.remove_workspace_folder, opts({ desc = "lsp remove workspace folder" }))
-  set_keymap("n", "<Leader>D", vim.lsp.buf.type_definition, opts({ desc = "lsp type definition" }))
+  set_keymap("n", "<C-K>", [[<Cmd>lua vim.lsp.buf.signature_help()<CR>]], opts({ desc = "lsp show signature help" }))
+  set_keymap(
+    "n",
+    "<Leader>wa",
+    [[<Cmd>lua vim.lsp.buf.add_workspace_folder()<CR>]],
+    opts({ desc = "lsp add workspace folder" })
+  )
+  set_keymap(
+    "n",
+    "<Leader>wr",
+    [[<Cmd>lua vim.lsp.buf.remove_workspace_folder()<CR>]],
+    opts({ desc = "lsp remove workspace folder" })
+  )
+  set_keymap("n", "<Leader>D", [[<Cmd>lua vim.lsp.buf.type_definition()<CR>]], opts({ desc = "lsp type definition" }))
   if client.server_capabilities.renameProvider then
-    set_keymap("n", "<Leader>rn", vim.lsp.buf.rename, opts({ desc = "lsp rename" }))
+    set_keymap("n", "<Leader>rn", [[<Cmd>lua vim.lsp.buf.rename()<CR>]], opts({ desc = "lsp rename" }))
   end
-  set_keymap("n", "<Leader>ca", vim.lsp.buf.code_action, opts({ desc = "lsp code action" }))
-  set_keymap("n", "<Leader>lf", function()
-    vim.lsp.buf.format({ async = true })
-  end, opts({ desc = "lsp format" }))
+  set_keymap("n", "<Leader>ca", [[<Cmd>lua vim.lsp.buf.code_action()<CR>]], opts({ desc = "lsp code action" }))
+  set_keymap("n", "<Leader>lf", [[<Cmd>lua vim.lsp.buf.format({ async = true })<CR>]], opts({ desc = "lsp format" }))
 end
 
 local function lspconfig()
