@@ -333,10 +333,13 @@ vim.api.nvim_create_autocmd({ "BufReadPre", "BufNewFile" }, {
   once = true,
   callback = function()
     vim.filetype.add({
+      extension = {
+        gitcommit = "gitcommit",
+        tf = "terraform",
+      },
       filename = {
         [".envrc"] = "sh",
         [".profile"] = "sh",
-        [".tf"] = "terraform",
       },
       pattern = {
         ["${HOME}/%.local/share/chezmoi/.*"] = {
