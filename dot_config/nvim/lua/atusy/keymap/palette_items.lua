@@ -26,17 +26,6 @@ return {
   --[[ lsp ]]
   {
     mode = "n",
-    lhs = "lsp: list attached clients",
-    rhs = function()
-      local res = {}
-      for _, c in pairs(vim.lsp.get_clients({ bufnr = 0 })) do
-        table.insert(res, tostring(c.id) .. ":" .. c.config.name)
-      end
-      print(table.concat(res, ", "))
-    end,
-  },
-  {
-    mode = "n",
     lhs = "lsp: restart attached clients",
     rhs = function()
       vim.lsp.stop_client(vim.lsp.get_clients({ bufnr = 0 }))
