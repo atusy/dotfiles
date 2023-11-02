@@ -51,8 +51,7 @@ local function exec()
     GinBuffer ++opener=topleft\ vs graph -n 20
     setlocal number
     GinStatus ++opener=aboveleft\ sp
-    aboveleft sp
-    exe 'e ' .. tempname() .. ".gitcommit"
+    exe 'aboveleft sp ' .. tempname() .. ".gitcommit"
     ]],
     {}
   )
