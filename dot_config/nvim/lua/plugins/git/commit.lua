@@ -102,10 +102,10 @@ local function exec()
   end
   vim.keymap.set("n", "g<C-O>", function()
     replace_message(1)
-  end)
+  end, { buffer = buf })
   vim.keymap.set("n", "g<C-I>", function()
     replace_message(-1)
-  end)
+  end, { buffer = buf })
 end
 
 return {
