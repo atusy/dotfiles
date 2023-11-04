@@ -753,13 +753,14 @@ local deps = {
         end
 
         -- without count, use tsht to select a resion to close or create one
+        -- make sure foldexpr is updated by zx
         hi()
         require("tsht").nodes({ ignore_injections = false })
         local ok = pcall(function()
-          vim.cmd("normal! Vzc")
+          vim.cmd("normal! Vzxzc")
         end)
         if not ok then
-          vim.cmd("normal! gvzf")
+          vim.cmd("normal! zxgvzf")
         end
       end
       set_keymap("n", "zc", zc)
