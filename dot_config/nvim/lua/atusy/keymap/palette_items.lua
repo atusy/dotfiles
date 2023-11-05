@@ -38,6 +38,15 @@ return {
     rhs = "<Cmd>lua = vim.lsp.buf.list_workspace_folders()<CR>",
   },
 
+  --[[ diagnostics ]]
+  {
+    mode = "n",
+    lhs = "diagnostic: toggle info and hint",
+    rhs = function()
+      require("atusy.diagnostic").toggle_severity({ "virtual_text", "underline" }, { "HINT", "INFO" })
+    end,
+  },
+
   --[[ highlight ]]
   {
     mode = "n",

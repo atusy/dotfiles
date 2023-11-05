@@ -183,8 +183,8 @@ end)
 set_keymap("n", "gf", "gF")
 
 -- mappings: diagnostics
-set_keymap("n", "[d", [[<Cmd>lua vim.diagnostic.goto_prev()<CR>]])
-set_keymap("n", "]d", [[<Cmd>lua vim.diagnostic.goto_next()<CR>]])
+set_keymap("n", "[d", [[<Cmd>lua require("atusy.diagnostic").goto_prev_underline()<CR>]])
+set_keymap("n", "]d", [[<Cmd>lua require("atusy.diagnostic").goto_next_underline()<CR>]])
 set_keymap("n", "<Leader>q", [[<Cmd>lua vim.diagnostic.setloclist()<CR>]])
 set_keymap("n", "<Leader>e", [[<Cmd>lua vim.diagnostic.open_float()<CR>]])
 
