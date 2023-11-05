@@ -147,6 +147,7 @@ return {
         end
       end)
       lspconfig()
+      vim.diagnostic.config({ signs = false })
     end,
   },
   {
