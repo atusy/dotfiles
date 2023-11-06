@@ -69,6 +69,7 @@ local deps = {
     end,
   },
   { "lambdalisue/guise.vim", dependencies = { "vim-denops/denops.vim" } },
+  { "lambdalisue/askpass.vim", dependencis = { "vim-denops/denops.vim" } },
   { "segeljakt/vim-silicon", cmd = { "Silicon", "SiliconHighlight" } }, -- pacman -S silicon
   {
     "tyru/open-browser.vim",
