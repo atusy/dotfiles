@@ -20,13 +20,9 @@ function M.create_visual_converter(callback)
   end
 end
 
-M.urlencode = M.create_visual_converter(function(url)
-  return url:gsub("\n", "\r\n"):gsub("([^%w ])", M.char_to_hex):gsub(" ", "+")
-end)
+M.urlencode = M.create_visual_converter(vim.uri_encode)
 
-M.urldecode = M.create_visual_converter(function(url)
-  return url:gsub("+", " "):gsub("%%(%x%x)", M.hex_to_char)
-end)
+M.urldecode = M.create_visual_converter(vim.uri_decode)
 
 function M.sample(x)
   local _x, y = { unpack(x) }, {}

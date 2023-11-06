@@ -173,12 +173,8 @@ set_keymap("x", "p", "P")
 set_keymap("x", "P", "p")
 set_keymap("x", "zf", [[mode() == 'V' ? 'zf' : 'Vzf']], { expr = true })
 set_keymap("x", "g/", "<Esc>/\\%V", { silent = true }) -- search within selection
-set_keymap("x", " ue", function()
-  require("atusy.misc").urlencode()
-end)
-set_keymap("x", " ud", function()
-  require("atusy.misc").urldecode()
-end)
+set_keymap("x", " ue", [[<Cmd>lua require("atusy.misc").urlencode()<CR>]])
+set_keymap("x", " ud", [[<Cmd>lua require("atusy.misc").urldecode()<CR>]])
 set_keymap("n", "gf", "gF")
 
 -- mappings: diagnostics
