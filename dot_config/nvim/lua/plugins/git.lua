@@ -107,7 +107,16 @@ local function setup_gin()
     pattern = "gitcommit",
     callback = function()
       vim.g.gin_proxy_apply_without_confirm = 1
-      vim.cmd([[cabbrev <buffer> <expr> q! (getcmdtype() ==# ':' && getcmdline() ==# 'q!') ? 'up <Bar> Cancel' : 'q!']])
+      vim.keymap.set("ca", "q!", function()
+        if
+          vim.fn.getcmdtype() == ":"
+          and vim.fn.getcmdline() == "q!"
+          and vim.api.nvim_buf_get_commands(0, {}).Cancel
+        then
+          return "up <Bar> Cancel"
+        end
+        return "q!"
+      end, { buffer = true })
     end,
   })
   set_keymap("n", "dd", "dd") -- workaround waiting dd after GinPatch
