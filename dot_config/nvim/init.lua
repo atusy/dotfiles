@@ -62,7 +62,6 @@ vim.opt.updatetime = 250
 
 -- statuscolumn
 vim.opt.signcolumn = "yes"
-vim.opt.foldcolumn = "auto"
 
 -- window
 vim.opt.splitright = true
