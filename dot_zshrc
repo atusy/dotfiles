@@ -180,24 +180,12 @@ if command -v xdg-open > /dev/null; then
   }
 fi
 
-if command -v kubectl > /dev/null; then
-  function kubeconfig() {
-    local RES
-    local CODE
-    local LIST
-    LIST="$(
-      find "${1:-${HOME}/.kube}" -mindepth 1 -maxdepth 1 -type f | grep -v '/kubectx$' # exclude kubectx
-      echo "/dev/null" # to disable kubectl
-    )"
-    RES="$( echo "$LIST" | fzf --preview 'cat {}' )"
-    CODE="$?"
-    if [[ $CODE -ne 0 ]]; then
-      return $CODE
-    fi
-    export KUBECONFIG="$RES"
-  }
-  alias kunset='command kubectl config unset current-context'
-fi
+function kubeconfig() {
+  local RES
+  RES="$( find "${1:-${HOME}/.kube}" -mindepth 1 -maxdepth 1 -type f | grep -v '/kubectx$' | fzf --preview 'cat {}' )"
+  [[ -f $RES ]] && export KUBECONFIG="$RES"
+}
+alias kunset='command kubectl config unset current-context'
 
 # local configurations
 [[ -r "$HOME/.config/zsh/local.zshrc" ]] && source "$HOME/.config/zsh/local.zshrc"
