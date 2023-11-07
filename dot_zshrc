@@ -149,6 +149,7 @@ alias du='gdu'
 alias cat='bat'
 alias jq='gojq'
 alias yq='gojq --yaml-input'
+alias vim='nvim'
 function my-zoxide-init() {
   if command -v zoxide > /dev/null; then
     unalias zi 2>/dev/null
@@ -162,18 +163,17 @@ then
 else
   alias wget='wget -c' # resumable
 fi
-if command -v nvim > /dev/null; then
-  alias vim='nvim'
-  if [[ -n $NVIM_LISTEN_ADDRESS ]] && command -v nvr > /dev/null; then
-    function man() {
-      if [[ $# -eq 1 ]]; then
-        nvr -cc "Man $1" 2>/dev/null || command man "$1"
-      else
-        command man "$@"
-      fi
-    }
-  fi
+
+if [[ -n $NVIM_LISTEN_ADDRESS ]] && command -v nvr > /dev/null; then
+  function man() {
+    if [[ $# -eq 1 ]]; then
+      nvr -cc "Man $1" 2>/dev/null || command man "$1"
+    else
+      command man "$@"
+    fi
+  }
 fi
+
 if command -v xdg-open > /dev/null; then
   function open() {
     xdg-open "$@" 2>/dev/null
