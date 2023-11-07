@@ -11,6 +11,9 @@ function M.loaded()
   return loaded
 end
 
+--- my foldtext
+---
+--- vim.opt.foldtext = [[v:lua.require("atusy.fold").foldtext()]]
 function M.foldtext()
   if not M.loaded() then
     return {}
@@ -38,6 +41,9 @@ function M.foldtext()
   return res
 end
 
+--- my foldexpr
+---
+--- vim.opt.foldexpr = [[v:lua.require("atusy.fold").foldexpr()]]
 function M.foldexpr()
   if not M.loaded() then
     return "0"
