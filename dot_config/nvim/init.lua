@@ -97,11 +97,7 @@ vim.opt.guicursor = {
   [[a:blinkwait700-blinkoff400-blinkon250-Cursor/lCursor]],
   [[sm:block-blinkwait175-blinkoff150-blinkon175]],
 }
-vim.opt.foldenable = false
-vim.opt.foldmethod = "expr"
-vim.opt.foldexpr = [[v:lua.require("atusy.fold").foldexpr()]]
 vim.opt.foldtext = [[v:lua.require("atusy.fold").foldtext()]]
-vim.opt.foldlevelstart = 999
 
 -- search
 vim.opt.ignorecase = true
