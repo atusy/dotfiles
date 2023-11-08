@@ -1,8 +1,10 @@
 .envrc
 .gitmessage
+.luarc.json
 .nvim.lua
 .nvimrc
 .worktree
+LICENSE.md
 README.md
 __ignored
 stylua.toml
