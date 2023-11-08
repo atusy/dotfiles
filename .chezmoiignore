@@ -1,8 +1,8 @@
+.envrc
+.gitmessage
+.nvim.lua
+.nvimrc
+.worktree
 README.md
 __ignored
-.nvimrc
-.nvim.lua
-.gitmessage
-.envrc
 stylua.toml
-.worktree
