@@ -5,7 +5,6 @@ node = "latest"
 python = "latest"
 bun = "latest"
 azure-cli = "latest"
-yarn = "latest"
 
 # might be useful, but latest can be installed from pacman
 # awscli = "latest"
@@ -21,5 +20,7 @@ yarn = "latest"
 # rust = "latest"
 # terraform = "latest"
 
+# no need to be global
+# yarn = "latest"
 [settings]
 experimental = true
