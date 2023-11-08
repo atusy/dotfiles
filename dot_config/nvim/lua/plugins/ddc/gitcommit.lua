@@ -62,7 +62,7 @@ local function setting(buf, completion_items, semantic, scopes)
   vim.fn["pum#set_buffer_option"]({ max_height = #completion_items })
 
   return {
-    sources = semantic and { "parametric" } or { "parametric", "around" },
+    sources = { "parametric" },
     backspaceCompletion = true,
     sourceOptions = {
       around = { mark = "", isVolatile = true, maxItems = 1 },
