@@ -20,9 +20,13 @@ function M.create_visual_converter(callback)
   end
 end
 
-M.urlencode = M.create_visual_converter(vim.uri_encode)
+M.urlencode = M.create_visual_converter(function(...)
+  vim.uri_encode(...)
+end)
 
-M.urldecode = M.create_visual_converter(vim.uri_decode)
+M.urldecode = M.create_visual_converter(function(...)
+  vim.uri_decode(...)
+end)
 
 function M.sample(x)
   local _x, y = { unpack(x) }, {}
