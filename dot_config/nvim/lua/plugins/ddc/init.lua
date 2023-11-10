@@ -82,7 +82,6 @@ end
 return {
   {
     "Shougo/ddc.vim",
-    -- dir = "/home/atusy/ghq/github.com/Shougo/ddc.vim",
     dependencies = {
       { "vim-denops/denops.vim" },
       -- ui
