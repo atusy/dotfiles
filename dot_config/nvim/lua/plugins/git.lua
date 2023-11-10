@@ -116,7 +116,7 @@ local function setup_gin()
           return "up <Bar> Cancel"
         end
         return "q!"
-      end, { buffer = true })
+      end, { buffer = true, expr = true })
     end,
   })
   set_keymap("n", "dd", "dd") -- workaround waiting dd after GinPatch
