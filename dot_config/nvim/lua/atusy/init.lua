@@ -165,7 +165,7 @@ set_keymap("n", "]d", [[<Cmd>lua require("atusy.diagnostic").goto_next_underline
 set_keymap("n", "<Leader>q", [[<Cmd>lua vim.diagnostic.setloclist()<CR>]])
 set_keymap("n", "<Leader>e", [[<Cmd>lua vim.diagnostic.open_float()<CR>]])
 
--- mappings: don't start a new undo block on horizontal moves on insert mode
+-- mappings: insert-mode horizontal moves in the current undo block
 set_keymap("i", "<Left>", "<C-G>U<Left>")
 set_keymap("i", "<Right>", "<C-G>U<Right>")
 
