@@ -79,6 +79,7 @@ local function telescope_config(_)
     pickers = {
       find_files = {
         hidden = true,
+        follow = true,
         search_dirs = { ".", "__ignored" },
       },
       live_grep = {
