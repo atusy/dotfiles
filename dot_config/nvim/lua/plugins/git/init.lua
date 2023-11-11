@@ -75,6 +75,7 @@ end
 
 -- gin & gintonic
 local function setup_gin()
+  vim.g.gin_patch_disable_default_mappings = true
   local has_delta = vim.fn.executable("delta") == 1
   -- disable delta as <CR> won't work
   local processor = nil
@@ -87,10 +88,11 @@ local function setup_gin()
       GinBuffer = { processor = processor },
     },
   })
-  api.nvim_create_autocmd("FileType", {
+  api.nvim_create_autocmd("BufReadCmd", {
     group = utils.augroup,
-    pattern = "gin-patch",
+    pattern = "ginedit://*",
     callback = function()
+      -- for GinPatch
       set_keymap("n", "<Plug>(C-G)<C-A>", "<Plug>(gin-diffget-r)", { bufnr = 0 }) -- git add
       set_keymap("n", "<Plug>(C-G)<C-R>", "<Plug>(gin-diffget-l)", { bufnr = 0 }) -- git reset
     end,
