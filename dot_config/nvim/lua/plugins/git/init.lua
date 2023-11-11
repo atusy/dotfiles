@@ -121,6 +121,26 @@ local function setup_gin()
       end, { buffer = true, expr = true })
     end,
   })
+
+  local function yank_git_link(ginopts, opts)
+    opts = opts or {}
+    local range = ""
+    if ginopts.range == 1 then
+      range = tostring(ginopts.line1)
+    elseif ginopts.range == 2 then
+      range = ginopts.line1 .. "," .. ginopts.line2
+    end
+    vim.cmd(range .. "GinBrowse ++yank=+ -n " .. (opts.permalink and "--permalink " or "") .. ginopts.args)
+  end
+
+  vim.api.nvim_create_user_command("GitPermalink", function(opts)
+    yank_git_link(opts, { permalink = true })
+  end, { range = true })
+
+  vim.api.nvim_create_user_command("GitLink", function(opts)
+    yank_git_link(opts, {})
+  end, { range = true })
+
   set_keymap("n", "dd", "dd") -- workaround waiting dd after GinPatch
   set_keymap("n", "<Plug>(C-G)<C-P>", "<Cmd>GinPatch ++opener=tabnew %<CR>")
   local graph = function(opts)
@@ -163,10 +183,6 @@ return {
     "lambdalisue/gin.vim",
     dependencies = { "vim-denops/denops.vim" },
     config = setup_gin,
-  },
-  {
-    "knsh14/vim-github-link",
-    cmd = { "GetCommitLink", "GetCurrentBranchLink", "GetCurrentCommitLink" },
   },
   { "lewis6991/gitsigns.nvim", config = setup_gitsigns },
 }
