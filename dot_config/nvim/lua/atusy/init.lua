@@ -126,13 +126,9 @@ vim.opt.autoindent = true
 vim.opt.smartindent = true
 
 -- others
-if vim.fn.executable("zsh") == 1 then
-  vim.opt.shell = "zsh"
-end
-if vim.fn.executable("rg") == 1 then
-  vim.opt.grepprg = [[rg --glob "!.git" --no-heading --vimgrep --follow $*]]
-  vim.opt.grepformat = vim.opt.grepformat ^ { "%f:%l:%c:%m" }
-end
+vim.opt.shell = "zsh"
+vim.opt.grepprg = [[rg --glob "!.git" --no-heading --vimgrep --follow $*]]
+vim.opt.grepformat = vim.opt.grepformat ^ { "%f:%l:%c:%m" }
 
 --[[ commands ]]
 vim.api.nvim_create_user_command("W", "write !sudo tee % >/dev/null", {})
