@@ -83,12 +83,10 @@ local function lspconfig()
     settings = {
       single_file_support = true,
       Lua = {
-        runtime = { version = "LuaJIT", path = vim.split(package.path, ";") },
-        diagnostics = {
-          globals = { "vim", "pandoc" },
-        },
+        runtime = { version = "LuaJIT" },
+        diagnostics = { globals = { "vim", "pandoc" } },
         workspace = {
-          library = vim.api.nvim_get_runtime_file("", true),
+          library = { vim.env.VIMRUNTIME }, -- NOTE: vim.api.nvim_get_runtime_file("", true) can be too heavy
           checkThirdParty = false,
         },
         completion = { workspaceWord = true, callSnippet = "Both" },
