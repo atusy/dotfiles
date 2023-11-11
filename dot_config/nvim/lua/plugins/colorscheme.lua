@@ -115,11 +115,11 @@ return {
   -- { '4513ECHO/vim-colors-hatsunemiku' },
   -- { 'ellisonleao/gruvbox.nvim' },
   -- { 'sainnhe/everforest' },
-  -- { "catppuccin/nvim", as = "catppuccin" },
+  -- { "https://github.com/catppuccin/nvim", as = "catppuccin" },
   -- { 'levouh/tint.nvim' }, -- conflicts with styler.nvim
-  -- { "RRethy/nvim-base16" },
+  -- { "https://github.com/RRethy/nvim-base16" },
   {
-    "m-demare/hlargs.nvim",
+    "https://github.com/m-demare/hlargs.nvim",
     -- maybe nolonger used because @parameter highlights well, also conflicts with neodim
     -- event = 'BufReadPre',
     cond = false,
@@ -134,11 +134,11 @@ return {
     end,
   },
   {
-    "RRethy/vim-illuminate",
+    "https://github.com/RRethy/vim-illuminate",
     -- or https://github.com/tzachar/local-highlight.nvim
     lazy = true,
     event = "BufReadPre",
-    dependencies = { "nvim-treesitter/nvim-treesitter" },
+    dependencies = { "https://github.com/nvim-treesitter/nvim-treesitter" },
     init = function()
       vim.keymap.set("n", "<Left>", function()
         require("illuminate").goto_prev_reference()
@@ -164,7 +164,7 @@ return {
     end,
   },
   {
-    "norcalli/nvim-colorizer.lua",
+    "https://github.com/norcalli/nvim-colorizer.lua",
     event = { "BufReadPre" },
     config = function()
       local function setup()
@@ -176,15 +176,15 @@ return {
     end,
   },
   {
-    "folke/styler.nvim",
+    "https://github.com/folke/styler.nvim",
     event = { "WinNew", "BufRead", "BufNewFile" },
-    dependencies = { "EdenEast/nightfox.nvim" },
+    dependencies = { "https://github.com/EdenEast/nightfox.nvim" },
     config = function()
       set_styler()
     end,
   },
   {
-    "EdenEast/nightfox.nvim",
+    "https://github.com/EdenEast/nightfox.nvim",
     lazy = false,
     priority = 9999,
     config = function()

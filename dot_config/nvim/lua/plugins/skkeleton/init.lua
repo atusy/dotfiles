@@ -19,9 +19,9 @@ end
 
 return {
   {
-    "vim-skk/skkeleton",
+    "https://github.com/vim-skk/skkeleton",
     dependencies = {
-      { "vim-denops/denops.vim" },
+      { "https://github.com/vim-denops/denops.vim" },
     },
     config = function()
       vim.keymap.set({ "i", "c", "t" }, "<C-J>", "<Plug>(skkeleton-enable)")
@@ -110,11 +110,11 @@ return {
     end,
   },
   {
-    "skk-dev/dict",
+    "https://github.com/skk-dev/dict",
     lazy = true,
   },
   {
-    "tokuhirom/jawiki-kana-kanji-dict",
+    "https://github.com/tokuhirom/jawiki-kana-kanji-dict",
     lazy = true,
   },
 }

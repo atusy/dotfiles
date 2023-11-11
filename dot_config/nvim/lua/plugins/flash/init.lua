@@ -189,7 +189,7 @@ end
 local hl_label = "DiagnosticError"
 return {
   {
-    "folke/flash.nvim",
+    "https://github.com/folke/flash.nvim",
     lazy = true,
     init = function(p)
       --[[ f-motion ]]

@@ -27,9 +27,9 @@ local function node_open_edit()
 end
 
 return {
-  "nvim-tree/nvim-tree.lua",
+  "https://github.com/nvim-tree/nvim-tree.lua",
   lazy = true,
-  dependencies = { "nvim-tree/nvim-web-devicons" },
+  dependencies = { "https://github.com/nvim-tree/nvim-web-devicons" },
   init = function()
     vim.keymap.set("n", "S", function()
       require("nvim-tree.api").tree.focus()

@@ -180,9 +180,9 @@ end
 -- return
 return {
   {
-    "lambdalisue/gin.vim",
-    dependencies = { "vim-denops/denops.vim" },
+    "https://github.com/lambdalisue/gin.vim",
+    dependencies = { "https://github.com/vim-denops/denops.vim" },
     config = setup_gin,
   },
-  { "lewis6991/gitsigns.nvim", config = setup_gitsigns },
+  { "https://github.com/lewis6991/gitsigns.nvim", config = setup_gitsigns },
 }

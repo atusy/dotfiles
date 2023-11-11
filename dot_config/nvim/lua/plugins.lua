@@ -12,18 +12,18 @@ vim.api.nvim_create_autocmd("User", {
 
 local deps = {
   -- basic dependencies
-  "tpope/vim-repeat",
-  "vim-denops/denops.vim",
+  "https://github.com/tpope/vim-repeat",
+  "https://github.com/vim-denops/denops.vim",
   {
-    "yuki-yano/denops-lazy.nvim",
+    "https://github.com/yuki-yano/denops-lazy.nvim",
     lazy = true,
     config = function()
       require("denops-lazy").setup()
     end,
   },
-  { "kana/vim-submode", enabled = false },
+  { "https://github.com/kana/vim-submode", enabled = false },
   {
-    "delphinus/cellwidths.nvim",
+    "https://github.com/delphinus/cellwidths.nvim",
     event = { "BufReadPost", "ModeChanged" },
     config = function()
       -- ga
@@ -49,10 +49,10 @@ local deps = {
   },
 
   -- utils
-  { "dstein64/vim-startuptime", cmd = "StartupTime" },
+  { "https://github.com/dstein64/vim-startuptime", cmd = "StartupTime" },
   {
-    "numToStr/Comment.nvim",
-    dependencies = { "JoosepAlviste/nvim-ts-context-commentstring" },
+    "https://github.com/numToStr/Comment.nvim",
+    dependencies = { "https://github.com/JoosepAlviste/nvim-ts-context-commentstring" },
     lazy = true,
     init = function()
       set_keymap("n", "gcc", [[<Cmd>lua require("Comment.api").toggle.linewise.current()<CR>]])
@@ -68,22 +68,22 @@ local deps = {
       })
     end,
   },
-  { "lambdalisue/guise.vim", dependencies = { "vim-denops/denops.vim" } },
-  { "lambdalisue/askpass.vim", dependencis = { "vim-denops/denops.vim" } },
-  { "segeljakt/vim-silicon", cmd = { "Silicon", "SiliconHighlight" } }, -- pacman -S silicon
+  { "https://github.com/lambdalisue/guise.vim", dependencies = { "https://github.com/vim-denops/denops.vim" } },
+  { "https://github.com/lambdalisue/askpass.vim", dependencis = { "https://github.com/vim-denops/denops.vim" } },
+  { "https://github.com/segeljakt/vim-silicon", cmd = { "Silicon", "SiliconHighlight" } }, -- pacman -S silicon
   {
-    "tyru/open-browser.vim",
+    "https://github.com/tyru/open-browser.vim",
     keys = {
       { "gx", "<Plug>(openbrowser-smart-search)", mode = { "n", "x" } },
       { "<2-LeftMouse>", "<Plug>(openbrowser-open)", mode = { "n" } },
     },
   },
-  { "tpope/vim-characterize", keys = { "ga" } },
-  { "thinca/vim-partedit", cmd = "Partedit" },
+  { "https://github.com/tpope/vim-characterize", keys = { "ga" } },
+  { "https://github.com/thinca/vim-partedit", cmd = "Partedit" },
 
   -- ui
   {
-    "lukas-reineke/indent-blankline.nvim",
+    "https://github.com/lukas-reineke/indent-blankline.nvim",
     lazy = true,
     init = function()
       set_keymap("n", "<Bar>", function()
@@ -132,20 +132,20 @@ local deps = {
     end,
   },
   {
-    "xiyaowong/nvim-transparent", -- not so good with styler.nvim
+    "https://github.com/xiyaowong/nvim-transparent", -- not so good with styler.nvim
     cmd = "TransparentToggle",
     config = function()
       require("transparent").setup({})
     end,
   },
-  -- "MunifTanjim/nui.nvim",
-  -- "rcarriga/nvim-notify",
-  -- "folke/noice.nvim",
-  -- "stevearc/stickybuf.nvim",
+  -- "https://github.com/MunifTanjim/nui.nvim",
+  -- "https://github.com/rcarriga/nvim-notify",
+  -- "https://github.com/folke/noice.nvim",
+  -- "https://github.com/stevearc/stickybuf.nvim",
 
   -- windows and buffers
   {
-    "echasnovski/mini.bufremove", -- instead of 'moll/vim-bbye',
+    "https://github.com/echasnovski/mini.bufremove", -- instead of 'moll/vim-bbye',
     lazy = true,
     init = function()
       add_palette("n", "Bdelete", [[<Cmd>lua require("mini.bufremove").delete()<CR>]])
@@ -155,7 +155,7 @@ local deps = {
   -- 'mhinz/vim-sayonara',
   -- { 'stevearc/stickybuf.nvim' },
   {
-    "m00qek/baleia.nvim",
+    "https://github.com/m00qek/baleia.nvim",
     lazy = true,
     init = function()
       add_palette("n", "parse ANSI escape sequences", function()
@@ -164,7 +164,7 @@ local deps = {
     end,
   },
   {
-    "tyru/capture.vim",
+    "https://github.com/tyru/capture.vim",
     cmd = "Capture",
     init = function()
       vim.keymap.set("c", "<c-x><c-c>", function()
@@ -180,26 +180,30 @@ local deps = {
       end, { expr = true })
     end,
   },
-  { "folke/zen-mode.nvim", cmd = "ZenMode" },
-  { "thinca/vim-qfreplace", cmd = "Qfreplace" },
+  { "https://github.com/folke/zen-mode.nvim", cmd = "ZenMode" },
+  { "https://github.com/thinca/vim-qfreplace", cmd = "Qfreplace" },
 
   -- better something
   {
-    "chrisbra/Recover.vim",
+    "https://github.com/chrisbra/Recover.vim",
     lazy = false,
   },
   {
-    "lambdalisue/kensaku.vim",
-    dependencies = { "vim-denops/denops.vim", "yuki-yano/denops-lazy.nvim" },
+    "https://github.com/lambdalisue/kensaku.vim",
+    dependencies = { "https://github.com/vim-denops/denops.vim", "https://github.com/yuki-yano/denops-lazy.nvim" },
     lazy = false,
     config = function()
       -- require("denops-lazy").load("kensaku.vim")
     end,
   },
   {
-    "yuki-yano/fuzzy-motion.vim",
+    "https://github.com/yuki-yano/fuzzy-motion.vim",
     cond = false,
-    dependencies = { "lambdalisue/kensaku.vim", "vim-denops/denops.vim", "yuki-yano/denops-lazy.nvim" },
+    dependencies = {
+      "https://github.com/lambdalisue/kensaku.vim",
+      "https://github.com/vim-denops/denops.vim",
+      "https://github.com/yuki-yano/denops-lazy.nvim",
+    },
     cmd = "FuzzyMotion",
     init = function(p)
       if not p.cond then
@@ -213,21 +217,21 @@ local deps = {
     end,
   },
   {
-    "wsdjeg/vim-fetch", -- :e with linenumber
+    "https://github.com/wsdjeg/vim-fetch", -- :e with linenumber
     lazy = false, -- some how event-based lazy loading won't work as expected
   },
   {
-    "yuki-yano/denops-open-http.vim",
-    dependencies = { "vim-denops/denops.vim" },
+    "https://github.com/yuki-yano/denops-open-http.vim",
+    dependencies = { "https://github.com/vim-denops/denops.vim" },
     -- event = 'CmdlineEnter',
     -- config = function()
     --   require('denops-lazy').load('denops-open-http.vim')
     -- end
   },
-  { "lambdalisue/readablefold.vim", lazy = true }, -- or anuvyklack/pretty-fold.nvim, but disabled in preference of atusy.fold.foldtext
-  { "jghauser/mkdir.nvim", event = { "VeryLazy", "CmdlineEnter" } }, -- :w with mkdir
+  { "https://github.com/lambdalisue/readablefold.vim", lazy = true }, -- or anuvyklack/pretty-fold.nvim, but disabled in preference of atusy.fold.foldtext
+  { "https://github.com/jghauser/mkdir.nvim", event = { "VeryLazy", "CmdlineEnter" } }, -- :w with mkdir
   {
-    "andymass/vim-matchup",
+    "https://github.com/andymass/vim-matchup",
     event = "BufReadPost",
     config = function()
       vim.g.matchup_matchparen_offscreen = { method = "status_manual" }
@@ -245,7 +249,7 @@ local deps = {
     end,
   },
   {
-    "Wansmer/treesj",
+    "https://github.com/Wansmer/treesj",
     lazy = true,
     init = function()
       -- treesj does not support visual mode, so leave the mode and use cursor as the node indicator
@@ -257,7 +261,7 @@ local deps = {
     end,
   },
   {
-    "monaqa/dial.nvim",
+    "https://github.com/monaqa/dial.nvim",
     lazy = true,
     init = function()
       set_keymap("n", "<C-A>", function()
@@ -281,7 +285,7 @@ local deps = {
     end,
   },
   {
-    "yuki-yano/highlight-undo.nvim",
+    "https://github.com/yuki-yano/highlight-undo.nvim",
     event = "User DenopsReady",
     cond = false,
     config = function()
@@ -290,7 +294,7 @@ local deps = {
     end,
   },
   {
-    "tversteeg/registers.nvim",
+    "https://github.com/tversteeg/registers.nvim",
     cond = false,
     config = function()
       require("registers").setup()
@@ -299,9 +303,9 @@ local deps = {
 
   -- statusline
   {
-    "nvim-lualine/lualine.nvim",
+    "https://github.com/nvim-lualine/lualine.nvim",
     event = "WinNew",
-    dependencies = { "nvim-tree/nvim-web-devicons" },
+    dependencies = { "https://github.com/nvim-tree/nvim-web-devicons" },
     init = function()
       vim.opt.laststatus = 0
     end,
@@ -340,14 +344,14 @@ local deps = {
 
   -- motion
   {
-    "haya14busa/vim-edgemotion",
+    "https://github.com/haya14busa/vim-edgemotion",
     keys = {
       { "<A-]>", "<Plug>(edgemotion-j)", mode = "" },
       { "<A-[>", "<Plug>(edgemotion-k)", mode = "" },
     },
   },
   {
-    "ggandor/leap.nvim",
+    "https://github.com/ggandor/leap.nvim",
     lazy = true,
     config = function()
       -- LeapBackdrop highlight is defined at colorscheme.lua
@@ -374,23 +378,23 @@ local deps = {
     end,
   },
   {
-    "ggandor/leap-ast.nvim", -- prefer nvim-treehopper
-    dependencies = { "ggandor/leap.nvim" },
+    "https://github.com/ggandor/leap-ast.nvim", -- prefer nvim-treehopper
+    dependencies = { "https://github.com/ggandor/leap.nvim" },
     lazy = true,
   },
   -- 'ggandor/flit.nvim',
   {
-    "atusy/leap-wide.nvim",
+    "https://github.com/atusy/leap-wide.nvim",
     lazy = true,
   },
   {
-    "rapan931/lasterisk.nvim",
+    "https://github.com/rapan931/lasterisk.nvim",
     lazy = true,
   },
   {
-    "atusy/leap-search.nvim",
+    "https://github.com/atusy/leap-search.nvim",
     lazy = true,
-    dependencies = { "rapan931/lasterisk.nvim", "RRethy/vim-illuminate" },
+    dependencies = { "https://github.com/rapan931/lasterisk.nvim", "https://github.com/RRethy/vim-illuminate" },
     init = function()
       --[====[
       local function motion(offset, backward, inclusive_op)
@@ -530,8 +534,8 @@ local deps = {
 
   -- treesitter
   {
-    "JoosepAlviste/nvim-ts-context-commentstring",
-    dependencies = { "nvim-treesitter/nvim-treesitter" },
+    "https://github.com/JoosepAlviste/nvim-ts-context-commentstring",
+    dependencies = { "https://github.com/nvim-treesitter/nvim-treesitter" },
     lazy = true, -- will be loaded via Comment.nvim
     config = function()
       require("nvim-treesitter.configs").setup({
@@ -540,7 +544,7 @@ local deps = {
     end,
   },
   {
-    "nvim-treesitter/nvim-treesitter",
+    "https://github.com/nvim-treesitter/nvim-treesitter",
     build = ":TSUpdate",
     event = { "BufReadPost", "BufNewFile" },
     init = function()
@@ -649,7 +653,7 @@ local deps = {
   },
   -- 'nvim-treesitter/playground', -- vim.treesitter.show_tree would be enough
   {
-    "nvim-treesitter/nvim-treesitter-textobjects",
+    "https://github.com/nvim-treesitter/nvim-treesitter-textobjects",
     keys = { "[", "]", " " },
     event = "ModeChanged",
     config = function()
@@ -699,8 +703,8 @@ local deps = {
     end,
   },
   {
-    "nvim-treesitter/nvim-treesitter-refactor",
-    dependencies = { "nvim-treesitter/nvim-treesitter" },
+    "https://github.com/nvim-treesitter/nvim-treesitter-refactor",
+    dependencies = { "https://github.com/nvim-treesitter/nvim-treesitter" },
     lazy = true,
     init = function()
       set_keymap("n", " rn", function()
@@ -710,7 +714,7 @@ local deps = {
   },
   -- 'haringsrob/nvim_context_vt',
   {
-    "David-Kunz/treesitter-unit",
+    "https://github.com/David-Kunz/treesitter-unit",
     lazy = true,
     enabled = false, -- because viuiu will not expand the region
     init = function()
@@ -719,7 +723,7 @@ local deps = {
     end,
   },
   {
-    "romgrk/nvim-treesitter-context",
+    "https://github.com/romgrk/nvim-treesitter-context",
     event = "BufReadPre",
     config = function()
       require("treesitter-context").setup({
@@ -733,7 +737,7 @@ local deps = {
     end,
   },
   {
-    "mfussenegger/nvim-treehopper",
+    "https://github.com/mfussenegger/nvim-treehopper",
     lazy = true,
     init = function()
       local function hi()
@@ -780,15 +784,15 @@ local deps = {
     end,
   },
   {
-    "RRethy/nvim-treesitter-endwise",
+    "https://github.com/RRethy/nvim-treesitter-endwise",
     ft = { "ruby", "lua", "sh", "bash", "zsh", "vim" },
-    dependencies = { "nvim-treesitter/nvim-treesitter" },
+    dependencies = { "https://github.com/nvim-treesitter/nvim-treesitter" },
     config = function()
       require("nvim-treesitter.configs").setup({ endwise = { enable = true } })
     end,
   },
   {
-    "atusy/tsnode-marker.nvim",
+    "https://github.com/atusy/tsnode-marker.nvim",
     lazy = true,
     init = function()
       vim.api.nvim_create_autocmd("FileType", {
@@ -842,7 +846,7 @@ local deps = {
 
   -- autopairs
   {
-    "echasnovski/mini.pairs",
+    "https://github.com/echasnovski/mini.pairs",
     event = "InsertEnter",
     config = function()
       require("mini.pairs").setup({})
@@ -850,7 +854,7 @@ local deps = {
     cond = false,
   },
   {
-    "hrsh7th/nvim-insx",
+    "https://github.com/hrsh7th/nvim-insx",
     event = "InsertEnter",
     config = function()
       require("insx.preset.standard").setup()
@@ -859,7 +863,7 @@ local deps = {
 
   -- terminal
   {
-    "chomosuke/term-edit.nvim",
+    "https://github.com/chomosuke/term-edit.nvim",
     event = "TermEnter",
     config = function()
       require("term-edit").setup({
@@ -871,7 +875,7 @@ local deps = {
     end,
   },
   {
-    "akinsho/toggleterm.nvim",
+    "https://github.com/akinsho/toggleterm.nvim",
     keys = { "<C-T>", { " <CR>", mode = { "n", "x" } } },
     cmd = { "ToggleTermSendCurrentLine", "ToggleTermSendVisualSelection" },
     config = function()
@@ -888,7 +892,7 @@ local deps = {
 
   -- cmdwin
   {
-    "notomo/cmdbuf.nvim",
+    "https://github.com/notomo/cmdbuf.nvim",
     lazy = true,
     init = function()
       vim.keymap.set("c", "<C-F>", function()
@@ -911,9 +915,9 @@ local deps = {
   },
 
   -- filetype specific
-  { "mattn/vim-goimports", ft = "go" },
+  { "https://github.com/mattn/vim-goimports", ft = "go" },
   {
-    "barrett-ruth/import-cost.nvim",
+    "https://github.com/barrett-ruth/import-cost.nvim",
     ft = { "javascript", "typescript", "typescriptreact" },
     build = "sh install.sh yarn",
     config = function()
@@ -921,7 +925,7 @@ local deps = {
     end,
   },
   {
-    "phelipetls/jsonpath.nvim",
+    "https://github.com/phelipetls/jsonpath.nvim",
     ft = "json",
     config = function()
       add_palette("n", "clipboard json path", function()
@@ -931,13 +935,13 @@ local deps = {
       end, { desc = "clipboard json path" })
     end,
   },
-  { "itchyny/vim-qfedit", ft = "qf" },
+  { "https://github.com/itchyny/vim-qfedit", ft = "qf" },
   {
-    "kevinhwang91/nvim-bqf",
+    "https://github.com/kevinhwang91/nvim-bqf",
     ft = "qf",
   },
   {
-    "norcalli/nvim-terminal.lua",
+    "https://github.com/norcalli/nvim-terminal.lua",
     ft = "terminal",
     config = function()
       require("terminal").setup()

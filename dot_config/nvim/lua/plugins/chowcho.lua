@@ -137,7 +137,7 @@ end
 
 return {
   {
-    "tkmpypy/chowcho.nvim",
+    "https://github.com/tkmpypy/chowcho.nvim",
     event = "WinNew",
     config = setup_chowcho,
   },

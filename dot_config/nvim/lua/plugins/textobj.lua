@@ -95,7 +95,7 @@ recipes["j"] = {
 
 return {
   {
-    "echasnovski/mini.ai",
+    "https://github.com/echasnovski/mini.ai",
     event = "ModeChanged",
     config = function()
       --[[
@@ -129,7 +129,7 @@ return {
     end,
   },
   {
-    "echasnovski/mini.surround",
+    "https://github.com/echasnovski/mini.surround",
     keys = { { "s", "<Nop>", mode = "" } },
     config = function()
       --[=[
@@ -165,7 +165,7 @@ return {
     end,
   },
   {
-    "machakann/vim-sandwich",
+    "https://github.com/machakann/vim-sandwich",
     cond = false,
     keys = { { "s", "<Nop>", mode = "" } },
     config = function()

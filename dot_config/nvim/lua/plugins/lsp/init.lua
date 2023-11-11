@@ -107,13 +107,13 @@ end
 
 return {
   {
-    "neovim/nvim-lspconfig",
+    "https://github.com/neovim/nvim-lspconfig",
     dependencies = {
-      "williamboman/mason.nvim",
-      "williamboman/mason-lspconfig.nvim",
-      "jose-elias-alvarez/null-ls.nvim",
-      -- "ii14/emmylua-nvim",
-      -- "folke/neodev.nvim",
+      "https://github.com/williamboman/mason.nvim",
+      "https://github.com/williamboman/mason-lspconfig.nvim",
+      "https://github.com/jose-elias-alvarez/null-ls.nvim",
+      -- "https://github.com/ii14/emmylua-nvim",
+      -- "https://github.com/folke/neodev.nvim",
     },
     event = { "BufReadPost", "BufNewFile" },
     config = function()
@@ -151,12 +151,12 @@ return {
     end,
   },
   {
-    "ray-x/lsp_signature.nvim", -- or { "matsui54/denops-signature_help" }
+    "https://github.com/ray-x/lsp_signature.nvim", -- or { "https://github.com/matsui54/denops-signature_help" }
     lazy = true,
     -- configured via on_attach
   },
   {
-    "jose-elias-alvarez/null-ls.nvim",
+    "https://github.com/jose-elias-alvarez/null-ls.nvim",
     lazy = true,
     config = function()
       local null_ls = require("null-ls")
@@ -184,7 +184,7 @@ return {
     end,
   },
   {
-    "williamboman/mason.nvim",
+    "https://github.com/williamboman/mason.nvim",
     lazy = true,
     cmd = { "Mason" },
     config = function()
@@ -192,15 +192,15 @@ return {
     end,
   },
   {
-    "williamboman/mason-lspconfig.nvim",
+    "https://github.com/williamboman/mason-lspconfig.nvim",
     lazy = true,
-    dependencies = { "williamboman/mason.nvim" },
+    dependencies = { "https://github.com/williamboman/mason.nvim" },
     config = function()
       require("mason-lspconfig").setup()
     end,
   },
   {
-    "j-hui/fidget.nvim",
+    "https://github.com/j-hui/fidget.nvim",
     event = "LspAttach",
     branch = "legacy",
     config = function()
@@ -208,7 +208,7 @@ return {
     end,
   },
   {
-    "folke/neodev.nvim",
+    "https://github.com/folke/neodev.nvim",
     lazy = true,
     config = function()
       require("neodev").setup({ experimental = { pathStrict = true } })
