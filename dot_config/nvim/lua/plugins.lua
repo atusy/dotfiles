@@ -190,10 +190,12 @@ local deps = {
   },
   {
     "https://github.com/lambdalisue/kensaku.vim",
-    dependencies = { "https://github.com/vim-denops/denops.vim", "https://github.com/yuki-yano/denops-lazy.nvim" },
+    dependencies = { "https://github.com/vim-denops/denops.vim" },
     lazy = false,
-    config = function()
-      -- require("denops-lazy").load("kensaku.vim")
+    config = function(p)
+      if p.lazy then
+        require("denops-lazy").load("kensaku.vim")
+      end
     end,
   },
   {
