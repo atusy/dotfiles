@@ -896,13 +896,6 @@ local deps = {
     "https://github.com/kevinhwang91/nvim-bqf",
     ft = "qf",
   },
-  {
-    "https://github.com/norcalli/nvim-terminal.lua",
-    ft = "terminal",
-    config = function()
-      require("terminal").setup()
-    end,
-  },
 }
 
 return deps
