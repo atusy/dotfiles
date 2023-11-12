@@ -202,14 +202,6 @@ local deps = {
     "https://github.com/wsdjeg/vim-fetch", -- :e with linenumber
     lazy = false, -- some how event-based lazy loading won't work as expected
   },
-  {
-    "https://github.com/yuki-yano/denops-open-http.vim",
-    dependencies = { "https://github.com/vim-denops/denops.vim" },
-    -- event = 'CmdlineEnter',
-    -- config = function()
-    --   require('denops-lazy').load('denops-open-http.vim')
-    -- end
-  },
   { "https://github.com/lambdalisue/readablefold.vim", lazy = true }, -- or anuvyklack/pretty-fold.nvim, but disabled in preference of atusy.fold.foldtext
   { "https://github.com/jghauser/mkdir.nvim", event = { "VeryLazy", "CmdlineEnter" } }, -- :w with mkdir
   {
