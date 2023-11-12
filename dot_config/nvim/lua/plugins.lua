@@ -197,26 +197,6 @@ local deps = {
     end,
   },
   {
-    "https://github.com/yuki-yano/fuzzy-motion.vim",
-    cond = false,
-    dependencies = {
-      "https://github.com/lambdalisue/kensaku.vim",
-      "https://github.com/vim-denops/denops.vim",
-      "https://github.com/yuki-yano/denops-lazy.nvim",
-    },
-    cmd = "FuzzyMotion",
-    init = function(p)
-      if not p.cond then
-        return
-      end
-      set_keymap({ "n", "x" }, ";", "<Cmd>FuzzyMotion<CR>")
-    end,
-    config = function()
-      vim.g.fuzzy_motion_matchers = { "fzf", "kensaku" }
-      require("denops-lazy").load("fuzzy-motion.vim")
-    end,
-  },
-  {
     "https://github.com/wsdjeg/vim-fetch", -- :e with linenumber
     lazy = false, -- some how event-based lazy loading won't work as expected
   },
@@ -282,22 +262,6 @@ local deps = {
       set_keymap("x", "g<C-X>", function()
         return require("dial.map").dec_gvisual()
       end, { expr = true })
-    end,
-  },
-  {
-    "https://github.com/yuki-yano/highlight-undo.nvim",
-    event = "User DenopsReady",
-    cond = false,
-    config = function()
-      require("denops-lazy").load("highlight-undo.nvim")
-      require("highlight-undo").setup({})
-    end,
-  },
-  {
-    "https://github.com/tversteeg/registers.nvim",
-    cond = false,
-    config = function()
-      require("registers").setup()
     end,
   },
 
@@ -845,14 +809,6 @@ local deps = {
   },
 
   -- autopairs
-  {
-    "https://github.com/echasnovski/mini.pairs",
-    event = "InsertEnter",
-    config = function()
-      require("mini.pairs").setup({})
-    end,
-    cond = false,
-  },
   {
     "https://github.com/hrsh7th/nvim-insx",
     event = "InsertEnter",

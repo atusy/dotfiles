@@ -164,12 +164,4 @@ return {
       })
     end,
   },
-  {
-    "https://github.com/machakann/vim-sandwich",
-    cond = false,
-    keys = { { "s", "<Nop>", mode = "" } },
-    config = function()
-      vim.g["sandwich#recipes"] = vim.deepcopy(vim.g["sandwich#default_recipes"])
-    end,
-  },
 }
