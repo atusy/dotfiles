@@ -131,7 +131,7 @@ local deps = {
 
   -- windows and buffers
   {
-    "https://github.com/echasnovski/mini.bufremove", -- instead of 'moll/vim-bbye',
+    "https://github.com/echasnovski/mini.bufremove",
     lazy = true,
     init = function()
       add_palette("n", "Bdelete", [[<Cmd>lua require("mini.bufremove").delete()<CR>]])
