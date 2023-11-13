@@ -21,7 +21,6 @@ local deps = {
       require("denops-lazy").setup()
     end,
   },
-  { "https://github.com/kana/vim-submode", enabled = false },
   {
     "https://github.com/delphinus/cellwidths.nvim",
     event = { "BufReadPost", "ModeChanged" },
@@ -87,18 +86,13 @@ local deps = {
     lazy = true,
     init = function()
       set_keymap("n", "<Bar>", function()
-        -- without count, toggle indent_blankline
+        -- without count, toggle indent_blankline. Otherwise fallback to native <Bar>-like behavior
         if vim.v.count == 0 then
           -- must be scheduled to suppress textlock related errors
           require("ibl").update({ enabled = not require("ibl.config").get_config(-1).enabled })
-          return
+        else
+          vim.api.nvim_win_set_cursor(0, { vim.api.nvim_win_get_cursor(0)[1], vim.v.count - 1 })
         end
-
-        -- with count, fallback to native <Bar>-like behavior
-        vim.api.nvim_win_set_cursor(0, {
-          vim.api.nvim_win_get_cursor(0)[1],
-          vim.v.count - 1,
-        })
       end)
     end,
     config = function()
