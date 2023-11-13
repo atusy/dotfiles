@@ -103,11 +103,11 @@ local deps = {
     end,
     config = function()
       local function set_hl()
-        vim.api.nvim_set_hl(0, "IndentBlanklineIndent1", { fg = "#E06C75", nocombine = true })
-        vim.api.nvim_set_hl(0, "IndentBlanklineIndent2", { fg = "#E5C07B", nocombine = true })
-        vim.api.nvim_set_hl(0, "IndentBlanklineIndent3", { fg = "#98C379", nocombine = true })
-        vim.api.nvim_set_hl(0, "IndentBlanklineIndent4", { fg = "#56B6C2", nocombine = true })
-        vim.api.nvim_set_hl(0, "IndentBlanklineIndent5", { fg = "#61AFEF", nocombine = true })
+        vim.api.nvim_set_hl(0, "IBLIndent1", { fg = "#E06C75", nocombine = true })
+        vim.api.nvim_set_hl(0, "IBLIndent2", { fg = "#E5C07B", nocombine = true })
+        vim.api.nvim_set_hl(0, "IBLIndent3", { fg = "#98C379", nocombine = true })
+        vim.api.nvim_set_hl(0, "IBLIndent4", { fg = "#56B6C2", nocombine = true })
+        vim.api.nvim_set_hl(0, "IBLIndent5", { fg = "#61AFEF", nocombine = true })
       end
       vim.api.nvim_create_autocmd("ColorScheme", {
         group = vim.api.nvim_create_augroup("atusy.ibl", {}),
@@ -117,17 +117,9 @@ local deps = {
       require("ibl").setup({
         enabled = false,
         indent = {
-          highlight = {
-            "IndentBlanklineIndent1",
-            "IndentBlanklineIndent2",
-            "IndentBlanklineIndent3",
-            "IndentBlanklineIndent4",
-            "IndentBlanklineIndent5",
-          },
+          highlight = { "IBLIndent1", "IBLIndent2", "IBLIndent3", "IBLIndent4", "IBLIndent5" },
         },
-        scope = {
-          enabled = false,
-        },
+        scope = { enabled = false },
       })
     end,
   },
