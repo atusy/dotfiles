@@ -198,7 +198,7 @@ local deps = {
       -- disable treesitter integration as it becomes very slow somehow...
       require("nvim-treesitter.configs").setup({
         matchup = {
-          enable = false, -- mandatory, false will disable the whole extension
+          enable = true, -- mandatory, false will disable the whole extension
           -- disable = { "c", "ruby" }, -- optional, list of language that will be disabled
           -- [options]
           disable_virtual_text = true,
