@@ -270,7 +270,7 @@ local deps = {
           lualine_y = { { "location" } },
           lualine_z = {},
         },
-        extensions = { "fern" },
+        extensions = {},
       })
     end,
   },
