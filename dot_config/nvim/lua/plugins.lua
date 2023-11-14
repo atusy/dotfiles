@@ -489,7 +489,7 @@ local deps = {
       local parser_config = require("nvim-treesitter.parsers").get_parser_configs()
       local parser_uri = "~/ghq/github.com/atusy/tree-sitter-uri"
       if not vim.uv.fs_stat(parser_uri) then
-        vim.system({ "ghq", "get", "https://github.com/atusy/tree-sitter-uri" }):wait()
+        parser_uri = "https://github.com/atusy/tree-sitter-uri"
       end
       parser_config.uri = {
         install_info = {
