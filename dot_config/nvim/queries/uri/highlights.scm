@@ -1,0 +1,2 @@
+( ( uri ) @comment )
+( ( path ) @text )

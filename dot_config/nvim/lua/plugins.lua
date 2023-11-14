@@ -487,6 +487,20 @@ local deps = {
     config = function()
       local treesitterpath = utils.datapath .. "/treesitter"
       vim.opt.runtimepath:append(treesitterpath)
+      local parser_config = require("nvim-treesitter.parsers").get_parser_configs()
+      local parser_uri = "~/ghq/github.com/atusy/tree-sitter-uri"
+      if not vim.uv.fs_stat(parser_uri) then
+        vim.system({ "ghq", "get", "https://github.com/atusy/tree-sitter-uri" }):wait()
+      end
+      parser_config.uri = {
+        install_info = {
+          url = parser_uri,
+          files = { "src/parser.c" },
+          generate_requires_npm = false, -- if stand-alone parser without npm dependencies
+          requires_generate_from_grammar = false, -- if folder contains pre-generated src/parser.c
+        },
+        filetype = "uri", -- if filetype does not match the parser name
+      }
       require("nvim-treesitter.configs").setup({
         parser_install_dir = treesitterpath,
         ensure_installed = "all",
