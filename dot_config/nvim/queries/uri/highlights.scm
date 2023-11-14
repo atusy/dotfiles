@@ -1,2 +1,2 @@
 ( ( uri ) @comment )
-( ( path ) @text )
+( ( path ) @text (#offset! @text 0 1 0 0))
