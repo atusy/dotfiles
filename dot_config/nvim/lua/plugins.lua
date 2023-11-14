@@ -42,7 +42,6 @@ local deps = {
         0x279c, -- ➜
         0x2717, -- ✗
         0xe727, --  actually 2?
-        0xe795, --  actually 2?
       }, ", ") .. "}")
     end,
   },
