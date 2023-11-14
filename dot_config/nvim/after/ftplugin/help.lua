@@ -1,5 +1,5 @@
 pcall(vim.treesitter.start)
-vim.wo.conceallevel = 0
+vim.wo[0].conceallevel = 0
 
 local function wincmd_L()
   local wins = vim.api.nvim_tabpage_list_wins(0)
