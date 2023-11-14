@@ -1,2 +1,2 @@
-( ( uri ) @comment )
-( ( path ) @text (#offset! @text 0 1 0 0))
+( ( uri ) @text.uri )
+( ( path ) @text.strong (#offset! @text.strong 0 1 0 0))
