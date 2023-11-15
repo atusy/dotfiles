@@ -484,8 +484,11 @@ local deps = {
       end, { desc = "node incremental selection" })
     end,
     config = function()
+      -- install directory of treesitter parsers
       local treesitterpath = utils.datapath .. "/treesitter"
       vim.opt.runtimepath:append(treesitterpath)
+
+      -- add non-official parsers
       local parser_config = require("nvim-treesitter.parsers").get_parser_configs()
       local parser_uri = vim.uv.os_homedir() .. "/ghq/github.com/atusy/tree-sitter-uri"
       if not vim.uv.fs_stat(parser_uri) then
@@ -500,6 +503,8 @@ local deps = {
         },
         filetype = "uri", -- if filetype does not match the parser name
       }
+
+      -- setup
       require("nvim-treesitter.configs").setup({
         parser_install_dir = treesitterpath,
         ensure_installed = "all",
@@ -514,15 +519,13 @@ local deps = {
         indent = { enable = true },
       })
 
-      local register = vim.treesitter.language.register -- since Nvim 0.9
-        or function(lang, ft)
-          require("nvim-treesitter.parsers").filetype_to_parsername[ft] = lang
-        end
-      register("bash", "zsh")
-      register("bash", "sh")
-      register("hcl", "tf")
-      register("diff", "gin-diff")
+      -- register parsers to some other languages
+      vim.treesitter.language.register("bash", "zsh")
+      vim.treesitter.language.register("bash", "sh")
+      vim.treesitter.language.register("hcl", "tf")
+      vim.treesitter.language.register("diff", "gin-diff")
 
+      -- custom highlights
       local function hi()
         vim.api.nvim_set_hl(0, "@illuminate", { bg = "#383D47" })
       end
