@@ -74,6 +74,17 @@ local function telescope_config(_)
           end,
         },
       },
+      preview = {
+        filetype_hook = function(filepath, bufnr, opts)
+          if filepath:match(".*%.png") then
+            -- in general, binary file is not previewed, but git_files try previewing it
+            local putils = require("telescope.previewers.utils")
+            putils.set_preview_message(bufnr, opts.winid, filepath)
+            return false
+          end
+          return true
+        end,
+      },
       dynamic_preview_title = true,
     },
     pickers = {
