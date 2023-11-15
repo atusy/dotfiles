@@ -487,7 +487,7 @@ local deps = {
       local treesitterpath = utils.datapath .. "/treesitter"
       vim.opt.runtimepath:append(treesitterpath)
       local parser_config = require("nvim-treesitter.parsers").get_parser_configs()
-      local parser_uri = "~/ghq/github.com/atusy/tree-sitter-uri"
+      local parser_uri = vim.uv.os_homedir() .. "/ghq/github.com/atusy/tree-sitter-uri"
       if not vim.uv.fs_stat(parser_uri) then
         parser_uri = "https://github.com/atusy/tree-sitter-uri"
       end
