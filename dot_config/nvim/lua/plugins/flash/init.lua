@@ -1,3 +1,8 @@
+---@param lines string[] lines to be searched
+---@param pat string | fun(s: string): number?, number? regex or a function that receives a string to be searched and returns the location of the match
+---@param col1 number? ignore the number of characters in the head of lines[1]
+---@param col2 number? ignore the number of characters in the tail of lines[#lines]
+---@param row number? the line number of the first line
 local function search_lines(lines, pat, col1, col2, row)
   row = row or 0
   col1 = col1 or 0
@@ -13,15 +18,21 @@ local function search_lines(lines, pat, col1, col2, row)
   local n = #lines
   local matches = {}
   for i, line in pairs(lines) do
-    local s = line
-    local col = 0
+    local s = line -- string to be searched
+    local col = 0 -- search from the first character by default
+
+    -- if the last line, ignore tail by co2
     if i == n and col2 > 0 then
-      s = s:sub(0, col2 - 1)
+      s = s:sub(0, col2 - 1) -- do not search beyond col2
     end
+
+    -- if the first line, ignore head by col1
     if i == 1 then
       col = col1
       s = s:sub(col1 + 1)
     end
+
+    -- each iteration trims head of s so to find next match
     while s ~= "" do
       local first, last = match_str(s)
       if not first then
