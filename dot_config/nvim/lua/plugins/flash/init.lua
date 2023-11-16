@@ -1,4 +1,3 @@
-local hl_label = "DiagnosticError"
 return {
   {
     "https://github.com/folke/flash.nvim",
@@ -33,7 +32,10 @@ return {
             mode = "char",
             matcher = matcher,
             labeler = function() end,
-            highlight = { matches = false, groups = { current = hl_label } },
+            highlight = {
+              matches = false,
+              groups = { current = require("flash.config").get().highlight.groups.label },
+            },
           }, conf))
         end)
       end
@@ -69,11 +71,7 @@ return {
           search = { enabled = false },
           treesitter = { enabled = false },
         },
-        highlight = {
-          groups = {
-            label = hl_label,
-          },
-        },
+        highlight = { groups = { label = "DiagnosticError" } },
       })
     end,
   },
