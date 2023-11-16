@@ -99,10 +99,10 @@ vim.opt.guicursor = {
 }
 vim.opt.foldtext = [[v:lua.require("atusy.fold").foldtext()]]
 local function osc52_copy(...)
-  require("vim.clipboard.osc52").copy(...) -- wrapped for lazy loading
+  require("vim.ui.clipboard.osc52").copy(...) -- wrapped for lazy loading
 end
 local function osc52_paste()
-  require("vim.clipboard.osc52").paste() -- wrapped for lazy loading
+  require("vim.ui.clipboard.osc52").paste() -- wrapped for lazy loading
 end
 vim.g.clipboard = {
   name = "OSC 52",
