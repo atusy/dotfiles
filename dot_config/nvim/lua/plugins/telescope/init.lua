@@ -17,12 +17,8 @@ local function telescope_init()
   -- sd is occupied by mini.surround
   vim.keymap.set("n", leader .. "f", telescope("find_files"))
   vim.keymap.set("n", leader .. "g", telescope("live_grep"))
-  local lazy_all = true
   vim.keymap.set("n", leader .. "h", function()
-    if lazy_all then
-      pcall(require("lazy").load, { plugins = require("lazy").plugins() })
-      lazy_all = false
-    end
+    require("atusy.lazy").load_all()
     require("telescope.builtin").help_tags()
   end, { desc = "Telescope lazy help_tags" })
   vim.keymap.set("n", leader .. "o", function()
@@ -30,6 +26,7 @@ local function telescope_init()
   end, { desc = "Telescope custom outline" })
   -- sr is occupied by mini.surround
   vim.keymap.set("n", leader .. "s", function()
+    require("atusy.lazy").load_all()
     local failed = require("atusy.keymap.palette").update()
     -- local failed = require("atusy.utils").update_palette()
     if #failed > 0 then

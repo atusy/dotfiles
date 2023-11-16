@@ -12,4 +12,12 @@ function M.install(lazypath)
   return cmd:wait()
 end
 
+local lazy_all = true
+function M.load_all()
+  if lazy_all then
+    pcall(require("lazy").load, { plugins = require("lazy").plugins() })
+    lazy_all = false
+  end
+end
+
 return M

@@ -1,5 +1,4 @@
 local utils = require("atusy.utils")
-local add_palette = require("atusy.keymap.palette").add_item
 local set_keymap = vim.keymap.set
 
 vim.api.nvim_create_autocmd("User", {
@@ -132,9 +131,9 @@ local deps = {
   {
     "https://github.com/echasnovski/mini.bufremove",
     lazy = true,
-    init = function()
-      add_palette("n", "Bdelete", [[<Cmd>lua require("mini.bufremove").delete()<CR>]])
-      add_palette("n", "Bwipeout", [[<Cmd>lua require("mini.bufremove").wipeout()<CR>]])
+    config = function()
+      require("atusy.keymap.palette").add_item("n", "Bdelete", [[<Cmd>lua require("mini.bufremove").delete()<CR>]])
+      require("atusy.keymap.palette").add_item("n", "Bwipeout", [[<Cmd>lua require("mini.bufremove").wipeout()<CR>]])
     end,
   },
   -- 'mhinz/vim-sayonara',
@@ -142,8 +141,8 @@ local deps = {
   {
     "https://github.com/m00qek/baleia.nvim",
     lazy = true,
-    init = function()
-      add_palette("n", "parse ANSI escape sequences", function()
+    config = function()
+      require("atusy.keymap.palette").add_item("n", "parse ANSI escape sequences", function()
         require("baleia").setup().once(vim.api.nvim_get_current_buf())
       end)
     end,
@@ -210,13 +209,19 @@ local deps = {
   {
     "https://github.com/Wansmer/treesj",
     lazy = true,
-    init = function()
-      -- treesj does not support visual mode, so leave the mode and use cursor as the node indicator
-      add_palette("", "join lines based on AST", [[<C-\><C-N>:lua require('treesj').join()<CR>]])
-      add_palette("", "split lines based on AST", [[<C-\><C-N>:lua require('treesj').split()<CR>]])
-    end,
     config = function()
       require("treesj").setup({ use_default_keymaps = false })
+      -- treesj does not support visual mode, so leave the mode and use cursor as the node indicator
+      require("atusy.keymap.palette").add_item(
+        "",
+        "join lines based on AST",
+        [[<C-\><C-N>:lua require('treesj').join()<CR>]]
+      )
+      require("atusy.keymap.palette").add_item(
+        "",
+        "split lines based on AST",
+        [[<C-\><C-N>:lua require('treesj').split()<CR>]]
+      )
     end,
   },
   {
