@@ -1,20 +1,3 @@
-local function kensaku_query(pat)
-  local str = pat
-  local query = ""
-  for _ = 1, #str do
-    local left, right = string.find(str, " +", 0, false)
-    if left == nil then
-      return query .. vim.fn["kensaku#query"](str)
-    end
-    if left > 1 then
-      query = query .. vim.fn["kensaku#query"](string.sub(str, 1, left - 1))
-    end
-    query = query .. string.rep([[\(\s\|　\)]], right - left + 1)
-    str = string.sub(str, right + 1)
-  end
-  return query
-end
-
 local function search_lines(lines, pat, col1, col2, row)
   row = row or 0
   col1 = col1 or 0
@@ -90,7 +73,7 @@ local function sort(tbl, win)
 end
 
 local function conv_default(str)
-  return [[\c]] .. kensaku_query(str)
+  return [[\c]] .. require("plugins.flash.query").kensaku(str)
 end
 
 local function char_matcher(conv, forward, cache)
@@ -209,9 +192,11 @@ return {
       }
 
       for k, conf in pairs(motions) do
-        local conv = k == "t" and function(x)
-          return "." .. kensaku_query(x)
-        end or kensaku_query
+        local conv = k == "t"
+            and function(x)
+              return "." .. require("plugins.flash.query").kensaku(x)
+            end
+          or require("plugins.flash.query").kensaku
         local matcher = char_matcher(conv, k == "f" or k == "t")
         vim.keymap.set({ "n", "x", "o" }, k, function()
           require("flash").jump(vim.tbl_extend("force", {
