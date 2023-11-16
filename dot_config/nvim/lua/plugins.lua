@@ -311,90 +311,12 @@ local deps = {
     end,
   },
   {
-    "https://github.com/ggandor/leap-ast.nvim", -- prefer nvim-treehopper
-    dependencies = { "https://github.com/ggandor/leap.nvim" },
-    lazy = true,
-  },
-  -- 'ggandor/flit.nvim',
-  {
-    "https://github.com/atusy/leap-wide.nvim",
-    lazy = true,
-  },
-  {
     "https://github.com/rapan931/lasterisk.nvim",
     lazy = true,
-  },
-  {
-    "https://github.com/atusy/leap-search.nvim",
-    lazy = true,
-    dependencies = { "https://github.com/rapan931/lasterisk.nvim", "https://github.com/RRethy/vim-illuminate" },
     init = function()
-      local function search(back)
-        local pat = vim.fn.getreg("/")
-        if vim.o.hlsearch then
-          vim.o.hlsearch = false
-          vim.o.hlsearch = true
-        end
-        local leapable = require("leap-search").leap(pat, {}, { backward = back })
-        if not leapable then
-          vim.cmd("normal! " .. (back and "N" or "n"))
-        end
-      end
-
-      set_keymap("n", "gn", function()
-        search()
-      end)
-      set_keymap("n", "gN", function()
-        search(true)
-      end)
-
-      local function search_win()
-        local pat = vim.fn.getreg("/")
-        require("leap-search").leap(pat, {}, { target_windows = { vim.api.nvim_get_current_win() } })
-      end
-
-      local function search_ref()
-        local ref = require("illuminate.reference").buf_get_references(vim.api.nvim_get_current_buf())
-        if not ref or #ref == 0 then
-          return false
-        end
-
-        local targets = {}
-        for _, v in pairs(ref) do
-          table.insert(targets, {
-            pos = { v[1][1] + 1, v[1][2] + 1 },
-          })
-        end
-
-        require("leap").leap({ targets = targets, target_windows = { vim.api.nvim_get_current_win() } })
-
-        return true
-      end
-
-      set_keymap("n", "<Plug>(leap-prefix)*", search_win)
-      set_keymap("n", "*", [[<Cmd>lua require("lasterisk").search()<CR><Plug>(leap-prefix)]])
-      set_keymap("n", "g*", [[<Cmd>lua require("lasterisk").search({ is_whole = false })<CR><Plug>(leap-prefix)]])
-      set_keymap("x", "*", function()
-        require("lasterisk").search({ is_whole = false })
-        return "<C-\\><C-N>"
-      end, { expr = true })
-
-      set_keymap("n", "#", function()
-        if search_ref() then
-          return
-        end
-        require("lasterisk").search()
-        search_win()
-      end)
-      set_keymap("x", "#", function()
-        require("lasterisk").search({ is_whole = false })
-        vim.schedule(search_win)
-        return "<C-\\><C-N>"
-      end, { expr = true })
-      set_keymap("n", "g#", function()
-        require("lasterisk").search({ is_whole = false })
-        search_win()
-      end)
+      set_keymap("n", "*", [[<Cmd>lua require("lasterisk").search()<CR>]])
+      set_keymap("n", "g*", [[<Cmd>lua require("lasterisk").search({ is_whole = false })<CR>]])
+      set_keymap("x", "*", [[<Cmd>lua require("lasterisk").search({ is_whole = false })<CR><C-\><C-N>]])
     end,
   },
 
