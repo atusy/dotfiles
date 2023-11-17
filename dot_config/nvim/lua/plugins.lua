@@ -341,74 +341,8 @@ local deps = {
     build = ":TSUpdate",
     event = { "BufReadPost", "BufNewFile" },
     init = function()
-      local function is_inner(x, y)
-        if x[1] < y[1] then
-          return false
-        end
-        if (x[1] == y[1]) and (x[2] < y[2]) then
-          return false
-        end
-        if x[3] > y[3] then
-          return false
-        end
-        if (x[3] == y[3]) and (x[4] > y[4]) then
-          return false
-        end
-        return true
-      end
-
-      local function is_same(x, y)
-        for i, v in pairs(x) do
-          if v ~= y[i] then
-            return false
-          end
-        end
-        return true
-      end
-
-      local function get_node_range(node)
-        return { vim.treesitter.get_node_range(node) }
-      end
-
-      local function get_curpos()
-        local p = vim.api.nvim_win_get_cursor(0)
-        return p[1] - 1, p[2] + 1
-      end
-
-      local function get_vrange()
-        local r1, c1 = get_curpos()
-        vim.cmd("normal! o")
-        local r2, c2 = get_curpos()
-        vim.cmd("normal! o")
-        if (r1 == r2) and (c1 == c2) then
-          return { r1, c1, r2, c2 }
-        end
-        if (r1 < r2) or ((r1 == r2) and (c1 < c2)) then
-          return { r1, c1 - 1, r2, c2 }
-        end
-        return { r2, c2 - 1, r1, c1 }
-      end
-
-      set_keymap("x", "v", function()
-        local ts_utils = require("nvim-treesitter.ts_utils")
-        local vrange = get_vrange()
-        local node = ts_utils.get_node_at_cursor()
-        local nrange = get_node_range(node)
-
-        local parent
-        while true do
-          if is_inner(vrange, nrange) and not is_same(vrange, nrange) then
-            break
-          end
-          parent = node:parent()
-          if parent == nil then
-            break
-          end
-          node = parent
-          nrange = get_node_range(node)
-        end
-        ts_utils.update_selection(0, node)
-      end, { desc = "node incremental selection" })
+      vim.keymap.set("x", "v", "<Plug>(ts-node-inc)", {})
+      vim.keymap.set("x", " v", "<Plug>(ts-node-desc)", {})
     end,
     config = function()
       -- install directory of treesitter parsers
@@ -444,6 +378,15 @@ local deps = {
           additional_vim_regex_highlighting = false,
         },
         indent = { enable = true },
+        incremental_selection = {
+          enable = true,
+          keymaps = {
+            init_selection = false,
+            node_incremental = "<Plug>(ts-node-inc)",
+            scope_incremental = false,
+            node_decremental = "<Plug>(ts-node-desc)",
+          },
+        },
       })
 
       -- register parsers to some other languages
