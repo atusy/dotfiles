@@ -364,6 +364,14 @@ local deps = {
         },
         filetype = "uri", -- if filetype does not match the parser name
       }
+      parser_config.unifieddiff = {
+        install_info = {
+          url = "https://github.com/monaqa/tree-sitter-unifieddiff",
+          -- url = "~/ghq/github.com/monaqa/tree-sitter-unifieddiff",
+          files = { "src/parser.c", "src/scanner.c" },
+        },
+        filetype = "diff", -- if filetype does not agrees with parser name
+      }
 
       -- setup
       require("nvim-treesitter.configs").setup({
@@ -393,7 +401,7 @@ local deps = {
       vim.treesitter.language.register("bash", "zsh")
       vim.treesitter.language.register("bash", "sh")
       vim.treesitter.language.register("hcl", "tf")
-      vim.treesitter.language.register("diff", "gin-diff")
+      vim.treesitter.language.register("unifieddiff", "gin-diff")
 
       -- custom highlights
       local function hi()
