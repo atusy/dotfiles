@@ -672,7 +672,7 @@ local deps = {
     "https://github.com/phelipetls/jsonpath.nvim",
     ft = "json",
     config = function()
-      add_palette("n", "clipboard json path", function()
+      require("atusy.keymap.palette").add_item("n", "clipboard json path", function()
         local path = require("jsonpath").get()
         vim.fn.setreg("+", path)
         vim.notify("jsonpath: " .. path)
