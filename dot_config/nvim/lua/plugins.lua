@@ -116,11 +116,8 @@ local deps = {
     end,
   },
   {
-    "https://github.com/xiyaowong/nvim-transparent", -- not so good with styler.nvim
-    cmd = "TransparentToggle",
-    config = function()
-      require("transparent").setup({})
-    end,
+    "https://github.com/xiyaowong/nvim-transparent", -- prefer atusy.highlight to work well with styler.nvim
+    lazy = true, -- , just to watch repo
   },
   -- "https://github.com/MunifTanjim/nui.nvim",
   -- "https://github.com/rcarriga/nvim-notify",
