@@ -462,9 +462,7 @@ local deps = {
     dependencies = { "https://github.com/nvim-treesitter/nvim-treesitter" },
     lazy = true,
     init = function()
-      set_keymap("n", " rn", function()
-        require("nvim-treesitter-refactor.smart_rename").smart_rename(0)
-      end)
+      set_keymap("n", " rn", [[<Cmd>lua require("nvim-treesitter-refactor.smart_rename").smart_rename(0)<CR>]], {})
     end,
   },
   -- 'haringsrob/nvim_context_vt',
