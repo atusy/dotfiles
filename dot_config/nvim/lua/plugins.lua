@@ -179,14 +179,7 @@ local deps = {
       vim.g.matchup_matchparen_offscreen = { method = "status_manual" }
       -- disable treesitter integration as it becomes very slow somehow...
       require("nvim-treesitter.configs").setup({
-        matchup = {
-          enable = true, -- mandatory, false will disable the whole extension
-          -- disable = { "c", "ruby" }, -- optional, list of language that will be disabled
-          -- [options]
-          disable_virtual_text = true,
-          include_match_words = true,
-          enable_quotes = true,
-        },
+        matchup = { enable = true, disable_virtual_text = true, include_match_words = true, enable_quotes = true },
       })
     end,
   },
