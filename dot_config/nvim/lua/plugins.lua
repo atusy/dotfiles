@@ -3,8 +3,7 @@ local utils = require("atusy.utils")
 vim.api.nvim_create_autocmd("User", {
   pattern = { "LazyInstall", "LazyUpdate", "LazySync", "LazyClean" },
   callback = function()
-    local lockfile = "~/.config/nvim/lazy-lock.json"
-    vim.system({ "chezmoi", "add", lockfile })
+    vim.system({ "chezmoi", "add", require("lazy.core.config").options.lockfile })
   end,
 })
 
