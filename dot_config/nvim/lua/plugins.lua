@@ -113,10 +113,6 @@ local deps = {
     end,
   },
   { "https://github.com/xiyaowong/nvim-transparent", lazy = true }, -- watch, but use atusy.highlight to support styler.nvim
-  -- "https://github.com/MunifTanjim/nui.nvim",
-  -- "https://github.com/rcarriga/nvim-notify",
-  -- "https://github.com/folke/noice.nvim",
-  -- "https://github.com/stevearc/stickybuf.nvim",
 
   -- windows and buffers
   {
@@ -127,8 +123,6 @@ local deps = {
       require("atusy.keymap.palette").add_item("n", "Bwipeout", [[<Cmd>lua require("mini.bufremove").wipeout()<CR>]])
     end,
   },
-  -- 'mhinz/vim-sayonara',
-  -- { 'stevearc/stickybuf.nvim' },
   {
     "https://github.com/m00qek/baleia.nvim",
     lazy = true,
