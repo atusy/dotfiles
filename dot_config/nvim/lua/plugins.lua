@@ -1,5 +1,4 @@
 local utils = require("atusy.utils")
-local set_keymap = vim.keymap.set
 
 vim.api.nvim_create_autocmd("User", {
   pattern = { "LazyInstall", "LazyUpdate", "LazySync", "LazyClean" },
@@ -52,9 +51,9 @@ local deps = {
     dependencies = { "https://github.com/JoosepAlviste/nvim-ts-context-commentstring" },
     lazy = true,
     init = function()
-      set_keymap("n", "gcc", [[<Cmd>lua require("Comment.api").toggle.linewise.current()<CR>]])
-      set_keymap("x", "gc", [[<Esc><Cmd>lua require("Comment.api").toggle.linewise(vim.fn.visualmode())<CR>]])
-      set_keymap("x", "gb", [[<Esc><Cmd>lua require("Comment.api").toggle.blockwise(vim.fn.visualmode())<CR>]])
+      vim.keymap.set("n", "gcc", [[<Cmd>lua require("Comment.api").toggle.linewise.current()<CR>]])
+      vim.keymap.set("x", "gc", [[<Esc><Cmd>lua require("Comment.api").toggle.linewise(vim.fn.visualmode())<CR>]])
+      vim.keymap.set("x", "gb", [[<Esc><Cmd>lua require("Comment.api").toggle.blockwise(vim.fn.visualmode())<CR>]])
     end,
     config = function()
       require("Comment").setup({
@@ -83,7 +82,7 @@ local deps = {
     "https://github.com/lukas-reineke/indent-blankline.nvim",
     lazy = true,
     init = function()
-      set_keymap("n", "<Bar>", function()
+      vim.keymap.set("n", "<Bar>", function()
         -- without count, toggle indent_blankline. Otherwise fallback to native <Bar>-like behavior
         if vim.v.count == 0 then
           -- must be scheduled to suppress textlock related errors
@@ -316,9 +315,9 @@ local deps = {
     "https://github.com/rapan931/lasterisk.nvim",
     lazy = true,
     init = function()
-      set_keymap("n", "*", [[<Cmd>lua require("lasterisk").search()<CR>]])
-      set_keymap("n", "g*", [[<Cmd>lua require("lasterisk").search({ is_whole = false })<CR>]])
-      set_keymap("x", "*", [[<Cmd>lua require("lasterisk").search({ is_whole = false })<CR><C-\><C-N>]])
+      vim.keymap.set("n", "*", [[<Cmd>lua require("lasterisk").search()<CR>]])
+      vim.keymap.set("n", "g*", [[<Cmd>lua require("lasterisk").search({ is_whole = false })<CR>]])
+      vim.keymap.set("x", "*", [[<Cmd>lua require("lasterisk").search({ is_whole = false })<CR><C-\><C-N>]])
     end,
   },
 
@@ -462,7 +461,7 @@ local deps = {
     dependencies = { "https://github.com/nvim-treesitter/nvim-treesitter" },
     lazy = true,
     init = function()
-      set_keymap("n", " rn", [[<Cmd>lua require("nvim-treesitter-refactor.smart_rename").smart_rename(0)<CR>]], {})
+      vim.keymap.set("n", " rn", [[<Cmd>lua require("nvim-treesitter-refactor.smart_rename").smart_rename(0)<CR>]], {})
     end,
   },
   -- 'haringsrob/nvim_context_vt',
@@ -492,8 +491,8 @@ local deps = {
         hi()
         return ":<C-U>lua require('tsht').nodes({ignore_injections = false})<CR>"
       end
-      set_keymap("o", "m", tsht, { expr = true, silent = true })
-      set_keymap("x", "m", tsht, { expr = true, silent = true })
+      vim.keymap.set("o", "m", tsht, { expr = true, silent = true })
+      vim.keymap.set("x", "m", tsht, { expr = true, silent = true })
       local function zc(n)
         -- with count, use zc
         if (n or vim.v.count) > 0 then
@@ -512,8 +511,8 @@ local deps = {
           vim.cmd("normal! zxgvzf")
         end
       end
-      set_keymap("n", "zc", zc)
-      set_keymap("n", "zf", function()
+      vim.keymap.set("n", "zc", zc)
+      vim.keymap.set("n", "zf", function()
         -- zc if foldmethod is expr
         if vim.api.nvim_get_option_value("foldmethod", {}) == "expr" then
           zc(vim.v.count)
@@ -538,6 +537,7 @@ local deps = {
   {
     "https://github.com/atusy/tsnode-marker.nvim",
     lazy = true,
+    dev = true,
     init = function()
       vim.api.nvim_create_autocmd("FileType", {
         group = utils.augroup,
@@ -553,7 +553,7 @@ local deps = {
       })
       vim.api.nvim_create_autocmd("FileType", {
         group = utils.augroup,
-        pattern = { "lua", "python", "go" },
+        pattern = { "python", "go" },
         callback = function(ctx)
           local function is_def(n)
             return vim.tbl_contains({
@@ -615,8 +615,8 @@ local deps = {
     keys = { "<C-T>", { " <CR>", mode = { "n", "x" } } },
     cmd = { "ToggleTermSendCurrentLine", "ToggleTermSendVisualSelection" },
     config = function()
-      set_keymap("n", " <CR>", ":ToggleTermSendCurrentLine<CR>")
-      set_keymap("x", " <CR>", ":ToggleTermSendVisualSelection<CR>gv<Esc>")
+      vim.keymap.set("n", " <CR>", ":ToggleTermSendCurrentLine<CR>")
+      vim.keymap.set("x", " <CR>", ":ToggleTermSendVisualSelection<CR>gv<Esc>")
       require("toggleterm").setup({
         open_mapping = "<C-T>",
         insert_mappings = false,
