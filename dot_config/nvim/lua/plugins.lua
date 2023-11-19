@@ -7,7 +7,7 @@ vim.api.nvim_create_autocmd("User", {
   end,
 })
 
-local deps = {
+return {
   -- basic dependencies
   "https://github.com/tpope/vim-repeat",
   "https://github.com/vim-denops/denops.vim",
@@ -628,5 +628,3 @@ local deps = {
     ft = "qf",
   },
 }
-
-return deps
