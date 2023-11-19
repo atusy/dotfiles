@@ -112,10 +112,7 @@ local deps = {
       })
     end,
   },
-  {
-    "https://github.com/xiyaowong/nvim-transparent", -- prefer atusy.highlight to work well with styler.nvim
-    lazy = true, -- , just to watch repo
-  },
+  { "https://github.com/xiyaowong/nvim-transparent", lazy = true }, -- watch, but use atusy.highlight to support styler.nvim
   -- "https://github.com/MunifTanjim/nui.nvim",
   -- "https://github.com/rcarriga/nvim-notify",
   -- "https://github.com/folke/noice.nvim",
