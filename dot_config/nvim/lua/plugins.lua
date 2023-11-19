@@ -149,7 +149,6 @@ local deps = {
       end, { expr = true })
     end,
   },
-  { "https://github.com/folke/zen-mode.nvim", cmd = "ZenMode" },
   { "https://github.com/thinca/vim-qfreplace", cmd = "Qfreplace" },
 
   -- better something
