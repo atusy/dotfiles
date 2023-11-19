@@ -266,33 +266,6 @@ local deps = {
     },
   },
   {
-    "https://github.com/ggandor/leap.nvim",
-    lazy = true,
-    config = function()
-      -- LeapBackdrop highlight is defined at colorscheme.lua
-      local function hi(_)
-        require("leap").init_highlight(true)
-        vim.api.nvim_set_hl(0, "LeapBackdrop", { link = "Comment" })
-      end
-
-      vim.api.nvim_create_autocmd("User", { pattern = "LeapEnter", group = utils.augroup, callback = hi })
-
-      require("leap").setup({
-        safe_labels = { "s" },
-        special_keys = {
-          repeat_search = "<enter>",
-          next_phase_one_target = "<enter>",
-          next_target = { "<enter>", ";" },
-          prev_target = { "<tab>", "," },
-          next_group = "<tab>",
-          prev_group = "<s-tab>",
-          multi_accept = "<enter>",
-          multi_revert = "<backspace>",
-        },
-      })
-    end,
-  },
-  {
     "https://github.com/rapan931/lasterisk.nvim",
     lazy = true,
     init = function()
