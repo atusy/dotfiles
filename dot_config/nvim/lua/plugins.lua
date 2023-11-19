@@ -325,12 +325,9 @@ local deps = {
   -- treesitter
   {
     "https://github.com/JoosepAlviste/nvim-ts-context-commentstring",
-    dependencies = { "https://github.com/nvim-treesitter/nvim-treesitter" },
     lazy = true, -- will be loaded via Comment.nvim
     config = function()
-      require("nvim-treesitter.configs").setup({
-        context_commentstring = { enable = true, enable_autocmd = false },
-      })
+      require("ts_context_commentstring").setup({ enable_autocmd = false })
     end,
   },
   {
