@@ -107,9 +107,7 @@ local deps = {
       set_hl()
       require("ibl").setup({
         enabled = false,
-        indent = {
-          highlight = { "IBLIndent1", "IBLIndent2", "IBLIndent3", "IBLIndent4", "IBLIndent5" },
-        },
+        indent = { highlight = { "IBLIndent1", "IBLIndent2", "IBLIndent3", "IBLIndent4", "IBLIndent5" } },
         scope = { enabled = false },
       })
     end,
