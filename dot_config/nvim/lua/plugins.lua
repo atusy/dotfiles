@@ -421,7 +421,7 @@ local deps = {
   -- 'haringsrob/nvim_context_vt',
   {
     "https://github.com/romgrk/nvim-treesitter-context",
-    event = "BufReadPre",
+    event = "CursorHold",
     config = function()
       require("treesitter-context").setup({
         enable = true,
