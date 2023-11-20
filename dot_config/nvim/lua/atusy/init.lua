@@ -1,6 +1,4 @@
 --[[ TODO
-https://github.com/mhinz/vim-galore#saner-behavior-of-n-and-n
-https://github.com/sumneko/lua-language-server/wiki/Annotations
 https://qiita.com/delphinus/items/fb905e452b2de72f1a0f
 https://zenn.dev/nnsnico/articles/customize-lsp-handler
 https://dev.classmethod.jp/articles/eetann-change-neovim-lsp-diagnostics-format/
@@ -18,37 +16,23 @@ use { 'skanehira/denops-silicon.vim',
 use { 'skanehira/denops-translate.vim',
 use { 'thinca/vim-quickrun',
 use { 'thinca/vim-themis' }
-use { 'tyru/open-browser-github.vim' }
-use { 'windwp/nvim-autopairs',
 
-https://github.com/monaqa/dial.nvim
-https://github.com/anuvyklack/hydra.nvim
 https://github.com/tani/glance-vim
-https://github.com/folke/trouble.nvim
-https://github.com/folke/which-key.nvim
-https://github.com/rcarriga/nvim-notify
-https://github.com/folke/noice.nvim
 https://github.com/folke/todo-comments.nvim
 https://github.com/simrat39/symbols-outline.nvim
-https://github.com/kylechui/nvim-surround
 https://github.com/edluffy/hologram.nvim
 https://github.com/delphinus/ddc-treesitter
 https://github.com/Afourcat/treesitter-terraform-doc.nvim
 https://github.com/nullchilly/fsread.nvim
 https://github.com/joechrisellis/lsp-format-modifications.nvim
 
-https://github.com/monaqa/tree-sitter-unifieddiff
 https://github.com/thinca/modesearch.vim
 https://github.com/thinca/vim-partedit
 https://github.com/uga-rosa/ccc.nvim
-https://github.com/matsui54/ddc-buffer
-https://github.com/David-Kunz/markid
 https://github.com/stevearc/dressing.nvim
 https://github.com/hrsh7th/nvim-gtd
-https://github.com/hrsh7th/vim-searchx
 https://github.com/b0o/SchemaStore.nvim
 https://github.com/gaoDean/autolist.nvim
-https://github.com/Exafunction/codeium.vim
 ]]
 
 -- [[ helpers ]]
