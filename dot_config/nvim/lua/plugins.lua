@@ -435,47 +435,20 @@ return {
     "https://github.com/mfussenegger/nvim-treehopper",
     lazy = true,
     init = function()
-      local function hi()
-        vim.api.nvim_set_hl(0, "TSNodeUnmatched", { link = "Comment" })
-        vim.api.nvim_set_hl(0, "TSNodeKey", { link = "IncSearch" })
-      end
-      local function tsht()
-        hi()
-        return ":<C-U>lua require('tsht').nodes({ignore_injections = false})<CR>"
-      end
-      vim.keymap.set("o", "m", tsht, { expr = true, silent = true })
-      vim.keymap.set("x", "m", tsht, { expr = true, silent = true })
-      local function zc(n)
-        -- with count, use zc
-        if (n or vim.v.count) > 0 then
-          vim.cmd("normal! " .. vim.v.count .. "zc")
-          return
-        end
-
-        -- without count, use tsht to select a resion to close or create one
-        -- make sure foldexpr is updated by zx
-        hi()
-        require("tsht").nodes({ ignore_injections = false })
-        local ok = pcall(function()
-          vim.cmd("normal! Vzxzc")
-        end)
-        if not ok then
-          vim.cmd("normal! zxgvzf")
-        end
-      end
-      vim.keymap.set("n", "zc", zc)
+      vim.keymap.set(
+        { "x", "o" },
+        "m",
+        ":<C-U>lua require('tsht').nodes({ignore_injections = false})<CR>", -- must exit visual mode
+        { silent = true }
+      )
       vim.keymap.set("n", "zf", function()
-        -- zc if foldmethod is expr
-        if vim.api.nvim_get_option_value("foldmethod", {}) == "expr" then
-          zc(vim.v.count)
-          return
-        end
-
-        -- create fold
-        hi()
         require("tsht").nodes({ ignore_injections = false })
         vim.cmd("normal! Vzf")
       end, { silent = true })
+    end,
+    config = function()
+      vim.api.nvim_set_hl(0, "TSNodeUnmatched", { link = "Comment" })
+      vim.api.nvim_set_hl(0, "TSNodeKey", { link = "IncSearch" })
     end,
   },
   {
