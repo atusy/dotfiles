@@ -57,33 +57,36 @@ local utils = require("atusy.utils").require("atusy.utils") -- force reloading s
 utils.setup()
 
 --[[ options ]]
-vim.opt.exrc = true
-vim.opt.updatetime = 250
-
--- statuscolumn
-vim.opt.signcolumn = "yes"
-
--- window
-vim.opt.splitright = true
-vim.opt.splitbelow = true
+-- global
 vim.opt.backspace = { "indent", "eol", "start" }
-vim.opt.breakindent = true
-vim.opt.fillchars = "eob: "
-vim.opt.virtualedit = "block"
-
--- buffer
-vim.opt.autoread = true
+vim.opt.exrc = true
+vim.opt.grepprg = [[rg --glob "!.git" --no-heading --vimgrep --follow $*]]
+vim.opt.grepformat = vim.opt.grepformat ^ { "%f:%l:%c:%m" }
+vim.opt.guicursor = {
+  [[n-v-c:block,i-ci-ve:ver25,r-cr:hor20,o:hor50]],
+  [[a:blinkwait700-blinkoff400-blinkon250-Cursor/lCursor]],
+  [[sm:block-blinkwait175-blinkoff150-blinkon175]],
+}
+vim.opt.ignorecase = true
 vim.opt.matchtime = 1
-vim.opt.matchpairs:append(
-  [[<:>,「:」,（:）,『:』,【:】,《:》,〈:〉,｛:｝,［:］,【:】,‘:’,“:”]]
-)
 vim.opt.mouse = "a"
 vim.opt.pumheight = 10
 vim.opt.pumblend = 25
-vim.opt.winblend = 25
-vim.opt.pumheight = 10
 vim.opt.showmode = false
+vim.opt.smoothscroll = true
+vim.opt.smartcase = true
+vim.opt.shell = "zsh"
+vim.opt.splitright = true
+vim.opt.splitbelow = true
 vim.opt.termguicolors = true
+vim.opt.updatetime = 250
+
+-- window
+vim.opt.signcolumn = "yes"
+vim.opt.breakindent = true
+vim.opt.cursorline = true
+vim.opt.fillchars = "eob: "
+vim.opt.foldtext = [[v:lua.require("atusy.fold").foldtext()]]
 vim.opt.list = true
 vim.opt.listchars = {
   tab = "▸▹┊",
@@ -91,33 +94,19 @@ vim.opt.listchars = {
   extends = "»",
   precedes = "«",
 }
-vim.opt.cursorline = true
-vim.opt.guicursor = {
-  [[n-v-c:block,i-ci-ve:ver25,r-cr:hor20,o:hor50]],
-  [[a:blinkwait700-blinkoff400-blinkon250-Cursor/lCursor]],
-  [[sm:block-blinkwait175-blinkoff150-blinkon175]],
-}
-vim.opt.foldtext = [[v:lua.require("atusy.fold").foldtext()]]
+vim.opt.virtualedit = "block"
+vim.opt.winblend = 25
 
--- search
-vim.opt.ignorecase = true
-vim.opt.smartcase = true
-vim.opt.hlsearch = true
-vim.opt.showmatch = true
-vim.opt.incsearch = true
-
--- tab and indent
-vim.opt.tabstop = 2
-vim.opt.softtabstop = 2
-vim.opt.shiftwidth = 2
+-- buffer
+vim.opt.autoread = true
 vim.opt.expandtab = true
-vim.opt.autoindent = true
+vim.opt.matchpairs:append(
+  [[<:>,「:」,（:）,『:』,【:】,《:》,〈:〉,｛:｝,［:］,【:】,‘:’,“:”]]
+)
+vim.opt.shiftwidth = 2
 vim.opt.smartindent = true
-
--- others
-vim.opt.shell = "zsh"
-vim.opt.grepprg = [[rg --glob "!.git" --no-heading --vimgrep --follow $*]]
-vim.opt.grepformat = vim.opt.grepformat ^ { "%f:%l:%c:%m" }
+vim.opt.softtabstop = 2
+vim.opt.tabstop = 2
 
 --[[ commands ]]
 vim.api.nvim_create_user_command("W", "write !sudo tee % >/dev/null", {})
