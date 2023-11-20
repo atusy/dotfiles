@@ -465,6 +465,30 @@ return {
     dev = true,
     init = function()
       vim.api.nvim_create_autocmd("FileType", {
+        desc = "High-level reproduction of highlights by delta via GinDiff",
+        group = utils.augroup,
+        pattern = "gin-diff",
+        callback = function(ctx)
+          local nm = vim.api.nvim_buf_get_name(ctx.buf)
+          if not nm:match("processor=delta") then
+            return
+          end
+          vim.api.nvim_set_hl(0, "DeltaLineAdded", { fg = "#FFFFFF", bg = "#002800" })
+          vim.api.nvim_set_hl(0, "DeltaLineDeleted", { fg = "#FFFFFF", bg = "#3f0001" })
+          require("tsnode-marker").set_automark(ctx.buf, {
+            target = { "line_deleted", "line_added" },
+            hl_group = function(_, node)
+              local t = node:type()
+              return ({
+                line_added = "DeltaLineAdded",
+                line_deleted = "DeltaLineDeleted",
+              })[t] or "None"
+            end,
+            priority = 101, -- to override treesitter highlighting
+          })
+        end,
+      })
+      vim.api.nvim_create_autocmd("FileType", {
         group = utils.augroup,
         pattern = "markdown",
         callback = function(ctx)
