@@ -148,6 +148,7 @@ set_keymap("i", "<Left>", "<C-G>U<Left>")
 set_keymap("i", "<Right>", "<C-G>U<Right>")
 
 -- mappings: register
+set_keymap({ "n", "x" }, "-", '"_')
 set_keymap({ "n", "x" }, "x", '"_x')
 set_keymap({ "n", "x" }, "X", '"_X')
 set_keymap({ "n", "x" }, "gy", '"+y')
