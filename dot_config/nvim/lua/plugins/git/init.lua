@@ -81,7 +81,7 @@ local function setup_gin()
   local processor = nil
   if has_delta then
     processor = "delta --no-gitconfig --diff-highlight --keep-plus-minus-markers"
-    vim.g.gin_diff_presistent_args = { "++processor=" .. processor }
+    vim.g.gin_diff_persistent_args = { "++processor=" .. processor }
   end
   require("gintonic").setup({
     params = {
