@@ -254,7 +254,6 @@ return {
       })
     end,
   },
-  -- use 'b0o/incline.nvim' -- TODO
 
   -- motion
   {

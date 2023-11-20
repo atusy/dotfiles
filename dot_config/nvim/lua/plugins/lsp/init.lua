@@ -200,7 +200,6 @@ return {
   {
     "https://github.com/j-hui/fidget.nvim",
     event = "LspAttach",
-    branch = "legacy",
     config = function()
       require("fidget").setup()
     end,
