@@ -80,7 +80,7 @@ local function setup_gin()
   -- disable delta as <CR> won't work
   local processor = nil
   if has_delta then
-    processor = "delta --no-gitconfig --diff-highlight --keep-plus-minus-markers"
+    processor = "delta --no-gitconfig --color-only"
     vim.g.gin_diff_persistent_args = { "++processor=" .. processor }
   end
   require("gintonic").setup({
