@@ -78,6 +78,7 @@ vim.opt.listchars = {
   extends = "»",
   precedes = "«",
 }
+vim.opt.smoothscroll = true
 vim.opt.virtualedit = "block"
 vim.opt.winblend = 25
 
