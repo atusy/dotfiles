@@ -69,8 +69,8 @@ function M.char_matcher(conv, forward)
     end
     local buf = vim.api.nvim_win_get_buf(win)
     local cursor = vim.api.nvim_win_get_cursor(win)
-    local top = cursor[1] - 1
-    local bot = top + (forward and 1 or 0)
+    local bot = cursor[1]
+    local top = bot - 1
     local left = forward and cursor[2] or 0
     local right = forward and 0 or cursor[2]
     local matches = search(buf, conv(state.pattern.pattern), { top, left }, { bot, right })
