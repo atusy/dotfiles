@@ -1,6 +1,6 @@
 return {
   --[[ window ]]
-  { mode = "n", lhs = "window: equalize horizontally", rhs = "<Cmd>hroizontal wincmd =<CR>" },
+  { mode = "n", lhs = "window: equalize horizontally", rhs = "<Cmd>horizontal wincmd =<CR>" },
   { mode = "n", lhs = "window: equalize vertically", rhs = "<Cmd>vertical wincmd =<CR>" },
 
   --[[ clipboard ]]
