@@ -2,10 +2,16 @@ return {
   --[[ window ]]
   { mode = "n", lhs = "window: equalize horizontally", rhs = "<Cmd>hroizontal wincmd =<CR>" },
   { mode = "n", lhs = "window: equalize vertically", rhs = "<Cmd>vertical wincmd =<CR>" },
+
   --[[ clipboard ]]
   { mode = "n", lhs = "clipboard: cwd", rhs = "<Cmd>let @+=getcwd()<CR>" },
   { mode = "n", lhs = "clipboard: abs path of %", rhs = '<Cmd>let @+=expand("%:p")<CR>' },
-  { mode = "n", lhs = "clipboard: abs path of dirname of %", rhs = '<Cmd>let @+=expand("%:p:h")<CR>' },
+  { mode = "n", lhs = "clipboard: abs path of %:h", rhs = '<Cmd>let @+=expand("%:p:h")<CR>' },
+
+  --[[ open ]]
+  { mode = "n", lhs = "open: cwd", rhs = "<Cmd>lua vim.ui.open('.')<CR>" },
+  { mode = "n", lhs = "open: %:h", rhs = "<Cmd>lua vim.ui.open(vim.fn.expand('%:h'))<CR>" },
+
   --[[ treesitter ]]
   {
     mode = "n",
