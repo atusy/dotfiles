@@ -13,7 +13,6 @@ local function commandline_pre(buf, mode)
       end
     end,
   })
-  vim.fn["pum#set_local_option"](mode, { reversed = true })
   vim.fn["ddc#custom#patch_buffer"]("sourceOptions", {
     file = { forceCompletionPattern = [[(^e\s+|\S/\S*)]] },
     fish = { enabledIf = [[getcmdline() =~# "^\\(!\\|Gin\\(Buffer\\)\\? \\)" ? v:true : v:false]] },
