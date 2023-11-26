@@ -1,3 +1,5 @@
+vim.loader.enable()
+
 -- configurations independent from plugins
 require("atusy")
 
