@@ -117,12 +117,12 @@ return {
       require("mini.ai").setup({
         n_lines = 100,
         mappings = {
-          around_next = "a;",
-          inside_next = "i;",
-          around_last = "a,",
-          inside_last = "i,",
-          goto_left = "g(",
-          goto_right = "g)",
+          around_next = "<Plug>(MiniAi-around-next)",
+          inside_next = "<Plug>(MiniAi-inside-next)",
+          around_last = "<Plug>(MiniAi-around-last)",
+          inside_last = "<Plug>(MiniAi-inside-last)",
+          goto_left = "<Plug>(MiniAi-goto-left)",
+          goto_right = "<Plug>(MiniAi-goto-right)",
         },
         custom_textobjects = custom_textobjects,
       })
@@ -154,9 +154,9 @@ return {
       require("mini.surround").setup({
         n_lines = 100,
         mappings = {
-          find = "st",
-          find_left = "sT",
-          highlight = "sH",
+          find = "<Plug>(MiniSurround-find)",
+          find_left = "<Plug>(MiniSurround-find-left)",
+          highlight = "<Plug>(MiniSurround-highlight)",
         },
         custom_surroundings = vim.tbl_extend("force", recipes, {
           t = t,
