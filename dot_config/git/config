@@ -28,6 +28,7 @@
 	clean = git-lfs clean -- %f
 [alias]
 	aliases = config --get-regexp ^alias[.]
+	fixup = commit --fixup
 	tracked = status -u no --short --branch
 	graph-base = log --graph --date-order -C -M
 	graph = graph-base --pretty=format:'%h <%ad> [%an] %Cgreen%d%Creset %s' --date=short
