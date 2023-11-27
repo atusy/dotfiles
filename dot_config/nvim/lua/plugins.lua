@@ -9,7 +9,6 @@ vim.api.nvim_create_autocmd("User", {
 
 return {
   -- basic dependencies
-  "https://github.com/tpope/vim-repeat",
   "https://github.com/vim-denops/denops.vim",
   {
     "https://github.com/yuki-yano/denops-lazy.nvim",
