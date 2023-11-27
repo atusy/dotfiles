@@ -160,6 +160,8 @@ local function setup_gin()
   set_keymap("n", "<Plug>(C-G)<C-Space>", function()
     require("plugins.git.commit").exec()
   end, { desc = "git commit" })
+  set_keymap("n", "<Plug>(C-G)<C-X>", "v:GinBrowse<CR>") -- anologous to gx
+  set_keymap("x", "<Plug>(C-G)<C-X>", ":GinBrowse<CR>")
   add_palette("n", "git amend", ":Gin commit --amend ")
   add_palette("n", "git amend --no-edit", ":Gin ++wait commit --amend --no-edit ")
   add_palette("n", "git rebase -i", ":Gin rebase --rebase-merge -i ")
