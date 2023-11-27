@@ -109,7 +109,7 @@ return {
       })
     end,
   },
-  { "https://github.com/xiyaowong/nvim-transparent", lazy = true }, -- watch, but use atusy.highlight to support styler.nvim
+  { "https://github.com/xiyaowong/nvim-transparent", lazy = true }, -- watch, but prefer atusy.highlight to support styler.nvim
 
   -- windows and buffers
   {
