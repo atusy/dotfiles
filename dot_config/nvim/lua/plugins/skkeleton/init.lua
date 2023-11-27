@@ -85,6 +85,9 @@ return {
         return vim.fs.joinpath(lazyroot, repo or "dict", "SKK-JISYO." .. nm)
       end
       vim.fn["skkeleton#config"]({
+        useGoogleJapaneseInput = true,
+        markerHenkan = "",
+        markerHenkanSelect = "",
         globalDictionaries = {
           dict("L"),
           dict("assoc"),
