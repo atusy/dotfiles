@@ -43,7 +43,6 @@ return {
   },
 
   -- utils
-  { "https://github.com/dstein64/vim-startuptime", cmd = "StartupTime" },
   {
     "https://github.com/numToStr/Comment.nvim",
     dependencies = { "https://github.com/JoosepAlviste/nvim-ts-context-commentstring" },
