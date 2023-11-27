@@ -13,13 +13,7 @@ return {
   { mode = "n", lhs = "open: %:h", rhs = "<Cmd>lua vim.ui.open(vim.fn.expand('%:h'))<CR>" },
 
   --[[ treesitter ]]
-  {
-    mode = "n",
-    lhs = "treesitter: inspect tree",
-    rhs = function()
-      vim.treesitter.inspect_tree()
-    end,
-  },
+  { mode = "n", lhs = "treesitter: inspect tree", rhs = "<Cmd>lua vim.treesitter.inspect_tree()<CR>" },
   {
     mode = "n",
     lhs = "redraw!",
