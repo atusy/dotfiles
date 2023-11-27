@@ -28,7 +28,6 @@ local function telescope_init()
   vim.keymap.set("n", leader .. "s", function()
     require("atusy.lazy").load_all()
     local failed = require("atusy.keymap.palette").update()
-    -- local failed = require("atusy.utils").update_palette()
     if #failed > 0 then
       vim.print(failed)
     end
@@ -36,7 +35,6 @@ local function telescope_init()
   end, { desc = "Telescope normal favorite keymaps" })
   vim.keymap.set("n", leader .. "m", function()
     local failed = require("atusy.keymap.palette").update()
-    -- local failed = require("atusy.utils").update_palette()
     if #failed > 0 then
       vim.print(failed)
     end
