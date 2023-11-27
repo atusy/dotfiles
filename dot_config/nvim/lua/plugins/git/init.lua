@@ -91,10 +91,10 @@ local function setup_gin()
   api.nvim_create_autocmd("BufReadCmd", {
     group = utils.augroup,
     pattern = "ginedit://*",
-    callback = function()
+    callback = function(ctx)
       -- for GinPatch
-      set_keymap("n", "<Plug>(C-G)<C-A>", "<Plug>(gin-diffget-r)", { bufnr = 0 }) -- git add
-      set_keymap("n", "<Plug>(C-G)<C-R>", "<Plug>(gin-diffget-l)", { bufnr = 0 }) -- git reset
+      set_keymap("n", "<Plug>(C-G)<C-A>", "<Plug>(gin-diffget-r)", { buffer = ctx.buf }) -- git add
+      set_keymap("n", "<Plug>(C-G)<C-R>", "<Plug>(gin-diffget-l)", { buffer = ctx.buf }) -- git reset
     end,
   })
   api.nvim_create_autocmd("FileType", {
