@@ -38,7 +38,7 @@ return {
     rhs = "<Cmd>lua = vim.lsp.buf.list_workspace_folders()<CR>",
   },
 
-  --[[ diagnostics ]]
+  --[[ diagnostic ]]
   {
     mode = "n",
     lhs = "diagnostic: toggle info and hint",
@@ -50,7 +50,7 @@ return {
   --[[ highlight ]]
   {
     mode = "n",
-    lhs = "toggle transparent background",
+    lhs = "highlight: toggle transparency",
     rhs = function()
       require("atusy.highlight").change_background()
     end,
