@@ -141,7 +141,6 @@ local function setup_gin()
     yank_git_link(opts, {})
   end, { range = true })
 
-  set_keymap("n", "dd", "dd") -- workaround waiting dd after GinPatch
   set_keymap("n", "<Plug>(C-G)<C-P>", "<Cmd>GinPatch ++opener=tabnew %<CR>")
   local graph = function(opts)
     opts = opts and (" " .. opts) or ""
