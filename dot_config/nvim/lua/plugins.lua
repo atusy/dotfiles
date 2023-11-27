@@ -573,13 +573,19 @@ return {
   },
   {
     "https://github.com/phelipetls/jsonpath.nvim",
-    ft = "json",
-    config = function()
-      require("atusy.keymap.palette").add_item("n", "clipboard json path", function()
-        local path = require("jsonpath").get()
-        vim.fn.setreg("+", path)
-        vim.notify("jsonpath: " .. path)
-      end, { desc = "clipboard json path" })
+    lazy = true,
+    init = function()
+      vim.api.nvim_create_autocmd("FileType", {
+        group = utils.augroup,
+        pattern = "json",
+        callback = function(ctx)
+          require("atusy.keymap.palette").add_item("n", "clipboard: json path", function()
+            local path = require("jsonpath").get()
+            vim.fn.setreg("+", path)
+            vim.notify("jsonpath: " .. path)
+          end, { buffer = ctx.buf })
+        end,
+      })
     end,
   },
   { "https://github.com/itchyny/vim-qfedit", ft = "qf" },
