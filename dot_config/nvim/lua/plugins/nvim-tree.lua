@@ -31,9 +31,7 @@ return {
   lazy = true,
   dependencies = { "https://github.com/nvim-tree/nvim-web-devicons" },
   init = function()
-    vim.keymap.set("n", "S", function()
-      require("nvim-tree.api").tree.focus()
-    end)
+    vim.keymap.set("n", "S", [[<Cmd>lua require("nvim-tree.api").tree.open()<CR>]])
   end,
   config = function()
     require("nvim-tree").setup({
