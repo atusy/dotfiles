@@ -358,8 +358,7 @@ return {
   -- 'nvim-treesitter/playground', -- vim.treesitter.show_tree would be enough
   {
     "https://github.com/nvim-treesitter/nvim-treesitter-textobjects",
-    keys = { "[", "]", " " },
-    event = "ModeChanged",
+    lazy = true,
     config = function()
       require("nvim-treesitter.configs").setup({
         textobjects = {
@@ -399,14 +398,12 @@ return {
     init = function()
       vim.keymap.set(
         { "x", "o" },
-        "m",
-        ":<C-U>lua require('tsht').nodes({ignore_injections = false})<CR>", -- must exit visual mode
+        "<Plug>(tsht)",
+        ":<C-U>lua require('tsht').nodes({ignore_injections = false})<CR>",
         { silent = true }
       )
-      vim.keymap.set("n", "zf", function()
-        require("tsht").nodes({ ignore_injections = false })
-        vim.cmd("normal! Vzf")
-      end, { silent = true })
+      vim.keymap.set({ "x", "o" }, "m", "<Plug>(tsht)")
+      vim.keymap.set("n", "zf", "zfV<Plug>(tsht)")
     end,
     config = function()
       vim.api.nvim_set_hl(0, "TSNodeUnmatched", { link = "Comment" })
