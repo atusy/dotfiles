@@ -2,7 +2,8 @@ return {
   {
     "https://github.com/folke/flash.nvim",
     lazy = true,
-    init = function()
+    dev = true,
+    init = function(p)
       --[[ f-motion ]]
       local motions = {
         f = { label = { after = false, before = { 0, 0 } }, jump = { autojump = true } },
@@ -63,13 +64,31 @@ return {
           pattern = vim.fn.getreg("/"),
         })
       end)
+
+      --[[ treesitter ]]
+      if p.dev then
+        vim.keymap.set({ "x", "o" }, "<Plug>(select-tsnode)", [[<Cmd>lua require("flash").treesitter()<CR>]])
+      else
+        vim.keymap.set(
+          { "x", "o" },
+          "<Plug>(select-tsnode)",
+          ":<C-U>lua require('tsht').nodes({ignore_injections = false})<CR>",
+          { silent = true }
+        )
+      end
+      vim.keymap.set({ "x", "o" }, "m", "<Plug>(select-tsnode)")
+      vim.keymap.set("n", "zf", "zfV<Plug>(select-tsnode)")
     end,
     config = function()
       require("flash").setup({
         modes = {
           char = { enabled = false },
           search = { enabled = false },
-          treesitter = { enabled = false },
+          treesitter = {
+            enabled = false,
+            jump = { pos = "range", autojump = false },
+            label = { before = true, after = true, style = "inline", rainbow = { enabled = true } },
+          },
         },
         highlight = { groups = { label = "DiagnosticError" } },
       })

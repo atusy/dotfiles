@@ -395,16 +395,6 @@ return {
   {
     "https://github.com/mfussenegger/nvim-treehopper",
     lazy = true,
-    init = function()
-      vim.keymap.set(
-        { "x", "o" },
-        "<Plug>(tsht)",
-        ":<C-U>lua require('tsht').nodes({ignore_injections = false})<CR>",
-        { silent = true }
-      )
-      vim.keymap.set({ "x", "o" }, "m", "<Plug>(tsht)")
-      vim.keymap.set("n", "zf", "zfV<Plug>(tsht)")
-    end,
     config = function()
       vim.api.nvim_set_hl(0, "TSNodeUnmatched", { link = "Comment" })
       vim.api.nvim_set_hl(0, "TSNodeKey", { link = "IncSearch" })
