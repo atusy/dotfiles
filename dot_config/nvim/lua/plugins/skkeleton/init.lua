@@ -105,11 +105,7 @@ return {
       })
 
       -- init
-      vim.api.nvim_create_autocmd("InsertEnter", {
-        group = utils.group,
-        once = true,
-        callback = "skkeleton#initialize",
-      })
+      vim.fn["skkeleton#initialize"]()
     end,
   },
   {
