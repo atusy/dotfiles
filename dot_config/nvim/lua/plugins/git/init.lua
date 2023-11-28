@@ -141,6 +141,7 @@ local function setup_gin()
     yank_git_link(opts, {})
   end, { range = true })
 
+  -- keymaps
   set_keymap("n", "<Plug>(C-G)<C-P>", "<Cmd>GinPatch ++opener=tabnew %<CR>")
   local graph = function(opts)
     opts = opts and (" " .. opts) or ""
@@ -162,6 +163,8 @@ local function setup_gin()
   end, { desc = "git commit" })
   set_keymap("n", "<Plug>(C-G)<C-X>", "v:GinBrowse<CR>") -- anologous to gx
   set_keymap("x", "<Plug>(C-G)<C-X>", ":GinBrowse<CR>")
+
+  -- command palette
   add_palette("n", "git amend", ":Gin commit --amend ")
   add_palette("n", "git amend --no-edit", ":Gin ++wait commit --amend --no-edit ")
   add_palette("n", "git rebase -i", ":Gin rebase --rebase-merge -i ")
