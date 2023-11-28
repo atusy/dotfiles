@@ -25,7 +25,7 @@ vim.g.loaded_netrwSettings = 1
 vim.g.loaded_netrwFileHandlers = 1
 
 --[[ lazy.nvim ]]
-local lazypath = utils.datapath .. "/lazy/lazy.nvim"
+local lazypath = require("atusy.utils").datapath .. "/lazy/lazy.nvim"
 
 if not vim.uv.fs_stat(lazypath) then
   require("atusy.lazy").install(lazypath)
