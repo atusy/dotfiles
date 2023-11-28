@@ -137,7 +137,7 @@ return {
     "https://github.com/RRethy/vim-illuminate",
     -- or https://github.com/tzachar/local-highlight.nvim
     lazy = true,
-    event = "BufReadPre",
+    event = { "CursorHold" },
     dependencies = { "https://github.com/nvim-treesitter/nvim-treesitter" },
     init = function()
       vim.keymap.set("n", "<Left>", function()
