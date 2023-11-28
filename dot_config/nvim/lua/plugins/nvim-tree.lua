@@ -1,3 +1,7 @@
+local function tree_reveal()
+  require("nvim-tree.api").tree.find_file(vim.fn.bufname(vim.fn.winbufnr(vim.fn.winnr("#"))))
+end
+
 local function node_open_edit()
   local p = require("nvim-tree.api").tree.get_node_under_cursor().absolute_path
   local has_chowcho, chowcho = pcall(require, "chowcho")
@@ -26,6 +30,47 @@ local function node_open_edit()
   })
 end
 
+local function node_open_system()
+  local row = vim.api.nvim_win_get_cursor(0)
+  if row == 1 then
+    vim.ui.open(require("nvim-tree.api").tree.get_nodes().absolute_path)
+  else
+    require("nvim-tree.api").node.run.system()
+  end
+end
+
+local function fs_copy()
+  local list = require("nvim-tree.api").marks.list()
+  if #list > 0 then
+    require("nvim-tree.api").fs.clear_clipboard()
+    for _, node in pairs(list) do
+      require("nvim-tree.api").fs.copy.node(node)
+    end
+  else
+    require("nvim-tree.api").fs.copy.node()
+  end
+end
+
+local function fs_cut()
+  local list = require("nvim-tree.api").marks.list()
+  if #list > 0 then
+    require("nvim-tree.api").fs.clear_clipboard()
+    for _, node in pairs(list) do
+      require("nvim-tree.api").fs.cut(node)
+    end
+  else
+    require("nvim-tree.api").fs.cut()
+  end
+end
+
+local function fs_trash()
+  if #require("nvim-tree.api").marks.list() > 0 then
+    require("nvim-tree.api").marks.bulk.trash()
+  else
+    require("nvim-tree.api").fs.trash()
+  end
+end
+
 return {
   "https://github.com/nvim-tree/nvim-tree.lua",
   lazy = true,
@@ -38,50 +83,54 @@ return {
       git = { ignore = false },
       renderer = { icons = { show = { git = false } } },
       on_attach = function(buffer)
-        local api = require("nvim-tree.api")
         local default_text = "★ "
-        local function nmap(lhs, rhs, desc, opts)
-          local o = vim.tbl_extend("force", opts or {}, {
-            desc = desc and (default_text .. " " .. desc) or nil,
-            buffer = buffer,
-          })
-          vim.keymap.set("n", lhs, rhs, o)
+        vim.b[buffer].default_text = default_text
+        local function nmap(lhs, rhs, desc)
+          vim.keymap.set("n", lhs, rhs, { desc = desc and (default_text .. " " .. desc), buffer = buffer })
         end
 
-        vim.api.nvim_buf_set_var(buffer, "telescope_keymaps_default_text", default_text)
-
-        -- Custom
-        nmap("#", function()
-          api.tree.find_file(vim.api.nvim_buf_get_name(vim.api.nvim_win_get_buf(vim.fn.win_getid(vim.fn.winnr("#")))))
-        end, "reveal the buffer in the previous window")
+        -- tree
         nmap("S", "<Cmd>NvimTreeClose<CR>")
-        nmap("h", api.node.navigate.parent_close, "node: close the parent")
-        nmap("l", api.node.open.no_window_picker, "node: open in the previous window")
-        nmap("gx", api.node.run.system, "node: run system")
-        nmap("<CR>", node_open_edit, "node: open in a chosen window")
-        nmap("!", api.tree.toggle_hidden_filter, "toggle hidden")
-        nmap("<C-R>", "<Cmd>NvimTreeRefresh<CR>", "refresh")
-        nmap("D", api.fs.trash, "fs: trash")
-        nmap(" rn", api.fs.rename_sub, "fs: rename")
-        nmap("M", api.marks.bulk.move, "mark: bulk move")
-        nmap("p", api.fs.paste, "fs: paste")
-        nmap("d", "<Nop>")
-        nmap("dd", api.fs.cut, "fs: cut")
-        nmap("y", "<Nop>")
-        nmap("yy", api.fs.copy.node, "fs: copy")
-        nmap("ya", api.fs.copy.absolute_path, "fs: clipboard absolute path")
-        nmap("yr", api.fs.copy.relative_path, "fs: clipboard relative path")
-        nmap("K", api.node.show_info_popup, "node: info")
+        nmap("!", require("nvim-tree.api").tree.toggle_hidden_filter, "tree: toggle hidden")
+        nmap("#", tree_reveal, "tree: reveal")
+        nmap("<C-R>", "<Cmd>NvimTreeRefresh<CR>", "tree: refresh")
+        nmap("0", [[<Cmd>lua require("nvim-tree.api").tree.change_root(".")<CR>]], "tree: change root to cwd")
+        nmap("cd", function()
+          local row = vim.require("nvim-tree.api").nvim_win_get_cursor(0)
+          if row == 1 then
+            require("nvim-tree.api").tree.change_root("..")
+          else
+            require("nvim-tree.api").tree.change_root_to_node()
+          end
+        end)
 
-        -- Defaults
-        nmap("a", api.fs.create, "fs: add")
-        nmap("x", api.fs.cut, "fs: cut")
-        nmap("p", api.fs.paste, "fs: paste")
-        nmap("<C-]>", api.tree.change_root_to_node, "tree: cd")
-        nmap("<lt>", api.node.navigate.sibling.prev, "node: sibling prev")
-        nmap(">", api.node.navigate.sibling.next, "node: sibling next")
-        nmap("f", api.live_filter.start, "live filter: start")
-        nmap("m", api.marks.toggle, "mark: toggle")
+        -- node
+        nmap("h", require("nvim-tree.api").node.navigate.parent_close, "node: close the parent")
+        nmap("l", require("nvim-tree.api").node.open.no_window_picker, "node: open in the previous window")
+        nmap("gx", node_open_system, "node: run system")
+        nmap("K", require("nvim-tree.api").node.show_info_popup, "node: info")
+        nmap("<CR>", node_open_edit, "node: open in a chosen window")
+
+        -- file manipulations
+        nmap("a", require("nvim-tree.api").fs.create, "fs: add")
+        nmap(" rn", require("nvim-tree.api").fs.rename_full, "fs: rename")
+        nmap("p", require("nvim-tree.api").fs.paste, "fs: paste")
+        nmap("d", "<Nop>")
+        nmap("dd", fs_cut, "fs: cut")
+        nmap("D", fs_trash, "fs: trash")
+        nmap("y", "<Nop>")
+        nmap("yy", fs_copy, "fs: copy")
+        nmap("ya", require("nvim-tree.api").fs.copy.absolute_path, "fs: clipboard absolute path")
+        nmap("yr", require("nvim-tree.api").fs.copy.relative_path, "fs: clipboard relative path")
+        nmap("_", require("nvim-tree.api").fs.clear_clipboard, "fs: clear clipboard") -- _ comes from blackhole...
+        nmap("+", require("nvim-tree.api").fs.clear_clipboard, "fs: print clipboard") -- + comes from unnamedplus
+
+        -- else
+        nmap("f", require("nvim-tree.api").live_filter.start, "live filter: start")
+        nmap("m", require("nvim-tree.api").marks.toggle, "mark: toggle")
+        nmap("M", require("nvim-tree.api").marks.clear, "mark: clear")
+        nmap("<C-Right>", [[<Cmd>NvimTreeResize +2<CR>]], "ui: larger")
+        nmap("<C-Left>", [[<Cmd>NvimTreeResize -2<CR>]], "ui: smaller")
       end,
     })
   end,
