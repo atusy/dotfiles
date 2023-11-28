@@ -11,14 +11,29 @@ local function setup_gitsigns()
     current_line_blame_opts = { delay = 150 },
     on_attach = function(buf)
       local function save_and(x, cmd)
-        return "<Plug>(save)" .. (cmd or "<Cmd>") .. "Gitsigns " .. x .. "<CR>"
+        return "<Plug>(save)" .. (cmd or "<Cmd>") .. "lua require('gitsigns')." .. x .. "()<CR>"
       end
-      vim.keymap.set({ "n", "x" }, "<Plug>(C-G)<C-A>", save_and("stage_hunk", ":"), { buffer = buf }) -- add hunk
-      vim.keymap.set({ "n", "x" }, "<Plug>(C-G)<C-R>", save_and("reset_hunk", ":"), { buffer = buf }) -- reset hunk
       vim.keymap.set("n", "<Plug>(C-G)a", save_and("stage_buffer"), { buffer = buf }) -- add buf
       vim.keymap.set("n", "<Plug>(C-G)r", save_and("reset_buffer"), { buffer = buf }) --reset buf
       vim.keymap.set("n", "<Plug>(C-G)<C-H>", save_and("preview_hunk"), { buffer = buf }) -- preview hunk
       vim.keymap.set("n", "<Plug>(C-G)<C-U>", save_and("undo_stage_hunk"), { buffer = buf }) -- undo add hunk
+      vim.keymap.set({ "n", "x" }, "<Plug>(C-G)<C-A>", save_and("stage_hunk", ":"), { buffer = buf }) -- add hunk
+      vim.keymap.set({ "n", "x" }, "<Plug>(C-G)<C-R>", function()
+        require("gitsigns").reset_hunk()
+
+        -- lazy save to avoid buf remains modified
+        local saved = false
+        local function cb(ctx)
+          if saved then
+            vim.api.nvim_del_autocmd(ctx.id)
+          elseif ctx.buf == buf then
+            saved = true
+            vim.cmd([[silent up]])
+          end
+        end
+        vim.api.nvim_create_autocmd("User", { pattern = "GitSignsUpdate", callback = cb, once = true })
+        vim.api.nvim_create_autocmd("CursorMoved", { callback = cb, once = true })
+      end, { buffer = buf, desc = "reset hunk and ensure buf be up to date" })
     end,
   })
 
