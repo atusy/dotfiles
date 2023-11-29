@@ -76,25 +76,20 @@ local function setup_gin()
   })
   vim.api.nvim_create_autocmd("BufReadCmd", {
     group = utils.augroup,
-    pattern = { "gin://*", "ginedit://*" },
+    pattern = { "gin://*", "ginedit://*", "ginlog://*", "gindiff://*" },
     callback = function(ctx)
       vim.keymap.set("n", "<F5>", "<Cmd>call gin#util#reload()<CR>", { buffer = ctx.buf })
-    end,
-  })
-  vim.api.nvim_create_autocmd("BufReadCmd", {
-    group = utils.augroup,
-    pattern = "ginedit://*",
-    callback = function(ctx)
-      -- for GinPatch
-      vim.keymap.set("n", "<Plug>(C-G)<C-A>", "<Plug>(gin-diffget-r)", { buffer = ctx.buf }) -- git add
-      vim.keymap.set("n", "<Plug>(C-G)<C-R>", "<Plug>(gin-diffget-l)", { buffer = ctx.buf }) -- git reset
-    end,
-  })
-  vim.api.nvim_create_autocmd("FileType", {
-    group = utils.augroup,
-    pattern = "gintonic-graph",
-    callback = function()
-      vim.opt_local.cursorline = true
+      if ctx.match:match("^ginedit://") then
+        vim.keymap.set("n", "<Plug>(C-G)<C-A>", "<Plug>(gin-diffget-r)", { buffer = ctx.buf }) -- git add
+        vim.keymap.set("n", "<Plug>(C-G)<C-R>", "<Plug>(gin-diffget-l)", { buffer = ctx.buf }) -- git reset
+      elseif ctx.match:match("^gindiff://") then
+        vim.keymap.set(
+          "n",
+          "gd",
+          "<C-W>v<Plug>(gin-diffjump-smart)<Cmd>lua require('telescope.builtin').lsp_definitions()<CR>",
+          { buffer = ctx.buf }
+        )
+      end
     end,
   })
   vim.api.nvim_create_autocmd("FileType", {
