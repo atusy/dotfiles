@@ -82,13 +82,8 @@ local function setup_gin()
       if ctx.match:match("^ginedit://") then
         vim.keymap.set("n", "<Plug>(C-G)<C-A>", "<Plug>(gin-diffget-r)", { buffer = ctx.buf }) -- git add
         vim.keymap.set("n", "<Plug>(C-G)<C-R>", "<Plug>(gin-diffget-l)", { buffer = ctx.buf }) -- git reset
-      elseif ctx.match:match("^gindiff://") then
-        vim.keymap.set(
-          "n",
-          "gd",
-          "<C-W>v<Plug>(gin-diffjump-smart)<Cmd>lua require('telescope.builtin').lsp_definitions()<CR>",
-          { buffer = ctx.buf }
-        )
+      elseif ctx.match:match("^ginlog://") then
+        require("plugins.git.log").map(ctx)
       end
     end,
   })
@@ -112,19 +107,13 @@ local function setup_gin()
 
   -- keymaps
   vim.keymap.set("n", "<Plug>(C-G)<C-P>", "<Cmd>GinPatch ++opener=tabnew %<CR>")
-  local graph = function(opts)
-    opts = opts and (" " .. opts) or ""
-    if vim.api.nvim_get_option_value("filetype", { buf = 0 }) ~= "gintonic-graph" then
-      opts = [[ ++opener=rightbelow\ vsplit --first-parent]] .. opts
-    end
-    vim.cmd("GintonicGraph" .. opts)
-  end
-  vim.keymap.set("n", "<Plug>(C-G)<C-L>", function()
-    graph("-- %")
-  end, { desc = "git graph current buffer" })
-  vim.keymap.set("n", "<Plug>(C-G)l", function()
-    graph()
-  end, { desc = "git graph" }) -- git log --graph ...
+  vim.keymap.set(
+    "n",
+    "<Plug>(C-G)<C-L>",
+    [[<Cmd>lua require("plugins.git.log").exec_graph("--", "%")<CR>]],
+    { desc = "git graph -- %" }
+  )
+  vim.keymap.set("n", "<Plug>(C-G)l", [[<Cmd>lua require("plugins.git.log").exec_graph()<CR>]], { desc = "git graph" })
   vim.keymap.set("n", "<Plug>(C-G)<C-D>", "<Cmd>GinDiff -- %<CR>")
   vim.keymap.set("n", "<Plug>(C-G)d", "<Cmd>GinDiff<CR>")
   vim.keymap.set("n", "<Plug>(C-G)u", "<Cmd>Gin reset -- %<CR>") -- unstage buf
