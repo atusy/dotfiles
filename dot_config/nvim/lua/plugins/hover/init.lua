@@ -128,7 +128,6 @@ return {
   {
     "https://github.com/lewis6991/hover.nvim/",
     lazy = true,
-    dev = true,
     init = function()
       vim.keymap.set("n", "K", hover)
       vim.api.nvim_create_autocmd("FileType", {
