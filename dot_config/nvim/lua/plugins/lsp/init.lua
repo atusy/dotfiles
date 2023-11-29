@@ -109,7 +109,6 @@ return {
     dependencies = {
       "https://github.com/williamboman/mason.nvim",
       "https://github.com/williamboman/mason-lspconfig.nvim",
-      "https://github.com/jose-elias-alvarez/null-ls.nvim",
     },
     event = { "BufReadPost", "BufNewFile" },
     config = function()
@@ -132,6 +131,7 @@ return {
   {
     "https://github.com/jose-elias-alvarez/null-ls.nvim",
     lazy = true,
+    ft = { "lua" },
     config = function()
       local null_ls = require("null-ls")
       null_ls.setup({ sources = { null_ls.builtins.formatting.stylua } })
