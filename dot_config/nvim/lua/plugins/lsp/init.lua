@@ -110,8 +110,6 @@ return {
       "https://github.com/williamboman/mason.nvim",
       "https://github.com/williamboman/mason-lspconfig.nvim",
       "https://github.com/jose-elias-alvarez/null-ls.nvim",
-      -- "https://github.com/ii14/emmylua-nvim",
-      -- "https://github.com/folke/neodev.nvim",
     },
     event = { "BufReadPost", "BufNewFile" },
     config = function()
@@ -180,13 +178,6 @@ return {
     event = "LspAttach",
     config = function()
       require("fidget").setup()
-    end,
-  },
-  {
-    "https://github.com/folke/neodev.nvim",
-    lazy = true,
-    config = function()
-      require("neodev").setup({ experimental = { pathStrict = true } })
     end,
   },
 }
