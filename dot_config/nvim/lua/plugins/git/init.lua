@@ -59,7 +59,7 @@ local function setup_gitsigns()
   end)
 end
 
--- gin & gintonic
+-- gin
 local function setup_gin()
   vim.g.gin_patch_disable_default_mappings = true
   local has_delta = vim.fn.executable("delta") == 1
@@ -69,11 +69,6 @@ local function setup_gin()
     processor = "delta --no-gitconfig --color-only" -- also requires tsnode-marker to reproduce highlights
     vim.g.gin_diff_persistent_args = { "++processor=" .. processor }
   end
-  require("gintonic").setup({
-    params = {
-      GinBuffer = { processor = processor },
-    },
-  })
   vim.api.nvim_create_autocmd("BufReadCmd", {
     group = utils.augroup,
     pattern = { "gin://*", "ginedit://*", "ginlog://*", "gindiff://*" },
