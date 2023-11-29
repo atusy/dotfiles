@@ -134,27 +134,7 @@ return {
     lazy = true,
     config = function()
       local null_ls = require("null-ls")
-
-      local gitshow = {
-        name = "git-show",
-        method = null_ls.methods.HOVER,
-        filetypes = { "gintonic-graph", "gitrebase" },
-        generator = {
-          fn = function(_)
-            local gintonic = require("gintonic")
-            local obj = gintonic.utils.object_getters.default()
-            local stdout = vim.system("git show " .. obj .. " --name-status"):wait().stdout
-            return vim.fn.split(stdout or "", "\n")
-          end,
-        },
-      }
-
-      null_ls.setup({
-        sources = {
-          gitshow,
-          null_ls.builtins.formatting.stylua,
-        },
-      })
+      null_ls.setup({ sources = { null_ls.builtins.formatting.stylua } })
     end,
   },
   {
