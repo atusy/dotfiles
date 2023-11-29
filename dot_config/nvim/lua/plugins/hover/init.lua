@@ -1,31 +1,40 @@
+---@param node? TSNode
+---@param _type string
+---@return TSNode?
+local function find_child(node, _type)
+  if node then
+    for n in node:iter_children() do
+      if n:type() == _type then
+        return n
+      end
+    end
+  end
+end
+
 ---@param patch TSNode
 ---@param line TSNode
 ---@return string?
 local function unifieddiff_filename(patch, line)
   local line_deleted = line:type() == "line_deleted"
-  for n in patch:iter_children() do
-    if n:type() == "git_header" then
-      for m in n:iter_children() do
-        if m:type() == "git_diff_header" then
-          local fn
-          for j in m:iter_children() do
-            if j:type() == "filename" then
-              fn = j
-              if line_deleted then
-                break
-              end
-            end
-          end
-          local r0, c0, r1, c1 = fn:range()
-          local filename = string.gsub(vim.api.nvim_buf_get_text(0, r0, c0, r1, c1, {})[1] or "", "^b/", "")
-          if filename == "" or not vim.uv.fs_stat(filename) then
-            return
-          end
-          return filename
-        end
+  local header = find_child(find_child(patch, "git_header"), "git_diff_header")
+  if not header then
+    return
+  end
+  local filename_node
+  for n in header:iter_children() do
+    if n:type() == "filename" then
+      filename_node = n
+      if line_deleted then
+        break
       end
     end
   end
+  local r0, c0, r1, c1 = filename_node:range()
+  local filename = string.gsub(vim.api.nvim_buf_get_text(0, r0, c0, r1, c1, {})[1] or "", "^b/", "")
+  if filename == "" or not vim.uv.fs_stat(filename) then
+    return
+  end
+  return filename
 end
 
 ---@param hunk TSNode
@@ -34,26 +43,22 @@ end
 local function unifieddiff_row(hunk, line)
   local row = 0
   local line_type = line:type() == "line_deleted" and "line_deleted" or "line_added"
+  local line_id = line:id()
   for n in hunk:iter_children() do
     local t = n:type()
     if t == "hunk_info" then
-      for k in n:iter_children() do
-        if k:type() == "hunk_range_new" then
-          for j in k:iter_children() do
-            if j:type() == "hunk_location" then
-              local r0, c0, r1, c1 = j:range()
-              local num = tonumber(vim.api.nvim_buf_get_text(0, r0, c0, r1, c1, {})[1])
-              if not num then
-                return
-              end
-              row = num
-            end
-          end
-          break
-        end
+      local hunk_location = find_child(find_child(n, "hunk_range_new"), "hunk_location")
+      if not hunk_location then
+        return
       end
+      local r0, c0, r1, c1 = hunk_location:range()
+      local num = tonumber(vim.api.nvim_buf_get_text(0, r0, c0, r1, c1, {})[1])
+      if not num then
+        return
+      end
+      row = num
     end
-    if n:id() == line:id() then
+    if n:id() == line_id then
       return row
     end
     if t == "line_nochange" or t == line_type then
