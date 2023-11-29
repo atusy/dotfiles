@@ -16,24 +16,17 @@ end
 ---@return string?
 local function unifieddiff_filename(patch, line)
   local line_deleted = line:type() == "line_deleted"
-  local header = find_child(find_child(patch, "git_header"), "git_diff_header")
-  if not header then
+  local filename_node =
+    find_child(find_child(find_child(patch, "header"), line_deleted and "from_file_line" or "to_file_line"), "filename")
+  if not filename_node then
     return
-  end
-  local filename_node
-  for n in header:iter_children() do
-    if n:type() == "filename" then
-      filename_node = n
-      if line_deleted then
-        break
-      end
-    end
   end
   local r0, c0, r1, c1 = filename_node:range()
-  local filename = string.gsub(vim.api.nvim_buf_get_text(0, r0, c0, r1, c1, {})[1] or "", "^b/", "")
-  if filename == "" or not vim.uv.fs_stat(filename) then
+  local text = vim.api.nvim_buf_get_text(0, r0, c0, r1, c1, {})[1]
+  if text then
     return
   end
+  local filename = string.gsub(text or "", "^[ab]/", "")
   return filename
 end
 
@@ -67,6 +60,7 @@ local function unifieddiff_row(hunk, line)
   end
 end
 
+---@return { filename: string?, pos: {[1]: integer, [2]: integer}, type: string }?
 local function unifieddiff_location()
   -- body
   local body = vim.treesitter.get_node()
@@ -123,10 +117,9 @@ end
 --- hover for diff
 local function hover_diff()
   local loc = unifieddiff_location()
-  if not loc or loc.type == "line_changed" then
-    return
+  if loc and loc.type ~= "line_deleted" and loc.filename and vim.uv.fs_stat(loc.filename) then
+    hover({ bufnr = get_buf(loc.filename), pos = loc.pos })
   end
-  hover({ bufnr = get_buf(loc.filename), pos = loc.pos })
 end
 
 return {
