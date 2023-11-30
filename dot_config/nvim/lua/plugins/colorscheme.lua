@@ -112,30 +112,8 @@ end
 
 -- return
 return {
-  -- { '4513ECHO/vim-colors-hatsunemiku' },
-  -- { 'ellisonleao/gruvbox.nvim' },
-  -- { 'sainnhe/everforest' },
-  -- { "https://github.com/catppuccin/nvim", as = "catppuccin" },
-  -- { 'levouh/tint.nvim' }, -- conflicts with styler.nvim
-  -- { "https://github.com/RRethy/nvim-base16" },
-  {
-    "https://github.com/m-demare/hlargs.nvim",
-    -- maybe nolonger used because @parameter highlights well, also conflicts with neodim
-    -- event = 'BufReadPre',
-    cond = false,
-    lazy = true,
-    config = function()
-      local function setup()
-        require("hlargs").setup()
-      end
-
-      vim.api.nvim_create_autocmd("ColorScheme", { group = utils.augroup, callback = setup })
-      setup()
-    end,
-  },
   {
     "https://github.com/RRethy/vim-illuminate",
-    -- or https://github.com/tzachar/local-highlight.nvim
     lazy = true,
     event = { "CursorHold" },
     dependencies = { "https://github.com/nvim-treesitter/nvim-treesitter" },
@@ -156,7 +134,7 @@ return {
       end
 
       require("illuminate").configure({
-        filetype_denylist = { "fern" },
+        filetype_denylist = {},
         modes_allowlist = { "n" },
       })
       vim.api.nvim_create_autocmd("ColorScheme", { group = utils.augroup, callback = hi })
