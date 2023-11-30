@@ -21,12 +21,7 @@ local function unifieddiff_filename(patch, line)
   if not filename_node then
     return
   end
-  local r0, c0, r1, c1 = filename_node:range()
-  local text = vim.api.nvim_buf_get_text(0, r0, c0, r1, c1, {})[1]
-  if not text then
-    return
-  end
-  local filename = string.gsub(text or "", "^[ab]/", "")
+  local filename = vim.treesitter.get_node_text(filename_node, 0):gsub("^[ab]/", "")
   return filename
 end
 
@@ -44,8 +39,7 @@ local function unifieddiff_row(hunk, line)
       if not hunk_location then
         return
       end
-      local r0, c0, r1, c1 = hunk_location:range()
-      local num = tonumber(vim.api.nvim_buf_get_text(0, r0, c0, r1, c1, {})[1])
+      local num = tonumber(vim.treesitter.get_node_text(hunk_location, 0))
       if not num then
         return
       end
