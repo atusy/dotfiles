@@ -12,7 +12,7 @@ local function on_attach(client, bufnr)
   set_keymap("i", "<C-G><C-H>", require("lsp_signature").toggle_float_win, { buffer = bufnr })
 
   -- Enable completion triggered by <c-x><c-o>
-  vim.api.nvim_set_option_value("omnifunc", "v:lua.vim.lsp.omnifunc", { buf = bufnr })
+  vim.bo[bufnr].omnifunc = "v:lua.vim.lsp.omnifunc"
 
   -- Mappings.
   -- See `:help vim.lsp.*` for documentation on any of the below functions
