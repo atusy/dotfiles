@@ -16,7 +16,7 @@ local function setup_gitsigns()
       vim.keymap.set("n", "<Plug>(C-G)a", save_and("stage_buffer"), { buffer = buf }) -- add buf
       vim.keymap.set("n", "<Plug>(C-G)r", save_and("reset_buffer"), { buffer = buf }) --reset buf
       vim.keymap.set("n", "<Plug>(C-G)<C-H>", save_and("preview_hunk"), { buffer = buf }) -- preview hunk
-      vim.keymap.set("n", "<Plug>(C-G)<C-U>", save_and("undo_stage_hunk"), { buffer = buf }) -- undo add hunk
+      vim.keymap.set("n", "<Plug>(C-G)<u>", save_and("undo_stage_hunk"), { buffer = buf }) -- undo add hunk
       vim.keymap.set({ "n", "x" }, "<Plug>(C-G)<C-A>", save_and("stage_hunk", ":"), { buffer = buf }) -- add hunk
       vim.keymap.set({ "n", "x" }, "<Plug>(C-G)<C-R>", function()
         require("gitsigns").reset_hunk()
@@ -107,7 +107,7 @@ local function setup_gin()
   vim.keymap.set("n", "<Plug>(C-G)<C-P>", "<Cmd>GinPatch ++opener=tabnew %<CR>")
   vim.keymap.set("n", "<Plug>(C-G)<C-D>", "<Cmd>GinDiff -- %<CR>")
   vim.keymap.set("n", "<Plug>(C-G)d", "<Cmd>GinDiff -- .<CR>")
-  vim.keymap.set("n", "<Plug>(C-G)u", "<Cmd>Gin reset -- %<CR>") -- unstage buf
+  vim.keymap.set("n", "<Plug>(C-G)<C-U>", "<Cmd>Gin reset -- %<CR>") -- unstage buf
   vim.keymap.set("n", "<Plug>(C-G)<C-Space>", [[<Cmd>lua require("plugins.git.commit").exec()<CR>]]) -- commit
   vim.keymap.set("n", "<Plug>(C-G)<C-X>", "v:GinBrowse<CR>") -- anologous to gx
   vim.keymap.set("x", "<Plug>(C-G)<C-X>", ":GinBrowse<CR>")
