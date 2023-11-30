@@ -127,25 +127,43 @@ return {
     "https://github.com/lewis6991/hover.nvim/",
     lazy = true,
     init = function()
-      vim.keymap.set("n", "K", hover)
+      -- LSP with fallbacks...
+      local lhs = "K"
+      vim.keymap.set("n", lhs, hover)
       vim.api.nvim_create_autocmd("FileType", {
         callback = function(ctx)
-          if ({ diff = true, ["gin-diff"] = true })[ctx.match] then
-            vim.keymap.set("n", "K", hover_diff, { buffer = ctx.buf })
+          local rhs
+          if vim.tbl_contains({ "diff", "gin-diff" }, ctx.match) then
+            rhs = hover_diff
+          elseif vim.tbl_contains({ "sh", "bash", "fish", "xonsh", "zsh" }, ctx.match) then
+            rhs = function()
+              hover({ providers = { "LSP", "Man", "cmdhelp" } })
+            end
+          end
+          if rhs then
+            vim.keymap.set("n", lhs, rhs, { buffer = ctx.buf })
           end
         end,
       })
+
+      -- gm for get meaning
+      vim.keymap.set("n", "gm", function()
+        hover({ providers = { "Dictionary" } })
+      end)
+
+      -- gh for github
+      vim.keymap.set("n", "gh", function()
+        hover({ providers = { "GitHub" } })
+      end)
     end,
     config = function()
       require("hover").setup({
         init = function()
-          -- Require providers
           require("hover.providers.lsp")
-          -- require('hover.providers.gh')
-          -- require('hover.providers.gh_user')
-          -- require('hover.providers.jira')
-          -- require('hover.providers.man')
-          -- require('hover.providers.dictionary')
+          require("hover.providers.gh")
+          require("hover.providers.man")
+          require("hover.providers.dictionary")
+          require("plugins.hover.providers.cmdhelp")
         end,
         preview_opts = {
           border = "single",
