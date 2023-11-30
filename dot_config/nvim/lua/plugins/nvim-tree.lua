@@ -84,7 +84,7 @@ return {
       renderer = { icons = { show = { git = false } } },
       on_attach = function(buffer)
         local default_text = "★ "
-        vim.b[buffer].default_text = default_text
+        vim.b[buffer].telescope_keymaps_default_text = default_text
         local function nmap(lhs, rhs, desc)
           vim.keymap.set("n", lhs, rhs, { desc = desc and (default_text .. " " .. desc), buffer = buffer })
         end
