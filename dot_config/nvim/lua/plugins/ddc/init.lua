@@ -1,4 +1,5 @@
-local function commandline_pre(buf, mode)
+local function commandline_pre(mode)
+  local buf = vim.api.nvim_get_current_buf()
   local opts = vim.fn["ddc#custom#get_buffer"]()
   vim.api.nvim_create_autocmd("User", {
     group = require("atusy.utils").augroup,
@@ -66,7 +67,7 @@ local function config()
   -- on entering cmdline
   for _, lhs in pairs({ "/", ":" }) do
     vim.keymap.set({ "n", "x" }, lhs, function()
-      pcall(commandline_pre, vim.api.nvim_get_current_buf(), lhs)
+      pcall(commandline_pre, lhs)
       return lhs
     end, { expr = true })
   end
