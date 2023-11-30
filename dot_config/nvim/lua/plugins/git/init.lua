@@ -106,7 +106,7 @@ local function setup_gin()
   vim.keymap.set("n", "<Plug>(C-G)l", graph:format("."), { desc = "git graph -- ." })
   vim.keymap.set("n", "<Plug>(C-G)<C-P>", "<Cmd>GinPatch ++opener=tabnew %<CR>")
   vim.keymap.set("n", "<Plug>(C-G)<C-D>", "<Cmd>GinDiff -- %<CR>")
-  vim.keymap.set("n", "<Plug>(C-G)d", "<Cmd>GinDiff<CR>")
+  vim.keymap.set("n", "<Plug>(C-G)d", "<Cmd>GinDiff -- .<CR>")
   vim.keymap.set("n", "<Plug>(C-G)u", "<Cmd>Gin reset -- %<CR>") -- unstage buf
   vim.keymap.set("n", "<Plug>(C-G)<C-Space>", [[<Cmd>lua require("plugins.git.commit").exec()<CR>]]) -- commit
   vim.keymap.set("n", "<Plug>(C-G)<C-X>", "v:GinBrowse<CR>") -- anologous to gx
