@@ -25,7 +25,8 @@ vim.g.loaded_netrwSettings = 1
 vim.g.loaded_netrwFileHandlers = 1
 
 --[[ lazy.nvim ]]
-local lazypath = require("atusy.utils").datapath .. "/lazy/lazy.nvim"
+-- local lazypath = require("atusy.utils").datapath .. "/lazy/lazy.nvim"
+local lazypath = "/home/atusy/ghq/github.com/folke/lazy.nvim"
 
 if not vim.uv.fs_stat(lazypath) then
   require("atusy.lazy").install(lazypath)
@@ -47,5 +48,19 @@ require("lazy").setup("plugins", {
         "zipPlugin",
       },
     },
+  },
+  dev = {
+    path = function(plugin)
+      local path, cnt = string.gsub(plugin.url, "^https://(.*)", vim.uv.os_homedir() .. "/ghq/%1")
+      if cnt == 1 then
+        if not vim.uv.fs_stat(path) then
+          vim.system({ "git", "clone", plugin.url, "--", path }):wait()
+        end
+        return path:gsub("%.git$", "")
+      end
+
+      -- fallback to default
+      return "~/projects/" .. plugin.name
+    end,
   },
 })

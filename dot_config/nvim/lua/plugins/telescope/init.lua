@@ -91,7 +91,6 @@ return {
     dependencies = {
       "https://github.com/nvim-lua/plenary.nvim",
       { "https://github.com/nvim-telescope/telescope-fzf-native.nvim", build = "make" },
-      -- 'stevearc/aerial.nvim', -- can be implicit
     },
     init = telescope_init,
     config = telescope_config,
