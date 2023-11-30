@@ -1,5 +1,4 @@
 -- const
-local api = vim.api
 local utils = require("atusy.utils")
 local ACTIVE_COLORSCHEME = "duskfox" -- for the active buffer the first tabpage
 local INACTIVE_COLORSCHEME = "nordfox"
@@ -8,11 +7,11 @@ local TAB_COLORSCHEME = "terafox" -- for the active buffer in the other tabpages
 
 local function likely_cwd(buf)
   buf = buf or api.nvim_win_get_buf(0)
-  if api.nvim_get_option_value("buftype", { buf = buf }) ~= "" then
+  if vim.bo[buf].buftype ~= "" then
     return true
   end
 
-  local file = api.nvim_buf_get_name(buf)
+  local file = vim.api.nvim_buf_get_name(buf)
   return file == "" or require("atusy.misc").in_cwd(file)
 end
 
@@ -27,7 +26,7 @@ end
 
 local function theme_active_win(win, tab)
   -- use default colorscheme on floating windows
-  if api.nvim_win_get_config(win).relative ~= "" then
+  if vim.api.nvim_win_get_config(win).relative ~= "" then
     return
   end
 
@@ -35,7 +34,7 @@ local function theme_active_win(win, tab)
   local COLORSCHEME = ACTIVE_COLORSCHEME
   if tab ~= 1 then
     COLORSCHEME = TAB_COLORSCHEME
-  elseif not likely_cwd(api.nvim_win_get_buf(win)) then
+  elseif not likely_cwd(vim.api.nvim_win_get_buf(win)) then
     COLORSCHEME = OUTSIDE_COLORSCHEME
   end
   set_theme(win, COLORSCHEME)
@@ -43,24 +42,24 @@ end
 
 local function theme_inactive_win(win, tab)
   -- skip for certain situations
-  if not api.nvim_win_is_valid(win) then
+  if not vim.api.nvim_win_is_valid(win) then
     return
   end
-  if api.nvim_win_get_config(win).relative ~= "" then
+  if vim.api.nvim_win_get_config(win).relative ~= "" then
     return
   end
 
   -- apply colorscheme
   local COLORSCHEME = INACTIVE_COLORSCHEME
-  if tab == 1 and not likely_cwd(api.nvim_win_get_buf(win)) then
+  if tab == 1 and not likely_cwd(vim.api.nvim_win_get_buf(win)) then
     COLORSCHEME = OUTSIDE_COLORSCHEME
   end
   set_theme(win, COLORSCHEME)
 end
 
 local function theme()
-  local win_cursor = api.nvim_get_current_win()
-  local tab = api.nvim_get_current_tabpage()
+  local win_cursor = vim.api.nvim_get_current_win()
+  local tab = vim.api.nvim_get_current_tabpage()
 
   -- Activate
   theme_active_win(win_cursor, tab)
@@ -79,7 +78,7 @@ end
 local state = {}
 
 local function set_styler()
-  api.nvim_create_autocmd({
+  vim.api.nvim_create_autocmd({
     "BufWinEnter", -- instead of BufEnter
     "WinEnter",
     "WinLeave", -- supports changes without WinEnter (e.g., cmdbuf.nvim)
@@ -123,9 +122,9 @@ return {
     config = function()
       local function hi()
         -- @illuminate is defined on configure of treesitter
-        api.nvim_set_hl(0, "IlluminatedWordText", { link = "@illuminate" })
-        api.nvim_set_hl(0, "IlluminatedWordRead", { link = "@illuminate" })
-        api.nvim_set_hl(0, "IlluminatedWordWrite", { link = "@illuminate" })
+        vim.api.nvim_set_hl(0, "IlluminatedWordText", { link = "@illuminate" })
+        vim.api.nvim_set_hl(0, "IlluminatedWordRead", { link = "@illuminate" })
+        vim.api.nvim_set_hl(0, "IlluminatedWordWrite", { link = "@illuminate" })
       end
 
       require("illuminate").configure({ modes_allowlist = { "n" } })
@@ -149,6 +148,7 @@ return {
     "https://github.com/folke/styler.nvim",
     event = { "WinNew", "BufRead", "BufNewFile" },
     dependencies = { "https://github.com/EdenEast/nightfox.nvim" },
+    dev = true,
     config = function()
       set_styler()
     end,

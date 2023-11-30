@@ -70,7 +70,7 @@ return {
         group = utils.group,
         pattern = "skkeleton-enable-pre",
         callback = function(ctx)
-          local ft = vim.api.nvim_get_option_value("filetype", { buf = ctx.buf })
+          local ft = vim.bo[ctx.buf].filetype
           local exceptions = {}
           if ft == "TelescopePrompt" then
             table.insert(exceptions, "<CR>")

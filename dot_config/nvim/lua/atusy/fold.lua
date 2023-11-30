@@ -4,9 +4,7 @@ local loaded = false
 
 function M.loaded()
   if not loaded then
-    if vim.api.nvim_get_option_value("foldenable", {}) or vim.api.nvim_get_option_value("foldenable", { win = 0 }) then
-      loaded = true
-    end
+    loaded = vim.o.foldenable or vim.wo.foldenable
   end
   return loaded
 end

@@ -15,7 +15,7 @@ local function node_open_edit()
     vim.cmd.edit(p)
   end, {
     exclude = function(buf, win)
-      local ft = vim.api.nvim_get_option_value("filetype", { buf = buf })
+      local ft = vim.bo[buf].filetype
       if ft == "NvimTree" then
         return true
       end
