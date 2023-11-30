@@ -23,7 +23,7 @@ local function unifieddiff_filename(patch, line)
   end
   local r0, c0, r1, c1 = filename_node:range()
   local text = vim.api.nvim_buf_get_text(0, r0, c0, r1, c1, {})[1]
-  if text then
+  if not text then
     return
   end
   local filename = string.gsub(text or "", "^[ab]/", "")
