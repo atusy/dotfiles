@@ -1,7 +1,4 @@
 local function telescope(key, opts)
-  -- call builtin pickers as functions instead of <Cmd> mappings
-  -- because lazy loading may fail if <Cmd> mappings are invoked
-  -- immediately after VimEnter
   return function()
     require("telescope.builtin")[key](opts)
   end
@@ -10,31 +7,19 @@ end
 local function telescope_init()
   local leader = "s"
   vim.keymap.set("n", leader .. "<CR>", telescope("builtin"))
-  vim.keymap.set("n", leader .. "<Tab>", telescope("jumplist"))
   -- sa is occupied by mini.surround
   vim.keymap.set("n", leader .. "b", telescope("buffers"))
   vim.keymap.set("n", leader .. "c", telescope("commands"))
   -- sd is occupied by mini.surround
   vim.keymap.set("n", leader .. "f", telescope("find_files"))
   vim.keymap.set("n", leader .. "g", telescope("live_grep"))
-  vim.keymap.set("n", leader .. "h", function()
-    require("atusy.lazy").load_all()
-    require("telescope.builtin").help_tags({ lang = "ja" })
-  end, { desc = "Telescope lazy help_tags" })
+  vim.keymap.set("n", leader .. "h", [[<Cmd>lua require("plugins.telescope.picker").help_tags()<CR>]])
   vim.keymap.set("n", leader .. "j", telescope("jumplist"))
-  vim.keymap.set("n", leader .. "m", function()
-    require("atusy.lazy").load_all()
-    require("atusy.keymap.palette").update()
-    require("telescope.builtin").keymaps()
-  end, { desc = "Telescope keymaps" })
+  vim.keymap.set("n", leader .. "m", [[<Cmd>lua require("plugins.telescope.picker").keymaps({})<CR>]]) -- builtin keymaps
+  vim.keymap.set("n", leader .. "o", [[<Cmd>lua require("plugins.telescope.picker").outline()<CR>]])
   vim.keymap.set("n", leader .. "q", telescope("quickfixhistory"))
-  vim.keymap.set("n", leader .. "o", [[<Cmd>lua require("plugins.telescope.picker").outline()]])
   -- sr is occupied by mini.surround
-  vim.keymap.set("n", leader .. "s", function()
-    require("atusy.lazy").load_all()
-    require("atusy.keymap.palette").update()
-    require("plugins.telescope.picker").keymaps()
-  end, { desc = "Telescope command palette" })
+  vim.keymap.set("n", leader .. "s", [[<Cmd>lua require("plugins.telescope.picker").keymaps(nil)<CR>]]) -- comand palette
   vim.keymap.set("n", leader .. [[']], telescope("marks"))
   vim.keymap.set("n", leader .. [["]], telescope("registers"))
   vim.keymap.set("n", leader .. ".", telescope("resume"))
@@ -46,8 +31,7 @@ local function telescope_init()
 end
 
 local function telescope_config(_)
-  local Telescope = require("telescope")
-  Telescope.setup({
+  require("telescope").setup({
     defaults = {
       mappings = {
         i = {
@@ -67,8 +51,7 @@ local function telescope_config(_)
         filetype_hook = function(filepath, bufnr, opts)
           if filepath:match(".*%.png") then
             -- in general, binary file is not previewed, but git_files try previewing it
-            local putils = require("telescope.previewers.utils")
-            putils.set_preview_message(bufnr, opts.winid, filepath)
+            require("telescope.previewers.utils").set_preview_message(bufnr, opts.winid, filepath)
             return false
           end
           return true
@@ -95,16 +78,10 @@ local function telescope_config(_)
       },
     },
     extensions = {
-      fzf = {
-        fuzzy = true, -- false will only do exact matching
-        override_generic_sorter = true, -- override the generic sorter
-        override_file_sorter = true, -- override the file sorter
-        case_mode = "smart_case", -- or "ignore_case" or "respect_case"
-        -- the default case_mode is "smart_case"
-      },
+      fzf = { fuzzy = true, override_generic_sorter = true, override_file_sorter = true, case_mode = "smart_case" },
     },
   })
-  Telescope.load_extension("fzf")
+  require("telescope").load_extension("fzf")
 end
 
 return {
