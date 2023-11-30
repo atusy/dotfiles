@@ -110,7 +110,6 @@ local function set_styler()
   })
 end
 
--- return
 return {
   {
     "https://github.com/RRethy/vim-illuminate",
@@ -118,12 +117,8 @@ return {
     event = { "CursorHold" },
     dependencies = { "https://github.com/nvim-treesitter/nvim-treesitter" },
     init = function()
-      vim.keymap.set("n", "<Left>", function()
-        require("illuminate").goto_prev_reference()
-      end)
-      vim.keymap.set("n", "<Right>", function()
-        require("illuminate").goto_next_reference()
-      end)
+      vim.keymap.set("n", "<Left>", [[<Cmd>lua require("illuminate").goto_prev_reference()<CR>]])
+      vim.keymap.set("n", "<Right>", [[<Cmd>lua require("illuminate").goto_next_reference()<CR>]])
     end,
     config = function()
       local function hi()
@@ -133,10 +128,7 @@ return {
         api.nvim_set_hl(0, "IlluminatedWordWrite", { link = "@illuminate" })
       end
 
-      require("illuminate").configure({
-        filetype_denylist = {},
-        modes_allowlist = { "n" },
-      })
+      require("illuminate").configure({ modes_allowlist = { "n" } })
       vim.api.nvim_create_autocmd("ColorScheme", { group = utils.augroup, callback = hi })
       hi()
     end,
