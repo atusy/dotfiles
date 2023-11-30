@@ -21,3 +21,19 @@ vim.api.nvim_create_autocmd("BufWinEnter", {
   buffer = vim.api.nvim_get_current_buf(),
   callback = wincmd_L,
 })
+
+-- Enhanced K
+vim.keymap.set("n", "K", function()
+  local node = vim.treesitter.get_node()
+  while node do
+    local t = node:type()
+    if t == "tag" or t:match("link$") then
+      return "K"
+    end
+    if t == "url" then
+      return string.format([[<Cmd>lua vim.ui.open("%s")<CR>]], vim.treesitter.get_node_text(node, 0, {}))
+    end
+    node = node:parent()
+  end
+  return "gF"
+end, { expr = true, buffer = true, desc = "Go to definition, open url, or open file" })
