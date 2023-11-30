@@ -105,12 +105,12 @@ local function get_buf(filename)
 end
 
 --- open or focus the hover
----@param opts? { bufnr: integer, pos: {[1]: integer, [2]: integer}, relative?: string, providers?: string[] }
+---@param opts? { bufnr?: integer, pos?: {[1]: integer, [2]: integer}, relative?: string, providers?: string[] }
 local function hover(opts)
   if vim.b.hover_preview then
     vim.api.nvim_set_current_win(vim.b.hover_preview)
   else
-    require("hover").hover(type(opts) == "function" and opts() or opts)
+    require("hover").hover(vim.tbl_extend("keep", opts or {}, { providers = { "LSP" } }))
   end
 end
 
