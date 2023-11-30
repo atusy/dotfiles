@@ -3,7 +3,7 @@ local add_item = require("atusy.keymap.palette").add_item
 
 -- gitsigns settings
 local function setup_gitsigns()
-  local has_num = vim.opt.number:get() or vim.opt.relativenumber:get()
+  local has_num = vim.o.number or vim.o.relativenumber
 
   require("gitsigns").setup({
     signcolumn = not has_num,
