@@ -33,7 +33,10 @@ function M.update()
       table.insert(failed, { res, item })
     end
   end
-  M.items = {}
+  M.items = failed
+  if failed then
+    vim.notify("failed to update some items on update command platte. Examine `require('atusy.keymap.palette.items')`")
+  end
   return failed
 end
 
