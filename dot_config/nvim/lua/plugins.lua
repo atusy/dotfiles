@@ -374,7 +374,7 @@ return {
     dependencies = { "https://github.com/nvim-treesitter/nvim-treesitter" },
     lazy = true,
     init = function()
-      vim.keymap.set("n", " rn", [[<Cmd>lua require("nvim-treesitter-refactor.smart_rename").smart_rename(0)<CR>]], {})
+      vim.keymap.set("n", " r", [[<Cmd>lua require("nvim-treesitter-refactor.smart_rename").smart_rename(0)<CR>]], {})
     end,
   },
   -- 'haringsrob/nvim_context_vt',

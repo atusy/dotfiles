@@ -113,7 +113,7 @@ return {
 
         -- file manipulations
         nmap("a", require("nvim-tree.api").fs.create, "fs: add")
-        nmap(" rn", require("nvim-tree.api").fs.rename_full, "fs: rename")
+        nmap(" r", require("nvim-tree.api").fs.rename_full, "fs: rename")
         nmap("p", require("nvim-tree.api").fs.paste, "fs: paste")
         nmap("d", "<Nop>")
         nmap("dd", fs_cut, "fs: cut")

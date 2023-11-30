@@ -68,7 +68,7 @@ function M.gtd(opts)
   vim.lsp.buf.definition({
     on_list = function(data)
       if #data.items > 1 then
-        M.locations(opts, items, data.title)
+        M.locations(opts, data.items, data.title)
         return
       end
       local item = data.items[1]

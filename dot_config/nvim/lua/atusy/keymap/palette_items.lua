@@ -34,6 +34,16 @@ return {
   },
   {
     mode = "n",
+    lhs = "lsp: add workspace folder",
+    rhs = "<Cmd>lua = vim.lsp.buf.add_workspace_folder()<CR>",
+  },
+  {
+    mode = "n",
+    lhs = "lsp: remove workspace folder",
+    rhs = "<Cmd>lua = vim.lsp.buf.remove_workspace_folder()<CR>",
+  },
+  {
+    mode = "n",
     lhs = "lsp: list workspace folders",
     rhs = "<Cmd>lua = vim.lsp.buf.list_workspace_folders()<CR>",
   },

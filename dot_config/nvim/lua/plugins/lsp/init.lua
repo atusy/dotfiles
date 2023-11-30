@@ -19,7 +19,6 @@ local function on_attach(client, bufnr)
   -- See `:help vim.lsp.*` for documentation on any of the below functions
   local opts = { silent = true, buffer = bufnr }
   set_keymap("n", "gD", [[<Cmd>lua vim.lsp.buf.declaration()<CR>]], opts)
-  set_keymap("n", "gd", telescope("lsp_definitions"), opts)
   set_keymap("n", "gf", [[<Cmd>lua require("plugins.telescope.picker").gtd()<CR>]], opts) -- def or file
   -- set_keymap('n', 'gd', vim.lsp.buf.definition, OPTS)
   set_keymap("n", "gi", telescope("lsp_implementations"), opts)
@@ -27,14 +26,15 @@ local function on_attach(client, bufnr)
   set_keymap("n", "gr", telescope("lsp_references"), opts)
   -- set_keymap('n', 'gr', vim.lsp.buf.references, OPTS)
   set_keymap("n", "<C-K>", [[<Cmd>lua vim.lsp.buf.signature_help()<CR>]], opts)
-  set_keymap("n", "<Leader>wa", [[<Cmd>lua vim.lsp.buf.add_workspace_folder()<CR>]], opts)
-  set_keymap("n", "<Leader>wr", [[<Cmd>lua vim.lsp.buf.remove_workspace_folder()<CR>]], opts)
-  set_keymap("n", "<Leader>D", [[<Cmd>lua vim.lsp.buf.type_definition()<CR>]], opts)
+  set_keymap("n", " lt", [[<Cmd>lua vim.lsp.buf.type_definition()<CR>]], opts)
   if client.server_capabilities.renameProvider then
-    set_keymap("n", "<Leader>rn", [[<Cmd>lua vim.lsp.buf.rename()<CR>]], opts)
+    set_keymap("n", " r", [[<Cmd>lua vim.lsp.buf.rename()<CR>]], opts)
   end
-  set_keymap("n", "<Leader>ca", [[<Cmd>lua vim.lsp.buf.code_action()<CR>]], opts)
-  set_keymap("n", "<Leader>lf", [[<Cmd>lua vim.lsp.buf.format({ async = true })<CR>]], opts)
+  set_keymap("n", " la", [[<Cmd>lua vim.lsp.buf.code_action()<CR>]], opts)
+
+  -- for original !, use :{range}!{filter}
+  set_keymap("n", "!!", [[<Cmd>lua vim.lsp.buf.format({ async = true })<CR>]], opts)
+  set_keymap("v", "!", [[<Cmd>lua vim.lsp.buf.format({ async = true })<CR>]], opts)
 end
 
 local function lspconfig()
