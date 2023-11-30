@@ -7,6 +7,7 @@ local set_keymap = vim.keymap.set
 local function telescope(cmd)
   return [[<Cmd>lua require("telescope.builtin").]] .. cmd .. [[()<CR>]]
 end
+
 local function on_attach(client, bufnr)
   require("lsp_signature").on_attach({ hint_enable = false, handler_opts = { border = "none" } }, bufnr)
   set_keymap("i", "<C-G><C-H>", require("lsp_signature").toggle_float_win, { buffer = bufnr })
@@ -21,6 +22,7 @@ local function on_attach(client, bufnr)
   end
   set_keymap("n", "gD", [[<Cmd>lua vim.lsp.buf.declaration()<CR>]], opts("lsp declaration"))
   set_keymap("n", "gd", telescope("lsp_definitions"), opts("lsp definitions"))
+  set_keymap("n", "gf", [[<Cmd>lua require("plugins.telescope.picker").gtd()<CR>]]) -- def or file
   -- set_keymap('n', 'gd', vim.lsp.buf.definition, OPTS)
   set_keymap("n", "gi", telescope("lsp_implementations"), opts("lsp implementation"))
   -- set_keymap('n', 'gi', vim.lsp.buf.implementation, OPTS)
@@ -38,9 +40,8 @@ local function on_attach(client, bufnr)
 end
 
 local function lspconfig()
-  local capabilities = require("ddc_nvim_lsp").make_client_capabilities()
+  require("ddc_source_lsp_setup").setup()
   local function config(nm, opts)
-    opts.capabilities = capabilities
     require("lspconfig")[nm].setup(opts)
   end
   config("clangd", {})
@@ -113,6 +114,7 @@ return {
       vim.diagnostic.config({ signs = false })
     end,
   },
+  { "https://github.com/uga-rosa/ddc-source-lsp-setup", lazy = true },
   {
     "https://github.com/ray-x/lsp_signature.nvim", -- or { "https://github.com/matsui54/denops-signature_help" }
     lazy = true,

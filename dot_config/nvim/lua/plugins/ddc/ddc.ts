@@ -18,7 +18,7 @@ export class Config extends BaseConfig {
     ) as string;
 
     const sources = [
-      "nvim-lsp",
+      "lsp",
       "around",
       "file",
       "buffer",
@@ -109,7 +109,7 @@ export class Config extends BaseConfig {
           sorters: [],
           converters: ["converter_remove_overlap"],
         },
-        "nvim-lsp": {
+        "lsp": {
           mark: "L",
           forceCompletionPattern: "\\.\\w*|::\\w*|->\\w*",
           dup: "force",
@@ -172,7 +172,7 @@ export class Config extends BaseConfig {
         file: {
           filenameChars: "[:keyword:].",
         },
-        "nvim-lsp": {
+        "lsp": {
           enableResolveItem: true,
           enableAdditionalTextEdit: true,
           confirmBehavior: "replace",

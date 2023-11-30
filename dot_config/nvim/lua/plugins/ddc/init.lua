@@ -95,7 +95,7 @@ return {
       { "https://github.com/Shougo/ddc-source-cmdline-history" },
       { "https://github.com/Shougo/ddc-source-input" },
       { "https://github.com/Shougo/ddc-source-line" },
-      { "https://github.com/Shougo/ddc-source-nvim-lsp" },
+      { "https://github.com/Shougo/ddc-source-lsp" },
       { "https://github.com/Shougo/ddc-source-shell-native" },
       { "https://github.com/Shougo/ddc-ui-pum" },
       { "https://github.com/matsui54/ddc-buffer" },
