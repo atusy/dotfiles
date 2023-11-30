@@ -22,12 +22,10 @@ local function setup_gitsigns()
         require("gitsigns").reset_hunk()
 
         -- lazy save to avoid buf remains modified
-        local saved = false
         local function cb(ctx)
-          if saved then
+          if not vim.bo[ctx.buf].modified then
             vim.api.nvim_del_autocmd(ctx.id)
           elseif ctx.buf == buf then
-            saved = true
             vim.cmd([[silent up]])
           end
         end
