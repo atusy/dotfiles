@@ -51,30 +51,25 @@ function M.locations(opts, locations, title)
     :find()
 end
 
-function M.gtd(opts)
+function M.gtd(opts, bufnr, method, params)
   opts = opts or {}
-  local method = "textDocument/definition"
-  local handler = vim.lsp.handlers[method]
-  vim.lsp.handlers[method] = function(_, result, ctx, config)
-    vim.lsp.handlers[method] = handler
-    if result == nil or vim.tbl_isempty(result) then
-      local ok = pcall(vim.cmd.normal, { args = { "gF" }, bang = true })
-      if ok then
-        return
+  method = method or "textDocument/definition"
+  vim.lsp.buf_request_all(bufnr or 0, method, params or vim.lsp.util.make_position_params(0, "utf-8"), function(resps)
+    local locs = {}
+    for _, resp in pairs(resps) do
+      for _, i in pairs(resp.result or {}) do
+        table.insert(locs, i)
       end
     end
-    handler(_, result, ctx, config)
-  end
-  vim.lsp.buf.definition({
-    on_list = function(data)
-      if #data.items > 1 then
-        M.locations(opts, data.items, data.title)
-        return
-      end
 
-      vim.lsp.util.jump_to_location(data.items[1].user_data, "utf-8")
-    end,
-  })
+    if #locs == 0 then
+      pcall(vim.cmd.normal, { args = { "gF" }, bang = true })
+    elseif #locs == 1 then
+      vim.lsp.util.jump_to_location(locs[1], "utf-8", false)
+    else
+      M.locations(opts, vim.lsp.util.locations_to_items(locs, "utf-8"), "LSP definitions")
+    end
+  end)
 end
 
 return M
