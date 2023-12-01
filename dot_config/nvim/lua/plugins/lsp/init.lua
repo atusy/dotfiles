@@ -19,7 +19,12 @@ local function on_attach(client, bufnr)
   -- See `:help vim.lsp.*` for documentation on any of the below functions
   local opts = { silent = true, buffer = bufnr }
   set_keymap("n", "gD", [[<Cmd>lua vim.lsp.buf.declaration()<CR>]], opts)
-  set_keymap("n", "gf", [[<Cmd>lua require("plugins.telescope.picker").gtd()<CR>]], opts) -- def or file
+  set_keymap("n", "gd", telescope("lsp_definitions"), opts)
+  if client.server_capabilities.implementationProvider then
+    set_keymap("n", "gf", [[<Cmd>lua require("plugins.telescope.picker").gti()<CR>]], opts)
+  else
+    set_keymap("n", "gf", [[<Cmd>lua require("plugins.telescope.picker").gtd()<CR>]], opts)
+  end
   -- set_keymap('n', 'gd', vim.lsp.buf.definition, OPTS)
   set_keymap("n", "gi", telescope("lsp_implementations"), opts)
   -- set_keymap('n', 'gi', vim.lsp.buf.implementation, OPTS)

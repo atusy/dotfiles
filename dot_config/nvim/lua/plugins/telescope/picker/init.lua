@@ -35,6 +35,7 @@ function M.help_tags(opts)
 end
 
 function M.locations(opts, locations, title)
+  opts = opts or {}
   local conf = require("telescope.config").values
   require("telescope.pickers")
     .new(opts, {
@@ -51,17 +52,19 @@ function M.locations(opts, locations, title)
     :find()
 end
 
-function M.gtd(opts, bufnr, method, params)
-  opts = opts or {}
-  method = method or "textDocument/definition"
-  vim.lsp.buf_request_all(bufnr or 0, method, params or vim.lsp.util.make_position_params(0, "utf-8"), function(resps)
-    local locs = {}
-    for _, resp in pairs(resps) do
-      for _, i in pairs(resp.result or {}) do
-        table.insert(locs, i)
-      end
+local function extract_locations(resps, locs)
+  locs = locs and { unpack(locs) } or {}
+  for _, resp in pairs(resps) do
+    for _, i in pairs(resp.result or {}) do
+      table.insert(locs, i)
     end
+  end
+  return locs
+end
 
+local function gen_gtd_handler(opts, locs)
+  return function(resps)
+    locs = extract_locations(resps, locs)
     if #locs == 0 then
       pcall(vim.cmd.normal, { args = { "gF" }, bang = true })
     elseif #locs == 1 then
@@ -69,6 +72,24 @@ function M.gtd(opts, bufnr, method, params)
     else
       M.locations(opts, vim.lsp.util.locations_to_items(locs, "utf-8"), "LSP definitions")
     end
+  end
+end
+
+--- go to definition or file
+function M.gtd(opts, bufnr, method, params, handler)
+  vim.lsp.buf_request_all(
+    bufnr or 0,
+    method or "textDocument/definition",
+    params or vim.lsp.util.make_position_params(0, "utf-8"),
+    handler or gen_gtd_handler(opts or {})
+  )
+end
+
+--- go to implementation, definition, or file
+function M.gti(opts, bufnr, _, params, _)
+  M.gtd(opts, bufnr, "textDocument/implementation", params, function(resps)
+    local handler = gen_gtd_handler(opts, extract_locations(resps))
+    M.gtd(opts, bufnr, "textDocument/definition", params, handler)
   end)
 end
 
