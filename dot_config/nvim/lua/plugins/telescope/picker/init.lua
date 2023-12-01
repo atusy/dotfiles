@@ -71,12 +71,8 @@ function M.gtd(opts)
         M.locations(opts, data.items, data.title)
         return
       end
-      local item = data.items[1]
-      local bufnr = vim.uri_to_bufnr(item.user_data.targetUri)
-      if vim.api.nvim_win_get_buf(0) ~= bufnr then
-        vim.api.nvim_win_set_buf(0, bufnr)
-      end
-      vim.api.nvim_win_set_cursor(0, { item.lnum, item.col - 1 })
+
+      vim.lsp.util.jump_to_location(data.items[1].user_data, "utf-8")
     end,
   })
 end
