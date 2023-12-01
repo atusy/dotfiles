@@ -36,10 +36,6 @@ local function on_attach(client, bufnr)
     set_keymap("n", " r", [[<Cmd>lua vim.lsp.buf.rename()<CR>]], opts)
   end
   set_keymap("n", " la", [[<Cmd>lua vim.lsp.buf.code_action()<CR>]], opts)
-
-  -- for original !, use :{range}!{filter}
-  set_keymap("n", "!!", [[<Cmd>lua vim.lsp.buf.format({ async = true })<CR>]], opts)
-  set_keymap("v", "!", [[<Cmd>lua vim.lsp.buf.format({ async = true })<CR>]], opts)
 end
 
 local function lspconfig()

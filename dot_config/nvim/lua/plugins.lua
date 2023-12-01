@@ -578,4 +578,32 @@ return {
     "https://github.com/kevinhwang91/nvim-bqf",
     ft = "qf",
   },
+  {
+    "https://github.com/stevearc/conform.nvim",
+    init = function()
+      -- for original !, use :{range}!{filter}
+      vim.keymap.set("n", "!!", function()
+        require("conform").format({ lsp_fallback = true })
+      end)
+      vim.keymap.set("v", "!", [[:lua require("conform").format({ lsp_fallback = true })<CR>]], { silent = true })
+      vim.api.nvim_create_autocmd("BufWritePre", {
+        pattern = "*",
+        group = utils.augroup,
+        callback = function(args)
+          require("conform").format({ bufnr = args.buf })
+        end,
+      })
+    end,
+    config = function()
+      require("conform").setup({
+        formatters_by_ft = {
+          lua = { "stylua" },
+          -- Conform will run multiple formatters sequentially
+          python = { "isort", "black" },
+          -- Use a sub-list to run only the first available formatter
+          javascript = { { "prettierd", "prettier" } },
+        },
+      })
+    end,
+  },
 }
