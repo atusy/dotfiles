@@ -580,12 +580,13 @@ return {
   },
   {
     "https://github.com/stevearc/conform.nvim",
+    lazy = true,
     init = function()
-      -- for original !, use :{range}!{filter}
-      vim.keymap.set("n", "!!", function()
+      vim.o.formatexpr = "v:lua.require'conform'.formatexpr()" -- format with gq{motion}
+      vim.keymap.set("n", "gqq", function()
+        -- for original gqq, use gqgq
         require("conform").format({ lsp_fallback = true })
       end)
-      vim.keymap.set("v", "!", [[:lua require("conform").format({ lsp_fallback = true })<CR>]], { silent = true })
       vim.api.nvim_create_autocmd("BufWritePre", {
         pattern = "*",
         group = utils.augroup,
