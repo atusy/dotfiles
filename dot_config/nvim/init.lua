@@ -36,6 +36,7 @@ vim.opt.runtimepath:prepend(lazypath)
 require("lazy").setup("plugins", {
   change_detection = { enabled = false },
   performance = {
+    cache = { enabled = false }, -- let vim.loader.enable() do the job
     rtp = {
       disabled_plugins = {
         "gzip",
