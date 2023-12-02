@@ -120,15 +120,6 @@ return {
     -- configured via on_attach
   },
   {
-    "https://github.com/jose-elias-alvarez/null-ls.nvim",
-    lazy = true,
-    ft = { "lua" },
-    config = function()
-      local null_ls = require("null-ls")
-      null_ls.setup({ sources = { null_ls.builtins.formatting.stylua } })
-    end,
-  },
-  {
     "https://github.com/williamboman/mason.nvim",
     lazy = true,
     cmd = { "Mason" },
