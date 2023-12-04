@@ -34,8 +34,8 @@ function M.update()
     end
   end
   M.items = failed
-  if failed then
-    vim.notify("failed to update some items on update command platte. Examine `require('atusy.keymap.palette.items')`")
+  if #failed > 0 then
+    vim.notify("failed to update some items on update command platte. Examine `require('atusy.keymap.palette').items`")
   end
   return failed
 end
