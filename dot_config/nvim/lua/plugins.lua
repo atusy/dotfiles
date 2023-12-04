@@ -294,8 +294,8 @@ return {
 
       -- add non-official parsers
       local parser_config = require("nvim-treesitter.parsers").get_parser_configs()
-      local parser_uri = vim.uv.os_homedir() .. "/ghq/github.com/atusy/tree-sitter-uri"
-      if not vim.uv.fs_stat(parser_uri) then
+      local parser_uri = vim.uv.os_homedir() .. "/ghq/github.com/atusy/tree-sitter-uri" ---@diagnostic disable-line: undefined-field
+      if not vim.uv.fs_stat(parser_uri) then ---@diagnostic disable-line: undefined-field
         parser_uri = "https://github.com/atusy/tree-sitter-uri"
       end
       parser_config.uri = {

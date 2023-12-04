@@ -78,7 +78,7 @@ end
 
 ---@param path string
 function M.in_cwd(path)
-  return vim.startswith(path, vim.uv.cwd() .. "/")
+  return vim.startswith(path, vim.uv.cwd() .. "/") ---@diagnostic disable-line: undefined-field
 end
 
 return M

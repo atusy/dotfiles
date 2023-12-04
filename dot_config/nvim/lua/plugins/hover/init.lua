@@ -111,7 +111,7 @@ end
 --- hover for diff
 local function hover_diff()
   local loc = unifieddiff_location()
-  if loc and loc.type ~= "line_deleted" and loc.filename and vim.uv.fs_stat(loc.filename) then
+  if loc and loc.type ~= "line_deleted" and loc.filename and vim.uv.fs_stat(loc.filename) then ---@diagnostic disable-line: undefined-field
     hover({ bufnr = get_buf(loc.filename), pos = loc.pos })
   end
 end
