@@ -63,14 +63,36 @@ local function config()
     end
     return "<c-c>"
   end, { expr = true })
+  vim.keymap.set({ "i", "c" }, "<c-x><cr>", function()
+    vim.print(vim.fn["pum#current_item"]())
+  end)
 
-  -- on entering cmdline
+  -- on cmdline
   for _, lhs in pairs({ ":", "/", "?" }) do
     vim.keymap.set({ "n", "x" }, lhs, function()
       pcall(commandline_pre, lhs)
       return lhs
     end, { expr = true })
   end
+  vim.keymap.set("c", "<c-x><c-space>", function()
+    local t = vim.fn.getcmdtype()
+    local line = vim.fn.getcmdline()
+    local match = function(x)
+      return x == line
+    end
+    if vim.fn["pum#current_item"]().menu == "RECENT" then
+      match = function(x)
+        return x == line or vim.startswith(x, line .. " ") or vim.startswith(x, line .. "! ")
+      end
+    end
+    for i = -1, -vim.fn.histnr(t), -1 do
+      if match(vim.fn.histget(t, i)) then
+        vim.fn.histdel(t, i)
+        vim.cmd("wshada!")
+        return
+      end
+    end
+  end)
 
   -- enable
   vim.fn["ddc#custom#load_config"](vim.fs.joinpath(vim.fs.dirname(debug.getinfo(1, "S").source:sub(2)), "ddc.ts"))
