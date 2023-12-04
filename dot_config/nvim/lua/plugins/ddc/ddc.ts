@@ -107,7 +107,6 @@ export class Config extends BaseConfig {
           matchers: ["matcher_head"],
           sorters: [],
           converters: [],
-          isVolatile: true,
         },
         "cmdline-history": {
           mark: "HIST",
