@@ -89,6 +89,7 @@ return {
       { "https://github.com/Shougo/pum.vim" },
       -- source
       { "https://github.com/atusy/ddc-source-parametric" },
+      { "https://github.com/matsui54/ddc-buffer" },
       { "https://github.com/matsui54/ddc-dictionary" },
       { "https://github.com/Shougo/ddc-source-around" },
       { "https://github.com/Shougo/ddc-source-cmdline" },
@@ -98,20 +99,20 @@ return {
       { "https://github.com/Shougo/ddc-source-lsp" },
       { "https://github.com/Shougo/ddc-source-shell-native" },
       { "https://github.com/Shougo/ddc-ui-pum" },
-      { "https://github.com/matsui54/ddc-buffer" },
       { "https://github.com/LumaKernel/ddc-source-file" },
-      { "https://github.com/Shougo/ddc-sorter_rank" },
       -- filter
       { "https://github.com/tani/ddc-fuzzy" },
+      -- sorter
+      { "https://github.com/Shougo/ddc-filter-sorter_rank" },
       -- matcher
-      { "https://github.com/Shougo/ddc-matcher_head" },
+      { "https://github.com/Shougo/ddc-filter-matcher_head" },
       { "https://github.com/Shougo/ddc-filter-matcher_vimregexp" },
       { "https://github.com/matsui54/ddc-filter_editdistance" },
       -- converter
-      { "https://github.com/Shougo/ddc-converter_remove_overlap" },
-      { "https://github.com/Shougo/ddc-converter_truncate_abbr" },
+      { "https://github.com/Shougo/ddc-filter-converter_remove_overlap" },
+      { "https://github.com/Shougo/ddc-filter-converter_truncate_abbr" },
       { "https://github.com/atusy/ddc-filter-converter_string_match" },
-      { "https://github.com/atusy/ddc-filter_converter_dictionary" },
+      { "https://github.com/atusy/ddc-filter-converter_dictionary" },
     },
     config = config,
   },
