@@ -30,10 +30,18 @@ function M.show_below(...)
 end
 
 function M.map(ctx)
-  local show_below =
-    [["z<Plug>(gin-action-yank:commit)<Cmd>lua require('plugins.git.log').show_below('--stat', '--patch', vim.fn.getreg('z'))<CR>]]
+  local yank = [["z<Plug>(gin-action-yank:commit)]]
+  local show_below = yank
+    .. [[<Cmd>lua require('plugins.git.log').show_below('--stat', '--patch', vim.fn.getreg('z'))<CR>]]
   vim.keymap.set("n", "<Down>", "<Down>" .. show_below, { buffer = ctx.buf })
   vim.keymap.set("n", "<Up>", "<Up>" .. show_below, { buffer = ctx.buf })
+  vim.keymap.set("n", "<CR>", show_below, { buffer = ctx.buf })
+  vim.keymap.set(
+    "n",
+    "<Plug>(gin-action-fixup)",
+    yank .. [[<Cmd>lua vim.cmd.Gin({ args = { "commit", "--fixup", vim.fn.getreg("z") } })<CR>]],
+    { buffer = ctx.buf }
+  )
 end
 
 return M
