@@ -30,8 +30,11 @@ export class Config extends BaseConfig {
       args.setAlias("source", x, "shell-native")
     );
     args.setAlias("source", "shell_history", "dictionary");
+    args.setAlias("source", "ex_command_history", "cmdline-history");
+    args.setAlias("source", "ex_command_history_cmd", "cmdline-history");
     args.setAlias("filter", "matcher_head_dictionary", "matcher_head");
     args.setAlias("filter", "matcher_head_shell_history", "matcher_head");
+    args.setAlias("filter", "converter_ex_command", "converter_string_match");
 
     args.contextBuilder.patchGlobal({
       ui: "pum",
@@ -47,10 +50,11 @@ export class Config extends BaseConfig {
       sources: sources,
       cmdlineSources: {
         ":": [
+          "ex_command_history_cmd",
+          "ex_command_history",
           "fish",
           "zsh",
           "cmdline",
-          "cmdline-history",
           "shell_history",
           "around",
         ],
@@ -88,6 +92,22 @@ export class Config extends BaseConfig {
         cmdline: {
           mark: "CMD",
           forceCompletionPattern: "\\S/\\S*|\\.\\w*",
+        },
+        "ex_command_history_cmd": {
+          mark: "HIST",
+          minAutoCompleteLength: 0,
+          matchers: ["matcher_head"],
+          sorters: [],
+          converters: ["converter_ex_command"],
+          enabledIf: "getcmdline() =~# ' ' ? v:false : v:true",
+        },
+        "ex_command_history": {
+          mark: "HIST",
+          minAutoCompleteLength: 0,
+          matchers: ["matcher_head"],
+          sorters: [],
+          converters: [],
+          isVolatile: true,
         },
         "cmdline-history": {
           mark: "HIST",
