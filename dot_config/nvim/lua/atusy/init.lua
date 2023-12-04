@@ -204,19 +204,22 @@ set_keymap("n", "q", function()
   if reg ~= "" then
     return 'q<cmd>echo "stop recording @' .. reg .. '"<cr>'
   end
-  local char = vim.fn.getcharstr(0)
-  if not char then
+  local ok, char = pcall(vim.fn.getcharstr)
+  if not ok or not char or char == "" then
     return "<Ignored>"
   end
-  if char == "q" or not char:match("[a-z]") then
+  if char == "q" or char:match("[0-9A-Z]") then
     return "q" .. char
   end
-  vim.notify("q[a-z] are disabled except qq", vim.log.levels.ERROR)
-  return "<Ignored>"
-end, {
-  expr = true,
-  nowait = true,
-})
+  if char:match("[a-z]") then
+    vim.notify("q[a-z] are disabled except qq", vim.log.levels.ERROR)
+    return "<Ignored>"
+  end
+  return "<Plug>(q)" .. char
+end, { expr = true, nowait = true })
+vim.keymap.set("n", "<Plug>(q):", "q:")
+vim.keymap.set("n", "<Plug>(q)/", "q/")
+vim.keymap.set("n", "<Plug>(q)?", "q?")
 
 --[[ autocmd ]]
 vim.api.nvim_create_autocmd("TermOpen", { pattern = "*", group = utils.augroup, command = "startinsert" })
