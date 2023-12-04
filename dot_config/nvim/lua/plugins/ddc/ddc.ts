@@ -91,7 +91,6 @@ export class Config extends BaseConfig {
         },
         "cmdline-history": {
           mark: "HIST",
-          maxItems: 5,
           minAutoCompleteLength: 0,
           minKeywordLength: 2,
           matchers: ["matcher_head"],
