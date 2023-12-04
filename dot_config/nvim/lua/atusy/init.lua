@@ -202,10 +202,10 @@ set_keymap("x", "q", "<Nop>")
 set_keymap("n", "q", function()
   return vim.fn.reg_recording() == "" and "<Plug>(q)" or "q"
 end, { expr = true })
-vim.keymap.set("n", "<Plug>(q)q", "qq")
-vim.keymap.set("n", "<Plug>(q):", "q:")
-vim.keymap.set("n", "<Plug>(q)/", "q/")
-vim.keymap.set("n", "<Plug>(q)?", "q?")
+set_keymap("n", "<Plug>(q)q", "qq")
+set_keymap("n", "<Plug>(q):", "q:")
+set_keymap("n", "<Plug>(q)/", "q/")
+set_keymap("n", "<Plug>(q)?", "q?")
 
 --[[ autocmd ]]
 vim.api.nvim_create_autocmd("TermOpen", { pattern = "*", group = utils.augroup, command = "startinsert" })
