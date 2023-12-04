@@ -65,7 +65,7 @@ local function config()
   end, { expr = true })
 
   -- on entering cmdline
-  for _, lhs in pairs({ "/", ":" }) do
+  for _, lhs in pairs({ ":", "/", "?" }) do
     vim.keymap.set({ "n", "x" }, lhs, function()
       pcall(commandline_pre, lhs)
       return lhs
