@@ -216,39 +216,48 @@ return {
   -- statusline
   {
     "https://github.com/nvim-lualine/lualine.nvim",
-    event = "WinNew",
+    lazy = true,
     dependencies = { "https://github.com/nvim-tree/nvim-web-devicons" },
     init = function()
+      -- want statusline on creating non-relative windows
       vim.opt.laststatus = 0
-    end,
-    config = function()
-      vim.opt.laststatus = 2
-      require("lualine").setup({
-        options = { theme = "moonfly", component_separators = "" },
-        sections = {
-          lualine_a = {
-            {
-              "mode",
-              fmt = function(x)
-                return x == "TERMINAL" and x or ""
-              end,
+      vim.api.nvim_create_autocmd("WinNew", {
+        group = utils.augroup,
+        callback = function(ctx)
+          if vim.api.nvim_win_get_config(0).relative ~= "" then
+            return
+          end
+
+          vim.opt.laststatus = 2
+          require("lualine").setup({
+            options = { theme = "moonfly", component_separators = "" },
+            sections = {
+              lualine_a = {
+                {
+                  "mode",
+                  fmt = function(x)
+                    return x == "TERMINAL" and x or ""
+                  end,
+                },
+              },
+              lualine_b = { { "filetype", icon_only = true }, { "filename", path = 1 } },
+              lualine_c = {},
+              lualine_x = {},
+              lualine_y = { { "location" } },
+              lualine_z = {},
             },
-          },
-          lualine_b = { { "filetype", icon_only = true }, { "filename", path = 1 } },
-          lualine_c = {},
-          lualine_x = {},
-          lualine_y = { { "location" } },
-          lualine_z = {},
-        },
-        inactive_sections = {
-          lualine_a = {},
-          lualine_b = { { "filetype", icon_only = true }, { "filename", path = 1 } },
-          lualine_c = {},
-          lualine_x = {},
-          lualine_y = { { "location" } },
-          lualine_z = {},
-        },
-        extensions = {},
+            inactive_sections = {
+              lualine_a = {},
+              lualine_b = { { "filetype", icon_only = true }, { "filename", path = 1 } },
+              lualine_c = {},
+              lualine_x = {},
+              lualine_y = { { "location" } },
+              lualine_z = {},
+            },
+            extensions = {},
+          })
+          vim.api.nvim_del_autocmd(ctx.id)
+        end,
       })
     end,
   },
