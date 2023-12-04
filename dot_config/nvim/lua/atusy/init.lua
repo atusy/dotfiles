@@ -200,23 +200,9 @@ end)
 -- disable macro a-z except q on normal mode and entirely on visual mode
 set_keymap("x", "q", "<Nop>")
 set_keymap("n", "q", function()
-  local reg = vim.fn.reg_recording()
-  if reg ~= "" then
-    return 'q<cmd>echo "stop recording @' .. reg .. '"<cr>'
-  end
-  local ok, char = pcall(vim.fn.getcharstr)
-  if not ok or not char or char == "" then
-    return "<Ignored>"
-  end
-  if char == "q" or char:match("[0-9A-Z]") then
-    return "q" .. char
-  end
-  if char:match("[a-z]") then
-    vim.notify("q[a-z] are disabled except qq", vim.log.levels.ERROR)
-    return "<Ignored>"
-  end
-  return "<Plug>(q)" .. char
-end, { expr = true, nowait = true })
+  return vim.fn.reg_recording() == "" and "<Plug>(q)" or "q"
+end, { expr = true })
+vim.keymap.set("n", "<Plug>(q)q", "qq")
 vim.keymap.set("n", "<Plug>(q):", "q:")
 vim.keymap.set("n", "<Plug>(q)/", "q/")
 vim.keymap.set("n", "<Plug>(q)?", "q?")
