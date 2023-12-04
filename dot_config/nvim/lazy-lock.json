@@ -9,7 +9,7 @@
   "cellwidths.nvim": { "branch": "main", "commit": "ba9e092300c73e1a9d98a17de11f70f9d684cec6" },
   "chowcho.nvim": { "branch": "main", "commit": "6bfba65061ddc088aa8a96300c42b62dd483f5e7" },
   "cmdbuf.nvim": { "branch": "main", "commit": "aa3a26fa7f9b77f5d9de89fa662eebd09d8885de" },
-  "conform.nvim": { "branch": "master", "commit": "e8ac7f1a9a3973ecce6942b2f26d16e65902aa70" },
+  "conform.nvim": { "branch": "master", "commit": "5bf1405fd234d469243ea6f394e0aeec9ea53bd8" },
   "ddc-buffer": { "branch": "main", "commit": "fb89a212da7b2ee93b77bd71b77faeb6af480af2" },
   "ddc-converter_remove_overlap": { "branch": "main", "commit": "e94330b06c47f63a46ce705927bb4deaff611c21" },
   "ddc-converter_truncate_abbr": { "branch": "main", "commit": "182fe925e3d583d14a333dca1b8f5a52af1aa701" },
