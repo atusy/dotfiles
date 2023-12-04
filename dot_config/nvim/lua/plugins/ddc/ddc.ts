@@ -229,6 +229,10 @@ export class Config extends BaseConfig {
             "WebstersEnglishDictionary/dictionary.json",
           ].map((x) => join(lazyroot, x)),
         },
+        converter_ex_command: {
+          regexp: "[^ ]*[^ !]",
+          convertAbbr: true,
+        },
       },
     });
 
