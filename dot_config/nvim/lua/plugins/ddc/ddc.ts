@@ -94,7 +94,7 @@ export class Config extends BaseConfig {
           forceCompletionPattern: "\\S/\\S*|\\.\\w*",
         },
         "ex_command_history_cmd": {
-          mark: "HIST",
+          mark: "RECENT",
           minAutoCompleteLength: 0,
           matchers: ["matcher_head"],
           sorters: [],
