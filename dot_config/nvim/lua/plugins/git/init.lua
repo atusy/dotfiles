@@ -99,9 +99,9 @@ local function setup_gin()
   })
 
   -- keymaps
-  local graph = [[<C-W>v<Cmd>lua require("plugins.git.log").exec_graph("--", "%s")<CR>]]
-  vim.keymap.set("n", "<Plug>(C-G)<C-L>", graph:format("%"), { desc = "git graph -- %" })
-  vim.keymap.set("n", "<Plug>(C-G)l", graph:format("."), { desc = "git graph -- ." })
+  local graph = [[<C-W>v<Cmd>lua require("plugins.git.log").exec_graph(%s)<CR>]]
+  vim.keymap.set("n", "<Plug>(C-G)<C-L>", graph:format([["--", "%"]]), { desc = "git graph -- %" })
+  vim.keymap.set("n", "<Plug>(C-G)l", graph:format(""), { desc = "git graph" })
   vim.keymap.set("n", "<Plug>(C-G)<C-P>", "<Cmd>GinPatch ++opener=tabnew %<CR>")
   vim.keymap.set("n", "<Plug>(C-G)<C-D>", "<Cmd>GinDiff -- %<CR>")
   vim.keymap.set("n", "<Plug>(C-G)d", "<Cmd>GinDiff -- .<CR>")
