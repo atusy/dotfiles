@@ -45,24 +45,57 @@ local function read_template(buf)
   return ok and lines or {}
 end
 
-local function setting(buf, completion_items, semantic, scopes)
+local function setting(buf, completion_items, semantic, scopes, logs)
   local curpos = vim.fn.getcurpos()
   local row, col = curpos[2] - 1, curpos[3]
   if row > 0 then
     vim.fn["pum#set_buffer_option"]({ max_height = vim.o.pumheight })
     return {}
   end
-  local text = vim.api.nvim_buf_get_text(0, row, 0, row, col, {})[1] or ""
-  local space = text:find("%s")
-  if (space and space < col) or (semantic and text:match(":")) then
-    vim.fn["pum#set_buffer_option"]({ max_height = vim.o.pumheight })
-    return {}
+
+  local gitlog_source_option = {
+    mark = "  log",
+    minAutoCompleteLength = 0,
+    sorters = {}, -- should be chronological order
+    matchers = {}, -- manually matched in Lua
+    converters = { "converter_fuzzy" },
+    isVolatile = true,
+  }
+
+  local gitlog_source_param = { items = {} }
+  local subject = vim.api.nvim_buf_get_text(0, row, 0, row, col, {})[1] or ""
+  local re = vim.regex([[\k\+$]])
+  for _, log in pairs(logs) do
+    if vim.startswith(log, subject) then
+      local i, j = re:match_str(subject)
+      local cword = i and j and subject:sub(i, j + 1) or ""
+      local delta = 0
+      if subject ~= cword then
+        delta = delta + 1
+        if cword ~= "" then
+          delta = delta + 1
+        end
+      end
+      table.insert(gitlog_source_param.items, { word = log:sub(#subject - #cword + delta) })
+    end
   end
 
-  vim.fn["pum#set_buffer_option"]({ max_height = #completion_items })
+  local space = subject:find("%s")
+  if (space and space < col) or (semantic and subject:match(":")) then
+    vim.fn["pum#set_buffer_option"]({ max_height = vim.o.pumheight })
+    local sources = vim.fn["ddc#custom#get_global"]().sources
+    table.insert(sources, 1, "gitlog")
+    return {
+      sources = sources,
+      sourceOptions = { gitlog = gitlog_source_option },
+      sourceParams = { gitlog = gitlog_source_param },
+    }
+  end
+
+  vim.fn["pum#set_buffer_option"]({ max_height = #completion_items + 5 })
 
   return {
-    sources = { "parametric" },
+    sources = { "parametric", "gitlog" },
     backspaceCompletion = true,
     sourceOptions = {
       around = { mark = "", isVolatile = true, maxItems = 1 },
@@ -74,8 +107,12 @@ local function setting(buf, completion_items, semantic, scopes)
         sorters = { "sorter_fuzzy" },
         isVolatile = true,
       },
+      gitlog = gitlog_source_option,
     },
-    sourceParams = { parametric = { items = semantic and text:match("%(") and scopes or completion_items } },
+    sourceParams = {
+      parametric = { items = semantic and subject:match("%(") and scopes or completion_items },
+      gitlog = gitlog_source_param,
+    },
     filterParams = {
       converter_string_match = {
         regexp = [==[\p{RI}\p{RI}|\p{Emoji}(\p{EMod}+|\u{FE0F}\u{20E3}?|[\u{E0020}-\u{E007E}]+\u{E007F})?(\u{200D}\p{Emoji}(\p{EMod}+|\u{FE0F}\u{20E3}?|[\u{E0020}-\u{E007E}]+\u{E007F})?)+|\p{EPres}(\p{EMod}+|\u{FE0F}\u{20E3}?|[\u{E0020}-\u{E007E}]+\u{E007F})?|\p{Emoji}(\p{EMod}+|\u{FE0F}\u{20E3}?|[\u{E0020}-\u{E007E}]+\u{E007F})]==],
@@ -92,14 +129,21 @@ local function setup()
       local completion_items = gather(read_template(ctx.buf), regex_emoji)
       local semantic = #completion_items == 0
       local scopes = {}
+      local gitlog_stdout = vim.system({ "git", "log", "-n", "100", "--format=%s" }):wait().stdout or ""
+      local logs = {}
+      for word in string.gmatch(gitlog_stdout, "[^\n]+") do
+        table.insert(logs, word)
+      end
+      vim.fn["ddc#custom#alias"]("source", "gitlog", "parametric")
 
+      local added = {}
       if semantic then
-        local logs = vim.system({ "git", "log", "-n", "100", "--format=%s" }):wait().stdout or ""
         completion_items = {}
         local skip = {}
-        for log in string.gmatch(logs, "[^\n]+") do
+        for _, log in pairs(logs) do
           local prefix = string.match(log, "^%S+%(%S+%)!?:")
-          if prefix then
+          if prefix and not added[prefix] then
+            added[prefix] = true
             table.insert(completion_items, { word = prefix })
             local word = prefix:gsub(".*%(", ""):gsub("%).*", "")
             if not skip[word] then
@@ -114,7 +158,7 @@ local function setup()
       end
 
       vim.fn["ddc#custom#set_context_filetype"]("gitcommit", function()
-        return setting(ctx.buf, completion_items, semantic, scopes)
+        return setting(ctx.buf, completion_items, semantic, scopes, logs)
       end)
     end,
   })
