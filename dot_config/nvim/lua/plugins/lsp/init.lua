@@ -9,6 +9,10 @@ local function telescope(cmd)
 end
 
 local function on_attach(client, bufnr)
+  if client.name == "denols" then
+    -- asynchronous cache
+    vim.system({ "deno", "cache", vim.api.nvim_buf_get_name(bufnr) }, {}, function() end)
+  end
   require("lsp_signature").on_attach({ hint_enable = false, handler_opts = { border = "none" } }, bufnr)
   set_keymap("i", "<C-G><C-H>", require("lsp_signature").toggle_float_win, { buffer = bufnr })
 
