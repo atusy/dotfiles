@@ -35,7 +35,8 @@ local function on_attach(client, bufnr)
   if client.server_capabilities.renameProvider then
     set_keymap("n", " r", [[<Cmd>lua vim.lsp.buf.rename()<CR>]], opts)
   end
-  set_keymap("n", " la", [[<Cmd>lua vim.lsp.buf.code_action()<CR>]], opts)
+  -- set_keymap("n", " la", [[<Cmd>lua vim.lsp.buf.code_action()<CR>]], opts)
+  set_keymap("n", " la", [[<Cmd>lua require('lspsaga.codeaction'):code_action()<CR>]], opts)
 end
 
 local function lspconfig()
@@ -140,6 +141,44 @@ return {
     event = "LspAttach",
     config = function()
       require("fidget").setup()
+    end,
+  },
+  {
+    "https://github.com/nvimdev/lspsaga.nvim",
+    lazy = true,
+    init = function()
+      vim.keymap.set("n", "[d", function()
+        require("lspsaga.diagnostic"):goto_prev({
+          severity = require("atusy.diagnostic").underlined_severities(),
+        })
+      end)
+      vim.keymap.set("n", "]d", function()
+        require("lspsaga.diagnostic"):goto_next({
+          severity = require("atusy.diagnostic").underlined_severities(),
+        })
+      end)
+      vim.keymap.set("n", " e", function()
+        -- focus to the current menu
+        local winid = require("lspsaga.diagnostic").winid
+        if winid then
+          vim.api.nvim_set_current_win(winid)
+          return
+        end
+
+        -- focus or show
+        -- TODO: on <CR>, let's open and focus to lspsaga.diagnostic.winid
+        local args = {}
+        if not require("lspsaga.diagnostic.show").winid then
+          table.insert(args, "++unfocus")
+        end
+        require("lspsaga.diagnostic.show"):show_diagnostics({ line = true, args = args })
+      end)
+    end,
+    config = function()
+      require("lspsaga").setup({
+        lightbulb = { enable = false },
+        symbol_in_winbar = { enable = false },
+      })
     end,
   },
 }
