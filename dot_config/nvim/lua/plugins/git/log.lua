@@ -42,6 +42,18 @@ function M.map(ctx)
     yank .. [[<Cmd>lua vim.cmd.Gin({ args = { "commit", "--fixup", vim.fn.getreg("z") } })<CR>]],
     { buffer = ctx.buf }
   )
+  vim.keymap.set(
+    "n",
+    "<Plug>(gin-action-amend)",
+    yank .. [[<Cmd>lua vim.cmd.Gin({ args = { "commit", "--fixup=amend:" .. vim.fn.getreg("z") } })<CR>]],
+    { buffer = ctx.buf }
+  )
+  vim.keymap.set(
+    "n",
+    "<Plug>(gin-action-reword)",
+    yank .. [[<Cmd>lua vim.cmd.Gin({ args = { "commit", "--fixup=reword:" .. vim.fn.getreg("z") } })<CR>]],
+    { buffer = ctx.buf }
+  )
 end
 
 return M
