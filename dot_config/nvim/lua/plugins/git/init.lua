@@ -99,9 +99,21 @@ local function setup_gin()
   })
 
   -- keymaps
-  local graph = [[<C-W>v<Cmd>lua require("plugins.git.log").exec_graph(%s)<CR>]]
-  vim.keymap.set("n", "<Plug>(C-G)<C-L>", graph:format([["--", "%"]]), { desc = "git graph -- %" })
-  vim.keymap.set("n", "<Plug>(C-G)l", graph:format(""), { desc = "git graph" })
+  vim.keymap.set("n", "<Plug>(C-G)<C-L>", function()
+    vim.cmd("wincmd v")
+    local nm = vim.api.nvim_buf_get_name(vim.api.nvim_win_get_buf(0))
+    if nm ~= "" and vim.uv.fs_stat(nm) then ---@diagnostic disable-line: undefined-field
+      require("plugins.git.log").exec_graph("--", "%")
+    else
+      require("plugins.git.log").exec_graph()
+    end
+  end, { desc = "git graph -- %" })
+  vim.keymap.set(
+    "n",
+    "<Plug>(C-G)l",
+    [[<C-W>v<Cmd>lua require("plugins.git.log").exec_graph()<CR>]],
+    { desc = "git graph" }
+  )
   vim.keymap.set("n", "<Plug>(C-G)<C-P>", "<Cmd>GinPatch ++opener=tabnew %<CR>")
   vim.keymap.set("n", "<Plug>(C-G)<C-D>", "<Cmd>GinDiff -- %<CR>")
   vim.keymap.set("n", "<Plug>(C-G)d", "<Cmd>GinDiff -- .<CR>")
