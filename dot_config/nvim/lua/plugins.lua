@@ -564,7 +564,6 @@ return {
   },
 
   -- filetype specific
-  { "https://github.com/mattn/vim-goimports", ft = "go" },
   {
     "https://github.com/barrett-ruth/import-cost.nvim",
     ft = { "javascript", "typescript", "typescriptreact" },
@@ -627,6 +626,7 @@ return {
           lua = { "stylua" },
           python = { "isort", "black" },
           javascript = { { "prettierd", "prettier" } },
+          go = { "goimports", { "gofumpt", "gofmt" } },
         },
         formatters = {
           isort = function(bufnr)
