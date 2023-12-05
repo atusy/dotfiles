@@ -68,8 +68,23 @@ github = "junegunn/fzf"
 
 [plugins.zeno]
 github = "yuki-yano/zeno.zsh"
-apply = ["defer"]
-hooks.pre = "export ZENO_ENABLE_SOCK=1"
+apply = ["defer-zeno"]
+hooks.pre = """
+export ZENO_ENABLE_SOCK=1
+
+# Isolate deno environment
+ZENO_DENO_VER=1.38.4
+ZENO_DENO_PATH="$HOME/.local/share/rtx/installs/deno/$ZENO_DENO_VER/bin"
+function zeno-rtx() {
+  if [[ ! -x "$ZENO_DENO_PATH/deno" ]]; then
+    ZENO_DENO_PATH=$( dirname "$( rtx exec deno@$ZENO_DENO_VER -- which deno )" )
+  fi
+}
+zsh-defer zeno-rtx
+function zeno-source() {
+  PATH="$ZENO_DENO_PATH:$PATH" DENO_DIR=$HOME/.cache/deno_zeno source "$@"
+}
+"""
 hooks.post = """
 function zeno-my-post() {
   bindkey ' '  zeno-auto-snippet
