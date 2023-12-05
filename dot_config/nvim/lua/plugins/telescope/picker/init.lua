@@ -17,7 +17,7 @@ end
 local keymaps_default_text = {
   fern = "'fern-action ",
   ["gin-status"] = "'gin-action ",
-  ["gin-log"] = "'gin-log ",
+  ["gin-log"] = "'gin-action ",
 }
 
 function M.keymaps(opts)
