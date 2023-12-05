@@ -133,6 +133,8 @@ return {
             rhs = function()
               hover({ providers = { "LSP", "Man", "cmdhelp" } })
             end
+          elseif ctx.match == "man" then
+            rhs = "K"
           end
           if rhs then
             vim.keymap.set("n", lhs, rhs, { buffer = ctx.buf })
