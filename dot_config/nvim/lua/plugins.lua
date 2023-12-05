@@ -602,13 +602,13 @@ return {
       vim.o.formatexpr = "v:lua.require'conform'.formatexpr()" -- format with gq{motion}
       vim.keymap.set("n", "gqq", function()
         -- for original gqq, use gqgq
-        require("conform").format({ lsp_fallback = true })
+        require("conform").format({ async = true, lsp_fallback = true })
       end)
       vim.api.nvim_create_autocmd("BufWritePre", {
         pattern = "*",
         group = utils.augroup,
         callback = function(args)
-          require("conform").format({ bufnr = args.buf })
+          require("conform").format({ bufnr = args.buf, async = false, lsp_fallback = true })
         end,
       })
     end,
