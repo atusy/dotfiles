@@ -642,29 +642,12 @@ return {
       })
     end,
     config = function()
-      local function with_poetry(config, cmd, bufnr)
-        local cwd = vim.fs.dirname(vim.api.nvim_buf_get_name(bufnr))
-        local obj = vim.system({ "poetry", "run", "which", cmd }, { cwd = cwd }):wait()
-        if obj.code ~= 0 then
-          return config
-        end
-        return vim.tbl_extend("force", config, { command = obj.stdout:gsub("\n", "") })
-      end
-
       require("conform").setup({
         formatters_by_ft = {
           lua = { "stylua" },
-          python = { "isort", "black" },
+          python = { "ruff_format" }, -- black and isort are toooooo slow!
           javascript = { { "prettierd", "prettier" } },
           go = { "goimports", { "gofumpt", "gofmt" } },
-        },
-        formatters = {
-          isort = function(bufnr)
-            return with_poetry(require("conform.formatters.isort"), "isort", bufnr)
-          end,
-          black = function(bufnr)
-            return with_poetry(require("conform.formatters.black"), "black", bufnr)
-          end,
         },
       })
     end,
