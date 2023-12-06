@@ -24,7 +24,6 @@ function M.cache(ts, bin, cache)
     return
   end
   M.cache_ongoing = M.cache_ongoing + 1
-  vim.notify("deno cache " .. ts)
   return vim.system({ bin or "deno", "cache", ts }, { env = { DENO_DIR = cache } }, function()
     M.cache_pending[ts] = nil
     M.cache_ongoing = M.cache_ongoing - 1
@@ -41,6 +40,7 @@ end
 ---See M.cache for the asynchronous behavior.
 function M.cache_dir(dir, bin, cache)
   local cmd = { "fd", ".", "--type", "f", "-e", "ts" }
+  vim.notify("deno cache " .. dir)
   return vim.system(cmd, { cwd = dir, text = true }, function(fd)
     if fd.stdout then
       for ts in fd.stdout:gmatch("[^\n]+") do
