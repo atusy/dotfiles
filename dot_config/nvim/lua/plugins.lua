@@ -22,11 +22,10 @@ return {
   -- basic dependencies
   {
     "https://github.com/vim-denops/denops.vim",
-    dev = true,
     init = function()
       local bin, cache = get_deno("1.38.4")
       vim.g["denops#deno"] = bin
-      vim.g["denops#deno_dir"] = cache -- TODO: needs https://github.com/vim-denops/denops.vim/pull/295
+      vim.g["denops#deno_dir"] = cache
     end,
   },
   {
