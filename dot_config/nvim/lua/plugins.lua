@@ -160,6 +160,12 @@ return {
     "https://github.com/lambdalisue/kensaku.vim",
     dependencies = { "https://github.com/vim-denops/denops.vim" },
     lazy = false,
+    build = function(p)
+      require("plugins.denops.utils").cache_plugin(p, true)
+    end,
+    init = function(p)
+      require("plugins.denops.utils").cache_plugin(p, false)
+    end,
     config = function(p)
       if p.lazy then
         require("denops-lazy").load("kensaku.vim")
