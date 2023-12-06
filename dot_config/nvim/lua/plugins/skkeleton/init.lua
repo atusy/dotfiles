@@ -23,6 +23,13 @@ return {
     dependencies = {
       { "https://github.com/vim-denops/denops.vim" },
     },
+    build = function(p)
+      require("plugins.denops.utils").cache_plugin(p, true)
+    end,
+    init = function(p)
+      -- manually cache to enable input as soon as possible
+      require("plugins.denops.utils").cache_plugin(p, false)
+    end,
     config = function()
       vim.keymap.set({ "i", "c", "t" }, "<C-J>", "<Plug>(skkeleton-enable)")
       vim.keymap.set("n", "<C-J>", "i<Plug>(skkeleton-enable)")
