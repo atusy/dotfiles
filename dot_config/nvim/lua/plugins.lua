@@ -633,11 +633,17 @@ return {
         -- for original gqq, use gqgq
         require("conform").format({ async = true, lsp_fallback = true })
       end)
-      vim.api.nvim_create_autocmd("BufWritePre", {
+      vim.api.nvim_create_autocmd("BufWritePost", {
         pattern = "*",
         group = utils.augroup,
         callback = function(args)
-          require("conform").format({ bufnr = args.buf, async = false, lsp_fallback = true })
+          require("conform").format({ bufnr = args.buf, async = true, lsp_fallback = true }, function(err)
+            if err then
+              vim.notify(err, vim.log.levels.ERROR)
+            else
+              vim.cmd.up()
+            end
+          end)
         end,
       })
     end,
