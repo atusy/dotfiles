@@ -109,13 +109,23 @@ return {
       end)
     end,
     config = function()
+      local viridis = math.random() > 0.5
       local function set_hl()
-        -- viridis color palette
-        vim.api.nvim_set_hl(0, "IBLIndent1", { fg = "#440154", nocombine = true })
-        vim.api.nvim_set_hl(0, "IBLIndent2", { fg = "#3b528b", nocombine = true })
-        vim.api.nvim_set_hl(0, "IBLIndent3", { fg = "#21918c", nocombine = true })
-        vim.api.nvim_set_hl(0, "IBLIndent4", { fg = "#5ec962", nocombine = true })
-        vim.api.nvim_set_hl(0, "IBLIndent5", { fg = "#fde725", nocombine = true })
+        if viridis then
+          -- viridis
+          vim.api.nvim_set_hl(0, "IBLIndent1", { fg = "#440154", nocombine = true })
+          vim.api.nvim_set_hl(0, "IBLIndent2", { fg = "#3b528b", nocombine = true })
+          vim.api.nvim_set_hl(0, "IBLIndent3", { fg = "#21918c", nocombine = true })
+          vim.api.nvim_set_hl(0, "IBLIndent4", { fg = "#5ec962", nocombine = true })
+          vim.api.nvim_set_hl(0, "IBLIndent5", { fg = "#fde725", nocombine = true })
+        else
+          -- cividis
+          vim.api.nvim_set_hl(0, "IBLIndent1", { fg = "#50586c", nocombine = true })
+          vim.api.nvim_set_hl(0, "IBLIndent2", { fg = "#757575", nocombine = true })
+          vim.api.nvim_set_hl(0, "IBLIndent3", { fg = "#9b9377", nocombine = true })
+          vim.api.nvim_set_hl(0, "IBLIndent4", { fg = "#afa473", nocombine = true })
+          vim.api.nvim_set_hl(0, "IBLIndent5", { fg = "#dbc760", nocombine = true })
+        end
       end
       vim.api.nvim_create_autocmd("ColorScheme", {
         group = vim.api.nvim_create_augroup("atusy.ibl", {}),
