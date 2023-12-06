@@ -110,11 +110,12 @@ return {
     end,
     config = function()
       local function set_hl()
-        vim.api.nvim_set_hl(0, "IBLIndent1", { fg = "#E06C75", nocombine = true })
-        vim.api.nvim_set_hl(0, "IBLIndent2", { fg = "#E5C07B", nocombine = true })
-        vim.api.nvim_set_hl(0, "IBLIndent3", { fg = "#98C379", nocombine = true })
-        vim.api.nvim_set_hl(0, "IBLIndent4", { fg = "#56B6C2", nocombine = true })
-        vim.api.nvim_set_hl(0, "IBLIndent5", { fg = "#61AFEF", nocombine = true })
+        -- viridis color palette
+        vim.api.nvim_set_hl(0, "IBLIndent1", { fg = "#440154", nocombine = true })
+        vim.api.nvim_set_hl(0, "IBLIndent2", { fg = "#3b528b", nocombine = true })
+        vim.api.nvim_set_hl(0, "IBLIndent3", { fg = "#21918c", nocombine = true })
+        vim.api.nvim_set_hl(0, "IBLIndent4", { fg = "#5ec962", nocombine = true })
+        vim.api.nvim_set_hl(0, "IBLIndent5", { fg = "#fde725", nocombine = true })
       end
       vim.api.nvim_create_autocmd("ColorScheme", {
         group = vim.api.nvim_create_augroup("atusy.ibl", {}),
