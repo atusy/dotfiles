@@ -7,34 +7,8 @@ vim.api.nvim_create_autocmd("User", {
   end,
 })
 
-local function get_deno(version)
-  version = version or "1.38.4"
-  local cache = vim.fn.stdpath("cache") --[[@as string]]
-  local base = vim.fs.joinpath(cache, "denops", "deno", version)
-  local bin = vim.fs.joinpath(base, "bin", "deno")
-  if not vim.uv.fs_stat(bin) then ---@diagnostic disable-line: undefined-field
-    require("atusy.bin.deno").install(version, { env = { DENO_INSTALL = base } }):wait()
-  end
-  return bin, vim.fs.joinpath(base, "cache")
-end
-
 return {
   -- basic dependencies
-  {
-    "https://github.com/vim-denops/denops.vim",
-    init = function()
-      local bin, cache = get_deno("1.38.4")
-      vim.g["denops#deno"] = bin
-      vim.g["denops#deno_dir"] = cache
-    end,
-  },
-  {
-    "https://github.com/yuki-yano/denops-lazy.nvim",
-    lazy = true,
-    config = function()
-      require("denops-lazy").setup()
-    end,
-  },
   {
     "https://github.com/delphinus/cellwidths.nvim",
     event = { "BufReadPost", "ModeChanged" },
