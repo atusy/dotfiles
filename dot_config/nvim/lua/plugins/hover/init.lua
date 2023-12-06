@@ -101,7 +101,7 @@ end
 --- open or focus the hover
 ---@param opts? { bufnr?: integer, pos?: {[1]: integer, [2]: integer}, relative?: string, providers?: string[] }
 local function hover(opts)
-  if vim.b.hover_preview then
+  if vim.b.hover_preview and vim.api.nvim_win_is_valid(vim.b.hover_preview) then
     vim.api.nvim_set_current_win(vim.b.hover_preview)
   else
     require("hover").hover(vim.tbl_extend("keep", opts or {}, { providers = { "LSP" } }))
