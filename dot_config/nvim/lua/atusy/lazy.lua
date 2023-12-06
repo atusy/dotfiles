@@ -20,4 +20,15 @@ function M.load_all()
   end
 end
 
+---@return string
+function M.root()
+  return require("lazy.core.config").options.root
+end
+
+---@param lazyspec table
+---@return string
+function M.dir(lazyspec)
+  return lazyspec.dev and lazyspec.dir or vim.fs.joinpath(M.root(), lazyspec.name)
+end
+
 return M
