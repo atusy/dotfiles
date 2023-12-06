@@ -619,12 +619,13 @@ return {
           require("conform").format({ bufnr = args.buf, async = true, lsp_fallback = true }, function(err)
             if err == nil then
               vim.cmd.up()
+            elseif err:match("No formatters found for buffer") then
               return
-            end
-            if err:match("No formatters found for buffer") then
+            elseif err == "No result returned from LSP formatter" then
               return
+            else
+              vim.notify(err, vim.log.levels.ERROR)
             end
-            vim.notify(err, vim.log.levels.ERROR)
           end)
         end,
       })
