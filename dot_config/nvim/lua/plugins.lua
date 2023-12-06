@@ -597,7 +597,7 @@ return {
   {
     "https://github.com/barrett-ruth/import-cost.nvim",
     ft = { "javascript", "typescript", "typescriptreact" },
-    build = "sh install.sh yarn",
+    build = "sh install.sh pnpm",
     config = function()
       require("import-cost").setup()
     end,
