@@ -1,7 +1,6 @@
 --[[
 https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md
 --]]
-local utils = require("atusy.utils")
 local set_keymap = vim.keymap.set
 
 local function telescope(cmd)
@@ -108,7 +107,7 @@ return {
     event = { "BufReadPost", "BufNewFile" },
     config = function()
       vim.api.nvim_create_autocmd("LspAttach", {
-        group = utils.augroup,
+        group = vim.api.nvim_create_augroup("atusy.nvim-lspconfig", {}),
         callback = function(ctx)
           local client = vim.lsp.get_client_by_id(ctx.data.client_id)
           on_attach(client, ctx.buf)
