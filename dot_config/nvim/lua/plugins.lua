@@ -605,42 +605,4 @@ return {
     "https://github.com/kevinhwang91/nvim-bqf",
     ft = "qf",
   },
-  {
-    "https://github.com/stevearc/conform.nvim",
-    lazy = true,
-    init = function()
-      vim.o.formatexpr = "v:lua.require'conform'.formatexpr()" -- format with gq{motion}
-      vim.keymap.set("n", "gqq", function()
-        -- for original gqq, use gqgq
-        require("conform").format({ async = true, lsp_fallback = true })
-      end)
-      vim.api.nvim_create_autocmd("BufWritePost", {
-        pattern = "*",
-        group = vim.api.nvim_create_augroup("atusy.conform", {}),
-        callback = function(args)
-          require("conform").format({ bufnr = args.buf, async = true, lsp_fallback = true }, function(err)
-            if err == nil then
-              vim.cmd.up()
-            elseif err:match("No formatters found for buffer") then
-              return
-            elseif err == "No result returned from LSP formatter" then
-              return
-            else
-              vim.notify(err, vim.log.levels.ERROR)
-            end
-          end)
-        end,
-      })
-    end,
-    config = function()
-      require("conform").setup({
-        formatters_by_ft = {
-          lua = { "stylua" },
-          python = { "ruff_format" }, -- black and isort are toooooo slow!
-          javascript = { { "prettierd", "prettier" } },
-          go = { "goimports", { "gofumpt", "gofmt" } },
-        },
-      })
-    end,
-  },
 }
