@@ -1,5 +1,3 @@
-local utils = require("atusy.utils")
-
 local M = {}
 
 function M.outline()
@@ -25,7 +23,9 @@ function M.keymaps(opts)
   require("atusy.keymap.palette").update()
   require("telescope.builtin").keymaps(opts or {
     modes = { vim.api.nvim_get_mode().mode },
-    default_text = vim.b.telescope_keymaps_default_text or keymaps_default_text[vim.bo.filetype] or utils.star,
+    default_text = vim.b.telescope_keymaps_default_text or keymaps_default_text[vim.bo.filetype] or require(
+      "atusy.keymap.palette"
+    ).star,
   })
 end
 
