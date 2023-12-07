@@ -1,9 +1,10 @@
-local function retry_on_buf_write_post(buf)
+local augroup = vim.api.nvim_create_augroup("atusy.conform", {})
+
+local function format_on_buf_write_post(buf, once)
   vim.api.nvim_create_autocmd("BufWritePost", {
     group = augroup,
     buffer = buf,
-    once = true,
-
+    once = once,
     callback = function()
       require("conform").format({ bufnr = buf, async = true, lsp_fallback = true }, function(err)
         if err == nil then
@@ -20,6 +21,32 @@ local function retry_on_buf_write_post(buf)
   })
 end
 
+local function format_on_buf_write_pre(buf, once)
+  vim.api.nvim_create_autocmd("BufWritePre", {
+    group = augroup,
+    buffer = buf,
+    once = once,
+    callback = function(args)
+      require("conform").format(
+        { bufnr = args.buf, async = false, lsp_fallback = true, timeout_ms = 200 },
+        function(err)
+          if err == nil then
+            return
+          elseif err == "No result returned from LSP formatter" then
+            return
+          elseif err:match("No formatters found for buffer") then
+            return
+          elseif err:match("Formatter '.-' timeout") then
+            format_on_buf_write_post(args.buf, true) -- as retry
+          else
+            vim.notify(err, vim.log.levels.ERROR)
+          end
+        end
+      )
+    end,
+  })
+end
+
 return {
   {
     "https://github.com/stevearc/conform.nvim",
@@ -30,28 +57,7 @@ return {
         -- for original gqq, use gqgq
         require("conform").format({ async = true, lsp_fallback = true })
       end)
-      vim.api.nvim_create_autocmd("BufWritePre", {
-        pattern = "*",
-        group = augroup,
-        callback = function(args)
-          require("conform").format(
-            { bufnr = args.buf, async = false, lsp_fallback = true, timeout_ms = 200 },
-            function(err)
-              if err == nil then
-                return
-              elseif err == "No result returned from LSP formatter" then
-                return
-              elseif err:match("No formatters found for buffer") then
-                return
-              elseif err:match("Formatter '.-' timeout") then
-                retry_on_buf_write_post(args.buf)
-              else
-                vim.notify(err, vim.log.levels.ERROR)
-              end
-            end
-          )
-        end,
-      })
+      format_on_buf_write_pre()
     end,
     config = function()
       require("conform").setup({
