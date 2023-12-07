@@ -2,7 +2,7 @@ local function commandline_pre(mode)
   local buf = vim.api.nvim_get_current_buf()
   local opts = vim.fn["ddc#custom#get_buffer"]()
   vim.api.nvim_create_autocmd("User", {
-    group = require("atusy.utils").augroup,
+    group = vim.api.nvim_create_augroup("atusy.ddc.commandline_pre", {}),
     pattern = "DDCCmdlineLeave",
     once = true,
     desc = "revert temporary settings",
