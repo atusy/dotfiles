@@ -36,24 +36,8 @@ function M.map(ctx)
   vim.keymap.set("n", "<Down>", "<Down>" .. show_below, { buffer = ctx.buf })
   vim.keymap.set("n", "<Up>", "<Up>" .. show_below, { buffer = ctx.buf })
   vim.keymap.set("n", "<CR>", show_below, { buffer = ctx.buf })
-  vim.keymap.set(
-    "n",
-    "<Plug>(gin-action-fixup)",
-    yank .. [[<Cmd>lua vim.cmd.Gin({ args = { "commit", "--fixup", vim.fn.getreg("z") } })<CR>]],
-    { buffer = ctx.buf }
-  )
-  vim.keymap.set(
-    "n",
-    "<Plug>(gin-action-amend)",
-    yank .. [[<Cmd>lua vim.cmd.Gin({ args = { "commit", "--fixup=amend:" .. vim.fn.getreg("z") } })<CR>]],
-    { buffer = ctx.buf }
-  )
-  vim.keymap.set(
-    "n",
-    "<Plug>(gin-action-reword)",
-    yank .. [[<Cmd>lua vim.cmd.Gin({ args = { "commit", "--fixup=reword:" .. vim.fn.getreg("z") } })<CR>]],
-    { buffer = ctx.buf }
-  )
+  vim.keymap.set("n", "<Plug>(gin-action-amend)", "<Plug>(gin-action-fixup-amend)", { buffer = ctx.buf })
+  vim.keymap.set("n", "<Plug>(gin-action-reword)", "<Plug>(gin-action-fixup-reword)", { buffer = ctx.buf })
 end
 
 return M
