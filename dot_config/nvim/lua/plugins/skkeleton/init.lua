@@ -1,6 +1,3 @@
--- skkeleton
-local utils = require("atusy.utils")
-
 local function set_mapped_keys(exceptions)
   -- stylua: ignore
   local default = { "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z", "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", "1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "!", '"', "#", "$", "%", "&", "'", "(", ")", ",", ".", "/", ";", ":", "]", "@", "[", "-", "^", "\\", ">", "?", "_", "+", "*", "}", "`", "{", "=", "~", "<lt>", "<Bar>", "<BS>", "<C-h>", "<CR>", "<Space>", "<C-q>", "<PageUp>", "<PageDown>", "<C-j>", "<C-g>", "<Esc>" }
@@ -48,8 +45,9 @@ return {
       -- `:`で`っ`を送りがなとした変換を開始
       vim.fn["skkeleton#register_keymap"]("input", '"', "henkanPoint")
 
+      augroup = vim.api.nvim_create_augroup("atusy.skkeleton", {})
       vim.api.nvim_create_autocmd("User", {
-        group = utils.augroup,
+        group = augroup,
         pattern = "skkeleton-enable-post",
         callback = function(ctx)
           -- NOTE: do not call skkeleton#handle directory. Instead, use expr mapping to handle keys in sync
@@ -65,7 +63,7 @@ return {
       })
 
       vim.api.nvim_create_autocmd("User", {
-        group = utils.augroup,
+        group = augroup,
         pattern = "skkeleton-disable-post",
         callback = function()
           pcall(vim.keymap.del, { "i", "c", "t" }, ":", { buffer = true })
@@ -74,7 +72,7 @@ return {
 
       -- filetypeに応じた一部キーの無効化
       vim.api.nvim_create_autocmd("User", {
-        group = utils.group,
+        group = augroup,
         pattern = "skkeleton-enable-pre",
         callback = function(ctx)
           local ft = vim.bo[ctx.buf].filetype
