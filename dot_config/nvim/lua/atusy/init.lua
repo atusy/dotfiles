@@ -121,6 +121,10 @@ set_keymap("x", " ue", [[<Cmd>lua require("atusy.misc").urlencode()<CR>]])
 set_keymap("x", " ud", [[<Cmd>lua require("atusy.misc").urldecode()<CR>]])
 set_keymap("n", "gf", "gF")
 
+-- mappings: window management
+set_keymap("n", "<C-W><C-V>", "<C-W><C-V><Cmd>horizontal wincmd =<CR>")
+set_keymap("n", "<C-W><C-S>", "<C-W><C-S><Cmd>vertical wincmd =<CR>")
+
 -- mappings: diagnostics
 set_keymap("n", "[d", [[<Cmd>lua require("atusy.diagnostic").goto_prev_underline()<CR>]])
 set_keymap("n", "]d", [[<Cmd>lua require("atusy.diagnostic").goto_next_underline()<CR>]])
