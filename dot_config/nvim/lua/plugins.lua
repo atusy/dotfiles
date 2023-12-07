@@ -562,7 +562,7 @@ return {
     end,
     config = function()
       vim.api.nvim_create_autocmd({ "User" }, {
-        group = vim.api.nvim_create_autocmd("atusy.cmdbuf", {}),
+        group = vim.api.nvim_create_augroup("atusy.cmdbuf", {}),
         pattern = { "CmdbufNew" },
         callback = function(args)
           vim.bo.bufhidden = "wipe"
