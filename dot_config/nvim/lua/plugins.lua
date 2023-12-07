@@ -1,5 +1,3 @@
-local utils = require("atusy.utils")
-
 vim.api.nvim_create_autocmd("User", {
   pattern = { "LazyInstall", "LazyUpdate", "LazySync", "LazyClean" },
   callback = function()
@@ -230,7 +228,7 @@ return {
       -- want statusline on creating non-relative windows
       vim.opt.laststatus = 0
       vim.api.nvim_create_autocmd("WinNew", {
-        group = utils.augroup,
+        group = vim.api.nvim_create_augroup("atusy.lualine", {}),
         callback = function(ctx)
           local cnt = 0
           for _, w in pairs(vim.api.nvim_list_wins()) do
@@ -315,7 +313,7 @@ return {
     end,
     config = function()
       -- install directory of treesitter parsers
-      local treesitterpath = utils.datapath .. "/treesitter"
+      local treesitterpath = vim.fn.stdpath("data") .. "/treesitter"
       vim.opt.runtimepath:append(treesitterpath)
 
       -- add non-official parsers
@@ -378,7 +376,10 @@ return {
       end
 
       hi()
-      vim.api.nvim_create_autocmd("ColorScheme", { group = utils.augroup, callback = hi })
+      vim.api.nvim_create_autocmd(
+        "ColorScheme",
+        { group = vim.api.nvim_create_augroup("atusy.nvim-treesitter", {}), callback = hi }
+      )
     end,
   },
   -- 'nvim-treesitter/playground', -- vim.treesitter.show_tree would be enough
@@ -439,9 +440,10 @@ return {
     lazy = true,
     dev = true,
     init = function()
+      local group = vim.api.nvim_create_augroup("atusy.tsnode-maker", {})
       vim.api.nvim_create_autocmd("FileType", {
         desc = "High-level reproduction of highlights by delta via GinDiff",
-        group = utils.augroup,
+        group = group,
         pattern = "gin-diff",
         callback = function(ctx)
           local nm = vim.api.nvim_buf_get_name(ctx.buf)
@@ -464,7 +466,7 @@ return {
         end,
       })
       vim.api.nvim_create_autocmd("FileType", {
-        group = utils.augroup,
+        group = group,
         pattern = "markdown",
         callback = function(ctx)
           -- blank target requires capture group @tsnodemarker
@@ -476,7 +478,7 @@ return {
         end,
       })
       vim.api.nvim_create_autocmd("FileType", {
-        group = utils.augroup,
+        group = group,
         pattern = { "python", "go" },
         callback = function(ctx)
           local function is_def(n)
@@ -560,7 +562,7 @@ return {
     end,
     config = function()
       vim.api.nvim_create_autocmd({ "User" }, {
-        group = utils.augroup,
+        group = vim.api.nvim_create_autocmd("atusy.cmdbuf", {}),
         pattern = { "CmdbufNew" },
         callback = function(args)
           vim.bo.bufhidden = "wipe"
@@ -586,7 +588,7 @@ return {
     lazy = true,
     init = function()
       vim.api.nvim_create_autocmd("FileType", {
-        group = utils.augroup,
+        group = vim.api.nvim_create_augroup("atusy.jsonpath", {}),
         pattern = "json",
         callback = function(ctx)
           require("atusy.keymap.palette").add_item("n", "clipboard: json path", function()
@@ -614,7 +616,7 @@ return {
       end)
       vim.api.nvim_create_autocmd("BufWritePost", {
         pattern = "*",
-        group = utils.augroup,
+        group = vim.api.nvim_create_augroup("atusy.conform", {}),
         callback = function(args)
           require("conform").format({ bufnr = args.buf, async = true, lsp_fallback = true }, function(err)
             if err == nil then
