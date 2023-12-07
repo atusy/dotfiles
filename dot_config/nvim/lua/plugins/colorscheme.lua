@@ -1,12 +1,11 @@
 -- const
-local utils = require("atusy.utils")
 local ACTIVE_COLORSCHEME = "duskfox" -- for the active buffer the first tabpage
 local INACTIVE_COLORSCHEME = "nordfox"
 local OUTSIDE_COLORSCHEME = "carbonfox"
 local TAB_COLORSCHEME = "terafox" -- for the active buffer in the other tabpages
 
 local function likely_cwd(buf)
-  buf = buf or api.nvim_win_get_buf(0)
+  buf = buf or vim.api.nvim_win_get_buf(0)
   if vim.bo[buf].buftype ~= "" then
     return true
   end
@@ -91,7 +90,7 @@ local function set_styler()
             ```
       ]]
   }, {
-    group = utils.augroup,
+    group = vim.api.nvim_create_augroup("atusy.styler", {}),
     callback = function()
       -- only apply theme from the latest schedule
       for k, _ in pairs(state) do
@@ -128,7 +127,10 @@ return {
       end
 
       require("illuminate").configure({ modes_allowlist = { "n" } })
-      vim.api.nvim_create_autocmd("ColorScheme", { group = utils.augroup, callback = hi })
+      vim.api.nvim_create_autocmd(
+        "ColorScheme",
+        { group = vim.api.nvim_create_augroup("atusy.illuminate", {}), callback = hi }
+      )
       hi()
     end,
   },
@@ -140,7 +142,10 @@ return {
         require("colorizer").setup()
       end
 
-      vim.api.nvim_create_autocmd("ColorScheme", { group = utils.augroup, callback = setup })
+      vim.api.nvim_create_autocmd(
+        "ColorScheme",
+        { group = vim.api.nvim_create_augroup("atusy.nvim-colorizer", {}), callback = setup }
+      )
       setup()
     end,
   },
