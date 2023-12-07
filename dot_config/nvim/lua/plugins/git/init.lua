@@ -103,15 +103,15 @@ local function setup_gin()
     vim.cmd("wincmd v")
     local nm = vim.api.nvim_buf_get_name(vim.api.nvim_win_get_buf(0))
     if nm ~= "" and vim.uv.fs_stat(nm) then ---@diagnostic disable-line: undefined-field
-      require("plugins.git.log").exec_graph("--", "%")
+      require("plugins.git.log").exec_graph("-n", "200", "--", "%")
     else
-      require("plugins.git.log").exec_graph()
+      require("plugins.git.log").exec_graph("-n", "200")
     end
   end, { desc = "git graph -- %" })
   vim.keymap.set(
     "n",
     "<Plug>(C-G)l",
-    [[<C-W>v<Cmd>lua require("plugins.git.log").exec_graph()<CR>]],
+    [[<C-W>v<Cmd>lua require("plugins.git.log").exec_graph("-n", "200")<CR>]],
     { desc = "git graph" }
   )
   vim.keymap.set("n", "<Plug>(C-G)<C-P>", "<Cmd>GinPatch ++opener=tabnew %<CR>")
