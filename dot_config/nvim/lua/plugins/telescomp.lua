@@ -3,8 +3,7 @@ return {
   dir = "/home/atusy/ghq/github.com/atusy/telescomp.nvim",
   event = "CmdlineEnter",
   config = function()
-    local utils = require("atusy.utils")
-    local cmdline_builtin = utils.require("telescomp.cmdline.builtin")
+    local cmdline_builtin = require("atusy.utils").require("telescomp.cmdline.builtin")
     vim.keymap.set("c", "<C-X><C-B>", cmdline_builtin.git_branches)
     vim.keymap.set("c", "<C-X><C-F>", cmdline_builtin.find_files)
     vim.keymap.set("c", "<C-X><C-M>", cmdline_builtin.builtin)
