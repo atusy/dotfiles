@@ -37,8 +37,7 @@ https://github.com/gaoDean/autolist.nvim
 
 -- [[ helpers ]]
 local set_keymap = vim.keymap.set
-local utils = require("atusy.utils").require("atusy.utils") -- force reloading self
-utils.setup()
+local augroup = vim.api.nvim_create_augroup("atusy", {})
 
 --[[ options ]]
 -- global
@@ -208,11 +207,11 @@ set_keymap("n", "<Plug>(q)/", "q/")
 set_keymap("n", "<Plug>(q)?", "q?")
 
 --[[ autocmd ]]
-vim.api.nvim_create_autocmd("TermOpen", { pattern = "*", group = utils.augroup, command = "startinsert" })
+vim.api.nvim_create_autocmd("TermOpen", { pattern = "*", group = augroup, command = "startinsert" })
 
 vim.api.nvim_create_autocmd("ModeChanged", {
   pattern = "c:*",
-  group = utils.augroup,
+  group = augroup,
   desc = "cleanup cmdline history which are short enough or prefixed by space",
   callback = function()
     local hist = vim.fn.histget(":", -1)
@@ -233,7 +232,7 @@ vim.api.nvim_create_autocmd("ModeChanged", {
 
 vim.api.nvim_create_autocmd("InsertEnter", {
   desc = "Toggle cursorline on InsertEnter/Leave iff cursorline is set on normal mode",
-  group = utils.augroup,
+  group = augroup,
   callback = function()
     local win = vim.api.nvim_get_current_win()
     local wo = vim.wo[win]
@@ -255,7 +254,7 @@ vim.api.nvim_create_autocmd("InsertEnter", {
 
 vim.api.nvim_create_autocmd("TextYankPost", {
   command = "lua pcall(vim.highlight.on_yank)",
-  group = utils.augroup,
+  group = augroup,
 })
 
 vim.api.nvim_create_autocmd({ "BufReadPre", "BufNewFile" }, {
@@ -293,7 +292,7 @@ if vim.fn.executable("nvr") == 1 then
   vim.env.EDITOR_CMD = [[nvr -cc "above 5split" --remote-wait-silent +"setlocal bufhidden=wipe filetype=zsh.nvr-zsh"]]
   vim.api.nvim_create_autocmd("FileType", {
     desc = "Go back to the terminal window on WinClosed. Otherwise, the current window to leftest above",
-    group = utils.augroup,
+    group = augroup,
     pattern = { "zsh.nvr-zsh" },
     callback = function(args)
       vim.schedule(function()
