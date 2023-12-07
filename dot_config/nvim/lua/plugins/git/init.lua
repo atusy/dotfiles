@@ -1,4 +1,3 @@
-local utils = require("atusy.utils")
 local add_item = require("atusy.keymap.palette").add_item
 
 -- gitsigns settings
@@ -67,8 +66,9 @@ local function setup_gin()
     processor = "delta --no-gitconfig --color-only" -- also requires tsnode-marker to reproduce highlights
     vim.g.gin_diff_persistent_args = { "++processor=" .. processor }
   end
+  local augroup = vim.api.nvim_create_augroup("atusy.gin", {})
   vim.api.nvim_create_autocmd("BufReadCmd", {
-    group = utils.augroup,
+    group = augroup,
     pattern = { "gin://*", "ginedit://*", "ginlog://*", "gindiff://*" },
     callback = function(ctx)
       vim.keymap.set("n", "<F5>", "<Cmd>call gin#util#reload()<CR>", { buffer = ctx.buf })
@@ -81,7 +81,7 @@ local function setup_gin()
     end,
   })
   vim.api.nvim_create_autocmd("FileType", {
-    group = utils.augroup,
+    group = augroup,
     pattern = { "gitcommit", "gitrebase" },
     callback = function()
       vim.g.gin_proxy_apply_without_confirm = 1
