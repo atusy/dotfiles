@@ -1,22 +1,41 @@
 local augroup = vim.api.nvim_create_augroup("atusy.conform", {})
 
+local function format_error(err, n)
+  n = n or math.huge
+  local content = {}
+  for line in err:gmatch("[^\n]*") do
+    if line == "stack trackback:" then
+      break
+    end
+    table.insert(content, line)
+    if #content == n then
+      break
+    end
+  end
+  return table.concat(content, "\n")
+end
+
 local function format_on_buf_write_post(buf, once)
   vim.api.nvim_create_autocmd("BufWritePost", {
     group = augroup,
     buffer = buf,
     once = once,
     callback = function()
-      require("conform").format({ bufnr = buf, async = true, lsp_fallback = true }, function(err)
-        if err == nil then
-          vim.cmd.up()
-        elseif err:match("No formatters found for buffer") then
-          return
-        elseif err == "No result returned from LSP formatter" then
-          return
-        else
-          vim.notify(err, vim.log.levels.ERROR)
+      pcall(
+        require("conform").format,
+        { bufnr = buf, async = true, lsp_fallback = true, notify_on_error = false },
+        function(err)
+          if err == nil then
+            vim.cmd.up()
+          elseif err:match("No formatters found for buffer") then
+            return
+          elseif err == "No result returned from LSP formatter" then
+            return
+          else
+            vim.notify(format_error(err, 1), vim.log.levels.ERROR)
+          end
         end
-      end)
+      )
     end,
   })
 end
@@ -27,8 +46,9 @@ local function format_on_buf_write_pre(buf, once)
     buffer = buf,
     once = once,
     callback = function(args)
-      require("conform").format(
-        { bufnr = args.buf, async = false, lsp_fallback = true, timeout_ms = 200 },
+      pcall(
+        require("conform").format,
+        { bufnr = args.buf, async = false, lsp_fallback = true, timeout_ms = 200, notify_on_error = false },
         function(err)
           if err == nil then
             return
@@ -39,7 +59,7 @@ local function format_on_buf_write_pre(buf, once)
           elseif err:match("Formatter '.-' timeout") then
             format_on_buf_write_post(args.buf, true) -- as retry
           else
-            vim.notify(err, vim.log.levels.ERROR)
+            vim.notify(format_error(err, 1), vim.log.levels.ERROR)
           end
         end
       )
