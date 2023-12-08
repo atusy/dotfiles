@@ -83,7 +83,7 @@ return {
       require("conform").setup({
         formatters_by_ft = {
           lua = { "stylua" },
-          python = { "ruff_format" }, -- black and isort are toooooo slow!
+          python = { "ruff_format", "ruff_fix" }, -- black and isort are toooooo slow!
           javascript = { { "prettierd", "prettier" } },
           go = { "goimports", { "gofumpt", "gofmt" } },
         },
