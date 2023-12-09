@@ -48,7 +48,7 @@ local function lspconfig()
     require("lspconfig")[nm].setup(opts)
   end
   config("clangd", {})
-  config("pyright", {
+  config("pyright", { -- https://github.com/microsoft/pyright/blob/main/docs/configuration.md
     settings = {
       python = {
         venvPath = ".",
