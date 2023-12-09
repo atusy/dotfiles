@@ -66,7 +66,7 @@ local function gen_gtd_handler(opts, locs)
   return function(resps)
     locs = extract_locations(resps, locs)
     if #locs == 0 then
-      pcall(vim.cmd.normal, { args = { "gF" }, bang = true })
+      require("atusy.misc").open_cfile()
     elseif #locs == 1 then
       vim.lsp.util.jump_to_location(locs[1], "utf-8", false)
     else
