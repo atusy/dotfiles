@@ -54,13 +54,6 @@ return {
   { "https://github.com/lambdalisue/guise.vim", dependencies = { "https://github.com/vim-denops/denops.vim" } },
   { "https://github.com/lambdalisue/askpass.vim", dependencis = { "https://github.com/vim-denops/denops.vim" } },
   { "https://github.com/segeljakt/vim-silicon", cmd = { "Silicon", "SiliconHighlight" } }, -- pacman -S silicon
-  {
-    "https://github.com/tyru/open-browser.vim",
-    keys = {
-      { "gx", "<Plug>(openbrowser-smart-search)", mode = { "n", "x" } },
-      { "<2-LeftMouse>", "<Plug>(openbrowser-open)", mode = { "n" } },
-    },
-  },
   { "https://github.com/tpope/vim-characterize", keys = { "ga" } },
   { "https://github.com/thinca/vim-partedit", cmd = "Partedit" },
 
