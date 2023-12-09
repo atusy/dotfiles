@@ -81,4 +81,37 @@ function M.in_cwd(path)
   return vim.startswith(path, vim.uv.cwd() .. "/") ---@diagnostic disable-line: undefined-field
 end
 
+---@param opts? { on_none: fun(str): nil }
+function M.open_cfile(opts)
+  opts = opts or {}
+  local cfile = vim.fn.expand("<cfile>") --[[@as string]]
+
+  -- Open URLs in browser
+  if cfile:match("^https?://") then
+    vim.ui.open(cfile)
+    return
+  end
+
+  if not vim.uv.fs_stat(cfile) then ---@diagnostic disable-line: undefined-field
+    if type(opts.on_none) == "function" then
+      opts.on_none(cfile)
+    end
+    return
+  end
+
+  -- Open non-text in browser
+  local needs_ui_open = {
+    png = true,
+    jpg = true,
+  }
+  local suffix, cnt = cfile:gsub(".*%.", "")
+  if cnt == 1 and needs_ui_open[suffix:lower()] then
+    vim.ui.open(cfile)
+    return
+  end
+
+  -- Fallback to gF
+  vim.cmd([[normal! gF]])
+end
+
 return M
