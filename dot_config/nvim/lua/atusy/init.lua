@@ -119,7 +119,7 @@ set_keymap("x", "zf", [[mode() == 'V' ? 'zf' : 'Vzf']], { expr = true })
 set_keymap("x", "g/", "<Esc>/\\%V", { silent = true }) -- search within selection
 set_keymap("x", " ue", [[<Cmd>lua require("atusy.misc").urlencode()<CR>]])
 set_keymap("x", " ud", [[<Cmd>lua require("atusy.misc").urldecode()<CR>]])
-set_keymap("n", "gf", "gF")
+set_keymap("n", "gf", [[<Cmd>lua require("atusy.misc").open_cfile()<CR>]])
 
 -- mappings: window management
 set_keymap("n", "<C-W><C-V>", "<C-W><C-V><Cmd>horizontal wincmd =<CR>")
