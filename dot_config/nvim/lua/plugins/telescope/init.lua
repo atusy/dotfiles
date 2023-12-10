@@ -14,7 +14,20 @@ local function telescope_init()
   vim.keymap.set("n", leader .. "f", telescope("find_files"))
   vim.keymap.set("n", leader .. "g", telescope("live_grep"))
   vim.keymap.set("n", leader .. "h", [[<Cmd>lua require("plugins.telescope.picker").help_tags()<CR>]])
-  vim.keymap.set("n", leader .. "j", telescope("jumplist"))
+  vim.keymap.set("n", leader .. "j", function()
+    local jumplist = vim.fn.getjumplist()
+    require("telescope.builtin").jumplist({
+      on_complete = {
+        function(self)
+          -- select current
+          local n = #jumplist[1]
+          if n ~= jumplist[2] then
+            self:move_selection(jumplist[2] - #jumplist[1] + 1)
+          end
+        end,
+      },
+    })
+  end)
   vim.keymap.set("n", leader .. "m", [[<Cmd>lua require("plugins.telescope.picker").keymaps({})<CR>]]) -- builtin keymaps
   vim.keymap.set("n", leader .. "o", [[<Cmd>lua require("plugins.telescope.picker").outline()<CR>]])
   vim.keymap.set("n", leader .. "q", telescope("quickfixhistory"))
