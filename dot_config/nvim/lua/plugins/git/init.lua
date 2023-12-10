@@ -125,7 +125,7 @@ local function setup_gin()
   vim.keymap.set("x", "<Plug>(C-G)<C-Y>", [[:GinBrowse ++yank=+ -n --permalink<CR>]])
 
   -- command palette
-  add_item("n", "git amend", ":Gin commit --amend ")
+  add_item("n", "git amend", [[<Cmd>lua require("plugins.git.commit").exec({ args = {"--amend" } })<CR>]]) -- commit
   add_item("n", "git amend --no-edit", ":Gin ++wait commit --amend --no-edit ")
   add_item("n", "git rebase -i", ":Gin rebase --rebase-merge -i ")
   add_item(
