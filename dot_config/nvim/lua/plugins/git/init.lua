@@ -119,8 +119,8 @@ local function setup_gin()
   vim.keymap.set("n", "<Plug>(C-G)d", "<Cmd>GinDiff -- .<CR>")
   vim.keymap.set("n", "<Plug>(C-G)<C-U>", "<Cmd>Gin reset -- %<CR>") -- unstage buf
   vim.keymap.set("n", "<Plug>(C-G)<C-Space>", [[<Cmd>lua require("plugins.git.commit").exec()<CR>]]) -- commit
-  vim.keymap.set("n", "<Plug>(C-G)<C-X>", "v:GinBrowse<CR>") -- anologous to gx
-  vim.keymap.set("x", "<Plug>(C-G)<C-X>", ":GinBrowse<CR>")
+  vim.keymap.set("n", "<Plug>(C-G)<C-F>", ":.GinBrowse<CR>") -- i.e. open file in hosting site
+  vim.keymap.set("x", "<Plug>(C-G)<C-F>", ":GinBrowse<CR>")
   vim.keymap.set("n", "<Plug>(C-G)<C-Y>", [[:.GinBrowse ++yank=+ -n --permalink<CR>]])
   vim.keymap.set("x", "<Plug>(C-G)<C-Y>", [[:GinBrowse ++yank=+ -n --permalink<CR>]])
 
