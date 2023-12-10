@@ -121,8 +121,8 @@ local function setup_gin()
   vim.keymap.set("n", "<Plug>(C-G)<C-Space>", [[<Cmd>lua require("plugins.git.commit").exec()<CR>]]) -- commit
   vim.keymap.set("n", "<Plug>(C-G)<C-X>", "v:GinBrowse<CR>") -- anologous to gx
   vim.keymap.set("x", "<Plug>(C-G)<C-X>", ":GinBrowse<CR>")
-  vim.keymap.set("n", "<Plug>(C-G)<C-Y>", [[v:GinBrowse ++yank=+ -n --permalink]]) -- <CR> to confirm
-  vim.keymap.set("x", "<Plug>(C-G)<C-Y>", [[:GinBrowse ++yank=+ -n --permalink]])
+  vim.keymap.set("n", "<Plug>(C-G)<C-Y>", [[:.GinBrowse ++yank=+ -n --permalink<CR>]])
+  vim.keymap.set("x", "<Plug>(C-G)<C-Y>", [[:GinBrowse ++yank=+ -n --permalink<CR>]])
 
   -- command palette
   add_item("n", "git amend", ":Gin commit --amend ")
