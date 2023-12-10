@@ -107,7 +107,7 @@ local function setup_gin()
     else
       require("plugins.git.log").exec_graph("-n", "200")
     end
-  end, { desc = "git graph -- %" })
+  end, { desc = "git graph" })
   vim.keymap.set(
     "n",
     "<Plug>(C-G)l",
