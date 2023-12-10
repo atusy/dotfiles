@@ -13,9 +13,11 @@ local function leave(tab, buf, augroup)
   end)
 end
 
-local function commit(buf)
+---@param buf number A buffer of commit message
+---@param args string[] A list of extra arguments to be passed to git commit
+local function commit(buf, args)
   local res = vim
-    .system({ "git", "commit", "--file", "-" }, {
+    .system({ "git", "commit", unpack(args or {}), "--file", "-" }, {
       stdin = vim.api.nvim_buf_get_lines(buf, 0, -1, false),
     })
     :wait()
@@ -43,7 +45,10 @@ local function get_message(ref)
   vim.notify(res.stderr, vim.log.levels.ERROR)
 end
 
-local function exec()
+---@param opts? { args: string[] }
+local function exec(opts)
+  opts = vim.tbl_deep_extend("keep", opts or {}, { args = {} })
+
   -- init UI
   vim.api.nvim_exec2(
     [[
@@ -80,7 +85,7 @@ local function exec()
 
   -- Ex-commands
   vim.api.nvim_buf_create_user_command(buf, "Apply", function()
-    if commit(buf) == 0 then
+    if commit(buf, opts.args) == 0 then
       leave(tab, buf, augroup)
     end
   end, {})
