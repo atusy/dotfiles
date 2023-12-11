@@ -68,6 +68,11 @@ local function config()
     vim.notify(vim.inspect(vim.fn["pum#current_item"]()))
   end)
 
+  -- on insert
+  vim.keymap.set("i", "<c-x><c-f>", function()
+    vim.fn["ddc#map#manual_complete"]({ sources = { "file" } })
+  end)
+
   -- on cmdline
   for _, lhs in pairs({ ":", "/", "?" }) do
     vim.keymap.set({ "n", "x" }, lhs, function()
