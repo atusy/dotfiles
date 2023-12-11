@@ -65,7 +65,7 @@ local function config()
     return "<c-c>"
   end, { expr = true })
   vim.keymap.set({ "i", "c" }, "<c-x><cr>", function()
-    vim.print(vim.fn["pum#current_item"]())
+    vim.notify(vim.inspect(vim.fn["pum#current_item"]()))
   end)
 
   -- on cmdline
