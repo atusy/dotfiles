@@ -135,18 +135,19 @@ return {
     end,
   },
   {
-    "https://github.com/norcalli/nvim-colorizer.lua",
-    event = { "BufReadPre" },
+    "https://github.com/uga-rosa/ccc.nvim",
+    -- migrated from https://github.com/norcalli/nvim-colorizer.lua
+    -- because colorizer's extmark are vulnerable to text editing
+    -- For example, extmark apparently disappears when `i#123456<Esc>O`
+    lazy = true,
+    event = "BufReadPost",
     config = function()
-      local function setup()
-        require("colorizer").setup()
-      end
-
-      vim.api.nvim_create_autocmd(
-        "ColorScheme",
-        { group = vim.api.nvim_create_augroup("atusy.nvim-colorizer", {}), callback = setup }
-      )
-      setup()
+      require("ccc").setup({
+        highlighter = {
+          auto_enable = true,
+          lsp = true,
+        },
+      })
     end,
   },
   {
