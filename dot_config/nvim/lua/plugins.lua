@@ -145,7 +145,8 @@ return {
   -- better something
   {
     "https://github.com/chrisbra/Recover.vim",
-    lazy = false,
+    event = "SwapExists", -- NOTE: testing
+    -- lazy = false,
   },
   {
     "https://github.com/lambdalisue/kensaku.vim",
