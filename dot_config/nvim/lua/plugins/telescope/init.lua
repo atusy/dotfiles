@@ -53,10 +53,10 @@ local function telescope_config(_)
         },
         n = {
           K = function(_)
-            vim.print(require("telescope.actions.state").get_selected_entry())
+            vim.notify(vim.inspect(require("telescope.actions.state").get_selected_entry()))
           end,
           ["<C-K>"] = function(prompt_bufnr)
-            vim.print(require("telescope.actions.state").get_current_picker(prompt_bufnr))
+            vim.notify(vim.inspect(require("telescope.actions.state").get_current_picker(prompt_bufnr)))
           end,
         },
       },
