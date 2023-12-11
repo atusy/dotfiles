@@ -34,12 +34,12 @@ local function config()
       return "<Cmd>call pum#map#insert_relative(+1)<CR>"
     end
     if vim.api.nvim_get_mode().mode == "c" then
-      return "<Cmd>call pum#map#manual_complete()<CR>"
+      return "<Cmd>call ddc#map#manual_complete()<CR>"
     end
     local col = vim.fn.col(".")
     local line = vim.fn.getline(".") ---@diagnostic disable-line: param-type-mismatch
     if col > 1 and type(line) == "string" and string.match(vim.fn.strpart(line, col - 2), "%s") == nil then
-      return "<Cmd>call pum#map#manual_complete()<CR>"
+      return "<Cmd>call ddc#map#manual_complete()<CR>"
     end
     return "<Tab>"
   end, { expr = true })
