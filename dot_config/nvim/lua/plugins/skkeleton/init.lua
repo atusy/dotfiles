@@ -45,7 +45,7 @@ return {
       -- `:`で`っ`を送りがなとした変換を開始
       vim.fn["skkeleton#register_keymap"]("input", '"', "henkanPoint")
 
-      augroup = vim.api.nvim_create_augroup("atusy.skkeleton", {})
+      local augroup = vim.api.nvim_create_augroup("atusy.skkeleton", {})
       vim.api.nvim_create_autocmd("User", {
         group = augroup,
         pattern = "skkeleton-enable-post",
