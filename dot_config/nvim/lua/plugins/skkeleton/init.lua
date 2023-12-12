@@ -51,22 +51,16 @@ return {
         pattern = "skkeleton-enable-post",
         callback = function(ctx)
           -- NOTE: do not call skkeleton#handle directory. Instead, use expr mapping to handle keys in sync
-          vim.keymap.set({ "i", "c", "t" }, ":", function()
-            local state = vim.g["skkeleton#state"]
-            local mode = vim.fn["skkeleton#mode"]()
-            if mode ~= "abbrev" and state.phase == "input:okurinasi" then
+          local mode = vim.api.nvim_get_mode().mode
+          vim.keymap.set(mode, ":", function()
+            -- NOTE: seems like clean up is done by the time of skkeleton-disable-post
+            local skk_state = vim.g["skkeleton#state"]
+            local skk_mode = vim.fn["skkeleton#mode"]()
+            if skk_mode ~= "abbrev" and skk_state.phase == "input:okurinasi" then
               return [[<Cmd>call skkeleton#handle('handleKey', {'key': ['"', ";"]})<CR>]] -- 「っ」で変換開始
             end
             return [[<Cmd>call skkeleton#handle('handleKey', {'key': ':'})<CR>]]
-          end, { buffer = true, expr = true })
-        end,
-      })
-
-      vim.api.nvim_create_autocmd("User", {
-        group = augroup,
-        pattern = "skkeleton-disable-post",
-        callback = function()
-          pcall(vim.keymap.del, { "i", "c", "t" }, ":", { buffer = true })
+          end, { buffer = ctx.buf, expr = true })
         end,
       })
 
