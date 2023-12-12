@@ -125,6 +125,13 @@ set_keymap("n", "gf", [[<Cmd>lua require("atusy.misc").open_cfile()<CR>]])
 set_keymap("n", "<C-W><C-V>", "<C-W><C-V><Cmd>horizontal wincmd =<CR>")
 set_keymap("n", "<C-W><C-S>", "<C-W><C-S><Cmd>vertical wincmd =<CR>")
 
+-- mappings: tab management
+-- continue moving around tab (e.g., gtttT gTtT)
+set_keymap("n", "gt", "gt<Plug>(gt)")
+set_keymap("n", "gT", "gT<Plug>(gt)")
+set_keymap("n", "<Plug>(gt)t", "gt<Plug>(gt)")
+set_keymap("n", "<Plug>(gt)T", "gT<Plug>(gt)")
+
 -- mappings: diagnostics
 set_keymap("n", "[d", [[<Cmd>lua require("atusy.diagnostic").goto_prev_underline()<CR>]])
 set_keymap("n", "]d", [[<Cmd>lua require("atusy.diagnostic").goto_next_underline()<CR>]])
