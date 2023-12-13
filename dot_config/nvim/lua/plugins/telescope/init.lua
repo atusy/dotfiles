@@ -41,6 +41,22 @@ local function telescope_init()
   vim.keymap.set("n", "<Plug>(q):", telescope("command_history"))
   vim.keymap.set("n", "<Plug>(q)/", telescope("search_history"))
   vim.keymap.set("n", "<Plug>(C-G)<C-S>", telescope("git_status"))
+
+  -- cmdline completion
+  local state = {}
+  vim.keymap.set("c", "<Plug>(telescope-cmdline-state)", function()
+    state.type = vim.fn.getcmdtype()
+    state.line = vim.fn.getcmdline()
+  end)
+  vim.keymap.set("n", "<Plug>(telescope-cmdline-complete)", function()
+    local opts = { default_text = state.line, layout_config = { anchor = "SW" } }
+    if state.type == ":" then
+      require("telescope.builtin").command_history(opts)
+    elseif state.type == "/" or state.type == "?" then
+      require("telescope.builtin").search_history(opts)
+    end
+  end)
+  vim.keymap.set("c", "<C-X><C-H>", "<Plug>(telescope-cmdline-state)<C-U><C-C><Plug>(telescope-cmdline-complete)")
 end
 
 local function telescope_config(_)
