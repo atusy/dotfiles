@@ -4,6 +4,7 @@
 .python-version
 .ipynb_checkpoints
 .envrc
+.rtx.toml
 .tool-versions
 node_modules
 __pycache__
