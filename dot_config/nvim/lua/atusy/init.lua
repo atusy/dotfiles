@@ -119,8 +119,8 @@ set_keymap({ "o", "x" }, "al", ":<c-u>keepjumps normal! $v0<cr>", { silent = tru
 set_keymap({ "o", "x" }, "ae", ":<c-u>keepjumps normal! G$vgo<cr>", { silent = true })
 
 -- mappings: mouse
--- <2-LeftMouse> is for tyru/open-browser
 set_keymap("!", "<LeftMouse>", "<Esc><LeftMouse>")
+set_keymap("n", "<2-LeftMouse>", "gf", { remap = true })
 set_keymap("n", "<LeftDrag>", "<Nop>")
 set_keymap("n", "<LeftRelease>", "<Nop>")
 
