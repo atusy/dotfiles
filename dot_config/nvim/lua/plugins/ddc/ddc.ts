@@ -73,14 +73,6 @@ export class Config extends BaseConfig {
           converters: ["converter_fuzzy"],
           timeout: 1000,
         },
-        dictionary: {
-          mark: "Dict",
-          matchers: ["matcher_head_dictionary", "matcher_fuzzy"],
-          converters: ["converter_fuzzy", "converter_dictionary"],
-          isVolatile: true,
-          keywordPattern: "[a-zA-Z]+",
-          maxItems: 30,
-        },
         around: {
           mark: "A",
           converters: ["converter_fuzzy", "converter_dictionary"],
@@ -93,20 +85,18 @@ export class Config extends BaseConfig {
           mark: "CMD",
           forceCompletionPattern: "\\S/\\S*|\\.\\w*",
         },
-        "ex_command_history_cmd": {
-          mark: "RECENT",
-          minAutoCompleteLength: 0,
-          matchers: ["matcher_head"],
-          sorters: [],
-          converters: ["converter_ex_command"],
-          enabledIf: "getcmdline() =~# ' ' ? v:false : v:true",
+        dictionary: {
+          mark: "Dict",
+          matchers: ["matcher_head_dictionary", "matcher_fuzzy"],
+          converters: ["converter_fuzzy", "converter_dictionary"],
+          isVolatile: true,
+          keywordPattern: "[a-zA-Z]+",
+          maxItems: 30,
         },
-        "ex_command_history": {
-          mark: "HIST",
-          minAutoCompleteLength: 0,
-          matchers: ["matcher_head"],
-          sorters: [],
-          converters: [],
+        file: {
+          mark: "F",
+          isVolatile: true,
+          forceCompletionPattern: "\\S/\\S*",
         },
         "cmdline-history": {
           mark: "HIST",
@@ -132,10 +122,35 @@ export class Config extends BaseConfig {
           forceCompletionPattern: "\\.\\w*|::\\w*|->\\w*",
           dup: "force",
         },
-        file: {
-          mark: "F",
+        "shell_history": {
+          mark: "HIST_SH",
+          matchers: ["matcher_head_dictionary", "matcher_fuzzy"],
+          keywordPattern: "[^! ].*",
+        },
+        skkeleton: {
+          mark: "SKK",
+          matchers: ["skkeleton"],
+          sorters: [],
+          converters: [],
+          minAutoCompleteLength: 2,
           isVolatile: true,
-          forceCompletionPattern: "\\S/\\S*",
+        },
+
+        // aliases
+        "ex_command_history_cmd": {
+          mark: "RECENT",
+          minAutoCompleteLength: 0,
+          matchers: ["matcher_head"],
+          sorters: [],
+          converters: ["converter_ex_command"],
+          enabledIf: "getcmdline() =~# ' ' ? v:false : v:true",
+        },
+        "ex_command_history": {
+          mark: "HIST",
+          minAutoCompleteLength: 0,
+          matchers: ["matcher_head"],
+          sorters: [],
+          converters: [],
         },
         xonsh: {
           mark: "XONSH",
@@ -155,37 +170,19 @@ export class Config extends BaseConfig {
           minAutoCompleteLength: 0,
           minKeywordLength: 2,
         },
-        "shell_history": {
-          mark: "HIST_SH",
-          matchers: ["matcher_head_dictionary", "matcher_fuzzy"],
-          keywordPattern: "[^! ].*",
-        },
-        skkeleton: {
-          mark: "SKK",
-          matchers: ["skkeleton"],
-          sorters: [],
-          converters: [],
-          minAutoCompleteLength: 2,
-          isVolatile: true,
-        },
       },
       sourceParams: {
-        dictionary: {
-          showMenu: false,
-          smartCase: false,
-          dictPaths: [join(lazyroot, "english-words/words_alpha.txt")],
-        },
-        "shell_history": {
-          showMenu: false,
-          smartCase: false,
-          dictPaths: ["/home/atusy/.zsh_history"],
-        },
         around: { maxSize: 500 },
         buffer: {
           requireSameFiletype: false,
           limitBytes: 50000,
           fromAltBuf: true,
           forceCollect: true,
+        },
+        dictionary: {
+          showMenu: false,
+          smartCase: false,
+          dictPaths: [join(lazyroot, "english-words/words_alpha.txt")],
         },
         file: {
           filenameChars: "[:keyword:].",
@@ -195,6 +192,13 @@ export class Config extends BaseConfig {
           enableAdditionalTextEdit: true,
           confirmBehavior: "replace",
         },
+        "shell_history": {
+          showMenu: false,
+          smartCase: false,
+          dictPaths: ["/home/atusy/.zsh_history"],
+        },
+
+        // aliases
         fish: {
           shell: "fish",
           envs: {
@@ -217,12 +221,14 @@ export class Config extends BaseConfig {
         },
       },
       filterParams: {
+        // matcher
         matcher_head_dictionary: {
           maxMatchLength: 1,
         },
         matcher_head_shell_history: {
           maxMatchLength: 2,
         },
+        // converter
         converter_dictionary: {
           dicts: [
             "kantan-ej-dictionary/kantan-ej-dictionary.json",
