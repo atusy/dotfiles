@@ -1,9 +1,3 @@
---[[ TODO
-https://qiita.com/delphinus/items/fb905e452b2de72f1a0f
-https://zenn.dev/nnsnico/articles/customize-lsp-handler
-https://dev.classmethod.jp/articles/eetann-change-neovim-lsp-diagnostics-format/
-]]
-
 -- [[ helpers ]]
 local set_keymap = vim.keymap.set
 local augroup = vim.api.nvim_create_augroup("atusy", {})
