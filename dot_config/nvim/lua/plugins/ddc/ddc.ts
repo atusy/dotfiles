@@ -19,8 +19,8 @@ export class Config extends BaseConfig {
 
     const sources = [
       "lsp",
-      "around",
       "file",
+      "around",
       "buffer",
       "skkeleton",
       "dictionary",
