@@ -48,7 +48,7 @@ local function lspconfig()
     require("lspconfig")[nm].setup(opts)
   end
   config("clangd", {})
-  config("ruff_lsp", {}) -- dot_config/ruff/ruff.toml
+  -- config("ruff_lsp", {}) -- dot_config/ruff/ruff.toml (too lazy to filter similar diagnostics from pyright...)
   config("pyright", { -- https://github.com/microsoft/pyright/blob/main/docs/configuration.md
     settings = {
       python = {
