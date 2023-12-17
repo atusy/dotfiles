@@ -50,6 +50,14 @@ local function lspconfig()
   config("bashls", { filetypes = { "sh", "bash", "zsh" } })
   config("clangd", {})
   config("gopls", {})
+  config("jsonls", {
+    settings = {
+      json = {
+        schemas = require("schemastore").json.schemas(),
+        validate = { enable = true },
+      },
+    },
+  })
   config("lua_ls", {
     settings = {
       single_file_support = true,
@@ -89,6 +97,15 @@ local function lspconfig()
   config("svelte", {})
   config("terraformls", { filetypes = { "terraform", "tf" } })
   config("volar", {})
+  config("yamlls", {
+    settings = {
+      yaml = {
+        -- recommended by https://github.com/b0o/SchemaStore.nvim?tab=readme-ov-file
+        schemaStore = { enable = false, url = "" },
+        schemas = require("schemastore").yaml.schemas(),
+      },
+    },
+  })
   local is_node = require("lspconfig").util.find_node_modules_ancestor(".")
   if is_node then
     config("tsserver", {})
@@ -187,4 +204,5 @@ return {
       })
     end,
   },
+  { "https://github.com/b0o/SchemaStore.nvim", lazy = true },
 }
