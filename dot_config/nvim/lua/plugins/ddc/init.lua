@@ -143,6 +143,17 @@ return {
       { "https://github.com/atusy/ddc-filter-converter_dictionary" },
     },
     config = config,
+    build = function(p)
+      local dir = require("atusy.lazy").dir(p)
+      local obj = vim.system({
+        "git",
+        "update-index",
+        "--skip-worktree",
+        vim.print(vim.fs.joinpath(dir, "denops/ddc/_mods.js")),
+      }, { cwd = dir })
+      obj:wait()
+      vim.fn["ddc#set_static_import_path"]()
+    end,
   },
   -- dictionaries for ddc (install only)
   { "https://github.com/dwyl/english-words", lazy = true },
