@@ -51,10 +51,10 @@ export class Config extends BaseConfig {
       cmdlineSources: {
         ":": [
           "ex_command_history_cmd",
-          "ex_command_history",
           "fish",
           "zsh",
           "cmdline",
+          "ex_command_history",
           "shell_history",
           "around",
         ],
