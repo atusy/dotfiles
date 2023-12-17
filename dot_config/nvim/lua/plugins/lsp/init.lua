@@ -47,34 +47,9 @@ local function lspconfig()
   local function config(nm, opts)
     require("lspconfig")[nm].setup(opts)
   end
-  config("clangd", {})
-  -- config("ruff_lsp", {}) -- dot_config/ruff/ruff.toml (too lazy to filter similar diagnostics from pyright...)
-  config("pyright", { -- https://github.com/microsoft/pyright/blob/main/docs/configuration.md
-    settings = {
-      python = {
-        venvPath = ".",
-        pythonPath = "./.venv/bin/python",
-        analysis = {
-          extraPaths = { "." },
-        },
-        exclude = { "./.worktree" },
-      },
-    },
-  }) -- pip install --user pyright
-  config("r_language_server", {}) -- R -e "remotes::install_github('languageserver')"
-  config("volar", {})
-  local is_node = require("lspconfig").util.find_node_modules_ancestor(".")
-  if is_node then
-    config("tsserver", {})
-  else
-    config("denols", {
-      single_file_support = true,
-    })
-  end
-  config("gopls", {})
   config("bashls", { filetypes = { "sh", "bash", "zsh" } })
-  config("svelte", {})
-  config("terraformls", { filetypes = { "terraform", "tf" } })
+  config("clangd", {})
+  config("gopls", {})
   config("lua_ls", {
     settings = {
       single_file_support = true,
@@ -97,6 +72,31 @@ local function lspconfig()
       },
     },
   })
+  config("pyright", { -- https://github.com/microsoft/pyright/blob/main/docs/configuration.md
+    settings = {
+      python = {
+        venvPath = ".",
+        pythonPath = "./.venv/bin/python",
+        analysis = {
+          extraPaths = { "." },
+        },
+        exclude = { "./.worktree" },
+      },
+    },
+  }) -- pip install --user pyright
+  -- config("ruff_lsp", {}) -- dot_config/ruff/ruff.toml (too lazy to filter similar diagnostics from pyright...)
+  config("r_language_server", {}) -- R -e "remotes::install_github('languageserver')"
+  config("svelte", {})
+  config("terraformls", { filetypes = { "terraform", "tf" } })
+  config("volar", {})
+  local is_node = require("lspconfig").util.find_node_modules_ancestor(".")
+  if is_node then
+    config("tsserver", {})
+  else
+    config("denols", {
+      single_file_support = true,
+    })
+  end
 end
 
 return {
