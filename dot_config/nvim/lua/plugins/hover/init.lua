@@ -166,10 +166,7 @@ return {
         },
         preview_window = false,
         title = false,
-        mouse_providers = {
-          "LSP",
-        },
-        mouse_delay = 1000,
+        mouse_providers = {},
       })
     end,
   },
