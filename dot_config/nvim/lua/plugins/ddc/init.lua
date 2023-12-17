@@ -1,6 +1,7 @@
 local function commandline_pre(mode)
   local buf = vim.api.nvim_get_current_buf()
   local opts = vim.fn["ddc#custom#get_buffer"]()
+  vim.fn["pum#set_local_option"](mode, "min_height", vim.o.pumheight)
   vim.api.nvim_create_autocmd("User", {
     group = vim.api.nvim_create_augroup("atusy.ddc.commandline_pre", {}),
     pattern = "DDCCmdlineLeave",
