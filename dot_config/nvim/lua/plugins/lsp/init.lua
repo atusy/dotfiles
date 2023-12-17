@@ -57,6 +57,7 @@ local function lspconfig()
         analysis = {
           extraPaths = { "." },
         },
+        exclude = { "./.worktree" },
       },
     },
   }) -- pip install --user pyright
