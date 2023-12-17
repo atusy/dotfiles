@@ -1,3 +1,13 @@
+--[[
+TODO:
+
+- https://github.com/edluffy/hologram.nvim
+  - might be interesting to view images from within Neovim
+
+- https://github.com/nullchilly/fsread.nvim
+  - wanna apply only to @string, @comment, or something like that
+--  ]]
+
 vim.api.nvim_create_autocmd("User", {
   pattern = { "LazyInstall", "LazyUpdate", "LazySync", "LazyClean" },
   callback = function()

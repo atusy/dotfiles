@@ -2,37 +2,6 @@
 https://qiita.com/delphinus/items/fb905e452b2de72f1a0f
 https://zenn.dev/nnsnico/articles/customize-lsp-handler
 https://dev.classmethod.jp/articles/eetann-change-neovim-lsp-diagnostics-format/
-
-## Plugin
-
-"rlch/github-notifications.nvim",
-use { 'LeafCage/vimhelpgenerator' }
-use { 'mattn/emmet-vim',
-use { 'pwntester/octo.nvim',
-use { 'shinespark/vim-list2tree' }
-use { 'skanehira/denops-docker.vim' }
-use { 'skanehira/denops-graphql.vim',
-use { 'skanehira/denops-silicon.vim',
-use { 'skanehira/denops-translate.vim',
-use { 'thinca/vim-quickrun',
-use { 'thinca/vim-themis' }
-
-https://github.com/tani/glance-vim
-https://github.com/folke/todo-comments.nvim
-https://github.com/simrat39/symbols-outline.nvim
-https://github.com/edluffy/hologram.nvim
-https://github.com/delphinus/ddc-treesitter
-https://github.com/Afourcat/treesitter-terraform-doc.nvim
-https://github.com/nullchilly/fsread.nvim
-https://github.com/joechrisellis/lsp-format-modifications.nvim
-
-https://github.com/thinca/modesearch.vim
-https://github.com/thinca/vim-partedit
-https://github.com/uga-rosa/ccc.nvim
-https://github.com/stevearc/dressing.nvim
-https://github.com/hrsh7th/nvim-gtd
-https://github.com/b0o/SchemaStore.nvim
-https://github.com/gaoDean/autolist.nvim
 ]]
 
 -- [[ helpers ]]
