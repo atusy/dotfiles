@@ -1,38 +1,47 @@
 local M = {}
 
-function M.toggle_severity(handlers, severities)
+function M.toggle_severity(keys, severities)
   local config = vim.diagnostic.config()
-  for _, handler_name in pairs(handlers) do
-    local handler = config[handler_name]
-    if handler == false then
-      vim.diagnostic.config({ virtual_text = severities or true })
-    end
 
-    local target = {}
-    for _, k in ipairs(vim.diagnostic.severity) do
-      target[k] = handler == true
+  for _, key in pairs(keys) do
+    -- format current severity into table<string, boolean>
+    local severity = {} ---@type table<string, boolean>
+    local init = type(config[key]) == "boolean" and config[key] or false
+    for _, nm in ipairs(vim.diagnostic.severity) do
+      severity[nm] = init
     end
-    if type(handler) == "table" then
-      for _, v in pairs(handler.severity) do
-        target[vim.diagnostic.severity[v]] = true
+    if type(config[key]) == "table" then
+      for _, s in pairs(config[key].severity) do
+        if type(s) == "number" then
+          severity[vim.diagnostic.severity[s]] = true
+        else
+          severity[s] = true
+        end
       end
     end
-    for _, k in pairs(severities) do
-      target[k] = not target[k]
+
+    -- toggle current severity
+    for _, s in ipairs(severities) do
+      if type(s) == "number" then
+        s = vim.diagnostic.severity[s]
+      end
+      severity[s] = not severity[s]
     end
 
-    if handler == true then
-      config[handler_name] = { severity = {} }
-    else
-      config[handler_name].severity = {}
-    end
-    for k, v in pairs(target) do
+    -- update severity
+    config[key] = type(config[key]) == "table" and config[key] or {} ---@diagnostic disable-line: assign-type-mismatch
+    config[key].severity = {} ---@diagnostic disable-line: inject-field
+    for k, v in pairs(severity) do
       if v then
-        table.insert(config[handler_name].severity, vim.diagnostic.severity[k])
+        table.insert(config[key].severity, k) ---@diagnostic disable-line: undefined-field
       end
     end
   end
+
+  -- apply
   vim.diagnostic.config(config)
+
+  -- return applied config
   return vim.diagnostic.config()
 end
 
