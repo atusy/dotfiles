@@ -58,6 +58,7 @@ local setup_chowcho = function()
     run(
       safely(function(n)
         vim.api.nvim_win_set_buf(0, vim.api.nvim_win_get_buf(n))
+        vim.api.nvim_win_set_cursor(0, vim.api.nvim_win_get_cursor(n))
       end),
       {
         use_exclude_default = false,
