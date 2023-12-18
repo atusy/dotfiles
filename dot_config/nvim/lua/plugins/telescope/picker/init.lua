@@ -55,8 +55,12 @@ end
 local function extract_locations(resps, locs)
   locs = locs and { unpack(locs) } or {}
   for _, resp in pairs(resps) do
-    for _, i in pairs(resp.result or {}) do
-      table.insert(locs, i)
+    if vim.tbl_islist(resp.result) then
+      for _, i in pairs(resp.result or {}) do
+        table.insert(locs, i)
+      end
+    else
+      table.insert(locs, resp.result)
     end
   end
   return locs
