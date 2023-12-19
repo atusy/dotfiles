@@ -112,7 +112,11 @@ return {
 
       --[[ treesitter ]]
       if p.dev then
-        vim.keymap.set({ "x", "o" }, "<Plug>(select-tsnode)", [[<Cmd>lua require("flash").treesitter()<CR>]])
+        vim.keymap.set(
+          { "x", "o" },
+          "<Plug>(select-tsnode)",
+          [[<Cmd>lua require("flash").treesitter({ prompt = { enabled = false } })<CR>]]
+        )
       else
         vim.keymap.set(
           { "x", "o" },
