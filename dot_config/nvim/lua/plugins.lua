@@ -178,7 +178,6 @@ return {
     "https://github.com/wsdjeg/vim-fetch", -- :e with linenumber
     lazy = false, -- some how event-based lazy loading won't work as expected
   },
-  { "https://github.com/lambdalisue/readablefold.vim", lazy = true }, -- or anuvyklack/pretty-fold.nvim, but disabled in preference of atusy.fold.foldtext
   {
     "https://github.com/andymass/vim-matchup",
     event = "BufReadPost",
