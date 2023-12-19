@@ -357,15 +357,7 @@ return {
           additional_vim_regex_highlighting = false,
         },
         indent = { enable = true },
-        incremental_selection = {
-          enable = true,
-          keymaps = {
-            init_selection = false,
-            node_incremental = "<Plug>(ts-node-inc)",
-            scope_incremental = false,
-            node_decremental = "<Plug>(ts-node-desc)",
-          },
-        },
+        incremental_selection = { enable = false },
       })
 
       -- register parsers to some other languages

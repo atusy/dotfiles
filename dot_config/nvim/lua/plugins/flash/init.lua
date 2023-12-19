@@ -127,6 +127,10 @@ return {
       end
       vim.keymap.set({ "x", "o" }, "m", "<Plug>(select-tsnode)")
       vim.keymap.set("n", "zf", "zfV<Plug>(select-tsnode)")
+      vim.keymap.set("x", "v", function()
+        -- ; to increment and , to decrement the selection
+        require("flash").treesitter({ labels = "", jump = { autojump = true }, prompt = { enabled = false } })
+      end)
     end,
     config = function()
       require("flash").setup({
