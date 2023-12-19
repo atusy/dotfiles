@@ -93,7 +93,15 @@ local function lspconfig()
     },
   }) -- pip install --user pyright
   -- config("ruff_lsp", {}) -- dot_config/ruff/ruff.toml (too lazy to filter similar diagnostics from pyright...)
-  config("r_language_server", {}) -- R -e "remotes::install_github('languageserver')"
+  config("r_language_server", {
+    settings = {
+      r = {
+        lsp = {
+          rich_documentation = false,
+        },
+      },
+    },
+  }) -- R -e "remotes::install_github('languageserver')"
   config("svelte", {})
   config("terraformls", { filetypes = { "terraform", "tf" } })
   config("volar", {})
