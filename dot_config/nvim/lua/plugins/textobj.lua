@@ -96,6 +96,9 @@ recipes["j"] = {
 return {
   {
     "https://github.com/echasnovski/mini.ai",
+    dependencies = {
+      "https://github.com/nvim-treesitter/nvim-treesitter-textobjects", -- as a query provider
+    },
     event = "ModeChanged",
     config = function()
       --[[

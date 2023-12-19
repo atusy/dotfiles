@@ -380,19 +380,6 @@ return {
   },
   -- 'nvim-treesitter/playground', -- vim.treesitter.show_tree would be enough
   {
-    "https://github.com/nvim-treesitter/nvim-treesitter-textobjects",
-    lazy = true,
-    config = function()
-      require("nvim-treesitter.configs").setup({
-        textobjects = {
-          -- select = {}, -- done via mini.ai
-          move = { enable = false },
-          lsp_interop = { enable = false },
-        },
-      })
-    end,
-  },
-  {
     "https://github.com/nvim-treesitter/nvim-treesitter-refactor",
     lazy = true,
     init = function()
