@@ -402,7 +402,6 @@ return {
   },
   {
     "https://github.com/nvim-treesitter/nvim-treesitter-refactor",
-    dependencies = { "https://github.com/nvim-treesitter/nvim-treesitter" },
     lazy = true,
     init = function()
       vim.keymap.set("n", " r", [[<Cmd>lua require("nvim-treesitter-refactor.smart_rename").smart_rename(0)<CR>]], {})
@@ -434,7 +433,6 @@ return {
   {
     "https://github.com/RRethy/nvim-treesitter-endwise",
     ft = { "ruby", "lua", "sh", "bash", "zsh", "vim" },
-    dependencies = { "https://github.com/nvim-treesitter/nvim-treesitter" },
     config = function()
       require("nvim-treesitter.configs").setup({ endwise = { enable = true } })
     end,

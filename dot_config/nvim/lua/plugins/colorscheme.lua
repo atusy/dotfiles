@@ -113,7 +113,6 @@ return {
     "https://github.com/RRethy/vim-illuminate",
     lazy = true,
     event = { "CursorHold" },
-    dependencies = { "https://github.com/nvim-treesitter/nvim-treesitter" },
     init = function()
       vim.keymap.set("n", "<Left>", [[<Cmd>lua require("illuminate").goto_prev_reference()<CR>]])
       vim.keymap.set("n", "<Right>", [[<Cmd>lua require("illuminate").goto_next_reference()<CR>]])
