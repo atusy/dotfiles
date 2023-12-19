@@ -56,7 +56,7 @@ local function format_on_buf_write_pre(buf, once)
             return
           elseif err:match("No formatters found for buffer") then
             return
-          elseif err:match("Formatter '.-' timeout") then
+          elseif err:match("Formatter '.-' timeout") or err:match("%[LSP%]%[.-%] timeout") then
             format_on_buf_write_post(args.buf, true) -- as retry
           else
             vim.notify(format_error(err, 1), vim.log.levels.ERROR)
