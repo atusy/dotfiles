@@ -46,6 +46,12 @@ local function format_on_buf_write_pre(buf, once)
     buffer = buf,
     once = once,
     callback = function(args)
+      local opt = require("atusy.opt").format_on_save
+      if opt == false then
+        return
+      elseif opt == "table" and (opt[vim.o.filetype] == false or opt[1] == false) then
+        return
+      end
       pcall(
         require("conform").format,
         { bufnr = args.buf, async = false, lsp_fallback = true, timeout_ms = 200, notify_on_error = false },
