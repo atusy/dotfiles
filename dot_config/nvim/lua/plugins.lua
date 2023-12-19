@@ -311,10 +311,6 @@ return {
     "https://github.com/nvim-treesitter/nvim-treesitter",
     build = ":TSUpdate",
     event = { "BufReadPost", "BufNewFile" },
-    init = function()
-      vim.keymap.set("x", "v", "<Plug>(ts-node-inc)", {})
-      vim.keymap.set("x", " v", "<Plug>(ts-node-desc)", {})
-    end,
     config = function()
       -- install directory of treesitter parsers
       local treesitterpath = vim.fn.stdpath("data") .. "/treesitter"
