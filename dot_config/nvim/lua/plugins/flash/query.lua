@@ -4,6 +4,9 @@ local M = {}
 ---@param pat string pattern to be converted to migemo
 ---@return string
 function M.kensaku(pat)
+  if pat:match("[0-9A-Z]") then
+    return pat
+  end
   local str = pat
   local query = ""
   for _ = 1, #str do
