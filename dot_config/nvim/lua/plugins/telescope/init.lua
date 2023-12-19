@@ -114,21 +114,16 @@ local function telescope_config(_)
 end
 
 return {
+  { "https://github.com/nvim-telescope/telescope-fzf-native.nvim", build = "make", lazy = true },
   {
     "https://github.com/nvim-telescope/telescope.nvim",
     cmd = "Telescope",
-    dependencies = {
-      "https://github.com/nvim-lua/plenary.nvim",
-      { "https://github.com/nvim-telescope/telescope-fzf-native.nvim", build = "make" },
-    },
     init = telescope_init,
     config = telescope_config,
   },
   {
     "https://github.com/stevearc/aerial.nvim",
     lazy = true,
-    cmd = { "Telescope" },
-    dependencies = { "https://github.com/nvim-telescope/telescope.nvim" },
     init = function()
       vim.keymap.set("n", "gO", [[<Cmd>lua require("aerial").open()<CR>]])
     end,

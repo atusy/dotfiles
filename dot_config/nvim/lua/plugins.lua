@@ -17,6 +17,7 @@ vim.api.nvim_create_autocmd("User", {
 
 return {
   -- basic dependencies
+  { "https://github.com/nvim-lua/plenary.nvim", lazy = true },
   {
     "https://github.com/delphinus/cellwidths.nvim",
     event = { "BufReadPost", "ModeChanged" },
