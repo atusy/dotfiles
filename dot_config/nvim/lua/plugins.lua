@@ -284,8 +284,8 @@ return {
   {
     "https://github.com/haya14busa/vim-edgemotion",
     keys = {
-      { "<A-]>", "<Plug>(edgemotion-j)", mode = "" },
-      { "<A-[>", "<Plug>(edgemotion-k)", mode = "" },
+      { "<A-j>", "<Plug>(edgemotion-j)", mode = "" },
+      { "<A-k>", "<Plug>(edgemotion-k)", mode = "" },
     },
   },
   {
