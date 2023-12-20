@@ -107,12 +107,6 @@ return {
       vim.fn["skkeleton#initialize"]()
     end,
   },
-  {
-    "https://github.com/skk-dev/dict",
-    lazy = true,
-  },
-  {
-    "https://github.com/tokuhirom/jawiki-kana-kanji-dict",
-    lazy = true,
-  },
+  { "https://github.com/skk-dev/dict", lazy = true },
+  { "https://github.com/tokuhirom/jawiki-kana-kanji-dict", lazy = true },
 }
