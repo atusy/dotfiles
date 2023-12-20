@@ -7,4 +7,5 @@ if set -q DDCVIM
   alias Gin=git
   alias GinBuffer=git
   alias Make=make
+  alias lmake=make
 end
