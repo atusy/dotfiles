@@ -17,7 +17,7 @@ local function commandline_pre(mode)
   })
   local enabledIf = string.format(
     [[getcmdline() =~# "^\\(%s\\)" ? v:true : v:false]],
-    table.concat({ "!", "Make ", [[Gin\\(Buffer\\)? ]] }, [[\\|]])
+    table.concat({ "!", "Make ", "Gin ", "GinBuffer " }, [[\\|]])
   )
   vim.fn["ddc#custom#patch_buffer"]("sourceOptions", {
     file = { forceCompletionPattern = [[(^e\s+|\S/\S*)]] },
