@@ -140,7 +140,7 @@ return {
           treesitter = {
             enabled = false,
             jump = { pos = "range", autojump = false },
-            label = { before = true, after = true, style = "inline", rainbow = { enabled = true } },
+            label = { before = true, after = true, style = "inline", rainbow = { enabled = true, shade = 3 } },
           },
         },
         highlight = { groups = { label = "DiagnosticError" } },
