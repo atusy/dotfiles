@@ -56,7 +56,7 @@ export class Config extends BaseConfig {
           "xonsh",
           "cmdline",
           "ex_command_history",
-          "shell_history",
+          // "shell_history",
           "around",
         ],
         "@": ["input", "cmdline-history", "file", "around"],
@@ -125,7 +125,7 @@ export class Config extends BaseConfig {
         },
         "shell_history": {
           mark: "HIST_SH",
-          matchers: ["matcher_head_dictionary", "matcher_fuzzy"],
+          matchers: ["matcher_head"],
           keywordPattern: "[^! ].*",
         },
         skkeleton: {
