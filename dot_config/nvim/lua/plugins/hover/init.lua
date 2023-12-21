@@ -129,6 +129,10 @@ return {
           local rhs
           if vim.tbl_contains({ "diff", "gin-diff" }, ctx.match) then
             rhs = hover_diff
+          elseif ctx.match == "gitrebase" then
+            rhs = function()
+              hover({ providers = { "gitshow" } })
+            end
           elseif vim.tbl_contains({ "sh", "bash", "fish", "xonsh", "zsh" }, ctx.match) then
             rhs = function()
               hover({ providers = { "LSP", "Man", "cmdhelp" } })
@@ -160,6 +164,7 @@ return {
           require("hover.providers.man")
           require("hover.providers.dictionary")
           require("plugins.hover.providers.cmdhelp")
+          require("plugins.hover.providers.gitshow")
         end,
         preview_opts = {
           border = "single",
