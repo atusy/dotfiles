@@ -385,7 +385,7 @@ return {
   },
   -- 'haringsrob/nvim_context_vt',
   {
-    "https://github.com/romgrk/nvim-treesitter-context",
+    "https://github.com/nvim-treesitter/nvim-treesitter-context",
     event = "CursorHold",
     config = function()
       require("treesitter-context").setup({
