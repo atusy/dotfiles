@@ -394,6 +394,7 @@ return {
           css = { "media_statement", "rule_set" },
           scss = { "media_statement", "rule_set" },
           rmd = { "section" },
+          yaml = { "block_mapping_pair", "block_sequence_item" },
         },
       })
     end,
