@@ -414,6 +414,18 @@ return {
     end,
   },
   {
+    "https://github.com/atusy/treemonkey.nvim",
+    lazy = true,
+    dev = true,
+    init = function()
+      vim.keymap.set({ "x", "o" }, "<Plug>(treemonkey)", function()
+        require("treemonkey").select({ ignore_injections = false, experimental = { treesitter_context = true } })
+      end)
+      vim.keymap.set({ "x", "o" }, "m", "<Plug>(treemonkey)")
+      vim.keymap.set("n", "zf", "zfV<Plug>(treemonkey)")
+    end,
+  },
+  {
     "https://github.com/atusy/tsnode-marker.nvim",
     lazy = true,
     dev = true,
