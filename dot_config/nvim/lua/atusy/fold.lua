@@ -17,6 +17,13 @@ function M.foldtext()
     return {}
   end
   local foldtext = require("atusy.treesitter").foldtext()
+  if #foldtext == 0 then
+    for _, line in pairs(vim.api.nvim_buf_get_lines(0, vim.v.foldstart - 1, vim.v.foldend, false)) do
+      if line:len() > 0 then
+        return line
+      end
+    end
+  end
   return foldtext
 end
 
