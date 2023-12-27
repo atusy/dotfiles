@@ -28,27 +28,47 @@ function M.foldtext()
   ---@type { [1]: string, [2]: string[], range: { [1]: integer, [2]: integer } }[] | { [1]: string, [2]: string[] }[]
   local result = {}
 
-  local line_pos = 0
+  -- iterate captures up to the end row of the node at the last character of the startline
+  -- sometimes, the value is too large because the character might be ignored by treesitter
+  -- (e.g., trailing space)
+  local row = vim.treesitter
+    .get_node({ bufnr = bufnr, pos = { foldstart - 1, line:len() - 1 }, ignore_injections = false })
+    :end_()
+  local line_positions = {}
+  local lines = {}
+  for i, v in ipairs(vim.api.nvim_buf_get_lines(bufnr, foldstart - 1, row + 1, false)) do
+    line_positions[foldstart - 2 + i] = 0
+    lines[foldstart - 2 + i] = v
+  end
 
-  for id, node, metadata in query:iter_captures(tree:root(), 0, foldstart - 1, foldstart) do
+  local text_concatenated = ""
+  local text_maxwidth = vim.api.nvim_win_get_width(0) * 2
+
+  for id, node, metadata in query:iter_captures(tree:root(), 0, foldstart - 1, row + 1) do
+    if vim.fn.strdisplaywidth(text_concatenated) > text_maxwidth then
+      break
+    end
     local name = query.captures[id]
     local start_row, start_col, end_row, end_col = node:range()
 
     local priority = tonumber(metadata.priority or vim.highlight.priorities.treesitter)
 
-    if start_row == foldstart - 1 and end_row == foldstart - 1 then
+    if start_row >= foldstart - 1 and end_row <= row then
+      -- if true then
       -- check for characters ignored by treesitter
-      if start_col > line_pos then
-        table.insert(result, {
-          line:sub(line_pos + 1, start_col),
-          {},
-          range = { line_pos, start_col },
-        })
+      if start_col > line_positions[start_row] or start_col == 0 then
+        local text = lines[start_row]:sub(line_positions[start_row] + 1, start_col)
+        if line_positions[start_row] == 0 and start_row > foldstart - 1 then
+          text = " "
+        end
+        table.insert(result, { text, {}, range = { line_positions[start_row], start_col } })
+        text_concatenated = text_concatenated .. text
       end
-      line_pos = end_col
+      line_positions[start_row] = end_col
 
-      local text = line:sub(start_col + 1, end_col)
+      local text = lines[start_row]:sub(start_col + 1, end_col)
       table.insert(result, { text, { { "@" .. name, priority } }, range = { start_col, end_col } })
+      text_concatenated = text_concatenated .. text
     end
   end
 
