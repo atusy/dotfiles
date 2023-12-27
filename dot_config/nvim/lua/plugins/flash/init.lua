@@ -111,22 +111,6 @@ return {
       end)
 
       --[[ treesitter ]]
-      if p.dev then
-        vim.keymap.set(
-          { "x", "o" },
-          "<Plug>(select-tsnode)",
-          [[<Cmd>lua require("flash").treesitter({ prompt = { enabled = false } })<CR>]]
-        )
-      else
-        vim.keymap.set(
-          { "x", "o" },
-          "<Plug>(select-tsnode)",
-          ":<C-U>lua require('tsht').nodes({ignore_injections = false})<CR>",
-          { silent = true }
-        )
-      end
-      vim.keymap.set({ "x", "o" }, "m", "<Plug>(select-tsnode)")
-      vim.keymap.set("n", "zf", "zfV<Plug>(select-tsnode)")
       vim.keymap.set("x", "v", function()
         -- ; to increment and , to decrement the selection
         require("flash").treesitter({ labels = "", jump = { autojump = true }, prompt = { enabled = false } })

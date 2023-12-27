@@ -419,11 +419,27 @@ return {
     lazy = true,
     dev = true,
     init = function()
-      vim.keymap.set({ "x", "o" }, "<Plug>(treemonkey)", function()
+      vim.keymap.set({ "x", "o" }, "m", function()
         require("treemonkey").select({ ignore_injections = false, experimental = { treesitter_context = true } })
       end)
-      vim.keymap.set({ "x", "o" }, "m", "<Plug>(treemonkey)")
-      vim.keymap.set("n", "zf", "zfV<Plug>(treemonkey)")
+
+      vim.keymap.set("n", "zf", "zfV<Plug>(treemonkey-multiline)")
+      vim.keymap.set("o", "<Plug>(treemonkey-multiline)", function()
+        require("treemonkey").select({
+          ignore_injections = false,
+          filter = function(nodes)
+            local res = {}
+            for _, n in pairs(nodes) do
+              local srow, _, erow, ecol = n:range()
+              if erow > (srow + (ecol == 0 and 1 or 0)) then
+                table.insert(res, n)
+              end
+            end
+            return res
+          end,
+          experimental = { treesitter_context = true },
+        })
+      end)
     end,
   },
   {
