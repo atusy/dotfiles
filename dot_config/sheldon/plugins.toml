@@ -14,6 +14,9 @@ zcompile() zsh-defer builtin zcompile "$@"
 function my-rtx-activate() {
   command -v direnv >/dev/null && eval "$( direnv hook zsh )"
   eval "$( rtx activate zsh )" && eval "$( rtx hook-env -s zsh )"
+  if command -v nvim >/dev/null; then
+    export EDITOR=nvim
+  fi
 }
 RTX_INSTALL_ONLY=1 . "${HOME}/.local/lastresort/bin/rtx" && zsh-defer my-rtx-activate
 """
