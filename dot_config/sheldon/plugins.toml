@@ -77,7 +77,7 @@ hooks.pre = """
 export ZENO_ENABLE_SOCK=1
 
 # Isolate deno environment
-ZENO_DENO_VER=1.38.4
+ZENO_DENO_VER=1.39.1
 ZENO_DENO_PATH="$HOME/.local/share/rtx/installs/deno/$ZENO_DENO_VER/bin"
 function zeno-rtx() {
   if [[ ! -x "$ZENO_DENO_PATH/deno" ]]; then
