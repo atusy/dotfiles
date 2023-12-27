@@ -1,7 +1,21 @@
 local M = {}
 
+---Treesitter-based foldtext
+---
 ---Modified after https://github.com/neovim/neovim/blob/7f9fc2fbf03e18c1e4033763be4905707d7a84e7/runtime/lua/vim/treesitter/_fold.lua?plain=1#L402-L491
 ---under Apache License Version 2.0, January 2004 https://www.apache.org/licenses/
+---
+---With this change, foldtext may include lines after foldstart.
+---For example, foldtext from the following situation is `function f( a, b, c )`.
+---
+---function f( -- foldstart
+---  a,
+---  b,
+---  c
+--- ) -- foldend
+---  return a, b, c
+---end
+---
 ---@return { [1]: string, [2]: string[] }[]|string
 function M.foldtext()
   local foldstart = vim.v.foldstart
