@@ -22,7 +22,6 @@ export class Config extends BaseConfig {
       "file",
       "around",
       "buffer",
-      "skkeleton",
       "dictionary",
     ];
 

@@ -64,17 +64,38 @@ return {
         end,
       })
 
-      -- filetypeに応じた一部キーの無効化
       vim.api.nvim_create_autocmd("User", {
         group = augroup,
         pattern = "skkeleton-enable-pre",
         callback = function(ctx)
+          -- filetypeに応じた一部キーの無効化
           local ft = vim.bo[ctx.buf].filetype
           local exceptions = {}
           if ft == "TelescopePrompt" then
             table.insert(exceptions, "<CR>")
           end
           set_mapped_keys(exceptions)
+
+          -- ddcによるskkelton補完
+          local ddc_ok, ddc_config = pcall(function()
+            local config = vim.fn["ddc#custom#get_buffer"]()
+            vim.fn["ddc#custom#patch_buffer"]("sources", { "skkeleton" })
+            return config
+          end)
+
+          if not ddc_ok then
+            vim.notify(ddc_config, vim.log.levels.ERROR)
+          end
+
+          vim.api.nvim_create_autocmd("User", {
+            pattern = "skkeleton-disable-pre",
+            once = true,
+            callback = function()
+              if ddc_ok then
+                vim.fn["ddc#custom#set_buffer"](ddc_config)
+              end
+            end,
+          })
         end,
       })
 
