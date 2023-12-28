@@ -108,6 +108,8 @@ return {
 				useGoogleJapaneseInput = true,
 				markerHenkan = "",
 				markerHenkanSelect = "",
+				---@diagnostic disable-next-line: param-type-mismatch
+				databasePath = vim.fs.joinpath(vim.fn.stdpath("cache"), "skkeleton-dictionary.sqlite3"),
 				globalDictionaries = {
 					dict("L"),
 					dict("propernoun"),
