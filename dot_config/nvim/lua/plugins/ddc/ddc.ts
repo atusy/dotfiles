@@ -16,6 +16,7 @@ export class Config extends BaseConfig {
       "luaeval",
       `require("lazy.core.config").options.root`,
     ) as string;
+    const stddata = await args.denops.call("stdpath", "data") as string;
 
     const sources = [
       "lsp",
@@ -87,7 +88,7 @@ export class Config extends BaseConfig {
         },
         dictionary: {
           mark: "Dict",
-          matchers: ["matcher_head_dictionary", "matcher_fuzzy"],
+          matchers: ["matcher_fuzzy"],
           converters: ["converter_fuzzy", "converter_dictionary"],
           isVolatile: true,
           keywordPattern: "[a-zA-Z]+",
@@ -180,9 +181,10 @@ export class Config extends BaseConfig {
           forceCollect: true,
         },
         dictionary: {
-          showMenu: false,
-          smartCase: false,
-          dictPaths: [join(lazyroot, "english-words/words_alpha.txt")],
+          exactLength: 2,
+          firstCaseInsensitive: true,
+          paths: [join(lazyroot, "english-words/words_alpha.txt")],
+          databasePath: join(stddata, "ddc-source-dictionary.sqlite3"),
         },
         file: {
           filenameChars: "[:keyword:].",

@@ -123,7 +123,6 @@ return {
       -- source
       { "https://github.com/atusy/ddc-source-parametric" },
       { "https://github.com/matsui54/ddc-buffer" },
-      { "https://github.com/matsui54/ddc-dictionary" },
       { "https://github.com/Shougo/ddc-source-around" },
       { "https://github.com/Shougo/ddc-source-cmdline" },
       { "https://github.com/Shougo/ddc-source-cmdline-history" },
@@ -132,6 +131,7 @@ return {
       { "https://github.com/Shougo/ddc-source-lsp" },
       { "https://github.com/Shougo/ddc-source-shell-native" },
       { "https://github.com/Shougo/ddc-ui-pum" },
+      { "https://github.com/uga-rosa/ddc-source-dictionary" },
       { "https://github.com/LumaKernel/ddc-source-file" },
       -- filter
       { "https://github.com/tani/ddc-fuzzy" },
