@@ -90,9 +90,7 @@ export class Config extends BaseConfig {
           mark: "Dict",
           matchers: ["matcher_fuzzy"],
           converters: ["converter_fuzzy", "converter_dictionary"],
-          isVolatile: true,
           keywordPattern: "[a-zA-Z]+",
-          maxItems: 30,
         },
         file: {
           mark: "F",
