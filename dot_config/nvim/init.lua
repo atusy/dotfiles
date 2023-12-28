@@ -30,39 +30,39 @@ vim.g.loaded_remote_plugins = 1
 local lazypath = "/home/atusy/ghq/github.com/folke/lazy.nvim"
 
 if not vim.uv.fs_stat(lazypath) then ---@diagnostic disable-line: undefined-field
-  require("atusy.lazy").install(lazypath)
+	require("atusy.lazy").install(lazypath)
 end
 
 vim.opt.runtimepath:prepend(lazypath)
 require("lazy").setup("plugins", { ---@diagnostic disable-line: different-requires
-  change_detection = { enabled = false },
-  performance = {
-    cache = { enabled = false }, -- let vim.loader.enable() do the job
-    rtp = {
-      disabled_plugins = {
-        "gzip",
-        "matchit",
-        "matchparen",
-        "netrwPlugin",
-        "tarPlugin",
-        "tohtml",
-        "tutor",
-        "zipPlugin",
-      },
-    },
-  },
-  dev = {
-    path = function(plugin)
-      local path, cnt = string.gsub(plugin.url, "^https://(.*)", vim.uv.os_homedir() .. "/ghq/%1") ---@diagnostic disable-line: undefined-field
-      if cnt == 1 then
-        if not vim.uv.fs_stat(path) then
-          vim.system({ "git", "clone", plugin.url, "--", path }):wait()
-        end
-        return path:gsub("%.git$", "")
-      end
+	change_detection = { enabled = false },
+	performance = {
+		cache = { enabled = false }, -- let vim.loader.enable() do the job
+		rtp = {
+			disabled_plugins = {
+				"gzip",
+				"matchit",
+				"matchparen",
+				"netrwPlugin",
+				"tarPlugin",
+				"tohtml",
+				"tutor",
+				"zipPlugin",
+			},
+		},
+	},
+	dev = {
+		path = function(plugin)
+			local path, cnt = string.gsub(plugin.url, "^https://(.*)", vim.uv.os_homedir() .. "/ghq/%1") ---@diagnostic disable-line: undefined-field
+			if cnt == 1 then
+				if not vim.uv.fs_stat(path) then
+					vim.system({ "git", "clone", plugin.url, "--", path }):wait()
+				end
+				return path:gsub("%.git$", "")
+			end
 
-      -- fallback to default
-      return "~/projects/" .. plugin.name
-    end,
-  },
+			-- fallback to default
+			return "~/projects/" .. plugin.name
+		end,
+	},
 })

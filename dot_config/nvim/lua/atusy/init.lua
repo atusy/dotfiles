@@ -9,9 +9,9 @@ vim.opt.exrc = true
 vim.opt.grepprg = [[rg --glob "!.git" --no-heading --vimgrep --follow $*]]
 vim.opt.grepformat = vim.opt.grepformat ^ { "%f:%l:%c:%m" }
 vim.opt.guicursor = {
-  [[n-v-c:block,i-ci-ve:ver25,r-cr:hor20,o:hor50]],
-  [[a:blinkwait700-blinkoff400-blinkon250-Cursor/lCursor]],
-  [[sm:block-blinkwait175-blinkoff150-blinkon175]],
+	[[n-v-c:block,i-ci-ve:ver25,r-cr:hor20,o:hor50]],
+	[[a:blinkwait700-blinkoff400-blinkon250-Cursor/lCursor]],
+	[[sm:block-blinkwait175-blinkoff150-blinkon175]],
 }
 vim.opt.ignorecase = true
 vim.opt.matchtime = 1
@@ -35,10 +35,10 @@ vim.opt.fillchars = "eob: "
 vim.opt.foldtext = [[v:lua.require("atusy.fold").foldtext()]]
 vim.opt.list = true
 vim.opt.listchars = {
-  tab = "▸▹┊",
-  trail = "▫",
-  extends = "»",
-  precedes = "«",
+	tab = "▸▹┊",
+	trail = "▫",
+	extends = "»",
+	precedes = "«",
 }
 vim.opt.smoothscroll = true
 vim.opt.virtualedit = "block"
@@ -48,7 +48,7 @@ vim.opt.winblend = 25
 vim.opt.autoread = true
 vim.opt.expandtab = true
 vim.opt.matchpairs:append(
-  [[<:>,「:」,（:）,『:』,【:】,《:》,〈:〉,｛:｝,［:］,【:】,‘:’,“:”]]
+	[[<:>,「:」,（:）,『:』,【:】,《:》,〈:〉,｛:｝,［:］,【:】,‘:’,“:”]]
 )
 vim.opt.shiftwidth = 2
 vim.opt.smartindent = true
@@ -58,11 +58,11 @@ vim.opt.tabstop = 2
 --[[ commands ]]
 vim.api.nvim_create_user_command("W", "write !sudo tee % >/dev/null", {})
 vim.api.nvim_create_user_command("Normal", function(opts)
-  local code = vim.api.nvim_replace_termcodes(opts.args, true, true, true)
-  local normal = opts.bang and "normal!" or "normal"
-  for i = opts.line1, opts.line2 do
-    vim.cmd(i .. normal .. " " .. code)
-  end
+	local code = vim.api.nvim_replace_termcodes(opts.args, true, true, true)
+	local normal = opts.bang and "normal!" or "normal"
+	for i = opts.line1, opts.line2 do
+		vim.cmd(i .. normal .. " " .. code)
+	end
 end, { nargs = 1, range = true, bang = true })
 
 --[[ mappings ]]
@@ -126,55 +126,55 @@ set_keymap("n", "<LeftRelease>", "<Nop>")
 
 -- mappings: jumplist
 set_keymap("n", "g<C-O>", function()
-  return require("atusy.misc").jump_file(false)
+	return require("atusy.misc").jump_file(false)
 end, { expr = true })
 set_keymap("n", "g<C-I>", function()
-  return require("atusy.misc").jump_file(true)
+	return require("atusy.misc").jump_file(true)
 end, { expr = true })
 
 -- mappings: save and ...
 set_keymap({ "n", "x" }, "<Plug>(save)", function()
-  ---@diagnostic disable-next-line: undefined-field
-  vim.cmd((vim.uv.fs_stat(vim.api.nvim_buf_get_name(0)) and "up" or "write ++p") .. " | redraw")
+	---@diagnostic disable-next-line: undefined-field
+	vim.cmd((vim.uv.fs_stat(vim.api.nvim_buf_get_name(0)) and "up" or "write ++p") .. " | redraw")
 end)
 set_keymap({ "i", "n" }, "<C-S>", [[<C-\><C-N><Plug>(save)<Plug>(C-S)]], { desc = "save" })
 set_keymap("n", "<Plug>(C-S)<C-A>", "<cmd>wa<cr>", { desc = "save all" })
 set_keymap("n", "<Plug>(C-S)<C-Q>", "<cmd>q<cr>", { desc = "save and quit" })
 set_keymap("n", "<Plug>(C-S)<C-M>", function()
-  local bufname = vim.api.nvim_buf_get_name(vim.api.nvim_get_current_buf())
-  local bufext = bufname:gsub(".*%.", "")
-  if bufext ~= "vim" and bufext ~= "lua" then
-    vim.notify("Cannot source: " .. bufname, vim.log.levels.ERROR)
-    return
-  end
-  return ":source %" -- without <CR> to confirm manually
+	local bufname = vim.api.nvim_buf_get_name(vim.api.nvim_get_current_buf())
+	local bufext = bufname:gsub(".*%.", "")
+	if bufext ~= "vim" and bufext ~= "lua" then
+		vim.notify("Cannot source: " .. bufname, vim.log.levels.ERROR)
+		return
+	end
+	return ":source %" -- without <CR> to confirm manually
 end, { expr = true, desc = "save and source" })
 
 -- mappings: window
 local function win_move_or_cmd(row, col, cmd)
-  if not require("atusy.misc").move_floatwin(row, col) then
-    vim.cmd("wincmd " .. cmd)
-  end
+	if not require("atusy.misc").move_floatwin(row, col) then
+		vim.cmd("wincmd " .. cmd)
+	end
 end
 
 set_keymap({ "", "t" }, "<C-Up>", function()
-  win_move_or_cmd(-1, 0, "2+")
+	win_move_or_cmd(-1, 0, "2+")
 end)
 set_keymap({ "", "t" }, "<C-Down>", function()
-  win_move_or_cmd(1, 0, "2-")
+	win_move_or_cmd(1, 0, "2-")
 end)
 set_keymap({ "", "t" }, "<C-Right>", function()
-  win_move_or_cmd(0, 2, "2>")
+	win_move_or_cmd(0, 2, "2>")
 end)
 set_keymap({ "", "t" }, "<C-Left>", function()
-  win_move_or_cmd(0, -2, "2<")
+	win_move_or_cmd(0, -2, "2<")
 end)
 
 -- mappings: macro
 -- disable macro a-z except q on normal mode and entirely on visual mode
 set_keymap("x", "q", "<Nop>")
 set_keymap("n", "q", function()
-  return vim.fn.reg_recording() == "" and "<Plug>(q)" or "q"
+	return vim.fn.reg_recording() == "" and "<Plug>(q)" or "q"
 end, { expr = true })
 set_keymap("n", "<Plug>(q)q", "qq")
 set_keymap("n", "<Plug>(q):", "q:")
@@ -185,122 +185,122 @@ set_keymap("n", "<Plug>(q)?", "q?")
 vim.api.nvim_create_autocmd("TermOpen", { pattern = "*", group = augroup, command = "startinsert" })
 
 vim.api.nvim_create_autocmd("ModeChanged", {
-  pattern = "c:*",
-  group = augroup,
-  desc = "cleanup cmdline history which are short enough or prefixed by space",
-  callback = function()
-    local hist = vim.fn.histget(":", -1)
-    if not hist then
-      return
-    end
-    if
-      hist:match("^[a-zA-Z]+$")
-      or hist:match("^..?!?$")
-      or hist:match("^wqa!?$")
-      or hist == "source %"
-      or hist:sub(0, 1) == " "
-    then
-      vim.fn.histdel(":", -1)
-    end
-  end,
+	pattern = "c:*",
+	group = augroup,
+	desc = "cleanup cmdline history which are short enough or prefixed by space",
+	callback = function()
+		local hist = vim.fn.histget(":", -1)
+		if not hist then
+			return
+		end
+		if
+			hist:match("^[a-zA-Z]+$")
+			or hist:match("^..?!?$")
+			or hist:match("^wqa!?$")
+			or hist == "source %"
+			or hist:sub(0, 1) == " "
+		then
+			vim.fn.histdel(":", -1)
+		end
+	end,
 })
 
 vim.api.nvim_create_autocmd("InsertEnter", {
-  desc = "Toggle cursorline on InsertEnter/Leave iff cursorline is set on normal mode",
-  group = augroup,
-  callback = function()
-    local win = vim.api.nvim_get_current_win()
-    local wo = vim.wo[win]
-    if not wo.cursorline then
-      return
-    end
-    wo.cursorline = false
-    vim.api.nvim_create_autocmd("ModeChanged", {
-      -- InsertLeave is not adequate because <C-C> won't trigger it
-      pattern = "i:*",
-      once = true,
-      group = vim.api.nvim_create_augroup("toggle-cursorline", {}),
-      callback = function()
-        pcall(vim.api.nvim_set_option_value, "cursorline", true, { win = win })
-      end,
-    })
-  end,
+	desc = "Toggle cursorline on InsertEnter/Leave iff cursorline is set on normal mode",
+	group = augroup,
+	callback = function()
+		local win = vim.api.nvim_get_current_win()
+		local wo = vim.wo[win]
+		if not wo.cursorline then
+			return
+		end
+		wo.cursorline = false
+		vim.api.nvim_create_autocmd("ModeChanged", {
+			-- InsertLeave is not adequate because <C-C> won't trigger it
+			pattern = "i:*",
+			once = true,
+			group = vim.api.nvim_create_augroup("toggle-cursorline", {}),
+			callback = function()
+				pcall(vim.api.nvim_set_option_value, "cursorline", true, { win = win })
+			end,
+		})
+	end,
 })
 
 vim.api.nvim_create_autocmd("TextYankPost", {
-  group = augroup,
-  callback = function()
-    -- copy unnamed regsiter to contextful register
-    -- i.e., change to c, delete to d, and yank to y
-    -- note that `x` is treated as delete, not x.
-    -- I map `x` and `X` register to blackhole.
-    if vim.v.event.regname == "" then
-      vim.fn.setreg(vim.v.event.operator, vim.fn.getreg())
-    end
+	group = augroup,
+	callback = function()
+		-- copy unnamed regsiter to contextful register
+		-- i.e., change to c, delete to d, and yank to y
+		-- note that `x` is treated as delete, not x.
+		-- I map `x` and `X` register to blackhole.
+		if vim.v.event.regname == "" then
+			vim.fn.setreg(vim.v.event.operator, vim.fn.getreg())
+		end
 
-    -- highlight yanked region
-    if vim.v.event.operator == "y" then
-      vim.highlight.on_yank()
-    end
-  end,
+		-- highlight yanked region
+		if vim.v.event.operator == "y" then
+			vim.highlight.on_yank()
+		end
+	end,
 })
 
 vim.api.nvim_create_autocmd({ "BufReadPre", "BufNewFile" }, {
-  once = true,
-  callback = function()
-    vim.filetype.add({
-      extension = {
-        gitcommit = "gitcommit",
-        tf = "terraform",
-      },
-      filename = {
-        [".envrc"] = "sh",
-        [".profile"] = "sh",
-      },
-      pattern = {
-        ["${HOME}/%.local/share/chezmoi/.*"] = {
-          function(path, bufnr)
-            local filename, cnt = path:gsub("/dot_", "/.")
-            if cnt == 0 then
-              return
-            end
-            return vim.filetype.match({ filename = filename, buf = bufnr })
-          end,
-          { priority = -math.huge },
-        },
-        ["Dockerfile[._].*"] = { "dockerfile", { priority = -math.huge } },
-      },
-    })
-  end,
+	once = true,
+	callback = function()
+		vim.filetype.add({
+			extension = {
+				gitcommit = "gitcommit",
+				tf = "terraform",
+			},
+			filename = {
+				[".envrc"] = "sh",
+				[".profile"] = "sh",
+			},
+			pattern = {
+				["${HOME}/%.local/share/chezmoi/.*"] = {
+					function(path, bufnr)
+						local filename, cnt = path:gsub("/dot_", "/.")
+						if cnt == 0 then
+							return
+						end
+						return vim.filetype.match({ filename = filename, buf = bufnr })
+					end,
+					{ priority = -math.huge },
+				},
+				["Dockerfile[._].*"] = { "dockerfile", { priority = -math.huge } },
+			},
+		})
+	end,
 })
 
 --[[ Terminal ]]
 -- nvim-remote for edit-commandline zle
 if vim.fn.executable("nvr") == 1 then
-  vim.env.EDITOR_CMD = [[nvr -cc "above 5split" --remote-wait-silent +"setlocal bufhidden=wipe filetype=zsh.nvr-zsh"]]
-  vim.api.nvim_create_autocmd("FileType", {
-    desc = "Go back to the terminal window on WinClosed. Otherwise, the current window to leftest above",
-    group = augroup,
-    pattern = { "zsh.nvr-zsh" },
-    callback = function(args)
-      vim.schedule(function()
-        local parent = vim.fn.win_getid(vim.fn.winnr("#"))
-        -- local local_group = vim.api.nvim_create_augroup(args.file, {})
-        vim.api.nvim_create_autocmd("WinClosed", {
-          -- group = local_group,
-          buffer = args.buf,
-          once = true,
-          callback = function()
-            vim.schedule(function()
-              local ok = pcall(vim.api.nvim_set_current_win, parent)
-              if ok then
-                vim.cmd.startinsert()
-              end
-            end)
-          end,
-        })
-      end)
-    end,
-    nested = true,
-  })
+	vim.env.EDITOR_CMD = [[nvr -cc "above 5split" --remote-wait-silent +"setlocal bufhidden=wipe filetype=zsh.nvr-zsh"]]
+	vim.api.nvim_create_autocmd("FileType", {
+		desc = "Go back to the terminal window on WinClosed. Otherwise, the current window to leftest above",
+		group = augroup,
+		pattern = { "zsh.nvr-zsh" },
+		callback = function(args)
+			vim.schedule(function()
+				local parent = vim.fn.win_getid(vim.fn.winnr("#"))
+				-- local local_group = vim.api.nvim_create_augroup(args.file, {})
+				vim.api.nvim_create_autocmd("WinClosed", {
+					-- group = local_group,
+					buffer = args.buf,
+					once = true,
+					callback = function()
+						vim.schedule(function()
+							local ok = pcall(vim.api.nvim_set_current_win, parent)
+							if ok then
+								vim.cmd.startinsert()
+							end
+						end)
+					end,
+				})
+			end)
+		end,
+		nested = true,
+	})
 end
