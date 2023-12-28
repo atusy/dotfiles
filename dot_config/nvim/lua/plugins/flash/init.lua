@@ -2,7 +2,6 @@ return {
 	{
 		"https://github.com/folke/flash.nvim",
 		lazy = true,
-		dev = true,
 		init = function(p)
 			--[[ f-motion ]]
 			local motions = {
