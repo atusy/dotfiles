@@ -441,19 +441,19 @@ return {
 		lazy = true,
 		dev = true,
 		init = function()
+			local base_opts = {
+				action = require("treemonkey.actions").unite_selection,
+				highlight = { backdrop = "Comment" },
+				ignore_injections = false,
+				experimental = { treesitter_context = true },
+			}
 			vim.keymap.set({ "x", "o" }, "m", function()
-				require("treemonkey").select({
-					action = require("treemonkey.actions").unite_selection,
-					highlight = { backdrop = "Comment" },
-					ignore_injections = false,
-					experimental = { treesitter_context = true },
-				})
+				require("treemonkey").select(base_opts)
 			end)
 
 			vim.keymap.set("n", "zf", "zfV<Plug>(treemonkey-multiline)")
 			vim.keymap.set("o", "<Plug>(treemonkey-multiline)", function()
-				require("treemonkey").select({
-					ignore_injections = false,
+				require("treemonkey").select(vim.tbl_extend("force", base_opts, {
 					filter = function(nodes)
 						local res = {}
 						for _, n in pairs(nodes) do
@@ -464,9 +464,7 @@ return {
 						end
 						return res
 					end,
-					highlight = { backdrop = "Comment" },
-					experimental = { treesitter_context = true },
-				})
+				}))
 			end)
 		end,
 	},
