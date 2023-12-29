@@ -8,7 +8,7 @@ local function count_win_focusable(wins)
 end
 
 local setup_chowcho = function()
-	local safely = require("atusy.utils").safely
+	local safely = require("atusy.misc").safely
 
 	require("chowcho").setup({
 		use_exclude_default = false,

@@ -82,7 +82,7 @@ function M.char_matcher(conv, forward)
 		end
 		return matches
 	end
-	return require("atusy.utils").safely(f, {})
+	return require("atusy.misc").safely(f, {})
 end
 
 local function sort(tbl, win)
@@ -119,7 +119,7 @@ function M.incremental_matcher(conv, cache)
 	if cache then
 		cache.labels = {}
 	end
-	return require("atusy.utils").safely(function(win, state)
+	return require("atusy.misc").safely(function(win, state)
 		local wininfo = vim.fn.getwininfo(win)
 		if win ~= curwin or state.pattern.pattern == "" or not wininfo or #wininfo == 0 then
 			return {}
