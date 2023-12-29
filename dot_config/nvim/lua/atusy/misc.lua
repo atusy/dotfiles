@@ -1,13 +1,5 @@
 local M = {}
 
-function M.char_to_hex(c)
-	return string.format("%%%02X", string.byte(c))
-end
-
-function M.hex_to_char(x)
-	return string.char(tonumber(x, 16))
-end
-
 function M.create_visual_converter(callback)
 	return function()
 		local reg_z = vim.fn.getreginfo("z")
