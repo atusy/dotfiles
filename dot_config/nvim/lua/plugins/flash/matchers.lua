@@ -55,9 +55,8 @@ end
 
 local function search(buf, pat, start, _end, strict_indexing)
 	start = start or { 0, 0 }
-	_end = _end or { -1, 0 }
-	local end_ = _end[1] + ((_end[1] > 0 and _end[2] > 0) and 1 or 0)
-	local lines = vim.api.nvim_buf_get_lines(buf, start[1], end_, strict_indexing or true)
+	_end = _end or { start[1] + 1, 0 }
+	local lines = vim.api.nvim_buf_get_lines(buf, start[1], _end[1], strict_indexing or true)
 	return search_lines(lines, pat, start[2], _end[2], start[1]), table.concat(lines, "\n")
 end
 
