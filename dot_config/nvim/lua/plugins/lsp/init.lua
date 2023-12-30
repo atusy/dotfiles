@@ -127,13 +127,11 @@ end
 return {
 	{
 		"https://github.com/neovim/nvim-lspconfig",
-		dependencies = {
-			"https://github.com/williamboman/mason.nvim",
-			"https://github.com/williamboman/mason-lspconfig.nvim",
-		},
 		event = { "BufReadPost", "BufNewFile" },
+		cmd = { "Mason" },
 		config = function()
 			vim.lsp.set_log_level(vim.lsp.log_levels.OFF)
+			vim.diagnostic.config({ signs = false })
 			vim.api.nvim_create_autocmd("LspAttach", {
 				group = vim.api.nvim_create_augroup("atusy.nvim-lspconfig", {}),
 				callback = function(ctx)
@@ -141,39 +139,19 @@ return {
 					on_attach(client, ctx.buf)
 				end,
 			})
-			lspconfig()
-			vim.diagnostic.config({ signs = false })
-		end,
-	},
-	{ "https://github.com/uga-rosa/ddc-source-lsp-setup", lazy = true },
-	{
-		"https://github.com/ray-x/lsp_signature.nvim", -- or { "https://github.com/matsui54/denops-signature_help" }
-		lazy = true,
-		-- configured via on_attach
-	},
-	{
-		"https://github.com/williamboman/mason.nvim",
-		lazy = true,
-		cmd = { "Mason" },
-		config = function()
 			require("mason").setup()
-		end,
-	},
-	{
-		"https://github.com/williamboman/mason-lspconfig.nvim",
-		lazy = true,
-		dependencies = { "https://github.com/williamboman/mason.nvim" },
-		config = function()
 			require("mason-lspconfig").setup()
-		end,
-	},
-	{
-		"https://github.com/j-hui/fidget.nvim",
-		event = "LspAttach",
-		config = function()
+			lspconfig()
 			require("fidget").setup()
 		end,
 	},
+	-- nvim-lspconfig's config loads following plugins except lspsaga
+	{ "https://github.com/uga-rosa/ddc-source-lsp-setup", lazy = true },
+	{ "https://github.com/ray-x/lsp_signature.nvim", lazy = true },
+	{ "https://github.com/williamboman/mason.nvim", lazy = true },
+	{ "https://github.com/williamboman/mason-lspconfig.nvim", lazy = true },
+	{ "https://github.com/j-hui/fidget.nvim", lazy = true },
+	{ "https://github.com/b0o/SchemaStore.nvim", lazy = true },
 	{
 		"https://github.com/nvimdev/lspsaga.nvim",
 		lazy = true,
@@ -212,5 +190,4 @@ return {
 			})
 		end,
 	},
-	{ "https://github.com/b0o/SchemaStore.nvim", lazy = true },
 }
