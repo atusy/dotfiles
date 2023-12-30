@@ -79,7 +79,6 @@ set_keymap({ "", "!", "t" }, [[<C-\>]], [[<C-\><C-N>]], { nowait = true })
 set_keymap("x", "p", "P")
 set_keymap("x", "P", "p")
 set_keymap("x", "zf", [[mode() == 'V' ? 'zf' : 'Vzf']], { expr = true })
-set_keymap("x", "g/", "<Esc>/\\%V", { silent = true }) -- search within selection
 set_keymap("x", " ue", [[<Cmd>lua require("atusy.misc").urlencode()<CR>]])
 set_keymap("x", " ud", [[<Cmd>lua require("atusy.misc").urldecode()<CR>]])
 set_keymap("n", "gf", [[<Cmd>lua require("atusy.misc").open_cfile()<CR>]])
@@ -98,7 +97,6 @@ set_keymap("n", "<Plug>(gt)T", "gT<Plug>(gt)")
 -- mappings: diagnostics
 set_keymap("n", "[d", [[<Cmd>lua require("atusy.diagnostic").goto_prev_underline()<CR>]])
 set_keymap("n", "]d", [[<Cmd>lua require("atusy.diagnostic").goto_next_underline()<CR>]])
-set_keymap("n", "<Leader>q", [[<Cmd>lua vim.diagnostic.setloclist()<CR>]])
 set_keymap("n", "<Leader>e", [[<Cmd>lua vim.diagnostic.open_float()<CR>]])
 
 -- mappings: insert-mode horizontal moves in the current undo block
