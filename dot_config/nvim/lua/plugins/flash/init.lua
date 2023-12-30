@@ -80,6 +80,7 @@ return {
 							matches = false,
 							groups = { current = require("flash.config").get().highlight.groups.label },
 						},
+						prompt = { enabled = false },
 					}, conf))
 					HACK.revert()
 				end)
