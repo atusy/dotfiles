@@ -56,6 +56,11 @@ return {
 			require("atusy.diagnostic").toggle_severity({ "virtual_text", "underline" }, { "HINT", "INFO" })
 		end,
 	},
+	{
+		mode = "n",
+		lhs = "diagnostic: set loclist",
+		rhs = [[<Cmd>lua vim.diagnostic.setloclist()<CR>]],
+	},
 
 	--[[ highlight ]]
 	{
