@@ -76,11 +76,19 @@ export class Config extends BaseConfig {
         },
         around: {
           mark: "A",
-          converters: ["converter_fuzzy", "converter_dictionary"],
+          converters: [
+            "converter_fuzzy",
+            "converter_dictionary",
+            "converter_truncate_abbr",
+          ],
         },
         buffer: {
           mark: "B",
-          converters: ["converter_fuzzy", "converter_dictionary"],
+          converters: [
+            "converter_fuzzy",
+            "converter_dictionary",
+            "converter_truncate_abbr",
+          ],
         },
         cmdline: {
           mark: "CMD",
@@ -114,7 +122,7 @@ export class Config extends BaseConfig {
           mark: "LINE",
           matchers: ["matcher_vimregexp"],
           sorters: [],
-          converters: ["converter_remove_overlap"],
+          converters: ["converter_remove_overlap", "converter_truncate_abbr"],
         },
         "lsp": {
           mark: "L",
@@ -149,7 +157,7 @@ export class Config extends BaseConfig {
           minAutoCompleteLength: 0,
           matchers: ["matcher_head"],
           sorters: [],
-          converters: [],
+          converters: ["converter_truncate_abbr"],
         },
         xonsh: {
           mark: "XONSH",
