@@ -18,8 +18,8 @@ fi
 export QT_QPA_PLATFORMTHEME="qt5ct"
 export GIT_MERGE_AUTOEDIT=no
 export NNN_FCOLORS='c1e2272e006033f7c6d6abc4'
-if command -v "vivaldi-stable" > /dev/null; then
-  export BROWSER="vivaldi-stable"
+if command -v "firefox" > /dev/null; then
+  export BROWSER="firefox"
 fi
 
 export DENO_NO_UPDATE_CHECK=true
