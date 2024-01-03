@@ -23,7 +23,7 @@ builtin source "$SHELDON_SOURCE"
 
 # PROMPT
 PROMPT_ACCENT_COLOR="$( test -n "$SSH_CLIENT" && echo cyan || echo 112 )"
-PROMPT='%F{${PROMPT_ACCENT_COLOR}}[ %3~ ]%F{white}$( gitprompt 2>/dev/null ) $( [[ "${KUBE_PS1_CONTEXT%%N/A}" =~ "^(BINARY-)N/A$" ]] && kube_ps1 2>/dev/null )
+PROMPT='%F{${PROMPT_ACCENT_COLOR}}[ %3~ ]%F{white}$( gitprompt 2>/dev/null ) $( [[ ! "${KUBE_PS1_CONTEXT%%N/A}" =~ "^(BINARY-)N/A$"  ]] && kube_ps1 2>/dev/null )
 %F{${PROMPT_ACCENT_COLOR}}» '
 
 bindkey -e
