@@ -36,11 +36,11 @@ local function setup_gitsigns()
 
 	-- keymaps
 	vim.keymap.set("n", "<Down>", function()
-		return vim.wo.diff and "]c" or "<Cmd>Gitsigns next_hunk<CR>"
+		return vim.wo.diff and "]c" or "<Cmd>Gitsigns next_hunk<CR><Cmd>Gitsigns preview_hunk_inline<CR>"
 	end, { expr = true })
 
 	vim.keymap.set("n", "<Up>", function()
-		return vim.wo.diff and "[c" or "<Cmd>Gitsigns prev_hunk<CR>"
+		return vim.wo.diff and "[c" or "<Cmd>Gitsigns prev_hunk<CR><Cmd>Gitsigns preview_hunk_inline<CR>"
 	end, { expr = true })
 
 	-- command palette
