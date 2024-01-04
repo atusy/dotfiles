@@ -332,7 +332,7 @@ return {
 		config = function()
 			-- install directory of treesitter parsers
 			local treesitterpath = vim.fn.stdpath("data") .. "/treesitter"
-			vim.opt.runtimepath:append(treesitterpath)
+			vim.opt.runtimepath:prepend(treesitterpath)
 
 			-- add non-official parsers
 			local parser_config = require("nvim-treesitter.parsers").get_parser_configs()
