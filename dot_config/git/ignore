@@ -5,6 +5,7 @@
 .ipynb_checkpoints
 .envrc
 .rtx.toml
+.mise.toml
 .tool-versions
 node_modules
 __pycache__

@@ -9,16 +9,16 @@ github = "romkatv/zsh-defer"
 hooks.post = """
 zcompile() zsh-defer builtin zcompile "$@"
 
-# setup rtx with bootstrap
+# setup mise with bootstrap
 # activate can be deferred but should ensure deno is available for zeno.zsh
-function my-rtx-activate() {
+function my-mise-activate() {
   command -v direnv >/dev/null && eval "$( direnv hook zsh )"
-  eval "$( rtx activate zsh )" && eval "$( rtx hook-env -s zsh )"
+  eval "$( mise activate zsh )" && eval "$( mise hook-env -s zsh )"
   if command -v nvim >/dev/null; then
     export EDITOR=nvim
   fi
 }
-RTX_INSTALL_ONLY=1 . "${HOME}/.local/lastresort/bin/rtx" && zsh-defer my-rtx-activate
+MISE_INSTALL_ONLY=1 . "${HOME}/.local/lastresort/bin/mise" && zsh-defer my-mise-activate
 """
 
 [plugins.fast-syntax-highlighting]
@@ -78,13 +78,13 @@ export ZENO_ENABLE_SOCK=1
 
 # Isolate deno environment
 ZENO_DENO_VER=1.39.1
-ZENO_DENO_PATH="$HOME/.local/share/rtx/installs/deno/$ZENO_DENO_VER/bin"
-function zeno-rtx() {
+ZENO_DENO_PATH="$HOME/.local/share/mise/installs/deno/$ZENO_DENO_VER/bin"
+function zeno-mise() {
   if [[ ! -x "$ZENO_DENO_PATH/deno" ]]; then
-    ZENO_DENO_PATH=$( dirname "$( rtx exec deno@$ZENO_DENO_VER -- which deno )" )
+    ZENO_DENO_PATH=$( dirname "$( mise exec deno@$ZENO_DENO_VER -- which deno )" )
   fi
 }
-zsh-defer zeno-rtx
+zsh-defer zeno-mise
 function zeno-source() {
   PATH="$ZENO_DENO_PATH:$PATH" DENO_DIR=$HOME/.cache/deno_zeno source "$@"
 }

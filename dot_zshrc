@@ -203,8 +203,8 @@ function mycompinit() {
   if [[ ! -r "${ZSHCOMPLETIONS}/_gh" || "$( whence -p gh  )" -nt "${ZSHCOMPLETIONS}/_gh" ]]; then
     command gh completion -s zsh > "${ZSHCOMPLETIONS}/_gh"
   fi
-  if [[ ! -r "${ZSHCOMPLETIONS}/_rtx" || "$( whence -p rtx  )" -nt "${ZSHCOMPLETIONS}/_rtx" ]]; then
-    rtx completion zsh > "${ZSHCOMPLETIONS}/_rtx"
+  if [[ ! -r "${ZSHCOMPLETIONS}/_mise" || "$( whence -p mise  )" -nt "${ZSHCOMPLETIONS}/_mise" ]]; then
+    mise completion zsh > "${ZSHCOMPLETIONS}/_mise"
   fi
   if [[ ! -r "${ZSHCOMPLETIONS}/_deno" || "$( whence -p deno  )" -nt "${ZSHCOMPLETIONS}/_deno" ]]; then
     deno completions zsh > "${ZSHCOMPLETIONS}/_deno"

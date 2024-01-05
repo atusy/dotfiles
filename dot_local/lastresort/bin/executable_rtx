@@ -1,18 +1,5 @@
 #!/bin/sh
 
-RTX_INSTALL_PATH="${RTX_INSTALL_PATH:-${HOME}/.local/bin/rtx}"
-RTX="$( command -v rtx || true )"
+echo "DEPRECATED: migrate to mise" >&2
 
-if [ -z "$RTX" ] || [ "$RTX" = "$0" ]; then
-  (
-    cd "$(mktemp -d)" \
-      && gpg --keyserver hkps://keyserver.ubuntu.com --recv-keys 0x29DDE9E0 \
-      && curl https://rtx.pub/install.sh.sig | gpg --decrypt > install.sh \
-      && RTX_INSTALL_PATH="${RTX_INSTALL_PATH}" sh ./install.sh \
-      && rtx install
-  )
-fi
-
-if [ -z "${RTX_INSTALL_ONLY:-}" ]; then
-  "$RTX_INSTALL_PATH" "$@"
-fi
+mise "$@"
