@@ -1,5 +1,7 @@
 #!/bin/sh
 
+set -eu
+
 MISE_INSTALL_PATH="${MISE_INSTALL_PATH:-${HOME}/.local/bin/mise}"
 MISE="$( command -v mise || true )"
 
