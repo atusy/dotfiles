@@ -29,7 +29,6 @@ return {
 		end,
 		config = function()
 			vim.keymap.set({ "i", "c", "t" }, "<C-J>", "<Plug>(skkeleton-enable)")
-			vim.keymap.set("n", "<C-J>", "i<Plug>(skkeleton-enable)")
 			local register_kanatable = vim.fn["skkeleton#register_kanatable"]
 			register_kanatable("rom", require("plugins.skkeleton.azik"))
 			register_kanatable("rom", {
