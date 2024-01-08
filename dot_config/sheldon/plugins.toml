@@ -18,7 +18,7 @@ function my-mise-activate() {
     export EDITOR=nvim
   fi
 }
-MISE_INSTALL_ONLY=1 . "${HOME}/.local/lastresort/bin/mise" && zsh-defer my-mise-activate
+MISE_INSTALL_ONLY=1 "${HOME}/.local/lastresort/bin/mise" && zsh-defer my-mise-activate
 """
 
 [plugins.fast-syntax-highlighting]
