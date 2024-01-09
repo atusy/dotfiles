@@ -121,8 +121,29 @@ local function setup_gin()
 	vim.keymap.set("n", "<Plug>(C-G)<C-Space>", [[<Cmd>lua require("plugins.git.commit").exec()<CR>]]) -- commit
 	vim.keymap.set("n", "<Plug>(C-G)<C-F>", ":.GinBrowse<CR>") -- i.e. open file in hosting site
 	vim.keymap.set("x", "<Plug>(C-G)<C-F>", ":GinBrowse<CR>")
-	vim.keymap.set("n", "<Plug>(C-G)<C-Y>", ":.GinBrowse ++yank=+ -n --permalink<CR>")
-	vim.keymap.set("x", "<Plug>(C-G)<C-Y>", ":GinBrowse ++yank=+ -n --permalink<CR>")
+
+	--- Yank permalink iff the current buffer is commited and the commit is pushed
+	local function yank()
+		if vim.bo.modified then
+			vim.notify("Must be unmodified", vim.log.levels.ERROR)
+			return
+		end
+		local bufname = vim.api.nvim_buf_get_name(0)
+		local commited = vim.system({ "git", "diff", "--quiet", "--", bufname }):wait().code == 0
+		if not commited then
+			vim.notify("Must commit: " .. bufname, vim.log.levels.ERROR)
+			return
+		end
+		local pushed = vim.system({ "git", "branch", "-r", "--contains", "HEAD" }, {}):wait().code == 0
+		if not pushed then
+			vim.notify("Must push HEAD", vim.log.levels.ERROR)
+			return
+		end
+		local mode = vim.api.nvim_get_mode().mode
+		return ":" .. (mode == "nromal" and "." or "") .. "GinBrowse ++yank=+ -n --permalink<CR>"
+	end
+	vim.keymap.set("n", "<Plug>(C-G)<C-Y>", yank, { expr = true })
+	vim.keymap.set("x", "<Plug>(C-G)<C-Y>", yank, { expr = true })
 
 	-- command palette
 	add_item("n", "git amend", [[<Cmd>lua require("plugins.git.commit").exec({ args = {"--amend" } })<CR>]]) -- commit
