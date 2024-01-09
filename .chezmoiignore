@@ -1,5 +1,6 @@
 .envrc
 .gitmessage
+.gitignore
 .luarc.json
 .nvim.lua
 .nvimrc
