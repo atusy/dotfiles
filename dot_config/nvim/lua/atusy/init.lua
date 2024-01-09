@@ -14,6 +14,7 @@ vim.opt.guicursor = {
 	[[sm:block-blinkwait175-blinkoff150-blinkon175]],
 }
 vim.opt.ignorecase = true
+vim.opt.isfname:append([[?]])
 vim.opt.matchtime = 1
 vim.opt.mouse = "a"
 vim.opt.pumheight = 10
