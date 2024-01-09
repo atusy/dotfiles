@@ -422,14 +422,6 @@ return {
 		end,
 	},
 	{
-		"https://github.com/mfussenegger/nvim-treehopper",
-		lazy = true,
-		config = function()
-			vim.api.nvim_set_hl(0, "TSNodeUnmatched", { link = "Comment" })
-			vim.api.nvim_set_hl(0, "TSNodeKey", { link = "IncSearch" })
-		end,
-	},
-	{
 		"https://github.com/RRethy/nvim-treesitter-endwise",
 		ft = { "ruby", "lua", "sh", "bash", "zsh", "vim" },
 		config = function()
