@@ -19,6 +19,3 @@ azure-cli = "latest"
 # ripgrep = "latest"
 # rust = "latest"
 # terraform = "latest"
-
-[settings]
-experimental = true
