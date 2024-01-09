@@ -125,7 +125,7 @@ local function setup_gin()
 	--- Yank permalink iff the current buffer is commited and the commit is pushed
 	local function yank()
 		if vim.bo.modified then
-			vim.notify("Must be unmodified", vim.log.levels.ERROR)
+			vim.notify("Must save", vim.log.levels.ERROR)
 			return
 		end
 		local bufname = vim.api.nvim_buf_get_name(0)
