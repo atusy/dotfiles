@@ -188,7 +188,7 @@ function kubeconfig() {
 alias kunset='command kubectl config unset current-context'
 
 # local configurations
-[[ -r "$HOME/.config/zsh/local.zshrc" ]] && source "$HOME/.config/zsh/local.zshrc"
+[[ -r "$HOME/.config/zsh/local.zsh" ]] && source "$HOME/.config/zsh/local.zsh"
 
 # .zshrc
 if [[ ! -r ~/.zshrc.zwc || ~/.zshrc -nt ~/.zshrc.zwc ]]; then
