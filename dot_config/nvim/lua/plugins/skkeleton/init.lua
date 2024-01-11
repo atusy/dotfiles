@@ -104,7 +104,7 @@ return {
 				return vim.fs.joinpath(lazyroot, repo or "dict", "SKK-JISYO." .. nm)
 			end
 			vim.fn["skkeleton#config"]({
-				useGoogleJapaneseInput = true,
+				sources = { "deno_kv", "google_japanese_input" },
 				markerHenkan = "",
 				markerHenkanSelect = "",
 				---@diagnostic disable-next-line: param-type-mismatch
