@@ -16,7 +16,12 @@ local function setup_gitsigns()
 			vim.keymap.set("n", "<Plug>(C-G)r", save_and("reset_buffer"), { buffer = buf }) --reset buf
 			vim.keymap.set("n", "<Plug>(C-G)<C-H>", save_and("preview_hunk"), { buffer = buf }) -- preview hunk
 			vim.keymap.set("n", "<Plug>(C-G)<u>", save_and("undo_stage_hunk"), { buffer = buf }) -- undo add hunk
-			vim.keymap.set({ "n", "x" }, "<Plug>(C-G)<C-A>", save_and("stage_hunk", ":"), { buffer = buf }) -- add hunk
+			vim.keymap.set(
+				{ "n", "x" },
+				"<Plug>(C-G)<C-A>",
+				save_and("stage_hunk", ":"),
+				{ buffer = buf, silent = true }
+			)
 			vim.keymap.set({ "n", "x" }, "<Plug>(C-G)<C-R>", function()
 				require("gitsigns").reset_hunk()
 
