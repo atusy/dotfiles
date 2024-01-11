@@ -10,7 +10,7 @@ local function setup_gitsigns()
 		current_line_blame_opts = { delay = 150 },
 		on_attach = function(buf)
 			local function save_and(x, cmd)
-				return "<Plug>(save)" .. (cmd or "<Cmd>") .. "lua require('gitsigns')." .. x .. "()<CR>"
+				return "<Plug>(save)" .. (cmd or "<Cmd>") .. "Gitsigns " .. x .. "<CR>"
 			end
 			vim.keymap.set("n", "<Plug>(C-G)a", save_and("stage_buffer"), { buffer = buf }) -- add buf
 			vim.keymap.set("n", "<Plug>(C-G)r", save_and("reset_buffer"), { buffer = buf }) --reset buf
