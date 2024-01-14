@@ -69,7 +69,7 @@ end, { nargs = 1, range = true, bang = true })
 --[[ mappings ]]
 vim.g.mapleader = " "
 set_keymap({ "n", "x" }, "s", "<Nop>") -- be prefix for sandwich and fuzzy finders
-set_keymap("n", "<C-G>", "2<C-G><Plug>(C-G)")
+set_keymap("n", "<C-G>", "<Cmd>lua if vim.o.laststatus == 0 then vim.cmd.f() end<CR><Plug>(C-G)")
 set_keymap("n", "<Plug>(C-G)<C-G>", '<Cmd>let @+ = expand("%:~:.")<CR>')
 set_keymap("n", "<Plug>(C-G)g", '<Cmd>let @+ = expand("%:~")<CR>')
 set_keymap("x", "<C-G>", "<Plug>(C-G)")
