@@ -561,13 +561,36 @@ return {
 	},
 	{
 		"https://github.com/akinsho/toggleterm.nvim",
-		keys = { "<C-T>", { " <CR>", mode = { "n", "x" } } },
-		cmd = { "ToggleTermSendCurrentLine", "ToggleTermSendVisualSelection" },
+		lazy = true,
+		init = function()
+			vim.keymap.set({ "n", "t" }, "<C-T>", function()
+				require("toggleterm") -- just to lazy load
+				local open, wins = require("toggleterm.ui").find_open_windows()
+				if open then
+					local curtab = vim.api.nvim_get_current_tabpage()
+					if not vim.tbl_contains(vim.api.nvim_tabpage_list_wins(curtab), wins[1].window) then
+						require("toggleterm.ui").close_and_save_terminal_view(wins)
+						vim.api.nvim_set_current_tabpage(curtab)
+					end
+				end
+				vim.cmd(vim.v.count .. "ToggleTerm")
+			end, { desc = "Allow reopen toggleterm in different tabpage" })
+			vim.keymap.set(
+				"n",
+				" <CR>",
+				"<Cmd>lua require('toggleterm')<CR>:ToggleTermSendCurrentLine<CR>",
+				{ silent = true }
+			)
+			vim.keymap.set(
+				"v",
+				" <CR>",
+				"<Cmd>lua require('toggleterm')<CR>:ToggleTermSendVisualSelection<CR>",
+				{ silent = true }
+			)
+		end,
 		config = function()
-			vim.keymap.set("n", " <CR>", ":ToggleTermSendCurrentLine<CR>")
-			vim.keymap.set("x", " <CR>", ":ToggleTermSendVisualSelection<CR>gv<Esc>")
 			require("toggleterm").setup({
-				open_mapping = "<C-T>",
+				open_mapping = false,
 				insert_mappings = false,
 				shade_terminals = false,
 				shading_factor = 0,
