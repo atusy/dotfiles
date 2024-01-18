@@ -73,10 +73,61 @@ function M.in_cwd(path)
 	return vim.startswith(path, vim.uv.cwd() .. "/") ---@diagnostic disable-line: undefined-field
 end
 
----@param opts? { on_none: fun(str): nil }
+function M.get_visualpos()
+	local w = vim.api.nvim_get_current_win()
+	local pos1 = vim.api.nvim_win_get_cursor(w)
+	vim.cmd("normal! o")
+	local pos2 = vim.api.nvim_win_get_cursor(w)
+	vim.cmd("normal! o")
+
+	local row1, col1, row2, col2 = pos1[1], pos1[2], pos2[1], pos2[2]
+	if row1 < row2 then
+		return { row1, col1, row2, col2 }
+	end
+	if row2 < row1 then
+		return { row2, col2, row1, col1 }
+	end
+	if col1 < col2 then
+		return { row1, col1, row2, col2 }
+	end
+	return { row2, col2, row1, col1 }
+end
+
+function M.get_visualtext()
+	local m = vim.api.nvim_get_mode().mode
+	local p = M.get_visualpos()
+	local lines = vim.api.nvim_buf_get_lines(0, p[1] - 1, p[3], false)
+	if m == "V" then
+		return lines
+	end
+	if m == "" then
+		error("visual-block is not yet supported")
+	end
+	if m == "v" then
+		local lastline = lines[#lines]
+		local _, n = vim.regex("."):match_str(lastline:sub(p[4] + 1))
+		if n then
+			lines[#lines] = lines[#lines]:sub(1, p[4] + n)
+		end
+		lines[1] = lines[1]:sub(p[2] + 1)
+		return lines
+	end
+end
+
+---@param opts? { cfile: string?, on_none: fun(str): nil }
 function M.open_cfile(opts)
 	opts = opts or {}
-	local cfile = vim.fn.expand("<cfile>") --[[@as string]]
+	if not opts.cfile then
+		local visual = M.get_visualtext()
+		if visual then
+			for _, v in pairs(visual) do
+				vim.print(v)
+				M.open_cfile(vim.tbl_extend("force", opts, { cfile = v }))
+			end
+			return
+		end
+	end
+	local cfile = opts.cfile or vim.fn.expand("<cfile>") --[[@as string]]
 
 	-- Open URLs in browser
 	if cfile:match("^https?://") then
