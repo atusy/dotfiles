@@ -100,12 +100,21 @@ function M.get_visualtext()
 	if m == "V" then
 		return lines
 	end
+	local anychar = vim.regex(".")
 	if m == "" then
-		error("visual-block is not yet supported")
+		for i, line in pairs(lines) do
+			local tail = line:sub(p[4] + 1)
+			if tail ~= "" then
+				local _, n = anychar:match_str(tail)
+				line = line:sub(1, p[4] + n)
+			end
+			lines[i] = line:sub(p[2] + 1)
+		end
+		return lines
 	end
 	if m == "v" then
 		local lastline = lines[#lines]
-		local _, n = vim.regex("."):match_str(lastline:sub(p[4] + 1))
+		local _, n = anychar:match_str(lastline:sub(p[4] + 1))
 		if n then
 			lines[#lines] = lines[#lines]:sub(1, p[4] + n)
 		end
