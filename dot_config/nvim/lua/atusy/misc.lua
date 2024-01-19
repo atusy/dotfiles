@@ -74,6 +74,10 @@ function M.in_cwd(path)
 end
 
 function M.get_visualpos()
+	local m = vim.api.nvim_get_mode().mode
+	if m ~= "v" and m ~= "V" and m ~= "" then
+		return
+	end
 	local w = vim.api.nvim_get_current_win()
 	local pos1 = vim.api.nvim_win_get_cursor(w)
 	vim.cmd("normal! o")
@@ -96,6 +100,9 @@ end
 function M.get_visualtext()
 	local m = vim.api.nvim_get_mode().mode
 	local p = M.get_visualpos()
+	if not p then
+		return
+	end
 	local lines = vim.api.nvim_buf_get_lines(0, p[1] - 1, p[3], false)
 	if m == "V" then
 		return lines
