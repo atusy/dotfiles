@@ -73,7 +73,12 @@ function M.in_cwd(path)
 	return vim.startswith(path, vim.uv.cwd() .. "/") ---@diagnostic disable-line: undefined-field
 end
 
-function M.get_visualpos()
+---Get range of visual selection
+---
+---If not visual, returns nil
+---
+---@return { [1]: integer, [2]: integer, [3]: integer, [4]: integer } | nil
+function M.get_visualrange()
 	local m = vim.api.nvim_get_mode().mode
 	if m ~= "v" and m ~= "V" and m ~= "" then
 		return
@@ -97,9 +102,14 @@ function M.get_visualpos()
 	return { row2, col2, row1, col1 }
 end
 
+---Get text of visual selection
+---
+---If not visual, returns nil
+---
+---@return string[] | nil
 function M.get_visualtext()
 	local m = vim.api.nvim_get_mode().mode
-	local p = M.get_visualpos()
+	local p = M.get_visualrange()
 	if not p then
 		return
 	end
