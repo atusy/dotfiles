@@ -26,8 +26,7 @@ vim.g.loaded_netrwFileHandlers = 1
 vim.g.loaded_remote_plugins = 1
 
 --[[ lazy.nvim ]]
--- local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
-local lazypath = "/home/atusy/ghq/github.com/folke/lazy.nvim"
+local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 
 if not vim.uv.fs_stat(lazypath) then ---@diagnostic disable-line: undefined-field
 	require("atusy.lazy").install(lazypath)
