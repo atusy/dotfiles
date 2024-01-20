@@ -153,7 +153,6 @@ return {
 		"https://github.com/folke/styler.nvim",
 		event = { "WinNew", "BufRead", "BufNewFile" },
 		dependencies = { "https://github.com/EdenEast/nightfox.nvim" },
-		dev = true,
 		config = function()
 			set_styler()
 		end,
