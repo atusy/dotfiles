@@ -656,4 +656,14 @@ return {
 		"https://github.com/kevinhwang91/nvim-bqf",
 		ft = "qf",
 	},
+	{ "https://github.com/jmbuhr/otter.nvim", ft = "qmd" },
+	{
+		"https://github.com/quarto-dev/quarto-nvim",
+		ft = "qmd",
+		config = function()
+			require("quarto").setup({
+				lspFeatures = { completion = { enabled = false } },
+			})
+		end,
+	},
 }
