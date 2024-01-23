@@ -1,2 +1,2 @@
-( ( uri ) @text.uri )
+( ( uri ) @markup.link.url )
 ( ( path ) @text.strong)

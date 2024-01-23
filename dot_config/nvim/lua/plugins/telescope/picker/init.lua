@@ -54,13 +54,34 @@ end
 
 local function extract_locations(resps, locs)
 	locs = locs and { unpack(locs) } or {}
+	local listed = {}
+	local function get_key(x)
+		return string.format(
+			"%i;%i;%i;%i",
+			x["targetRange"]["start"]["line"],
+			x["targetRange"]["start"]["character"],
+			x["targetRange"]["end"]["line"],
+			x["targetRange"]["end"]["character"]
+		)
+	end
+	for _, loc in pairs(locs) do
+		listed[get_key(loc)] = true
+	end
 	for _, resp in pairs(resps) do
 		if vim.tbl_islist(resp.result) then
 			for _, i in pairs(resp.result or {}) do
-				table.insert(locs, i)
+				local key = get_key(resp)
+				if not listed[key] then
+					listed[key] = true
+					table.insert(locs, i)
+				end
 			end
 		else
-			table.insert(locs, resp.result)
+			local key = get_key(resp)
+			if not listed[key] then
+				listed[key] = true
+				table.insert(locs, resp.result)
+			end
 		end
 	end
 	return locs
