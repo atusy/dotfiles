@@ -152,8 +152,15 @@ alias yq='gojq --yaml-input'
 alias vim='nvim'
 function my-zoxide-init() {
   if command -v zoxide > /dev/null; then
-    unalias zi 2>/dev/null
-    eval "$(zoxide init zsh)"
+    eval "$(zoxide init zsh --no-cmd)"
+    function z() {
+      if [[ "$#" -eq 1 ]]
+      then
+        __zoxide_z "$@"
+      else
+        __zoxide_zi "$@"
+      fi
+    }
   fi
 }
 zsh-defer my-zoxide-init
