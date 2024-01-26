@@ -162,19 +162,19 @@ export class Config extends BaseConfig {
         xonsh: {
           mark: "XONSH",
           isVolatile: true,
-          minAutoCompleteLength: 0,
+          minAutoCompleteLength: 1,
           minKeywordLength: 0,
         },
         fish: {
           mark: "FISH",
           isVolatile: true,
-          minAutoCompleteLength: 0,
+          minAutoCompleteLength: 1,
           minKeywordLength: 0,
         },
         zsh: {
           mark: "ZSH",
           isVolatile: true,
-          minAutoCompleteLength: 0,
+          minAutoCompleteLength: 1,
           minKeywordLength: 0,
         },
       },

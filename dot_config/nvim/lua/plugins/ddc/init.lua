@@ -21,9 +21,9 @@ local function commandline_pre(mode)
 	)
 	vim.fn["ddc#custom#patch_buffer"]("sourceOptions", {
 		file = { forceCompletionPattern = [[(^e\s+|\S/\S*)]] },
-		fish = { enabledIf = enabledIf },
-		xonsh = { enabledIf = enabledIf },
-		zsh = { enabledIf = enabledIf },
+		fish = { enabledIf = enabledIf, minAutoCompleteLength = 0 },
+		xonsh = { enabledIf = enabledIf, minAutoCompleteLength = 0 },
+		zsh = { enabledIf = enabledIf, minAutoCompleteLength = 0 },
 		shell_history = { enabledIf = [[getcmdline()[0] == "!" ? v:true : v:false]] },
 		-- ["_"] = mode == ":" and { keywordPattern = "[0-9a-zA-Z_:#-]*" },
 	})
