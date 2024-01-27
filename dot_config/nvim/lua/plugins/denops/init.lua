@@ -2,7 +2,7 @@ return {
 	{
 		"https://github.com/vim-denops/denops.vim",
 		init = function(p)
-			local bin, cache = require("plugins.denops.utils").get_deno("1.39.1")
+			local bin, cache = require("plugins.denops.utils").get_deno("1.40.2")
 			vim.g["denops#deno"] = bin
 			vim.g["denops#deno_dir"] = cache
 			require("plugins.denops.utils").cache_plugin(p)
