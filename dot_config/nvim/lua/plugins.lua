@@ -327,7 +327,10 @@ return {
 	},
 	{
 		"https://github.com/nvim-treesitter/nvim-treesitter",
-		build = ":TSUpdate",
+		build = function()
+			-- force (re-)install some parsers bundled with Neovim
+			vim.cmd([[TSInstallSync! lua query vimdoc vim c python bash markdown markdown_inline | TSUpdate]])
+		end,
 		event = { "BufReadPost", "BufNewFile" },
 		config = function()
 			-- install directory of treesitter parsers
