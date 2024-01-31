@@ -69,11 +69,11 @@ local function extract_locations(resps, locs)
 	end
 	for _, resp in pairs(resps) do
 		if vim.tbl_islist(resp.result) then
-			for _, i in pairs(resp.result or {}) do
-				local key = get_key(resp)
+			for _, result in pairs(resp.result or {}) do
+				local key = get_key(result)
 				if not listed[key] then
 					listed[key] = true
-					table.insert(locs, i)
+					table.insert(locs, result)
 				end
 			end
 		else
