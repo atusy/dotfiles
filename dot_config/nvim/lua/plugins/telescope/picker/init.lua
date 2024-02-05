@@ -56,12 +56,13 @@ local function extract_locations(resps, locs)
 	locs = locs and { unpack(locs) } or {}
 	local listed = {}
 	local function get_key(x)
+		local range = x.targetRange or x.range
 		return string.format(
 			"%i;%i;%i;%i",
-			x["targetRange"]["start"]["line"],
-			x["targetRange"]["start"]["character"],
-			x["targetRange"]["end"]["line"],
-			x["targetRange"]["end"]["character"]
+			range["start"]["line"],
+			range["start"]["character"],
+			range["end"]["line"],
+			range["end"]["character"]
 		)
 	end
 	for _, loc in pairs(locs) do
