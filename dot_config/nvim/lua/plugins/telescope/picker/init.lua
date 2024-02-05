@@ -57,6 +57,13 @@ local function extract_locations(resps, locs)
 	local listed = {}
 	local function get_key(x)
 		local range = x.targetRange or x.range
+		if range == nil then
+			if not x.error then
+				-- something wrong that I have never met
+				vim.notify(vim.inspect(range))
+			end
+			return
+		end
 		return string.format(
 			"%i;%i;%i;%i",
 			range["start"]["line"],
@@ -66,20 +73,23 @@ local function extract_locations(resps, locs)
 		)
 	end
 	for _, loc in pairs(locs) do
-		listed[get_key(loc)] = true
+		local key = get_key(loc)
+		if key then
+			listed[get_key(loc)] = true
+		end
 	end
 	for _, resp in pairs(resps) do
 		if vim.tbl_islist(resp.result) then
 			for _, result in pairs(resp.result or {}) do
 				local key = get_key(result)
-				if not listed[key] then
+				if key and not listed[key] then
 					listed[key] = true
 					table.insert(locs, result)
 				end
 			end
 		else
 			local key = get_key(resp)
-			if not listed[key] then
+			if key and not listed[key] then
 				listed[key] = true
 				table.insert(locs, resp.result)
 			end
