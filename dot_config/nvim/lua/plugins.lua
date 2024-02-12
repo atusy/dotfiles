@@ -329,7 +329,7 @@ return {
 		"https://github.com/nvim-treesitter/nvim-treesitter",
 		build = function()
 			-- force (re-)install some parsers bundled with Neovim
-			vim.cmd([[TSInstallSync! lua query vimdoc vim c python bash markdown markdown_inline | TSUpdate]])
+			vim.cmd.TSUpdate()
 		end,
 		event = { "BufReadPost", "BufNewFile" },
 		config = function()
@@ -392,6 +392,15 @@ return {
 			vim.api.nvim_create_autocmd(
 				"ColorScheme",
 				{ group = vim.api.nvim_create_augroup("atusy.nvim-treesitter", {}), callback = hi }
+			)
+
+			-- command palette
+			require("atusy.keymap.palette").add_item(
+				"n",
+				"tressitter: force install Neovim-builtin quieries",
+				function()
+					vim.cmd([[TSInstall! lua query vimdoc vim c python bash markdown markdown_inline]])
+				end
 			)
 		end,
 	},
