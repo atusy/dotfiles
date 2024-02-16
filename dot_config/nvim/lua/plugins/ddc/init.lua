@@ -110,6 +110,7 @@ local function config()
 	vim.fn["popup_preview#enable"]()
 	vim.fn["ddc#enable"]()
 	require("plugins.ddc.gitcommit")()
+	require("plugins.ddc.quarto")()
 end
 
 return {
