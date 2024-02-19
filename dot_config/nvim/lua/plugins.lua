@@ -669,18 +669,6 @@ return {
 		ft = "qf",
 	},
 	{
-		"https://github.com/jmbuhr/otter.nvim",
-		lazy = true,
-		init = function()
-			vim.api.nvim_create_autocmd("FileType", {
-				pattern = { "markdown" },
-				callback = function()
-					require("otter").activate({ "r", "lua" }, false)
-				end,
-			})
-		end,
-	},
-	{
 		"https://github.com/quarto-dev/quarto-nvim",
 		ft = { "quarto" },
 		config = function()
