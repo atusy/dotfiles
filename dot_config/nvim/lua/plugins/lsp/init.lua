@@ -68,7 +68,7 @@ local function lspconfig()
 					library = { vim.env.VIMRUNTIME }, -- NOTE: vim.api.nvim_get_runtime_file("", true) can be too heavy
 					checkThirdParty = false,
 				},
-				completion = { workspaceWord = true, callSnippet = "Both" },
+				-- completion = { workspaceWord = true, callSnippet = "Both" },
 				format = {
 					enable = false,
 					defaultConfig = {
