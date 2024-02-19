@@ -668,10 +668,21 @@ return {
 		"https://github.com/kevinhwang91/nvim-bqf",
 		ft = "qf",
 	},
-	{ "https://github.com/jmbuhr/otter.nvim", ft = { "qmd", "quarto" } },
+	{
+		"https://github.com/jmbuhr/otter.nvim",
+		lazy = true,
+		init = function()
+			vim.api.nvim_create_autocmd("FileType", {
+				pattern = { "markdown" },
+				callback = function()
+					require("otter").activate({ "r", "lua" }, false)
+				end,
+			})
+		end,
+	},
 	{
 		"https://github.com/quarto-dev/quarto-nvim",
-		ft = { "qmd", "quarto" },
+		ft = { "quarto" },
 		config = function()
 			require("quarto").setup({
 				lspFeatures = { completion = { enabled = false } },
