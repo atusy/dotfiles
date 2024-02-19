@@ -1,5 +1,0 @@
-#!/bin/sh
-
-echo "DEPRECATED: migrate to mise" >&2
-
-mise "$@"
