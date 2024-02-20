@@ -20,26 +20,32 @@ local function on_attach(client, bufnr)
 
 	-- Mappings.
 	-- See `:help vim.lsp.*` for documentation on any of the below functions
-	local opts = { silent = true, buffer = bufnr }
-	set_keymap("n", "gD", [[<Cmd>lua vim.lsp.buf.declaration()<CR>]], opts)
-	set_keymap("n", "gd", telescope("lsp_definitions"), opts)
+	local nmapped = {}
+	for _, m in pairs(vim.api.nvim_buf_get_keymap(0, "n")) do
+		nmapped[m.lhs] = true
+	end
+	local function nmap(lhs, rhs)
+		if nmapped[lhs] then
+			vim.notify("lsp keybinding " .. lhs .. " is already occupied", vim.log.levels.WARN)
+		else
+			vim.keymap.set("n", lhs, rhs, { silent = true, buffer = bufnr })
+		end
+	end
+	nmap("gD", [[<Cmd>lua vim.lsp.buf.declaration()<CR>]])
+	nmap("gd", telescope("lsp_definitions"))
+	nmap("gi", telescope("lsp_implementations"))
+	nmap("gr", telescope("lsp_references"))
+	nmap("<C-K>", [[<Cmd>lua vim.lsp.buf.signature_help()<CR>]])
+	nmap(" lt", [[<Cmd>lua vim.lsp.buf.type_definition()<CR>]])
+	nmap(" la", [[<Cmd>lua require('lspsaga.codeaction'):code_action()<CR>]])
 	if client.server_capabilities.implementationProvider then
-		set_keymap("n", "gf", [[<Cmd>lua require("plugins.telescope.picker").gti()<CR>]], opts)
+		nmap("gf", [[<Cmd>lua require("plugins.telescope.picker").gti()<CR>]])
 	else
-		set_keymap("n", "gf", [[<Cmd>lua require("plugins.telescope.picker").gtd()<CR>]], opts)
+		nmap("gf", [[<Cmd>lua require("plugins.telescope.picker").gtd()<CR>]])
 	end
-	-- set_keymap('n', 'gd', vim.lsp.buf.definition, OPTS)
-	set_keymap("n", "gi", telescope("lsp_implementations"), opts)
-	-- set_keymap('n', 'gi', vim.lsp.buf.implementation, OPTS)
-	set_keymap("n", "gr", telescope("lsp_references"), opts)
-	-- set_keymap('n', 'gr', vim.lsp.buf.references, OPTS)
-	set_keymap("n", "<C-K>", [[<Cmd>lua vim.lsp.buf.signature_help()<CR>]], opts)
-	set_keymap("n", " lt", [[<Cmd>lua vim.lsp.buf.type_definition()<CR>]], opts)
 	if client.server_capabilities.renameProvider then
-		set_keymap("n", " r", [[<Cmd>lua vim.lsp.buf.rename()<CR>]], opts)
+		nmap(" r", [[<Cmd>lua vim.lsp.buf.rename()<CR>]])
 	end
-	-- set_keymap("n", " la", [[<Cmd>lua vim.lsp.buf.code_action()<CR>]], opts)
-	set_keymap("n", " la", [[<Cmd>lua require('lspsaga.codeaction'):code_action()<CR>]], opts)
 end
 
 local function lspconfig()
