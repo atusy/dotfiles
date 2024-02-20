@@ -674,7 +674,7 @@ return {
 		config = function()
 			require("quarto").setup({
 				lspFeatures = { completion = { enabled = false } },
-				keymap = { type_definition = " lt", rename = " r" },
+				keymap = false, -- done via configurations of otter.nvim
 			})
 		end,
 	},

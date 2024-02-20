@@ -50,17 +50,17 @@ return {
 				callback = function(ctx)
 					if ctx.match == "markdown" then
 						require("otter").activate({ "r", "lua" }, false)
-						for lhs, rhs in pairs({
-							gS = ":lua require'otter'.ask_document_symbols()<cr>",
-							gd = ":lua require'otter'.ask_definition()<cr>",
-							K = ":lua require'otter'.ask_hover()<cr>",
-							gr = ":lua require'otter'.ask_references()<cr>",
-							[" r"] = ":lua require'otter'.ask_rename()<cr>",
-							[" lf"] = ":lua require'otter'.ask_format()<cr>",
-							[" lt"] = ":lua require'otter'.ask_type_definition()<cr>",
-						}) do
-							vim.keymap.set("n", lhs, rhs, { silent = true, buffer = true })
-						end
+					end
+					for lhs, rhs in pairs({
+						gS = ":lua require'otter'.ask_document_symbols()<cr>",
+						gd = ":lua require'otter'.ask_definition()<cr>",
+						K = ":lua require'otter'.ask_hover()<cr>",
+						gr = ":lua require'otter'.ask_references()<cr>",
+						[" r"] = ":lua require'otter'.ask_rename()<cr>",
+						[" lf"] = ":lua require'otter'.ask_format()<cr>",
+						[" lt"] = ":lua require'otter'.ask_type_definition()<cr>",
+					}) do
+						vim.keymap.set("n", lhs, rhs, { silent = true, buffer = true })
 					end
 					vim.fn["ddc#custom#set_context_filetype"](ctx.match, function()
 						return ddc_custom_context(ctx)
