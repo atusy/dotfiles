@@ -11,6 +11,9 @@ local setup_chowcho = function()
 	local safely = require("atusy.misc").safely
 
 	require("chowcho").setup({
+    -- stylua: ignore
+    labels = {"A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"},
+		ignore_case = true,
 		use_exclude_default = false,
 		exclude = function(_, _)
 			return false
