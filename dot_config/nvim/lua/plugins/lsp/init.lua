@@ -138,8 +138,8 @@ return {
 					on_attach(client, ctx.buf)
 				end,
 			})
-			require("mason").setup()
-			require("mason-lspconfig").setup()
+			require("mason")
+			require("mason-lspconfig")
 			lspconfig()
 			require("fidget").setup()
 		end,
@@ -147,8 +147,20 @@ return {
 	-- nvim-lspconfig's config loads following plugins except lspsaga
 	{ "https://github.com/uga-rosa/ddc-source-lsp-setup", lazy = true },
 	{ "https://github.com/ray-x/lsp_signature.nvim", lazy = true },
-	{ "https://github.com/williamboman/mason.nvim", lazy = true },
-	{ "https://github.com/williamboman/mason-lspconfig.nvim", lazy = true },
+	{
+		"https://github.com/williamboman/mason.nvim",
+		lazy = true,
+		config = function()
+			require("mason").setup()
+		end,
+	},
+	{
+		"https://github.com/williamboman/mason-lspconfig.nvim",
+		lazy = true,
+		config = function()
+			require("mason-lspconfig").setup()
+		end,
+	},
 	{ "https://github.com/j-hui/fidget.nvim", lazy = true },
 	{ "https://github.com/b0o/SchemaStore.nvim", lazy = true },
 	{

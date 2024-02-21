@@ -22,14 +22,11 @@ local function ddc_custom_context(ctx)
 				((cursor[1] == srow and cursor[2] >= scol) or (cursor[1] > srow))
 				and ((cursor[1] == erow and cursor[2] <= ecol) or cursor[1] < erow)
 			then
+				local bufnr = otter_attached.buffers[chunk.lang]
 				return {
 					sourceParams = {
-						lsp = {
-							bufnr = otter_attached.buffers[chunk.lang],
-							enableResolveItem = true,
-							enableAdditionalTextEdit = true,
-							confirmBehavior = "replace",
-						},
+						lsp = { bufnr = bufnr },
+						lspoints = { bufnr = bufnr },
 					},
 				}
 			end
