@@ -25,9 +25,7 @@ local function on_attach(client, bufnr)
 		nmapped[m.lhs] = true
 	end
 	local function nmap(lhs, rhs)
-		if nmapped[lhs] then
-			vim.notify("lsp keybinding " .. lhs .. " is already occupied", vim.log.levels.WARN)
-		else
+		if not nmapped[lhs] then
 			vim.keymap.set("n", lhs, rhs, { silent = true, buffer = bufnr })
 		end
 	end
