@@ -115,9 +115,7 @@ local function lspconfig()
 	if is_node then
 		config("tsserver", {})
 	else
-		config("denols", {
-			single_file_support = true,
-		})
+		config("denols", { single_file_support = true })
 	end
 end
 
