@@ -20,6 +20,7 @@ export class Config extends BaseConfig {
 
     const sources = [
       "lsp",
+      "lspoints",
       "file",
       "around",
       "buffer",
@@ -32,6 +33,7 @@ export class Config extends BaseConfig {
     args.setAlias("source", "shell_history", "dictionary");
     args.setAlias("source", "ex_command_history", "cmdline-history");
     args.setAlias("source", "ex_command_history_cmd", "cmdline-history");
+    args.setAlias("source", "lspoints", "lsp");
     args.setAlias("filter", "matcher_head_dictionary", "matcher_head");
     args.setAlias("filter", "matcher_head_shell_history", "matcher_head");
     args.setAlias("filter", "converter_ex_command", "converter_string_match");
@@ -129,6 +131,11 @@ export class Config extends BaseConfig {
           forceCompletionPattern: "\\.\\w*|::\\w*|->\\w*",
           dup: "force",
         },
+        "lspoints": {
+          mark: "LP",
+          forceCompletionPattern: "\\.\\w*|::\\w*|->\\w*",
+          dup: "force",
+        },
         "shell_history": {
           mark: "HIST_SH",
           matchers: ["matcher_head"],
@@ -196,6 +203,12 @@ export class Config extends BaseConfig {
           filenameChars: "[:keyword:].",
         },
         "lsp": {
+          enableResolveItem: true,
+          enableAdditionalTextEdit: true,
+          confirmBehavior: "replace",
+        },
+        "lspoints": {
+          lspEngine: "lspoints",
           enableResolveItem: true,
           enableAdditionalTextEdit: true,
           confirmBehavior: "replace",
