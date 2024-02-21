@@ -23,12 +23,7 @@ local function ddc_custom_context(ctx)
 				and ((cursor[1] == erow and cursor[2] <= ecol) or cursor[1] < erow)
 			then
 				local bufnr = otter_attached.buffers[chunk.lang]
-				return {
-					sourceParams = {
-						lsp = { bufnr = bufnr },
-						lspoints = { bufnr = bufnr },
-					},
-				}
+				return { sourceParams = { lsp = { bufnr = bufnr } } }
 			end
 		end
 	end
