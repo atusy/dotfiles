@@ -1,3 +1,5 @@
+local languages = { "r", "python", "bash", "lua", "html", "javascript", "typescript" }
+
 local function ddc_custom_context(ctx)
 	-- test if otter is available
 	local ok, otter_keeper = pcall(require, "otter.keeper")
@@ -6,7 +8,14 @@ local function ddc_custom_context(ctx)
 	end
 
 	-- sync quarto buffer with otter buffers
-	otter_keeper.sync_raft(ctx.buf)
+	ok = pcall(otter_keeper.sync_raft, ctx.buf)
+	if not ok then
+		require("otter").activate(languages, false, false)
+		ok = pcall(otter_keeper.sync_raft, ctx.buf)
+		if not ok then
+			return {}
+		end
+	end
 
 	-- conditional sourceParams for ddc-source-lsp based on the cursor positions
 	local cursor = vim.api.nvim_win_get_cursor(0)
@@ -41,7 +50,7 @@ return {
 				pattern = { "markdown", "quarto" },
 				callback = function(ctx)
 					if ctx.match == "markdown" then
-						require("otter").activate({ "r", "lua" }, false)
+						require("otter").activate(languages, false, false)
 					end
 					for lhs, rhs in pairs({
 						gS = ":lua require'otter'.ask_document_symbols()<cr>",
