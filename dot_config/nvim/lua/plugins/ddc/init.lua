@@ -120,6 +120,31 @@ return {
 			-- ui
 			{ "https://github.com/matsui54/denops-popup-preview.vim" },
 			{ "https://github.com/Shougo/pum.vim" },
+			{
+				"https://github.com/uga-rosa/ddc-previewer-floating",
+				lazy = true,
+				init = function()
+					local group = vim.api.nvim_create_augroup("atusy-ddc-previewer-floating", {})
+					vim.api.nvim_create_autocmd("BufEnter", {
+						group = group,
+						callback = function(ctx)
+							local ft = vim.filetype.match({ buf = ctx.buf, filename = ctx.file })
+							if ({ markdown = true, quarto = true })[ft] then
+								vim.fn["popup_preview#disable"]()
+								require("ddc_previewer_floating").enable()
+								vim.api.nvim_create_autocmd("BufLeave", {
+									group = group,
+									buffer = ctx.buf,
+									callback = function()
+										pcall(require("ddc_previewer_floating").disable)
+										vim.fn["popup_preview#enable"]()
+									end,
+								})
+							end
+						end,
+					})
+				end,
+			},
 			-- source
 			{ "https://github.com/atusy/ddc-source-parametric" },
 			{ "https://github.com/matsui54/ddc-buffer" },
