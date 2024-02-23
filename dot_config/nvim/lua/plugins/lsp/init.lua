@@ -197,4 +197,75 @@ return {
 			})
 		end,
 	},
+	{
+		"https://github.com/kuuote/lspoints",
+		lazy = true,
+		config = function()
+			require("mason") -- dependency
+
+			local function attach_denols()
+				vim.fn["lspoints#attach"]("denols", {
+					cmd = { "deno", "lsp" },
+					cmdOptions = {
+						env = { DENO_DIR = vim.env.DENO_DIR or vim.fs.joinpath(vim.uv.os_homedir(), ".cache", "deno") },
+					},
+					initializationOptions = {
+						enable = true,
+						unstable = true,
+						suggest = { imports = { hosts = { ["https://deno.land"] = true } } },
+					},
+				})
+			end
+
+			local function attach_luals()
+				vim.fn["lspoints#attach"]("luals", {
+					cmd = { "lua-language-server" },
+					initializationOptions = {
+						runtime = { version = "LuaJIT" },
+						diagnostics = { globals = { "vim", "pandoc" } },
+						workspace = {
+							library = { vim.env.VIMRUNTIME }, -- NOTE: vim.api.nvim_get_runtime_file("", true) can be too heavy
+							checkThirdParty = false,
+						},
+						completion = { workspaceWord = false, callSnippet = "Both" },
+						format = { enable = true },
+					},
+				})
+			end
+
+			vim.api.nvim_create_autocmd("FileType", {
+				group = vim.api.nvim_create_augroup("atusy-lspoints", {}),
+				callback = function(ctx)
+					-- attach
+					local ft = ctx.match
+					if ft == "typescript" or ft == "typescriptreact" then
+						local is_node = require("lspconfig").util.find_node_modules_ancestor(".")
+						if is_node then
+							return
+						end
+						attach_denols()
+					elseif ft == "lua" then
+						-- attach_luals()
+					else
+						return
+					end
+
+					-- extensions
+					vim.fn["lspoints#load_extensions"]({ "nvim_diagnostics", "format" })
+
+					-- mappings
+					vim.keymap.set(
+						"n",
+						" lf",
+						"<Cmd>call denops#request('lspoints', 'executeCommand', ['format', 'execute', bufnr()])<CR>",
+						{ silent = true, buffer = true }
+					)
+
+					-- completions
+					-- textDocument/resolve not working well
+					vim.fn["ddc#custom#patch_buffer"]({ sourceParams = { lsp = { lspEngine = "lspoints" } } })
+				end,
+			})
+		end,
+	},
 }
