@@ -397,10 +397,8 @@ return {
 			-- command palette
 			require("atusy.keymap.palette").add_item(
 				"n",
-				"tressitter: force install Neovim-builtin quieries",
-				function()
-					vim.cmd([[TSInstall! lua query vimdoc vim c python bash markdown markdown_inline]])
-				end
+				"treesitter: force install some queries",
+				[[<Cmd>TSInstall! lua query vimdoc vim c python bash markdown markdown_inline<CR>]]
 			)
 		end,
 	},
