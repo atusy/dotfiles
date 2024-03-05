@@ -12,20 +12,12 @@ function M.outline()
 	picker({ sorter = require("plugins.telescope.sorter").filter_only_sorter() })
 end
 
-local keymaps_default_text = {
-	fern = "'fern-action ",
-	["gin-status"] = "'gin-action ",
-	["gin-log"] = "'gin-action ",
-}
-
 function M.keymaps(opts)
 	require("atusy.lazy").load_all()
 	require("atusy.keymap.palette").update()
 	require("telescope.builtin").keymaps(opts or {
 		modes = { vim.api.nvim_get_mode().mode },
-		default_text = vim.b.telescope_keymaps_default_text or keymaps_default_text[vim.bo.filetype] or require(
-			"atusy.keymap.palette"
-		).star,
+		default_text = vim.b.telescope_keymaps_default_text or require("atusy.keymap.palette").star,
 	})
 end
 

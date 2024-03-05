@@ -80,8 +80,13 @@ local function setup_gin()
 			if ctx.match:match("^ginedit://") then
 				vim.keymap.set("n", "<Plug>(C-G)<C-A>", "<Plug>(gin-diffget-r)", { buffer = ctx.buf }) -- git add
 				vim.keymap.set("n", "<Plug>(C-G)<C-R>", "<Plug>(gin-diffget-l)", { buffer = ctx.buf }) -- git reset
-			elseif ctx.match:match("^ginlog://") then
-				require("plugins.git.log").map(ctx)
+			else
+				if ctx.match:match("^ginlog://") then
+					require("plugins.git.log").map(ctx)
+				end
+				vim.keymap.set("n", "a", function()
+					require("telescope.builtin").keymaps({ default_text = "gin-action " })
+				end, { buffer = ctx.buf })
 			end
 		end,
 	})
