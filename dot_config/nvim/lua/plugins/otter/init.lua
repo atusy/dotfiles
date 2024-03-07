@@ -10,7 +10,7 @@ local function ddc_custom_context(ctx)
 	-- sync quarto buffer with otter buffers
 	ok = pcall(otter_keeper.sync_raft, ctx.buf)
 	if not ok then
-		require("otter").activate(languages, false, false)
+		pcall(require("otter").activate, languages, false, false)
 		ok = pcall(otter_keeper.sync_raft, ctx.buf)
 		if not ok then
 			return {}
