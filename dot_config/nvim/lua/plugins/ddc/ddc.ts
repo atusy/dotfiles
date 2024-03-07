@@ -1,5 +1,5 @@
-import { BaseConfig } from "https://deno.land/x/ddc_vim@v3.9.0/types.ts";
-import { ConfigArguments } from "https://deno.land/x/ddc_vim@v3.9.0/base/config.ts";
+import { BaseConfig } from "https://deno.land/x/ddc_vim@v4.3.1/types.ts";
+import { ConfigArguments } from "https://deno.land/x/ddc_vim@v4.3.1/base/config.ts";
 import { join } from "https://deno.land/std@0.196.0/path/mod.ts";
 
 async function get_fpath() {
@@ -117,6 +117,7 @@ export class Config extends BaseConfig {
           mark: "INPUT",
           forceCompletionPattern: "\\S/\\S*",
           isVolatile: true,
+          replaceSourceInputPattern: "[^/]*$", // do not remove slash so that file completion works
         },
         line: {
           mark: "LINE",
