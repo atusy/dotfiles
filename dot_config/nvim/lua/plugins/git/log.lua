@@ -32,7 +32,7 @@ function M.show_below(...)
 	end
 	local args = { ... }
 	vim.api.nvim_win_call(winj, function()
-		M.show(args)
+		pcall(M.show, args)
 	end)
 end
 
