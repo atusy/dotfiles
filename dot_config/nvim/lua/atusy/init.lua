@@ -27,6 +27,7 @@ vim.opt.splitright = true
 vim.opt.splitbelow = true
 vim.opt.termguicolors = true
 vim.opt.updatetime = 250
+vim.opt.wildoptions:append("fuzzy")
 
 -- window
 vim.opt.signcolumn = "yes"
