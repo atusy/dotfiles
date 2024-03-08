@@ -66,6 +66,10 @@ local function telescope_config(_)
 				i = {
 					["<C-J>"] = false, -- to support skkeleton.vim
 					["<C-P>"] = require("telescope.actions.layout").toggle_preview,
+					["<C-V>"] = false,
+					["<C-S>"] = false,
+					["<C-W><C-V>"] = require("telescope.actions").select_vertical,
+					["<C-W><C-S>"] = require("telescope.actions").select_horizontal,
 				},
 				n = {
 					K = function(_)
