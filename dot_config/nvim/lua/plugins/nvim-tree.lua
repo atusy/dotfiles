@@ -110,6 +110,8 @@ return {
 				nmap("gx", node_open_system, "node: run system")
 				nmap("K", require("nvim-tree.api").node.show_info_popup, "node: info")
 				nmap("<CR>", node_open_edit, "node: open in a chosen window")
+				nmap("<C-W><C-V>", require("nvim-tree.api").node.open.vertical, "node: open in a vertical split")
+				nmap("<C-W><C-S>", require("nvim-tree.api").node.open.horizontal, "node: open in a horizontal split")
 
 				-- file manipulations
 				nmap("a", require("nvim-tree.api").fs.create, "fs: add")
