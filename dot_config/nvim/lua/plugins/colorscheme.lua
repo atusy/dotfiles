@@ -101,7 +101,7 @@ local function set_styler()
 			vim.schedule(function()
 				if state[key] then
 					theme()
-					require("atusy.highlight").change_background(require("atusy.highlight").transparent)
+					-- require("atusy.highlight").change_background(require("atusy.highlight").transparent)
 				end
 			end)
 		end,
@@ -172,11 +172,12 @@ return {
 				options = { inverse = { visual = true } },
 			})
 			vim.cmd.colorscheme("duskfox")
-			vim.schedule(function()
-				if vim.env.NVIM_TRANSPARENT == "1" then
-					require("atusy.highlight").remove_background(0)
-				end
-			end)
+			-- NOTE: disable it because of strange behavior on opening telescope right after VimEnter
+			-- vim.schedule(function()
+			-- 	if vim.env.NVIM_TRANSPARENT == "1" then
+			-- 		require("atusy.highlight").remove_background(0)
+			-- 	end
+			-- end)
 		end,
 	},
 }
