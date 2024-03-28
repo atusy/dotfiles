@@ -85,7 +85,7 @@ local function setup_gin()
 					require("plugins.git.log").map(ctx)
 				end
 				vim.keymap.set("n", "a", function()
-					require("telescope.builtin").keymaps({ default_text = "gin-action " })
+					require("telescope.builtin").keymaps({ only_buf = true })
 				end, { buffer = ctx.buf })
 			end
 		end,
