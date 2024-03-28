@@ -77,6 +77,7 @@ end
 local state = {}
 
 local function set_styler()
+	local allow_buf_win_enter = false -- ignore first time after VimEnter
 	vim.api.nvim_create_autocmd({
 		"BufWinEnter", -- instead of BufEnter
 		"WinEnter",
@@ -91,7 +92,11 @@ local function set_styler()
       ]]
 	}, {
 		group = vim.api.nvim_create_augroup("atusy.styler", {}),
-		callback = function()
+		callback = function(ctx)
+			if ctx.event == "BufWinEnter" and not allow_buf_win_enter then
+				allow_buf_win_enter = true
+				return
+			end
 			-- only apply theme from the latest schedule
 			for k, _ in pairs(state) do
 				state[k] = nil
@@ -151,9 +156,8 @@ return {
 	},
 	{
 		"https://github.com/folke/styler.nvim",
-		event = { "WinNew", "BufRead", "BufNewFile" },
-		dependencies = { "https://github.com/EdenEast/nightfox.nvim" },
-		config = function()
+		lazy = true,
+		init = function()
 			set_styler()
 		end,
 	},
