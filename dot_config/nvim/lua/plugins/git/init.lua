@@ -113,7 +113,7 @@ local function setup_gin()
 		vim.cmd("wincmd v")
 		local nm = vim.api.nvim_buf_get_name(vim.api.nvim_win_get_buf(0))
 		if nm ~= "" and vim.uv.fs_stat(nm) then ---@diagnostic disable-line: undefined-field
-			require("plugins.git.log").exec_graph("-n", "200", "--", "%")
+			require("plugins.git.log").exec_graph("--follow", "-n", "200", "--", "%")
 		else
 			require("plugins.git.log").exec_graph("-n", "200")
 		end
@@ -156,17 +156,17 @@ local function setup_gin()
 	vim.keymap.set("x", "<Plug>(C-G)<C-Y>", yank, { expr = true })
 
 	-- command palette
-	add_item("n", "git amend", [[<Cmd>lua require("plugins.git.commit").exec({ args = {"--amend" } })<CR>]]) -- commit
-	add_item("n", "git amend --no-edit", ":Gin ++wait commit --amend --no-edit ")
-	add_item("n", "git rebase -i", ":Gin rebase --rebase-merge -i ")
+	add_item("n", "git amend", [[<Cmd>lua require("plugins.git.commit").exec({ args = {"--amend", "--quiet" } })<CR>]]) -- commit
+	add_item("n", "git amend --no-edit", ":Gin ++wait commit --amend --no-edit --quiet ")
+	add_item("n", "git rebase -i", ":Gin rebase --rebase-merge -i --quiet ")
 	add_item(
 		"n",
 		"git rebase --onto A B C",
-		":Gin rebase --rebase-merge --onto ",
+		":Gin rebase --quiet --rebase-merge --onto ",
 		{ desc = "AにBからCまでの差分を乗せる" }
 	)
-	add_item("n", "git push", ":Gin ++wait push origin HEAD ")
-	add_item("n", "git push --force", ":Gin ++wait push --force-with-lease --force-if-includes origin HEAD ")
+	add_item("n", "git push", ":Gin push --quiet origin HEAD ")
+	add_item("n", "git push --force", ":Gin push --quiet --force-with-lease --force-if-includes origin HEAD ")
 	add_item("n", "git diff", ":GinDiff ")
 	add_item("n", "git diff --ignore-all-space", ":GinDiff --ignore-all-space ")
 end
