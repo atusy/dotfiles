@@ -57,6 +57,9 @@ vim.opt.smartindent = true
 vim.opt.softtabstop = 2
 vim.opt.tabstop = 2
 
+-- filetype
+vim.api.nvim_set_option_value("commentstring", "<!--%s-->", { filetype = "markdown_inline" }) -- for |commenting| to work
+
 --[[ commands ]]
 vim.api.nvim_create_user_command("W", "write !sudo tee % >/dev/null", {})
 vim.api.nvim_create_user_command("Normal", function(opts)

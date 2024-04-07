@@ -45,28 +45,6 @@ return {
 	},
 
 	-- utils
-	{
-		"https://github.com/numToStr/Comment.nvim",
-		dependencies = { "https://github.com/JoosepAlviste/nvim-ts-context-commentstring" },
-		lazy = true,
-		init = function()
-			vim.keymap.set("n", "gcc", [[<Cmd>lua require("Comment.api").toggle.linewise.current()<CR>]])
-			vim.keymap.set("x", "gc", [[<Esc><Cmd>lua require("Comment.api").toggle.linewise(vim.fn.visualmode())<CR>]])
-			vim.keymap.set(
-				"x",
-				"gb",
-				[[<Esc><Cmd>lua require("Comment.api").toggle.blockwise(vim.fn.visualmode())<CR>]]
-			)
-		end,
-		config = function()
-			require("Comment").setup({
-				mappings = false,
-				pre_hook = function()
-					require("ts_context_commentstring.integrations.comment_nvim").create_pre_hook()
-				end,
-			})
-		end,
-	},
 	{ "https://github.com/lambdalisue/guise.vim", dependencies = { "https://github.com/vim-denops/denops.vim" } },
 	{ "https://github.com/lambdalisue/askpass.vim", dependencis = { "https://github.com/vim-denops/denops.vim" } },
 	{ "https://github.com/segeljakt/vim-silicon", cmd = { "Silicon", "SiliconHighlight" } }, -- pacman -S silicon
