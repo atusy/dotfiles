@@ -152,16 +152,16 @@ function M.expand_cfile()
 		return expand_cfile()
 	end
 
-	local descendant = {} ---@type TSNode[]
+	local ancestors = {} ---@type TSNode[]
 	local n = cur_node ---@type TSNode?
 	while n do
-		table.insert(descendant, n)
+		table.insert(ancestors, n)
 		n = n:parent()
 	end
 
 	-- based on node capture
 	local url = nil ---@type TSNode?
-	for _, node in pairs(descendant) do
+	for _, node in pairs(ancestors) do
 		-- if node is captured as markup.link.url
 		local row, col = node:range()
 		local captures = vim.treesitter.get_captures_at_pos(0, row, col)
@@ -179,7 +179,7 @@ function M.expand_cfile()
 	-- based on node type
 	local ft = vim.bo.filetype
 	if ft == "markdown" then
-		for _, node in pairs(descendant) do
+		for _, node in pairs(ancestors) do
 			local node_type = node:type()
 			if false then
 			elseif node_type == "uri_autolink" then
