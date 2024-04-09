@@ -183,8 +183,7 @@ function M.expand_cfile()
 			local node_type = node:type()
 			if false then
 			elseif node_type == "uri_autolink" then
-				local txt = vim.treesitter.get_node_text(cur_node, 0, {})
-				return (txt:gsub("^<", ""):gsub(">$", ""))
+				return (vim.treesitter.get_node_text(node, 0, {}):gsub("^<(.*)>$", "%1"))
 			elseif node_type == "inline_link" or node_type == "image" or node_type == "link_reference_definition" then
 				for child in node:iter_children() do
 					if child:type() == "link_destination" then
