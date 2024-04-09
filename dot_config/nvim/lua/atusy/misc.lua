@@ -140,6 +140,98 @@ function M.get_visualtext()
 	end
 end
 
+local function expand_cfile()
+	local cWORD = vim.fn.expand("<cWORD>")
+	return cWORD:match("^https?://") and cWORD or vim.fn.expand("<cfile>")
+end
+
+function M.expand_cfile()
+	-- based on <cfile> if treesitter is unavailable
+	local ok, cur_node = pcall(vim.treesitter.get_node, { ignore_injections = false })
+	if not ok or not cur_node then
+		return expand_cfile()
+	end
+
+	local descendant = {} ---@type TSNode[]
+	local n = cur_node ---@type TSNode?
+	while n do
+		table.insert(descendant, n)
+		n = n:parent()
+	end
+
+	-- based on node capture
+	local url = nil ---@type TSNode?
+	for _, node in pairs(descendant) do
+		-- if node is captured as markup.link.url
+		local row, col = node:range()
+		local captures = vim.treesitter.get_captures_at_pos(0, row, col)
+		for _, capture in pairs(captures) do
+			if capture == "markup.link.url" then
+				url = node
+				break
+			end
+		end
+	end
+	if url then
+		return vim.treesitter.get_node_text(url, 0, {})
+	end
+
+	-- based on node type
+	local ft = vim.bo.filetype
+	if ft == "markdown" then
+		for _, node in pairs(descendant) do
+			local node_type = node:type()
+			if false then
+			elseif node_type == "uri_autolink" then
+				local txt = vim.treesitter.get_node_text(cur_node, 0, {})
+				return (txt:gsub("^<", ""):gsub(">$", ""))
+			elseif node_type == "inline_link" or node_type == "image" or node_type == "link_reference_definition" then
+				for child in node:iter_children() do
+					if child:type() == "link_destination" then
+						return vim.treesitter.get_node_text(child, 0, {})
+					end
+				end
+				-- -- maybe shortcut link should be solved in definition jump
+				-- elseif node_type == "shortcut_link" then
+				-- 	for child in node:iter_children() do
+				-- 		if child:type() == "link_text" then
+				-- 			local link_text = vim.treesitter.get_node_text(child, 0, {})
+				-- 			if not link_text:match("^%^") then -- assume [^...] as footnote
+				-- 				local link_label = "[" .. link_text .. "]"
+				-- 				local blocks = { vim.treesitter.get_node():tree():root() }
+				-- 				local i = 0
+				-- 				while i < #blocks do
+				-- 					i = i + 1
+				-- 					for block_child in blocks[i]:iter_children() do
+				-- 						local child_type = block_child:type()
+				-- 						if child_type == "link_reference_definition" then
+				-- 							local link_reference_definition = {}
+				-- 							for grandchild in block_child:iter_children() do
+				-- 								link_reference_definition[grandchild:type()] =
+				-- 									vim.treesitter.get_node_text(grandchild, 0, {})
+				-- 							end
+				-- 							if
+				-- 								link_reference_definition.link_label == link_label
+				-- 								and link_reference_definition.link_destination
+				-- 							then
+				-- 								return link_reference_definition.link_destination
+				-- 							end
+				-- 						elseif child_type == "section" then
+				-- 							table.insert(blocks, block_child)
+				-- 						end
+				-- 					end
+				-- 				end
+				-- 			end
+				-- 		end
+				-- 	end
+			end
+		end
+	end
+
+	-- based on <cfile> as a last resort
+	return expand_cfile()
+end
+
 ---@param opts? { cfile: string?, on_none: fun(str): nil }
 function M.open_cfile(opts)
 	opts = opts or {}
@@ -153,10 +245,12 @@ function M.open_cfile(opts)
 			return
 		end
 	end
-	local cfile = opts.cfile or vim.fn.expand("<cfile>") --[[@as string]]
+
+	local cfile = opts.cfile or M.expand_cfile() --[[@as string]]
 
 	-- Open URLs in browser
 	if cfile:match("^https?://") then
+		vim.notify(cfile)
 		vim.ui.open(cfile)
 		return
 	end
