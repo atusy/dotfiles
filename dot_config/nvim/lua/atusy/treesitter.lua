@@ -1,5 +1,16 @@
 local M = {}
 
+---@param node TSNode?
+---@return TSNode[]
+function M.list_ancestor_nodes(node)
+	local ancestors = {} ---@type TSNode[]
+	while node do
+		table.insert(ancestors, node)
+		node = node:parent()
+	end
+	return ancestors
+end
+
 ---Treesitter-based foldtext
 ---
 ---Modified after https://github.com/neovim/neovim/blob/7f9fc2fbf03e18c1e4033763be4905707d7a84e7/runtime/lua/vim/treesitter/_fold.lua?plain=1#L402-L491
