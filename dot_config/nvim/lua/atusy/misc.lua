@@ -166,7 +166,7 @@ function M.expand_cfile()
 		local row, col = node:range()
 		local captures = vim.treesitter.get_captures_at_pos(0, row, col)
 		for _, capture in pairs(captures) do
-			if capture == "markup.link.url" then
+			if capture == "markup.link.url" or capture == "string.special.url" then
 				url = node
 				break
 			end
