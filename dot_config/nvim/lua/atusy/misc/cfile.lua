@@ -176,12 +176,7 @@ function M.open(opts)
 		if type(opts.on_none) == "function" then
 			opts.on_none(cfile)
 		else
-			local ok_gF, msg = pcall(function()
-				vim.cmd("normal! gF")
-			end)
-			if msg then
-				vim.notify(msg, vim.log.levels[ok_gF and "INFO" or "ERROR"])
-			end
+			vim.notify("FileNotFound: " .. cfile, vim.log.levels.ERROR)
 		end
 		return
 	end
