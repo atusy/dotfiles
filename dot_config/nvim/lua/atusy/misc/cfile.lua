@@ -17,7 +17,7 @@ local function expand_captured_url(nodes)
 			return url
 		end
 	end
-	return vim.treesitter.get_node_text(url, 0, {})
+	return url and vim.treesitter.get_node_text(url, 0, {}) or nil
 end
 
 ---@param nodes TSNode[]
@@ -46,8 +46,8 @@ function M.expand(opts)
 		return opts.cfile
 	end
 
-	local nodes =
-		require("atusy.treesitter").list_ancestor_nodes(vim.treesitter.get_node({ ignore_injections = false }))
+	local ok, cur_node = pcall(vim.treesitter.get_node, { ignore_injections = false })
+	local nodes = require("atusy.treesitter").list_ancestor_nodes(ok and cur_node or nil)
 
 	-- based on node capture
 	local captured_url = expand_captured_url(nodes)
