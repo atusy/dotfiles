@@ -48,6 +48,7 @@ vim.opt.winblend = 25
 
 -- buffer
 vim.opt.autoread = true
+vim.opt.copyindent = true
 vim.opt.expandtab = true
 vim.opt.matchpairs:append(
 	[[<:>,「:」,（:）,『:』,【:】,《:》,〈:〉,｛:｝,［:］,【:】,‘:’,“:”]]
