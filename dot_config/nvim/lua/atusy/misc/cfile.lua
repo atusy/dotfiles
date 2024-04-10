@@ -192,7 +192,20 @@ function M.open(opts)
 		return
 	end
 
-	local cmd = "up | " .. (opts.cmd or "e") .. " " .. target
+	for _, buf in pairs(vim.api.nvim_list_bufs()) do
+		if vim.api.nvim_buf_get_name(buf) == target then
+			if opts.cmd then
+				vim.cmd(opts.cmd)
+			end
+			vim.api.nvim_win_set_buf(0, buf)
+			if row then
+				vim.api.nvim_win_set_cursor(0, { row, col and (col - 1) or 0 })
+			end
+			return
+		end
+	end
+
+	local cmd = (opts.cmd or "e") .. " " .. target
 	if row then
 		cmd = string.format("%s | lua vim.api.nvim_win_set_cursor(0, {%d, %d})", cmd, row, col and (col - 1) or 0)
 	end
