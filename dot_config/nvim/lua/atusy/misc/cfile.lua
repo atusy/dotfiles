@@ -128,6 +128,7 @@ local function find_file(path)
 
 	local candidates = {}
 
+	-- find file relative to the current buffer like |gf|
 	if vim.bo.buftype == "" then
 		local bufname = vim.api.nvim_buf_get_name(0)
 		if bufname ~= "" then
@@ -146,6 +147,7 @@ local function find_file(path)
 	return false, path
 end
 
+---Open <cfile> if it is an existing file or an URL (enhanced |gF|)
 ---@param opts? { cmd: string?, cfile: string?, on_none: fun(str): nil  }
 function M.open(opts)
 	opts = opts or {}
