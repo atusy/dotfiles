@@ -155,7 +155,6 @@ function M.open(opts)
 		local visual = require("atusy.misc").get_visualtext()
 		if visual then
 			for _, v in pairs(visual) do
-				vim.print(v)
 				M.open(vim.tbl_extend("force", opts, { cfile = v }))
 			end
 			return
