@@ -148,7 +148,7 @@ local function find_file(path)
 end
 
 ---Open <cfile> if it is an existing file or an URL (enhanced |gF|)
----@param opts? { cmd: string?, cfile: string?, on_none: fun(str): nil  }
+---@param opts? { cmd: string?, cfile: string? }
 function M.open(opts)
 	opts = opts or {}
 	if not opts.cfile then
@@ -175,11 +175,7 @@ function M.open(opts)
 	local ok, target = find_file(cfile)
 
 	if not ok then
-		if type(opts.on_none) == "function" then
-			opts.on_none(cfile)
-		else
-			vim.notify("FileNotFound: " .. cfile, vim.log.levels.ERROR)
-		end
+		vim.notify("FileNotFound: " .. cfile, vim.log.levels.ERROR)
 		return
 	end
 
