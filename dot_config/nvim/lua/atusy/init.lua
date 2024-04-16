@@ -6,7 +6,7 @@ local augroup = vim.api.nvim_create_augroup("atusy", {})
 -- global
 vim.opt.backspace = { "indent", "eol", "start" }
 vim.opt.exrc = true
-vim.opt.grepprg = [[rg --glob "!.git" --no-heading --vimgrep --follow $*]]
+vim.opt.grepprg = [[rg --glob '!.git' --hidden --vimgrep --follow $*]]
 vim.opt.grepformat = vim.opt.grepformat ^ { "%f:%l:%c:%m" }
 vim.opt.guicursor = {
 	[[n-v-c:block,i-ci-ve:ver25,r-cr:hor20,o:hor50]],
