@@ -5,6 +5,7 @@ local augroup = vim.api.nvim_create_augroup("atusy", {})
 --[[ options ]]
 -- global
 vim.opt.backspace = { "indent", "eol", "start" }
+vim.opt.diffopt:append("algorithm:histogram")
 vim.opt.exrc = true
 vim.opt.grepprg = [[rg --glob '!.git' --hidden --vimgrep --follow $*]]
 vim.opt.grepformat = vim.opt.grepformat ^ { "%f:%l:%c:%m" }
