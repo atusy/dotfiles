@@ -650,7 +650,7 @@ return {
 		ft = { "quarto" },
 		config = function()
 			require("quarto").setup({
-				lspFeatures = { completion = { enabled = false } },
+				lspFeatures = { completion = { enabled = false }, diagnostics = { enabled = false } },
 				keymap = false, -- done via configurations of otter.nvim
 			})
 		end,
