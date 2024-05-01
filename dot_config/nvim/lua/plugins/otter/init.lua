@@ -50,7 +50,7 @@ return {
 				pattern = { "markdown", "quarto" },
 				callback = function(ctx)
 					if ctx.match == "markdown" then
-						require("otter").activate(languages, false, false)
+						pcall(require("otter").activate, languages, false, false)
 					end
 					for lhs, rhs in pairs({
 						gS = ":lua require'otter'.ask_document_symbols()<cr>",
