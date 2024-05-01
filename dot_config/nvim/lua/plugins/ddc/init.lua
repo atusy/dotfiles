@@ -107,9 +107,19 @@ local function config()
 
 	-- enable
 	vim.fn["ddc#custom#load_config"](vim.fs.joinpath(vim.fs.dirname(debug.getinfo(1, "S").source:sub(2)), "ddc.ts"))
-	vim.fn["popup_preview#enable"]()
-	vim.fn["ddc#enable"]()
-	require("plugins.ddc.gitcommit")()
+	vim.api.nvim_create_autocmd({ "InsertEnter", "CmdlineEnter" }, {
+		group = vim.api.nvim_create_augroup("atusy-ddc-enable", {}),
+		callback = function(ctx)
+			local ft = vim.bo[ctx.buf].filetype
+			if ft == "TelescopePrompt" then
+				return false
+			end
+			vim.fn["ddc#enable"]()
+			vim.fn["popup_preview#enable"]()
+			require("plugins.ddc.gitcommit")()
+			return true
+		end,
+	})
 end
 
 return {
