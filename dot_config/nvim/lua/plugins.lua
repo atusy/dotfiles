@@ -28,6 +28,7 @@ return {
 			require("cellwidths").setup({ name = "default" })
 			vim.cmd.CellWidthsAdd("{ 0xe000, 0xf8ff, 2 }") -- 私用領域（外字領域）
 			vim.cmd.CellWidthsAdd("{ 0x2423, 0x2423, 2 }") -- ␣
+			vim.cmd.CellWidthsAdd("{ 0xf0219, 0xf07d4, 2 }") -- 󰈙 to 󰟔
 			vim.cmd.CellWidthsDelete("{" .. table.concat({
 				0x2190,
 				0x2191,
