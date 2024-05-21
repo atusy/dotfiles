@@ -40,7 +40,6 @@ return {
 	}),
 	font_size = 12,
 	keys = {
-		{ key = "e", mods = "ALT|CTRL", action = wezterm.action({ EmitEvent = "trigger-nvim-with-scrollback" }) },
 		{
 			key = "v",
 			mods = "ALT|CTRL",
