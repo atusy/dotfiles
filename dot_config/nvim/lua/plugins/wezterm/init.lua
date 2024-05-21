@@ -5,17 +5,11 @@ local directions = {
 	l = "Right",
 }
 
-local move_nvim_win_or_wezterm_pane = function(hjkl)
-	local oldwin = vim.api.nvim_get_current_win()
+local function move_nvim_win_or_wezterm_pane(hjkl)
+	local win = vim.api.nvim_get_current_win()
 	vim.cmd.wincmd(hjkl)
-	local newwin = vim.api.nvim_get_current_win()
-	if oldwin ~= newwin then
-		return
-	end
-
-	local pane = require("wezterm").get_pane_direction(directions[hjkl])
-	if pane then
-		require("wezterm").switch_pane.id(pane)
+	if win == vim.api.nvim_get_current_win() then
+		require("wezterm").switch_pane.direction(directions[hjkl])
 	end
 end
 
