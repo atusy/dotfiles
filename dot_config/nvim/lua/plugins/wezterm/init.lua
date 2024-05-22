@@ -1,9 +1,4 @@
-local directions = {
-	h = "Left",
-	j = "Down",
-	k = "Up",
-	l = "Right",
-}
+local directions = { h = "Left", j = "Down", k = "Up", l = "Right" }
 
 local function move_nvim_win_or_wezterm_pane(hjkl)
 	local win = vim.api.nvim_get_current_win()

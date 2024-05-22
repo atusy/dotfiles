@@ -71,7 +71,7 @@ local function extract_locations(resps, locs)
 		end
 	end
 	for _, resp in pairs(resps) do
-		if vim.tbl_islist(resp.result) then
+		if vim.islist(resp.result) then
 			for _, result in pairs(resp.result or {}) do
 				local key = get_key(result)
 				if key and not listed[key] then
