@@ -86,7 +86,7 @@ local function telescope_config(_)
 			find_files = {
 				hidden = true,
 				follow = true,
-				search_dirs = { ".", "__ignored" },
+				search_dirs = { ".", "./__ignored" },
 			},
 			live_grep = {
 				additional_args = function(_)
