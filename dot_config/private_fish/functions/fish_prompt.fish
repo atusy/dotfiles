@@ -30,5 +30,13 @@ function fish_prompt --description 'Write out the prompt'
     if ! test -z $SSH_CLIENT
       echo -n -s (prompt_login)' '
     end
-    echo -n -s -e (set_color $color_cwd) (prompt_pwd -D 3) $normal (fish_vcs_prompt) $normal " "$prompt_status "\n" $suffix " "
+    echo -n -s (set_color $color_cwd) (prompt_pwd -D 3) $normal (fish_vcs_prompt)
+    set -l ctx (kubectl config current-context 2>/dev/null)
+    if ! test -z $ctx
+      set -l ns (kubectl config view -o "jsonpath={.contexts[?(@.name==\"$ctx\")].context.namespace}")
+      [ -z $ns ]; and set -l ns 'N/A'
+      echo -n -s " [" (set_color cyan) $ctx $normal ":" (set_color cyan) $ns $normal "]"
+    end
+    echo -n -s $normal " "$prompt_status
+    echo -n -s -e "\n" $suffix " "
 end
