@@ -37,6 +37,6 @@ function fish_prompt --description 'Write out the prompt'
       [ -z $ns ]; and set -l ns 'N/A'
       echo -n -s " [" (set_color cyan) $ctx $normal ":" (set_color cyan) $ns $normal "]"
     end
-    echo -n -s $normal " "$prompt_status
-    echo -n -s -e "\n" $suffix " "
+    echo -s $normal " "$prompt_status
+    echo -n -s $suffix " " $normal
 end
