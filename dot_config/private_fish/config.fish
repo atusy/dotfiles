@@ -15,6 +15,7 @@ set -g __fish_git_prompt_showcolorhints 1
 set -g fish_color_cwd yellow
 
 ~/.local/bin/mise activate fish | source
+direnv hook fish | source
 zoxide init fish --no-cmd | source
 
 abbr -a kunset 'kubectl config unset current-context'
