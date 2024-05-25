@@ -23,7 +23,6 @@ vim.opt.pumblend = 25
 vim.opt.showmode = false
 vim.opt.smoothscroll = true
 vim.opt.smartcase = true
-vim.opt.shell = "zsh"
 vim.opt.splitright = true
 vim.opt.splitbelow = true
 vim.opt.termguicolors = true
