@@ -32,6 +32,7 @@ abbr -a top htop
 abbr -a df duf
 abbr -a ps procs
 abbr -a du gdu
+abbr -a --set-cursor math 'math "%"'
 alias cat='bat'
 alias ll='eza -l --time-style=iso'
 alias ls='eza'
