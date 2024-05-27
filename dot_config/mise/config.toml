@@ -8,6 +8,8 @@ azure-cli = "latest"
 usage = "latest"
 bat = "latest"
 eza = "latest"
+zoxide = "latest"
+direnv = "latest"
 
 # might be useful, but latest can be installed from pacman
 # awscli = "latest"
