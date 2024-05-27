@@ -90,6 +90,7 @@ local function telescope_config(_)
 				hidden = true,
 				follow = true,
 				search_dirs = { ".", "./__ignored" },
+				previewer = false,
 			},
 			live_grep = {
 				additional_args = function(_)
