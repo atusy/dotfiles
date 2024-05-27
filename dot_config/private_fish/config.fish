@@ -27,6 +27,11 @@ abbr -a cpr 'gh pr checkout'
 abbr -a vrepo 'gh repo view --web'
 abbr -a vissue 'gh issue view --web'
 abbr -a vpr 'gh pr view --web'
+abbr -a ping 'ping -c 5'
+abbr -a top htop
+abbr -a df duf
+abbr -a ps procs
+abbr -a du gdu
 alias cat='bat'
 alias ll='eza -l --time-style=iso'
 alias ls='eza'
