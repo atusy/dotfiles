@@ -9,7 +9,7 @@ function gh
 
   # hacks
   if ! test -t 0
-    cat - | xargs gh $argv
+    cat - | xargs --no-run-if-empty gh $argv
   else if test -t 1 || set -q _GH_FZF_VIEWER
     $ghf $argv
   else
