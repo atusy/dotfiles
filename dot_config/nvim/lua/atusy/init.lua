@@ -87,6 +87,21 @@ set_keymap({ "n", "x" }, "<C-W><C-F>", [[<Cmd>lua require("atusy.misc").open_cfi
 -- mappings: window management
 set_keymap("n", "<C-W><C-V>", "<C-W><C-V><Cmd>horizontal wincmd =<CR>")
 set_keymap("n", "<C-W><C-S>", "<C-W><C-S><Cmd>vertical wincmd =<CR>")
+if vim.env.WEZTERM_PANE ~= nil then
+	local directions = { h = "Left", j = "Down", k = "Up", l = "Right" }
+	local function move_nvim_win_or_wezterm_pane(hjkl)
+		local win = vim.api.nvim_get_current_win()
+		vim.cmd.wincmd(hjkl)
+		if win == vim.api.nvim_get_current_win() then
+			vim.system({ "wezterm", "cli", "activate-pane-direction", directions[hjkl] })
+		end
+	end
+	for k, _ in pairs(directions) do
+		vim.keymap.set("n", "<c-w>" .. k, function()
+			move_nvim_win_or_wezterm_pane(k)
+		end)
+	end
+end
 
 -- mappings: tab management
 -- continue moving around tab (e.g., gtttT gTtT)
