@@ -37,3 +37,5 @@ alias cat='bat'
 alias ll='eza -l --time-style=iso'
 alias ls='eza'
 alias vim='nvim'
+
+bind \t complete-and-search
