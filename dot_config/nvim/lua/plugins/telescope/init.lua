@@ -63,16 +63,22 @@ local function telescope_init()
 end
 
 local function telescope_config(_)
+	local actions = require("telescope.actions")
+	local myactions = require("telescope.actions.mt").transform_mod({
+		telescope_quickfix = function(_)
+			require("telescope.builtin").quickfix()
+		end,
+	})
 	require("telescope").setup({
 		defaults = {
 			mappings = {
 				i = {
 					["<C-J>"] = false, -- to support skkeleton.vim
 					["<C-P>"] = require("telescope.actions.layout").toggle_preview,
-					["<C-S>"] = false,
+					["<C-S>"] = actions.send_to_qflist + myactions.telescope_quickfix,
 					["<C-V>"] = false,
-					["<C-G><C-S>"] = require("telescope.actions").select_horizontal,
-					["<C-G><C-V>"] = require("telescope.actions").select_vertical,
+					["<C-G><C-S>"] = actions.select_horizontal,
+					["<C-G><C-V>"] = actions.select_vertical,
 				},
 				n = {
 					K = function(_)
