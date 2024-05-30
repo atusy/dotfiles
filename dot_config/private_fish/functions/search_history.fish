@@ -9,5 +9,5 @@ function search_history
         | perl -pe 's/\0/\\\\\n/g' \
         | perl -ne 'chomp; if (s/\\\\$//) {print "$_\n"} else {print "$_\0"}'
     end
-  end | fzf --no-sort --exact --read0 --query=$argv[1]
+  end | fzf --no-sort --exact --read0 $argv
 end
