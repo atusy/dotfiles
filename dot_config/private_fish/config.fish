@@ -39,26 +39,4 @@ alias ls='eza'
 alias vim='nvim'
 
 bind \t complete-and-search
-
-function search_history
-  begin
-    history --null | string collect
-    if test -f ~/.zsh_history
-      echo -n -e '\0'
-      cat ~/.zsh_history \
-        | perl -ne 'chomp; if (s/\\\\$//) {print "$_\0"} else {print "$_\n"}' \
-        | tac \
-        | perl -pe 's/\0/\\\\\n/g' \
-        | perl -ne 'chomp; if (s/\\\\$//) {print "$_\n"} else {print "$_\0"}'
-    end
-  end | fzf --no-sort --exact --read0 --query=$argv[1]
-end
-
-function set_commandline_from_history
-  set -l cbuf ( commandline -b $buf )
-  if set -l nbuf ( search_history $buf ); and test -n $nubf
-    commandline -r $nbuf
-  end
-end
-
 bind \cr set_commandline_from_history
