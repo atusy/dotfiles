@@ -1,8 +1,16 @@
-function search_history
+function search_history --description "Search command history of Fish and Zsh at once"
   begin
+    # Fish history
     history --null | string collect
+
+    # Zsh history
     if test -f ~/.zsh_history
+      # Connection to Fish history
       echo -n -e '\0'
+
+      # Convert Zsh history to be NULL separated
+      # - Zsh history is separated by linebreaks
+      # - Multilined item is represented by lines ending with backslashes
       cat ~/.zsh_history \
         | perl -ne 'chomp; if (s/\\\\$//) {print "$_\0"} else {print "$_\n"}' \
         | tac \
