@@ -36,7 +36,7 @@ hooks.pre = "ZSH_AUTOSUGGEST_USE_ASYNC=1; ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=24
 
 [plugins.zsh-async]
 github = "mafredri/zsh-async"
-apply = ["defer"]
+apply = ["source"]
 
 [plugins.zsh-256color]
 github = "chrissicool/zsh-256color"
