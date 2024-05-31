@@ -58,7 +58,7 @@ function __update_kubeinfo
 
   # get ctx
   set __kube_ctx (kubectl config current-context 2>/dev/null)
-  test -z "$__kube_ctx"; and
+  if test -z "$__kube_ctx"
     return 1
   end
 
