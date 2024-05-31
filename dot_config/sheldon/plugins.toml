@@ -67,7 +67,8 @@ github = "junegunn/fzf"
 
 [plugins.zeno]
 github = "yuki-yano/zeno.zsh"
-apply = ["defer-zeno"]
+# apply = ["defer-zeno"]
+apply = [] # disable
 hooks.pre = """
 export ZENO_ENABLE_SOCK=1
 
