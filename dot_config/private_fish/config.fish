@@ -11,10 +11,6 @@ end
 
 # for interactive shell
 set -U fish_greeting
-set -g fish_color_cwd yellow
-set -g __fish_git_prompt_showcolorhints 1
-set -g __fish_git_prompt_show_informative_status 1
-set -g __fish_git_prompt_showupstream 1
 
 if not test -x ~/.local/bin/mise
   curl https://mise.run | sh

@@ -1,3 +1,22 @@
+# originally comes from
+# /usr/share/fish/functions/fish_git_prompt.fish
+
+set -g fish_color_cwd yellow
+set -g __fish_git_prompt_showcolorhints 1
+set -g __fish_git_prompt_show_informative_status 1
+set -g __fish_git_prompt_showupstream 1
+set -g ___fish_git_prompt_char_dirtystate '*'
+set -g ___fish_git_prompt_char_invalidstate '#'
+set -g ___fish_git_prompt_char_stagedstate '+'
+set -g ___fish_git_prompt_char_stashstate '$'
+set -g ___fish_git_prompt_char_stateseparator '|'
+set -g ___fish_git_prompt_char_untrackedfiles '?'
+set -g ___fish_git_prompt_char_upstream_ahead '↑'
+set -g ___fish_git_prompt_char_upstream_behind '↓'
+set -g ___fish_git_prompt_char_upstream_diverged '<>'
+set -g ___fish_git_prompt_char_upstream_equal '='
+set -g ___fish_git_prompt_char_upstream_prefix ''
+
 function fish_prompt --description 'Write out the prompt'
     set -l last_pipestatus $pipestatus
     set -lx __fish_last_status $status # Export for __fish_print_pipestatus.
