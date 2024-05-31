@@ -34,26 +34,27 @@ function __update_kubeinfo
     if not test "$__kube_config" = "$KUBECONFIG"
       set __kube_config "$KUBECONFIG"
       set __kube_ts 0
+      set __kube_ctx
+      set __kube_ns
     end
   else if not test "$__kube_config" = "$__kube_config_default"
     set __kube_config "$__kube_config_default"
     set __kube_ts 0
+    set __kube_ctx
+    set __kube_ns
   end
 
   # abort if KUBECONFIG is not found
   if not test -f $__kube_config
-    set __kube_ctx
-    set __kube_ns
     return 1
   end
 
   # update if KUBECONFIG content has updated
-  set -l ts ( stat -c "%Y" "$__kube_config" 2>/dev/null; or echo -1 )
+  set -l ts ( stat -c "%Y" "$__kube_config" )
   if test "$ts" -eq "$__kube_ts"
     return 0
-  else if test "$ts" -gt 0
-    set __kube_ts $ts
   end
+  set __kube_ts $ts
 
   # get ctx
   set __kube_ctx (kubectl config current-context 2>/dev/null)
