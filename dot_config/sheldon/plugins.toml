@@ -62,11 +62,6 @@ zsh-defer git-prompt-my-post
 github = "jonmosco/kube-ps1"
 apply = ["source"]
 
-[plugins.cd-gitroot]
-apply = ["defer"]
-github = "mollifier/cd-gitroot"
-hooks.post = "alias gd=cd-gitroot"
-
 [plugins.fzf]
 github = "junegunn/fzf"
 
