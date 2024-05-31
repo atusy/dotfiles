@@ -30,7 +30,7 @@ abbr -a top htop
 abbr -a df duf
 abbr -a ps procs
 abbr -a du gdu
-abbr -a vim 'nvim'
+abbr -a vim nvim
 abbr -a --set-cursor math 'math "%"'
 
 alias cat='bat'
