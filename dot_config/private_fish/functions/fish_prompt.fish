@@ -50,7 +50,7 @@ function fish_prompt --description 'Write out the prompt'
       echo -n -s (prompt_login)' '
     end
     echo -n -s (set_color $color_cwd) (prompt_pwd -D 3) $normal (fish_vcs_prompt)
-    if type kubectl >/dev/null 2>/dev/null; and set -l ctx (kubectl config current-context 2>/dev/null); and test -n "$ctx"
+    if type kubectl -q; and set -l ctx (kubectl config current-context 2>/dev/null); and test -n "$ctx"
       set -l ns (kubectl config view -o "jsonpath={.contexts[?(@.name==\"$ctx\")].context.namespace}")
       [ -z $ns ]; and set -l ns 'N/A'
       echo -n -s " [" (set_color cyan) $ctx $normal ":" (set_color cyan) $ns $normal "]"
