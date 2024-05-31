@@ -32,11 +32,12 @@ abbr -a top htop
 abbr -a df duf
 abbr -a ps procs
 abbr -a du gdu
+abbr -a vim 'nvim'
 abbr -a --set-cursor math 'math "%"'
+
 alias cat='bat'
 alias ll='eza -l --time-style=iso'
 alias ls='eza'
-alias vim='nvim'
 
 bind \t complete-and-search
 bind \cr set_commandline_from_history
