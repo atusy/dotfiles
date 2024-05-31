@@ -36,7 +36,7 @@ abbr -a vim 'nvim'
 abbr -a --set-cursor math 'math "%"'
 
 alias cat='bat'
-alias ll='eza -l --time-style=iso'
+alias ll='eza --long --group --time-style=long-iso'
 alias ls='eza'
 
 bind \t complete-and-search
