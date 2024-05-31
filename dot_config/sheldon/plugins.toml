@@ -44,7 +44,7 @@ apply = ["defer"]
 
 [plugins.git-prompt]
 github = "woefe/git-prompt.zsh"
-apply = ["defer"]
+apply = ["source"]
 hooks.post = """
 function git-prompt-my-post() {
   ZSH_THEME_GIT_PROMPT_PREFIX=" "
@@ -60,7 +60,7 @@ zsh-defer git-prompt-my-post
 
 [plugins.kube-ps1]
 github = "jonmosco/kube-ps1"
-apply = ["defer"]
+apply = ["source"]
 
 [plugins.cd-gitroot]
 apply = ["defer"]
