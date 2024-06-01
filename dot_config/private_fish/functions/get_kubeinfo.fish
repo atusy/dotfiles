@@ -3,6 +3,24 @@ set -g __kube_ctx
 set -g __kube_ns
 set -g __kube_ts 0
 
+set -q __kubeinfo_cmd; or set -g __kubeinfo_cmd gojq
+
+function __get_kubectx
+  if test $__kubeinfo_cmd = gojq
+    cat $__kube_config | gojq -r --yaml-input '.["current-context"] // ""'
+  else
+    kubectl config current-context 2>/dev/null
+  end
+end
+
+function __get_kube_ns
+  if test $__kubeinfo_cmd = gojq
+    cat $__kube_config | gojq -r --yaml-input ".contexts[] | select(.name == \"$1\") | .context.namespace // \"\""
+  else
+    kubectl config view -o "jsonpath={.contexts[?(@.name==\"$1\")].context.namespace}"
+  end
+end
+
 function __update_kubeinfo
   # normalize KUBECONFIG
   if set -qx KUBECONFIG; and string match -q -r '^~/' "$KUBECONFIG"
@@ -38,13 +56,13 @@ function __update_kubeinfo
   set __kube_ts $ts
 
   # get ctx
-  set __kube_ctx (kubectl config current-context 2>/dev/null)
+  set __kube_ctx ( __get_kube_ctx )
   if test -z "$__kube_ctx"
     return 1
   end
 
   # get ns
-  set __kube_ns (kubectl config view -o "jsonpath={.contexts[?(@.name==\"$__kube_ctx\")].context.namespace}")
+  set __kube_ns ( __get_kube_ns $__kube_ctx )
   test -z $__kube_ns; and set __kube_ns 'N/A'
 end
 
