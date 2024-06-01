@@ -49,6 +49,6 @@ function __update_kubeinfo
 end
 
 function get_kubeinfo --description "Get current kubernetes context and namespace with kubectl"
-  __update_kueinfo # use cache for performance
+  __update_kubeinfo # use cache for performance
   echo $__kube_ctx $__kube_ns
 end
