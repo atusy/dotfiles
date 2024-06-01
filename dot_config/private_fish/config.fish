@@ -36,6 +36,7 @@ abbr -a --set-cursor math 'math "%"'
 alias cat='bat'
 alias ll='eza --long --group --time-style=long-iso'
 alias ls='eza'
+alias ip='ip --color=auto'
 
 bind \t complete-and-search
 bind \cr set_commandline_from_history
