@@ -51,7 +51,7 @@ function fish_prompt --description 'Write out the prompt'
     end
     echo -n -s (set_color $color_cwd) (prompt_pwd -D 3) $normal (fish_vcs_prompt)
 
-    set -l kubeinfo ( get_kubeinfo2 | string split ' ' ) # faster than kubeinfo
+    set -l kubeinfo ( get_kubeinfo2 | string split ' ' ) # faster than get_kubeinfo
     if test -n "$kubeinfo[1]"
       test -z $kubeinfo[2]; and set kubeinfo[2] 'N/A'
       echo -n -s " [" (set_color cyan) $kubeinfo[1] $normal ":" (set_color cyan) $kubeinfo[2] $normal "]"
