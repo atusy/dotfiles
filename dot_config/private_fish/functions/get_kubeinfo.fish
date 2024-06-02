@@ -5,7 +5,7 @@ set -g __kube_ts 0
 
 set -q __kubeinfo_cmd; or set -g __kubeinfo_cmd gojq
 
-function __get_kubectx
+function __get_kube_ctx
   if test $__kubeinfo_cmd = gojq
     cat $__kube_config | gojq -r --yaml-input '.["current-context"] // ""'
   else
