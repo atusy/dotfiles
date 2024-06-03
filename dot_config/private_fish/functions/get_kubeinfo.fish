@@ -22,7 +22,7 @@ function __get_kube_ns
   end
 end
 
-function __update_kubeinfo
+function __cache_kubeinfo
   # normalize KUBECONFIG
   if set -qx KUBECONFIG; and string match -q -r '^~/' "$KUBECONFIG"
     eval "set -gx KUBECONFIG $KUBECONFIG"
@@ -69,7 +69,7 @@ end
 
 function get_kubeinfo --description "Get current kubernetes context and namespace with kubectl"
   if contains $__kubeinfo_cache true yes 1
-    __update_kubeinfo
+    __cache_kubeinfo
     echo $__kube_ctx $__kube_ns
   else
     echo ( __get_kube_ctx ) ( __get_kube_ns )
