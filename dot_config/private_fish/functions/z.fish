@@ -6,7 +6,7 @@ function __zoxide_list_missing
 end
 
 function __zoxide_add_missing
-  set -l missing ( __zoxide_missing )
+  set -l missing ( __zoxide_list_missing )
   if test ( count $missing ) -gt 0
     zoxide add $missing
   end
