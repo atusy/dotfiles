@@ -13,6 +13,17 @@ vim.api.nvim_create_autocmd("User", {
 	callback = function()
 		pcall(vim.fn["ddc#set_static_import_path"])
 		vim.system({ "chezmoi", "add", require("lazy.core.config").options.lockfile })
+		vim.system({
+			"find",
+			require("lazy.core.config").options.root,
+			"-name",
+			"'*.ts'",
+			"-exec",
+			"deno",
+			"cache",
+			"{}",
+			"+",
+		})
 	end,
 })
 
@@ -177,12 +188,6 @@ return {
 		"https://github.com/lambdalisue/kensaku.vim",
 		dependencies = { "https://github.com/vim-denops/denops.vim" },
 		lazy = false,
-		build = function(p)
-			require("plugins.denops.utils").cache_plugin(p, true)
-		end,
-		init = function(p)
-			require("plugins.denops.utils").cache_plugin(p, false)
-		end,
 		config = function(p)
 			if p.lazy then
 				require("denops-lazy").load("kensaku.vim")
