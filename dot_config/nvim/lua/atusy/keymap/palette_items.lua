@@ -76,18 +76,7 @@ return {
 		mode = "n",
 		lhs = "denops: reload cache",
 		rhs = function()
-			vim.system({
-				"find",
-				require("lazy.core.config").options.root,
-				"-name",
-				"'*.ts'",
-				"-exec",
-				"deno",
-				"cache",
-				"--reload",
-				"{}",
-				"+",
-			})
+			require("plugins.denops.utils").cache_plugin(nil, true)
 		end,
 	},
 }
