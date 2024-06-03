@@ -411,7 +411,7 @@ return {
 			vim.keymap.set(
 				"n",
 				" r",
-				[[<Cmd>lua require("nvim-treesitter-refactor.smart_rename").smart_rename(0)<CR>]],
+				[[<Cmd>lua require("nvim-treesitter-refactor.smart_rename").smart_rename(vim.fn.bufnr())<CR>]],
 				{}
 			)
 		end,
