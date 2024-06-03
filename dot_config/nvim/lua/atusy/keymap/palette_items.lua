@@ -70,4 +70,24 @@ return {
 			require("atusy.highlight").change_background()
 		end,
 	},
+
+	--[[ plugin management ]]
+	{
+		mode = "n",
+		lhs = "denops: reload cache",
+		rhs = function()
+			vim.system({
+				"find",
+				require("lazy.core.config").options.root,
+				"-name",
+				"'*.ts'",
+				"-exec",
+				"deno",
+				"cache",
+				"--reload",
+				"{}",
+				"+",
+			})
+		end,
+	},
 }
