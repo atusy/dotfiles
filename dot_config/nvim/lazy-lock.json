@@ -1,7 +1,7 @@
 {
   "Comment.nvim": { "branch": "master", "commit": "0236521ea582747b58869cb72f70ccfa967d2e89" },
   "Recover.vim": { "branch": "master", "commit": "e61319bce3cd1004e5b695933296d8f267dd65a3" },
-  "SchemaStore.nvim": { "branch": "main", "commit": "931f9f3b7b60ec976159cb01b4a40da3829ac2fd" },
+  "SchemaStore.nvim": { "branch": "main", "commit": "f9d0f20f018ad970658ad2ffd68b10634e65fe67" },
   "WebstersEnglishDictionary": { "branch": "master", "commit": "6fb9c92420c3a323e74ffb9d577409f4431cc42a" },
   "aerial.nvim": { "branch": "master", "commit": "75de06f8edbd0006997a19b760045753d4f6693c" },
   "askpass.vim": { "branch": "main", "commit": "c40b7e296ad626ffebdf26793236a55c8e3517ca" },
@@ -11,7 +11,7 @@
   "cellwidths.nvim": { "branch": "main", "commit": "98d8b428020c7e0af098f316a02490e5b37e98da" },
   "chowcho.nvim": { "branch": "main", "commit": "51ff2608748e9fa4ea79c1c1ae18b60c2cd24276" },
   "cmdbuf.nvim": { "branch": "main", "commit": "1ee1e39859711b8cf2b2b2816f65101460dccc0b" },
-  "conform.nvim": { "branch": "master", "commit": "7159a23d19fb982269dae2e8147ebbe34965095b" },
+  "conform.nvim": { "branch": "master", "commit": "88b699b595703f1ae9d9061c050e52b1fe7c33f1" },
   "ddc-buffer": { "branch": "main", "commit": "695afcd0fa797bb98bb1a4b79ab44d71b215b530" },
   "ddc-filter-converter_dictionary": { "branch": "main", "commit": "412b51fbe4d72492c4391dc13f6302481c3b60b7" },
   "ddc-filter-converter_remove_overlap": { "branch": "main", "commit": "e94330b06c47f63a46ce705927bb4deaff611c21" },
