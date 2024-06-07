@@ -16,7 +16,7 @@ end
 
 ---Deno cache for denops plugins
 ---@param x string | table | nil i.e. Lazyspec
----@param reload boolean
+---@param reload boolean | nil
 function M.cache_plugin(x, reload)
 	local dir = type(x) == "table" and require("atusy.lazy").dir(x) or x or require("lazy.core.config").root
 	if type(dir) ~= "string" then
