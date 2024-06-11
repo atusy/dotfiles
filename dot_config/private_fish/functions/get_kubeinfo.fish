@@ -16,9 +16,9 @@ end
 
 function __get_kube_ns
   if test $__kubeinfo_cmd = gojq
-    cat $__kube_config | gojq -r --yaml-input ".contexts[] | select(.name == \"$1\") | .context.namespace // \"\""
+    cat $__kube_config | gojq -r --yaml-input ".contexts[] | select(.name == \"$argv[1]\") | .context.namespace // \"\""
   else
-    kubectl config view -o "jsonpath={.contexts[?(@.name==\"$1\")].context.namespace}"
+    kubectl config view -o "jsonpath={.contexts[?(@.name==\"$argv[1]\")].context.namespace}"
   end
 end
 
@@ -72,6 +72,7 @@ function get_kubeinfo --description "Get current kubernetes context and namespac
     __cache_kubeinfo
     echo $__kube_ctx $__kube_ns
   else
-    echo ( __get_kube_ctx ) ( __get_kube_ns )
+    set -l ctx ( __get_kube_ctx )
+    echo $ctx ( __get_kube_ns $ctx )
   end
 end
