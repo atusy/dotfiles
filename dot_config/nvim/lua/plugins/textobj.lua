@@ -135,7 +135,11 @@ return {
 	},
 	{
 		"https://github.com/echasnovski/mini.surround",
-		keys = { { "s", "<Nop>", mode = "" } },
+		keys = {
+			-- NOTE: <nop> cannot be a lazy load trigger
+			-- https://github.com/folke/lazy.nvim/commit/3e4c795cec32481bc6d0b30c05125fdf7ef2d412
+			{ "s", "<cmd><cr>", mode = "" },
+		},
 		config = function()
 			--[=[
       Examples
