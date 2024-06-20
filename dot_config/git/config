@@ -37,7 +37,7 @@
 	stage = add
 	ff = merge --ff
 	amend = commit --amend
-	browse = "!deno run --allow-net --allow-run --allow-read https://deno.land/x/git_browse/bin/browse.ts"
+	browse = "!deno run --allow-net --allow-run --allow-read --allow-env jsr:@lambdalisue/git-browse/cli" # https://github.com/lambdalisue/deno-git-browse
 [init]
 	templatedir = ~/.config/git/template
 	defaultBranch = main
