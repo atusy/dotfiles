@@ -47,12 +47,14 @@ end
 local function extract_locations(resps, locs)
 	locs = locs and { unpack(locs) } or {}
 	local listed = {}
+
 	local function get_key(x)
-		local range = x.targetRange or x.range
+	  local result = x.result or x
+		local range = result.targetRange or result.range
 		if range == nil then
 			if not x.error then
 				-- something wrong that I have never met
-				vim.notify(vim.inspect(range))
+				vim.notify(vim.inspect(x))
 			end
 			return
 		end
@@ -64,12 +66,14 @@ local function extract_locations(resps, locs)
 			range["end"]["character"]
 		)
 	end
+
 	for _, loc in pairs(locs) do
 		local key = get_key(loc)
 		if key then
 			listed[get_key(loc)] = true
 		end
 	end
+
 	for _, resp in pairs(resps) do
 		if vim.islist(resp.result) then
 			for _, result in pairs(resp.result or {}) do
