@@ -1,11 +1,12 @@
 {
-    "include": [
-        "default"
-    ],
-    "define": {
-        "keymap": {
-            "\\": "set-input-mode-latin",
-            "C-j": "set-input-mode-hiragana"
-        }
+  "include": [
+    "default"
+  ],
+  "define": {
+    "keymap": {
+      "\\": "set-input-mode-latin",
+      "C-j": "set-input-mode-hiragana",
+      "\"": "start-preedit"
     }
+  }
 }
