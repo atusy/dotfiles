@@ -191,7 +191,12 @@ export class Config extends BaseConfig {
           exactLength: 2,
           firstCaseInsensitive: true,
           paths: [join(lazyroot, "english-words/words_alpha.txt")],
-          databasePath: join(stddata, "ddc-source-dictionary.sqlite3"),
+          databasePath: join(
+            stddata,
+            "ddc",
+            "dictionary",
+            "base.sqlite3",
+          ),
         },
         file: {
           filenameChars: "[:keyword:].",
