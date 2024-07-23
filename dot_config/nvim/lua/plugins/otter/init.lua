@@ -53,13 +53,13 @@ return {
 						pcall(require("otter").activate, languages, false, false)
 					end
 					for lhs, rhs in pairs({
-						gS = ":lua require'otter'.ask_document_symbols()<cr>",
-						gd = ":lua require'otter'.ask_definition()<cr>",
-						K = ":lua require'otter'.ask_hover()<cr>",
-						gr = ":lua require'otter'.ask_references()<cr>",
-						[" r"] = ":lua require'otter'.ask_rename()<cr>",
-						[" lf"] = ":lua require'otter'.ask_format()<cr>",
-						[" lt"] = ":lua require'otter'.ask_type_definition()<cr>",
+						-- gS = ":lua require'otter'.ask_document_symbols()<cr>",
+						-- gd = ":lua require'otter'.ask_definition()<cr>",
+						K = "<cmd>lua vim.lsp.buf.hover()<cr>",
+						-- gr = ":lua require'otter'.ask_references()<cr>",
+						-- [" r"] = ":lua require'otter'.ask_rename()<cr>",
+						-- [" lf"] = ":lua require'otter'.ask_format()<cr>",
+						-- [" lt"] = ":lua require'otter'.ask_type_definition()<cr>",
 					}) do
 						vim.keymap.set("n", lhs, rhs, { silent = true, buffer = true })
 					end
