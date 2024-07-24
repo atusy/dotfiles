@@ -58,6 +58,8 @@ local function format_on_buf_write_pre(buf, once)
 				function(err)
 					if err == nil then
 						return
+					elseif err == "No formatters available for buffer" then
+						return
 					elseif err == "No result returned from LSP formatter" then
 						return
 					elseif err:match("No formatters found for buffer") then
