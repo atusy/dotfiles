@@ -631,6 +631,33 @@ return {
 		end,
 	},
 
+	-- AI
+	{
+		"https://github.com/github/copilot.vim",
+		init = function()
+			vim.g.copilot_no_tab_map = true
+		end,
+		config = function()
+			vim.keymap.set("i", "<C-X>a", function()
+				vim.notify(vim.inspect(vim.fn["copilot#GetDisplayedSuggestion"]()))
+			end)
+			vim.keymap.set("i", "<C-N>", "<Plug>(copilot-next)")
+			vim.keymap.set("i", "<C-P>", "<Plug>(copilot-previous)")
+			vim.keymap.set("i", "<C-X>l", "<Plug>(copilot-accept-line)")
+			vim.keymap.set("i", "<C-X>w", "<Plug>(copilot-accept-word)")
+			vim.keymap.set("i", "<C-A>", function()
+				local s = vim.fn["copilot#GetDisplayedSuggestion"]()
+				if s.deleteSize == 0 and s.text == "" and s.outdentSize == 0 then
+					return vim.keycode("<Plug>(copilot-suggest)")
+				end
+				return vim.fn["copilot#Accept"]("\\<CR>")
+			end, {
+				expr = true,
+				replace_keycodes = false,
+			})
+		end,
+	},
+
 	-- filetype specific
 	{
 		"https://github.com/barrett-ruth/import-cost.nvim",
