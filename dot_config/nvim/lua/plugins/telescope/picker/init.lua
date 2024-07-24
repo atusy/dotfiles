@@ -108,7 +108,7 @@ local function gen_gtd_handler(opts, locs)
 end
 
 --- go to definition or file
-function M.gtd(opts, bufnr, method, params, handler)
+local function gtd(opts, bufnr, method, params, handler)
 	vim.lsp.buf_request_all(
 		bufnr or 0,
 		method or "textDocument/definition",
@@ -118,11 +118,37 @@ function M.gtd(opts, bufnr, method, params, handler)
 end
 
 --- go to implementation, definition, or file
-function M.gti(opts, bufnr, _, params, _)
-	M.gtd(opts, bufnr, "textDocument/implementation", params, function(resps)
-		local handler = gen_gtd_handler(opts, extract_locations(resps))
-		M.gtd(opts, bufnr, "textDocument/definition", params, handler)
-	end)
+function M.gtd(opts, bufnr, _, params, _)
+	bufnr = bufnr or vim.api.nvim_get_current_buf()
+	local clients = vim.lsp.get_clients({ bufnr = bufnr })
+
+	-- textDocument/implementation
+	local implementation = false
+	for _, c in pairs(clients) do
+		if c.server_capabilities.implementationProvider then
+			implementation = true
+		end
+	end
+	if implementation then
+		return gtd(opts, bufnr, "textDocument/implementation", params, function(resps)
+			local handler = gen_gtd_handler(opts, extract_locations(resps))
+			gtd(opts, bufnr, "textDocument/definition", params, handler)
+		end)
+	end
+
+	-- textDocument/definition
+	local definition = false
+	for _, c in pairs(clients) do
+		if c.server_capabilities.implementationProvider then
+			definition = true
+		end
+	end
+	if definition then
+		return gtd(opts, bufnr, "textDocument/definition", params, nil)
+	end
+
+	-- enhanced gf
+	require("atusy.misc").open_cfile()
 end
 
 return M

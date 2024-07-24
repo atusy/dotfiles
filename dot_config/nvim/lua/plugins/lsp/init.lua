@@ -36,11 +36,7 @@ local function on_attach(client, bufnr)
 	nmap("gs", [[<Cmd>lua vim.lsp.buf.signature_help()<CR>]])
 	nmap("gK", [[<Cmd>lua vim.lsp.buf.type_definition()<CR>]]) -- Kata teigi
 	nmap("ga", [[<Cmd>lua require('lspsaga.codeaction'):code_action()<CR>]]) -- use :as for original ga
-	if client.server_capabilities.implementationProvider then
-		nmap("gf", [[<Cmd>lua require("plugins.telescope.picker").gti()<CR>]])
-	else
-		nmap("gf", [[<Cmd>lua require("plugins.telescope.picker").gtd()<CR>]])
-	end
+	nmap("gf", [[<Cmd>lua require("plugins.telescope.picker").gtd()<CR>]])
 	if client.server_capabilities.renameProvider then
 		nmap(" r", [[<Cmd>lua vim.lsp.buf.rename()<CR>]])
 	end
