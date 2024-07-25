@@ -49,7 +49,7 @@ local function extract_locations(resps, locs)
 	local listed = {}
 
 	local function get_key(x)
-	  local result = x.result or x
+		local result = x.result or x
 		local range = result.targetRange or result.range
 		if range == nil then
 			if not x.error then
