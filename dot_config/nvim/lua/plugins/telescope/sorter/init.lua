@@ -19,7 +19,8 @@ function M.filname_sorter(sorter)
 	sorter = sorter or require("telescope.config").values.generic_sorter()
 	local base_scorer = sorter.scoring_function
 	sorter.scoring_function = function(self, prompt, _, entry, ...)
-		return base_scorer(self, prompt, entry.filename, entry, ...)
+		local filename = require("telescope.utils").transform_path({}, entry.filename)
+		return base_scorer(self, prompt, filename, entry, ...)
 	end
 	return sorter
 end
