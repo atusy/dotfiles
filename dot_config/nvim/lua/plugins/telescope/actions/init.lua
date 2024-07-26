@@ -2,28 +2,28 @@ local M = require("telescope.actions.mt").transform_mod({
 	search_in_quickfix = function(...)
 		require("telescope.actions").send_to_qflist(...)
 		require("plugins.telescope.picker").quickfix({
-			sorter = require("plugins.telescope.sorter").filname_sorter(),
+			sorter = require("plugins.telescope.sorter").generic_sorter(),
 		})
 	end,
 	--- grep on entry line
 	grep_line_in_quickfix = function(...)
 		require("telescope.actions").send_to_qflist(...)
 		require("plugins.telescope.picker").quickfix({
-			sorter = require("plugins.telescope.sorter").regex_sorter({ target = "line" }),
+			sorter = require("plugins.telescope.sorter").regex_sorter(nil, { target = "line" }),
 		})
 	end,
 	--- grep on entry filename
 	grep_filename_in_quickfix = function(...)
 		require("telescope.actions").send_to_qflist(...)
 		require("plugins.telescope.picker").quickfix({
-			sorter = require("plugins.telescope.sorter").regex_sorter({ target = "filename" }),
+			sorter = require("plugins.telescope.sorter").regex_sorter(nil, { target = "filename" }),
 		})
 	end,
 	--- grep on entry text
 	grep_text_in_quickfix = function(...)
 		require("telescope.actions").send_to_qflist(...)
 		require("plugins.telescope.picker").quickfix({
-			sorter = require("plugins.telescope.sorter").regex_sorter({ target = "text" }),
+			sorter = require("plugins.telescope.sorter").regex_sorter(nil, { target = "text" }),
 		})
 	end,
 })
