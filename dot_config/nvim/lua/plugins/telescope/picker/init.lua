@@ -26,6 +26,36 @@ function M.help_tags(opts)
 	require("telescope.builtin").help_tags(opts or { lang = "ja" })
 end
 
+function M.quickfix(opts)
+	opts = opts or {}
+
+	local id = opts.id or vim.fn.getqflist({ id = 0 }).id
+	local actions = require("telescope.actions.mt").transform_mod({
+		prev_qflist = function()
+			id = math.max(1, id - 1)
+			M.quickfix({ id = id })
+		end,
+		next_qflist = function()
+			if #(vim.fn.getqflist({ id = id + 1, items = true })).items > 0 then
+				id = id + 1
+				M.quickfix({ id = id })
+			end
+		end,
+	})
+
+	local attach_mappings = opts.attach_mappings
+	opts.attach_mappings = function(prompt_bufnr, map)
+		if attach_mappings then
+			attach_mappings(prompt_bufnr, map)
+		end
+		map({ "i" }, "<C-Left>", actions.prev_qflist)
+		map({ "i" }, "<C-Right>", actions.next_qflist)
+		return true
+	end
+
+	require("telescope.builtin").quickfix(opts)
+end
+
 function M.locations(opts, locations, title)
 	opts = opts or {}
 	local conf = require("telescope.config").values
