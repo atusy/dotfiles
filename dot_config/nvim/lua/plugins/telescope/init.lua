@@ -70,7 +70,7 @@ local function telescope_config(_)
 				i = {
 					["<C-J>"] = false, -- to support skkeleton.vim
 					["<C-P>"] = require("telescope.actions.layout").toggle_preview,
-					["<C-S>"] = actions.search_in_quickfix,
+					["<C-S>"] = actions.search_filename_in_quickfix,
 					["<C-V>"] = false,
 					["<C-G><C-S>"] = actions.select_horizontal,
 					["<C-G><C-V>"] = actions.select_vertical,

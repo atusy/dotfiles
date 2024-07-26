@@ -1,8 +1,14 @@
 local M = require("telescope.actions.mt").transform_mod({
-	search_in_quickfix = function(...)
+	search_line_in_quickfix = function(...)
 		require("telescope.actions").send_to_qflist(...)
 		require("plugins.telescope.picker").quickfix({
 			sorter = require("telescope.config").values.generic_sorter(),
+		})
+	end,
+	search_filename_in_quickfix = function(...)
+		require("telescope.actions").send_to_qflist(...)
+		require("plugins.telescope.picker").quickfix({
+			sorter = require("plugins.telescope.sorter").filname_sorter(),
 		})
 	end,
 	--- grep on entry line
