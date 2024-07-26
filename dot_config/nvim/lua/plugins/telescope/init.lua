@@ -63,45 +63,20 @@ local function telescope_init()
 end
 
 local function telescope_config(_)
-	local actions = require("telescope.actions")
-	local myactions = require("telescope.actions.mt").transform_mod({
-		telescope_quickfix = function(_)
-			require("telescope.builtin").quickfix({
-				sorter = require("plugins.telescope.sorter").filname_sorter(),
-			})
-		end,
-		--- grep on entry filename
-		telescope_grepfilename = function(_)
-			require("telescope.builtin").quickfix({
-				sorter = require("plugins.telescope.sorter").regex_sorter({ target = "filename" }),
-			})
-		end,
-		--- grep on entry line
-		telescope_grepline = function(_)
-			require("telescope.builtin").quickfix({
-				sorter = require("plugins.telescope.sorter").regex_sorter({ target = "line" }),
-			})
-		end,
-		--- grep on entry text
-		telescope_greptext = function(_)
-			require("telescope.builtin").quickfix({
-				sorter = require("plugins.telescope.sorter").regex_sorter({ target = "text" }),
-			})
-		end,
-	})
+	local actions = require("plugins.telescope.actions")
 	require("telescope").setup({
 		defaults = {
 			mappings = {
 				i = {
 					["<C-J>"] = false, -- to support skkeleton.vim
 					["<C-P>"] = require("telescope.actions.layout").toggle_preview,
-					["<C-S>"] = actions.send_to_qflist + myactions.telescope_quickfix,
+					["<C-S>"] = actions.search_in_quickfix,
 					["<C-V>"] = false,
 					["<C-G><C-S>"] = actions.select_horizontal,
 					["<C-G><C-V>"] = actions.select_vertical,
-					["<C-G><C-F>"] = actions.send_to_qflist + myactions.telescope_grepfilename,
-					["<C-G><C-L>"] = actions.send_to_qflist + myactions.telescope_grepline,
-					["<C-G><C-T>"] = actions.send_to_qflist + myactions.telescope_greptext,
+					["<C-G><C-F>"] = actions.grep_filename_in_quickfix,
+					["<C-G><C-L>"] = actions.grep_line_in_quickfix,
+					["<C-G><C-T>"] = actions.grep_text_in_quickfix,
 				},
 				n = {
 					K = function(_)
