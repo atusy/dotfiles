@@ -70,6 +70,24 @@ local function telescope_config(_)
 				sorter = require("plugins.telescope.sorter").filname_sorter(),
 			})
 		end,
+		--- grep on entry filename
+		telescope_grepfilename = function(_)
+			require("telescope.builtin").quickfix({
+				sorter = require("plugins.telescope.sorter").regex_sorter({ target = "filename" }),
+			})
+		end,
+		--- grep on entry line
+		telescope_grepline = function(_)
+			require("telescope.builtin").quickfix({
+				sorter = require("plugins.telescope.sorter").regex_sorter({ target = "line" }),
+			})
+		end,
+		--- grep on entry text
+		telescope_greptext = function(_)
+			require("telescope.builtin").quickfix({
+				sorter = require("plugins.telescope.sorter").regex_sorter({ target = "text" }),
+			})
+		end,
 	})
 	require("telescope").setup({
 		defaults = {
@@ -81,6 +99,9 @@ local function telescope_config(_)
 					["<C-V>"] = false,
 					["<C-G><C-S>"] = actions.select_horizontal,
 					["<C-G><C-V>"] = actions.select_vertical,
+					["<C-G><C-F>"] = actions.send_to_qflist + myactions.telescope_grepfilename,
+					["<C-G><C-L>"] = actions.send_to_qflist + myactions.telescope_grepline,
+					["<C-G><C-T>"] = actions.send_to_qflist + myactions.telescope_greptext,
 				},
 				n = {
 					K = function(_)
