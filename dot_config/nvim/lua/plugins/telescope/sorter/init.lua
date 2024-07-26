@@ -24,7 +24,7 @@ function M.filname_sorter(sorter)
 	return sorter
 end
 
-function M.regex_sorter(opts)
+function M.regex_sorter(sorter, opts)
 	sorter = sorter or require("telescope.config").values.generic_sorter()
 	local score_match = require("telescope.sorters").empty().scoring_function()
 	local target = function(_, line)
@@ -37,7 +37,7 @@ function M.regex_sorter(opts)
 			return entry[opts.target]
 		end
 	end
-	sorter.scoring_function = function(_, prompt, line, entry, ...)
+	sorter.scoring_function = function(_, prompt, line, entry)
 		if vim.regex(prompt):match_str(target(entry, line)) then
 			return score_match
 		else
