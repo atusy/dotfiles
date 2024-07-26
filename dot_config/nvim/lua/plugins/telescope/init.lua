@@ -66,7 +66,9 @@ local function telescope_config(_)
 	local actions = require("telescope.actions")
 	local myactions = require("telescope.actions.mt").transform_mod({
 		telescope_quickfix = function(_)
-			require("telescope.builtin").quickfix()
+			require("telescope.builtin").quickfix({
+				sorter = require("plugins.telescope.sorter").filname_sorter(),
+			})
 		end,
 	})
 	require("telescope").setup({
