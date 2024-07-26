@@ -53,28 +53,23 @@ function M.quickfix(opts)
 		qfhistory[nth] = vim.fn.getqflist({ id = 0 }).id
 	end
 
-	local actions = require("telescope.actions.mt").transform_mod({
-		prev_qflist = function(prompt_bufnr)
-			update_qfhistory(prompt_bufnr)
-			if nth > 1 then
-				M.quickfix({ nth = math.max(1, nth - 1) })
-			end
-		end,
-		next_qflist = function(prompt_bufnr)
-			update_qfhistory(prompt_bufnr)
-			if nth < #qfhistory then
-				M.quickfix({ nth = nth + 1 })
-			end
-		end,
-	})
-
 	local attach_mappings = opts.attach_mappings
 	opts.attach_mappings = function(prompt_bufnr, map)
 		if attach_mappings then
 			attach_mappings(prompt_bufnr, map)
 		end
-		map({ "i" }, "<C-Left>", actions.prev_qflist)
-		map({ "i" }, "<C-Right>", actions.next_qflist)
+		map({ "i" }, "<C-Left>", function()
+			update_qfhistory(prompt_bufnr)
+			if nth > 1 then
+				M.quickfix({ nth = nth - 1 })
+			end
+		end)
+		map({ "i" }, "<C-Right>", function()
+			update_qfhistory(prompt_bufnr)
+			if nth < #qfhistory then
+				M.quickfix({ nth = nth + 1 })
+			end
+		end)
 		return true
 	end
 
