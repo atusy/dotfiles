@@ -32,13 +32,7 @@ local meta = getmetatable(M)
 local index = meta.__index
 
 function meta.__index(self, key)
-	if index then
-		local res = index(self, key)
-		if res then
-			return res
-		end
-	end
-	return require("telescope.actions")[key]
+	return index and index(self, key) or require("telescope.actions")[key]
 end
 
 return setmetatable(M, meta)
