@@ -26,58 +26,6 @@ function M.help_tags(opts)
 	require("telescope.builtin").help_tags(opts or { lang = "ja" })
 end
 
-local qfhistory = {}
-
-function M.quickfix(opts)
-	opts = opts or {}
-
-	local nth, id = (function()
-		if type(opts.nth) == "number" and 1 <= opts.nth and opts.nth <= #qfhistory then
-			return opts.nth, qfhistory[opts.nth]
-		end
-		local _id = opts.id or vim.fn.getqflist({ id = 0 }).id
-		table.insert(qfhistory, _id)
-		return #qfhistory, _id
-	end)()
-
-	local function update_qfhistory(prompt_bufnr)
-		local prompt = require("telescope.actions.state").get_current_picker(prompt_bufnr):_get_prompt()
-		if prompt == "" then
-			return
-		end
-		for i = nth, #qfhistory do
-			qfhistory[i + 1] = nil
-		end
-		require("telescope.actions").send_to_qflist(prompt_bufnr)
-		nth = #qfhistory + 1
-		qfhistory[nth] = vim.fn.getqflist({ id = 0 }).id
-	end
-
-	local attach_mappings = opts.attach_mappings
-	opts.attach_mappings = function(prompt_bufnr, map)
-		if attach_mappings then
-			attach_mappings(prompt_bufnr, map)
-		end
-		map({ "i" }, "<C-Left>", function()
-			update_qfhistory(prompt_bufnr)
-			if nth > 1 then
-				M.quickfix({ nth = nth - 1 })
-			end
-		end)
-		map({ "i" }, "<C-Right>", function()
-			update_qfhistory(prompt_bufnr)
-			if nth < #qfhistory then
-				M.quickfix({ nth = nth + 1 })
-			end
-		end)
-		return true
-	end
-
-	local _opts = vim.tbl_extend("force", opts, { id = id })
-	_opts.nth = nil
-	require("telescope.builtin").quickfix(_opts)
-end
-
 function M.locations(opts, locations, title)
 	opts = opts or {}
 	local conf = require("telescope.config").values

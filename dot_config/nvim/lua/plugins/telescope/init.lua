@@ -63,20 +63,24 @@ local function telescope_init()
 end
 
 local function telescope_config(_)
-	local actions = require("plugins.telescope.actions")
+	local actions = require("telescope.actions")
+	local qfsactions = require("qfscope.actions")
 	require("telescope").setup({
 		defaults = {
 			mappings = {
 				i = {
 					["<C-J>"] = false, -- to support skkeleton.vim
 					["<C-P>"] = require("telescope.actions.layout").toggle_preview,
-					["<C-S>"] = actions.search_filename_in_quickfix,
+					["<C-S>"] = qfsactions.qfscope_search_filename,
 					["<C-V>"] = false,
 					["<C-G><C-S>"] = actions.select_horizontal,
 					["<C-G><C-V>"] = actions.select_vertical,
-					["<C-G><C-F>"] = actions.grep_filename_in_quickfix,
-					["<C-G><C-L>"] = actions.grep_line_in_quickfix,
-					["<C-G><C-T>"] = actions.grep_text_in_quickfix,
+					["<C-G><C-G>"] = qfsactions.qfscope_search_filename,
+					["<C-G><C-F>"] = qfsactions.qfscope_grep_filename,
+					["<C-G><C-L>"] = qfsactions.qfscope_grep_line,
+					["<C-G><C-T>"] = qfsactions.qfscope_grep_text,
+					["<C-Down>"] = actions.cycle_history_next,
+					["<C-Up>"] = actions.cycle_history_prev,
 				},
 				n = {
 					K = function(_)
@@ -139,5 +143,6 @@ return {
 			require("telescope").load_extension("aerial")
 		end,
 	},
+	{ "https://github.com/atusy/qfscope.nvim", lazy = true },
 	-- { 'tknightz/telescope-termfinder.nvim' },  -- finds toggleterm terminals
 }
