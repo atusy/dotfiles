@@ -137,14 +137,10 @@ function M.gtd(opts, bufnr, _, params, _)
 	end
 
 	-- textDocument/definition
-	local definition = false
 	for _, c in pairs(clients) do
-		if c.server_capabilities.implementationProvider then
-			definition = true
+		if c.server_capabilities.definitionProvider then
+			return gtd(opts, bufnr, "textDocument/definition", params, nil)
 		end
-	end
-	if definition then
-		return gtd(opts, bufnr, "textDocument/definition", params, nil)
 	end
 
 	-- enhanced gf
