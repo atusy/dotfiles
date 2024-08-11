@@ -38,7 +38,7 @@ alias ll='eza --long --group --time-style=long-iso'
 alias ls='eza'
 alias ip='ip --color=auto'
 
-bind \t complete-and-search
+bind \t complete-and-search-if-not-empty
 bind \cr set_commandline_from_history
 
 function update_completion
