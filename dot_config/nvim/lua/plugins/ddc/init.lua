@@ -115,7 +115,13 @@ local function config()
 				return false
 			end
 			vim.fn["ddc#enable"]()
-			vim.fn["popup_preview#enable"]()
+			-- vim.fn["popup_preview#enable"]()
+			vim.fn["pum#set_option"]({
+				preview = true,
+				preview_border = "single",
+				preview_width = 60,
+				preview_height = 20,
+			})
 			require("plugins.ddc.gitcommit")()
 			return true
 		end,
@@ -133,7 +139,11 @@ return {
 			{
 				"https://github.com/uga-rosa/ddc-previewer-floating",
 				lazy = true,
-				init = function()
+				cond = false,
+				init = function(p)
+					if p.cond == false then
+						return
+					end
 					local group = vim.api.nvim_create_augroup("atusy-ddc-previewer-floating", {})
 					vim.api.nvim_create_autocmd("BufEnter", {
 						group = group,
