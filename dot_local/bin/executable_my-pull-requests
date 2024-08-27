@@ -1,0 +1,5 @@
+#!/bin/bash
+set -euo pipefail
+
+USER=$(gh api '/user' --jq .login)
+gh search prs --author "$USER" --merged --visibility public --limit 1000 --json author,repository,state,title,url "$@" # e.g., -- -owner:atusy
