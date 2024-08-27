@@ -21,10 +21,10 @@ direnv hook fish | source
 zoxide init fish --no-cmd | source
 
 abbr -a kunset 'kubectl config unset current-context'
-abbr -a cpr 'gh pr | gh pr checkout'
-abbr -a wpr 'gh pr view --web'
-abbr -a wrepo 'gh repo view --web'
-abbr -a wissue 'gh issue view --web'
+abbr -a prco 'gh pr | gh pr checkout'
+abbr -a prweb 'gh pr view --web'
+abbr -a repoweb 'gh repo view --web'
+abbr -a issueweb 'gh issue view --web'
 abbr -a ping 'ping -c 5'
 abbr -a top htop
 abbr -a df duf
