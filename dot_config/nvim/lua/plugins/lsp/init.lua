@@ -94,6 +94,11 @@ local function lspconfig()
 				},
 			},
 		},
+		capabilities = {
+			textDocument = {
+				documentColor = false, -- avoid otter and ccc.nvim conflict
+			},
+		},
 	}) -- R -e "remotes::install_github('languageserver')"
 	config("svelte", {})
 	config("terraformls", { filetypes = { "terraform", "tf" } })
