@@ -127,7 +127,10 @@ return {
 		cmd = { "Mason" },
 		config = function()
 			vim.lsp.set_log_level(vim.lsp.log_levels.OFF)
-			vim.diagnostic.config({ signs = false })
+			vim.diagnostic.config({
+				signs = false,
+				jump = { severity = { "INFO", "WARN", "ERROR" } },
+			})
 			vim.api.nvim_create_autocmd("LspAttach", {
 				group = vim.api.nvim_create_augroup("atusy.nvim-lspconfig", {}),
 				callback = function(ctx)

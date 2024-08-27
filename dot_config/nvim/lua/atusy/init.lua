@@ -111,8 +111,6 @@ set_keymap("n", "<Plug>(gt)t", "gt<Plug>(gt)")
 set_keymap("n", "<Plug>(gt)T", "gT<Plug>(gt)")
 
 -- mappings: diagnostics
-set_keymap("n", "[d", [[<Cmd>lua require("atusy.diagnostic").goto_prev_underline()<CR>]])
-set_keymap("n", "]d", [[<Cmd>lua require("atusy.diagnostic").goto_next_underline()<CR>]])
 set_keymap("n", "<Leader>e", [[<Cmd>lua vim.diagnostic.open_float()<CR>]])
 
 -- mappings: insert-mode horizontal moves in the current undo block
