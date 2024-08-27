@@ -689,14 +689,12 @@ return {
 		"https://github.com/kevinhwang91/nvim-bqf",
 		ft = "qf",
 	},
+	{ "https://github.com/jmbuhr/otter.nvim", lazy = true },
 	{
 		"https://github.com/quarto-dev/quarto-nvim",
 		ft = { "quarto" },
 		config = function()
-			require("quarto").setup({
-				lspFeatures = { completion = { enabled = false }, diagnostics = { enabled = false } },
-				keymap = false, -- done via configurations of otter.nvim
-			})
+			require("quarto").setup({})
 		end,
 	},
 }
