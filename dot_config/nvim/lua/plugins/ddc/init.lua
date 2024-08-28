@@ -176,7 +176,10 @@ return {
 			{ "https://github.com/Shougo/ddc-source-lsp" },
 			{ "https://github.com/Shougo/ddc-source-shell-native" },
 			{ "https://github.com/Shougo/ddc-ui-pum" },
-			{ "https://github.com/uga-rosa/ddc-source-dictionary" },
+			{ "https://github.com/uga-rosa/ddc-source-dictionary", build = function()
+			  local d = vim.fn.stdpath("data") --[[@as string]]
+			  vim.fn.mkdir(vim.fs.joinpath(d, "ddc", "dictionary"), "p")
+			end},
 			{ "https://github.com/LumaKernel/ddc-source-file" },
 			-- filter
 			{ "https://github.com/tani/ddc-fuzzy" },
