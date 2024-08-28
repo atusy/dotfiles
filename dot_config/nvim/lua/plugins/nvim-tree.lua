@@ -64,11 +64,37 @@ local function fs_cut()
 end
 
 local function fs_trash()
-	if #require("nvim-tree.api").marks.list() > 0 then
+	local bufremove = (function()
+		local ok, _ = pcall(require, "mini.bufremove")
+		if ok then
+			return function(buf)
+				require("mini.bufremove").delete(buf, true)
+			end
+		end
+		return function(buf)
+			vim.api.nvim_buf_delete(buf, { force = true })
+		end
+	end)()
+
+	local marks = require("nvim-tree.api").marks.list()
+	if #marks > 0 then
+		for _, buf in pairs(vim.api.nvim_list_bufs()) do
+			for _, mark in pairs(marks) do
+				if vim.api.nvim_buf_get_name(buf) == mark.absolute_path then
+					bufremove(buf)
+				end
+			end
+		end
 		require("nvim-tree.api").marks.bulk.trash()
-	else
-		require("nvim-tree.api").fs.trash()
 	end
+
+	local path = require("nvim-tree.api").tree.get_node_under_cursor().absolute_path
+	for _, buf in pairs(vim.api.nvim_list_bufs()) do
+		if vim.api.nvim_buf_get_name(buf) == path then
+			bufremove(buf)
+		end
+	end
+	require("nvim-tree.api").fs.trash()
 end
 
 return {
