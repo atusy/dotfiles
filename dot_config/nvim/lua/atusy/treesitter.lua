@@ -57,7 +57,7 @@ function M.foldtext()
 	-- sometimes, the value is too large because the character might be ignored by treesitter
 	-- (e.g., trailing space)
 	local row = vim.treesitter
-		.get_node({ bufnr = bufnr, pos = { foldstart - 1, line:len() - 1 }, ignore_injections = false })
+		.get_node({ bufnr = bufnr, pos = { foldstart - 1, line:len() }, ignore_injections = false })
 		:end_()
 	local line_positions = {}
 	local lines = {}
