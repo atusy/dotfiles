@@ -45,11 +45,11 @@ return {
 			}, ", ") .. "}")
 		end,
 	},
+	{ "https://github.com/nvim-tree/nvim-web-devicons", lazy = true },
 
 	-- utils
 	{
 		"https://github.com/numToStr/Comment.nvim",
-		dependencies = { "https://github.com/JoosepAlviste/nvim-ts-context-commentstring" },
 		lazy = true,
 		init = function()
 			vim.keymap.set("n", "gcc", [[<Cmd>lua require("Comment.api").toggle.linewise.current()<CR>]])
@@ -61,6 +61,7 @@ return {
 			)
 		end,
 		config = function()
+			require("ts_context_commentstring")
 			require("Comment").setup({
 				mappings = false,
 				pre_hook = function()
@@ -240,7 +241,6 @@ return {
 	{
 		"https://github.com/nvim-lualine/lualine.nvim",
 		lazy = true,
-		dependencies = { "https://github.com/nvim-tree/nvim-web-devicons" },
 		init = function()
 			-- want statusline on creating non-relative windows
 			vim.opt.laststatus = 0
@@ -261,6 +261,7 @@ return {
 					end
 
 					vim.opt.laststatus = 2
+          require("nvim-web-devicons")
 					require("lualine").setup({
 						options = { theme = "moonfly", component_separators = "" },
 						sections = {

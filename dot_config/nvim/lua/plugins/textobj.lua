@@ -94,11 +94,9 @@ recipes["j"] = {
 }
 
 return {
+	{ "https://github.com/nvim-treesitter/nvim-treesitter-textobjects", lazy = true },
 	{
 		"https://github.com/echasnovski/mini.ai",
-		dependencies = {
-			"https://github.com/nvim-treesitter/nvim-treesitter-textobjects", -- as a query provider
-		},
 		event = "ModeChanged",
 		config = function()
 			--[[
@@ -117,6 +115,7 @@ return {
 			custom_textobjects.d = gen_spec.treesitter({ a = "@function.outer", i = "@function.inner" })
 			custom_textobjects.D = gen_spec.treesitter({ a = "@class.outer", i = "@class.inner" })
 
+			require("nvim-treesitter-textobjects")
 			require("mini.ai").setup({
 				n_lines = 100,
 				mappings = {
