@@ -174,8 +174,7 @@ end
 -- return
 return {
 	{
-		"https://github.com/lambdalisue/gin.vim",
-		dependencies = { "https://github.com/vim-denops/denops.vim" },
+		"https://github.com/lambdalisue/gin.vim", -- denops
 		config = setup_gin,
 	},
 	{ "https://github.com/lewis6991/gitsigns.nvim", config = setup_gitsigns },

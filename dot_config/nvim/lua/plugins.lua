@@ -69,8 +69,8 @@ return {
 			})
 		end,
 	},
-	{ "https://github.com/lambdalisue/guise.vim", dependencies = { "https://github.com/vim-denops/denops.vim" } },
-	{ "https://github.com/lambdalisue/askpass.vim", dependencis = { "https://github.com/vim-denops/denops.vim" } },
+	{ "https://github.com/lambdalisue/guise.vim" }, -- denops
+	{ "https://github.com/lambdalisue/askpass.vim" }, -- denops
 	{ "https://github.com/segeljakt/vim-silicon", cmd = { "Silicon", "SiliconHighlight" } }, -- pacman -S silicon
 	{ "https://github.com/tpope/vim-characterize", keys = { "ga" } },
 	{ "https://github.com/thinca/vim-partedit", cmd = "Partedit" },
@@ -175,8 +175,7 @@ return {
 		-- lazy = false,
 	},
 	{
-		"https://github.com/lambdalisue/kensaku.vim",
-		dependencies = { "https://github.com/vim-denops/denops.vim" },
+		"https://github.com/lambdalisue/kensaku.vim", -- denops
 		lazy = false,
 		config = function(p)
 			if p.lazy then
