@@ -131,70 +131,6 @@ end
 return {
 	{
 		"https://github.com/Shougo/ddc.vim",
-		dependencies = {
-			{ "https://github.com/vim-denops/denops.vim" },
-			-- ui
-			{ "https://github.com/matsui54/denops-popup-preview.vim" },
-			{ "https://github.com/Shougo/pum.vim" },
-			{
-				"https://github.com/uga-rosa/ddc-previewer-floating",
-				lazy = true,
-				cond = false,
-				init = function(p)
-					if p.cond == false then
-						return
-					end
-					local group = vim.api.nvim_create_augroup("atusy-ddc-previewer-floating", {})
-					vim.api.nvim_create_autocmd("BufEnter", {
-						group = group,
-						callback = function(ctx)
-							local ft = vim.filetype.match({ buf = ctx.buf, filename = ctx.file })
-							if ({ markdown = true, quarto = true })[ft] then
-								vim.fn["popup_preview#disable"]()
-								require("ddc_previewer_floating").enable()
-								vim.api.nvim_create_autocmd("BufLeave", {
-									group = group,
-									buffer = ctx.buf,
-									callback = function()
-										pcall(require("ddc_previewer_floating").disable)
-										vim.fn["popup_preview#enable"]()
-									end,
-								})
-							end
-						end,
-					})
-				end,
-			},
-			-- source
-			{ "https://github.com/atusy/ddc-source-parametric" },
-			{ "https://github.com/matsui54/ddc-buffer" },
-			{ "https://github.com/Shougo/ddc-source-around" },
-			{ "https://github.com/Shougo/ddc-source-cmdline" },
-			{ "https://github.com/Shougo/ddc-source-cmdline-history" },
-			{ "https://github.com/Shougo/ddc-source-input" },
-			{ "https://github.com/Shougo/ddc-source-line" },
-			{ "https://github.com/Shougo/ddc-source-lsp" },
-			{ "https://github.com/Shougo/ddc-source-shell-native" },
-			{ "https://github.com/Shougo/ddc-ui-pum" },
-			{ "https://github.com/uga-rosa/ddc-source-dictionary", build = function()
-			  local d = vim.fn.stdpath("data") --[[@as string]]
-			  vim.fn.mkdir(vim.fs.joinpath(d, "ddc", "dictionary"), "p")
-			end},
-			{ "https://github.com/LumaKernel/ddc-source-file" },
-			-- filter
-			{ "https://github.com/tani/ddc-fuzzy" },
-			-- sorter
-			{ "https://github.com/Shougo/ddc-filter-sorter_rank" },
-			-- matcher
-			{ "https://github.com/Shougo/ddc-filter-matcher_head" },
-			{ "https://github.com/Shougo/ddc-filter-matcher_vimregexp" },
-			{ "https://github.com/matsui54/ddc-filter_editdistance" },
-			-- converter
-			{ "https://github.com/Shougo/ddc-filter-converter_remove_overlap" },
-			{ "https://github.com/Shougo/ddc-filter-converter_truncate_abbr" },
-			{ "https://github.com/atusy/ddc-filter-converter_string_match" },
-			{ "https://github.com/atusy/ddc-filter-converter_dictionary" },
-		},
 		config = config,
 		build = function(p)
 			local dir = require("atusy.lazy").dir(p)
@@ -208,6 +144,70 @@ return {
 			vim.fn["ddc#set_static_import_path"]()
 		end,
 	},
+	-- ui
+	{ "https://github.com/Shougo/pum.vim" },
+	-- { "https://github.com/matsui54/denops-popup-preview.vim" },
+	{
+		"https://github.com/uga-rosa/ddc-previewer-floating",
+		lazy = true,
+		cond = false,
+		init = function(p)
+			if p.cond == false then
+				return
+			end
+			local group = vim.api.nvim_create_augroup("atusy-ddc-previewer-floating", {})
+			vim.api.nvim_create_autocmd("BufEnter", {
+				group = group,
+				callback = function(ctx)
+					local ft = vim.filetype.match({ buf = ctx.buf, filename = ctx.file })
+					if ({ markdown = true, quarto = true })[ft] then
+						vim.fn["popup_preview#disable"]()
+						require("ddc_previewer_floating").enable()
+						vim.api.nvim_create_autocmd("BufLeave", {
+							group = group,
+							buffer = ctx.buf,
+							callback = function()
+								pcall(require("ddc_previewer_floating").disable)
+								vim.fn["popup_preview#enable"]()
+							end,
+						})
+					end
+				end,
+			})
+		end,
+	},
+	-- source
+	{ "https://github.com/atusy/ddc-source-parametric" },
+	{ "https://github.com/matsui54/ddc-buffer" },
+	{ "https://github.com/Shougo/ddc-source-around" },
+	{ "https://github.com/Shougo/ddc-source-cmdline" },
+	{ "https://github.com/Shougo/ddc-source-cmdline-history" },
+	{ "https://github.com/Shougo/ddc-source-input" },
+	{ "https://github.com/Shougo/ddc-source-line" },
+	{ "https://github.com/Shougo/ddc-source-lsp" },
+	{ "https://github.com/Shougo/ddc-source-shell-native" },
+	{ "https://github.com/Shougo/ddc-ui-pum" },
+	{
+		"https://github.com/uga-rosa/ddc-source-dictionary",
+		build = function()
+			local d = vim.fn.stdpath("data") --[[@as string]]
+			vim.fn.mkdir(vim.fs.joinpath(d, "ddc", "dictionary"), "p")
+		end,
+	},
+	{ "https://github.com/LumaKernel/ddc-source-file" },
+	-- filter
+	{ "https://github.com/tani/ddc-fuzzy" },
+	-- sorter
+	{ "https://github.com/Shougo/ddc-filter-sorter_rank" },
+	-- matcher
+	{ "https://github.com/Shougo/ddc-filter-matcher_head" },
+	{ "https://github.com/Shougo/ddc-filter-matcher_vimregexp" },
+	{ "https://github.com/matsui54/ddc-filter_editdistance" },
+	-- converter
+	{ "https://github.com/Shougo/ddc-filter-converter_remove_overlap" },
+	{ "https://github.com/Shougo/ddc-filter-converter_truncate_abbr" },
+	{ "https://github.com/atusy/ddc-filter-converter_string_match" },
+	{ "https://github.com/atusy/ddc-filter-converter_dictionary" },
 	-- dictionaries for ddc (install only)
 	{ "https://github.com/dwyl/english-words", lazy = true },
 	{ "https://github.com/gunyarakun/kantan-ej-dictionary", lazy = true },
