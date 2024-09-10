@@ -14,9 +14,9 @@ if ! command -v jq >/dev/null; then
   }
 fi
 
-APIKEY=$(echo "$INFO" | jq -e .apikey)
-ZONEID=$(echo "$INFO" | jq -e .zoneid)
-DEST=$(echo "$INFO" | jq -e .dest)
+APIKEY=$(echo "$INFO" | jq -e -r .apikey)
+ZONEID=$(echo "$INFO" | jq -e -r .zoneid)
+DEST=$(echo "$INFO" | jq -e -r .dest)
 
 curl --request POST \
   --url "https://api.cloudflare.com/client/v4/zones/$ZONEID/email/routing/rules" \
