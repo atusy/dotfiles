@@ -261,7 +261,7 @@ return {
 					end
 
 					vim.opt.laststatus = 2
-          require("nvim-web-devicons")
+					require("nvim-web-devicons")
 					require("lualine").setup({
 						options = { theme = "moonfly", component_separators = "" },
 						sections = {
