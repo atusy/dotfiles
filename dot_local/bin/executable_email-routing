@@ -1,0 +1,44 @@
+#!/usr/bin/env bash
+# Create a email routing role on Cloudflare
+set -euo pipefail
+
+INFO="${CLOUDFLARE_EMAIL_ROUTING:-$(bw get notes "cloudflare email routing")}"
+
+if [[ -z "$INFO" ]]; then
+  exit 1
+fi
+
+if ! command -v jq >/dev/null; then
+  function jq() {
+    gojq "$@"
+  }
+fi
+
+APIKEY=$(echo "$INFO" | jq .apikey)
+ZONEID=$(echo "$INFO" | jq .zoneid)
+DEST=$(echo "$INFO" | jq .dest)
+
+curl --request POST \
+  --url "https://api.cloudflare.com/client/v4/zones/$ZONEID/email/routing/rules" \
+  --header "Content-Type: application/json" \
+  --header "Authorization: Bearer $APIKEY" \
+  --data "{
+  \"actions\": [
+    {
+      \"type\": \"forward\",
+      \"value\": [
+        \"$DEST\"
+      ]
+    }
+  ],
+  \"enabled\": true,
+  \"matchers\": [
+    {
+      \"field\": \"to\",
+      \"type\": \"literal\",
+      \"value\": \"$1\"
+    }
+  ],
+  \"name\": \"$1\",
+  \"priority\": 0
+}"
