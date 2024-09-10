@@ -11,6 +11,8 @@ eza = "latest"
 zoxide = "latest"
 direnv = "latest"
 gojq = "latest"
+delta = "latest"
+poetry = "latest"
 
 # might be useful, but latest can be installed from pacman
 # awscli = "latest"
