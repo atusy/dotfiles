@@ -342,6 +342,7 @@ return {
 			parser_config.uri = {
 				install_info = {
 					url = parser_uri,
+					branch = "main",
 					files = { "src/parser.c" },
 					generate_requires_npm = false, -- if stand-alone parser without npm dependencies
 					requires_generate_from_grammar = false, -- if folder contains pre-generated src/parser.c
@@ -351,7 +352,7 @@ return {
 			parser_config.unifieddiff = {
 				install_info = {
 					url = "https://github.com/monaqa/tree-sitter-unifieddiff",
-					-- url = "~/ghq/github.com/monaqa/tree-sitter-unifieddiff",
+					branch = "main",
 					files = { "src/parser.c", "src/scanner.c" },
 				},
 				filetype = "diff", -- if filetype does not agrees with parser name
