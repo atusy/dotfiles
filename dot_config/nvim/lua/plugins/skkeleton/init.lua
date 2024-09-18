@@ -17,6 +17,7 @@ end
 return {
 	{
 		"https://github.com/vim-skk/skkeleton", -- denops
+		dependencies = { "https://github.com/vim-denops/denops.vim" },
 		config = function()
 			vim.keymap.set({ "i", "c", "t" }, "<C-J>", "<Plug>(skkeleton-enable)")
 			local register_kanatable = vim.fn["skkeleton#register_kanatable"]
