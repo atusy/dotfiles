@@ -85,7 +85,7 @@ local function config()
 			return lhs
 		end, { expr = true })
 	end
-	vim.keymap.set("c", "<c-x><c-space>", function()
+	vim.keymap.set("c", "<c-x><c-m>", function()
 		local t = vim.fn.getcmdtype()
 		local line = vim.fn.getcmdline()
 		local match = function(x)

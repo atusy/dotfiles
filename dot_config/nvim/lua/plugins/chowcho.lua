@@ -35,8 +35,8 @@ local setup_chowcho = function()
 		end
 	end
 
-	vim.keymap.set({ "", "t" }, "<C-W><C-W>", chowcho_focus)
-	vim.keymap.set({ "", "t" }, "<C-W>w", chowcho_focus)
+	vim.keymap.set({ "", "t" }, "<c-w><c-w>", chowcho_focus)
+	vim.keymap.set({ "", "t" }, "<c-w>w", chowcho_focus)
 
 	local function _chowcho_hide()
 		local nwins = #vim.api.nvim_tabpage_list_wins(0)
@@ -49,9 +49,7 @@ local setup_chowcho = function()
 		end
 	end
 
-	-- vim.keymap.set({ '', 't' }, '<C-W>c', _chowcho_hide)
-	vim.keymap.set({ "", "t" }, "<C-W><Space>", _chowcho_hide)
-	vim.keymap.set({ "", "t" }, "<C-W><C-Space>", _chowcho_hide)
+	vim.keymap.set({ "", "t" }, "<c-w><c-m>", _chowcho_hide)
 
 	local function _chowcho_edit()
 		-- Edits buffer from the selected in the current
@@ -73,8 +71,8 @@ local setup_chowcho = function()
 		)
 	end
 
-	vim.keymap.set({ "", "t" }, "<C-W>e", _chowcho_edit)
-	vim.keymap.set({ "", "t" }, "<C-W><C-E>", _chowcho_edit)
+	vim.keymap.set({ "", "t" }, "<c-w>e", _chowcho_edit)
+	vim.keymap.set({ "", "t" }, "<c-w><C-E>", _chowcho_edit)
 
 	---@param layout table returnd by vim.fn.winlayout()
 	---@param cur integer of the current winid
@@ -131,8 +129,8 @@ local setup_chowcho = function()
 		)
 	end
 
-	vim.keymap.set({ "", "t" }, "<C-W><C-X>", _chowcho_exchange)
-	vim.keymap.set({ "", "t" }, "<C-W>x", _chowcho_exchange)
+	vim.keymap.set({ "", "t" }, "<c-w><C-X>", _chowcho_exchange)
+	vim.keymap.set({ "", "t" }, "<c-w>x", _chowcho_exchange)
 end
 
 return {
