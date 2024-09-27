@@ -114,7 +114,7 @@ local function lspconfig()
 	})
 	local is_node = require("lspconfig").util.find_node_modules_ancestor(".")
 	if is_node then
-		config("tsserver", {})
+		config("ts_ls", {})
 	else
 		config("denols", { single_file_support = true })
 	end
