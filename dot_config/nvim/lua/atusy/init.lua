@@ -169,16 +169,16 @@ local function win_move_or_cmd(row, col, cmd)
 	end
 end
 
-set_keymap({ "", "t" }, "<C-Up>", function()
+set_keymap({ "", "t" }, "<S-Up>", function()
 	win_move_or_cmd(-1, 0, "2+")
 end)
-set_keymap({ "", "t" }, "<C-Down>", function()
+set_keymap({ "", "t" }, "<S-Down>", function()
 	win_move_or_cmd(1, 0, "2-")
 end)
-set_keymap({ "", "t" }, "<C-Right>", function()
+set_keymap({ "", "t" }, "<S-Right>", function()
 	win_move_or_cmd(0, 2, "2>")
 end)
-set_keymap({ "", "t" }, "<C-Left>", function()
+set_keymap({ "", "t" }, "<S-Left>", function()
 	win_move_or_cmd(0, -2, "2<")
 end)
 
