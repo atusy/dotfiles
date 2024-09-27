@@ -1,18 +1,6 @@
 [tools]
-deno = "latest"
 neovim = "nightly"
-node = "latest"
-python = "latest"
-bun = "latest"
-azure-cli = "latest"
 usage = "latest"
-bat = "latest"
-eza = "latest"
-zoxide = "latest"
-direnv = "latest"
-gojq = "latest"
-delta = "latest"
-poetry = "latest"
 
 # might be useful, but latest can be installed from pacman
 # awscli = "latest"

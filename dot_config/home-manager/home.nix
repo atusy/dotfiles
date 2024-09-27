@@ -18,6 +18,28 @@
   # The home.packages option allows you to install Nix packages into your
   # environment.
   home.packages = [
+    pkgs.bat
+    pkgs.chezmoi
+    pkgs.delta
+    pkgs.deno
+    pkgs.direnv
+    pkgs.eza
+    pkgs.fd
+    pkgs.fish
+    pkgs.fzf
+    pkgs.gcloud
+    pkgs.gh
+    pkgs.ghq
+    pkgs.gojq
+    pkgs.jq
+    pkgs.nodejs
+    pkgs.podman
+    pkgs.podman-compose
+    pkgs.poetry
+    pkgs.python3
+    pkgs.trash
+    pkgs.ripgrep
+    pkgs.zoxide
     # # Adds the 'hello' command to your environment. It prints a friendly
     # # "Hello, world!" when run.
     # pkgs.hello
