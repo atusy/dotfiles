@@ -27,6 +27,14 @@ end
 direnv hook fish | source
 zoxide init fish --no-cmd | source
 
+if type brew -q
+  eval "$(brew shellenv)"
+else if test -d /home/linuxbrew/.linuxbrew
+  eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+else if test -d /opt/homebrew/bin
+  eval "$(/opt/homebrew/bin/brew shellenv)"
+end
+
 abbr -a kunset 'kubectl config unset current-context'
 abbr -a prco 'gh pr | gh pr checkout'
 abbr -a prweb 'gh pr view --web'
