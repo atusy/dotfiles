@@ -1,4 +1,5 @@
 #!/usr/bin/env zsh
+
 function source {
   local compiled="$1.zwc"
   if [[ ! -r "$compiled" || "$1" -nt "$compiled" ]]; then
@@ -7,6 +8,10 @@ function source {
   fi
   builtin source "$@"
 }
+
+function zsh-defer { # workaround for unexpected failure on loading zsh-defer
+  source "$@"
+ }
 
 if ! command -v sheldon >/dev/null; then
   curl --proto '=https' -fLsS https://rossmacarthur.github.io/install/crate.sh \
