@@ -27,7 +27,7 @@
     pkgs.fd
     pkgs.fish
     pkgs.fzf
-    pkgs.gcloud
+    pkgs.google-cloud-sdk
     pkgs.gh
     pkgs.ghq
     pkgs.gojq
@@ -37,7 +37,7 @@
     pkgs.podman-compose
     pkgs.poetry
     pkgs.python3
-    pkgs.trash
+    pkgs.trash-cli
     pkgs.ripgrep
     pkgs.zoxide
     # # Adds the 'hello' command to your environment. It prints a friendly
