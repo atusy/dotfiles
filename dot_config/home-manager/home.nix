@@ -30,8 +30,13 @@
     pkgs.google-cloud-sdk
     pkgs.gh
     pkgs.ghq
+    pkgs.git
     pkgs.gojq
     pkgs.jq
+    pkgs.kind
+    pkgs.kubectl
+    pkgs.kubectx
+    pkgs.mise
     pkgs.nodejs
     pkgs.podman
     pkgs.podman-compose
