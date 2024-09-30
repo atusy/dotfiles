@@ -49,8 +49,10 @@ function fish_prompt --description 'Write out the prompt'
     if test -n "$SSH_CLIENT"
       echo -n -s (prompt_login)' '
     end
-    set -l slash "$(set_color '#d2691e')/$(set_color $color_cwd)"
-    echo -n -s (prompt_pwd -D 8 | string replace -ar "/" $slash) (fish_vcs_prompt)
+
+    set -l cwd (set_color $color_cwd)
+    set -l slash "$(set_color '#d2691e')/$cwd"
+    echo -n -s $cwd (prompt_pwd -D 8 | string replace -ar "/" $slash) $normal (fish_vcs_prompt)
 
     set -l kubeinfo ( get_kubeinfo | string split ' ' )
     if test -n "$kubeinfo[1]"
