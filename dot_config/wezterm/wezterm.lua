@@ -32,7 +32,6 @@ wezterm.on("decrease-opacity", function(window, pane)
 end)
 
 return {
-	default_prog = { "/usr/bin/env", "fish" },
 	window_decorations = "INTEGRATED_BUTTONS|RESIZE",
 	font = wezterm.font_with_fallback({
 		{ family = "UDEV Gothic NF" },
