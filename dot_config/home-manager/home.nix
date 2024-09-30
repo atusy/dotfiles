@@ -41,7 +41,10 @@
     pkgs.podman
     pkgs.podman-compose
     pkgs.poetry
-    pkgs.python3
+    pkgs.python312
+    pkgs.python312Packages.radian
+    pkgs.R
+    pkgs.tmux
     pkgs.trash-cli
     pkgs.ripgrep
     pkgs.zoxide
