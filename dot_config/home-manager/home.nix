@@ -51,6 +51,12 @@
     pkgs.ripgrep
     pkgs.zoxide
 
+    # Fonts
+    pkgs.udev-gothic
+    pkgs.udev-gothic-nf
+    pkgs.noto-fonts-color-emoji
+    pkgs.ibm-plex
+
     # Example overlays
     # (pkgs.nerdfonts.override { fonts = [ "FantasqueSansMono" ]; })
     # (pkgs.writeShellScriptBin "my-hello" ''
