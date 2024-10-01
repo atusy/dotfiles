@@ -38,6 +38,7 @@
     pkgs.kubectx
     pkgs.mise
     pkgs.nodejs
+    pkgs.pandoc
     pkgs.podman
     pkgs.podman-compose
     pkgs.poetry
