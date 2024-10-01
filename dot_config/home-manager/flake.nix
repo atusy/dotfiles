@@ -14,7 +14,7 @@
     };
   };
 
-  outputs = { self, nixpkgs, home-manager, ... }@inputs:
+  outputs = { self, nixpkgs, home-manager, ... } @ inputs:
     let
       system = "x86_64-linux";
       pkgs = nixpkgs.legacyPackages.${system};
@@ -26,14 +26,10 @@
         # Specify your home configuration modules here, for example,
         # the path to your home.nix.
         modules = [
-          ./home.nix
           {
             nixpkgs.overlays = overlays;
-            programs.neovim = {
-              enable = true;
-              package = inputs.neovim-nightly-overlay.packages.${pkgs.system}.default;
-            };
           }
+          ./home.nix
         ];
 
         # Optionally use extraSpecialArgs

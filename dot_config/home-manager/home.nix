@@ -37,6 +37,7 @@
     pkgs.kubectl
     pkgs.kubectx
     pkgs.mise
+    pkgs.neovim # nightly
     pkgs.nodejs
     pkgs.pandoc
     pkgs.podman
