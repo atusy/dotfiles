@@ -27,12 +27,16 @@ end
 direnv hook fish | source
 zoxide init fish --no-cmd | source
 
-if type brew -q
-  eval "$(brew shellenv)"
-else if test -d /home/linuxbrew/.linuxbrew
-  eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
-else if test -d /opt/homebrew/bin
-  eval "$(/opt/homebrew/bin/brew shellenv)"
+for brew in brew /home/linuxbrew/.linuxbrew/bin/brew /opt/homebrew/bin/brew
+  if set -l brewpath (type --path $brew)
+    set -l cache "$HOME/.cache/brew"
+    if not test -r $cache/shellenv.fish; or test $cache/shellenv.fish -ot $brew
+      mkdir -p $cache
+      $brew shellenv > $cache/shellenv.fish
+    end
+    source $cache/shellenv.fish
+    break
+  end
 end
 
 abbr -a kunset 'kubectl config unset current-context'
