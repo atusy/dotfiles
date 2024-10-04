@@ -44,12 +44,26 @@
     pkgs.podman-compose
     pkgs.poetry
     pkgs.python312
-    pkgs.python312Packages.radian
-    pkgs.R
     pkgs.tmux
     pkgs.trash-cli
     pkgs.ripgrep
     pkgs.zoxide
+
+    # R
+    (
+      pkgs.radianWrapper.override {
+        packages = with pkgs.rPackages; [
+          blogdown
+          devtools
+          felp
+          pak
+          tidyverse
+          renv
+          shiny
+        ];
+        wrapR = true;
+      }
+    )
 
     # Fonts
     pkgs.udev-gothic
