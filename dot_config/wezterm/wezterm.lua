@@ -60,5 +60,4 @@ return {
 	exit_behavior = "Close",
 	check_for_updates = false,
 	use_ime = false,
-	front_end = "WebGpu",
 }
