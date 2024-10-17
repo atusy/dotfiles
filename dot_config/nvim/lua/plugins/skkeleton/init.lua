@@ -32,28 +32,7 @@ return {
 				[":"] = { "：", "" },
 			})
 
-			-- `:`で`っ`を送りがなとした変換を開始
-			vim.fn["skkeleton#register_keymap"]("input", '"', "henkanPoint")
-
 			local augroup = vim.api.nvim_create_augroup("atusy.skkeleton", {})
-			vim.api.nvim_create_autocmd("User", {
-				group = augroup,
-				pattern = "skkeleton-enable-post",
-				callback = function(ctx)
-					-- NOTE: do not call skkeleton#handle directory. Instead, use expr mapping to handle keys in sync
-					local mode = vim.api.nvim_get_mode().mode
-					vim.keymap.set(mode, ":", function()
-						-- NOTE: seems like clean up is done by the time of skkeleton-disable-post
-						local skk_state = vim.g["skkeleton#state"]
-						local skk_mode = vim.fn["skkeleton#mode"]()
-						if skk_mode ~= "abbrev" and skk_state.phase == "input:okurinasi" then
-							return [[<Cmd>call skkeleton#handle('handleKey', {'key': ['"', ";"]})<CR>]] -- 「っ」で変換開始
-						end
-						return [[<Cmd>call skkeleton#handle('handleKey', {'key': ':'})<CR>]]
-					end, { buffer = ctx.buf, expr = true })
-				end,
-			})
-
 			vim.api.nvim_create_autocmd("User", {
 				group = augroup,
 				pattern = "skkeleton-enable-pre",
@@ -100,6 +79,7 @@ return {
 				markerHenkanSelect = "",
 				---@diagnostic disable-next-line: param-type-mismatch
 				databasePath = vim.fs.joinpath(vim.fn.stdpath("cache"), "skkeleton-dictionary.sqlite3"),
+				lowercaseMap = { [":"] = ";" },
 				globalDictionaries = {
 					dict("L"),
 					dict("propernoun"),
