@@ -46,6 +46,8 @@ return {
 		end,
 	},
 	{ "https://github.com/nvim-tree/nvim-web-devicons", lazy = true },
+	{ "https://github.com/stevearc/dressing.nvim", lazy = true },
+	{ "https://github.com/MunifTanjim/nui.nvim", lazy = true },
 
 	-- utils
 	{
@@ -634,7 +636,11 @@ return {
 	-- AI
 	{
 		"https://github.com/github/copilot.vim",
-		init = function()
+		cond = false,
+		init = function(p)
+			if not p.cond then
+				return
+			end
 			vim.g.copilot_no_tab_map = true
 		end,
 		config = function()
@@ -657,8 +663,67 @@ return {
 			})
 		end,
 	},
+	{
+		"https://github.com/zbirenbaum/copilot.lua",
+		-- cond = false,
+		cmd = "Copilot",
+		event = { "InsertEnter", "CursorHold" },
+		config = function()
+			require("copilot").setup({
+				suggestion = {
+					auto_trigger = true,
+					keymap = {
+						accept = false,
+						accept_line = "<C-X>l",
+						accept_word = "<C-X>w",
+						next = "<C-N>",
+						prev = "<C-P>",
+					},
+				},
+				filetypes = { ["*"] = true },
+			})
+			vim.keymap.set("i", "<c-a>", function()
+				if require("copilot.suggestion").is_visible() then
+					require("copilot.suggestion").accept()
+				else
+					require("copilot.suggestion").next()
+				end
+			end)
+		end,
+	},
+	{
+		"https://github.com/yetone/avante.nvim",
+		build = "make",
+		config = function()
+			require("avante").setup({
+				provider = "copilot",
+				behaviour = {
+					auto_suggestions = false,
+					-- auto_set_keymaps = false,
+				},
+			})
+		end,
+	},
+	{
+		-- support for image pasting in avante
+		"https://github.com/HakonHarnes/img-clip.nvim",
+		event = "VeryLazy",
+		opts = {
+			default = {
+				embed_image_as_base64 = false,
+				prompt_for_file_name = false,
+				drag_and_drop = { insert_mode = true },
+				use_absolute_path = true, -- for windows
+			},
+		},
+	},
 
 	-- filetype specific
+	{
+		"https://github.com/MeanderingProgrammer/render-markdown.nvim",
+		opts = { file_types = { "markdown", "Avante" } },
+		ft = { "markdown", "Avante" },
+	},
 	{
 		"https://github.com/barrett-ruth/import-cost.nvim",
 		ft = { "javascript", "typescript", "typescriptreact" },
