@@ -2,6 +2,9 @@
 neovim = "nightly"
 usage = "latest"
 
+[settings]
+experimental = true
+
 # might be useful, but latest can be installed from pacman
 # awscli = "latest"
 # azure-cli = "latest"
