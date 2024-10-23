@@ -379,6 +379,8 @@ return {
 			-- register parsers to some other languages
 			vim.treesitter.language.register("bash", "zsh")
 			vim.treesitter.language.register("bash", "sh")
+			vim.treesitter.language.register("json", "jsonl")
+			vim.treesitter.language.register("json", "ndjson")
 			vim.treesitter.language.register("hcl", "tf")
 			vim.treesitter.language.register("unifieddiff", "gin-diff")
 
