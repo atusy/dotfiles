@@ -3,7 +3,7 @@ mkdir -p "$XDG_CONFIG_DIR"
 
 export PATH="${PATH}:${HOME}/.local/lastresort/bin"
 
-if test -d /usr/local/bin && ! ( echo "$PATH" | grep -q '/usr/local/bin' ); then
+if test -d /usr/local/bin && ! (echo "$PATH" | grep -q '/usr/local/bin'); then
   export PATH="/usr/local/bin:$PATH"
 fi
 
