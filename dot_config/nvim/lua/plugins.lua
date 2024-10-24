@@ -726,6 +726,7 @@ return {
 	},
 	{
 		"https://github.com/yetone/avante.nvim",
+		lazy = true, -- to disable, but watch changes
 		build = "make",
 		config = function()
 			require("avante").setup({
