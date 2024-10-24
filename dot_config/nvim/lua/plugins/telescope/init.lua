@@ -9,7 +9,7 @@ local function telescope_init()
 	vim.keymap.set("n", leader .. "<CR>", telescope("builtin"))
 	-- sa is occupied by mini.surround
 	vim.keymap.set("n", leader .. "b", telescope("buffers"))
-	vim.keymap.set("n", leader .. "c", telescope("commands"))
+	vim.keymap.set("n", leader .. "x", telescope("commands"))
 	-- sd is occupied by mini.surround
 	vim.keymap.set("n", leader .. "f", telescope("find_files"))
 	vim.keymap.set("n", leader .. "F", function()
