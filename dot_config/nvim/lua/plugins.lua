@@ -727,8 +727,8 @@ return {
 		"https://github.com/MeanderingProgrammer/render-markdown.nvim",
 		opts = { file_types = { "markdown", "Avante" } },
 		ft = {
-		  -- "markdown", -- too noisy
-		  "Avante"
+			-- "markdown", -- too noisy
+			"Avante",
 		},
 	},
 	{
