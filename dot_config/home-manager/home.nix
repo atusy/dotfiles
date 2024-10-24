@@ -38,6 +38,7 @@
     pkgs.kubectx
     pkgs.mise
     pkgs.neovim # nightly
+    pkgs.nixfmt
     pkgs.nodejs
     pkgs.pandoc
     pkgs.podman
@@ -46,7 +47,10 @@
     pkgs.python312
     pkgs.tmux
     pkgs.trash-cli
+    pkgs.ruff
+    pkgs.uv
     pkgs.ripgrep
+    pkgs.rye
     pkgs.zoxide
 
     # R
