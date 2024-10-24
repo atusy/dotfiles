@@ -726,7 +726,10 @@ return {
 	{
 		"https://github.com/MeanderingProgrammer/render-markdown.nvim",
 		opts = { file_types = { "markdown", "Avante" } },
-		ft = { "markdown", "Avante" },
+		ft = {
+		  -- "markdown", -- too noisy
+		  "Avante"
+		},
 	},
 	{
 		"https://github.com/barrett-ruth/import-cost.nvim",
