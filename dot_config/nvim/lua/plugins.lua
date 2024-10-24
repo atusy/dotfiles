@@ -696,6 +696,35 @@ return {
 		end,
 	},
 	{
+		"https://github.com/olimorris/codecompanion.nvim",
+		lazy = true,
+		event = "CmdlineEnter",
+		init = function()
+			vim.keymap.set({ "n", "x" }, "sc", ":CodeCompanionChat ")
+			vim.keymap.set({ "n", "x" }, "si", ":CodeCompanion ")
+		end,
+		config = function()
+			require("codecompanion").setup({
+				strategies = {
+					chat = {
+						adapter = "copilot",
+					},
+					inline = {
+						adapter = "copilot",
+					},
+					agent = {
+						adapter = "copilot",
+					},
+				},
+				display = {
+					action_palette = {
+						provider = "telescope",
+					},
+				},
+			})
+		end,
+	},
+	{
 		"https://github.com/yetone/avante.nvim",
 		build = "make",
 		config = function()
