@@ -38,7 +38,6 @@
     pkgs.kubectx
     pkgs.mise
     pkgs.neovim # nightly
-    pkgs.nixfmt
     pkgs.nodejs
     pkgs.pandoc
     pkgs.podman
@@ -47,11 +46,28 @@
     pkgs.python312
     pkgs.tmux
     pkgs.trash-cli
-    pkgs.ruff
     pkgs.uv
     pkgs.ripgrep
     pkgs.rye
     pkgs.zoxide
+
+    # language servers
+    pkgs.lua-language-server
+    pkgs.nil
+    pkgs.nodePackages_latest.bash-language-server
+    pkgs.nodePackages_latest.vscode-json-languageserver
+    pkgs.pyright
+    pkgs.yaml-language-server
+
+    # formatters/linters
+    pkgs.actionlint
+    pkgs.biome
+    pkgs.checkmate
+    pkgs.nixfmt-rfc-style
+    pkgs.ruff
+    pkgs.shellcheck
+    pkgs.shfmt
+    pkgs.stylua
 
     # R
     (
