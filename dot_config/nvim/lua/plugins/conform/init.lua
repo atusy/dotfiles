@@ -79,16 +79,24 @@ return {
 	{
 		"https://github.com/stevearc/conform.nvim",
 		lazy = true,
+		event = "BufWritePre", -- "BufWriteCmd"
 		init = function()
 			vim.o.formatexpr = "v:lua.require'conform'.formatexpr()" -- format with gq{motion}
 			vim.keymap.set("n", "gqq", function()
 				-- for original gqq, use gqgq
 				require("conform").format({ async = true, lsp_fallback = true })
 			end)
-			format_on_buf_write_pre()
+			if false then
+				-- enable if slow formatter exists, and disable format_on_save
+				format_on_buf_write_pre()
+			end
 		end,
 		config = function()
 			require("conform").setup({
+				format_on_save = {
+					lsp_format = "fallback",
+					timeout_ms = 500,
+				},
 				formatters_by_ft = {
 					lua = { "stylua" },
 					python = { "ruff_format", "ruff_fix" }, -- black and isort are toooooo slow!
