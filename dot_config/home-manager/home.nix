@@ -52,11 +52,13 @@
     pkgs.zoxide
 
     # language servers
+    pkgs.gopls
     pkgs.lua-language-server
     pkgs.nil
     pkgs.nodePackages_latest.bash-language-server
     pkgs.nodePackages_latest.vscode-json-languageserver
     pkgs.pyright
+    pkgs.terraform-ls
     pkgs.yaml-language-server
 
     # formatters/linters
@@ -84,6 +86,7 @@
         tidyverse
         renv
         shiny
+        styler
         testit
         testthat
         languageserver
