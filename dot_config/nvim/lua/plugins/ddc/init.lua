@@ -105,10 +105,21 @@ local function config()
 		end
 	end)
 
-	-- enable
+	local augroup = vim.api.nvim_create_augroup("atusy-ddc-enable", {})
+
+	-- configure
 	vim.fn["ddc#custom#load_config"](vim.fs.joinpath(vim.fs.dirname(debug.getinfo(1, "S").source:sub(2)), "ddc.ts"))
+	vim.api.nvim_create_autocmd({ "FileType" }, {
+		group = augroup,
+		pattern = { "codecompanion" },
+		callback = function()
+			vim.fn["ddc#custom#patch_buffer"]("specialBufferCompletion", true)
+		end,
+	})
+
+	-- lazy enable
 	vim.api.nvim_create_autocmd({ "InsertEnter", "CmdlineEnter" }, {
-		group = vim.api.nvim_create_augroup("atusy-ddc-enable", {}),
+		group = augroup,
 		callback = function(ctx)
 			local ft = vim.bo[ctx.buf].filetype
 			if ft == "TelescopePrompt" then
