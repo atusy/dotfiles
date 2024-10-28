@@ -1,0 +1,22 @@
+[codeblock]
+prefix = ";cb"
+body = """
+
+```$1
+```
+"""
+[codeblock4]
+prefix = ";cb4"
+body = """
+
+````$1
+````
+"""
+[codeblock5]
+prefix = ";cb5"
+body = """
+
+`````$1
+`````
+"""
+
