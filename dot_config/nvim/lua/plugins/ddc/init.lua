@@ -109,13 +109,8 @@ local function config()
 
 	-- configure
 	vim.fn["ddc#custom#load_config"](vim.fs.joinpath(vim.fs.dirname(debug.getinfo(1, "S").source:sub(2)), "ddc.ts"))
-	vim.api.nvim_create_autocmd({ "FileType" }, {
-		group = augroup,
-		pattern = { "codecompanion" },
-		callback = function()
-			vim.fn["ddc#custom#patch_buffer"]("specialBufferCompletion", true)
-		end,
-	})
+	require("plugins.ddc.gitcommit")()
+	require("plugins.ddc.codecompanion")()
 
 	-- lazy enable
 	vim.api.nvim_create_autocmd({ "InsertEnter", "CmdlineEnter" }, {
@@ -123,17 +118,16 @@ local function config()
 		callback = function(ctx)
 			local ft = vim.bo[ctx.buf].filetype
 			if ft == "TelescopePrompt" then
-				return false
+				return
 			end
 			vim.fn["ddc#enable"]()
-			-- vim.fn["popup_preview#enable"]()
 			vim.fn["pum#set_option"]({
 				preview = true,
 				preview_border = "single",
 				preview_width = 60,
 				preview_height = 20,
 			})
-			require("plugins.ddc.gitcommit")()
+			-- vim.fn["popup_preview#enable"]()
 			return true
 		end,
 	})

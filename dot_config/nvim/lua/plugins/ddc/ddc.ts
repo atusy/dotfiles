@@ -19,6 +19,7 @@ export class Config extends BaseConfig {
     const stddata = await args.denops.call("stdpath", "data") as string;
 
     const sources = [
+      "denippet",
       "lsp",
       "file",
       "around",
@@ -93,6 +94,15 @@ export class Config extends BaseConfig {
         cmdline: {
           mark: "CMD",
           forceCompletionPattern: "\\S/\\S*|\\.\\w*",
+        },
+        denippet: {
+          mark: "S",
+          matchers: ["matcher_head"],
+          // matchers: ["matcher_head_dictionary", "matcher_fuzzy"],
+          // matchers: ["matcher_fuzzy"],
+          minKeywordLength: 1,
+          minAutoCompleteLength: 1,
+          keywordPattern: "^[#;]*[a-zA-Z0-9]*",
         },
         dictionary: {
           mark: "Dict",
