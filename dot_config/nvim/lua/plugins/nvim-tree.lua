@@ -105,7 +105,8 @@ return {
 			vim.keymap.set("n", "S", [[<Cmd>lua require("nvim-tree.api").tree.open()<CR>]])
 		end,
 		config = function()
-		  require("nvim-web-devicons")
+			pcall(require, "dressing")
+			require("nvim-web-devicons")
 			require("nvim-tree").setup({
 				git = { ignore = false },
 				renderer = { icons = { show = { git = false } } },
