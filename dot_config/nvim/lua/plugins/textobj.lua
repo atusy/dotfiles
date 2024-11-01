@@ -114,6 +114,7 @@ return {
 			end
 			custom_textobjects.d = gen_spec.treesitter({ a = "@function.outer", i = "@function.inner" })
 			custom_textobjects.D = gen_spec.treesitter({ a = "@class.outer", i = "@class.inner" })
+			custom_textobjects["`"] = gen_spec.treesitter({ a = "@block.outer", i = "@block.inner" }) -- for markdown fenced codeblock
 
 			require("nvim-treesitter-textobjects")
 			require("mini.ai").setup({
