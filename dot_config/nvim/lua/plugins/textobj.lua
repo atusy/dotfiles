@@ -125,8 +125,8 @@ return {
 					inside_next = "",
 					around_last = "",
 					inside_last = "",
-					goto_left = "",
-					goto_right = "",
+					goto_left = "g[",
+					goto_right = "g]",
 				},
 				custom_textobjects = custom_textobjects,
 			})
