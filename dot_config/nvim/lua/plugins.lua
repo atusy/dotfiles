@@ -125,11 +125,16 @@ return {
 				callback = set_hl,
 			})
 			set_hl()
-			require("ibl").setup({
+
+			-- HACK: ignore vim.validate change in 0.11.0
+			local ok = pcall(require("ibl").setup, {
 				enabled = false,
 				indent = { highlight = { "IBLIndent1", "IBLIndent2", "IBLIndent3", "IBLIndent4", "IBLIndent5" } },
 				scope = { enabled = false },
 			})
+			if ok then
+				vim.notify("indent-blankline.nvim no longer suffeers from vim.validate error")
+			end
 		end,
 	},
 	{ "https://github.com/xiyaowong/nvim-transparent", lazy = true }, -- watch, but prefer atusy.highlight to support styler.nvim
