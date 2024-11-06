@@ -46,7 +46,15 @@ return {
 		end,
 	},
 	{ "https://github.com/nvim-tree/nvim-web-devicons", lazy = true },
-	{ "https://github.com/stevearc/dressing.nvim", lazy = true },
+	{
+		"https://github.com/stevearc/dressing.nvim",
+		lazy = true,
+		config = function()
+			require("dressing").setup({
+				input = { enabled = false },
+			})
+		end,
+	},
 	{ "https://github.com/MunifTanjim/nui.nvim", lazy = true },
 
 	-- utils
