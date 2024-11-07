@@ -768,11 +768,13 @@ return {
 	-- filetype specific
 	{
 		"https://github.com/MeanderingProgrammer/render-markdown.nvim",
-		opts = { file_types = { "markdown", "Avante" } },
 		ft = {
 			-- "markdown", -- too noisy
 			"Avante",
 		},
+		config = function(p)
+			require("render-markdown")({ file_types = p.ft })
+		end,
 	},
 	{
 		"https://github.com/barrett-ruth/import-cost.nvim",
