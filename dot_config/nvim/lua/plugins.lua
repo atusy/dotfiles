@@ -721,6 +721,16 @@ return {
 				strategies = {
 					chat = {
 						adapter = "copilot",
+						keymaps = {
+							yank_code = {
+								modes = {
+									n = "<Plug>(ignored)",
+								},
+								index = 7,
+								callback = "keymaps.yank_code",
+								description = "Yank Code",
+							},
+						},
 					},
 					inline = {
 						adapter = "copilot",
