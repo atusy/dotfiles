@@ -10,3 +10,10 @@
 node_modules
 __pycache__
 __ignored
+
+# version controlled files should be [Tt]askfile.dist.ya?ml
+# https://taskfile.dev/usage/
+Taskfile.yml
+Taskfile.yaml
+taskfile.yml
+taskfile.yaml
