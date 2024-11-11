@@ -147,7 +147,13 @@ end, { expr = true })
 -- mappings: save and ...
 set_keymap({ "n", "x" }, "<Plug>(save)", function()
 	---@diagnostic disable-next-line: undefined-field
-	vim.cmd((vim.uv.fs_stat(vim.api.nvim_buf_get_name(0)) and "up" or "write ++p") .. " | redraw")
+	local nm = vim.api.nvim_buf_get_name(0)
+	for prefix in ipairs({ "term://", "ginedit://" }) do
+		if nm:match("^" .. prefix) then
+			return
+		end
+	end
+	vim.cmd((vim.uv.fs_stat(nm) and "up" or "write ++p") .. " | redraw")
 end)
 set_keymap({ "i", "n" }, "<C-S>", [[<C-\><C-N><Plug>(save)<Plug>(C-S)]], { desc = "save" })
 set_keymap("n", "<Plug>(C-S)<C-A>", "<cmd>wa<cr>", { desc = "save all" })
