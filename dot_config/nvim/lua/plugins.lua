@@ -748,24 +748,6 @@ return {
 		end,
 	},
 	{
-		"https://github.com/yetone/avante.nvim",
-		lazy = true, -- to disable, but watch changes
-		build = "make",
-		config = function()
-			if true then
-				return -- disable for now
-			end
-			require("render-markdown")
-			require("avante").setup({
-				provider = "copilot",
-				behaviour = {
-					auto_suggestions = false,
-					-- auto_set_keymaps = false,
-				},
-			})
-		end,
-	},
-	{
 		-- support for image pasting in avante
 		"https://github.com/HakonHarnes/img-clip.nvim",
 		event = "VeryLazy",
