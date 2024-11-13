@@ -752,6 +752,10 @@ return {
 		lazy = true, -- to disable, but watch changes
 		build = "make",
 		config = function()
+			if true then
+				return -- disable for now
+			end
+			require("render-markdown")
 			require("avante").setup({
 				provider = "copilot",
 				behaviour = {
