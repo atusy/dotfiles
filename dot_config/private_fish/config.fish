@@ -60,6 +60,12 @@ alias ip='ip --color=auto'
 bind \t complete-and-search-if-not-empty
 bind \cr set_commandline_from_history
 
+if set -q "NVIM"
+  function _nvim-preexec --on-event fish_preexec --wraps __nvim-preexec
+    __nvim-preexec $argv
+  end
+end
+
 function update_completion
   set -l cmd ( type --force-path $argv[1] 2>/dev/null ); or return
   set -l out $HOME/.config/fish/completions/$argv[1].fish
