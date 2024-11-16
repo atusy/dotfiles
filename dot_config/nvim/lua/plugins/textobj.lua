@@ -106,7 +106,9 @@ return {
 
         vij[ selects inside 「」. 
         I intorduce some hacks because `custom_textobjects` does not support multiple characters as keys.
-      ]]
+
+        TODO: make operations with ij/aj repeatable (e.g., cij[).
+ ]]
 			local gen_spec = require("mini.ai").gen_spec
 			local custom_textobjects = {}
 			for k, v in pairs(recipes) do
