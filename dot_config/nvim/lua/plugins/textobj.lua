@@ -100,15 +100,15 @@ return {
 		event = "ModeChanged",
 		config = function()
 			--[[
-      Examples:
-        vi[ selects inside single bracket and vi] selects inside double brackets.
-        (){}<> works similary
-
-        vij[ selects inside 「」. 
-        I intorduce some hacks because `custom_textobjects` does not support multiple characters as keys.
-
-        TODO: make operations with ij/aj repeatable (e.g., cij[).
- ]]
+			Examples:
+				vi[ selects inside single bracket and vi] selects inside double brackets.
+				(){}<> works similary
+			
+				vij[ selects inside 「」. 
+				I intorduce some hacks because `custom_textobjects` does not support multiple characters as keys.
+			
+				TODO: make operations with ij/aj repeatable (e.g., cij[).
+			]]
 			local gen_spec = require("mini.ai").gen_spec
 			local custom_textobjects = {}
 			for k, v in pairs(recipes) do
@@ -144,13 +144,13 @@ return {
 		},
 		config = function()
 			--[=[
-      Examples
-        saiw[ surrounds inner word with [] and saiw] surrounds inner word with [[]]
-        Similar behaviors occurs with (){}<>
+			Examples
+				saiw[ surrounds inner word with [] and saiw] surrounds inner word with [[]]
+				Similar behaviors occurs with (){}<>
 
-        saiwj[ surrounds inner word with 「」
-        srj[j] replaces 「」 with 『』
-      ]=]
+				saiwj[ surrounds inner word with 「」
+				srj[j] replaces 「」 with 『』
+			]=]
 
 			local t = {
 				input = { "<(%w-)%f[^<%w][^<>]->.-</%1>", "^<.->().*()</[^/]->$" }, -- from https://github.com/echasnovski/mini.surround/blob/14f418209ecf52d1a8de9d091eb6bd63c31a4e01/lua/mini/surround.lua#LL1048C13-L1048C72
