@@ -70,27 +70,33 @@ recipes[" "] = {
 	end,
 }
 
+local japanese_brackets = {
+	["("] = { left = "（", right = "）" },
+	["{"] = { left = "｛", right = "｝" },
+	["["] = { left = "「", right = "」" },
+	["]"] = { left = "『", right = "』" },
+}
+
 recipes["j"] = {
-	input = japanize_bracket({
-		["("] = { "（().-()）" },
-		["{"] = { "｛().-()｝" },
-		["["] = { "「().-()」" },
-		["]"] = { "『().-()』" },
-	}, {
-		b = function(dict)
-			local ret = {}
-			for _, v in pairs(dict) do
-				table.insert(ret, v)
+	input = japanize_bracket(
+		(function()
+			local dict = {}
+			for k, v in pairs(japanese_brackets) do
+				dict[k] = { v.left .. "().-()" .. v.right }
 			end
-			return { ret }
-		end,
-	}),
-	output = japanize_bracket({
-		["("] = { left = "（", right = "）" },
-		["{"] = { left = "｛", right = "｝" },
-		["["] = { left = "「", right = "」" },
-		["]"] = { left = "『", right = "』" },
-	}, {}),
+			return dict
+		end)(),
+		{
+			b = function(dict)
+				local ret = {}
+				for _, v in pairs(dict) do
+					table.insert(ret, v)
+				end
+				return { ret }
+			end,
+		}
+	),
+	output = japanize_bracket(japanese_brackets, {}),
 }
 
 return {
@@ -117,29 +123,44 @@ return {
 			custom_textobjects.B = gen_spec.treesitter({ a = "@block.outer", i = "@block.inner" }) -- for markdown fenced codeblock
 
 			require("nvim-treesitter-textobjects")
+
+			local mappings = {
+				around = "a",
+				inside = "i",
+				around_next = "an",
+				inside_next = "in",
+				around_last = "al",
+				inside_last = "il",
+				goto_left = "g[",
+				goto_right = "g]",
+			}
+
+			local modes = {
+				goto_left = { "n", "x", "o" },
+				goto_right = { "n", "x", "o" },
+			}
+
 			require("mini.ai").setup({
 				n_lines = 100,
-				mappings = {
-					around = "a",
-					inside = "i",
-					around_next = "",
-					inside_next = "",
-					around_last = "",
-					inside_last = "",
-					goto_left = "g[",
-					goto_right = "g]",
-				},
+				mappings = mappings,
 				custom_textobjects = custom_textobjects,
 			})
 
-			-- repatable operations on Japanese brackets
-			for k, v in pairs({
-				["("] = { "（", "）" },
-				["{"] = { "｛", "｝" },
-				["["] = { "「", "」" },
-				["]"] = { "『", "』" },
-			}) do
-				vim.keymap.set({ "x", "o" }, "ij" .. k, "i?" .. v[1] .. "<cr>" .. v[2] .. "<cr>", { remap = true })
+			-- repatable operations on Japanese brackets by using `?`
+			-- must be done after `mini.ai.setup()`
+			for action, lhs in pairs(mappings) do
+				if lhs ~= "" then
+					local mode = modes[action] or { "o", "x" }
+					for k, v in pairs(japanese_brackets) do
+						-- e.g., vim.keymap.set({"x", "o"}, "ij[", "i?「<cr>」<cr>", { remap = true })
+						vim.keymap.set(
+							mode,
+							lhs .. "j" .. k,
+							lhs .. "?" .. v.left .. "<cr>" .. v.right .. "<cr>",
+							{ remap = true }
+						)
+					end
+				end
 			end
 		end,
 	},
