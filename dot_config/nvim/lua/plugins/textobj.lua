@@ -18,7 +18,7 @@ local function japanize_bracket(dict, callbacks)
 	end
 end
 
-local BRACKETS = {
+local RECIPES_BRACKETS = {
 	["{"] = {
 		input = { "%b{}", "^.().*().$" },
 		output = { left = "{", right = "}" },
@@ -53,14 +53,14 @@ local BRACKETS = {
 	},
 }
 
-local recipes = vim.tbl_extend("force", {}, BRACKETS)
+local recipes = vim.tbl_extend("force", {}, RECIPES_BRACKETS)
 
 recipes[" "] = {
 	input = function()
 		-- vi<Space>[ to select region without spaces, tabs, and \n
 		local char = getchar()
 		local ok, input = pcall(function()
-			return BRACKETS[char].input
+			return RECIPES_BRACKETS[char].input
 		end)
 		if not ok or not input then
 			return
