@@ -75,6 +75,8 @@ local japanese_brackets = {
 	["{"] = { left = "｛", right = "｝" },
 	["["] = { left = "「", right = "」" },
 	["]"] = { left = "『", right = "』" },
+	["<"] = { left = "〈", right = "〉" },
+	[">"] = { left = "《", right = "》" },
 }
 
 recipes["j"] = {
