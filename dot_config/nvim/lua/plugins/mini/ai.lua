@@ -55,6 +55,8 @@ return function()
 	for action, lhs in pairs(mappings) do
 		if lhs ~= "" then
 			local mode = modes[action] or { "o", "x" }
+
+			-- mappings for various Japanese brackets
 			for k, v in pairs(DATA.japanese_brackets) do
 				-- e.g., vim.keymap.set({"x", "o"}, "ij[", "i?「<cr>」<cr>", { remap = true })
 				vim.keymap.set(
@@ -64,6 +66,8 @@ return function()
 					{ remap = true }
 				)
 			end
+
+			-- mappings for Japanese brackets near the cursor
 			vim.keymap.set(mode, lhs .. "jb", lhs .. "J", { remap = true })
 		end
 	end
