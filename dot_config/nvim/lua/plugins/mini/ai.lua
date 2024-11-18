@@ -17,6 +17,14 @@ return function()
 	custom_textobjects.d = gen_spec.treesitter({ a = "@function.outer", i = "@function.inner" })
 	custom_textobjects.D = gen_spec.treesitter({ a = "@class.outer", i = "@class.inner" })
 	custom_textobjects.B = gen_spec.treesitter({ a = "@block.outer", i = "@block.inner" }) -- for markdown fenced codeblock
+	custom_textobjects.J = (function()
+		-- e.g., iJ selects inside japanese brackets
+		local ret = {}
+		for _, v in pairs(DATA.japanese_brackets) do
+			table.insert(ret, v.left .. "().-()" .. v.right)
+		end
+		return { ret }
+	end)()
 
 	require("nvim-treesitter-textobjects")
 
@@ -56,6 +64,7 @@ return function()
 					{ remap = true }
 				)
 			end
+			vim.keymap.set(mode, lhs .. "jb", lhs .. "J", { remap = true })
 		end
 	end
 end
