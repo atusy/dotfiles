@@ -747,6 +747,17 @@ return {
 			})
 		end,
 	},
+	{
+		"https://github.com/CopilotC-Nvim/CopilotChat.nvim",
+		branch = "canary",
+		init = function()
+			-- p stands for pilot
+			vim.keymap.set({ "n", "x" }, "sp", '<cmd>lua require("CopilotChat").ask()<cr>')
+		end,
+		config = function()
+			require("CopilotChat").setup({})
+		end,
+	},
 
 	-- filetype specific
 	{
