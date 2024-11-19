@@ -127,7 +127,7 @@ set_keymap({ "n", "x" }, "gY", '"+Y')
 -- mappings: textobj
 -- set_keymap({ "o", "x" }, "ii", "2i") -- ii' selects 'foo' without outer spaces (:h v_i)
 set_keymap({ "o", "x" }, "ii", ":<c-u>keepjumps normal! g_v^<cr>", { silent = true })
-set_keymap({ "o", "x" }, "aa", ":<c-u>keepjumps normal! G$vgo<cr>", { silent = true })
+set_keymap({ "o", "x" }, "ae", ":<c-u>keepjumps normal! G$vgo<cr>", { silent = true })
 
 -- mappings: mouse
 set_keymap("!", "<LeftMouse>", "<Esc><LeftMouse>")
