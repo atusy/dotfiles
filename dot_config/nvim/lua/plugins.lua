@@ -396,6 +396,8 @@ return {
 			vim.treesitter.language.register("json", "ndjson")
 			vim.treesitter.language.register("hcl", "tf")
 			vim.treesitter.language.register("unifieddiff", "gin-diff")
+			vim.treesitter.language.register("markdown", "rmd")
+			vim.treesitter.language.register("markdown", "qmd")
 
 			-- custom highlights
 			local function hi()
