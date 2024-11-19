@@ -72,27 +72,27 @@
     pkgs.stylua
 
     # R
-    (pkgs.radianWrapper.override {
-      packages = with pkgs.rPackages; [
-        clock
-        ragg
-        blogdown
-        devtools
-        DBI
-        dbplyr
-        duckdb
-        felp
-        pak
-        tidyverse
-        renv
-        shiny
-        styler
-        testit
-        testthat
-        languageserver
-      ];
-      wrapR = true;
-    })
+    # (pkgs.radianWrapper.override {
+    #   packages = with pkgs.rPackages; [
+    #     clock
+    #     ragg
+    #     blogdown
+    #     devtools
+    #     DBI
+    #     dbplyr
+    #     duckdb
+    #     felp
+    #     pak
+    #     tidyverse
+    #     renv
+    #     shiny
+    #     styler
+    #     testit
+    #     testthat
+    #     languageserver
+    #   ];
+    #   wrapR = true;
+    # })
 
     # Fonts
     pkgs.udev-gothic
