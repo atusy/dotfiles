@@ -1,6 +1,7 @@
 [tools]
 neovim = "nightly"
 usage = "latest"
+r = "latest"
 
 [settings]
 experimental = true
