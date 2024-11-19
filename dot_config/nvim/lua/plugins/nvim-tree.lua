@@ -157,7 +157,16 @@ return {
 					-- file manipulations
 					nmap("a", require("nvim-tree.api").fs.create, "fs: add")
 					nmap(" r", require("nvim-tree.api").fs.rename_full, "fs: rename")
-					nmap("p", require("nvim-tree.api").fs.paste, "fs: paste")
+					nmap(
+						"p",
+						require("nvim-tree.api").fs.paste,
+						"fs: paste as a child of directory or as a sibling of file under the cursor"
+					)
+					nmap("P", function()
+						-- paste file to the parent directory of the cursor node
+						local cursor = require("nvim-tree.api").tree.get_node_under_cursor()
+						require("nvim-tree.api").fs.paste(cursor.parent)
+					end, "fs: paste as a child of the parent directory of the cursor node")
 					nmap("d", "<Nop>")
 					nmap("dd", fs_cut, "fs: cut")
 					nmap("D", fs_trash, "fs: trash")
