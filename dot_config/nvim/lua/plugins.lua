@@ -312,6 +312,28 @@ return {
 
 	-- motion
 	{
+		"https://github.com/atusy/jab.nvim",
+		dev = true,
+		lazy = true,
+		init = function()
+			vim.keymap.set({ "n", "x", "o" }, "f", function()
+				return require("jab").f()
+			end, { expr = true })
+			vim.keymap.set({ "n", "x", "o" }, "F", function()
+				return require("jab").F()
+			end, { expr = true })
+			vim.keymap.set({ "n", "x", "o" }, "t", function()
+				return require("jab").t()
+			end, { expr = true })
+			vim.keymap.set({ "n", "x", "o" }, "T", function()
+				return require("jab").T()
+			end, { expr = true })
+			vim.keymap.set({ "n", "x", "o" }, ";", function()
+				return require("jab").jab_win()
+			end, { expr = true })
+		end,
+	},
+	{
 		"https://github.com/haya14busa/vim-edgemotion",
 		keys = {
 			{ "<A-j>", "<Plug>(edgemotion-j)", mode = "" },
