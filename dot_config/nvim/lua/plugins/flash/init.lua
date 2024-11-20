@@ -105,7 +105,7 @@ return {
 			--[[ search register ]]
 			vim.keymap.set("n", "gn", function()
 				require("flash").jump({
-					labels = [[ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890!@#$%^&*()[]`'=-{}~"+_]],
+					labels = [[abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890!@#$%^&*()[]`'=-{}~"+_]],
 					search = { multi_window = false, mode = "search" },
 					label = { before = true, after = false },
 					pattern = vim.fn.getreg("/"),
