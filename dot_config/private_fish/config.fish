@@ -51,9 +51,9 @@ abbr -a ps procs
 abbr -a du gdu
 abbr -a vim nvim
 abbr -a --set-cursor math 'math "%"'
+abbr -a ll eza --long --group --time-style=long-iso
 
 alias cat='bat'
-alias ll='eza --long --group --time-style=long-iso'
 alias ls='eza'
 alias ip='ip --color=auto'
 
