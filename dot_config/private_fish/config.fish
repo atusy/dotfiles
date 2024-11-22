@@ -40,10 +40,6 @@ for brew in brew /home/linuxbrew/.linuxbrew/bin/brew /opt/homebrew/bin/brew
 end
 
 abbr -a kunset 'kubectl config unset current-context'
-abbr -a prco 'gh pr | gh pr checkout'
-abbr -a prweb 'gh pr view --web'
-abbr -a repoweb 'gh repo view --web'
-abbr -a issueweb 'gh issue view --web'
 abbr -a ping 'ping -c 5'
 abbr -a top htop
 abbr -a df duf
