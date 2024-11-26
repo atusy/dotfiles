@@ -90,10 +90,19 @@ return {
 				-- enable if slow formatter exists, and disable format_on_save
 				format_on_buf_write_pre()
 			end
+			vim.api.nvim_create_autocmd("BufWritePre", {
+				pattern = "*",
+				callback = function(args)
+					local opt = require("atusy.opt").format_on_save
+					if opt ~= false then
+						require("conform").format({ bufnr = args.buf })
+					end
+				end,
+			})
 		end,
 		config = function()
 			require("conform").setup({
-				format_on_save = {
+				default_format_opts = {
 					lsp_format = "fallback",
 					timeout_ms = 500,
 				},
