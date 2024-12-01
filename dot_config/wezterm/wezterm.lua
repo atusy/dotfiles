@@ -37,7 +37,7 @@ return {
 		{ family = "UDEV Gothic NF" },
 		{ family = "Noto Color Emoji" },
 	}),
-	font_size = wezterm.target_triple == "x86_64-unknown-linux-gnu" and 12 or 15,
+	font_size = wezterm.target_triple == "x86_64-unknown-linux-gnu" and 12 or 18,
 	keys = {
 		{
 			key = "v",
