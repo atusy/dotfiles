@@ -147,8 +147,14 @@ end, { expr = true })
 set_keymap({ "n", "x" }, "<Plug>(save)", function()
 	---@diagnostic disable-next-line: undefined-field
 	local nm = vim.api.nvim_buf_get_name(0)
-	for prefix in ipairs({ "term://", "ginedit://" }) do
-		if nm:match("^" .. prefix) then
+	for prefix in ipairs({ "term://" }) do
+		if nm:sub(1, #prefix) == prefix then
+			return
+		end
+	end
+	for _, prefix in ipairs({ "ginedit://" }) do
+		if nm:sub(1, #prefix) == prefix then
+			vim.cmd.w()
 			return
 		end
 	end
