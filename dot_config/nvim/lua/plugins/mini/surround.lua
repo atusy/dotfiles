@@ -21,9 +21,9 @@ return function()
 	require("mini.surround").setup({
 		n_lines = 100,
 		mappings = {
-			add = "sa",
-			delete = "sd",
-			replace = "sr",
+			add = "<plug>(s)a",
+			delete = "<plug>(s)d",
+			replace = "<plug>(s)r",
 			find = "",
 			find_left = "",
 			highlight = "",

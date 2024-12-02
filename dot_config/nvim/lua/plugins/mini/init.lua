@@ -19,7 +19,12 @@ return {
 			})
 
 			-- lazy load mini.surround
-			vim.keymap.set({ "x", "n" }, "s", "<cmd>lua require('plugins.mini.surround')()<cr>s", { remap = true })
+			vim.keymap.set({ "x", "n" }, "s", function()
+				vim.keymap.set({ "x", "n" }, "s", "<plug>(s)")
+				vim.keymap.set({ "x", "n" }, "<plug>s", "<npp>")
+				require("plugins.mini.surround")()
+				return "<plug>(s)"
+			end, { remap = true, expr = true })
 		end,
 	},
 }

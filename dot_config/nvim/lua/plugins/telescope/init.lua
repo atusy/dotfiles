@@ -5,7 +5,7 @@ local function telescope(key, opts)
 end
 
 local function telescope_init()
-	local leader = "s"
+	local leader = "<plug>(s)"
 	vim.keymap.set("n", leader .. "<CR>", telescope("builtin"))
 	-- sa is occupied by mini.surround
 	vim.keymap.set("n", leader .. "b", telescope("buffers"))

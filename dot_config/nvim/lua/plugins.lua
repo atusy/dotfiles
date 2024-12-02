@@ -737,8 +737,8 @@ return {
 		lazy = true,
 		event = "CmdlineEnter",
 		init = function()
-			vim.keymap.set({ "n", "x" }, "sc", ":CodeCompanionChat ")
-			vim.keymap.set({ "n", "x" }, "si", ":CodeCompanion ")
+			vim.keymap.set({ "n", "x" }, "<plug>(s)c", ":CodeCompanionChat ")
+			vim.keymap.set({ "n", "x" }, "<plug>(s)i", ":CodeCompanion ")
 		end,
 		config = function()
 			require("codecompanion").setup({
@@ -776,7 +776,7 @@ return {
 		branch = "canary",
 		init = function()
 			-- p stands for pilot
-			vim.keymap.set({ "n", "x" }, "sp", '<cmd>lua require("CopilotChat").ask()<cr>')
+			vim.keymap.set({ "n", "x" }, "<plug>(s)p", '<cmd>lua require("CopilotChat").ask()<cr>')
 		end,
 		config = function()
 			require("CopilotChat").setup({})
