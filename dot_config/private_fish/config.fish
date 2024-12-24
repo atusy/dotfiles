@@ -48,6 +48,7 @@ abbr -a du gdu
 abbr -a vim nvim
 abbr -a --set-cursor math 'math "%"'
 abbr -a ll eza --long --group --time-style=long-iso
+abbr -a y --function __abbr-yank
 
 alias cat='bat'
 alias ls='eza'
