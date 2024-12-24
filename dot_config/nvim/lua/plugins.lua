@@ -328,9 +328,11 @@ return {
 			vim.keymap.set({ "n", "x", "o" }, "T", function()
 				return require("jab").T()
 			end, { expr = true })
-			vim.keymap.set({ "n", "x", "o" }, ";", function()
+			vim.keymap.set({ "n", "x", "o" }, "<Plug>(jab-incremental)", function()
 				return require("jab").jab_win()
 			end, { expr = true })
+			vim.keymap.set("n", ";", "m'<Plug>(jab-incremental)")
+			vim.keymap.set({ "x", "o" }, ";", "<Plug>(jab-incremental)")
 		end,
 	},
 	{
