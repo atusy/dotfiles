@@ -77,7 +77,7 @@ return {
 
 				-- jump to the next segment
 				local nmax = cursor[2] + delta - 1
-				if n < nmax or (nmax - cursor[2]) <= 1 then
+				if n < nmax then
 					vim.api.nvim_win_set_cursor(0, { cursor[1], n })
 					return
 				end
