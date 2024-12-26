@@ -61,7 +61,9 @@ return {
 				-- あああa
 				-- |     ^
 				local model = require("budoux").load_japanese_model()
-				local segments = model.parse(line) -- use whole line to support cursor in the middle of a segment
+				-- Segumentation requires characters on the left of the cursor.
+				-- TODO:to improve performance, do segmentation within a sentence or between singlebyte characters (%w, %s, %p).
+				local segments = model.parse(line)
 				local n = 0
 				for _, seg in ipairs(segments) do
 					n = n + #seg
