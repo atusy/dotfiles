@@ -81,6 +81,12 @@ return {
 					return
 				end
 				vim.api.nvim_win_set_cursor(0, { cursor[1], nmax })
+
+				-- jump to next line if cursor is on the last character
+				vim.cmd("normal! hl") -- correct cursor position if it is on the middle of a multibyte character
+				if vim.api.nvim_win_get_cursor(0)[2] == cursor[2] then
+					vim.cmd("normal! W")
+				end
 			end)
 		end,
 	},
