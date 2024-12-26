@@ -22,24 +22,12 @@ return {
 		"https://github.com/atusy/budoux.lua",
 		dev = true,
 		init = function()
-			local function min(...)
-				local a = {}
-				for _, x in ipairs({ ... }) do
-					if x then
-						table.insert(a, x)
-					end
-				end
-				if #a == 0 then
-					return 0
-				end
-				return math.min(unpack(a))
-			end
-
-			local function W()
+			vim.keymap.set({ "n", "x", "o" }, "W", function()
 				local cursor = vim.api.nvim_win_get_cursor(0)
 				local line = vim.api.nvim_buf_get_lines(0, cursor[1] - 1, cursor[1], false)[1]
 				local right = line:sub(cursor[2] + 1)
 
+				-- if cursor is on %s, %w, or %p
 				local i = 0
 				for char in right:gmatch(".") do
 					i = i + 1
@@ -73,23 +61,27 @@ return {
 				-- あああa
 				-- |     ^
 				local model = require("budoux").load_japanese_model()
-				local segments = model.parse(line)
+				local segments = model.parse(line) -- use whole line to support cursor in the middle of a segment
 				local n = 0
-				local nmax = min(cursor[2] - 1 + min(right:find("%w"), right:find("%s"), right:find("%p")), #line)
-				for _, s in ipairs(segments) do
-					n = n + #s
+				for _, seg in ipairs(segments) do
+					n = n + #seg
 					if n > cursor[2] then
 						break
 					end
 				end
-				if n >= nmax and (nmax - cursor[2]) > 1 then
-					vim.api.nvim_win_set_cursor(0, { cursor[1], nmax })
-				else
+				local w, s, p, r = right:find("%w"), right:find("%s"), right:find("%p"), #right
+				local delta = math.min(w or r, s or r, p or r)
+				local nmax = cursor[2] + delta - 1
+				if n < nmax or (nmax - cursor[2]) <= 1 then
 					vim.api.nvim_win_set_cursor(0, { cursor[1], n })
+					return
 				end
-			end
-
-			vim.keymap.set({ "n", "x", "o" }, "W", W)
+				if delta == s then
+					vim.cmd("normal! W")
+					return
+				end
+				vim.api.nvim_win_set_cursor(0, { cursor[1], nmax })
+			end)
 		end,
 	},
 	-- basic dependencies
