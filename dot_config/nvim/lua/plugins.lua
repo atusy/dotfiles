@@ -18,6 +18,80 @@ vim.api.nvim_create_autocmd("User", {
 })
 
 return {
+	{
+		"https://github.com/atusy/budoux.lua",
+		dev = true,
+		init = function()
+			local function min(...)
+				local a = {}
+				for _, x in ipairs({ ... }) do
+					if x then
+						table.insert(a, x)
+					end
+				end
+				if #a == 0 then
+					return 0
+				end
+				return math.min(unpack(a))
+			end
+
+			local function W()
+				local cursor = vim.api.nvim_win_get_cursor(0)
+				local line = vim.api.nvim_buf_get_lines(0, cursor[1] - 1, cursor[1], false)[1]
+				local right = line:sub(cursor[2] + 1)
+
+				local i = 0
+				for char in right:gmatch(".") do
+					i = i + 1
+
+					if char:match("%s") then
+						-- jump with W if
+						-- * cursor is on a space
+						-- * cursor is on a sequence of alphanumerics or punctuations followed by a space
+						vim.cmd("normal! W")
+						return
+					end
+
+					if not char:match("%w") and not char:match("%p") then
+						if i == 1 then
+							-- jump with budoux if cursor is on a multibyte character
+							break
+						end
+
+						-- jump to the next multibyte character
+						-- if cursor is on a sequence of alphanumerics or punctuations followed by a multibyte character
+						vim.api.nvim_win_set_cursor(0, { cursor[1], cursor[2] + i - 1 })
+						return
+					end
+				end
+
+				-- jump with budoux
+				-- if there is no break within the sequence of multibyte characters,
+				-- jump to the end of the seqience.
+				--
+				-- Example where `|` is the cursor and `^` is the jump target:
+				-- あああa
+				-- |     ^
+				local model = require("budoux").load_japanese_model()
+				local segments = model.parse(line)
+				local n = 0
+				local nmax = min(cursor[2] - 1 + min(right:find("%w"), right:find("%s"), right:find("%p")), #line)
+				for _, s in ipairs(segments) do
+					n = n + #s
+					if n > cursor[2] then
+						break
+					end
+				end
+				if n >= nmax and (nmax - cursor[2]) > 1 then
+					vim.api.nvim_win_set_cursor(0, { cursor[1], nmax })
+				else
+					vim.api.nvim_win_set_cursor(0, { cursor[1], n })
+				end
+			end
+
+			vim.keymap.set({ "n", "x", "o" }, "W", W)
+		end,
+	},
 	-- basic dependencies
 	{ "https://github.com/nvim-lua/plenary.nvim", lazy = true },
 	{
