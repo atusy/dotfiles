@@ -92,7 +92,7 @@ local function exec(opts)
 	end, {})
 
 	-- mappings
-	vim.keymap.set("n", "<C-S><C-Q>", "<Cmd>Apply<CR>", { buffer = buf })
+	vim.keymap.set("n", "<Plug>(C-S)<C-Q>", "<Cmd>Apply<CR>", { buffer = buf })
 	local n = -1
 	local function replace_message(delta)
 		n = n + delta
