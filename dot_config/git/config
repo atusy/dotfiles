@@ -6,6 +6,8 @@
 	quotepath = false
 	editor = nvim
 	hooksPath = ~/.config/git/hooks
+	untrackedCache = true
+	fsmonitor = true
 [interactive]
 	diffFilter = delta --color-only --features=interactive
 [delta]
