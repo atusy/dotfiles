@@ -61,4 +61,7 @@ function fish_prompt --description 'Write out the prompt'
     end
     echo -s $normal " "$prompt_status
     echo -n -s $suffix " " $normal
+    if set -qx NVIM
+      printf '\e]133;A\e\\' # OSC 133
+    end
 end
