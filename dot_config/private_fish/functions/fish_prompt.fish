@@ -60,8 +60,6 @@ function fish_prompt --description 'Write out the prompt'
       echo -n -s " [" (set_color cyan) $kubeinfo[1] $normal ":" (set_color cyan) $kubeinfo[2] $normal "]"
     end
     echo -s $normal " "$prompt_status
+    printf '\e]133;A\e\\' # OSC 133
     echo -n -s $suffix " " $normal
-    if set -qx NVIM
-      printf '\e]133;A\e\\' # OSC 133
-    end
 end
