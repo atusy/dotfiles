@@ -59,7 +59,6 @@ function fish_prompt --description 'Write out the prompt'
       test -z "$kubeinfo[2]"; and set kubeinfo[2] 'N/A'
       echo -n -s " [" (set_color cyan) $kubeinfo[1] $normal ":" (set_color cyan) $kubeinfo[2] $normal "]"
     end
-    echo -s $normal " "$prompt_status
-    printf '\e]133;A\e\\' # OSC 133
-    echo -n -s $suffix " " $normal
+    echo -e {$normal}" "{$prompt_status}
+    echo -e "\e]133;A\e\\"{$suffix}" "{$normal} # OSC133
 end
