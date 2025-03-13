@@ -28,6 +28,7 @@ vim.opt.splitbelow = true
 vim.opt.termguicolors = true
 vim.opt.updatetime = 250
 vim.opt.wildoptions:append("fuzzy")
+vim.opt.tabclose = "uselast,left"
 
 -- window
 vim.opt.signcolumn = "yes"
