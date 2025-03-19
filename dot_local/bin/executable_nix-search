@@ -45,7 +45,9 @@ async function main() {
   printTable(table);
 }
 
-await main();
+if (import.meta.main) {
+  await main();
+}
 
 // vim: filetype=typescript
 
