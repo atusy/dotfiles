@@ -3,7 +3,8 @@ set GO_TASK_PROGNAME task
 function __task_get_tasks --description "Prints all available tasks with their description" --inherit-variable GO_TASK_PROGNAME
   # Read the list of tasks (and potential errors)
   set global false
-  for arg in (commandline -b | string split ' ')
+  eval "set -l cmd $(commandline -b)" # trick to split arguments by spaces
+  for arg in $cmd
     if test _$arg = _"--"
       break
     end
