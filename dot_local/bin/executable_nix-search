@@ -20,21 +20,22 @@ async function fetchHtml(url: string): Promise<string> {
 
 function parseTable(html: string): string[][] {
   const doc = new DOMParser().parseFromString(html, "text/html");
-  const tbl = doc.querySelector("table");
-  if (!tbl) {
+  const table = doc.querySelector("table");
+  if (!table) {
     throw new Error("Table not found");
   }
 
-  const table = Array.from(tbl.querySelectorAll("th")).map((th, i) => {
-    const contents = Array.from(tbl.querySelectorAll("tbody tr")).map((tr) => {
-      return Array.from(tr.querySelectorAll("td"))[i].textContent;
-    });
+  // Convert table element to array of strings
+  return Array.from(table.querySelectorAll("th")).map((th, i) => {
+    const contents = Array.from(table.querySelectorAll("tbody tr")).map(
+      (tr) => {
+        return Array.from(tr.querySelectorAll("td"))[i].textContent;
+      },
+    );
     const column = [th.textContent, ...contents];
     const maxLen = Math.max(...column.map((s) => s.length));
     return column.map((s) => s.padEnd(maxLen + 2));
   });
-
-  return table;
 }
 
 function printTable(columns: string[][]): void {
@@ -56,4 +57,3 @@ if (import.meta.main) {
 }
 
 // vim: filetype=typescript
-
