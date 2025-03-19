@@ -6,7 +6,10 @@ Find hash of a desired version of nixpkg and use it in nix-shell.
 $ nix-shell -I nixpkgs=https://github.com/NixOS/nixpkgs/archive/<hash>.tar.gz -p <pkg>
 */
 
-import { DOMParser } from "https://deno.land/x/deno_dom@v0.1.49/deno-dom-wasm.ts";
+import {
+  DOMParser,
+  Element,
+} from "https://deno.land/x/deno_dom@v0.1.49/deno-dom-wasm.ts";
 
 const nixPackage = Deno.args[0];
 
@@ -18,37 +21,36 @@ async function fetchHtml(url: string): Promise<string> {
   return await response.text();
 }
 
-function parseTable(html: string): string[][] {
+function getTable(html: string): Element {
   const doc = new DOMParser().parseFromString(html, "text/html");
   const table = doc.querySelector("table");
   if (!table) {
     throw new Error("Table not found");
   }
-
-  // Convert table element to array of strings
-  return Array.from(table.querySelectorAll("th")).map((th, i) => {
-    const contents = Array.from(table.querySelectorAll("tbody tr")).map(
-      (tr) => {
-        return Array.from(tr.querySelectorAll("td"))[i].textContent;
-      },
-    );
-    const column = [th.textContent, ...contents];
-    const maxLen = Math.max(...column.map((s) => s.length));
-    return column.map((s) => s.padEnd(maxLen + 2));
-  });
+  return table;
 }
 
-function printTable(columns: string[][]): void {
-  columns[0].forEach((_, i) => {
-    console.log(columns.map((column) => column[i]).join(" "));
-  });
+function printTable(table: Element): void {
+  const contents = Array.from(table.querySelectorAll("tr")).map((tr, i) =>
+    Array.from(tr.querySelectorAll(i === 0 ? "th" : "td")).map((th) =>
+      th.textContent
+    )
+  );
+
+  const maxLens = contents[0].map(
+    (_, i) => Math.max(...contents.map((row) => row[i].length)),
+  );
+
+  contents.map(
+    (row) => console.log(row.map((s, i) => s.padEnd(maxLens[i])).join("  ")),
+  );
 }
 
 async function main() {
   const url =
     `https://lazamar.co.uk/nix-versions/?channel=nixpkgs-unstable&package=${nixPackage}`;
   const html = await fetchHtml(url);
-  const table = parseTable(html);
+  const table = getTable(html);
   printTable(table);
 }
 
@@ -57,3 +59,4 @@ if (import.meta.main) {
 }
 
 // vim: filetype=typescript
+
