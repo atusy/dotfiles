@@ -183,7 +183,7 @@ return {
 	},
 	-- source
 	{ "https://github.com/atusy/ddc-source-parametric" },
-	{ "https://github.com/matsui54/ddc-buffer" },
+	{ "https://github.com/matsui54/ddc-source-buffer" },
 	{ "https://github.com/Shougo/ddc-source-around" },
 	{ "https://github.com/Shougo/ddc-source-cmdline" },
 	{ "https://github.com/Shougo/ddc-source-cmdline-history" },
