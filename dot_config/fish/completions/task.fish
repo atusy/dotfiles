@@ -1,3 +1,6 @@
+# The MIT License (MIT)
+# Copyright (c) 2016 Andrey Nering
+# Copyright (c) 2025 Atsushi Yasumoto
 set GO_TASK_PROGNAME task
 
 function __task_get_tasks --description "Prints all available tasks with their description" --inherit-variable GO_TASK_PROGNAME
