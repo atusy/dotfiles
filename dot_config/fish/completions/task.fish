@@ -2,7 +2,21 @@ set GO_TASK_PROGNAME task
 
 function __task_get_tasks --description "Prints all available tasks with their description" --inherit-variable GO_TASK_PROGNAME
   # Read the list of tasks (and potential errors)
-  $GO_TASK_PROGNAME --list-all 2>&1 | read -lz rawOutput
+  set global false
+  for arg in (commandline -b | string split ' ')
+    if test _$arg = _"--"
+      break
+    end
+    if test _$arg = _--global -o _$arg = _-g
+      set global true
+      break
+    end
+  end
+  if $global
+    $GO_TASK_PROGNAME --global --list-all 2>&1
+  else
+    $GO_TASK_PROGNAME --list-all 2>&1
+  end | read -lz rawOutput
 
   # Return on non-zero exit code (for cases when there is no Taskfile found or etc.)
   if test $status -ne 0
