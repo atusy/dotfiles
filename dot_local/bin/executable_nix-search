@@ -1,5 +1,11 @@
 #!/usr/bin/env -S deno --allow-net
 
+/*
+Find hash of a desired version of nixpkg and use it in nix-shell.
+
+$ nix-shell -I nixpkgs=https://github.com/NixOS/nixpkgs/archive/<hash>.tar.gz -p <pkg>
+*/
+
 import { DOMParser } from "https://deno.land/x/deno_dom@v0.1.49/deno-dom-wasm.ts";
 
 const nixPackage = Deno.args[0];
