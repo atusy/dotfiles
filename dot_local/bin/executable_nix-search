@@ -1,0 +1,38 @@
+#!/usr/bin/env -s deno --allow-net
+
+import { DOMParser } from "https://deno.land/x/deno_dom@v0.1.49/deno-dom-wasm.ts";
+
+const nixPackage = Deno.args[0];
+
+// Fetch the HTML page
+const response = await fetch(
+  `https://lazamar.co.uk/nix-versions/?channel=nixpkgs-unstable&package=${nixPackage}`,
+);
+const html = await response.text();
+const doc = new DOMParser().parseFromString(html, "text/html");
+
+// Extract the table
+const tbl = doc.querySelector("table");
+if (!tbl) {
+  throw new Error("table not found");
+}
+
+// Extract the columns
+const columns = Array.from(tbl.querySelectorAll("th")).map((th, i) => {
+  const name = th.textContent;
+  const trList = Array.from(tbl.querySelectorAll("tbody tr"));
+  const contents = trList.map((tr) => {
+    const tdList = Array.from(tr.querySelectorAll("td"));
+    return tdList[i].textContent;
+  });
+  const column = [name, ...contents];
+  const maxLen = Math.max(...column.map((s) => s.length));
+  return column.map((s) => s.padEnd(maxLen + 2));
+});
+
+// Print table
+columns[0].map((_, i) => {
+  console.log(columns.map((column) => column[i]).join(" "));
+});
+
+// vim: filetype=typescript
