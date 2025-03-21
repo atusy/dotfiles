@@ -39,7 +39,7 @@
   "ddc-source-shell-native": { "branch": "main", "commit": "5fb2bbb8b5629a94749e28af7bcbfca23237f127" },
   "ddc-ui-native": { "branch": "main", "commit": "5f82917e69023d41eb8a77dd80e72836785b8a6f" },
   "ddc-ui-pum": { "branch": "main", "commit": "1e776752c10b4187a76c0543e8ca1aaa64b0b451" },
-  "ddc.vim": { "branch": "main", "commit": "5dd4b0842c1f238ebaf4d6157c05408a9a454743" },
+  "ddc.vim": { "branch": "main", "commit": "7538d53940542b3769a551b35afee2aa4495b5d8" },
   "denippet.vim": { "branch": "main", "commit": "9a19bb6ddcdeb7a60860ac27e180d6d400ab10c7" },
   "denops-lazy.nvim": { "branch": "main", "commit": "6e45635cb65d083f5c0787abf45eeda864f6747c" },
   "denops.vim": { "branch": "main", "commit": "4ff8f353ee54ee67288c1099242444ccb0ab5b69" },
