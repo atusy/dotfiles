@@ -27,11 +27,11 @@ export class Config extends BaseConfig {
     ];
 
     ["zsh", "fish", "xonsh"].map((x) =>
-      args.setAlias("source", x, "shell-native")
+      args.setAlias("source", x, "shell_native")
     );
     args.setAlias("source", "shell_history", "dictionary");
-    args.setAlias("source", "ex_command_history", "cmdline-history");
-    args.setAlias("source", "ex_command_history_cmd", "cmdline-history");
+    args.setAlias("source", "ex_command_history", "cmdline_history");
+    args.setAlias("source", "ex_command_history_cmd", "cmdline_history");
     args.setAlias("filter", "matcher_head_dictionary", "matcher_head");
     args.setAlias("filter", "matcher_head_shell_history", "matcher_head");
     args.setAlias("filter", "converter_ex_command", "converter_string_match");
@@ -59,8 +59,8 @@ export class Config extends BaseConfig {
           // "shell_history",
           "around",
         ],
-        "@": ["input", "cmdline-history", "file", "around"],
-        ">": ["input", "cmdline-history", "file", "around"],
+        "@": ["input", "cmdline_history", "file", "around"],
+        ">": ["input", "cmdline_history", "file", "around"],
         "/": ["around", "line"],
         "?": ["around", "line"],
         "-": ["around", "line"],
@@ -114,7 +114,7 @@ export class Config extends BaseConfig {
           isVolatile: true,
           forceCompletionPattern: "\\S/\\S*",
         },
-        "cmdline-history": {
+        "cmdline_history": {
           mark: "HIST",
           minAutoCompleteLength: 0,
           minKeywordLength: 2,

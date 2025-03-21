@@ -172,11 +172,11 @@ return {
 	{ "https://github.com/matsui54/ddc-source-buffer" },
 	{ "https://github.com/Shougo/ddc-source-around" },
 	{ "https://github.com/Shougo/ddc-source-cmdline" },
-	{ "https://github.com/Shougo/ddc-source-cmdline-history" },
+	{ "https://github.com/Shougo/ddc-source-cmdline_history" },
 	{ "https://github.com/Shougo/ddc-source-input" },
 	{ "https://github.com/Shougo/ddc-source-line" },
 	{ "https://github.com/Shougo/ddc-source-lsp" },
-	{ "https://github.com/Shougo/ddc-source-shell-native" },
+	{ "https://github.com/Shougo/ddc-source-shell_native" },
 	{ "https://github.com/Shougo/ddc-ui-pum" },
 	{
 		"https://github.com/uga-rosa/ddc-source-dictionary",
