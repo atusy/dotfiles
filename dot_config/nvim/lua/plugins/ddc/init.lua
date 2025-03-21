@@ -134,21 +134,7 @@ local function config()
 end
 
 return {
-	{
-		"https://github.com/Shougo/ddc.vim",
-		config = config,
-		build = function(p)
-			local dir = require("atusy.lazy").dir(p)
-			local obj = vim.system({
-				"git",
-				"update-index",
-				"--skip-worktree",
-				vim.print(vim.fs.joinpath(dir, "denops/ddc/_mods.js")),
-			}, { cwd = dir })
-			obj:wait()
-			vim.fn["ddc#set_static_import_path"]()
-		end,
-	},
+	{ "https://github.com/Shougo/ddc.vim", config = config },
 	-- ui
 	{ "https://github.com/Shougo/pum.vim" },
 	-- { "https://github.com/matsui54/denops-popup-preview.vim" },

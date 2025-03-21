@@ -11,7 +11,6 @@ TODO:
 vim.api.nvim_create_autocmd("User", {
 	pattern = { "LazyInstall", "LazyUpdate", "LazySync", "LazyClean" },
 	callback = function()
-		pcall(vim.fn["ddc#set_static_import_path"])
 		vim.system({ "chezmoi", "add", require("lazy.core.config").options.lockfile })
 		require("plugins.denops.utils").cache_plugin()
 	end,
