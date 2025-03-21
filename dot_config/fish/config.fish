@@ -55,6 +55,7 @@ abbr -a vim nvim
 abbr -a --set-cursor math 'math "%"'
 abbr -a ll eza --long --group --time-style=long-iso
 abbr -a y --function __abbr-yank
+abbr -a Task "task -g"
 
 alias cat='bat'
 alias ls='eza'

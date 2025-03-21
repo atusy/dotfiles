@@ -24,6 +24,7 @@
     pkgs.deno
     pkgs.direnv
     pkgs.eza
+    pkgs.go-task
     pkgs.fd
     pkgs.fish
     pkgs.fzf

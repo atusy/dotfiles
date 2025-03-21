@@ -9,3 +9,5 @@ LICENSE.md
 README.md
 __ignored
 stylua.toml
+Taskfile.yml
+Taskfile.dist.yml

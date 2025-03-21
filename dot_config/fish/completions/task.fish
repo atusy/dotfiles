@@ -1,26 +1,29 @@
 # The MIT License (MIT)
 # Copyright (c) 2016 Andrey Nering
 # Copyright (c) 2025 Atsushi Yasumoto
-set GO_TASK_PROGNAME task
+set -l GO_TASK_PROGNAME task
 
 function __task_get_tasks --description "Prints all available tasks with their description" --inherit-variable GO_TASK_PROGNAME
-  # Read the list of tasks (and potential errors)
-  set global false
-  eval "set -l cmd $(commandline -b)" # trick to split arguments by spaces
-  for arg in $cmd
+  # Check if the global task is requested
+  set -l global_task false
+  set -l cmd_args
+  eval "set cmd_args $(commandline --current-process)" # split arguments by spaces while taking into account of quotes and escapes
+  for arg in $cmd_args
     if test _$arg = _"--"
-      break
+      break # ignore arguments to be passed to the task
     end
     if test _$arg = _--global -o _$arg = _-g
-      set global true
+      set global_task true
       break
     end
   end
-  if $global
-    $GO_TASK_PROGNAME --global --list-all 2>&1
+
+  # Read the list of tasks (and potential errors)
+  if $global_task
+    $GO_TASK_PROGNAME --global --list-all
   else
-    $GO_TASK_PROGNAME --list-all 2>&1
-  end | read -lz rawOutput
+    $GO_TASK_PROGNAME --list-all
+  end 2>&1 | read -lz rawOutput
 
   # Return on non-zero exit code (for cases when there is no Taskfile found or etc.)
   if test $status -ne 0

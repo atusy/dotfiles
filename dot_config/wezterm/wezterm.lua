@@ -33,10 +33,11 @@ end)
 
 return {
 	window_decorations = "INTEGRATED_BUTTONS|RESIZE",
-	font = wezterm.font_with_fallback({
-		{ family = "UDEV Gothic NF" },
-		{ family = "Noto Color Emoji" },
-	}),
+	font = wezterm.font("UDEV Gothic NF"),
+	-- font = wezterm.font_with_fallback({
+	-- 	"UDEV Gothic NF",
+	-- 	"Noto Color Emoji",
+	-- }),
 	font_size = wezterm.target_triple == "x86_64-unknown-linux-gnu" and 12 or 18,
 	keys = {
 		{

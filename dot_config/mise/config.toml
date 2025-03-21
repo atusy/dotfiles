@@ -1,5 +1,4 @@
 [tools]
-neovim = "nightly"
 usage = "latest"
 r = "latest"
 
