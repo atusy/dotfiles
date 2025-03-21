@@ -62,6 +62,7 @@ alias ip='ip --color=auto'
 
 bind \t complete-and-search-if-not-empty
 bind \cr set_commandline_from_history
+bind \cc cancel-commandline
 
 if set -q "NVIM"
   function _nvim-preexec --on-event fish_preexec --wraps __nvim-preexec
