@@ -15,15 +15,24 @@
   # release notes.
   home.stateVersion = "24.05"; # Please read the comment before changing.
 
+  nixpkgs.config = {
+    allowUnfree = true;
+  };
+
   # The home.packages option allows you to install Nix packages into your
   # environment.
   home.packages = [
+    pkgs.aha # Converet ANSI escape sequences to HTML
+    pkgs.avahi
+    pkgs.bash
     pkgs.bat
     pkgs.chezmoi
     pkgs.delta
     pkgs.deno
     pkgs.direnv
+    pkgs.duf
     pkgs.eza
+    pkgs.go
     pkgs.go-task
     pkgs.fd
     pkgs.fish
@@ -33,6 +42,7 @@
     pkgs.ghq
     pkgs.git
     pkgs.gojq
+    pkgs.htop
     pkgs.jq
     pkgs.kind
     pkgs.kubectl
@@ -41,15 +51,19 @@
     pkgs.neovim # nightly
     pkgs.nodejs
     pkgs.pandoc
+    pkgs.paru
+    pkgs.pnpm
     pkgs.podman
     pkgs.podman-compose
     pkgs.poetry
     pkgs.python312
+    pkgs.ripgrep
+    pkgs.rsync
+    pkgs.terraform
     pkgs.tmux
     pkgs.trash-cli
     pkgs.uv
-    pkgs.ripgrep
-    pkgs.rye
+    # pkgs.wrangler
     pkgs.zoxide
 
     # language servers
