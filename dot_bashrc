@@ -1,6 +1,6 @@
 # Use fish as if default shell https://wiki.archlinux.org/title/Fish
 # I do not chsh in case fish is not installed or installed to paths not in /etc/shells
-if [[ $(ps --no-header --pid=$PPID --format=comm) != "fish" && -z ${BASH_EXECUTION_STRING} ]]; then
+if [[ $- == *i* && $- != *c* ]] && command -v fish &>/dev/null && [[ $(ps --no-header --pid=$PPID --format=comm) != "fish" ]]; then
   if shopt -q login_shell; then
     exec fish --login
   else
