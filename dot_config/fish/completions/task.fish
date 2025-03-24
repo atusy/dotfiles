@@ -1,18 +1,18 @@
 # The MIT License (MIT)
 # Copyright (c) 2016 Andrey Nering
 # Copyright (c) 2025 Atsushi Yasumoto
+# https://github.com/go-task/task/pull/2134
 set -l GO_TASK_PROGNAME task
 
 function __task_get_tasks --description "Prints all available tasks with their description" --inherit-variable GO_TASK_PROGNAME
   # Check if the global task is requested
   set -l global_task false
-  set -l cmd_args
-  eval "set cmd_args $(commandline --current-process)" # split arguments by spaces while taking into account of quotes and escapes
+  commandline --current-process | read --tokenize --list --local cmd_args
   for arg in $cmd_args
-    if test _$arg = _"--"
+    if test "_$arg" = "_--"
       break # ignore arguments to be passed to the task
     end
-    if test _$arg = _--global -o _$arg = _-g
+    if test "_$arg" = "_--global" -o "_$arg" = "_-g"
       set global_task true
       break
     end
