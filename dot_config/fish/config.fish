@@ -25,18 +25,9 @@ if test -f /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.fish
   end
 end
 
-if not type -q mise
-  if not test -x ~/.local/bin/mise
-    curl https://mise.run | sh
-    ~/.local/bin/mise install
-  end
-  function mise()
-    ~/.local/bin/mise $argv
-  end
-end
-mise activate fish | source
-direnv hook fish | source
-zoxide init fish --no-cmd | source
+source_hook mise activate fish
+source_hook direnv hook fish
+source_hook zoxide init fish --no-cmd
 
 for brew in brew /home/linuxbrew/.linuxbrew/bin/brew /opt/homebrew/bin/brew
   if set -l brewpath (type --path $brew)
