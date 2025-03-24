@@ -25,11 +25,16 @@ if test -f /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.fish
   end
 end
 
-if not test -x ~/.local/bin/mise
-  curl https://mise.run | sh
-  ~/.local/bin/mise install
+if not type -q mise
+  if not test -x ~/.local/bin/mise
+    curl https://mise.run | sh
+    ~/.local/bin/mise install
+  end
+  function mise()
+    ~/.local/bin/mise $argv
+  end
 end
-~/.local/bin/mise activate fish | source
+mise activate fish | source
 direnv hook fish | source
 zoxide init fish --no-cmd | source
 
