@@ -98,6 +98,25 @@ return {
 
 			-- init
 			vim.fn["skkeleton#initialize"]()
+
+			-- system-specific settings
+			if vim.loop.os_uname().sysname == "Linux" then
+				vim.api.nvim_create_autocmd({ "FocusGained", "InsertEnter", "User" }, {
+					group = augroup,
+					callback = function(ctx)
+						if ctx.event == "User" and ctx.file ~= "skkeleton-enable-pre" then
+							return
+						end
+						vim.system({ "fcitx5-remote", "-s", "keyboard-us" })
+					end,
+				})
+				vim.api.nvim_create_autocmd({ "FocusLost", "VimLeave" }, {
+					group = augroup,
+					callback = function()
+						vim.system({ "fcitx5-remote", "-s", "skk" })
+					end,
+				})
+			end
 		end,
 	},
 	{ "https://github.com/skk-dev/dict", lazy = true },
