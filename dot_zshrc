@@ -9,4 +9,4 @@ function source {
   builtin source "$@"
 }
 
-source "$HOME/.config/zsh/config/default.zsh"
+source "$HOME/.config/zsh/config/prefer_fish.zsh"
