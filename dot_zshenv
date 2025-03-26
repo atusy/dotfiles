@@ -3,5 +3,11 @@ typeset -U path fpath
 
 fpath=( "$HOME/.config/zsh/completions" "${fpath[@]}" )
 
+path=("$HOME/.local/bin" "${path[@]}")
+
+if [[ -d "$HOME/.nix-profile/bin" ]]; then
+  path=("$HOME/.nix-profile/bin" "${path[@]}")
+fi
+
 [[ -f "$HOME/.config/zsh/local.zshenv" ]] && source "$HOME/.config/zsh/local.zshenv"
 
