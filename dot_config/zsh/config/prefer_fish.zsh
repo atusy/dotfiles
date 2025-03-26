@@ -19,9 +19,9 @@ fi
 # don't exec, allows detaching and returning to fish
 if (( $+commands[tmux] )) && [[ -z "$TMUX" ]] && [[ "$TERM" != screen.* ]]; then
   if [[ -o login ]]; then
-    tmux new-session -c "fish --login"
+    tmux new-session "fish --login"
   else
-    tmux new-session -c fish
+    tmux new-session fish
   fi
 fi
 
