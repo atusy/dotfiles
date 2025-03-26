@@ -15,28 +15,20 @@ if [[ ! -o interactive ]] || (( ! $+commands[fish] )) || on_fish; then
   return
 fi
 
-if (( ! $+commands[tmux] )) || [[ -n "$TMUX" ]] || [[ "$TERM" == screen.* ]]; then
-  # Not using tmux (either unavailable, already inside, or TERM indicates screen)
-  # Launch fish directly, replacing the zsh process
+# try fish on tmux
+# don't exec, allows detaching and returning to fish
+if (( $+commands[tmux] )) && [[ -z "$TMUX" ]] && [[ "$TERM" != screen.* ]]; then
   if [[ -o login ]]; then
-    # If it's a login shell, exec fish as login shell
-    exec fish --login
+    tmux new-session -c "fish --login"
   else
-    # Otherwise, exec regular fish shell
-    exec fish
+    tmux new-session -c fish
   fi
-  return
 fi
 
-# Launch tmux with fish
-# Don't exec, allows detaching and returning to zsh
+# if tmux is unavaailable or exited, exec fish
+# feel free to exec we can always enter zsh intentionally
 if [[ -o login ]]; then
-  # If it's a login shell, start tmux session with fish as login shell
-  tmux new-session -c "fish --login"
+  exec fish --login
 else
-  # Otherwise, start tmux session with regular fish shell
-  tmux new-session -c fish
+  exec fish
 fi
-
-# after quitting tmux, fallback to customized zsh
-source "$HOME/.config/zsh/config/default.zsh"
