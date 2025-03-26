@@ -10,12 +10,12 @@ function on_fish {
   [[ $(basename "$pcomm") == fish ]]
 }
 
-if [[ ! -o interactive ]] || ((!$ + commands[fish])) || on_fish; then
+if [[ ! -o interactive ]] || (( ! $+commands[fish] )) || on_fish; then
   source "$HOME/.config/zsh/config/default.zsh"
   return
 fi
 
-if ((!$ + commands[tmux])) || [[ -n "$TMUX" ]] || [[ "$TERM" == screen.* ]]; then
+if (( ! $+commands[tmux] )) || [[ -n "$TMUX" ]] || [[ "$TERM" == screen.* ]]; then
   # Not using tmux (either unavailable, already inside, or TERM indicates screen)
   # Launch fish directly, replacing the zsh process
   if [[ -o login ]]; then
@@ -32,7 +32,7 @@ fi
 # Don't exec, allows detaching and returning to zsh
 if [[ -o login ]]; then
   # If it's a login shell, start tmux session with fish as login shell
-  tmux -c fish --login
+  tmux -c "fish --login"
 else
   # Otherwise, start tmux session with regular fish shell
   tmux -c fish
