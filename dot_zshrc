@@ -9,4 +9,5 @@ function source {
   builtin source "$@"
 }
 
+# in chezmoi, the script is placed at dot_config/zsh/config/prefer_fish.zsh
 source "$HOME/.config/zsh/config/prefer_fish.zsh"
