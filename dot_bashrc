@@ -5,9 +5,9 @@ if [[ $- == *i* && $- != *c* ]] && command -v fish &>/dev/null && [[ $(ps --no-h
   if command -v tmux &>/dev/null && test -z "$TMUX" && [[ $TERM != screen.* ]]; then
     # do not exec so that we can detach and test the world outside tmux
     if shopt -q login_shell; then
-      tmux -c "fish --login"
+      tmux new-session -c "fish --login"
     else
-      tmux -c fish
+      tmux new-session -c fish
     fi
   else
     # feel free to exec we can always enter bash by `bash`

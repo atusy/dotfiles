@@ -32,10 +32,10 @@ fi
 # Don't exec, allows detaching and returning to zsh
 if [[ -o login ]]; then
   # If it's a login shell, start tmux session with fish as login shell
-  tmux -c "fish --login"
+  tmux new-session -c "fish --login"
 else
   # Otherwise, start tmux session with regular fish shell
-  tmux -c fish
+  tmux new-session -c fish
 fi
 
 # after quitting tmux, fallback to customized zsh
