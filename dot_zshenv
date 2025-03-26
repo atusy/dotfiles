@@ -3,26 +3,5 @@ typeset -U path fpath
 
 fpath=( "$HOME/.config/zsh/completions" "${fpath[@]}" )
 
-if [[ -n "${NVIM:-$NVIM_LISTEN_ADDRESS}" ]] && command -v nvr > /dev/null
-then
-  export NVIM_LISTEN_ADDRESS="${NVIM_LISTEN_ADDRESS:-$NVIM}"
-  export EDITOR='nvr -cc "below split" --remote-wait-silent'
-elif command -v nvim > /dev/null
-then
-  export EDITOR='nvim'
-elif command -v vim > /dev/null
-then
-  export EDITOR='vim'
-fi
-
-export QT_QPA_PLATFORMTHEME="qt5ct"
-export GIT_MERGE_AUTOEDIT=no
-export NNN_FCOLORS='c1e2272e006033f7c6d6abc4'
-if command -v "firefox" > /dev/null; then
-  export BROWSER="firefox"
-fi
-
-export DENO_NO_UPDATE_CHECK=true
-
 [[ -f "$HOME/.config/zsh/local.zshenv" ]] && source "$HOME/.config/zsh/local.zshenv"
 

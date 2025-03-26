@@ -2,6 +2,18 @@ function zsh-defer { # workaround for unexpected failure on loading zsh-defer
   "$@"
 }
 
+if [[ -n "${NVIM:-$NVIM_LISTEN_ADDRESS}" ]] && command -v nvr > /dev/null
+then
+  export NVIM_LISTEN_ADDRESS="${NVIM_LISTEN_ADDRESS:-$NVIM}"
+  export EDITOR='nvr -cc "below split" --remote-wait-silent'
+elif command -v nvim > /dev/null
+then
+  export EDITOR='nvim'
+elif command -v vim > /dev/null
+then
+  export EDITOR='vim'
+fi
+
 if ! command -v sheldon >/dev/null; then
   curl --proto '=https' -fLsS https://rossmacarthur.github.io/install/crate.sh \
     | bash -s -- --repo rossmacarthur/sheldon --to ~/.local/bin
