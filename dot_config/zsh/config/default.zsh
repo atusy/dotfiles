@@ -213,16 +213,16 @@ function mycompinit() {
   # zsh
   local ZSHCOMPLETIONS="$HOME/.config/zsh/completions"
   mkdir -p "$ZSHCOMPLETIONS"
-  if [[ ! -r "${ZSHCOMPLETIONS}/_gh" || "$( whence -p gh  )" -nt "${ZSHCOMPLETIONS}/_gh" ]]; then
+  if (( $+commands[gh] )) && [[ ! -r "${ZSHCOMPLETIONS}/_gh" || "$( whence -p gh  )" -nt "${ZSHCOMPLETIONS}/_gh" ]]; then
     command gh completion -s zsh > "${ZSHCOMPLETIONS}/_gh"
   fi
-  if [[ ! -r "${ZSHCOMPLETIONS}/_mise" || "$( whence -p mise  )" -nt "${ZSHCOMPLETIONS}/_mise" ]]; then
+  if (( $+commands[mise] )) &&[[ ! -r "${ZSHCOMPLETIONS}/_mise" || "$( whence -p mise  )" -nt "${ZSHCOMPLETIONS}/_mise" ]]; then
     mise completion zsh > "${ZSHCOMPLETIONS}/_mise"
   fi
-  if [[ ! -r "${ZSHCOMPLETIONS}/_deno" || "$( whence -p deno  )" -nt "${ZSHCOMPLETIONS}/_deno" ]]; then
+  if (( $+commands[deno] )) &&[[ ! -r "${ZSHCOMPLETIONS}/_deno" || "$( whence -p deno  )" -nt "${ZSHCOMPLETIONS}/_deno" ]]; then
     deno completions zsh > "${ZSHCOMPLETIONS}/_deno"
   fi
-  if [[ ! -r "${ZSHCOMPLETIONS}/_poetry" || "$( whence -p poetry  )" -nt "${ZSHCOMPLETIONS}/_poetry" ]]; then
+  if (( $+commands[poetry] )) && [[ ! -r "${ZSHCOMPLETIONS}/_poetry" || "$( whence -p poetry  )" -nt "${ZSHCOMPLETIONS}/_poetry" ]]; then
     poetry completions zsh > "${ZSHCOMPLETIONS}/_poetry"
   fi
   autoload -Uz compinit && compinit
