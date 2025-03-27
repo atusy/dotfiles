@@ -1,0 +1,56 @@
+# Global tasks that can be invoked from anywhere by `task -g <target>`
+# Do not edit this by hand because this file is applied by chezmoi.
+# To add environment-specific tasks, add them in ~/Taskfile.yml.
+
+version: '3'
+
+tasks:
+  # Display system information
+  cpu:
+    cmds:
+      - cmd: "grep 'model name' /proc/cpuinfo | head -n 1 | sed -e 's#[^:]*:\\s*#CPU: #'"
+        silent: true
+  disk:
+    cmds:
+      - cmd: "if command -v duf >/dev/null; then duf -only local; else df | grep '^/dev/'; fi"
+        silent: true
+  memory:
+    cmds:
+      - cmd: "free -h | awk '/Mem:/ {print \"Mem: \"$2}'"
+        silent: true
+  spec:
+    cmds:
+      - task: cpu
+      - task: memory
+      - task: disk
+
+  # Change directories
+  cd-nvim-plugins:
+    cmds:
+      - cmd: "cd ~/.local/share/nvim/lazy && $SHELL"
+
+  # Update system
+  system-update:
+    cmds:
+      - task: pacman-sync
+      - task: homemanager-switch
+  pacman-sync:
+    cmds:
+      - sudo pacman -Syuu
+  homemanager-switch:
+    cmds:
+      - chezmoi apply
+      - nix flake update --flake ~/.config/home-manager
+      - home-manager switch
+      - chezmoi add ~/.config/home-manager/flake.lock
+  nix-self-update:
+    cmds:
+      - nix-channel --update
+      - nix-env --install --attr nixpkgs.nix nixpkgs.cacert
+      - systemctl daemon-reload
+      - systemctl restart nix-daemon
+  nix-clean:
+    cmds:
+      - nix-env --list-generations | awk '{print $1}' | head -n -3 | xargs nix-env --delete-generations
+      - nix-collect-garbage -d
+      - nix-store --optimise
