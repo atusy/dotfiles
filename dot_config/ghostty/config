@@ -1,0 +1,7 @@
+font-family = UDEV Gothic NF
+font-feature = -calt
+font-feature = -liga
+font-feature = -dlig
+window-decoration = true
+gtk-wide-tabs = false
+gtk-titlebar-hide-when-maximized = true
