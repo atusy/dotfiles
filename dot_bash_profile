@@ -3,3 +3,6 @@
 #
 
 [[ -f ~/.profile ]] && . ~/.profile
+
+# the same script is loaded in .bashrc in case of non-login interactive shell
+. ~/.config/bash/prefer-fish.bash
