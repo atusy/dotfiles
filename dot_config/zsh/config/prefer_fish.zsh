@@ -1,6 +1,15 @@
-function on_fish {
+is_darwin() {
+  [[ $OSTYPE == darwin* ]]
+}
+
+fish_needs_login() {
+  # on macOS avoid using login shell as it makes strange PATH
+  [[ -o login ]] && ! is_darwin
+}
+
+on_fish() {
   local pcomm
-  if [[ $OSTYPE == darwin* ]]; then
+  if is_darwin; then
     # BSD ps
     pcomm=$(ps -p $PPID -o comm=)
   else
@@ -18,7 +27,7 @@ fi
 # try fish on tmux
 # don't exec, allows detaching and returning to fish
 if (( $+commands[tmux] )) && [[ -z "$TMUX" ]] && [[ "$TERM" != screen.* ]]; then
-  if [[ -o login ]]; then
+  if fish_needs_login; then
     tmux new-session "fish --login"
   else
     tmux new-session fish
@@ -27,7 +36,7 @@ fi
 
 # if tmux is unavaailable or exited, exec fish
 # feel free to exec we can always enter zsh intentionally
-if [[ -o login ]]; then
+if fish_needs_login; then
   exec fish --login
 else
   exec fish
