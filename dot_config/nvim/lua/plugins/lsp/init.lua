@@ -188,17 +188,11 @@ return {
 				end
 
 				-- focus or show
-				-- TODO: on <CR>, let's open and focus to lspsaga.diagnostic.winid
 				local args = {}
 				if not require("lspsaga.diagnostic"):valid_win_buf() then
 					table.insert(args, "++unfocus")
 				end
 				require("lspsaga.diagnostic.show"):show_diagnostics({ line = true, args = args })
-
-				-- fallback to builtin feature as show_diagnostics is not working well
-				if not require("lspsaga.diagnostic"):valid_win_buf() then
-					vim.diagnostic.open_float({ border = "rounded" })
-				end
 			end)
 		end,
 		config = function()
