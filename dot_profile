@@ -41,7 +41,8 @@ prepend_paths \
 export PATH
 
 if command -v fcitx5 >/dev/null || command -v fcitx >/dev/null; then
-  export GTK_IM_MODULE=fcitx
-  export QT_IM_MODULE=fcitx
+  # Should no longer be necessary on Wayland
+  # export GTK_IM_MODULE=fcitx
+  # export QT_IM_MODULE=fcitx
   export XMODIFIERS=@im=fcitx
 fi
