@@ -1,28 +1,44 @@
 export XDG_CONFIG_DIR="$HOME/.config"
 mkdir -p "$XDG_CONFIG_DIR"
 
-export PATH="${HOME}/.local/bin:${PATH}:${HOME}/.local/lastresort/bin"
+newpath=:
+while read -rd : path; do
+  if [[ $newpath != *:$path:* ]]; then
+    newpath+=$path:
+  fi
+done <<<"$PATH:"
+newpath=${newpath#:}
+PATH=${newpath%:}
+unset newpath
 
-if [[ -d "$HOME/.nix-profile/bin" ]]; then
-  path=("$HOME/.nix-profile/bin" "${path[@]}")
-fi
+append_paths() {
+  for p in "$@"; do
+    if [[ ":$PATH:" != *":$p:"* && -d "$p" ]]; then
+      PATH="${PATH:+$PATH:}$p"
+    fi
+  done
+}
 
-if test -d /usr/local/bin && ! (echo "$PATH" | grep -q '/usr/local/bin'); then
-  export PATH="/usr/local/bin:$PATH"
-fi
+prepend_paths() {
+  for p in "$@"; do
+    if [[ ":$PATH:" != *":$p:"* && -d "$p" ]]; then
+      PATH="${PATH/$p:/}"
+    fi
+  done
+}
 
-# GO
 export GOPATH="${GOPATH:-"${HOME}/go"}"
-export PATH="$GOPATH/bin:$PATH"
-mkdir -p "$GOPATH"
-
-# Python
 export PIPENV_VENV_IN_PROJECT=true
 
-# Rust
-if [ -d "$HOME/.cargo" ]; then
-  export PATH="$HOME/.cargo/bin:$PATH"
-fi
+append_paths "${HOME}/.local/lastresort/bin"
+prepend_paths \
+  "$HOME/.local/bin:$PATH" \
+  "$HOME/.nix-profile/bin" \
+  "$HOME/.cargo/bin:$PATH" \
+  "$GOPATH/bin" \
+  "/usr/local/bin"
+
+export PATH
 
 if command -v fcitx5 >/dev/null || command -v fcitx >/dev/null; then
   export GTK_IM_MODULE=fcitx
