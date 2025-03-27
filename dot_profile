@@ -13,10 +13,6 @@ export PATH="$GOPATH/bin:$PATH"
 mkdir -p "$GOPATH"
 
 # Python
-if [ -d "$HOME/.poetry" ]; then
-  export PATH="$HOME/.poetry/bin:$PATH"
-fi
-
 export PIPENV_VENV_IN_PROJECT=true
 
 # Rust
