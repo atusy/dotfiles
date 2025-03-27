@@ -4,17 +4,3 @@ r = "latest"
 
 [settings]
 experimental = true
-
-# might be useful, but latest can be installed from pacman
-# awscli = "latest"
-# azure-cli = "latest"
-# bat = "latest"
-# direnv = "latest"
-# fd = "latest"
-# fzf = "latest"
-# github-cli = "latest"
-# go = "latest"
-# poetry = "latest"
-# ripgrep = "latest"
-# rust = "latest"
-# terraform = "latest"
