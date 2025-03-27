@@ -112,7 +112,7 @@ set_keymap("n", "<Plug>(gt)t", "gt<Plug>(gt)")
 set_keymap("n", "<Plug>(gt)T", "gT<Plug>(gt)")
 
 -- mappings: diagnostics
-vim.keymap.set("n", "<space>e", [[<Cmd>lua vim.diagnostic.open_float()<CR>]])
+vim.keymap.set("n", "<space>e", [[<Cmd>lua vim.diagnostic.open_float({border = "single"})<CR>]])
 
 -- mappings: insert-mode horizontal moves in the current undo block
 set_keymap("i", "<Left>", "<C-G>U<Left>")
