@@ -12,19 +12,6 @@ end
 # for interactive shell
 set -U fish_greeting
 
-if test -f /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.fish
-  # setup nix
-  source /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.fish
-
-  # setup lazy completions
-  if test -f /nix/var/nix/profiles/default/share/fish/vendor_completions.d/nix.fish
-    if test ! -f $HOME/fish/completions/nix.fish
-      mkdir -p $HOME/fish/completions
-      ln -s /nix/var/nix/profiles/default/share/fish/vendor_completions.d/nix.fish $HOME/fish/completions/nix.fish
-    end
-  end
-end
-
 source_hook mise activate fish
 source_hook direnv hook fish
 source_hook zoxide init fish --no-cmd

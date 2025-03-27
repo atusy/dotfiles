@@ -18,8 +18,4 @@ if [[ $- == *i* && $- != *c* ]] && command -v fish &>/dev/null && [[ $(ps --no-h
   else
     exec fish
   fi
-else
-  if test -f /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh; then
-    . /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh
-  fi
 fi
