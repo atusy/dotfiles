@@ -179,23 +179,27 @@ return {
 					severity = require("atusy.diagnostic").underlined_severities(),
 				})
 			end)
-			-- the feature seems broken... use native <space>e
-			-- vim.keymap.set("n", " e", function()
-			-- 	-- focus to the current menu
-			-- 	local winid = require("lspsaga.diagnostic").winid
-			-- 	if winid then
-			-- 		vim.api.nvim_set_current_win(winid)
-			-- 		return
-			-- 	end
-			--
-			-- 	-- focus or show
-			-- 	-- TODO: on <CR>, let's open and focus to lspsaga.diagnostic.winid
-			-- 	local args = {}
-			-- 	if not require("lspsaga.diagnostic.show").winid then
-			-- 		table.insert(args, "++unfocus")
-			-- 	end
-			-- 	require("lspsaga.diagnostic.show"):show_diagnostics({ line = true, args = args })
-			-- end)
+			vim.keymap.set("n", "<space>d", function()
+				-- focus to the current menu
+				local lspsaga = require("lspsaga.diagnostic")
+				if require("lspsaga.diagnostic"):valid_win_buf() then
+					vim.api.nvim_set_current_win(require("lspsaga.diagnostic").float_winid)
+					return
+				end
+
+				-- focus or show
+				-- TODO: on <CR>, let's open and focus to lspsaga.diagnostic.winid
+				local args = {}
+				if not require("lspsaga.diagnostic"):valid_win_buf() then
+					table.insert(args, "++unfocus")
+				end
+				require("lspsaga.diagnostic.show"):show_diagnostics({ line = true, args = args })
+
+				-- fallback to builtin feature as show_diagnostics is not working well
+				if not require("lspsaga.diagnostic"):valid_win_buf() then
+					vim.diagnostic.open_float({ border = "rounded" })
+				end
+			end)
 		end,
 		config = function()
 			require("lspsaga").setup({
