@@ -181,7 +181,6 @@ return {
 			end)
 			vim.keymap.set("n", "<space>d", function()
 				-- focus to the current menu
-				local lspsaga = require("lspsaga.diagnostic")
 				if require("lspsaga.diagnostic"):valid_win_buf() then
 					vim.api.nvim_set_current_win(require("lspsaga.diagnostic").float_winid)
 					return
@@ -189,10 +188,11 @@ return {
 
 				-- focus or show
 				local args = {}
-				if not require("lspsaga.diagnostic"):valid_win_buf() then
+				local winid = require("lspsaga.diagnostic.show").winid
+				if not winid or not vim.api.nvim_win_is_valid(winid) then
 					table.insert(args, "++unfocus")
 				end
-				require("lspsaga.diagnostic.show"):show_diagnostics({ line = true, args = args })
+				require("lspsaga.diagnostic.show"):show_diagnostics({ cursor = true, args = args })
 			end)
 		end,
 		config = function()
