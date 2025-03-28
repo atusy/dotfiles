@@ -15,8 +15,13 @@ then
 fi
 
 if ! command -v sheldon >/dev/null; then
-  curl --proto '=https' -fLsS https://rossmacarthur.github.io/install/crate.sh \
-    | bash -s -- --repo rossmacarthur/sheldon --to ~/.local/bin
+  if [[ ! -x ~/.local/bin/sheldon ]]; then
+    curl --proto '=https' -fLsS https://rossmacarthur.github.io/install/crate.sh \
+      | bash -s -- --repo rossmacarthur/sheldon --to "${HOME}/.local/bin"
+  fi
+  sheldon() {
+    "${HOME}/.local/bin/sheldon" "$@"
+  }
 fi
 
 SHELDON_SOURCE="${HOME}/.cache/sheldon/plugins.zsh"
