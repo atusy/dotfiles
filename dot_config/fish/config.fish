@@ -51,6 +51,8 @@ if set -q "NVIM"
   if type -q nvr
     set -gx EDITOR 'nvr -c "set bufhidden=delete" --remote-tab-wait'
   end
+else
+  set -gx EDITOR nvim
 end
 
 update_completion gh completion -s fish
