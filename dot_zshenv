@@ -1,7 +1,12 @@
 setopt no_global_rcs
-typeset -U fpath
 
 fpath=( "$HOME/.config/zsh/completions" "${fpath[@]}" )
+if [[ -d "$HOME/.nix-profile/bin" ]]; then
+  path=( "$HOME/.local/bin" "$HOME/.nix-profile/bin" "${path[@]}"  )
+else
+  path=( "$HOME/.local/bin" "${path[@]}"  )
+fi
 
-[[ -f "$HOME/.config/zsh/local.zshenv" ]] && source "$HOME/.config/zsh/local.zshenv"
+[[ -f "$HOME/.config/zsh/local.zshenv" ]] && . "$HOME/.config/zsh/local.zshenv"
 
+typeset -U path fpath # deduplication at the end
