@@ -16,7 +16,7 @@ on_shell() {
     # GNU ps
     pcomm=$(ps --no-header --pid=$PPID --format=comm)
   fi
-  [[ $(basename "$pcomm") =~ (ba|fi|xon|z)sh ]]
+  [[ $(basename "$pcomm") =~ ^(.*/)?(ba|fi|xon|z)sh$ ]]
 }
 
 if [[ ! -o interactive ]] || (( ! $+commands[fish] )) || on_shell; then
