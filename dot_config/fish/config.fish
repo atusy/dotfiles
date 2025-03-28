@@ -48,6 +48,9 @@ if set -q "NVIM"
   function _nvim-preexec --on-event fish_preexec --wraps __nvim-preexec
     __nvim-preexec $argv
   end
+  if type -q nvr
+    set -gx EDITOR 'nvr -c "set bufhidden=delete" --remote-tab-wait'
+  end
 end
 
 update_completion gh completion -s fish
