@@ -7,7 +7,7 @@ fish_needs_login() {
   [[ -o login ]] && ! is_darwin
 }
 
-on_fish() {
+on_shell() {
   local pcomm
   if is_darwin; then
     # BSD ps
@@ -16,10 +16,10 @@ on_fish() {
     # GNU ps
     pcomm=$(ps --no-header --pid=$PPID --format=comm)
   fi
-  [[ $(basename "$pcomm") == fish ]]
+  [[ $(basename "$pcomm") =~ (ba|fi|xon|z)sh ]]
 }
 
-if [[ ! -o interactive ]] || (( ! $+commands[fish] )) || on_fish; then
+if [[ ! -o interactive ]] || (( ! $+commands[fish] )) || on_shell; then
   source "$HOME/.config/zsh/config/default.zsh"
   return
 fi
