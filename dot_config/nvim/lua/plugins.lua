@@ -805,7 +805,7 @@ return {
 		branch = "main",
 		init = function()
 			-- p stands for pilot
-			vim.keymap.set({ "n", "x" }, "<plug>(s)p", '<cmd>lua require("CopilotChat").ask()<cr>')
+			vim.keymap.set({ "n", "x" }, "<plug>(s)p", '<cmd>lua require("CopilotChat").open()<cr>')
 		end,
 		config = function()
 			require("CopilotChat").setup({})
