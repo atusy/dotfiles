@@ -7,9 +7,12 @@ local function wincmd_L()
 		return "help" == vim.bo[vim.api.nvim_win_get_buf(w)].filetype
 	end, wins)
 	if #wins_help == 1 then
-		vim.api.nvim_win_call(wins_help[1], function()
-			vim.cmd("wincmd L")
-		end)
+		local nm = vim.api.nvim_buf_get_name(vim.api.nvim_win_get_buf(wins_help[1]))
+		if not vim.startswith(nm, vim.fn.getcwd()) then
+			vim.api.nvim_win_call(wins_help[1], function()
+				vim.cmd("wincmd L")
+			end)
+		end
 	end
 end
 
