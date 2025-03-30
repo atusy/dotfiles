@@ -29,7 +29,7 @@ function __cache_kubeinfo
   end
 
   # update if KUBECONFIG path has changed
-  set -l __kube_config_default ~/.kube/config
+  set -l __kube_config_default "$HOME/.kube/config"
   if set -qx KUBECONFIG; and test -n "$KUBECONFIG"
     if not test "$__kube_config" = "$KUBECONFIG"
       set __kube_config "$KUBECONFIG"

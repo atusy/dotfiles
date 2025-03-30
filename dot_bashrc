@@ -1,5 +1,5 @@
 # Do not source if the shell is login shell
 # because the source is already done in bash_profile
 if ! shopt -q login_shell; then
-  . ~/.config/bash/prefer-fish.bash
+  . "$HOME/.config/bash/prefer-fish.bash"
 fi

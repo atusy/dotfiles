@@ -15,7 +15,7 @@ then
 fi
 
 if ! command -v sheldon >/dev/null; then
-  if [[ ! -x ~/.local/bin/sheldon ]]; then
+  if [[ ! -x "${HOME}/.local/bin/sheldon" ]]; then
     curl --proto '=https' -fLsS https://rossmacarthur.github.io/install/crate.sh \
       | bash -s -- --repo rossmacarthur/sheldon --to "${HOME}/.local/bin"
   fi
@@ -41,7 +41,7 @@ bindkey -e
 bindkey "^[[3~" delete-char # Del is delete-char, not tilde
 
 # History
-HISTFILE=~/.zsh_history
+HISTFILE="${HOME}/.zsh_history"
 HISTSIZE=100000
 SAVEHIST=100000
 setopt \
@@ -209,8 +209,8 @@ alias kunset='command kubectl config unset current-context'
 [[ -r "$HOME/.config/zsh/local.zsh" ]] && source "$HOME/.config/zsh/local.zsh"
 
 # .zshrc
-if [[ ! -r ~/.zshrc.zwc || ~/.zshrc -nt ~/.zshrc.zwc ]]; then
-  zcompile ~/.zshrc
+if [[ ! -r "${HOME}/.zshrc.zwc" || "${HOME}/.zshrc" -nt "${HOME}/.zshrc.zwc" ]]; then
+  zcompile "${HOME}/.zshrc"
 fi
 
 # compinit as lazily as possible
