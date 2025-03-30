@@ -31,6 +31,8 @@
     pkgs.deno
     pkgs.direnv
     pkgs.duf
+    pkgs.gdu
+    pkgs.htop
     pkgs.eza
     pkgs.go
     pkgs.go-task
@@ -55,6 +57,7 @@
     pkgs.pnpm
     pkgs.podman
     pkgs.podman-compose
+    pkgs.procs
     pkgs.poetry
     pkgs.python312
     pkgs.ripgrep
@@ -64,6 +67,7 @@
     pkgs.trash-cli
     pkgs.uv
     # pkgs.wrangler
+    pkgs.wget2
     pkgs.zoxide
 
     # language servers
