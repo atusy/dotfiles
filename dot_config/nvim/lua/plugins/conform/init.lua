@@ -23,7 +23,7 @@ local function format_on_buf_write_post(buf, once)
 		callback = function()
 			pcall(
 				require("conform").format,
-				{ bufnr = buf, async = true, lsp_fallback = true, notify_on_error = false },
+				{ bufnr = buf, async = true, lsp_format = "fallback", notify_on_error = false },
 				function(err)
 					if err == nil then
 						vim.cmd.up()
@@ -54,7 +54,7 @@ local function format_on_buf_write_pre(buf, once)
 			end
 			pcall(
 				require("conform").format,
-				{ bufnr = args.buf, async = false, lsp_fallback = true, timeout_ms = 200, notify_on_error = false },
+				{ bufnr = args.buf, async = false, lsp_format = "fallback", timeout_ms = 200, notify_on_error = false },
 				function(err)
 					if err == nil then
 						return
@@ -84,7 +84,7 @@ return {
 			vim.o.formatexpr = "v:lua.require'conform'.formatexpr()" -- format with gq{motion}
 			vim.keymap.set("n", "gqq", function()
 				-- for original gqq, use gqgq
-				require("conform").format({ async = true, lsp_fallback = true })
+				require("conform").format({ async = true, lsp_format = "fallback" })
 			end)
 			if false then
 				-- enable if slow formatter exists, and disable format_on_save
@@ -101,17 +101,25 @@ return {
 			})
 		end,
 		config = function()
+			local biome = {
+				"biome-organize-imports",
+				"biome-check",
+				"biome",
+			}
+
 			require("conform").setup({
 				default_format_opts = {
 					lsp_format = "fallback",
 					timeout_ms = 500,
 				},
 				formatters_by_ft = {
+					go = { "goimports", lsp_format = "last" }, -- to use gofumpt via LSP
+					javascript = biome,
 					lua = { "stylua" },
-					python = { "ruff_format", "ruff_fix" }, -- black and isort are toooooo slow!
-					javascript = { { "prettierd", "prettier" } },
-					go = { "goimports", { "gofumpt", "gofmt" } },
+					typescript = biome,
 					nix = { "nixfmt" },
+					python = { "ruff_format", "ruff_fix" },
+					r = { "air", "styler", stop_after_first = true },
 				},
 			})
 		end,
