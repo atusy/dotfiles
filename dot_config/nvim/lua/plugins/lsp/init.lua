@@ -50,7 +50,13 @@ local function lspconfig()
 	end
 	config("bashls", { filetypes = { "sh", "bash", "zsh" } })
 	config("clangd", {})
-	config("gopls", {})
+	config("gopls", {
+		settings = {
+			gopls = {
+				gofumpt = true,
+			},
+		},
+	})
 	config("jsonls", {
 		settings = {
 			json = {
