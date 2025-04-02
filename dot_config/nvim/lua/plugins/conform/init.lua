@@ -116,7 +116,25 @@ return {
 					go = { "goimports", lsp_format = "last" }, -- to use gofumpt via LSP
 					javascript = biome,
 					lua = { "stylua" },
-					typescript = biome,
+					typescript = function(buf)
+						local project_dir = vim.fn.getcwd()
+						local lsp = vim.lsp.get_clients({ bufnr = buf })
+						if lsp and lsp[1] then
+							project_dir = lsp[1].config.root_dir
+						end
+
+						-- use prettier if package.json contains prettier as a dependency
+						local package_json = vim.fs.joinpath(project_dir, "package.json")
+						if vim.fn.filereadable(package_json) == 1 then
+							local package = vim.fn.json_decode(vim.fn.readfile(package_json))
+							if package and package.devDependencies and package.devDependencies.prettier then
+								return { "prettier" }
+							end
+						end
+
+						-- otherwise, use biome
+						return biome
+					end,
 					nix = { "nixfmt" },
 					python = { "ruff_format", "ruff_fix" },
 					r = { "air", "styler", stop_after_first = true },
