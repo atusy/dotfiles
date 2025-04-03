@@ -810,11 +810,12 @@ return {
 		end,
 		config = function()
 			local prompts = {}
-			for k, v in pairs(require("atusy.ai.prompt.gal")) do
-				prompts[k] = v
-			end
-			for k, v in pairs(require("atusy.ai.prompt.copilot_chat")) do
-				prompts[k] = v
+			for _, nm in pairs({ "gal", "copilot_chat" }) do
+				for k, v in pairs(require("atusy.ai.prompt." .. nm)) do
+					if v.system_prompt and not v.prompt then
+						prompts[k] = v
+					end
+				end
 			end
 			require("CopilotChat").setup({ prompts = prompts })
 		end,
