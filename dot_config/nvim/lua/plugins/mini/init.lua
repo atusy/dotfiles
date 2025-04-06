@@ -26,5 +26,18 @@ return {
 				return "<plug>(s)"
 			end, { remap = true, expr = true })
 		end,
+		config = function()
+			-- lazy load bini.bufremove
+			require("atusy.keymap.palette").add_item(
+				"n",
+				"Bdelete",
+				[[<Cmd>lua require("mini.bufremove").delete()<CR>]]
+			)
+			require("atusy.keymap.palette").add_item(
+				"n",
+				"Bwipeout",
+				[[<Cmd>lua require("mini.bufremove").wipeout()<CR>]]
+			)
+		end,
 	},
 }

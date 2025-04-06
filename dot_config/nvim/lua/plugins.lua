@@ -140,22 +140,6 @@ return {
 
 	-- windows and buffers
 	{
-		"https://github.com/echasnovski/mini.bufremove",
-		lazy = true,
-		config = function()
-			require("atusy.keymap.palette").add_item(
-				"n",
-				"Bdelete",
-				[[<Cmd>lua require("mini.bufremove").delete()<CR>]]
-			)
-			require("atusy.keymap.palette").add_item(
-				"n",
-				"Bwipeout",
-				[[<Cmd>lua require("mini.bufremove").wipeout()<CR>]]
-			)
-		end,
-	},
-	{
 		"https://github.com/m00qek/baleia.nvim",
 		lazy = true,
 		config = function()
