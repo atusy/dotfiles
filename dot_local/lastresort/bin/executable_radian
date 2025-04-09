@@ -1,0 +1,8 @@
+#!/bin/sh
+
+if command -v uv >/dev/null 2>&1; then
+  uv tool run radian "$@"
+else
+  mise uv@latest x -- uv tool run radian "$@"
+fi
+
