@@ -818,6 +818,9 @@ return {
 								end,
 								description = "Call tools and resources from the MCP Servers",
 							},
+							opts = {
+								auto_submit_success = true,
+							},
 						},
 						adapter = "copilot",
 						keymaps = {
