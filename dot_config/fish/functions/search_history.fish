@@ -13,7 +13,7 @@ function search_history --description "Search command history of Fish and Zsh at
       # - Multilined item is represented by lines ending with backslashes
       cat "$HOME/.zsh_history" \
         | perl -ne 'chomp; if (s/\\\\$//) {print "$_\0"} else {print "$_\n"}' \
-        | tac \
+        | perl -e 'print reverse <>' \
         | perl -pe 's/\0/\\\\\n/g' \
         | perl -ne 'chomp; if (s/\\\\$//) {print "$_\n"} else {print "$_\0"}'
     end
