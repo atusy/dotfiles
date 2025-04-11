@@ -21,10 +21,10 @@ local function patch_buffer()
 		sourceOptions = {
 			parametric = {
 				mark = "",
-				minKeywordLength = 1,
-				minAutoCompleteLength = 1,
-				keywordPattern = "^[/@#][^\\s]*",
-				matchers = { "matcher_head_dictionary", "matcher_fuzzy" },
+				minKeywordLength = 0,
+				minAutoCompleteLength = 0,
+				keywordPattern = "^[^\\s]*",
+				matchers = { "matcher_fuzzy" },
 				converters = { "converter_fuzzy" },
 				sorters = { "sorter_fuzzy" },
 			},
