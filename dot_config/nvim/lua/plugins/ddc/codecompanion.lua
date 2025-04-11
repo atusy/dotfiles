@@ -35,7 +35,7 @@ local function patch_buffer()
 	})
 end
 
-local function execute_slash_command(buffer)
+local function handle_slash_command(buffer)
 	local augroup = vim.api.nvim_create_augroup("atusy-ddc-codecompanion-" .. buffer, {})
 
 	vim.api.nvim_create_autocmd("BufDelete", {
@@ -74,7 +74,7 @@ local function setup()
 				return true -- remove autocmd
 			end
 			patch_buffer()
-			execute_slash_command(ctx.buf)
+			handle_slash_command(ctx.buf)
 		end,
 	})
 end
