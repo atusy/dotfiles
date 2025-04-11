@@ -20,7 +20,7 @@ local function patch_buffer()
 				mark = "",
 				minKeywordLength = 1,
 				minAutoCompleteLength = 1,
-				keywordPattern = "^[/@#][a-zA-Z0-9]*",
+				keywordPattern = "^[/@#][^\\s]*",
 				matchers = { "matcher_head_dictionary", "matcher_fuzzy" },
 				converters = { "converter_fuzzy" },
 				sorters = { "sorter_fuzzy" },
