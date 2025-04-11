@@ -1,20 +1,36 @@
-local items = {
-	{
-		word = "#buffer",
-		info = "Share current buffer or its specific lines with `#buffer:8-20`",
-	},
-	{ word = "#lsp", info = "Share LSP info and code for the current buffer" },
-	{ word = "#viewport", info = "Share the buffers and lines in the viewport" },
-	{ word = "/buffer" },
-	{ word = "/fetch" },
-	{ word = "/file" },
-	{ word = "/help" },
-	{ word = "/now" },
-	{ word = "/terminal" },
-	{ word = "@code_runner" },
-	{ word = "@editor" },
-	{ word = "@rag" },
-}
+local function list_items()
+	local items = {}
+	local completion = require("codecompanion.completion")
+	for _, func in pairs({ "slash_commands", "tools", "variables" }) do
+		for _, v in pairs(completion[func]()) do
+			table.insert(items, { word = v.label, info = v.detail, kind = v.type })
+		end
+	end
+	return items
+end
+
+local function patch_buffer()
+	local sources = vim.fn["ddc#custom#get_global"]()["sources"] or {}
+	table.insert(sources, 1, "parametric")
+	vim.fn["ddc#custom#patch_buffer"]({
+		sources = sources,
+		specialBufferCompletion = true,
+		sourceOptions = {
+			parametric = {
+				mark = "",
+				minKeywordLength = 1,
+				minAutoCompleteLength = 1,
+				keywordPattern = "^[/@#][a-zA-Z0-9]*",
+				matchers = { "matcher_head_dictionary", "matcher_fuzzy" },
+				converters = { "converter_fuzzy" },
+				sorters = { "sorter_fuzzy" },
+			},
+		},
+		sourceParams = {
+			parametric = { items = list_items() },
+		},
+	})
+end
 
 local function setup()
 	local augroup = vim.api.nvim_create_augroup("atusy-ddc-codecompanion", {})
@@ -22,26 +38,11 @@ local function setup()
 		pattern = "codecompanion",
 		group = augroup,
 		callback = function()
-			vim.fn["ddc#custom#patch_buffer"]("specialBufferCompletion", true)
-			vim.fn["ddc#custom#patch_buffer"]({
-				sources = { "parametric" },
-				backspaceCompletion = true,
-				sourceOptions = {
-					around = { mark = "", isVolatile = true, maxItems = 1 },
-					parametric = {
-						mark = "",
-						minKeywordLength = 1,
-						minAutoCompleteLength = 1,
-						keywordPattern = "^[#;]*[a-zA-Z0-9]*",
-						matchers = { "matcher_head_dictionary", "matcher_fuzzy" },
-						converters = { "converter_fuzzy" },
-						sorters = { "sorter_fuzzy" },
-					},
-				},
-				sourceParams = {
-					parametric = { items = items },
-				},
-			})
+			local ok = pcall(require, "codecompanion")
+			if not ok then
+				return true -- remove autocmd
+			end
+			patch_buffer()
 		end,
 	})
 end
