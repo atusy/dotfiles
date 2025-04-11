@@ -12,6 +12,10 @@ end
 # for interactive shell
 set -U fish_greeting
 
+if test -f /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.fish
+  source /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.fish
+end
+
 source_hook mise activate fish
 source_hook direnv hook fish
 source_hook zoxide init fish --no-cmd
