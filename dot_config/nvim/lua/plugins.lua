@@ -79,7 +79,7 @@ return {
 			})
 		end,
 	},
-	{ "https://github.com/lambdalisue/guise.vim" }, -- denops
+	{ "https://github.com/lambdalisue/guise.vim", lazy = true }, -- denops
 	{ "https://github.com/lambdalisue/askpass.vim" }, -- denops
 	{ "https://github.com/segeljakt/vim-silicon", cmd = { "Silicon", "SiliconHighlight" } }, -- pacman -S silicon
 	{ "https://github.com/tpope/vim-characterize", keys = { "ga" } },
