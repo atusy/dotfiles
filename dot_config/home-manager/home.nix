@@ -44,7 +44,6 @@
     pkgs.ghq
     pkgs.git
     pkgs.gojq
-    pkgs.htop
     pkgs.jq
     pkgs.kind
     pkgs.kubectl
@@ -52,7 +51,7 @@
     pkgs.mise
     pkgs.neovim # nightly
     pkgs.nodejs
-    pkgs.pandoc
+    pkgs.pandoc-cli
     pkgs.paru
     pkgs.pnpm
     pkgs.podman
