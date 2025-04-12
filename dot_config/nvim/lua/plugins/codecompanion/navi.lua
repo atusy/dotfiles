@@ -1,8 +1,22 @@
-local M = {
+local M = {}
+
+local state = {
 	buf_content = {}, ---@type table<integer, string>
+	diff_sizes = {}, ---@type integer[]
 }
 
+local function find_75percentile(x)
+	local n = #x
+	if n == 0 then
+		return 0
+	end
+	table.sort(x)
+	local k = math.max(math.floor(0.75 * n), 1)
+	return x[k]
+end
+
 local function send_diff(chat, diff)
+	table.insert(state.diff_sizes, #diff)
 	chat:add_message({
 		role = "user",
 		content = diff,
@@ -10,40 +24,122 @@ local function send_diff(chat, diff)
 	chat:submit()
 end
 
-local function watch_changes(buf, chat)
-	if not vim.api.nvim_buf_is_valid(buf) or not vim.api.nvim_buf_is_valid(chat.bufnr) then
-		M.buf_content[buf] = nil
-		return
+---@param buf integer
+---@return string, string | nil
+local function get_buf_data(buf)
+	local content = table.concat(vim.api.nvim_buf_get_lines(buf, 0, -1, false), "\n")
+	local old = state.buf_content[buf]
+	if old ~= content then
+		return content, vim.diff(state.buf_content[buf], content)
+	end
+	return content, nil
+end
+
+local function create_autocmd(buf, chat)
+	local augroup = vim.api.nvim_create_augroup("atusy-codecompanion-navi-" .. buf, {})
+	local defer = { nth = 0 }
+	state.buf_content[buf] = table.concat(vim.api.nvim_buf_get_lines(buf, 0, -1, false), "\n")
+
+	vim.api.nvim_create_autocmd({ "TextChanged", "TextChangedI", "TextChangedP" }, {
+		group = augroup,
+		buffer = buf,
+		callback = function()
+			local nth = defer.nth + 1
+			defer.nth = nth
+			vim.defer_fn(function()
+				-- cleanup if the buffer is deleted
+				if not vim.api.nvim_buf_is_valid(buf) or not vim.api.nvim_buf_is_valid(chat.bufnr) then
+					state.buf_content[buf] = nil
+					vim.api.nvim_del_augroup_by_id(augroup)
+					return
+				end
+
+				-- if new defer function is added, skip the old one
+				if nth ~= defer.nth then
+					return
+				end
+
+				local content, diff = get_buf_data(buf)
+
+				-- do nothing if no diff (e.g., by undo)
+				if not diff then
+					return
+				end
+
+				-- if the diff is large, immediately send it
+				local threshold = find_75percentile(state.diff_sizes)
+				if #diff > threshold then
+					state.buf_content[buf] = content
+					send_diff(chat, diff)
+					return
+				end
+
+				-- if the diff is small, wait if the user adds more changes
+				vim.defer_fn(function()
+					if nth == defer.nth then
+						state.buf_content[buf] = content
+						send_diff(chat, diff)
+					end
+				end, 10000)
+			end, 3000)
+		end,
+	})
+
+	for _, b in ipairs({ buf, chat.bufnr }) do
+		vim.api.nvim_create_autocmd({ "BufDelete", "BufWipeout" }, {
+			group = augroup,
+			buffer = b,
+			callback = function()
+				state.buf_content[buf] = nil
+				vim.api.nvim_del_augroup_by_id(augroup)
+				return true
+			end,
+		})
+	end
+end
+
+local function open_chat(buf)
+	for _, b in ipairs(_G.codecompanion_buffers or {}) do
+		if not vim.api.nvim_buf_is_valid(b) then
+			break
+		end
+		local ok, chat = pcall(function()
+			return require("codecompanion.strategies.chat").buf_get_chat(b)
+		end)
+
+		if ok and chat and chat.context and chat.context.bufnr == buf then
+			local visible = false
+			for _, win in ipairs(vim.api.nvim_tabpage_list_wins(0)) do
+				if vim.api.nvim_win_get_buf(win) == chat.bufnr then
+					visible = true
+					break
+				end
+			end
+			if not visible then
+				vim.cmd("CodeCompanionChat Toggle")
+			end
+			return chat
+		end
 	end
 
-	local content = table.concat(vim.api.nvim_buf_get_lines(buf, 0, -1, false), "\n")
-	local old = M.buf_content[buf]
-	if old and old ~= content then
-		local diff = vim.diff(M.buf_content[buf], content)
-		send_diff(chat, diff)
-	end
-	if not old or vim.api.nvim_get_mode().mode ~= "i" then
-		M.buf_content[buf] = content
-	end
-	vim.defer_fn(function()
-		watch_changes(buf, chat)
-	end, 5000)
+	local prompt = {
+		"#lsp",
+		"#buffer",
+		"ペアプロしよう。あなたはnaviとして日本語で会話するよ。",
+		"diffを受け取ったときは、解説はせずに軽い感想か提案を言ってね。",
+		"特にdiffがTODOコメント関連のときは、具体的な提案をしてね。",
+	}
+	local chat = require("codecompanion").chat({
+		fargs = prompt,
+		args = table.concat(prompt, "\n"),
+	})
+	return chat
 end
 
 function M.start()
 	local buf = vim.api.nvim_get_current_buf()
-	local prompt = {
-		"#buffer",
-		"をペアプロしよう。diffを受け取ったらnaviとしてコメントしてね。",
-		"diffがTODOコメント関連だったら、何か提案してね。",
-	}
-	local chat = require("codecompanion").chat({
-		fargs = prompt,
-		args = table.concat(prompt, " "),
-	})
-	watch_changes(buf, chat)
+	local chat = open_chat(buf)
+	create_autocmd(buf, chat)
 end
-
-M.start()
 
 return M
