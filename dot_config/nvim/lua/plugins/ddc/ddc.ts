@@ -1,4 +1,7 @@
-import { BaseConfig, ConfigArguments } from "jsr:@shougo/ddc-vim@~9.4.0/config";
+import {
+  BaseConfig,
+  type ConfigArguments,
+} from "jsr:@shougo/ddc-vim@~9.4.0/config";
 import { join } from "jsr:@std/path@~1.0.0/join";
 
 async function get_fpath() {
@@ -6,16 +9,16 @@ async function get_fpath() {
     args: ["-c", 'echo -n "$FPATH"'],
   });
   const output = await cmd.output();
-  return (new TextDecoder()).decode(output.stdout);
+  return new TextDecoder().decode(output.stdout);
 }
 
 export class Config extends BaseConfig {
   override async config(args: ConfigArguments): Promise<void> {
-    const lazyroot = await args.denops.call(
+    const lazyroot = (await args.denops.call(
       "luaeval",
       `require("lazy.core.config").options.root`,
-    ) as string;
-    const stddata = await args.denops.call("stdpath", "data") as string;
+    )) as string;
+    const stddata = (await args.denops.call("stdpath", "data")) as string;
 
     const sources = [
       "denippet",
@@ -114,7 +117,7 @@ export class Config extends BaseConfig {
           isVolatile: true,
           forceCompletionPattern: "\\S/\\S*",
         },
-        "cmdline_history": {
+        cmdline_history: {
           mark: "HIST",
           minAutoCompleteLength: 0,
           minKeywordLength: 2,
@@ -134,12 +137,12 @@ export class Config extends BaseConfig {
           sorters: [],
           converters: ["converter_remove_overlap", "converter_truncate_abbr"],
         },
-        "lsp": {
+        lsp: {
           mark: "L",
           forceCompletionPattern: "\\.\\w*|::\\w*|->\\w*",
           dup: "force",
         },
-        "shell_history": {
+        shell_history: {
           mark: "HIST_SH",
           matchers: ["matcher_head"],
           keywordPattern: "[^! ].*",
@@ -154,7 +157,7 @@ export class Config extends BaseConfig {
         },
 
         // aliases
-        "ex_command_history_cmd": {
+        ex_command_history_cmd: {
           mark: "RECENT",
           minAutoCompleteLength: 0,
           matchers: ["matcher_head"],
@@ -162,7 +165,7 @@ export class Config extends BaseConfig {
           converters: ["converter_ex_command"],
           enabledIf: "getcmdline() =~# ' ' ? v:false : v:true",
         },
-        "ex_command_history": {
+        ex_command_history: {
           mark: "HIST",
           minAutoCompleteLength: 0,
           matchers: ["matcher_head"],
@@ -200,22 +203,17 @@ export class Config extends BaseConfig {
           exactLength: 2,
           firstCaseInsensitive: true,
           paths: [join(lazyroot, "english-words/words_alpha.txt")],
-          databasePath: join(
-            stddata,
-            "ddc",
-            "dictionary",
-            "base.sqlite3",
-          ),
+          databasePath: join(stddata, "ddc", "dictionary", "base.sqlite3"),
         },
         file: {
           filenameChars: "[:keyword:].",
         },
-        "lsp": {
+        lsp: {
           enableResolveItem: true,
           enableAdditionalTextEdit: true,
           confirmBehavior: "replace",
         },
-        "shell_history": {
+        shell_history: {
           showMenu: false,
           smartCase: false,
           dictPaths: ["/home/atusy/.zsh_history"],
@@ -266,8 +264,8 @@ export class Config extends BaseConfig {
     });
 
     const shellSources = ["fish", "zsh", "xonsh"]; // avoid shell_history as it can be too noisy
-    ["sh", "bash", "fish", "xonsh", "zsh"].map(
-      (x) => args.contextBuilder.patchFiletype(x, { sources: shellSources }),
+    ["sh", "bash", "fish", "xonsh", "zsh"].map((x) =>
+      args.contextBuilder.patchFiletype(x, { sources: shellSources })
     );
   }
 }
