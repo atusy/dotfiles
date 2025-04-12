@@ -118,9 +118,16 @@ return {
 					lua = { "stylua" },
 					typescript = function(buf)
 						local project_dir = vim.fn.getcwd()
-						local lsp = vim.lsp.get_clients({ bufnr = buf })
-						if lsp and lsp[1] then
-							project_dir = lsp[1].config.root_dir
+						local lsp_clients = vim.lsp.get_clients({ bufnr = buf })
+
+						for _, client in ipairs(lsp_clients) do
+							if client.name == "denols" then
+								return { lsp_format = "prefer" }
+							end
+							if client.name == "tsserver" then
+								project_dir = client.config.root_dir
+								break
+							end
 						end
 
 						-- use prettier if package.json contains prettier as a dependency
