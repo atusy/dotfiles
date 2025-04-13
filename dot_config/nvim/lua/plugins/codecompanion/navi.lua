@@ -108,17 +108,23 @@ local function open_chat(buf)
 		return opened_chat
 	end
 
-	local prompt = {
-		"#lsp",
-		"#buffer",
-		"ペアプロしよう。あなたはnaviとして日本語で会話するよ。",
-		"diffを受け取ったときは、解説はせずに軽い感想か提案を言ってね。",
-		"特にdiffがTODOコメント関連のときは、具体的な提案をしてね。",
-	}
-	local chat = require("codecompanion").chat({
-		fargs = prompt,
-		args = table.concat(prompt, "\n"),
+	local chat = require("codecompanion.strategies.chat").new({
+		messages = {
+			{
+				role = "system",
+				content = require("atusy.ai.prompt.gal").GAL_PAIR_PROGRAMMING.system_prompt,
+				opts = { visible = false },
+			},
+			{
+				role = "user",
+				content = "#lsp\n#buffer\n\nペアプロしよ。",
+				opts = { visible = true },
+			},
+		},
+		context = require("codecompanion.utils.context").get(buf, {}),
+		opts = { ignore_system_prompts = true },
 	})
+	chat:submit()
 	state.chat[buf] = chat
 	return chat
 end
