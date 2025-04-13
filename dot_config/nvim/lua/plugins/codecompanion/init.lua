@@ -1,3 +1,7 @@
+local state = {
+	public = {}, ---@type table<string, boolean>
+}
+
 return {
 	{
 		"https://github.com/olimorris/codecompanion.nvim",
@@ -8,18 +12,42 @@ return {
 			vim.keymap.set({ "n", "x" }, "<plug>(s)i", ":CodeCompanion ")
 		end,
 		config = function()
+			local function optimus()
+				return require("codecompanion.adapters").extend("openrouter", {
+					name = "openrouter/optimus",
+					formatted_name = "openrouter/optimus",
+					schema = { model = { default = "openrouter/optimus-alpha" } },
+				})
+			end
 			require("codecompanion").setup({
 				adapters = {
 					openrouter = require("plugins.codecompanion.adapter.openrouter"),
-					optimus = function()
-						return require("codecompanion.adapters").extend("openrouter", {
-							schema = { model = { default = "openrouter/optimus-alpha" } },
-						})
+					optimus = optimus,
+					default = function()
+						-- change adapter based on repo visibility
+						local cwd = vim.fn.getcwd()
+						if state.public[cwd] == nil then
+							local res = vim.system({
+								"gh",
+								"repo",
+								"view",
+								"--json",
+								"visibility",
+								"--jq",
+								".visibility",
+							}):wait()
+							state.public[cwd] = res.code == 0 and res.stdout:match("PUBLIC\n*")
+						end
+						if state.public[cwd] then
+							return optimus()
+						else
+							return require("codecompanion.adapters").extend("copilot", {})
+						end
 					end,
 				},
 				strategies = {
 					chat = {
-						adapter = "copilot",
+						adapter = "default",
 						tools = {
 							["mcp"] = {
 								-- Prevent mcphub from loading before needed
@@ -44,10 +72,10 @@ return {
 						},
 					},
 					inline = {
-						adapter = "copilot",
+						adapter = "default",
 					},
 					agent = {
-						adapter = "copilot",
+						adapter = "default",
 					},
 				},
 				display = {
