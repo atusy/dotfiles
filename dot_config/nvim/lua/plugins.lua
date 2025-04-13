@@ -802,11 +802,18 @@ return {
 		"https://github.com/CopilotC-Nvim/CopilotChat.nvim",
 		branch = "main",
 		lazy = true,
-		init = function()
+		cond = false,
+		init = function(p)
+			if not p.cond then
+				return
+			end
 			-- p stands for pilot
 			vim.keymap.set({ "n", "x" }, "<plug>(s)p", '<cmd>lua require("CopilotChat").open()<cr>')
 		end,
-		config = function()
+		config = function(opts)
+			if not opts.cond then
+				return
+			end
 			local prompts = {}
 			for _, nm in pairs({ "gal", "copilot_chat" }) do
 				for k, v in pairs(require("atusy.ai.prompt." .. nm)) do
