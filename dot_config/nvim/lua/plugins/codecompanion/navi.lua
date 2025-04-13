@@ -20,7 +20,7 @@ local function send_diff(chat, diff)
 	table.insert(state.diff_sizes, #diff)
 	chat:add_message({
 		role = "user",
-		content = diff,
+		content = "```diff\n" .. diff .. "\n```",
 	})
 	chat:submit()
 end
