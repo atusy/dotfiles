@@ -16,12 +16,15 @@ local function find_75percentile(x)
 	return x[k]
 end
 
-local function send_diff(chat, diff)
+local function send_diff(chat, diff, visible)
 	table.insert(state.diff_sizes, #diff)
 	chat:add_message({
 		role = "user",
 		content = "```diff\n" .. diff .. "\n```",
-	})
+	}, { visible = visible })
+	if visible then
+		chat.ui:render(chat.context, chat.messages, {})
+	end
 	chat:submit()
 end
 
