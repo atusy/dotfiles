@@ -54,7 +54,7 @@ local function handle_slash_command(buffer)
 				return
 			end
 			local item = vim.g["pum#completed_item"]
-			if item.user_data.source ~= "codecompanion" then
+			if not item.user_data or item.user_data.source ~= "codecompanion" then
 				return
 			end
 			local chat = require("codecompanion.strategies.chat").buf_get_chat(buffer)
