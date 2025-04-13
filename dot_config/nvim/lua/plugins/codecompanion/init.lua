@@ -9,8 +9,17 @@ return {
 		end,
 		config = function()
 			require("codecompanion").setup({
+				adapters = {
+					openrouter = require("plugins.codecompanion.adapter.openrouter"),
+					optimus = function()
+						return require("codecompanion.adapters").extend("openrouter", {
+							schema = { model = { default = "openrouter/optimus-alpha" } },
+						})
+					end,
+				},
 				strategies = {
 					chat = {
+						adapter = "copilot",
 						tools = {
 							["mcp"] = {
 								-- Prevent mcphub from loading before needed
@@ -23,7 +32,6 @@ return {
 								auto_submit_success = true,
 							},
 						},
-						adapter = "copilot",
 						keymaps = {
 							yank_code = {
 								modes = {
