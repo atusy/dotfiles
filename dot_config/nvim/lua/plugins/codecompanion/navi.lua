@@ -3,6 +3,7 @@ local M = {}
 local state = {
 	buf_content = {}, ---@type table<integer, string>
 	diff_sizes = {}, ---@type integer[]
+	chat = {}, ---@type table<integer, table>
 }
 
 local function find_75percentile(x)
@@ -99,27 +100,12 @@ local function create_autocmd(buf, chat)
 end
 
 local function open_chat(buf)
-	for _, b in ipairs(_G.codecompanion_buffers or {}) do
-		if not vim.api.nvim_buf_is_valid(b) then
-			break
+	local opened_chat = state.chat[buf]
+	if opened_chat and vim.api.nvim_buf_is_valid(opened_chat.bufnr) then
+		if not opened_chat.ui:is_visible() then
+			opened_chat.ui:open()
 		end
-		local ok, chat = pcall(function()
-			return require("codecompanion.strategies.chat").buf_get_chat(b)
-		end)
-
-		if ok and chat and chat.context and chat.context.bufnr == buf then
-			local visible = false
-			for _, win in ipairs(vim.api.nvim_tabpage_list_wins(0)) do
-				if vim.api.nvim_win_get_buf(win) == chat.bufnr then
-					visible = true
-					break
-				end
-			end
-			if not visible then
-				vim.cmd("CodeCompanionChat Toggle")
-			end
-			return chat
-		end
+		return opened_chat
 	end
 
 	local prompt = {
@@ -133,6 +119,7 @@ local function open_chat(buf)
 		fargs = prompt,
 		args = table.concat(prompt, "\n"),
 	})
+	state.chat[buf] = chat
 	return chat
 end
 
