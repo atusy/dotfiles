@@ -47,7 +47,7 @@ local function create_autocmd(buf, chat)
 	local local_state = { nth_change = 0, stat = false }
 	state.buf_content[buf] = table.concat(vim.api.nvim_buf_get_lines(buf, 0, -1, false), "\n")
 
-	vim.api.nvim_create_autocmd({ "TextChanged", "TextChangedI", "TextChangedP" }, {
+	vim.api.nvim_create_autocmd({ "TextChanged", "TextChangedI", "TextChangedP", "BufWritePre" }, {
 		group = augroup,
 		buffer = buf,
 		callback = function(ctx)
@@ -69,7 +69,7 @@ local function create_autocmd(buf, chat)
 			end
 
 			-- chat
-			local base_delay = 3000
+			local base_delay = ctx.event == "BufWritePre" and 0 or 3000
 			vim.defer_fn(function()
 				-- cleanup if the buffer is deleted
 				if not vim.api.nvim_buf_is_valid(buf) or not vim.api.nvim_buf_is_valid(chat.bufnr) then
