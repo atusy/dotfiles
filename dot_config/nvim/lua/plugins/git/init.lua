@@ -41,12 +41,24 @@ local function setup_gitsigns()
 
 	-- keymaps
 	vim.keymap.set("n", "<Down>", function()
-		return vim.wo.diff and "]c" or "<Cmd>Gitsigns next_hunk<CR><Cmd>Gitsigns preview_hunk_inline<CR>"
-	end, { expr = true })
+		if vim.wo.diff then
+			vim.normal("]c")
+			return
+		end
+		require("gitsigns").nav_hunk("next", nil, function()
+			require("gitsigns").preview_hunk_inline()
+		end)
+	end)
 
 	vim.keymap.set("n", "<Up>", function()
-		return vim.wo.diff and "[c" or "<Cmd>Gitsigns prev_hunk<CR><Cmd>Gitsigns preview_hunk_inline<CR>"
-	end, { expr = true })
+		if vim.wo.diff then
+			vim.normal("[c")
+			return
+		end
+		require("gitsigns").nav_hunk("prev", nil, function()
+			require("gitsigns").preview_hunk_inline()
+		end)
+	end)
 
 	-- command palette
 	add_item("n", "gitsigns: based on cWORD ref", function()
