@@ -104,7 +104,7 @@ export class Config extends BaseConfig {
           // matchers: ["matcher_fuzzy"],
           minKeywordLength: 1,
           minAutoCompleteLength: 1,
-          keywordPattern: "^[#;]*[a-zA-Z0-9]*",
+          keywordPattern: ";[a-zA-Z0-9]*",
         },
         dictionary: {
           mark: "Dict",
