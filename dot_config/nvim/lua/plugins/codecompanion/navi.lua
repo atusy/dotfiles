@@ -17,7 +17,6 @@ local function find_75percentile(x)
 end
 
 local function send_diff(chat, diff, visible)
-	table.insert(state.diff_sizes, #diff)
 	chat:add_message({
 		role = "user",
 		content = "```diff\n" .. diff .. "\n```",
@@ -70,8 +69,11 @@ local function create_autocmd(buf, chat)
 					return
 				end
 
+				-- record the size of the diff for statistics
+				table.insert(state.diff_sizes, #diff)
+
 				-- if the diff is large, immediately send it
-				local threshold = find_75percentile(state.diff_sizes)
+				local threshold = #state.diff_sizes < 5 and 0 or find_75percentile(state.diff_sizes)
 				if #diff > threshold then
 					state.buf_content[buf] = content
 					send_diff(chat, diff)
