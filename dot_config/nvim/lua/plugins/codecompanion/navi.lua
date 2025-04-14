@@ -33,7 +33,11 @@ local function get_buf_data(buf)
 	local content = table.concat(vim.api.nvim_buf_get_lines(buf, 0, -1, false), "\n")
 	local old = state.buf_content[buf]
 	if old ~= content then
-		return content, vim.diff(state.buf_content[buf], content)
+		local diff = vim.diff(old, content, { result_type = "unified" })
+		if type(diff) == "string" then
+			return content, diff
+		end
+		error("diff is not a string") -- should be unreachable as it happens when result_type is indices
 	end
 	return content, nil
 end
