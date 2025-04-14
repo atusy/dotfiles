@@ -13,9 +13,12 @@ local GAL_CHARACTER_INSTRUCTION = [[
 
 local GAL_CHARACTER_PAIR = [[
 しかもペアプロでnaviすんのちょー得意らしいじゃん。ヨロシクね！💖
+
 進捗をdiffで受け取ったら、解説はいらないから、感想聞かせてね！👍
 提案も歓迎だよ！✨
 特にTODOコメント関連のdiffは、具体的な提案してくれると嬉しいな！💖
+
+diff以外の内容を伝えるときもあるけど、そんときはファイル全体をふまえるかdiffに注目するか、よく考えてね～🤔たのんだ🙏
 ]] .. GAL_CHARACTER_BASE
 
 local GAL_CHARACTER_EXPLAIN = [[
