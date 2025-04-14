@@ -44,15 +44,32 @@ end
 
 local function create_autocmd(buf, chat)
 	local augroup = vim.api.nvim_create_augroup("atusy-codecompanion-navi-" .. buf, {})
-	local defer = { nth = 0 }
+	local local_state = { nth_change = 0, stat = false }
 	state.buf_content[buf] = table.concat(vim.api.nvim_buf_get_lines(buf, 0, -1, false), "\n")
 
 	vim.api.nvim_create_autocmd({ "TextChanged", "TextChangedI", "TextChangedP" }, {
 		group = augroup,
 		buffer = buf,
-		callback = function()
-			local nth = defer.nth + 1
-			defer.nth = nth
+		callback = function(ctx)
+			local nth_change = local_state.nth_change + 1
+			local_state.nth_change = nth_change
+
+			-- stat
+			if #state.diff_sizes < 1000 then
+				if not local_state.stat then
+					local delay = 1000
+					local content = state.buf_content[buf]
+					vim.defer_fn(function()
+						local new_content = table.concat(vim.api.nvim_buf_get_lines(buf, 0, -1, false), "\n")
+						local diff = vim.diff(content, new_content, { result_type = "unified" })
+						table.insert(state.diff_sizes, #diff / delay)
+						local_state.stat = false
+					end, delay)
+				end
+			end
+
+			-- chat
+			local base_delay = 3000
 			vim.defer_fn(function()
 				-- cleanup if the buffer is deleted
 				if not vim.api.nvim_buf_is_valid(buf) or not vim.api.nvim_buf_is_valid(chat.bufnr) then
@@ -62,7 +79,7 @@ local function create_autocmd(buf, chat)
 				end
 
 				-- if new defer function is added, skip the old one
-				if nth ~= defer.nth then
+				if nth_change ~= local_state.nth_change then
 					return
 				end
 
@@ -73,11 +90,8 @@ local function create_autocmd(buf, chat)
 					return
 				end
 
-				-- record the size of the diff for statistics
-				table.insert(state.diff_sizes, #diff)
-
 				-- if the diff is large, immediately send it
-				local threshold = #state.diff_sizes < 5 and 0 or find_75percentile(state.diff_sizes)
+				local threshold = #state.diff_sizes < 10 and 0 or find_75percentile(state.diff_sizes) * base_delay
 				if #diff > threshold then
 					state.buf_content[buf] = content
 					send_diff(chat, diff)
@@ -86,12 +100,12 @@ local function create_autocmd(buf, chat)
 
 				-- if the diff is small, wait if the user adds more changes
 				vim.defer_fn(function()
-					if nth == defer.nth then
+					if nth_change == local_state.nth_change then
 						state.buf_content[buf] = content
 						send_diff(chat, diff)
 					end
 				end, 10000)
-			end, 3000)
+			end, base_delay)
 		end,
 	})
 
