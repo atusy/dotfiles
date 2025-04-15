@@ -6,13 +6,16 @@ local state = {
 	chat = {}, ---@type table<integer, table>
 }
 
-local function find_75percentile(x)
+---@param x integer[]
+---@param p number percentile (0-1)
+---@return integer
+local function find_percentile(x, p)
 	local n = #x
 	if n == 0 then
 		return 0
 	end
 	table.sort(x)
-	local k = math.max(math.floor(0.75 * n), 1)
+	local k = math.max(math.floor(p * n), 1)
 	return x[k]
 end
 
@@ -91,7 +94,7 @@ local function create_autocmd(buf, chat)
 				end
 
 				-- if the diff is large, immediately send it
-				local threshold = #state.diff_sizes < 10 and 0 or find_75percentile(state.diff_sizes) * base_delay
+				local threshold = #state.diff_sizes < 10 and 0 or find_percentile(state.diff_sizes, 0.5) * base_delay
 				if #diff > threshold then
 					state.buf_content[buf] = content
 					send_diff(chat, diff)
@@ -104,7 +107,7 @@ local function create_autocmd(buf, chat)
 						state.buf_content[buf] = content
 						send_diff(chat, diff)
 					end
-				end, 10000)
+				end, 5000)
 			end, base_delay)
 		end,
 	})
