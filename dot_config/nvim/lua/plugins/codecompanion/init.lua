@@ -17,9 +17,9 @@ return {
 		config = function()
 			local function optimus()
 				return require("codecompanion.adapters").extend("openrouter", {
-					name = "openrouter/optimus",
-					formatted_name = "openrouter/optimus",
-					schema = { model = { default = "openrouter/optimus-alpha" } },
+					name = "openrouter/gemini-2-0-flash",
+					formatted_name = "openrouter/gemini-2-0-flash",
+					schema = { model = { default = "google/gemini-2.0-flash-exp:free" } },
 				})
 			end
 			require("codecompanion").setup({
