@@ -51,7 +51,7 @@
     pkgs.mise
     pkgs.neovim # nightly
     pkgs.nodejs
-    pkgs.pandoc-cli
+    pkgs.pandoc
     pkgs.paru
     pkgs.pnpm
     pkgs.podman
