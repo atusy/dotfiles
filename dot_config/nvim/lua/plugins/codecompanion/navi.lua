@@ -143,7 +143,7 @@ local function open_chat(buf)
 			},
 			{
 				role = "user",
-				content = "#lsp\n#buffer\n\nペアプロしよ。",
+				content = "#lsp\n#buffer\n\n日本語でペアプロしよ。",
 				opts = { visible = true },
 			},
 		},
