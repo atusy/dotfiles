@@ -25,6 +25,29 @@ return {
 				require("plugins.mini.surround")()
 				return "<plug>(s)"
 			end, { remap = true, expr = true })
+
+			-- lazy load mini.statusline
+			vim.opt.laststatus = 0
+			vim.api.nvim_create_autocmd("WinNew", {
+				group = vim.api.nvim_create_augroup("atusy.lualine", {}),
+				callback = function()
+					local cnt = 0
+					for _, w in pairs(vim.api.nvim_list_wins()) do
+						if vim.api.nvim_win_get_config(w).relative == "" then
+							cnt = cnt + 1
+							if cnt == 2 then
+								break
+							end
+						end
+					end
+					if cnt < 2 then
+						return
+					end
+
+					vim.opt.laststatus = 2
+					require("plugins.mini.statusline")()
+				end,
+			})
 		end,
 		config = function()
 			-- lazy load bini.bufremove

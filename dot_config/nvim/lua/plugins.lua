@@ -240,6 +240,9 @@ return {
 		"https://github.com/nvim-lualine/lualine.nvim",
 		lazy = true,
 		init = function()
+			if true then
+				return
+			end
 			-- want statusline on creating non-relative windows
 			vim.opt.laststatus = 0
 			vim.api.nvim_create_autocmd("WinNew", {
