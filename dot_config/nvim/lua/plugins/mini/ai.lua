@@ -1,4 +1,6 @@
-return function()
+local M = {}
+
+function M.setup()
 	--[[
 			Examples:
 				vi[ selects inside single bracket and vi] selects inside double brackets.
@@ -72,3 +74,15 @@ return function()
 		end
 	end
 end
+
+function M.lazy()
+	vim.api.nvim_create_autocmd("ModeChanged", {
+		group = vim.api.nvim_create_augroup("atusy-mini-ai", {}),
+		callback = function()
+			M.setup()
+		end,
+		once = true,
+	})
+end
+
+return M
