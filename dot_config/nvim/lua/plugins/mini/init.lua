@@ -14,16 +14,9 @@ return {
 		end,
 		config = function()
 			-- lazy load bini.bufremove
-			require("atusy.keymap.palette").add_item(
-				"n",
-				"Bdelete",
-				[[<Cmd>lua require("mini.bufremove").delete()<CR>]]
-			)
-			require("atusy.keymap.palette").add_item(
-				"n",
-				"Bwipeout",
-				[[<Cmd>lua require("mini.bufremove").wipeout()<CR>]]
-			)
+			local bufremove = [[<Cmd>lua require("mini.bufremove").%s()<CR>]]
+			require("atusy.keymap.palette").add_item("n", "Bdelete", bufremove:format("delete"))
+			require("atusy.keymap.palette").add_item("n", "Bwipeout", bufremove:format("wipeout"))
 		end,
 	},
 }
