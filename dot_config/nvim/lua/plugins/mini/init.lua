@@ -9,14 +9,7 @@ return {
 		lazy = true,
 		init = function()
 			require("plugins.mini.ai").lazy()
-
-			-- lazy load mini.surround
-			vim.keymap.set({ "x", "n" }, "s", function()
-				vim.keymap.set({ "x", "n" }, "s", "<plug>(s)")
-				vim.keymap.set({ "x", "n" }, "<plug>s", "<npp>")
-				require("plugins.mini.surround")()
-				return "<plug>(s)"
-			end, { remap = true, expr = true })
+			require("plugins.mini.surround").lazy()
 
 			-- lazy load mini.statusline
 			vim.opt.laststatus = 0

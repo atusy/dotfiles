@@ -1,4 +1,6 @@
-return function()
+local M = {}
+
+function M.setup()
 	--[=[
 			Examples
 				saiw[ surrounds inner word with [] and saiw] surrounds inner word with [[]]
@@ -36,3 +38,15 @@ return function()
 		}),
 	})
 end
+
+function M.lazy()
+	-- lazy load mini.surround
+	vim.keymap.set({ "x", "n" }, "s", function()
+		vim.keymap.set({ "x", "n" }, "s", "<plug>(s)")
+		vim.keymap.set({ "x", "n" }, "<plug>s", "<nop>")
+		M.setup()
+		return "<plug>(s)"
+	end, { remap = true, expr = true })
+end
+
+return M
