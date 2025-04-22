@@ -107,13 +107,24 @@ return {
 						if ctx.event == "User" and ctx.file ~= "skkeleton-enable-pre" then
 							return
 						end
-						vim.system({ "fcitx5-remote", "-s", "keyboard-us" })
+						vim.system({ "fcitx5-remote", "-s", "keyboard-us" }):wait()
 					end,
 				})
 				vim.api.nvim_create_autocmd({ "FocusLost", "VimLeave" }, {
 					group = augroup,
 					callback = function()
-						vim.system({ "fcitx5-remote", "-s", "skk" })
+						local focused = false
+						vim.api.nvim_create_autocmd({ "FocusGained", "InsertEnter" }, {
+							once = true,
+							callback = function()
+								focused = true
+							end,
+						})
+						vim.defer_fn(function()
+							if not focused then
+								vim.system({ "fcitx5-remote", "-s", "skk" }):wait()
+							end
+						end, 200)
 					end,
 				})
 			end
