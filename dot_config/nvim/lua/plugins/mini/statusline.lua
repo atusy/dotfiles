@@ -30,7 +30,7 @@ function M.lazy()
 		group = vim.api.nvim_create_augroup("atusy-mini-statusline", {}),
 		callback = function()
 			local cnt = 0
-			for _, w in pairs(vim.api.nvim_list_wins()) do
+			for _, w in pairs(vim.api.nvim_tabpage_list_wins(0)) do
 				if vim.api.nvim_win_get_config(w).relative == "" then
 					cnt = cnt + 1
 					if cnt == 2 then
