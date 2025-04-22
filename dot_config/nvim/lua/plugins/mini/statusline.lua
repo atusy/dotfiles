@@ -39,11 +39,12 @@ function M.lazy()
 				end
 			end
 			if cnt < 2 then
-				return
+				return false
 			end
 
 			vim.opt.laststatus = 2
 			M.setup()
+			return true
 		end,
 	})
 end
