@@ -1,0 +1,14 @@
+#!/bin/sh
+
+# cpu
+grep 'model name' /proc/cpuinfo | head -n 1 | sed -e 's#[^:]*:\\s*#CPU: #'
+
+# memory
+free -h | awk '/Mem:/ {print "Mem: "$2}'
+
+# disk
+if command -v duf >/dev/null; then
+  duf -only local
+else
+  df | grep '^/dev/'
+fi

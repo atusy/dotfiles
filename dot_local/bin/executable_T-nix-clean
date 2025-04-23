@@ -1,0 +1,7 @@
+#!/bin/sh
+
+set -euox pipefail
+
+nix-env --list-generations | awk '{print $1}' | head -n -3 | xargs nix-env --delete-generations
+nix-collect-garbage -d
+nix-store --optimise

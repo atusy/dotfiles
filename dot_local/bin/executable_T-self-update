@@ -1,0 +1,8 @@
+#!/bin/sh
+
+set -euox pipefail
+
+nix-channel --update
+nix-env --install --attr nixpkgs.nix nixpkgs.cacert
+systemctl daemon-reload
+systemctl restart nix-daemon

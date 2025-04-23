@@ -1,0 +1,7 @@
+#!/bin/sh
+
+if command -v pacman >/dev/null; then
+  sudo pacman -Syuu
+fi
+
+T-homemanager-switch

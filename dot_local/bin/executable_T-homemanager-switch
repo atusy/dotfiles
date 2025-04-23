@@ -1,0 +1,8 @@
+#!/bin/sh
+
+set -e
+
+chezmoi apply
+nix flake update --flake ~/.config/home-manager
+home-manager switch
+chezmoi add ~/.config/home-manager/flake.lock
