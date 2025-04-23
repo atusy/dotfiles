@@ -42,7 +42,6 @@ abbr -a vim nvim
 abbr -a --set-cursor math 'math "%"'
 abbr -a ll 'eza --long --group --time-style=long-iso'
 abbr -a y --function __abbr-yank
-abbr -a Task "task -g"
 
 bind \t complete-and-search-if-not-empty
 bind \cr set_commandline_from_history
