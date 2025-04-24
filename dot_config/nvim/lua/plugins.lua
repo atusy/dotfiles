@@ -726,6 +726,7 @@ return {
 		config = function()
 			require("copilot")
 			require("avante").setup({
+				hints = { enabled = false },
 				provider = "copilot",
 				system_prompt = function()
 					local hub = require("mcphub").get_hub_instance()
