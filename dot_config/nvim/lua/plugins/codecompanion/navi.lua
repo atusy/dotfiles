@@ -19,6 +19,10 @@ local function find_percentile(x, p)
 	return x[k]
 end
 
+---@param chat table CodeCompanionChat
+---@param diff string
+---@param visible boolean
+---@return nil
 local function send_diff(chat, diff, visible)
 	chat:add_message({
 		role = "user",
@@ -45,6 +49,9 @@ local function get_buf_data(buf)
 	return content, nil
 end
 
+---@param buf integer
+---@param chat table CodeCompanionChat
+---@return nil
 local function create_autocmd(buf, chat)
 	local augroup = vim.api.nvim_create_augroup("atusy-codecompanion-navi-" .. buf, {})
 	local local_state = { nth_change = 0, stat = false }
@@ -125,6 +132,8 @@ local function create_autocmd(buf, chat)
 	end
 end
 
+---@param buf integer
+---@return table CodeCompanionChat
 local function open_chat(buf)
 	local opened_chat = state.chat[buf]
 	if opened_chat and vim.api.nvim_buf_is_valid(opened_chat.bufnr) then
