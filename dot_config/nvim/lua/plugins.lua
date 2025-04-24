@@ -688,6 +688,18 @@ return {
 		end,
 	},
 	{
+		"https://github.com/atusy/aibou.nvim",
+		dev = true,
+		init = function()
+			vim.keymap.set("n", "<plug>(s)n", function()
+				require("aibou.codecompanion").start({
+					system_prompt = require("atusy.ai.prompt.gal").GAL_PAIR_PROGRAMMING.system_prompt,
+					user_prompt = "#lsp\n#buffer\n\n日本語でペアプロしよ。",
+				})
+			end)
+		end,
+	},
+	{
 		"https://github.com/ravitemer/mcphub.nvim",
 		build = "bundled_build.lua",
 		config = function()
