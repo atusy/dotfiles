@@ -10,9 +10,6 @@ return {
 		init = function()
 			vim.keymap.set({ "n", "x" }, "<plug>(s)c", ":CodeCompanionChat ")
 			vim.keymap.set({ "n", "x" }, "<plug>(s)i", ":CodeCompanion ")
-			vim.keymap.set("n", "<plug>(s)n", function()
-				require("plugins.codecompanion.navi").start()
-			end)
 		end,
 		config = function()
 			local function optimus()
