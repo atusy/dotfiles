@@ -194,7 +194,6 @@ end
 return {
 	{
 		"https://github.com/lambdalisue/vim-gin", -- denops
-		dev = true,
 		config = setup_gin,
 	},
 	{ "https://github.com/lewis6991/gitsigns.nvim", config = setup_gitsigns },
