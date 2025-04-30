@@ -151,21 +151,28 @@ local function setup_gin()
 			return
 		end
 		local bufname = vim.api.nvim_buf_get_name(0)
-		local commited = vim.system({ "git", "diff", "--quiet", "--", bufname }):wait().code == 0
-		if not commited then
-			vim.notify("Must commit: " .. bufname, vim.log.levels.ERROR)
-			return
+		local buftype = vim.bo.buftype
+		local cwd = vim.fs.dirname(bufname)
+		if buftype == "nofile" or buftype == "quickfix" or buftype == "terminal" or buftype == "prompt" then
+			local commited = vim.system({ "git", "diff", "--quiet", "--", bufname }, { cwd = cwd }):wait().code == 0
+			if not commited then
+				vim.notify("Must commit: " .. bufname, vim.log.levels.ERROR)
+				return
+			end
 		end
-		local pushed = vim.system({ "git", "branch", "-r", "--contains", "HEAD" }, {}):wait().code == 0
+		local pushed = vim.system({ "git", "branch", "-r", "--contains", "HEAD" }, { cwd = cwd }):wait().code == 0
 		if not pushed then
 			vim.notify("Must push HEAD", vim.log.levels.ERROR)
 			return
 		end
 		local mode = vim.api.nvim_get_mode().mode
-		return ":" .. (mode == "nromal" and "." or "") .. "GinBrowse ++yank=+ -n --permalink<CR>"
+		local cmd = (mode == "nromal" and "." or "") .. "GinBrowse ++yank=+ HEAD -n --permalink"
+		if buftype == "nofile" or buftype == "quickfix" or buftype == "terminal" or buftype == "prompt" then
+			return ":" .. cmd .. "<CR>"
+		end
+		return ":" .. cmd .. " --path %<CR>"
 	end
-	vim.keymap.set("n", "<Plug>(C-G)<C-Y>", yank, { expr = true })
-	vim.keymap.set("x", "<Plug>(C-G)<C-Y>", yank, { expr = true })
+	vim.keymap.set({ "n", "x" }, "<Plug>(C-G)<C-Y>", yank, { expr = true })
 
 	-- command palette
 	add_item("n", "git amend", [[<Cmd>lua require("plugins.git.commit").exec({ args = {"--amend", "--quiet" } })<CR>]]) -- commit
@@ -186,7 +193,8 @@ end
 -- return
 return {
 	{
-		"https://github.com/lambdalisue/gin.vim", -- denops
+		"https://github.com/lambdalisue/vim-gin", -- denops
+		dev = true,
 		config = setup_gin,
 	},
 	{ "https://github.com/lewis6991/gitsigns.nvim", config = setup_gitsigns },
