@@ -661,6 +661,7 @@ return {
 	},
 	{
 		"https://github.com/zbirenbaum/copilot.lua",
+		commit = "935ad6994dc5518a1aea1fda21a9c6fe1125bcc5", -- for compatibility with insx
 		-- cond = false,
 		cmd = "Copilot",
 		event = { "InsertEnter", "CursorHold" },
