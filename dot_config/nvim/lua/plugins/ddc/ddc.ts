@@ -56,7 +56,7 @@ export class Config extends BaseConfig {
           "ex_command_history_cmd",
           "fish",
           "zsh",
-          "xonsh",
+          // "xonsh",
           "cmdline",
           "ex_command_history",
           // "shell_history",
