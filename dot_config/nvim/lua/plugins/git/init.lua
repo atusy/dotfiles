@@ -42,7 +42,7 @@ local function setup_gitsigns()
 	-- keymaps
 	vim.keymap.set("n", "<Down>", function()
 		if vim.wo.diff then
-			vim.normal("]c")
+			vim.cmd("normal! ]c")
 			return
 		end
 		require("gitsigns").nav_hunk("next", nil, function()
@@ -52,7 +52,7 @@ local function setup_gitsigns()
 
 	vim.keymap.set("n", "<Up>", function()
 		if vim.wo.diff then
-			vim.normal("[c")
+			vim.cmd("normal! [c")
 			return
 		end
 		require("gitsigns").nav_hunk("prev", nil, function()
