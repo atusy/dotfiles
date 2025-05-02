@@ -1,15 +1,18 @@
-.git
-.worktree
-.venv
-.python-version
-.ipynb_checkpoints
+*.zwc
+.Rhistory
+.Rproj.user
 .envrc
-.rtx.toml
+.git
+.ipynb_checkpoints
 .mise.toml
+.python-version
+.rtx.toml
 .tool-versions
-node_modules
-__pycache__
+.venv
+.worktree
 __ignored
+__pycache__
+node_modules
 
 # version controlled files should be [Tt]askfile.dist.ya?ml
 # https://taskfile.dev/usage/
