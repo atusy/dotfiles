@@ -14,12 +14,19 @@
     };
   };
 
-  outputs = { self, nixpkgs, home-manager, ... } @ inputs:
+  outputs =
+    {
+      self,
+      nixpkgs,
+      home-manager,
+      ...
+    }@inputs:
     let
       system = "x86_64-linux";
       pkgs = nixpkgs.legacyPackages.${system};
       overlays = [ inputs.neovim-nightly-overlay.overlays.default ];
-    in {
+    in
+    {
       homeConfigurations."atusy" = home-manager.lib.homeManagerConfiguration {
         inherit pkgs;
 
