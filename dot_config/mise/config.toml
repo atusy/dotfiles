@@ -1,6 +1,5 @@
 [tools]
 usage = "latest"
-r = "latest"
 
 [settings]
 experimental = true
