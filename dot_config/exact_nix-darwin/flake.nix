@@ -24,8 +24,8 @@
       configuration =
         { pkgs, ... }:
         {
-          environment.systemPackages = (import ./system-packages.nix { inherit pkgs; }).system;
-          fonts.packages = (import ./system-packages.nix { inherit pkgs; }).fonts;
+          environment.systemPackages = (import ./pkgs.nix { inherit pkgs; }).system;
+          fonts.packages = (import ./pkgs.nix { inherit pkgs; }).fonts;
 
           # Necessary for using flakes on this system.
           nix.settings.experimental-features = "nix-command flakes";
