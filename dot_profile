@@ -34,6 +34,7 @@ append_paths "${HOME}/.local/lastresort/bin"
 prepend_paths \
   "$HOME/.local/bin:$PATH" \
   "$HOME/.nix-profile/bin" \
+  "/nix/var/nix/profiles/default/bin" \
   "$HOME/.cargo/bin:$PATH" \
   "$GOPATH/bin" \
   "/usr/local/bin"
