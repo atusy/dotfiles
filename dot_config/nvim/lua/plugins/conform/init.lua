@@ -75,6 +75,41 @@ local function format_on_buf_write_pre(buf, once)
 	})
 end
 
+local function make_formatter_ts(buf)
+	local biome = {
+		"biome-organize-imports",
+		"biome-check",
+		"biome",
+	}
+
+	local project_dir = vim.fn.getcwd()
+	local lsp_clients = vim.lsp.get_clients({ bufnr = buf })
+
+	for _, client in ipairs(lsp_clients) do
+		if client.name == "denols" then
+			return { lsp_format = "prefer" }
+		end
+		if client.name == "tsserver" then
+			project_dir = client.config.root_dir
+			break
+		end
+	end
+
+	-- use prettier if package.json contains prettier as a dependency
+	-- XXX: use biome anyway as prettier is too slow
+	local package_json = vim.fs.joinpath(project_dir, "package.json")
+	if vim.fn.filereadable(package_json) == 1 then
+		local package = vim.fn.json_decode(vim.fn.readfile(package_json))
+		if package and package.devDependencies and package.devDependencies.prettier then
+			-- return { "prettier" }
+			return biome
+		end
+	end
+
+	-- otherwise, use biome
+	return biome
+end
+
 return {
 	{
 		"https://github.com/stevearc/conform.nvim",
@@ -101,12 +136,6 @@ return {
 			})
 		end,
 		config = function()
-			local biome = {
-				"biome-organize-imports",
-				"biome-check",
-				"biome",
-			}
-
 			require("conform").setup({
 				default_format_opts = {
 					lsp_format = "fallback",
@@ -114,34 +143,10 @@ return {
 				},
 				formatters_by_ft = {
 					go = { "goimports", lsp_format = "last" }, -- to use gofumpt via LSP
-					javascript = biome,
+					javascript = make_formatter_ts,
 					lua = { "stylua" },
-					typescript = function(buf)
-						local project_dir = vim.fn.getcwd()
-						local lsp_clients = vim.lsp.get_clients({ bufnr = buf })
-
-						for _, client in ipairs(lsp_clients) do
-							if client.name == "denols" then
-								return { lsp_format = "prefer" }
-							end
-							if client.name == "tsserver" then
-								project_dir = client.config.root_dir
-								break
-							end
-						end
-
-						-- use prettier if package.json contains prettier as a dependency
-						local package_json = vim.fs.joinpath(project_dir, "package.json")
-						if vim.fn.filereadable(package_json) == 1 then
-							local package = vim.fn.json_decode(vim.fn.readfile(package_json))
-							if package and package.devDependencies and package.devDependencies.prettier then
-								return { "prettier" }
-							end
-						end
-
-						-- otherwise, use biome
-						return biome
-					end,
+					typescript = make_formatter_ts,
+					typescriptreact = make_formatter_ts,
 					nix = { "nixfmt" },
 					python = { "ruff_format", "ruff_fix" },
 					r = { "air", "styler", stop_after_first = true },
