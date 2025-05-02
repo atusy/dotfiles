@@ -29,6 +29,7 @@
     pkgs.kubectl
     pkgs.kubectx
     pkgs.mise
+    pkgs.mypy
     pkgs.neovim # nightly
     pkgs.nodejs
     pkgs.pandoc
@@ -53,6 +54,7 @@
     pkgs.nodePackages_latest.bash-language-server
     pkgs.nodePackages_latest.vscode-json-languageserver
     pkgs.pyright
+    pkgs.typescript-language-server
     pkgs.terraform-ls
     pkgs.yaml-language-server
 
