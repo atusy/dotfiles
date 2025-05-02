@@ -1,6 +1,7 @@
 { pkgs, ... }:
 
-[
+{
+  system = [
     pkgs.aha # Converet ANSI escape sequences to HTML
     pkgs.avahi
     pkgs.bash
@@ -64,10 +65,11 @@
     pkgs.shellcheck
     pkgs.shfmt
     pkgs.stylua
-
-    # Fonts
+  ];
+  fonts = [
     pkgs.udev-gothic
     pkgs.udev-gothic-nf
     pkgs.noto-fonts-color-emoji
     pkgs.ibm-plex
-]
+  ];
+}

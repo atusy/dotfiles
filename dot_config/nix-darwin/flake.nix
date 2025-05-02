@@ -13,33 +13,42 @@
     };
   };
 
-  outputs = inputs@{ self, nix-darwin, nixpkgs, ... }:
-  let
-    configuration = { pkgs, ... }: {
-      environment.systemPackages = import ./system-packages.nix { inherit pkgs; };
+  outputs =
+    inputs@{
+      self,
+      nix-darwin,
+      nixpkgs,
+      ...
+    }:
+    let
+      configuration =
+        { pkgs, ... }:
+        {
+          environment.systemPackages = (import ./system-packages.nix { inherit pkgs; }).system;
+          fonts.packages = (import ./system-packages.nix { inherit pkgs; }).fonts;
 
-      # Necessary for using flakes on this system.
-      nix.settings.experimental-features = "nix-command flakes";
+          # Necessary for using flakes on this system.
+          nix.settings.experimental-features = "nix-command flakes";
 
-      # Enable alternative shell support in nix-darwin.
-      # programs.fish.enable = true;
+          # Enable alternative shell support in nix-darwin.
+          # programs.fish.enable = true;
 
-      # Set Git commit hash for darwin-version.
-      system.configurationRevision = self.rev or self.dirtyRev or null;
+          # Set Git commit hash for darwin-version.
+          system.configurationRevision = self.rev or self.dirtyRev or null;
 
-      # Used for backwards compatibility, please read the changelog before changing.
-      # $ darwin-rebuild changelog
-      system.stateVersion = 6;
+          # Used for backwards compatibility, please read the changelog before changing.
+          # $ darwin-rebuild changelog
+          system.stateVersion = 6;
 
-      nixpkgs.hostPlatform = "aarch64-darwin";
-      nixpkgs.overlays = [ inputs.neovim-nightly-overlay.overlays.default ];
-      nixpkgs.config.allowUnfree = true;
+          nixpkgs.hostPlatform = "aarch64-darwin";
+          nixpkgs.overlays = [ inputs.neovim-nightly-overlay.overlays.default ];
+          nixpkgs.config.allowUnfree = true;
+        };
+      darwinHost = builtins.getEnv "DARWIN_HOST";
+    in
+    {
+      darwinConfigurations.${darwinHost} = nix-darwin.lib.darwinSystem {
+        modules = [ configuration ];
+      };
     };
-    darwinHost = builtins.getEnv "DARWIN_HOST";
-  in
-  {
-    darwinConfigurations.${darwinHost} = nix-darwin.lib.darwinSystem {
-      modules = [ configuration ];
-    };
-  };
 }
