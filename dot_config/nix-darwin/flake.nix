@@ -1,5 +1,7 @@
+# Apply with:
+# DARWIN_HOST=$(hostname -s) darwin-rebuild switch --flake ~/.config/nix-darwin --impure
 {
-  description = "Example nix-darwin system flake";
+  description = "personal darwin configuration";
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
