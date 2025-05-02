@@ -1,3 +1,29 @@
+local function git_exclude(path)
+	local gitdir = vim.fs.find(".git", { upward = true })[1]
+
+	if not gitdir then
+		vim.notify("not in git repository")
+	end
+
+	local git_info_exclude = vim.fs.joinpath(gitdir, "info", "exclude")
+	local file = (function()
+		if vim.uv.fs_stat(vim.fs.joinpath(gitdir, "info", "exclude")) then
+			return io.open(git_info_exclude, "a")
+		end
+		vim.fn.mkdir(vim.fs.dirname(git_info_exclude), "p")
+		return io.open(git_info_exclude, "w")
+	end)()
+
+	if not file then
+		vim.notify("failed to open " .. git_info_exclude)
+		return
+	end
+	pcall(function()
+		file:write(path)
+	end)
+	file:close()
+end
+
 return {
 	--[[ window ]]
 	{ mode = "n", lhs = "window: equalize horizontally", rhs = "<Cmd>horizontal wincmd =<CR>" },
@@ -77,6 +103,22 @@ return {
 		lhs = "denops: reload cache",
 		rhs = function()
 			require("plugins.denops.utils").cache_plugin(nil, true)
+		end,
+	},
+
+	--[[ git ]]
+	{
+		mode = "n",
+		lhs = "git: ignore % locally",
+		rhs = function()
+			git_exclude(vim.fn.expand("%"))
+		end,
+	},
+	{
+		mode = "n",
+		lhs = "git: ignore %:h locally",
+		rhs = function()
+			git_exclude(vim.fn.expand("%:h"))
 		end,
 	},
 }
