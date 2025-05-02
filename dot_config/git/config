@@ -62,8 +62,6 @@
 	detachedHead = false
 [fetch]
 	prune = true
-[credential]
-	helper = cache
 [commit]
 	cleanup = scissors
 	; disabled in preference of ~/.config/git/hooks/prepare-commit-msg-files/verbose-message.bash
@@ -72,3 +70,5 @@
 	helper = !/usr/bin/env gh auth git-credential
 [credential "https://gist.github.com"]
 	helper = !/usr/bin/env gh auth git-credential
+[credential]
+	helper = cache
