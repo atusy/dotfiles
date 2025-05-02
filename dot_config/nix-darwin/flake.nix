@@ -16,8 +16,6 @@
   outputs = inputs@{ self, nix-darwin, nixpkgs, ... }:
   let
     configuration = { pkgs, ... }: {
-      # List packages installed in system profile. To search by name, run:
-      # $ nix-env -qaP | grep wget
       environment.systemPackages = import ./system-packages.nix { inherit pkgs; };
 
       # Necessary for using flakes on this system.
