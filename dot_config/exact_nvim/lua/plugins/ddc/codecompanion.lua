@@ -58,7 +58,7 @@ local function handle_slash_command(buffer)
 				return
 			end
 			local chat = require("codecompanion.strategies.chat").buf_get_chat(buffer)
-			require("codecompanion.completion").slash_commands_execute(item.user_data.raw, chat)
+			require("codecompanion.providers.completion").slash_commands_execute(item.user_data.raw, chat)
 		end,
 	})
 end
