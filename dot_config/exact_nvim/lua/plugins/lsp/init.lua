@@ -107,7 +107,7 @@ local function lspconfig()
 			},
 		},
 	}) -- R -e "remotes::install_github('languageserver')"
-	config("nil_ls", {})
+	config("nixd", {})
 	config("svelte", {})
 	config("terraformls", { filetypes = { "terraform", "tf" } })
 	config("volar", {})

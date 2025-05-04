@@ -50,7 +50,6 @@ let
     # language servers
     pkgs.gopls
     pkgs.lua-language-server
-    pkgs.nil
     pkgs.nixd
     pkgs.nodePackages_latest.bash-language-server
     pkgs.nodePackages_latest.vscode-json-languageserver
