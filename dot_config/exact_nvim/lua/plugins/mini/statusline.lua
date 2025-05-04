@@ -1,8 +1,7 @@
 local M = {}
 
-local MiniStatusline = require("mini.statusline")
-
 local function active()
+	local MiniStatusline = require("mini.statusline")
 	local mode, mode_hl = MiniStatusline.section_mode({ trunc_width = math.huge })
 	local filename = MiniStatusline.section_filename({ trunc_width = 140 })
 	local location = MiniStatusline.section_location({ trunc_width = 75 })
