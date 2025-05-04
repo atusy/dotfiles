@@ -53,7 +53,7 @@
       darwinHost = builtins.getEnv "DARWIN_HOST";
       system = if darwinHost == "" then "x86_64-linux" else "aarch64-darwin";
     in
-    if true then
+    if darwinHost == "" then
       {
         homeConfigurations."atusy" = home-manager.lib.homeManagerConfiguration {
           inherit pkgs;
