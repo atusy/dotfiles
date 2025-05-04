@@ -1,6 +1,6 @@
 local function list_items()
 	local items = {}
-	local completion = require("codecompanion.completion")
+	local completion = require("codecompanion.providers.completion")
 	for _, func in pairs({ "slash_commands", "tools", "variables" }) do
 		for _, v in pairs(completion[func]()) do
 			table.insert(
