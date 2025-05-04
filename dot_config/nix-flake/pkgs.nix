@@ -1,7 +1,7 @@
 { pkgs, ... }:
 
-{
-  system = [
+let
+  common = [
     pkgs.aha # Converet ANSI escape sequences to HTML
     pkgs.avahi
     pkgs.bash
@@ -51,6 +51,7 @@
     pkgs.gopls
     pkgs.lua-language-server
     pkgs.nil
+    pkgs.nixd
     pkgs.nodePackages_latest.bash-language-server
     pkgs.nodePackages_latest.vscode-json-languageserver
     pkgs.pyright
@@ -68,6 +69,13 @@
     pkgs.shfmt
     pkgs.stylua
   ];
+in
+{
+  x86_64-linux = [
+    pkgs.paru
+  ] ++ common;
+  aarch64-darwin = [
+  ] ++ common;
   fonts = [
     pkgs.udev-gothic
     pkgs.udev-gothic-nf

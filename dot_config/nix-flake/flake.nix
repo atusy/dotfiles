@@ -30,7 +30,7 @@
       darwinConfiguration =
         { pkgs, ... }:
         {
-          environment.systemPackages = (import ./pkgs.nix { inherit pkgs; }).system;
+          environment.systemPackages = (import ./pkgs.nix { inherit pkgs; }).aarch64-darwin;
           fonts.packages = (import ./pkgs.nix { inherit pkgs; }).fonts;
 
           # Necessary for using flakes on this system.
