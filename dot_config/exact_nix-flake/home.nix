@@ -13,14 +13,11 @@
   # release notes.
   home.stateVersion = "24.05"; # Please read the comment before changing.
 
-  nixpkgs.config = {
-    allowUnfree = true;
-  };
+  nixpkgs.config.allowUnfree = true;
 
   home.packages = (import ./pkgs.nix { inherit pkgs; }).x86_64-linux;
 
-  home.file = {
-  };
+  home.file = { };
 
   home.sessionVariables = { };
 
