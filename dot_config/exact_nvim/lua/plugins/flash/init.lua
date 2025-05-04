@@ -105,7 +105,7 @@ return {
 			--[[ search register ]]
 			vim.keymap.set("n", "gn", function()
 				require("flash").jump({
-				  -- seems like `~` is an invalid label
+					-- seems like `~` is an invalid label
 					labels = [[abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890!@#$%^&*()[]`'=-{}"+_]],
 					search = { multi_window = false, mode = "search" },
 					label = { before = true, after = false },
