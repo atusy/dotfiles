@@ -1,7 +1,19 @@
 #!/bin/sh
+set -eu
 
+OS_KERNEL=$(uname -s)
+
+# pacman
 if command -v pacman >/dev/null; then
   sudo pacman -Syuu
 fi
 
-T-homemanager-switch
+# nix
+chezmoi apply
+nix flake update --flake ~/.config/nix-flake
+if [ "$OS_KERNEL" = "Darwin" ]; then
+  T-darwin-update
+else
+  T-homemanager-switch
+fi
+chezmoi add ~/.config/nix-flake/flake.lock
