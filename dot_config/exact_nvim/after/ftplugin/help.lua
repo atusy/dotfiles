@@ -94,6 +94,26 @@ local function find_tag(node)
 	end
 end
 
+---@param node TSNode
+---@return string
+local function get_tag_name(node)
+	local text = node:field("text")
+	if text and #text == 1 then
+		return vim.treesitter.get_node_text(text[1], 0, {})
+	end
+
+	local ret = ""
+	for _, child in node:iter_children() do
+		ret = ret .. child
+	end
+	if ret ~= "" then
+		return ret
+	end
+
+	ret = vim.treesitter.get_node_text(node, 0, {}):gsub("^[*]", ""):gsub("[*]$", "")
+	return ret
+end
+
 if not is_git_repo then
 	-- otherwise, use global mapping defined at ~/.config/nvim/lua/plugins/git/init.lua
 	vim.keymap.set("n", "<Plug>(C-G)<C-Y>", function()
@@ -107,7 +127,7 @@ if not is_git_repo then
 			return
 		end
 
-		local node_text = vim.treesitter.get_node_text(node_tag, 0, {}):gsub("^[*]", ""):gsub("[*]$", "")
+		local node_text = get_tag_name(node_tag)
 		local file_name = vim.fs.basename(vim.api.nvim_buf_get_name(0)):gsub("[.]txt$", "")
 		local url = string.format(
 			-- e.g., https://neovim.io/doc/user/editing.html#CTRL-G
