@@ -54,8 +54,8 @@ let
     pkgs.nodePackages_latest.bash-language-server
     pkgs.nodePackages_latest.vscode-json-languageserver
     pkgs.pyright
-    pkgs.typescript-language-server
     pkgs.terraform-ls
+    pkgs.typescript-language-server
     pkgs.yaml-language-server
 
     # formatters/linters
