@@ -2,7 +2,6 @@
   description = "Home Manager configuration of atusy";
 
   inputs = {
-    # Specify the source of Home Manager and Nixpkgs.
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
     nix-darwin.url = "github:nix-darwin/nix-darwin/master";
     nix-darwin.inputs.nixpkgs.follows = "nixpkgs";
@@ -36,10 +35,6 @@
           # Necessary for using flakes on this system.
           nix.settings.experimental-features = "nix-command flakes";
 
-          # Enable alternative shell support in nix-darwin.
-          # programs.fish.enable = true;
-
-          # Set Git commit hash for darwin-version.
           system.configurationRevision = self.rev or self.dirtyRev or null;
 
           # Used for backwards compatibility, please read the changelog before changing.
@@ -58,17 +53,12 @@
         homeConfigurations."atusy" = home-manager.lib.homeManagerConfiguration {
           inherit pkgs;
 
-          # Specify your home configuration modules here, for example,
-          # the path to your home.nix.
           modules = [
             {
               nixpkgs.overlays = overlays;
             }
             ./home.nix
           ];
-
-          # Optionally use extraSpecialArgs
-          # to pass through arguments to home.nix
         };
       }
     else
