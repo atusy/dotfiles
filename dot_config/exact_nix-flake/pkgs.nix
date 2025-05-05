@@ -11,19 +11,19 @@ let
     pkgs.deno
     pkgs.direnv
     pkgs.duf
-    pkgs.gdu
-    pkgs.htop
     pkgs.eza
-    pkgs.go
-    pkgs.go-task
     pkgs.fd
     pkgs.fish
     pkgs.fzf
-    pkgs.google-cloud-sdk
+    pkgs.gdu
     pkgs.gh
     pkgs.ghq
     pkgs.git
+    pkgs.go
+    pkgs.go-task
     pkgs.gojq
+    pkgs.google-cloud-sdk
+    pkgs.htop
     pkgs.jq
     pkgs.kind
     pkgs.kubectl
