@@ -1,7 +1,29 @@
 # https://docs.astral.sh/ruff/settings/
-select = ["E4", "E7", "E9", "F", "B", "Q", "RSE", "RET", "I"]
 src = [".", "src", "test"]
 exclude = [".venv"]
+
+[format]
+docstring-code-format = true
+
+[lint]
+select = ["ALL"]
+fixable = ["ALL"]
+ignore = [
+  # reasonablly ignorable
+  "D203", # conflicts with D211
+  "D213", # conflicts with D212
+  "COM812", # handled by ruff format
+  "ISC001", # handled by ruff format
+  # personally acceptable
+  "FIX002", # allow todo comments
+  "TD002", # trace todo comment authors by git blame, not by comment itself
+  "TD003", # allow todo comments without a ticket number
+]
+
+[lint.per-file-ignores]
+"tests/*" = [
+  "S101", # tests require assert
+]
 
 [pydocstyle]
 convention = "google"
