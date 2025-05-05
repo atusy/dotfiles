@@ -3,4 +3,4 @@
 set -e
 
 DARWIN_HOST=$(hostname -s)
-DARWIN_HOST="$DARWIN_HOST" darwin-rebuild switch --flake ~/.config/nix-darwin --impure
+DARWIN_HOST="$DARWIN_HOST" darwin-rebuild switch --flake ~/.config/nix-darwin --impure --cores 0

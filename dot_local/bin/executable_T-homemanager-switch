@@ -2,4 +2,4 @@
 
 set -e
 
-home-manager switch --flake ~/.config/nix-flake
+home-manager switch --flake ~/.config/nix-flake --cores 0
