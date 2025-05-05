@@ -6,6 +6,7 @@ let
     pkgs.avahi
     pkgs.bash
     pkgs.bat
+    pkgs.bitwarden-cli
     pkgs.chezmoi
     pkgs.delta
     pkgs.deno
@@ -13,6 +14,7 @@ let
     pkgs.duf
     pkgs.eza
     pkgs.fd
+    pkgs.ffmpeg
     pkgs.fish
     pkgs.fzf
     pkgs.gdu
@@ -54,9 +56,11 @@ let
     pkgs.nodePackages_latest.bash-language-server
     pkgs.nodePackages_latest.vscode-json-languageserver
     pkgs.pyright
+    pkgs.rust-analyzer
     pkgs.terraform-ls
     pkgs.typescript-language-server
     pkgs.yaml-language-server
+    pkgs.vtsls
 
     # formatters/linters
     pkgs.actionlint
