@@ -166,7 +166,7 @@ local function setup_gin()
 			return
 		end
 		local mode = vim.api.nvim_get_mode().mode
-		local cmd = (mode == "nromal" and "." or "") .. "GinBrowse ++yank=+ HEAD -n --permalink"
+		local cmd = (mode == "normal" and "." or "") .. "GinBrowse ++yank=+ HEAD -n --permalink"
 		if buftype == "nofile" or buftype == "quickfix" or buftype == "terminal" or buftype == "prompt" then
 			return ":" .. cmd .. "<CR>"
 		end
