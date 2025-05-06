@@ -270,6 +270,7 @@ vim.api.nvim_create_autocmd("TextYankPost", {
 })
 
 vim.api.nvim_create_autocmd({ "BufReadPre", "BufNewFile" }, {
+	group = augroup,
 	once = true,
 	callback = function()
 		vim.filetype.add({
