@@ -54,12 +54,12 @@ let
     pkgs.lua-language-server
     pkgs.nixd
     pkgs.nodePackages_latest.bash-language-server
-    pkgs.nodePackages_latest.vscode-json-languageserver
     pkgs.pyright
     pkgs.rust-analyzer
     pkgs.terraform-ls
     pkgs.typescript-language-server
     pkgs.yaml-language-server
+    pkgs.vscode-langservers-extracted # JSON, HTML, CSS, ESLint
     pkgs.vtsls
 
     # formatters/linters
