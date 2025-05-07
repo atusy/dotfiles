@@ -6,6 +6,7 @@ let
     pkgs.avahi
     pkgs.bash
     pkgs.bat
+    pkgs.bun
     pkgs.chezmoi
     pkgs.delta
     pkgs.deno
@@ -16,6 +17,7 @@ let
     pkgs.ffmpeg
     pkgs.fish
     pkgs.fzf
+    pkgs.gcc
     pkgs.gdu
     pkgs.gh
     pkgs.ghq
