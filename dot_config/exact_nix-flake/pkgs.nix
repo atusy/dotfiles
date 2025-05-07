@@ -43,10 +43,12 @@ let
     pkgs.python312
     pkgs.ripgrep
     pkgs.rsync
+    pkgs.sheldon
     pkgs.terraform
     pkgs.tmux
     pkgs.trash-cli
     pkgs.uv
+    pkgs.watch
     pkgs.wget2
     pkgs.zoxide
 
