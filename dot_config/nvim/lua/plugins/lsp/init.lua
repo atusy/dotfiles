@@ -13,8 +13,10 @@ local function on_attach(client, bufnr)
 		-- asynchronous cache
 		vim.system({ "deno", "cache", vim.api.nvim_buf_get_name(bufnr) }, {}, function() end)
 	end
-	require("lsp_signature").on_attach({ hint_enable = false, handler_opts = { border = "none" } }, bufnr)
-	set_keymap("i", "<C-G><C-H>", require("lsp_signature").toggle_float_win, { buffer = bufnr })
+	if client.name ~= "copilot" and client.name ~= "ts_ls" then
+		require("lsp_signature").on_attach({ hint_enable = false, handler_opts = { border = "none" } }, bufnr)
+		set_keymap("i", "<C-G><C-H>", require("lsp_signature").toggle_float_win, { buffer = bufnr })
+	end
 
 	-- Enable completion triggered by <c-x><c-o>
 	vim.bo[bufnr].omnifunc = "v:lua.vim.lsp.omnifunc"
