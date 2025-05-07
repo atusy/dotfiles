@@ -80,9 +80,9 @@ in
   aarch64-darwin = [
   ] ++ common;
   fonts = [
+    pkgs.ibm-plex
+    pkgs.noto-fonts-color-emoji
     pkgs.udev-gothic
     pkgs.udev-gothic-nf
-    pkgs.noto-fonts-color-emoji
-    pkgs.ibm-plex
   ];
 }
