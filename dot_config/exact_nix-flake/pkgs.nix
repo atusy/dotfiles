@@ -6,7 +6,6 @@ let
     pkgs.avahi
     pkgs.bash
     pkgs.bat
-    pkgs.bitwarden-cli
     pkgs.chezmoi
     pkgs.delta
     pkgs.deno
@@ -76,6 +75,7 @@ in
 {
   x86_64-linux = [
     pkgs.paru
+    pkgs.bitwarden-cli # fails on aarch64-darwin
   ] ++ common;
   aarch64-darwin = [
   ] ++ common;
