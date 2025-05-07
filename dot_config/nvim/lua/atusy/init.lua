@@ -324,10 +324,35 @@ vim.api.nvim_create_autocmd({ "BufReadPre", "BufNewFile" }, {
 	end,
 })
 
+local is_open_neovim_32660 ---@type boolean | nil
+
 vim.api.nvim_create_autocmd({ "BufWinEnter", "WinNew", "WinClosed", "TabEnter" }, {
 	group = augroup,
 	desc = "Workaround flickering <https://github.com/neovim/neovim/issues/32660>",
 	callback = function(ctx)
+		-- remove autocmd if the issue is closed
+		if is_open_neovim_32660 == nil then
+			pcall(vim.system, {
+				"gh",
+				"issue",
+				"view",
+				"https://github.com/neovim/neovim/issues/32660",
+				"--json",
+				"state",
+				"--jq",
+				".state",
+			}, { text = true }, function(obj)
+				is_open_neovim_32660 = obj.stdout:gsub("\n", ""):match("^OPEN$") ~= nil
+				if not is_open_neovim_32660 then
+					vim.schedule(function()
+						vim.notify("TS async highlight now works without flickering")
+						vim.api.nvim_del_autocmd(ctx.id)
+						vim.g._ts_force_sync_parsing = false
+					end)
+				end
+			end)
+		end
+
 		local function is_parsing(buf)
 			-- try undocumented `vim.treesitter.highlighter`
 			local ok, active = pcall(function()
