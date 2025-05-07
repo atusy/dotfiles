@@ -158,14 +158,14 @@ return {
 	{ "https://github.com/uga-rosa/ddc-source-lsp-setup", lazy = true },
 	{ "https://github.com/ray-x/lsp_signature.nvim", lazy = true },
 	{
-		"https://github.com/williamboman/mason.nvim",
+		"https://github.com/mason-org/mason.nvim",
 		lazy = true,
 		config = function()
 			require("mason").setup()
 		end,
 	},
 	{
-		"https://github.com/williamboman/mason-lspconfig.nvim",
+		"https://github.com/mason-org/mason-lspconfig.nvim",
 		lazy = true,
 		config = function()
 			require("mason-lspconfig").setup()
