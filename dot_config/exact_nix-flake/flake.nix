@@ -41,6 +41,24 @@
           # $ darwin-rebuild changelog
           system.stateVersion = 6;
 
+          # https://github.com/nix-darwin/nix-darwin/blob/master/modules/homebrew.nix
+          homebrew = {
+            enable = true;
+            onActivation.autoUpdate = true;
+            onActivation.upgrade = true;
+            brews = [
+              "bitwarden-cli"
+            ];
+            casks = [
+              "chromium"
+              "firefox"
+              "keycastr"
+              "libreoffice"
+              "vlc"
+              "wezterm"
+            ];
+          };
+
           nixpkgs.hostPlatform = "aarch64-darwin";
           nixpkgs.overlays = [ inputs.neovim-nightly-overlay.overlays.default ];
           nixpkgs.config.allowUnfree = true;
