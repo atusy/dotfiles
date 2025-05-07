@@ -48,12 +48,16 @@
             onActivation.upgrade = true;
             brews = [
               "bitwarden-cli"
+              "mas"
             ];
             casks = [
               "chromium"
               "firefox"
+              "karabiner-elements"
               "keycastr"
               "libreoffice"
+              # "macskk"
+              "raycast"
               "vlc"
               "wezterm"
             ];
