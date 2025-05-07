@@ -12,7 +12,7 @@ fi
 chezmoi apply
 nix flake update --flake ~/.config/nix-flake
 if [ "$OS_KERNEL" = "Darwin" ]; then
-  T-darwin-update
+  T-darwin-switch
 else
   T-homemanager-switch
 fi
