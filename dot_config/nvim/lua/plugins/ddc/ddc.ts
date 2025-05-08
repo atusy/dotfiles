@@ -209,6 +209,7 @@ export class Config extends BaseConfig {
           fromAltBuf: true,
           forceCollect: true,
         },
+        copilot: { copilot: "lua" },
         dictionary: {
           exactLength: 2,
           firstCaseInsensitive: true,
