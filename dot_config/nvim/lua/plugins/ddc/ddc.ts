@@ -22,6 +22,7 @@ export class Config extends BaseConfig {
 
     const sources = [
       "denippet",
+      "copilot",
       "lsp",
       "file",
       "around",
@@ -37,7 +38,9 @@ export class Config extends BaseConfig {
     args.setAlias("source", "ex_command_history_cmd", "cmdline_history");
     args.setAlias("filter", "matcher_head_dictionary", "matcher_head");
     args.setAlias("filter", "matcher_head_shell_history", "matcher_head");
+    args.setAlias("filter", "matcher_word", "matcher_string_match");
     args.setAlias("filter", "converter_ex_command", "converter_string_match");
+    args.setAlias("filter", "converter_word", "converter_string_match");
 
     args.contextBuilder.patchGlobal({
       ui: "pum",
@@ -96,6 +99,13 @@ export class Config extends BaseConfig {
         cmdline: {
           mark: "CMD",
           forceCompletionPattern: "\\S/\\S*|\\.\\w*",
+        },
+        copilot: {
+          mark: "AI",
+          isVolatile: true,
+          minAutoCompleteLength: 0,
+          matchers: ["matcher_word"],
+          converters: ["converter_word"],
         },
         denippet: {
           mark: "S",
@@ -259,6 +269,13 @@ export class Config extends BaseConfig {
         converter_ex_command: {
           regexp: "[^ ]*[^ !]",
           convertAbbr: true,
+        },
+        converter_word: {
+          regexp: "^[a-zA-Z0-9_]+",
+          convertAbbr: true,
+        },
+        matcher_word: {
+          regexp: "^[a-zA-Z0-9_]+",
         },
       },
     });
