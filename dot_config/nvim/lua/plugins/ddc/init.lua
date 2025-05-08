@@ -198,7 +198,7 @@ return {
 	-- converter
 	{ "https://github.com/Shougo/ddc-filter-converter_remove_overlap" },
 	{ "https://github.com/Shougo/ddc-filter-converter_truncate_abbr" },
-	{ "https://github.com/atusy/ddc-filter-converter_string_match" },
+	{ "https://github.com/atusy/ddc-filter_string-match" },
 	{ "https://github.com/atusy/ddc-filter-converter_dictionary" },
 	-- dictionaries for ddc (install only)
 	{ "https://github.com/dwyl/english-words", lazy = true },
