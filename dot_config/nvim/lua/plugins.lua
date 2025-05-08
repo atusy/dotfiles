@@ -667,6 +667,15 @@ return {
 		event = { "InsertEnter", "CursorHold" },
 		config = function()
 			require("copilot").setup({
+				server_opts_overrides = {
+					trace = "verbose",
+					settings = {
+						advanced = {
+							listCount = 10, -- #completions for panel
+							inlineSuggestCount = 3, -- #completions for getCompletions
+						},
+					},
+				},
 				suggestion = {
 					auto_trigger = true,
 					keymap = {
