@@ -69,6 +69,7 @@ let
     pkgs.actionlint
     pkgs.biome
     pkgs.checkmate
+    pkgs.gotools
     pkgs.nixfmt-rfc-style
     pkgs.ruff
     pkgs.shellcheck
