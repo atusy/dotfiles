@@ -59,6 +59,21 @@ vim.opt.smartindent = true
 vim.opt.softtabstop = 2
 vim.opt.tabstop = 2
 
+-- cmdline
+local ok, extui = pcall(require, "vim._extui")
+if ok then
+	vim.opt.cmdheight = 0
+	extui.enable({
+		enable = true,
+		msg = {
+			pos = "cmd", -- 'box'か'cmd'だがcmdheight=0だとどっちでも良い？（記事後述）
+			box = {
+				timeout = 5000, -- boxメッセージの表示時間 ミリ秒
+			},
+		},
+	})
+end
+
 --[[ commands ]]
 vim.api.nvim_create_user_command("W", "write !sudo tee % >/dev/null", {})
 
