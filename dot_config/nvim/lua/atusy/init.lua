@@ -128,7 +128,7 @@ vim.keymap.set("n", "n", function()
 end, { expr = true, desc = "show index of match" })
 vim.keymap.set("n", "N", function()
 	toggle_cmdheight()
-	return "n"
+	return "N"
 end, { expr = true, desc = "show index of match" })
 
 -- mappings: window management
