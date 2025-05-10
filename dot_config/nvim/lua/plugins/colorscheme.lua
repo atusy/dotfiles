@@ -113,6 +113,14 @@ local function set_styler()
 		end,
 	})
 
+	vim.api.nvim_create_autocmd("ColorScheme", {
+		group = augroup,
+		callback = function()
+			ACTIVE_COLORSCHEME = vim.g.colors_name
+			theme()
+		end,
+	})
+
 	vim.api.nvim_create_autocmd("CmdlineEnter", {
 		group = augroup,
 		callback = function()
