@@ -102,6 +102,10 @@ vim.keymap.set({ "n", "x" }, "<C-W><C-F>", [[<Cmd>lua require("atusy.misc").open
 -- mappings: extui
 ---@param defer_revert number | nil
 local function toggle_cmdheight(defer_revert)
+	if vim.o.laststatus > 0 then
+		-- show index in statusline
+		return
+	end
 	if require("vim._extui.shared").cfg.enable then
 		vim.o.cmdheight = 1
 		local group = vim.api.nvim_create_augroup("atusy.n", { clear = true })
