@@ -1,5 +1,4 @@
 -- [[ helpers ]]
-local set_keymap = vim.keymap.set
 local augroup = vim.api.nvim_create_augroup("atusy", {})
 
 --[[ options ]]
@@ -79,26 +78,26 @@ vim.api.nvim_create_user_command("W", "write !sudo tee % >/dev/null", {})
 
 --[[ mappings ]]
 vim.g.mapleader = " "
-set_keymap({ "n", "x" }, "s", "<plug>(s)") -- be prefix for sandwich and fuzzy finders
-set_keymap("n", "<C-G>", "<Cmd>lua if vim.o.laststatus == 0 then vim.cmd.f() end<CR><Plug>(C-G)")
-set_keymap("n", "<Plug>(C-G)<C-G>", '<Cmd>let @+ = expand("%:~:.")<CR>')
-set_keymap("n", "<Plug>(C-G)g", '<Cmd>let @+ = expand("%:~")<CR>')
-set_keymap("n", "H", "H<Plug>(H)")
-set_keymap("n", "<Plug>(H)H", "<PageUp>H<Plug>(H)")
-set_keymap("n", "L", "L<Plug>(L)")
-set_keymap("n", "<Plug>(L)L", "<PageDown>Lzb<Plug>(L)")
-set_keymap("x", "<C-G>", "<Plug>(C-G)")
-set_keymap("x", "<Plug>(C-G)<C-G>", "<C-G>")
-set_keymap("c", "<C-A>", "<Home>")
-set_keymap("t", "<C-W>", [[<C-\><C-N><C-W>]])
-set_keymap({ "", "!", "t" }, [[<C-\>]], [[<C-\><C-N>]], { nowait = true })
-set_keymap("x", "p", "P")
-set_keymap("x", "P", "p")
-set_keymap("x", "zf", [[mode() ==# 'V' ? 'zf' : 'Vzf']], { expr = true })
-set_keymap("x", " ue", [[<Cmd>lua require("atusy.misc").urlencode()<CR>]])
-set_keymap("x", " ud", [[<Cmd>lua require("atusy.misc").urldecode()<CR>]])
-set_keymap({ "n", "x" }, "gf", [[<Cmd>lua require("atusy.misc").open_cfile()<CR>]])
-set_keymap({ "n", "x" }, "<C-W><C-F>", [[<Cmd>lua require("atusy.misc").open_cfile({ cmd = "vs" })<CR>]])
+vim.keymap.set({ "n", "x" }, "s", "<plug>(s)") -- be prefix for sandwich and fuzzy finders
+vim.keymap.set("n", "<C-G>", "<Cmd>lua if vim.o.laststatus == 0 then vim.cmd.f() end<CR><Plug>(C-G)")
+vim.keymap.set("n", "<Plug>(C-G)<C-G>", '<Cmd>let @+ = expand("%:~:.")<CR>')
+vim.keymap.set("n", "<Plug>(C-G)g", '<Cmd>let @+ = expand("%:~")<CR>')
+vim.keymap.set("n", "H", "H<Plug>(H)")
+vim.keymap.set("n", "<Plug>(H)H", "<PageUp>H<Plug>(H)")
+vim.keymap.set("n", "L", "L<Plug>(L)")
+vim.keymap.set("n", "<Plug>(L)L", "<PageDown>Lzb<Plug>(L)")
+vim.keymap.set("x", "<C-G>", "<Plug>(C-G)")
+vim.keymap.set("x", "<Plug>(C-G)<C-G>", "<C-G>")
+vim.keymap.set("c", "<C-A>", "<Home>")
+vim.keymap.set("t", "<C-W>", [[<C-\><C-N><C-W>]])
+vim.keymap.set({ "", "!", "t" }, [[<C-\>]], [[<C-\><C-N>]], { nowait = true })
+vim.keymap.set("x", "p", "P")
+vim.keymap.set("x", "P", "p")
+vim.keymap.set("x", "zf", [[mode() ==# 'V' ? 'zf' : 'Vzf']], { expr = true })
+vim.keymap.set("x", " ue", [[<Cmd>lua require("atusy.misc").urlencode()<CR>]])
+vim.keymap.set("x", " ud", [[<Cmd>lua require("atusy.misc").urldecode()<CR>]])
+vim.keymap.set({ "n", "x" }, "gf", [[<Cmd>lua require("atusy.misc").open_cfile()<CR>]])
+vim.keymap.set({ "n", "x" }, "<C-W><C-F>", [[<Cmd>lua require("atusy.misc").open_cfile({ cmd = "vs" })<CR>]])
 
 -- mappings: cmdheight
 vim.keymap.set("n", "n", "<cmd>set cmdheight=1<cr>n", { desc = "show index of match" })
@@ -106,8 +105,8 @@ vim.keymap.set("n", "N", "<cmd>set cmdheight=1<cr>N", { desc = "show index of ma
 vim.keymap.set("n", "<c-l>", "<Cmd>set cmdheight=0<BAR>nohlsearch<Bar>diffupdate<Bar>normal! <C-L><CR>")
 
 -- mappings: window management
-set_keymap("n", "<C-W><C-V>", "<C-W><C-V><Cmd>horizontal wincmd =<CR>")
-set_keymap("n", "<C-W><C-S>", "<C-W><C-S><Cmd>vertical wincmd =<CR>")
+vim.keymap.set("n", "<C-W><C-V>", "<C-W><C-V><Cmd>horizontal wincmd =<CR>")
+vim.keymap.set("n", "<C-W><C-S>", "<C-W><C-S><Cmd>vertical wincmd =<CR>")
 if vim.env.WEZTERM_PANE ~= nil then
 	local directions = { h = "Left", j = "Down", k = "Up", l = "Right" }
 	local function move_nvim_win_or_wezterm_pane(hjkl)
@@ -126,46 +125,46 @@ end
 
 -- mappings: tab management
 -- continue moving around tab (e.g., gtttT gTtT)
-set_keymap("n", "gt", "gt<Plug>(gt)")
-set_keymap("n", "gT", "gT<Plug>(gt)")
-set_keymap("n", "<Plug>(gt)t", "gt<Plug>(gt)")
-set_keymap("n", "<Plug>(gt)T", "gT<Plug>(gt)")
+vim.keymap.set("n", "gt", "gt<Plug>(gt)")
+vim.keymap.set("n", "gT", "gT<Plug>(gt)")
+vim.keymap.set("n", "<Plug>(gt)t", "gt<Plug>(gt)")
+vim.keymap.set("n", "<Plug>(gt)T", "gT<Plug>(gt)")
 
 -- mappings: diagnostics
 vim.keymap.set("n", "<space>d", [[<Cmd>lua vim.diagnostic.open_float({border = "single"})<CR>]])
 
 -- mappings: insert-mode horizontal moves in the current undo block
-set_keymap("i", "<Left>", "<C-G>U<Left>")
-set_keymap("i", "<Right>", "<C-G>U<Right>")
+vim.keymap.set("i", "<Left>", "<C-G>U<Left>")
+vim.keymap.set("i", "<Right>", "<C-G>U<Right>")
 
 -- mappings: register
-set_keymap({ "n", "x" }, "-", '"_')
-set_keymap({ "n", "x" }, "x", '"_x')
-set_keymap({ "n", "x" }, "X", '"_X')
-set_keymap({ "n", "x" }, "gy", '"+y')
-set_keymap({ "n", "x" }, "gY", '"+Y')
+vim.keymap.set({ "n", "x" }, "-", '"_')
+vim.keymap.set({ "n", "x" }, "x", '"_x')
+vim.keymap.set({ "n", "x" }, "X", '"_X')
+vim.keymap.set({ "n", "x" }, "gy", '"+y')
+vim.keymap.set({ "n", "x" }, "gY", '"+Y')
 
 -- mappings: textobj
--- set_keymap({ "o", "x" }, "ii", "2i") -- ii' selects 'foo' without outer spaces (:h v_i)
-set_keymap({ "o", "x" }, "ii", ":<c-u>keepjumps normal! g_v^<cr>", { silent = true })
-set_keymap({ "o", "x" }, "ae", ":<c-u>keepjumps normal! G$vgo<cr>", { silent = true })
+-- vim.keymap.set({ "o", "x" }, "ii", "2i") -- ii' selects 'foo' without outer spaces (:h v_i)
+vim.keymap.set({ "o", "x" }, "ii", ":<c-u>keepjumps normal! g_v^<cr>", { silent = true })
+vim.keymap.set({ "o", "x" }, "ae", ":<c-u>keepjumps normal! G$vgo<cr>", { silent = true })
 
 -- mappings: mouse
-set_keymap("!", "<LeftMouse>", "<Esc><LeftMouse>")
-set_keymap("n", "<2-LeftMouse>", "gf", { remap = true })
-set_keymap("n", "<LeftDrag>", "<Nop>")
-set_keymap("n", "<LeftRelease>", "<Nop>")
+vim.keymap.set("!", "<LeftMouse>", "<Esc><LeftMouse>")
+vim.keymap.set("n", "<2-LeftMouse>", "gf", { remap = true })
+vim.keymap.set("n", "<LeftDrag>", "<Nop>")
+vim.keymap.set("n", "<LeftRelease>", "<Nop>")
 
 -- mappings: jumplist
-set_keymap("n", "g<C-O>", function()
+vim.keymap.set("n", "g<C-O>", function()
 	return require("atusy.misc").jump_file(false)
 end, { expr = true })
-set_keymap("n", "g<C-I>", function()
+vim.keymap.set("n", "g<C-I>", function()
 	return require("atusy.misc").jump_file(true)
 end, { expr = true })
 
 -- mappings: save and ...
-set_keymap({ "n", "x" }, "<Plug>(save)", function()
+vim.keymap.set({ "n", "x" }, "<Plug>(save)", function()
 	---@diagnostic disable-next-line: undefined-field
 	local nm = vim.api.nvim_buf_get_name(0)
 	for _, prefix in ipairs({ "term://" }) do
@@ -181,10 +180,10 @@ set_keymap({ "n", "x" }, "<Plug>(save)", function()
 	end
 	vim.cmd((vim.uv.fs_stat(nm) and "up" or "write ++p") .. " | redraw")
 end)
-set_keymap({ "i", "n" }, "<C-S>", [[<C-\><C-N><Plug>(save)<Plug>(C-S)]], { desc = "save" })
-set_keymap("n", "<Plug>(C-S)<C-A>", "<cmd>wa<cr>", { desc = "save all" })
-set_keymap("n", "<Plug>(C-S)<C-Q>", "<cmd>q<cr>", { desc = "save and quit" })
-set_keymap("n", "<Plug>(C-S)<C-M>", function()
+vim.keymap.set({ "i", "n" }, "<C-S>", [[<C-\><C-N><Plug>(save)<Plug>(C-S)]], { desc = "save" })
+vim.keymap.set("n", "<Plug>(C-S)<C-A>", "<cmd>wa<cr>", { desc = "save all" })
+vim.keymap.set("n", "<Plug>(C-S)<C-Q>", "<cmd>q<cr>", { desc = "save and quit" })
+vim.keymap.set("n", "<Plug>(C-S)<C-M>", function()
 	local bufname = vim.api.nvim_buf_get_name(vim.api.nvim_get_current_buf())
 	local bufext = bufname:gsub(".*%.", "")
 	if bufext ~= "vim" and bufext ~= "lua" then
@@ -201,29 +200,29 @@ local function win_move_or_cmd(row, col, cmd)
 	end
 end
 
-set_keymap({ "", "t" }, "<S-Up>", function()
+vim.keymap.set({ "", "t" }, "<S-Up>", function()
 	win_move_or_cmd(-1, 0, "2+")
 end)
-set_keymap({ "", "t" }, "<S-Down>", function()
+vim.keymap.set({ "", "t" }, "<S-Down>", function()
 	win_move_or_cmd(1, 0, "2-")
 end)
-set_keymap({ "", "t" }, "<S-Right>", function()
+vim.keymap.set({ "", "t" }, "<S-Right>", function()
 	win_move_or_cmd(0, 2, "2>")
 end)
-set_keymap({ "", "t" }, "<S-Left>", function()
+vim.keymap.set({ "", "t" }, "<S-Left>", function()
 	win_move_or_cmd(0, -2, "2<")
 end)
 
 -- mappings: macro
 -- disable macro a-z except q on normal mode and entirely on visual mode
-set_keymap("x", "q", "<Nop>")
-set_keymap("n", "q", function()
+vim.keymap.set("x", "q", "<Nop>")
+vim.keymap.set("n", "q", function()
 	return vim.fn.reg_recording() == "" and "<Plug>(q)" or "q"
 end, { expr = true })
-set_keymap("n", "<Plug>(q)q", "qq")
-set_keymap("n", "<Plug>(q):", "q:")
-set_keymap("n", "<Plug>(q)/", "q/")
-set_keymap("n", "<Plug>(q)?", "q?")
+vim.keymap.set("n", "<Plug>(q)q", "qq")
+vim.keymap.set("n", "<Plug>(q):", "q:")
+vim.keymap.set("n", "<Plug>(q)/", "q/")
+vim.keymap.set("n", "<Plug>(q)?", "q?")
 
 --[[ autocmd ]]
 vim.api.nvim_create_autocmd("TermOpen", { pattern = "*", group = augroup, command = "startinsert" })
