@@ -78,6 +78,7 @@ local state = {}
 
 local function set_styler()
 	local allow_buf_win_enter = false -- ignore first time after VimEnter
+	local augroup = vim.api.nvim_create_augroup("atusy.styler", {})
 	vim.api.nvim_create_autocmd({
 		"BufWinEnter", -- instead of BufEnter
 		"WinEnter",
@@ -91,7 +92,7 @@ local function set_styler()
             ```
       ]]
 	}, {
-		group = vim.api.nvim_create_augroup("atusy.styler", {}),
+		group = augroup,
 		callback = function(ctx)
 			if ctx.event == "BufWinEnter" and not allow_buf_win_enter then
 				allow_buf_win_enter = true
@@ -109,6 +110,27 @@ local function set_styler()
 					-- require("atusy.highlight").change_background(require("atusy.highlight").transparent)
 				end
 			end)
+		end,
+	})
+
+	vim.api.nvim_create_autocmd("CmdlineEnter", {
+		group = augroup,
+		callback = function()
+			local ok = pcall(function()
+				if not require("vim._extui.shared").cfg.enable then
+					return
+				end
+				local tabpage = vim.api.nvim_get_current_tabpage()
+				local extuiwins = require("vim._extui.shared").wins[tabpage]
+				for _, w in pairs(extuiwins) do
+					require("styler").set_theme(w, { colorscheme = OUTSIDE_COLORSCHEME })
+				end
+			end)
+
+			if not ok then
+				vim.notify("styling extui with styler.nvim failed", vim.log.levels.ERROR)
+				return true -- delete autocmd
+			end
 		end,
 	})
 end
