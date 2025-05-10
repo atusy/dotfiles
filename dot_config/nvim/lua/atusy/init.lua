@@ -100,6 +100,7 @@ vim.keymap.set({ "n", "x" }, "gf", [[<Cmd>lua require("atusy.misc").open_cfile()
 vim.keymap.set({ "n", "x" }, "<C-W><C-F>", [[<Cmd>lua require("atusy.misc").open_cfile({ cmd = "vs" })<CR>]])
 
 -- mappings: extui
+---@param defer_revert number | nil
 local function toggle_cmdheight(defer_revert)
 	if require("vim._extui.shared").cfg.enable then
 		vim.o.cmdheight = 1
@@ -116,17 +117,17 @@ local function toggle_cmdheight(defer_revert)
 						end
 					end
 					pcall(vim.api.nvim_del_autoccmd, ctx.id)
-				end, defer_revert or 1000)
+				end, defer_revert or 5000)
 			end,
 		})
 	end
 end
 vim.keymap.set("n", "n", function()
-	toggle_cmdheight(1000)
+	toggle_cmdheight()
 	return "n"
 end, { expr = true, desc = "show index of match" })
 vim.keymap.set("n", "N", function()
-	toggle_cmdheight(1000)
+	toggle_cmdheight()
 	return "n"
 end, { expr = true, desc = "show index of match" })
 
