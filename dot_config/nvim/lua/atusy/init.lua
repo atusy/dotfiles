@@ -100,36 +100,10 @@ set_keymap("x", " ud", [[<Cmd>lua require("atusy.misc").urldecode()<CR>]])
 set_keymap({ "n", "x" }, "gf", [[<Cmd>lua require("atusy.misc").open_cfile()<CR>]])
 set_keymap({ "n", "x" }, "<C-W><C-F>", [[<Cmd>lua require("atusy.misc").open_cfile({ cmd = "vs" })<CR>]])
 
--- mappings: extui
-local function toggle_cmdheight(defer_revert)
-	if require("vim._extui.shared").cfg.enable then
-		vim.o.cmdheight = 1
-		local group = vim.api.nvim_create_augroup("atusy.n", { clear = true })
-		vim.api.nvim_create_autocmd("CursorHold", {
-			group = group,
-			callback = function(ctx)
-				vim.defer_fn(function()
-					local autocmds = vim.api.nvim_get_autocmds({ group = group })
-					for _, autocmd in ipairs(autocmds) do
-						if autocmd.id == ctx.id then
-							vim.o.cmdheight = 0
-							return
-						end
-					end
-					pcall(vim.api.nvim_del_autoccmd, ctx.id)
-				end, defer_revert or 1000)
-			end,
-		})
-	end
-end
-vim.keymap.set("n", "n", function()
-	toggle_cmdheight(1000)
-	return "n"
-end, { expr = true, desc = "show index of match" })
-vim.keymap.set("n", "N", function()
-	toggle_cmdheight(1000)
-	return "n"
-end, { expr = true, desc = "show index of match" })
+-- mappings: cmdheight
+vim.keymap.set("n", "n", "<cmd>set cmdheight=1<cr>n", { desc = "show index of match" })
+vim.keymap.set("n", "N", "<cmd>set cmdheight=1<cr>N", { desc = "show index of match" })
+vim.keymap.set("n", "<c-l>", "<Cmd>set cmdheight=0<BAR>nohlsearch<Bar>diffupdate<Bar>normal! <C-L><CR>")
 
 -- mappings: window management
 set_keymap("n", "<C-W><C-V>", "<C-W><C-V><Cmd>horizontal wincmd =<CR>")
