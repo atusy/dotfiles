@@ -26,9 +26,35 @@ end
 
 function M.lazy()
 	vim.opt.laststatus = 0
+	local loaded = false
+
+	-- on setup, also revert config
+	local function setup()
+		vim.opt.laststatus = 2
+		M.setup()
+		pcall(function()
+			vim.keymap.del("n", "n")
+			vim.keymap.del("n", "N")
+		end)
+	end
+
+	-- lazy load with n/N to show search count
+	vim.keymap.set("n", "n", function()
+		setup()
+		return "n"
+	end, { expr = true })
+	vim.keymap.set("n", "N", function()
+		setup()
+		return "N"
+	end, { expr = true })
+
+	-- lazy load with WinNew to show window status
 	vim.api.nvim_create_autocmd("WinNew", {
 		group = vim.api.nvim_create_augroup("atusy-mini-statusline", {}),
 		callback = function()
+			if loaded then
+				return true
+			end
 			local cnt = 0
 			for _, w in pairs(vim.api.nvim_tabpage_list_wins(0)) do
 				if vim.api.nvim_win_get_config(w).relative == "" then
@@ -42,8 +68,7 @@ function M.lazy()
 				return false
 			end
 
-			vim.opt.laststatus = 2
-			M.setup()
+			setup()
 			return true
 		end,
 	})
