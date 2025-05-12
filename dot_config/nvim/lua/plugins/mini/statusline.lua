@@ -3,7 +3,7 @@ local M = {}
 local function active()
 	local MiniStatusline = require("mini.statusline")
 	local mode, mode_hl = MiniStatusline.section_mode({ trunc_width = math.huge })
-	local filename = MiniStatusline.section_filename({ trunc_width = 140 })
+	local filename = MiniStatusline.section_filename({ trunc_width = math.huge }) -- prefer relative path
 	local location = MiniStatusline.section_location({ trunc_width = 75 })
 	local search = MiniStatusline.section_searchcount({ trunc_width = 75 })
 
