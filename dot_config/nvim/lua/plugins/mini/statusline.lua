@@ -17,9 +17,15 @@ local function active()
 end
 
 function M.setup()
-	require("mini.statusline").setup({
+	local MiniStatusline = require("mini.statusline")
+	MiniStatusline.setup({
 		content = {
 			active = active,
+			inactive = function()
+				return MiniStatusline.combine_groups({
+					MiniStatusline.section_filename({ trunc_width = math.huge }), -- prefer relative path
+				})
+			end,
 		},
 	})
 end
