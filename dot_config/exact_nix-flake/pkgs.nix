@@ -17,7 +17,7 @@ let
     pkgs.ffmpeg
     pkgs.fish
     pkgs.fzf
-    pkgs.gcc
+    # pkgs.gcc # use one in system to avoid not found error from ld
     pkgs.gdu
     pkgs.gh
     pkgs.ghq
