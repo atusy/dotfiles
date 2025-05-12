@@ -65,10 +65,8 @@ if ok then
 	extui.enable({
 		enable = true,
 		msg = {
-			pos = "cmd", -- 'box'か'cmd'だがcmdheight=0だとどっちでも良い？（記事後述）
-			box = {
-				timeout = 5000, -- boxメッセージの表示時間 ミリ秒
-			},
+			pos = "box",
+			box = { timeout = 5000 },
 		},
 	})
 end
