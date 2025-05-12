@@ -1,3 +1,3 @@
 function watch --wraps watch
-  watch --color $argv
+  command watch --color $argv
 end
