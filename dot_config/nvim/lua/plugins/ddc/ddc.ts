@@ -281,9 +281,16 @@ export class Config extends BaseConfig {
       },
     });
 
-    const shellSources = ["fish", "zsh", "xonsh"]; // avoid shell_history as it can be too noisy
-    ["sh", "bash", "fish", "xonsh", "zsh"].map((x) =>
-      args.contextBuilder.patchFiletype(x, { sources: shellSources })
+    ["sh", "bash", "zsh"].map((x) =>
+      args.contextBuilder.patchFiletype(x, {
+        sources: [...sourcesPrimary, "zsh", ...sourcesSecondary],
+      })
     );
+    args.contextBuilder.patchFiletype("fish", {
+      sources: [...sourcesPrimary, "fish", ...sourcesSecondary],
+    });
+    args.contextBuilder.patchFiletype("xonsh", {
+      sources: [...sourcesPrimary, "xonsh", ...sourcesSecondary],
+    });
   }
 }
