@@ -71,8 +71,10 @@ if ok then
 	})
 	vim.keymap.set("n", "<c-l>", function()
 		local extui_hidden, err = pcall(function()
-			local extuiwins = require("vim._extui.shared").wins[vim.api.nvim_get_current_tabpage()]
-			vim.api.nvim_win_set_config(extuiwins.box, { hide = true })
+			local wins = require("vim._extui.shared").wins[vim.api.nvim_get_current_tabpage()]
+			local bufs = require("vim._extui.shared").bufs
+			vim.api.nvim_win_set_config(wins.box, { hide = true })
+			vim.api.nvim_win_set_lines(bufs.cmd, 0, -1, false, {})
 		end)
 		if not extui_hidden and err then
 			vim.notify(err, vim.log.levels.ERROR)
