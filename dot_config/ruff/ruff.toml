@@ -1,6 +1,5 @@
 # https://docs.astral.sh/ruff/settings/
 src = [".", "src", "test"]
-exclude = [".venv"]
 
 [format]
 docstring-code-format = true
