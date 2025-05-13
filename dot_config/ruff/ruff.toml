@@ -1,5 +1,5 @@
 # https://docs.astral.sh/ruff/settings/
-src = [".", "src", "test"]
+src = [".", "src", "test"] # add test to the default
 
 [format]
 docstring-code-format = true
