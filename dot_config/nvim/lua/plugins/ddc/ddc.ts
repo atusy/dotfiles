@@ -12,6 +12,19 @@ async function get_fpath() {
   return new TextDecoder().decode(output.stdout);
 }
 
+const makeSources = (sources: string[]) => {
+  return [
+    "denippet",
+    "copilot",
+    "lsp",
+    ...sources,
+    "file",
+    "around",
+    "buffer",
+    "dictionary",
+  ];
+};
+
 export class Config extends BaseConfig {
   override async config(args: ConfigArguments): Promise<void> {
     const lazyroot = (await args.denops.call(
@@ -20,15 +33,16 @@ export class Config extends BaseConfig {
     )) as string;
     const stddata = (await args.denops.call("stdpath", "data")) as string;
 
-    const sources = [
-      "denippet",
-      "copilot",
-      "lsp",
-      "file",
-      "around",
-      "buffer",
-      "dictionary",
-    ];
+    const sources = makeSources([]);
+    ["sh", "bash", "zsh"].map((x) =>
+      args.contextBuilder.patchFiletype(x, { sources: makeSources(["zsh"]) })
+    );
+    args.contextBuilder.patchFiletype("fish", {
+      sources: makeSources(["fish"]),
+    });
+    args.contextBuilder.patchFiletype("xonsh", {
+      sources: makeSources(["xonsh"]),
+    });
 
     ["zsh", "fish", "xonsh"].map((x) =>
       args.setAlias("source", x, "shell_native")
@@ -279,18 +293,6 @@ export class Config extends BaseConfig {
           regexp: "^[a-zA-Z0-9_]+",
         },
       },
-    });
-
-    ["sh", "bash", "zsh"].map((x) =>
-      args.contextBuilder.patchFiletype(x, {
-        sources: [...sourcesPrimary, "zsh", ...sourcesSecondary],
-      })
-    );
-    args.contextBuilder.patchFiletype("fish", {
-      sources: [...sourcesPrimary, "fish", ...sourcesSecondary],
-    });
-    args.contextBuilder.patchFiletype("xonsh", {
-      sources: [...sourcesPrimary, "xonsh", ...sourcesSecondary],
     });
   }
 }
