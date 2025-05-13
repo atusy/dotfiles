@@ -72,9 +72,7 @@ if ok then
 	vim.keymap.set("n", "<c-l>", function()
 		local extui_cleared, err = pcall(function()
 			local wins = require("vim._extui.shared").wins[vim.api.nvim_get_current_tabpage()]
-			local bufs = require("vim._extui.shared").bufs
 			vim.api.nvim_win_set_config(wins.box, { hide = true })
-			vim.api.nvim_buf_set_lines(bufs.cmd, 0, -1, false, {})
 		end)
 		if not extui_cleared and err then
 			vim.notify(err, vim.log.levels.ERROR)
