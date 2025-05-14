@@ -61,7 +61,6 @@ end
 update_completion gh completion -s fish
 update_completion mise completion fish
 update_completion deno completions fish
-update_completion poetry completions fish
 update_completion task --completion fish
 
 set -l local_config (dirname (status -f))/local.fish
