@@ -62,7 +62,7 @@ end
 # update_completion deno completions fish
 # update_completion task --completion fish
 
-set -l local_config (dirname (status -f))/local.fish
+set -l local_config (status dirname)/local.fish
 if test -f $local_config
   source $local_config
 end
