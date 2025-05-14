@@ -20,15 +20,13 @@ source_hook mise activate fish
 source_hook direnv hook fish
 source_hook zoxide init fish --no-cmd
 
-for brew in brew /home/linuxbrew/.linuxbrew/bin/brew /opt/homebrew/bin/brew
-  if set -l brewpath (type --path $brew)
-    set -l cache "$HOME/.cache/brew"
-    if not test -r $cache/shellenv.fish; or test $cache/shellenv.fish -ot $brew
-      mkdir -p $cache
-      $brew shellenv > $cache/shellenv.fish
+if type -q brew
+  __setup-fish brew
+else
+  for brew in "$HOME/.linuxbrew/bin/brew" "/opt/homebrew/bin/brew"
+    if test -x $brew
+      __setup-fish $brew
     end
-    source $cache/shellenv.fish
-    break
   end
 end
 
