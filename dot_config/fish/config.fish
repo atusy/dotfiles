@@ -58,10 +58,11 @@ else
   set -gx EDITOR nvim
 end
 
-update_completion gh completion -s fish
-update_completion mise completion fish
-update_completion deno completions fish
-update_completion task --completion fish
+# NOTE: seems like completion works without them
+# update_completion gh completion -s fish
+# update_completion mise completion fish
+# update_completion deno completions fish
+# update_completion task --completion fish
 
 set -l local_config (dirname (status -f))/local.fish
 if test -f $local_config
