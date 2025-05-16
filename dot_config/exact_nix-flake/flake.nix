@@ -47,7 +47,7 @@
             onActivation.autoUpdate = true;
             onActivation.upgrade = true;
             brews = [
-              "bitwarden-cli"
+              "bitwarden-cli" # not available in nixpkgs for aarch64-darwin
               "mas"
             ];
             casks = [
