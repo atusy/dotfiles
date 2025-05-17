@@ -57,6 +57,7 @@
               "keycastr"
               "libreoffice"
               # "macskk"
+              "r"
               "raycast"
               "vlc"
               "wezterm"
