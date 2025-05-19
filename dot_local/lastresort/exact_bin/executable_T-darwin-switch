@@ -1,6 +1,6 @@
 #!/bin/sh
 
-set -e
+set -eu
 
-DARWIN_HOST=$(hostname -s)
+DARWIN_HOST="${DARWIN_HOST:-$(hostname -s)}"
 DARWIN_HOST="$DARWIN_HOST" darwin-rebuild switch --flake ~/.config/nix-flake --impure --cores 0
