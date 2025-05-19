@@ -124,10 +124,14 @@ local function set_styler()
 	vim.api.nvim_create_autocmd("CmdlineEnter", {
 		group = augroup,
 		callback = function()
+			local ok_extui, enabled = pcall(function()
+				return require("vim._extui.shared").cfg.enable
+			end)
+			if ok_extui and not enabled then
+				return
+			end
+
 			local ok = pcall(function()
-				if not require("vim._extui.shared").cfg.enable then
-					return
-				end
 				local tabpage = vim.api.nvim_get_current_tabpage()
 				local extuiwins = require("vim._extui.shared").wins[tabpage]
 				for _, w in pairs(extuiwins) do
