@@ -34,6 +34,7 @@ let
     pkgs.mise
     pkgs.mypy
     pkgs.neovim # nightly
+    pkgs.neovim-remote
     pkgs.nodejs
     pkgs.pandoc
     pkgs.pnpm
