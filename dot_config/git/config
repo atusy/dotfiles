@@ -31,8 +31,7 @@
 [alias]
 	aliases = config --get-regexp ^alias[.]
 	graph = log --graph --date-order -C -M --pretty=format:'%h <%ad> [%an] %Cgreen%d%Creset %s' --date=short
-  # list tags with date
-  v = tag --list --format='%(color:green)%(refname:short)%(color:reset) %(taggerdate:short)' --sort=v:refname
+  v = tag --list --format='%(color:green)%(refname:short)%(color:reset) %(taggerdate:short)' --sort=v:refname ; list tags with date
 [init]
 	templatedir = ~/.config/git/template
 	defaultBranch = main
