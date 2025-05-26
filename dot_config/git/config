@@ -64,8 +64,7 @@
 	prune = true
 [commit]
 	cleanup = scissors
-	; disabled in preference of ~/.config/git/hooks/prepare-commit-msg-files/verbose-message.bash
-	; verbose = true
+	verbose = false ; because I have special TUI on Neovim
 [credential "https://github.com"]
 	helper = !/usr/bin/env gh auth git-credential
 [credential "https://gist.github.com"]
