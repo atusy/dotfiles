@@ -31,6 +31,7 @@ let
     pkgs.kind
     pkgs.kubectl
     pkgs.kubectx
+    pkgs.lnav
     pkgs.mise
     pkgs.mypy
     pkgs.neovim # nightly
