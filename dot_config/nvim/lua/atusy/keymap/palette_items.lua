@@ -73,6 +73,26 @@ return {
 		lhs = "lsp: list workspace folders",
 		rhs = "<Cmd>lua = vim.lsp.buf.list_workspace_folders()<CR>",
 	},
+	{
+		mode = "n",
+		lhs = "lsp: loglevel to info",
+		rhs = "<Cmd>lua vim.lsp.set_log_level('info')<CR>",
+	},
+	{
+		mode = "n",
+		lhs = "lsp: loglevel to debug",
+		rhs = "<Cmd>lua vim.lsp.set_log_level('debug')<CR>",
+	},
+	{
+		mode = "n",
+		lhs = "lsp: loglevel to off",
+		rhs = "<Cmd>lua vim.lsp.set_log_level('off')<CR>",
+	},
+	{
+		mode = "n",
+		lhs = "lsp: open logfile",
+		rhs = "<Cmd>lua vim.cmd('e ' .. vim.lsp.get_log_path())<CR>",
+	},
 
 	--[[ diagnostic ]]
 	{
