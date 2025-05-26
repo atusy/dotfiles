@@ -1,8 +1,5 @@
 version: '3'
 
-includes:
-  dev: ./readonly_Taskfile.dist.yml
-
 tasks:
   apply:
     cmds:
