@@ -41,6 +41,8 @@
           # $ darwin-rebuild changelog
           system.stateVersion = 6;
 
+          system.primaryUser = darwinUser;
+
           # https://github.com/nix-darwin/nix-darwin/blob/master/modules/homebrew.nix
           homebrew = {
             enable = true;
@@ -69,6 +71,7 @@
           nixpkgs.config.allowUnfree = true;
         };
       darwinHost = builtins.getEnv "DARWIN_HOST";
+      darwinUser = builtins.getEnv "DARWIN_USER";
       system = if darwinHost == "" then "x86_64-linux" else "aarch64-darwin";
     in
     if darwinHost == "" then
