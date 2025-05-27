@@ -21,11 +21,11 @@ source_hook direnv hook fish
 source_hook zoxide init fish --no-cmd
 
 if type -q brew
-  __setup-fish brew
+  __setup-brew brew
 else
   for brew in "$HOME/.linuxbrew/bin/brew" "/opt/homebrew/bin/brew"
     if test -x $brew
-      __setup-fish $brew
+      __setup-brew $brew
     end
   end
 end
