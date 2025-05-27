@@ -6,5 +6,4 @@ function __setup-brew
     $brew shellenv > $cache/shellenv.fish
   end
   source $cache/shellenv.fish
-  break
 end
