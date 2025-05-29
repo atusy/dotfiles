@@ -12,18 +12,9 @@ return {
 			vim.keymap.set({ "n", "x" }, "<plug>(s)i", ":CodeCompanion ")
 		end,
 		config = function()
-			local function optimus()
-				local name = "qwen/qwq-32b:free"
-				return require("codecompanion.adapters").extend("openrouter", {
-					name = name,
-					formatted_name = name,
-					schema = { model = { default = name } },
-				})
-			end
 			require("codecompanion").setup({
 				adapters = {
 					openrouter = require("plugins.codecompanion.adapter.openrouter"),
-					optimus = optimus,
 					default = function()
 						-- change adapter based on repo visibility
 						local cwd = vim.fn.getcwd()
@@ -40,7 +31,12 @@ return {
 							state.public[cwd] = res.code == 0 and res.stdout:match("PUBLIC\n*")
 						end
 						if state.public[cwd] then
-							return optimus()
+							local name = "qwen/qwq-32b:free"
+							return require("codecompanion.adapters").extend("openrouter", {
+								name = name,
+								formatted_name = name,
+								schema = { model = { default = name } },
+							})
 						else
 							return require("codecompanion.adapters").extend("copilot", {})
 						end
