@@ -13,10 +13,11 @@ return {
 		end,
 		config = function()
 			local function optimus()
+				local name = "qwen/qwq-32b:free"
 				return require("codecompanion.adapters").extend("openrouter", {
-					name = "openrouter/gemini-2-0-flash",
-					formatted_name = "openrouter/gemini-2-0-flash",
-					schema = { model = { default = "google/gemini-2.0-flash-exp:free" } },
+					name = name,
+					formatted_name = name,
+					schema = { model = { default = name } },
 				})
 			end
 			require("codecompanion").setup({
