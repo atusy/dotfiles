@@ -37,6 +37,7 @@ let
     pkgs.neovim # nightly
     pkgs.neovim-remote
     pkgs.nodejs
+    pkgs.ollama
     pkgs.pandoc
     pkgs.pnpm
     pkgs.podman
