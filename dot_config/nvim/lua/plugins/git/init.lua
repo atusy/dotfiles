@@ -45,7 +45,7 @@ local function setup_gitsigns()
 			vim.cmd("normal! ]c")
 			return
 		end
-		require("gitsigns").nav_hunk("next", nil, function()
+		require("gitsigns").nav_hunk("next", { navigation_message = false }, function()
 			require("gitsigns").preview_hunk_inline()
 		end)
 	end)
