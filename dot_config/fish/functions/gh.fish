@@ -1,6 +1,6 @@
 # HACK: fish support for gh-fzf
 function gh
-  set -l ghf $HOME/ghq/github.com/atusy/gh-fzf/bin/ghf 
+  set -l ghf $HOME/ghq/github.com/atusy/gh-fzf/bin/ghf
 
   # bootstrap
   if ! test -x $ghf
