@@ -52,6 +52,10 @@ return {
 					timeout_ms = 500,
 				},
 				format_on_save = function(buf)
+					if vim.v.cmdbang == 1 then
+						return nil
+					end
+
 					local name = vim.api.nvim_buf_get_name(buf)
 					local basename = vim.fs.basename(name)
 
