@@ -180,8 +180,8 @@ vim.keymap.set("i", "<Right>", "<C-G>U<Right>")
 
 -- mappings: registers and marks
 vim.keymap.set({ "n", "x" }, "-", '"_')
-vim.keymap.set({ "n", "x" }, "x", '"_xmx')
-vim.keymap.set({ "n", "x" }, "X", '"_Xmx')
+vim.keymap.set({ "n", "x" }, "x", '"xxmx')
+vim.keymap.set({ "n", "x" }, "X", '"xXmx')
 vim.keymap.set({ "n", "x" }, "gy", '"+y') -- mark is updated via autocmd
 vim.keymap.set({ "n", "x" }, "gY", '"+Y') -- mark is updated via autocmd
 vim.keymap.set("n", "p", "pmp")
@@ -189,6 +189,7 @@ vim.keymap.set("x", "p", "Pmp") -- intentionally swap p and P
 vim.keymap.set("n", "P", "Pmp")
 vim.keymap.set("x", "P", "pmp") -- intentionally swap P and p
 vim.keymap.set("n", "u", "umu")
+vim.keymap.set("n", "<C-R>", "<C-R>mu")
 
 -- mappings: textobj
 -- vim.keymap.set({ "o", "x" }, "ii", "2i") -- ii' selects 'foo' without outer spaces (:h v_i)
@@ -329,24 +330,25 @@ vim.api.nvim_create_autocmd("TextYankPost", {
 		-- copy unnamed regsiter to contextful register
 		-- i.e., change to c, delete to d, and yank to y
 		-- note that `x` is treated as delete, not x.
-		-- I map `x` and `X` register to blackhole.
+		-- I map `x` and `X` register to `x`-register.
 		if regname == "" then
 			vim.fn.setreg(op, vim.fn.getreg())
 		end
 
 		-- set mark for the yanked region
+		-- to distinguish x and d, use `x`-mark for `x`-operator
 		local win = vim.api.nvim_get_current_win()
-		if vim.api.nvim_win_get_buf(win) == ctx.buf then
-			vim.schedule(function()
-				-- Do lazily to avoid occasional failure on setting the mark.
-				-- The issue typically occurs with `dd`.
+		vim.schedule(function()
+			-- Do lazily to avoid occasional failure on setting the mark.
+			-- The issue typically occurs with `dd`.
+			if vim.api.nvim_win_get_buf(win) == ctx.buf then
 				local cursor = vim.api.nvim_win_get_cursor(win)
-				vim.api.nvim_buf_set_mark(ctx.buf, op, cursor[1], cursor[2], {})
+				vim.api.nvim_buf_set_mark(ctx.buf, regname == "x" and "x" or op, cursor[1], cursor[2], {})
 				if regname and regname:match("[a-z0-9]") then
 					vim.api.nvim_buf_set_mark(ctx.buf, regname:upper(), cursor[1], cursor[2], {})
 				end
-			end)
-		end
+			end
+		end)
 
 		-- highlight yanked region
 		if vim.v.event.operator == "y" then
