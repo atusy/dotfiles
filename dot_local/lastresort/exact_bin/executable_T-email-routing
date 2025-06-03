@@ -18,27 +18,45 @@ APIKEY=$(echo "$INFO" | jq -e -r .apikey)
 ZONEID=$(echo "$INFO" | jq -e -r .zoneid)
 DEST=$(echo "$INFO" | jq -e -r .dest)
 
-curl --request POST \
-  --url "https://api.cloudflare.com/client/v4/zones/$ZONEID/email/routing/rules" \
-  --header "Content-Type: application/json" \
-  --header "Authorization: Bearer $APIKEY" \
-  --data "{
-  \"actions\": [
-    {
-      \"type\": \"forward\",
-      \"value\": [
-        \"$DEST\"
-      ]
-    }
-  ],
-  \"enabled\": true,
-  \"matchers\": [
-    {
-      \"field\": \"to\",
-      \"type\": \"literal\",
-      \"value\": \"$1\"
-    }
-  ],
-  \"name\": \"$1\",
-  \"priority\": 0
-}"
+_curl() {
+  curl \
+    --url "https://api.cloudflare.com/client/v4/zones/$ZONEID/email/routing/rules" \
+    --header "Content-Type: application/json" \
+    --header "Authorization: Bearer $APIKEY" \
+    "$@"
+}
+
+post() {
+  _curl --request POST \
+    --data "{
+      \"actions\": [
+        {
+          \"type\": \"forward\",
+          \"value\": [
+            \"$DEST\"
+          ]
+        }
+      ],
+      \"enabled\": true,
+      \"matchers\": [
+        {
+          \"field\": \"to\",
+          \"type\": \"literal\",
+          \"value\": \"$1\"
+        }
+      ],
+      \"name\": \"$1\",
+      \"priority\": 0
+    }"
+}
+
+get() {
+  _curl --request GET
+}
+
+# if cmd argument is provided, do post otherwise do get
+if [[ $# -gt 0 ]]; then
+  post "$1"
+else
+  get
+fi
