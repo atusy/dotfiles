@@ -182,8 +182,8 @@ vim.keymap.set("i", "<Right>", "<C-G>U<Right>")
 vim.keymap.set({ "n", "x" }, "-", '"_')
 vim.keymap.set({ "n", "x" }, "x", '"_xmx')
 vim.keymap.set({ "n", "x" }, "X", '"_Xmx')
-vim.keymap.set({ "n", "x" }, "gy", '"+ymy')
-vim.keymap.set({ "n", "x" }, "gY", '"+Ymy')
+vim.keymap.set({ "n", "x" }, "gy", '"+y') -- mark is updated via autocmd
+vim.keymap.set({ "n", "x" }, "gY", '"+Y') -- mark is updated via autocmd
 vim.keymap.set("n", "p", "pmp")
 vim.keymap.set("x", "p", "Pmp") -- intentionally swap p and P
 vim.keymap.set("n", "P", "Pmp")
