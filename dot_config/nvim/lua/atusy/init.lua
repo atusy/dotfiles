@@ -316,12 +316,17 @@ vim.api.nvim_create_autocmd("InsertEnter", {
 vim.api.nvim_create_autocmd("TextYankPost", {
 	group = augroup,
 	callback = function()
+		local op = vim.v.event.operator
+		if not op then
+			return
+		end
+
 		-- copy unnamed regsiter to contextful register
 		-- i.e., change to c, delete to d, and yank to y
 		-- note that `x` is treated as delete, not x.
 		-- I map `x` and `X` register to blackhole.
 		if vim.v.event.regname == "" then
-			vim.fn.setreg(vim.v.event.operator, vim.fn.getreg())
+			vim.fn.setreg(op, vim.fn.getreg())
 		end
 
 		-- highlight yanked region
