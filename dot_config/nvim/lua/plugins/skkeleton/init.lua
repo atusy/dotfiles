@@ -124,7 +124,7 @@ return {
 							if not focused then
 								vim.system({ "fcitx5-remote", "-s", "skk" }):wait()
 							end
-						end, 200)
+						end, 500)
 					end,
 				})
 			end
