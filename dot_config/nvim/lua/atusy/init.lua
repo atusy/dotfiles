@@ -103,8 +103,6 @@ vim.keymap.set("x", "<Plug>(C-G)<C-G>", "<C-G>")
 vim.keymap.set("c", "<C-A>", "<Home>")
 vim.keymap.set("t", "<C-W>", [[<C-\><C-N><C-W>]])
 vim.keymap.set({ "", "!", "t" }, [[<C-\>]], [[<C-\><C-N>]], { nowait = true })
-vim.keymap.set("x", "p", "P")
-vim.keymap.set("x", "P", "p")
 vim.keymap.set("x", "zf", [[mode() ==# 'V' ? 'zf' : 'Vzf']], { expr = true })
 vim.keymap.set("x", " ue", [[<Cmd>lua require("atusy.misc").urlencode()<CR>]])
 vim.keymap.set("x", " ud", [[<Cmd>lua require("atusy.misc").urldecode()<CR>]])
@@ -180,12 +178,17 @@ vim.keymap.set("n", "<space>d", [[<Cmd>lua vim.diagnostic.open_float({border = "
 vim.keymap.set("i", "<Left>", "<C-G>U<Left>")
 vim.keymap.set("i", "<Right>", "<C-G>U<Right>")
 
--- mappings: register
+-- mappings: registers and marks
 vim.keymap.set({ "n", "x" }, "-", '"_')
-vim.keymap.set({ "n", "x" }, "x", '"_x')
-vim.keymap.set({ "n", "x" }, "X", '"_X')
-vim.keymap.set({ "n", "x" }, "gy", '"+y')
-vim.keymap.set({ "n", "x" }, "gY", '"+Y')
+vim.keymap.set({ "n", "x" }, "x", '"_xmx')
+vim.keymap.set({ "n", "x" }, "X", '"_Xmx')
+vim.keymap.set({ "n", "x" }, "gy", '"+ymy')
+vim.keymap.set({ "n", "x" }, "gY", '"+Ymy')
+vim.keymap.set("n", "p", "pmp")
+vim.keymap.set("x", "p", "Pmp") -- intentionally swap p and P
+vim.keymap.set("n", "P", "Pmp")
+vim.keymap.set("x", "P", "pmp") -- intentionally swap P and p
+vim.keymap.set("n", "u", "umu")
 
 -- mappings: textobj
 -- vim.keymap.set({ "o", "x" }, "ii", "2i") -- ii' selects 'foo' without outer spaces (:h v_i)
@@ -315,18 +318,34 @@ vim.api.nvim_create_autocmd("InsertEnter", {
 
 vim.api.nvim_create_autocmd("TextYankPost", {
 	group = augroup,
-	callback = function()
+	callback = function(ctx)
 		local op = vim.v.event.operator
 		if not op then
 			return
 		end
 
+		local regname = vim.v.event.regname
+
 		-- copy unnamed regsiter to contextful register
 		-- i.e., change to c, delete to d, and yank to y
 		-- note that `x` is treated as delete, not x.
 		-- I map `x` and `X` register to blackhole.
-		if vim.v.event.regname == "" then
+		if regname == "" then
 			vim.fn.setreg(op, vim.fn.getreg())
+		end
+
+		-- set mark for the yanked region
+		local win = vim.api.nvim_get_current_win()
+		if vim.api.nvim_win_get_buf(win) == ctx.buf then
+			vim.schedule(function()
+				-- Do lazily to avoid occasional failure on setting the mark.
+				-- The issue typically occurs with `dd`.
+				local cursor = vim.api.nvim_win_get_cursor(win)
+				vim.api.nvim_buf_set_mark(ctx.buf, op, cursor[1], cursor[2], {})
+				if regname and regname:match("[a-z0-9]") then
+					vim.api.nvim_buf_set_mark(ctx.buf, regname:upper(), cursor[1], cursor[2], {})
+				end
+			end)
 		end
 
 		-- highlight yanked region
