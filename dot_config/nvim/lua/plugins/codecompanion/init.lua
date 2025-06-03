@@ -30,7 +30,7 @@ return {
 							}):wait()
 							state.public[cwd] = res.code == 0 and res.stdout:match("PUBLIC\n*")
 						end
-						if state.public[cwd] then
+						if state.public[cwd] and false then
 							local name = "qwen/qwq-32b:free"
 							return require("codecompanion.adapters").extend("openrouter", {
 								name = name,
