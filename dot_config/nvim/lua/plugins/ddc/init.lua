@@ -108,7 +108,7 @@ local function config()
 	local augroup = vim.api.nvim_create_augroup("atusy-ddc-enable", {})
 
 	-- configure
-	vim.fn["ddc#custom#load_config"](vim.fs.joinpath(vim.fs.dirname(debug.getinfo(1, "S").source:sub(2)), "ddc.ts"))
+	vim.fn["ddc#custom#load_config"](vim.fs.joinpath(vim.fs.dirname(debug.getinfo(1, "S").source:sub(2)), "init.ts"))
 	require("plugins.ddc.gitcommit")()
 	require("plugins.ddc.codecompanion")()
 
