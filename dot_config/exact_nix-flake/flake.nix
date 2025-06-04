@@ -67,7 +67,7 @@
           };
 
           nixpkgs.hostPlatform = "aarch64-darwin";
-          nixpkgs.overlays = [ inputs.neovim-nightly-overlay.overlays.default ];
+          nixpkgs.overlays = overlays;
           nixpkgs.config.allowUnfree = true;
         };
       darwinHost = builtins.getEnv "DARWIN_HOST";
