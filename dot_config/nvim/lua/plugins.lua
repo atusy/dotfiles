@@ -444,25 +444,45 @@ return {
 				ignore_injections = false,
 				experimental = { treesitter_context = true },
 			}
-			vim.keymap.set({ "x", "o" }, "m", function()
-				require("treemonkey").select(base_opts)
-			end)
 
-			vim.keymap.set("n", "zf", "zfV<Plug>(treemonkey-multiline)")
-			vim.keymap.set("o", "<Plug>(treemonkey-multiline)", function()
+			local function select_linewise()
 				require("treemonkey").select(vim.tbl_extend("force", base_opts, {
+					---@param nodes TSNode[]
+					---@return TSNode[]
 					filter = function(nodes)
-						local res = {}
+						local idx = {} ---@type table<number, table<number, {scol: number, idx: number}>>
+						local res = {} ---@type TSNode[]
 						for _, n in pairs(nodes) do
-							local srow, _, erow, ecol = n:range()
+							local srow, scol, erow, ecol = n:range()
 							if erow > (srow + (ecol == 0 and 1 or 0)) then
-								table.insert(res, n)
+								if not idx[srow] then
+									table.insert(res, n)
+									idx[srow] = {}
+									idx[srow][erow] = { scol = scol, idx = #res }
+								elseif not idx[srow][erow] then
+									table.insert(res, n)
+									idx[srow][erow] = { scol = scol, idx = #res }
+								elseif scol < idx[srow][erow].scol then
+									res[idx[srow][erow].idx] = n
+									idx[srow][erow].scol = scol
+								end
 							end
 						end
 						return res
 					end,
 				}))
+			end
+
+			vim.keymap.set({ "x", "o" }, "<Plug>(treemonkey)", function()
+				local mode = vim.api.nvim_get_mode()
+				if mode.mode == "V" or mode.mode == "noV" then
+					select_linewise()
+					return
+				end
+				require("treemonkey").select(base_opts)
 			end)
+			vim.keymap.set({ "o", "x" }, "m", "<Plug>(treemonkey)")
+			vim.keymap.set("n", "zf", "zfV<Plug>(treemonkey)")
 		end,
 	},
 	{
