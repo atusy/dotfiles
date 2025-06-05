@@ -426,8 +426,7 @@ return {
 		end,
 	},
 	{
-		-- "https://github.com/RRethy/nvim-treesitter-endwise",
-		"https://github.com/metiulekm/nvim-treesitter-endwise",
+		"https://github.com/RRethy/nvim-treesitter-endwise",
 		commit = "ad5ab41122a0b84f27101f1b5e6e55a681f84b2f",
 		ft = { "ruby", "lua", "sh", "bash", "zsh", "vim" },
 		config = function()
