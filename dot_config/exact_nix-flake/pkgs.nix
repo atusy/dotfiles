@@ -22,6 +22,7 @@ let
     pkgs.gh
     pkgs.ghq
     pkgs.git
+    pkgs.glab
     pkgs.go
     pkgs.go-task
     pkgs.gojq
