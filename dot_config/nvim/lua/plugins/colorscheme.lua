@@ -131,17 +131,17 @@ local function set_styler()
 				return
 			end
 
-			local ok = pcall(function()
-				local tabpage = vim.api.nvim_get_current_tabpage()
-				local extuiwins = require("vim._extui.shared").wins[tabpage]
-				for _, w in pairs(extuiwins) do
-					require("styler").set_theme(w, { colorscheme = OUTSIDE_COLORSCHEME })
-				end
+			local ok_extuiwins, extuiwins = pcall(function()
+				return require("vim._extui.shared").wins
 			end)
 
-			if not ok then
+			if not ok_extuiwins then
 				vim.notify("styling extui with styler.nvim failed", vim.log.levels.ERROR)
 				return true -- delete autocmd
+			end
+
+			for _, w in pairs(extuiwins) do
+				require("styler").set_theme(w, { colorscheme = OUTSIDE_COLORSCHEME })
 			end
 		end,
 	})
