@@ -71,7 +71,7 @@ if ok then
 	})
 	vim.keymap.set("n", "<c-l>", function()
 		local extui_cleared, err = pcall(function()
-			local wins = require("vim._extui.shared").wins[vim.api.nvim_get_current_tabpage()]
+			local wins = require("vim._extui.shared").wins
 			local bufs = require("vim._extui.shared").bufs
 			vim.api.nvim_win_set_config(wins.box, { hide = true })
 			vim.schedule(function()
