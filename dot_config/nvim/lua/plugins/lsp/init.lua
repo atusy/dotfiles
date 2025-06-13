@@ -80,37 +80,30 @@ return {
 						return vim.fn.isdirectory("node_modules") == 1 or vim.fn.findfile("package.json", ".;") ~= ""
 					end
 
-					-- Map filetypes to server configs
-					local server_configs = {
-						sh = "bashls",
-						bash = "bashls",
-						zsh = "bashls",
-						go = "gopls",
-						gomod = "gopls",
-						gowork = "gopls",
-						gotmpl = "gopls",
-						json = "jsonls",
-						jsonc = "jsonls",
-						lua = "lua_ls",
-						python = "pyright",
-						r = "r_language_server",
-						rmd = "r_language_server",
-						nix = "nixd",
-						terraform = "terraformls",
-						tf = "terraformls",
-						yaml = "yamlls",
-						["yaml.docker-compose"] = "yamlls",
-						["yaml.gitlab"] = "yamlls",
-						javascript = has_node_modules() and "ts_ls" or "denols",
-						javascriptreact = has_node_modules() and "ts_ls" or "denols",
-						typescript = has_node_modules() and "ts_ls" or "denols",
-						typescriptreact = has_node_modules() and "ts_ls" or "denols",
+					-- List of available LSP servers
+					local servers = {
+						"bashls",
+						"gopls",
+						"jsonls",
+						"lua_ls",
+						"pyright",
+						"r_language_server",
+						"nixd",
+						"terraformls",
+						"yamlls",
+						has_node_modules() and "ts_ls" or "denols",
 					}
 
-					local server_name = server_configs[filetype]
-					if server_name and vim.lsp.config[server_name] then
+					-- Check each server to see if it supports the current filetype
+					for _, server_name in ipairs(servers) do
 						local config = vim.lsp.config[server_name]
-						vim.lsp.start(config, { bufnr = bufnr })
+						if config and config.filetypes then
+							for _, ft in ipairs(config.filetypes) do
+								if ft == filetype then
+									vim.lsp.start(config, { bufnr = bufnr })
+								end
+							end
+						end
 					end
 				end,
 			})
