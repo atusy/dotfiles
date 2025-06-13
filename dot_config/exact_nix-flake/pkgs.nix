@@ -8,6 +8,7 @@ let
     pkgs.bat
     pkgs.bun
     pkgs.chezmoi
+    pkgs.claude-code
     pkgs.delta
     pkgs.deno
     pkgs.direnv
