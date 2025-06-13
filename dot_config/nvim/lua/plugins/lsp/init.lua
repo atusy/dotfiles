@@ -68,35 +68,49 @@ return {
 			require("mason")
 			require("mason-lspconfig")
 			-- LSP configurations loaded automatically from after/lsp/*.lua
-			-- Enable LSP servers after all configurations are loaded
-			vim.api.nvim_create_autocmd("VimEnter", {
-				group = vim.api.nvim_create_augroup("atusy.lsp.enable", {}),
-				once = true,
-				callback = function()
-					-- Enable all configured LSP servers
+			-- Start LSP servers on FileType events using vim.lsp.start
+			vim.api.nvim_create_autocmd("FileType", {
+				group = vim.api.nvim_create_augroup("atusy.lsp.start", {}),
+				callback = function(args)
+					local bufnr = args.buf
+					local filetype = args.match
+
+					-- Helper function to check for Node.js project
 					local function has_node_modules()
 						return vim.fn.isdirectory("node_modules") == 1 or vim.fn.findfile("package.json", ".;") ~= ""
 					end
 
-					local servers = {
-						"bashls",
-						"gopls",
-						"jsonls",
-						"lua_ls",
-						"pyright",
-						"r_language_server",
-						"nixd",
-						"terraformls",
-						"yamlls",
+					-- Map filetypes to server configs
+					local server_configs = {
+						sh = "bashls",
+						bash = "bashls",
+						zsh = "bashls",
+						go = "gopls",
+						gomod = "gopls",
+						gowork = "gopls",
+						gotmpl = "gopls",
+						json = "jsonls",
+						jsonc = "jsonls",
+						lua = "lua_ls",
+						python = "pyright",
+						r = "r_language_server",
+						rmd = "r_language_server",
+						nix = "nixd",
+						terraform = "terraformls",
+						tf = "terraformls",
+						yaml = "yamlls",
+						["yaml.docker-compose"] = "yamlls",
+						["yaml.gitlab"] = "yamlls",
+						javascript = has_node_modules() and "ts_ls" or "denols",
+						javascriptreact = has_node_modules() and "ts_ls" or "denols",
+						typescript = has_node_modules() and "ts_ls" or "denols",
+						typescriptreact = has_node_modules() and "ts_ls" or "denols",
 					}
-					if has_node_modules() then
-						table.insert(servers, "ts_ls")
-					else
-						table.insert(servers, "denols")
-					end
 
-					for _, server in ipairs(servers) do
-						vim.lsp.enable(server)
+					local server_name = server_configs[filetype]
+					if server_name and vim.lsp.config[server_name] then
+						local config = vim.lsp.config[server_name]
+						vim.lsp.start(config, { bufnr = bufnr })
 					end
 				end,
 			})
