@@ -20,3 +20,5 @@ Taskfile.yml
 Taskfile.yaml
 taskfile.yml
 taskfile.yaml
+
+**/.claude/settings.local.json
