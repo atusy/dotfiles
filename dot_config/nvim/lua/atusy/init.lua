@@ -66,7 +66,7 @@ if ok then
 		enable = true,
 		msg = {
 			pos = "box",
-			box = { timeout = 5000 },
+			box = { timeout = 4000 },
 		},
 	})
 	vim.keymap.set("n", "<c-l>", function()
