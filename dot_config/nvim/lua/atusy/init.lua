@@ -417,6 +417,17 @@ vim.api.nvim_create_autocmd({ "BufReadPre", "BufNewFile" }, {
 	end,
 })
 
+vim.api.nvim_create_autocmd("BufWritePost", {
+	group = augroup,
+	callback = function(ctx)
+		local basename = vim.fs.basename(ctx.file)
+		if basename and not basename:find(".", 2, true) then
+			local path = vim.api.nvim_buf_get_name(ctx.buf)
+			vim.system({ "chmod", "+x", path }, { detach = true }, function() end)
+		end
+	end,
+})
+
 local is_open_neovim_32660 ---@type boolean | nil
 
 vim.api.nvim_create_autocmd({ "BufWinEnter", "WinNew", "WinClosed", "TabEnter" }, {
