@@ -59,8 +59,8 @@ vim.opt.softtabstop = 2
 vim.opt.tabstop = 2
 
 -- cmdline
-local ok, extui = pcall(require, "vim._extui")
-if ok then
+local ok_extui, extui = pcall(require, "vim._extui")
+if ok_extui then
 	vim.opt.cmdheight = 0
 	extui.enable({
 		enable = true,
