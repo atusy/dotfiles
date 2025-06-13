@@ -202,6 +202,11 @@ vim.keymap.set("n", "<2-LeftMouse>", "gf", { remap = true })
 vim.keymap.set("n", "<LeftDrag>", "<Nop>")
 vim.keymap.set("n", "<LeftRelease>", "<Nop>")
 
+-- mappings: undo/redo
+-- they are too noisy when using extui
+vim.keymap.set("n", "u", "<Cmd>silent! undo<CR>")
+vim.keymap.set("n", "<c-r>", "<Cmd>silent! redo<CR>")
+
 -- mappings: jumplist
 vim.keymap.set("n", "g<C-O>", function()
 	return require("atusy.misc").jump_file(false)
