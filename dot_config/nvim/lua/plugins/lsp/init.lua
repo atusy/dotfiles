@@ -97,11 +97,9 @@ return {
 					-- Check each server to see if it supports the current filetype
 					for _, server_name in ipairs(servers) do
 						local config = vim.lsp.config[server_name]
-						if config and config.filetypes then
-							for _, ft in ipairs(config.filetypes) do
-								if ft == filetype then
-									vim.lsp.start(config, { bufnr = bufnr })
-								end
+						for _, ft in ipairs(config and config.filetypes or {}) do
+							if ft == filetype then
+								vim.lsp.start(config, { bufnr = bufnr })
 							end
 						end
 					end
