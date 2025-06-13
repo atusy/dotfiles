@@ -45,90 +45,7 @@ local function on_attach(client, bufnr)
 	end
 end
 
-local function lspconfig()
-	require("ddc_source_lsp_setup").setup()
-	local function config(nm, opts)
-		require("lspconfig")[nm].setup(opts)
-	end
-	config("bashls", { filetypes = { "sh", "bash", "zsh" } })
-	config("clangd", {})
-	config("gopls", {
-		settings = {
-			gopls = {
-				gofumpt = true,
-			},
-		},
-	})
-	config("jsonls", {
-		settings = {
-			json = {
-				schemas = require("schemastore").json.schemas(),
-				validate = { enable = true },
-			},
-		},
-	})
-	config("lua_ls", {
-		settings = {
-			single_file_support = true,
-			Lua = {
-				runtime = { version = "LuaJIT" },
-				diagnostics = { globals = { "vim", "pandoc" } },
-				workspace = {
-					library = { vim.env.VIMRUNTIME }, -- NOTE: vim.api.nvim_get_runtime_file("", true) can be too heavy
-					checkThirdParty = false,
-				},
-				-- completion = { workspaceWord = true, callSnippet = "Both" },
-				format = { enable = false },
-			},
-		},
-	})
-	config("pyright", { -- https://github.com/microsoft/pyright/blob/main/docs/configuration.md
-		settings = {
-			python = {
-				venvPath = ".",
-				pythonPath = "./.venv/bin/python",
-				analysis = {
-					extraPaths = { "." },
-				},
-				exclude = { "./.worktree" },
-			},
-		},
-	}) -- pip install --user pyright
-	-- config("ruff_lsp", {}) -- dot_config/ruff/ruff.toml (too lazy to filter similar diagnostics from pyright...)
-	config("r_language_server", {
-		settings = {
-			r = {
-				lsp = {
-					rich_documentation = false,
-				},
-			},
-		},
-		capabilities = {
-			textDocument = {
-				documentColor = false, -- avoid otter and ccc.nvim conflict
-			},
-		},
-	}) -- R -e "remotes::install_github('languageserver')"
-	config("nixd", {})
-	config("svelte", {})
-	config("terraformls", { filetypes = { "terraform", "tf" } })
-	config("volar", {})
-	config("yamlls", {
-		settings = {
-			yaml = {
-				-- recommended by https://github.com/b0o/SchemaStore.nvim?tab=readme-ov-file
-				schemaStore = { enable = false, url = "" },
-				schemas = require("schemastore").yaml.schemas(),
-			},
-		},
-	})
-	local is_node = require("lspconfig").util.find_node_modules_ancestor(".")
-	if is_node then
-		config("ts_ls", {})
-	else
-		config("denols", { single_file_support = true })
-	end
-end
+-- LSP configurations are now loaded from after/lsp/*.lua files
 
 return {
 	{
@@ -150,7 +67,39 @@ return {
 			})
 			require("mason")
 			require("mason-lspconfig")
-			lspconfig()
+			-- LSP configurations loaded automatically from after/lsp/*.lua
+			-- Enable LSP servers after all configurations are loaded
+			vim.api.nvim_create_autocmd("VimEnter", {
+				group = vim.api.nvim_create_augroup("atusy.lsp.enable", {}),
+				once = true,
+				callback = function()
+					-- Enable all configured LSP servers
+					local function has_node_modules()
+						return vim.fn.isdirectory("node_modules") == 1 or vim.fn.findfile("package.json", ".;") ~= ""
+					end
+
+					local servers = {
+						"bashls",
+						"gopls",
+						"jsonls",
+						"lua_ls",
+						"pyright",
+						"r_language_server",
+						"nixd",
+						"terraformls",
+						"yamlls",
+					}
+					if has_node_modules() then
+						table.insert(servers, "ts_ls")
+					else
+						table.insert(servers, "denols")
+					end
+
+					for _, server in ipairs(servers) do
+						vim.lsp.enable(server)
+					end
+				end,
+			})
 			require("fidget").setup()
 		end,
 	},
@@ -252,8 +201,11 @@ return {
 					-- attach
 					local ft = ctx.match
 					if ft == "typescript" or ft == "typescriptreact" then
-						local is_node = require("lspconfig").util.find_node_modules_ancestor(".")
-						if is_node then
+						local function has_node_modules()
+							return vim.fn.isdirectory("node_modules") == 1
+								or vim.fn.findfile("package.json", ".;") ~= ""
+						end
+						if has_node_modules() then
 							return
 						end
 						attach_denols()

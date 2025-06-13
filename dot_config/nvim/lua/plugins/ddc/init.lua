@@ -131,6 +131,13 @@ local function config()
 			return true
 		end,
 	})
+
+	vim.api.nvim_create_autocmd({ "BufReadPost", "BufNewFile" }, {
+		group = augroup,
+		callback = function()
+			require("ddc_source_lsp_setup").setup()
+		end,
+	})
 end
 
 return {
