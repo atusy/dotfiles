@@ -21,4 +21,6 @@ Taskfile.yaml
 taskfile.yml
 taskfile.yaml
 
+# Calude
 **/.claude/settings.local.json
+CALUDE.md
