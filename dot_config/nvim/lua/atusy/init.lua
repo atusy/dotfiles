@@ -423,11 +423,14 @@ vim.api.nvim_create_autocmd({ "BufReadPre", "BufNewFile" }, {
 vim.api.nvim_create_autocmd("BufWritePost", {
 	group = augroup,
 	callback = function(ctx)
-		local basename = vim.fs.basename(ctx.file)
-		if basename and not basename:find(".", 2, true) then
-			local path = vim.api.nvim_buf_get_name(ctx.buf)
-			vim.system({ "chmod", "+x", path }, { detach = true }, function() end)
+		if
+			string.find(vim.fs.basename(ctx.file) or "", ".", 2, true)
+			or string.sub(vim.api.nvim_buf_get_lines(ctx.buf, 0, 1, false)[1] or "", 1, 2) ~= "#!"
+		then
+			return
 		end
+		local path = vim.api.nvim_buf_get_name(ctx.buf)
+		vim.system({ "chmod", "+x", path }, { detach = true }, function() end)
 	end,
 })
 
