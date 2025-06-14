@@ -131,13 +131,6 @@ local function config()
 			return true
 		end,
 	})
-
-	vim.api.nvim_create_autocmd({ "BufReadPost", "BufNewFile" }, {
-		group = augroup,
-		callback = function()
-			require("ddc_source_lsp_setup").setup()
-		end,
-	})
 end
 
 return {
@@ -193,7 +186,13 @@ return {
 			vim.fn.mkdir(vim.fs.joinpath(d, "ddc", "dictionary"), "p")
 		end,
 	},
-	{ "https://github.com/uga-rosa/ddc-source-lsp-setup", lazy = true },
+	{
+		"https://github.com/uga-rosa/ddc-source-lsp-setup",
+		event = "LspAttach",
+		config = function()
+			require("ddc_source_lsp_setup").setup()
+		end,
+	},
 	{ "https://github.com/LumaKernel/ddc-source-file" },
 	-- filter
 	{ "https://github.com/tani/ddc-fuzzy" },
