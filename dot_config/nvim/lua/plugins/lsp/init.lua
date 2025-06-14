@@ -8,7 +8,6 @@ local function telescope(cmd)
 end
 
 local function on_attach(client, bufnr)
-	pcall(require, "dressing")
 	if client.name == "denols" then
 		-- asynchronous cache
 		vim.system({ "deno", "cache", vim.api.nvim_buf_get_name(bufnr) }, {}, function() end)
