@@ -65,15 +65,15 @@ if ok_extui then
 	extui.enable({
 		enable = true,
 		msg = {
-			pos = "box",
-			box = { timeout = 4000 },
+			target = "box",
+			timeout = 4000,
 		},
 	})
 	vim.keymap.set("n", "<c-l>", function()
 		local extui_cleared, err = pcall(function()
 			local wins = require("vim._extui.shared").wins
 			local bufs = require("vim._extui.shared").bufs
-			vim.api.nvim_win_set_config(wins.box, { hide = true })
+			vim.api.nvim_win_set_config(wins.msg, { hide = true })
 			vim.schedule(function()
 				vim.api.nvim_buf_set_lines(bufs.cmd, 0, -1, false, {})
 			end)
