@@ -44,8 +44,6 @@ local function on_attach(client, bufnr)
 	end
 end
 
--- LSP configurations are now loaded from after/lsp/*.lua files
-
 return {
 	{
 		"https://github.com/neovim/nvim-lspconfig",
@@ -58,8 +56,6 @@ return {
 					on_attach(client, ctx.buf)
 				end,
 			})
-			-- LSP configurations loaded automatically from after/lsp/*.lua
-			-- Start LSP servers on FileType events using vim.lsp.start
 			require("fidget").setup()
 		end,
 	},
