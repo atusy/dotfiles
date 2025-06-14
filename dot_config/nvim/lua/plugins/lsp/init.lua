@@ -1,29 +1,3 @@
-local function on_attach(client, bufnr)
-	-- Mappings.
-	local function nmap(lhs, rhs)
-		vim.keymap.set("n", lhs, rhs, { silent = true, buffer = bufnr })
-	end
-	nmap("gD", [[<Cmd>lua vim.lsp.buf.declaration()<CR>]])
-	nmap("gd", [[<Cmd>lua require("telescope.builtin").lsp_definitions()<CR>]])
-	nmap("gi", [[<Cmd>lua require("telescope.builtin").lsp_implementations()<CR>]])
-	nmap("gr", [[<Cmd>lua require("telescope.builtin").lsp_references()<CR>]])
-	nmap("gs", [[<Cmd>lua vim.lsp.buf.signature_help()<CR>]])
-	nmap("gK", [[<Cmd>lua vim.lsp.buf.type_definition()<CR>]]) -- Kata teigi
-	nmap("ga", [[<Cmd>lua require('lspsaga.codeaction'):code_action()<CR>]]) -- use :as for original ga
-	nmap("gf", [[<Cmd>lua require("plugins.telescope.picker").gtd()<CR>]])
-	if client.server_capabilities.renameProvider then
-		nmap(" r", [[<Cmd>lua vim.lsp.buf.rename()<CR>]])
-	end
-end
-
-vim.api.nvim_create_autocmd("LspAttach", {
-	group = vim.api.nvim_create_augroup("atusy.nvim-lspconfig", {}),
-	callback = function(ctx)
-		local client = vim.lsp.get_client_by_id(ctx.data.client_id)
-		on_attach(client, ctx.buf)
-	end,
-})
-
 return {
 	--[[ LSP configurations ]]
 	{ "https://github.com/neovim/nvim-lspconfig", lazy = true }, -- loaded via atusy.lsp

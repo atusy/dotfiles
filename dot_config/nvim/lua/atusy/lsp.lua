@@ -47,6 +47,8 @@ function M.setup()
 		end,
 	})
 
+	-- caching and mappings
+	local global_mappings = false
 	vim.api.nvim_create_autocmd("LspAttach", {
 		group = augroup,
 		callback = function(ctx)
@@ -59,6 +61,42 @@ function M.setup()
 			-- asynchronous cache
 			if client.name == "denols" then
 				vim.system({ "deno", "cache", vim.api.nvim_buf_get_name(bufnr) }, {}, function() end)
+			end
+
+			-- mappings (global)
+			if not global_mappings then
+				global_mappings = true
+				-- delete lsp-default mappings starting with 'gr'
+				for _, m in pairs(vim.api.nvim_get_keymap("n")) do
+					if m.lhs and m.lhs:match("^gr") then
+						vim.api.nvim_del_keymap("n", m.lhs)
+					end
+				end
+
+				-- set global mappings
+				local function nmap(lhs, rhs)
+					vim.keymap.set("n", lhs, rhs, { silent = true })
+				end
+				local ok, telescope = pcall(require, "telescope.builtin")
+				if ok then
+					nmap("gd", telescope.lsp_definitions)
+					nmap("gi", telescope.lsp_implementations)
+					nmap("gr", telescope.lsp_references)
+					nmap("gf", [[<Cmd>lua require("plugins.telescope.picker").gtd()<CR>]])
+				else
+					nmap("gd", [[<Cmd>lua vim.lsp.buf.definition()<CR>]])
+					nmap("gi", [[<Cmd>lua vim.lsp.buf.implementation()<CR>]])
+					nmap("gr", [[<Cmd>lua vim.lsp.buf.references()<CR>]])
+				end
+				nmap("gD", [[<Cmd>lua vim.lsp.buf.declaration()<CR>]])
+				nmap("gs", [[<Cmd>lua vim.lsp.buf.signature_help()<CR>]])
+				nmap("gK", [[<Cmd>lua vim.lsp.buf.type_definition()<CR>]]) -- Kata teigi
+				nmap("ga", [[<Cmd>lua require('lspsaga.codeaction'):code_action()<CR>]]) -- use :as for original ga
+			end
+
+			-- mappings (buffer-local)
+			if client.server_capabilities.renameProvider then
+				vim.keymap.set("n", " r", [[<Cmd>lua vim.lsp.buf.rename()<CR>]], { silent = true, buffer = bufnr })
 			end
 		end,
 	})
