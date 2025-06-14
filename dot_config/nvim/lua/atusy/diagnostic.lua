@@ -2,6 +2,9 @@ local M = {}
 
 function M.toggle_severity(keys, severities)
 	local config = vim.diagnostic.config()
+	if not config then
+		return config
+	end
 
 	for _, key in pairs(keys) do
 		-- format current severity into table<string, boolean>
@@ -47,7 +50,7 @@ end
 
 function M.underlined_severities()
 	local config = vim.diagnostic.config().underline
-	if type(config) == "boolean" then
+	if config == nil or type(config) == "boolean" then
 		return config and vim.diagnostic.severity or {}
 	end
 	return config.severity
