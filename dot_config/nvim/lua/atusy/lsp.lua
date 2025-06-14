@@ -1,8 +1,7 @@
 local M = {
 	did_setup_mappings = false,
+	augroup = vim.api.nvim_create_augroup("atusy.lsp", {}),
 }
-
-local augroup = vim.api.nvim_create_augroup("atusy.lsp", {})
 
 local function has_node_modules()
 	return vim.fn.isdirectory("node_modules") == 1 or vim.fn.findfile("package.json", ".;") ~= ""
@@ -90,7 +89,7 @@ end
 
 function M.setup()
 	vim.api.nvim_create_autocmd("FileType", {
-		group = augroup,
+		group = M.augroup,
 		once = true,
 		callback = function()
 			pcall(require, "lspconfig")
@@ -111,7 +110,7 @@ function M.setup()
 	})
 
 	vim.api.nvim_create_autocmd("LspAttach", {
-		group = augroup,
+		group = M.augroup,
 		callback = function(ctx)
 			local client = vim.lsp.get_client_by_id(ctx.data.client_id)
 			if client then
@@ -122,7 +121,7 @@ function M.setup()
 	})
 
 	vim.api.nvim_create_autocmd("DiagnosticChanged", {
-		group = augroup,
+		group = M.augroup,
 		once = true,
 		callback = function()
 			vim.diagnostic.config({
