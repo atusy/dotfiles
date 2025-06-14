@@ -11,3 +11,5 @@ __ignored
 stylua.toml
 Taskfile.yml
 Taskfile.dist.yml
+CLAUDE.md
+**/.claude/settings.local.json
