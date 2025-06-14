@@ -56,15 +56,12 @@ function M.underlined_severities()
 	return config.severity
 end
 
-function M.goto_next_underline(opts)
-	vim.diagnostic.goto_next(vim.tbl_extend("force", opts or {}, {
+---@param count number? positive to next, negative to previous
+---@param opts table? options to pass to `vim.diagnostic.jump`
+function M.jump_to_underlined(count, opts)
+	vim.diagnostic.jump(vim.tbl_extend("force", opts or {}, {
 		severity = M.underlined_severities(),
-	}))
-end
-
-function M.goto_prev_underline(opts)
-	vim.diagnostic.goto_prev(vim.tbl_extend("force", opts or {}, {
-		severity = M.underlined_severities(),
+		count = count,
 	}))
 end
 
