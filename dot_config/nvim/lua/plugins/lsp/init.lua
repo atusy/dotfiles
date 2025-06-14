@@ -56,13 +56,18 @@ return {
 					on_attach(client, ctx.buf)
 				end,
 			})
-			require("fidget").setup()
 		end,
 	},
 	-- nvim-lspconfig's config loads following plugins except lspsaga
 	{ "https://github.com/uga-rosa/ddc-source-lsp-setup", lazy = true },
 	{ "https://github.com/ray-x/lsp_signature.nvim", lazy = true },
-	{ "https://github.com/j-hui/fidget.nvim", lazy = true },
+	{
+		"https://github.com/j-hui/fidget.nvim",
+		event = "LspAttach",
+		config = function()
+			require("fidget").setup()
+		end,
+	},
 	{ "https://github.com/b0o/SchemaStore.nvim", lazy = true },
 	{
 		"https://github.com/nvimdev/lspsaga.nvim",
