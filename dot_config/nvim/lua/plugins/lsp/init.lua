@@ -34,7 +34,10 @@ vim.api.nvim_create_autocmd("LspAttach", {
 })
 
 return {
-	{ "https://github.com/neovim/nvim-lspconfig", lazy = true },
+	--[[ LSP configurations ]]
+	{ "https://github.com/neovim/nvim-lspconfig", lazy = true }, -- loaded via atusy.lsp
+	{ "https://github.com/b0o/SchemaStore.nvim", lazy = true }, -- loaded via after/lsp/*.lua
+	--[[ LSP UI ]]
 	{
 		"https://github.com/ray-x/lsp_signature.nvim",
 		lazy = true,
@@ -66,7 +69,6 @@ return {
 			require("fidget").setup()
 		end,
 	},
-	{ "https://github.com/b0o/SchemaStore.nvim", lazy = true },
 	{
 		"https://github.com/nvimdev/lspsaga.nvim",
 		lazy = true,
@@ -104,6 +106,7 @@ return {
 			})
 		end,
 	},
+	--[[ Extra LSP Clients ]]
 	{
 		"https://github.com/kuuote/lspoints",
 		lazy = true,
