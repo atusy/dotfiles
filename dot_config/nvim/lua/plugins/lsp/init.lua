@@ -8,11 +8,6 @@ local function telescope(cmd)
 end
 
 local function on_attach(client, bufnr)
-	if client.name == "denols" then
-		-- asynchronous cache
-		vim.system({ "deno", "cache", vim.api.nvim_buf_get_name(bufnr) }, {}, function() end)
-	end
-
 	-- Mappings.
 	local function nmap(lhs, rhs)
 		vim.keymap.set("n", lhs, rhs, { silent = true, buffer = bufnr })

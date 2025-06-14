@@ -46,6 +46,22 @@ function M.setup()
 		end,
 	})
 
+	vim.api.nvim_create_autocmd("LspAttach", {
+		group = augroup,
+		callback = function(ctx)
+			local bufnr = ctx.buf
+			local client = vim.lsp.get_client_by_id(ctx.data.client_id)
+			if not client then
+				return
+			end
+
+			-- asynchronous cache
+			if client.name == "denols" then
+				vim.system({ "deno", "cache", vim.api.nvim_buf_get_name(bufnr) }, {}, function() end)
+			end
+		end,
+	})
+
 	vim.api.nvim_create_autocmd("DiagnosticChanged", {
 		group = augroup,
 		once = true,
