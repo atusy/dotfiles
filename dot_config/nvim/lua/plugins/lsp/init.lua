@@ -52,11 +52,6 @@ return {
 		"https://github.com/neovim/nvim-lspconfig",
 		event = { "BufReadPost", "BufNewFile" },
 		config = function()
-			vim.lsp.set_log_level(vim.lsp.log_levels.OFF)
-			vim.diagnostic.config({
-				signs = false,
-				jump = { severity = { "INFO", "WARN", "ERROR" } },
-			})
 			vim.api.nvim_create_autocmd("LspAttach", {
 				group = vim.api.nvim_create_augroup("atusy.nvim-lspconfig", {}),
 				callback = function(ctx)
@@ -66,50 +61,6 @@ return {
 			})
 			-- LSP configurations loaded automatically from after/lsp/*.lua
 			-- Start LSP servers on FileType events using vim.lsp.start
-			vim.api.nvim_create_autocmd("FileType", {
-				group = vim.api.nvim_create_augroup("atusy.lsp.start", {}),
-				callback = function(ctx)
-					local bufnr = ctx.buf
-					local filetype = ctx.match
-
-					-- Helper function to check for Node.js project
-					local function has_node_modules()
-						return vim.fn.isdirectory("node_modules") == 1 or vim.fn.findfile("package.json", ".;") ~= ""
-					end
-
-					-- List of available LSP servers
-					local servers = {
-						"bashls",
-						"gopls",
-						"jsonls",
-						"lua_ls",
-						"pyright",
-						"r_language_server",
-						"nixd",
-						"terraformls",
-						"yamlls",
-						has_node_modules() and "ts_ls" or "denols",
-					}
-
-					-- enable them for the next time
-					vim.lsp.enable(servers)
-
-					-- Check each server to see if it supports the current filetype
-					for _, server_name in ipairs(servers) do
-						local config = vim.lsp.config[server_name]
-						for _, ft in ipairs(config and config.filetypes or {}) do
-							if ft == filetype then
-								vim.lsp.start(config, { bufnr = bufnr })
-							end
-						end
-					end
-
-					-- delay to avoid racing conditions on loading multiple buffers at the same time
-					vim.schedule(function()
-						pcall(vim.api.nvim_del_autocmd, ctx.id)
-					end)
-				end,
-			})
 			require("fidget").setup()
 		end,
 	},

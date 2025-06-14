@@ -276,6 +276,9 @@ vim.keymap.set("n", "<Plug>(q):", "q:")
 vim.keymap.set("n", "<Plug>(q)/", "q/")
 vim.keymap.set("n", "<Plug>(q)?", "q?")
 
+--[[ LSP ]]
+require("atusy.lsp").setup()
+
 --[[ autocmd ]]
 vim.api.nvim_create_autocmd("TermOpen", { pattern = "*", group = augroup, command = "startinsert" })
 
