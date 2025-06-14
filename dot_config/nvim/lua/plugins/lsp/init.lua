@@ -71,9 +71,9 @@ return {
 			-- Start LSP servers on FileType events using vim.lsp.start
 			vim.api.nvim_create_autocmd("FileType", {
 				group = vim.api.nvim_create_augroup("atusy.lsp.start", {}),
-				callback = function(args)
-					local bufnr = args.buf
-					local filetype = args.match
+				callback = function(ctx)
+					local bufnr = ctx.buf
+					local filetype = ctx.match
 
 					-- Helper function to check for Node.js project
 					local function has_node_modules()
@@ -94,6 +94,9 @@ return {
 						has_node_modules() and "ts_ls" or "denols",
 					}
 
+					-- enable them for the next time
+					vim.lsp.enable(servers)
+
 					-- Check each server to see if it supports the current filetype
 					for _, server_name in ipairs(servers) do
 						local config = vim.lsp.config[server_name]
@@ -103,6 +106,11 @@ return {
 							end
 						end
 					end
+
+					-- delay to avoid racing conditions on loading multiple buffers at the same time
+					vim.schedule(function()
+						pcall(vim.api.nvim_del_autocmd, ctx.id)
+					end)
 				end,
 			})
 			require("fidget").setup()
