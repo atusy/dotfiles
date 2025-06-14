@@ -13,9 +13,6 @@ local function on_attach(client, bufnr)
 		vim.system({ "deno", "cache", vim.api.nvim_buf_get_name(bufnr) }, {}, function() end)
 	end
 
-	-- Enable completion triggered by <c-x><c-o>
-	vim.bo[bufnr].omnifunc = "v:lua.vim.lsp.omnifunc"
-
 	-- Mappings.
 	-- See `:help vim.lsp.*` for documentation on any of the below functions
 	local nmapped = {}
