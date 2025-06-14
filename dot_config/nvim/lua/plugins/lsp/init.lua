@@ -25,21 +25,16 @@ local function on_attach(client, bufnr)
 	end
 end
 
+vim.api.nvim_create_autocmd("LspAttach", {
+	group = vim.api.nvim_create_augroup("atusy.nvim-lspconfig", {}),
+	callback = function(ctx)
+		local client = vim.lsp.get_client_by_id(ctx.data.client_id)
+		on_attach(client, ctx.buf)
+	end,
+})
+
 return {
-	{
-		"https://github.com/neovim/nvim-lspconfig",
-		event = { "BufReadPost", "BufNewFile" },
-		config = function()
-			vim.api.nvim_create_autocmd("LspAttach", {
-				group = vim.api.nvim_create_augroup("atusy.nvim-lspconfig", {}),
-				callback = function(ctx)
-					local client = vim.lsp.get_client_by_id(ctx.data.client_id)
-					on_attach(client, ctx.buf)
-				end,
-			})
-		end,
-	},
-	-- nvim-lspconfig's config loads following plugins except lspsaga
+	{ "https://github.com/neovim/nvim-lspconfig", lazy = true },
 	{
 		"https://github.com/ray-x/lsp_signature.nvim",
 		lazy = true,
