@@ -51,7 +51,6 @@ return {
 	{
 		"https://github.com/neovim/nvim-lspconfig",
 		event = { "BufReadPost", "BufNewFile" },
-		cmd = { "Mason" },
 		config = function()
 			vim.lsp.set_log_level(vim.lsp.log_levels.OFF)
 			vim.diagnostic.config({
@@ -65,8 +64,6 @@ return {
 					on_attach(client, ctx.buf)
 				end,
 			})
-			require("mason")
-			require("mason-lspconfig")
 			-- LSP configurations loaded automatically from after/lsp/*.lua
 			-- Start LSP servers on FileType events using vim.lsp.start
 			vim.api.nvim_create_autocmd("FileType", {
@@ -119,20 +116,6 @@ return {
 	-- nvim-lspconfig's config loads following plugins except lspsaga
 	{ "https://github.com/uga-rosa/ddc-source-lsp-setup", lazy = true },
 	{ "https://github.com/ray-x/lsp_signature.nvim", lazy = true },
-	{
-		"https://github.com/mason-org/mason.nvim",
-		lazy = true,
-		config = function()
-			require("mason").setup()
-		end,
-	},
-	{
-		"https://github.com/mason-org/mason-lspconfig.nvim",
-		lazy = true,
-		config = function()
-			require("mason-lspconfig").setup()
-		end,
-	},
 	{ "https://github.com/j-hui/fidget.nvim", lazy = true },
 	{ "https://github.com/b0o/SchemaStore.nvim", lazy = true },
 	{
@@ -176,8 +159,6 @@ return {
 		"https://github.com/kuuote/lspoints",
 		lazy = true,
 		config = function()
-			require("mason") -- dependency
-
 			local function attach_denols()
 				vim.fn["lspoints#attach"]("denols", {
 					cmd = { "deno", "lsp" },
