@@ -12,10 +12,6 @@ local function on_attach(client, bufnr)
 		-- asynchronous cache
 		vim.system({ "deno", "cache", vim.api.nvim_buf_get_name(bufnr) }, {}, function() end)
 	end
-	if client.name ~= "copilot" and client.name ~= "ts_ls" then
-		require("lsp_signature").on_attach({ hint_enable = false, handler_opts = { border = "none" } }, bufnr)
-		set_keymap("i", "<C-G><C-H>", require("lsp_signature").toggle_float_win, { buffer = bufnr })
-	end
 
 	-- Enable completion triggered by <c-x><c-o>
 	vim.bo[bufnr].omnifunc = "v:lua.vim.lsp.omnifunc"
@@ -60,7 +56,30 @@ return {
 	},
 	-- nvim-lspconfig's config loads following plugins except lspsaga
 	{ "https://github.com/uga-rosa/ddc-source-lsp-setup", lazy = true },
-	{ "https://github.com/ray-x/lsp_signature.nvim", lazy = true },
+	{
+		"https://github.com/ray-x/lsp_signature.nvim",
+		lazy = true,
+		init = function()
+			vim.api.nvim_create_autocmd("LspAttach", {
+				group = vim.api.nvim_create_augroup("atusy.nvim-lspconfig", {}),
+				callback = function(ctx)
+					local bufnr = ctx.buf
+					local client = vim.lsp.get_client_by_id(ctx.data.client_id)
+					if not client then
+						return
+					end
+					if client.name == "copilot" or client.name == "ts_ls" then
+						return
+					end
+					require("lsp_signature").on_attach(
+						{ hint_enable = false, handler_opts = { border = "none" } },
+						bufnr
+					)
+					vim.keymap.set("i", "<C-G><C-H>", require("lsp_signature").toggle_float_win, { buffer = bufnr })
+				end,
+			})
+		end,
+	},
 	{
 		"https://github.com/j-hui/fidget.nvim",
 		event = "LspAttach",
