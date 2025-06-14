@@ -10,6 +10,7 @@ function M.setup()
 	vim.api.nvim_create_autocmd("FileType", {
 		group = augroup,
 		callback = function(ctx)
+			pcall(require, "lspconfig")
 			local filetype = ctx.match
 
 			-- List of available LSP servers
