@@ -14,15 +14,8 @@ local function on_attach(client, bufnr)
 	end
 
 	-- Mappings.
-	-- See `:help vim.lsp.*` for documentation on any of the below functions
-	local nmapped = {}
-	for _, m in pairs(vim.api.nvim_buf_get_keymap(0, "n")) do
-		nmapped[m.lhs] = true
-	end
 	local function nmap(lhs, rhs)
-		if not nmapped[lhs] then
-			vim.keymap.set("n", lhs, rhs, { silent = true, buffer = bufnr })
-		end
+		vim.keymap.set("n", lhs, rhs, { silent = true, buffer = bufnr })
 	end
 	nmap("gD", [[<Cmd>lua vim.lsp.buf.declaration()<CR>]])
 	nmap("gd", telescope("lsp_definitions"))
