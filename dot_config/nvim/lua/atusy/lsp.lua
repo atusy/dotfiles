@@ -111,6 +111,7 @@ function M.setup()
 
 	vim.api.nvim_create_autocmd("LspAttach", {
 		group = M.augroup,
+		once = false, -- because of buffer-local configurations
 		callback = function(ctx)
 			local client = vim.lsp.get_client_by_id(ctx.data.client_id)
 			if client then
