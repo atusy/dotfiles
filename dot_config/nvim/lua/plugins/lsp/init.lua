@@ -8,7 +8,7 @@ return {
 		lazy = true,
 		init = function()
 			vim.api.nvim_create_autocmd("LspAttach", {
-				group = vim.api.nvim_create_augroup("atusy.nvim-lspconfig", {}),
+				group = vim.api.nvim_create_augroup("atusy.lsp_signature", {}),
 				callback = function(ctx)
 					local bufnr = ctx.buf
 					local client = vim.lsp.get_client_by_id(ctx.data.client_id)
