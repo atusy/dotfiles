@@ -193,6 +193,7 @@ return {
 			vim.fn.mkdir(vim.fs.joinpath(d, "ddc", "dictionary"), "p")
 		end,
 	},
+	{ "https://github.com/uga-rosa/ddc-source-lsp-setup", lazy = true },
 	{ "https://github.com/LumaKernel/ddc-source-file" },
 	-- filter
 	{ "https://github.com/tani/ddc-fuzzy" },

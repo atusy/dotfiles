@@ -40,7 +40,6 @@ return {
 		end,
 	},
 	-- nvim-lspconfig's config loads following plugins except lspsaga
-	{ "https://github.com/uga-rosa/ddc-source-lsp-setup", lazy = true },
 	{
 		"https://github.com/ray-x/lsp_signature.nvim",
 		lazy = true,
