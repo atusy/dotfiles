@@ -113,6 +113,8 @@ export class Config extends BaseConfig {
         cmdline: {
           mark: "CMD",
           forceCompletionPattern: "\\S/\\S*|\\.\\w*",
+          isVolatile: true,
+          minAutoCompleteLength: 0,
         },
         copilot: {
           mark: "AI",
