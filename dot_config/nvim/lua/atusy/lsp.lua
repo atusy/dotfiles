@@ -24,7 +24,7 @@ end
 --- Delete lsp-default mappings starting with 'gr'
 function M.delete_default_mappings()
 	for _, m in pairs(vim.api.nvim_get_keymap("n")) do
-		if m.lhs and m.lhs:match("^gr") then
+		if m.lhs and m.lhs:sub(1, 2) == "gr" then
 			vim.api.nvim_del_keymap("n", m.lhs)
 		end
 	end
