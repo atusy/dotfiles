@@ -6,8 +6,15 @@ if ! command -v uv >/dev/null 2>&1; then
   }
 fi
 
-if ! test -d "$(uv tool dir)/radian"; then
+RADIAN="$(uv tool dir)/radian/bin/radian"
+
+if ! test -x "$RADIAN"; then
   uv tool install radian
 fi
 
-uv tool run radian "$@"
+if test -x "$RADIAN"; then
+  exec "$RADIAN" "$@"
+else
+  echo "File not found: $RADIAN" >&2
+  exec uv tool run radian "$@"
+fi
