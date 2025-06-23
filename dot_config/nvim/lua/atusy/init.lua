@@ -65,7 +65,7 @@ if ok_extui then
 	extui.enable({
 		enable = true,
 		msg = {
-			target = "box",
+			target = "msg",
 			timeout = 4000,
 		},
 	})
