@@ -2,4 +2,8 @@
 
 set -e
 
-home-manager switch --flake ~/.config/nix-flake --cores 0
+if command -v home-manager >/dev/null 2>&1; then
+  home-manager switch --flake ~/.config/nix-flake --cores 0
+else
+  nix run home-manager -- switch --flake ~/.config/nix-flake --cores 0
+fi
