@@ -159,6 +159,16 @@ function M.git_status()
 		prompt_title = make_title(), -- initial title can be nil and thus requires updates by autocmd
 		attach_mappings = function(prompt_bufnr, _)
 			local picker = require("telescope.actions.state").get_current_picker(prompt_bufnr)
+
+			-- highlight the prompt title
+			local ns = vim.api.nvim_get_hl_ns({ winid = picker.layout.prompt.border.winid })
+			if ns == 0 then
+				ns = vim.api.nvim_create_namespace("atusy.telescope_git_status")
+				vim.api.nvim_win_set_hl_ns(picker.layout.prompt.border.winid, ns)
+			end
+			vim.api.nvim_set_hl(ns, "TelescopePromptTitle", { fg = "#d19a66" })
+
+			-- create autocmds
 			local augroup = vim.api.nvim_create_augroup("atusy.telescope_git_status", { clear = true })
 			vim.api.nvim_create_autocmd("WinClosed", {
 				group = augroup,
