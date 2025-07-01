@@ -69,20 +69,6 @@ if ok_extui then
 			timeout = 4000,
 		},
 	})
-	vim.keymap.set("n", "<c-l>", function()
-		local extui_cleared, err = pcall(function()
-			local wins = require("vim._extui.shared").wins
-			local bufs = require("vim._extui.shared").bufs
-			vim.api.nvim_win_set_config(wins.msg, { hide = true })
-			vim.schedule(function()
-				vim.api.nvim_buf_set_lines(bufs.cmd, 0, -1, false, {})
-			end)
-		end)
-		if not extui_cleared and err then
-			vim.notify(err, vim.log.levels.ERROR)
-		end
-		return "<Cmd>nohlsearch<Bar>diffupdate<Bar>normal! <C-L><CR>"
-	end, { expr = true })
 end
 
 --[[ commands ]]
