@@ -128,20 +128,10 @@ end, { expr = true, desc = "show index of match" })
 -- mappings: window management
 vim.keymap.set("n", "<C-W><C-V>", "<C-W><C-V><Cmd>horizontal wincmd =<CR>")
 vim.keymap.set("n", "<C-W><C-S>", "<C-W><C-S><Cmd>vertical wincmd =<CR>")
-if vim.env.WEZTERM_PANE ~= nil then
-	local directions = { h = "Left", j = "Down", k = "Up", l = "Right" }
-	local function move_nvim_win_or_wezterm_pane(hjkl)
-		local win = vim.api.nvim_get_current_win()
-		vim.cmd.wincmd(hjkl)
-		if win == vim.api.nvim_get_current_win() then
-			vim.system({ "wezterm", "cli", "activate-pane-direction", directions[hjkl] })
-		end
-	end
-	for k, _ in pairs(directions) do
-		vim.keymap.set("n", "<c-w>" .. k, function()
-			move_nvim_win_or_wezterm_pane(k)
-		end)
-	end
+for _, k in ipairs({ "h", "j", "k", "l" }) do
+	vim.keymap.set("n", "<C-W>" .. k, function()
+		require("atusy.cmd.wincmd")[k]()
+	end, { desc = "switch windows or panes of terminal multiplexers" })
 end
 
 -- mappings: tab management
