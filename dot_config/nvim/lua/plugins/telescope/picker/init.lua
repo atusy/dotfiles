@@ -143,4 +143,45 @@ function M.gtd(opts, bufnr, _, params, _)
 	require("atusy.misc").open_cfile()
 end
 
+---git_status picker with branch and traffic info in the prompt title
+function M.git_status()
+	local function _make_title()
+		local branch = vim.fn["gin#component#branch#unicode"]()
+		local traffic = vim.fn["gin#component#traffic#unicode"]()
+		local title = branch .. " " .. traffic
+		return title ~= " " and title or nil
+	end
+	local function make_title()
+		local ok, title = pcall(_make_title)
+		return ok and title or nil
+	end
+	require("telescope.builtin").git_status({
+		prompt_title = make_title(), -- initial title can be nil and thus requires updates by autocmd
+		attach_mappings = function(prompt_bufnr, _)
+			local picker = require("telescope.actions.state").get_current_picker(prompt_bufnr)
+			local augroup = vim.api.nvim_create_augroup("atusy.telescope_git_status", { clear = true })
+			vim.api.nvim_create_autocmd("WinClosed", {
+				group = augroup,
+				callback = function()
+					local win = vim.api.nvim_get_current_win()
+					if win == picker.prompt_win then
+						vim.api.nvim_del_augroup_by_id(augroup)
+					end
+				end,
+			})
+			vim.api.nvim_create_autocmd("User", {
+				group = augroup,
+				pattern = "GinComponentPost",
+				callback = function()
+					local title = make_title()
+					if title then
+						picker.layout.prompt.border:change_title(title)
+					end
+				end,
+			})
+			return true
+		end,
+	})
+end
+
 return M
