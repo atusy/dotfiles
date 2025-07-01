@@ -404,71 +404,11 @@ vim.api.nvim_create_autocmd("BufWritePost", {
 	end,
 })
 
-local is_open_neovim_32660 ---@type boolean | nil
-
 vim.api.nvim_create_autocmd({ "BufWinEnter", "WinNew", "WinClosed", "TabEnter" }, {
 	group = augroup,
 	desc = "Workaround flickering <https://github.com/neovim/neovim/issues/32660>",
 	callback = function(ctx)
-		-- remove autocmd if the issue is closed
-		local issue = "https://github.com/neovim/neovim/issues/32660"
-		if is_open_neovim_32660 == nil then
-			pcall(vim.system, {
-				"gh",
-				"issue",
-				"view",
-				issue,
-				"--json",
-				"state",
-				"--jq",
-				".state",
-			}, { text = true }, function(obj)
-				is_open_neovim_32660 = obj.stdout:gsub("\n", ""):match("^OPEN$") ~= nil
-				if not is_open_neovim_32660 then
-					vim.schedule(function()
-						vim.notify("Updte neovim to experience TS async highlight without flickering: " .. issue)
-					end)
-				end
-			end)
-		end
-
-		local function is_parsing(buf)
-			-- try undocumented `vim.treesitter.highlighter`
-			local ok, active = pcall(function()
-				return vim.treesitter.highlighter.active[buf] ~= nil
-			end)
-			if ok then
-				return active
-			end
-
-			-- otherwise, assume that the parser is active if the buffer is parsable
-			local parsable = pcall(vim.treesitter.get_parser, buf)
-			return parsable
-		end
-
-		local function exec()
-			local wins = vim.api.nvim_tabpage_list_wins(vim.api.nvim_get_current_tabpage())
-			local bufs = {}
-			for _, win in ipairs(wins) do
-				local buf = vim.api.nvim_win_get_buf(win)
-				if bufs[buf] == nil then
-					bufs[buf] = true
-				elseif bufs[buf] == true then
-					if is_parsing(buf) then
-						vim.g._ts_force_sync_parsing = true
-						return
-					end
-					-- set to false to avoid multiple tests on the availability of parser
-					bufs[buf] = false
-				end
-			end
-			vim.g._ts_force_sync_parsing = false
-		end
-
-		if ctx.event == "WinClosed" then
-			return vim.schedule(exec)
-		end
-		return exec()
+		require("atusy.treesitter").workaround_flickering(ctx)
 	end,
 })
 
