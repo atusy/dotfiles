@@ -43,7 +43,16 @@ local function telescope_init()
 	vim.keymap.set("n", leader .. "?", telescope("man_pages"))
 	vim.keymap.set("n", "<Plug>(q):", telescope("command_history"))
 	vim.keymap.set("n", "<Plug>(q)/", telescope("search_history"))
-	vim.keymap.set("n", "<Plug>(C-G)<C-S>", telescope("git_status"))
+	vim.keymap.set("n", "<Plug>(C-G)<C-S>", function()
+		local ok, prompt_title = pcall(function()
+			local branch = vim.fn["gin#component#branch#unicode"]()
+			local traffic = vim.fn["gin#component#traffic#unicode"]()
+			return branch .. " " .. traffic
+		end)
+		require("telescope.builtin").git_status({
+			prompt_title = ok and prompt_title,
+		})
+	end)
 
 	-- cmdline completion
 	local state = {}
