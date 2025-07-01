@@ -166,7 +166,7 @@ function M.git_status()
 				ns = vim.api.nvim_create_namespace("atusy.telescope_git_status")
 				vim.api.nvim_win_set_hl_ns(picker.layout.prompt.border.winid, ns)
 			end
-			vim.api.nvim_set_hl(ns, "TelescopePromptTitle", { fg = "#d19a66" })
+			vim.api.nvim_set_hl(ns, "TelescopePromptTitle", { link = "Title" })
 
 			-- create autocmds
 			local augroup = vim.api.nvim_create_augroup("atusy.telescope_git_status", { clear = true })
