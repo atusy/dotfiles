@@ -62,13 +62,7 @@ vim.opt.tabstop = 2
 local ok_extui, extui = pcall(require, "vim._extui")
 if ok_extui then
 	vim.opt.cmdheight = 0
-	extui.enable({
-		enable = true,
-		msg = {
-			target = "msg",
-			timeout = 4000,
-		},
-	})
+	extui.enable({ enable = true, msg = { target = "msg", timeout = 4000 } })
 end
 
 --[[ commands ]]
