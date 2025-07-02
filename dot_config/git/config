@@ -32,6 +32,8 @@
 	aliases = config --get-regexp ^alias[.]
 	graph = log --graph --date-order -C -M --pretty=format:'%h <%ad> [%an] %Cgreen%d%Creset %s' --date=short
   v = tag --list --format='%(color:green)%(refname:short)%(color:reset) %(taggerdate:short)' --sort=v:refname ; list tags with date
+  colog = "!git reflog | perl -ne 'BEGIN{chomp(@branches = `git branch --format=\"%(refname:short)\"`); %valid = map {$_ => 1} @branches} if (/checkout: moving from .+ to (.+)$/) { $b = $1; print \"$b\n\" if !$seen{$b}++ && $valid{$b} }'"; colog means checkout log
+  co = "!git colog | fzf --preview 'git log --oneline --graph --color=always --decorate {} -20' --preview-window=right:70% --bind 'enter:execute(git checkout {})+abort'"; checkout based on history
 [init]
 	templatedir = ~/.config/git/template
 	defaultBranch = main
