@@ -368,7 +368,7 @@ vim.api.nvim_create_autocmd({ "BufWinEnter", "WinNew", "WinClosed", "TabEnter" }
 --[[ Terminal ]]
 -- nvim-remote for edit-commandline zle
 if vim.fn.executable("nvr") == 1 then
-	vim.env.EDITOR_CMD = [[nvr -cc "above 5split" --remote-wait-silent +"setlocal bufhidden=wipe filetype=zsh.nvr-zsh"]]
+	vim.env.EDITOR_ZSH = [[nvr -cc "above 5split" --remote-wait-silent +"setlocal bufhidden=wipe filetype=zsh.nvr-zsh"]]
 	vim.api.nvim_create_autocmd("FileType", {
 		desc = "Go back to the terminal window on WinClosed. Otherwise, the current window to leftest above",
 		group = augroup,

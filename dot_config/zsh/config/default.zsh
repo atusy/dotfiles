@@ -125,7 +125,7 @@ zstyle ':completion::complete:*' use-cache true
 # Edit command line with favorite editor
 autoload -Uz edit-command-line
 function edit-command-line2() {
-  EDITOR="${EDITOR_CMD:-$EDITOR}" edit-command-line
+  EDITOR="${EDITOR_ZSH:-$EDITOR}" edit-command-line
 }
 zle -N edit-command-line2
 bindkey "^x^e" edit-command-line2
