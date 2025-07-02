@@ -40,6 +40,8 @@ abbr -a vim nvim
 abbr -a --set-cursor math 'math "%"'
 abbr -a ll 'eza --long --group --time-style=long-iso'
 abbr -a y --function __abbr-yank
+abbr -a git-switch-detach --regex '^(dev|main)$' --function __abbr-git-switch-detach --position anywhere
+abbr -a checkout --function __abbr-checkout --position anywhere
 
 bind \t complete-and-search-if-not-empty
 bind \cr set_commandline_from_history
