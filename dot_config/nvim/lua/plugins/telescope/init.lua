@@ -68,6 +68,7 @@ local function telescope_init()
 end
 
 local function telescope_config(_)
+	require("plugins.mini.icons")
 	local actions = require("telescope.actions")
 	local qfsactions = require("qfscope.actions")
 	require("telescope").setup({
