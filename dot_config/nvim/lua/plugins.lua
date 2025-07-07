@@ -50,7 +50,6 @@ return {
 			}, ", ") .. "}")
 		end,
 	},
-	{ "https://github.com/nvim-tree/nvim-web-devicons", lazy = true },
 	{ "https://github.com/MunifTanjim/nui.nvim", lazy = true },
 
 	-- utils
