@@ -187,15 +187,9 @@ return {
 		event = "BufReadPost",
 		config = function()
 			vim.g.matchup_matchparen_offscreen = { method = "status_manual" }
-			-- disable treesitter integration as it becomes very slow somehow...
-			require("nvim-treesitter.configs").setup({
-				matchup = {
-					enable = true,
-					disable_virtual_text = true,
-					include_match_words = true,
-					enable_quotes = true,
-				},
-			})
+			vim.g.matchup_treesitter_enable_quotes = true
+			vim.g.matchup_treesitter_disable_virtual_text = true
+			vim.g.matchup_treesitter_include_match_words = true
 		end,
 	},
 	{
