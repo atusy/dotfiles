@@ -137,12 +137,12 @@ local function setup_gin()
 		[[<C-W>v<Cmd>lua require("plugins.git.log").exec_graph("-n", "200")<CR>]],
 		{ desc = "git graph" }
 	)
-	vim.keymap.set("n", "<Plug>(C-G)a", "<Plug>(save)<Cmd>Gin add -- %<CR>")
-	vim.keymap.set("n", "<Plug>(C-G)r", "<Plug>(save)<Cmd>Gin reset -- %<CR>")
+	vim.keymap.set("n", "<Plug>(C-G)a", "<Plug>(save)<Cmd>silent Gin add -- %<CR>")
+	vim.keymap.set("n", "<Plug>(C-G)r", "<Plug>(save)<Cmd>silent Gin ++wait checkout HEAD -- %<CR><Cmd>e<CR>")
 	vim.keymap.set("n", "<Plug>(C-G)<c-p>", "<Cmd>GinPatch ++opener=tabnew %<CR>")
 	vim.keymap.set("n", "<Plug>(C-G)<c-d>", "<Cmd>GinDiff -- %<CR>")
 	vim.keymap.set("n", "<Plug>(C-G)d", "<Cmd>GinDiff -- .<CR>")
-	vim.keymap.set("n", "<Plug>(C-G)<c-u>", "<Cmd>Gin reset -- %<CR>") -- unstage buf
+	vim.keymap.set("n", "<Plug>(C-G)<c-u>", "<Cmd>silent Gin reset -- %<CR>") -- unstage buf
 	vim.keymap.set("n", "<Plug>(C-G)<c-m>", [[<Cmd>lua require("plugins.git.commit").exec()<CR>]]) -- commit
 	vim.keymap.set("n", "<Plug>(C-G)<c-f>", ":.GinBrowse<CR>") -- i.e. open file in hosting site
 	vim.keymap.set("x", "<Plug>(C-G)<c-f>", ":GinBrowse<CR>")
