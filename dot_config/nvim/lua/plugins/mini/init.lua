@@ -11,6 +11,7 @@ return {
 			require("plugins.mini.ai").lazy()
 			require("plugins.mini.surround").lazy()
 			require("plugins.mini.statusline").lazy()
+			require("plugins.mini.indentscope").lazy()
 		end,
 		config = function()
 			-- lazy load mini.bufremove
