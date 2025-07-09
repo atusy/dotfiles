@@ -20,19 +20,22 @@ local function setup_gitsigns()
 				save_and("stage_hunk", ":"),
 				{ buffer = buf, silent = true }
 			)
+
+			--- Autocmd callback to save and delete augroup
+			--- @param ctx vim.api.keyset.create_autocmd.callback_args
+			local function cb(ctx)
+				if ctx.buf == buf then
+					vim.cmd([[silent up]])
+					vim.api.nvim_del_augroup_by_id(ctx.group)
+				end
+			end
 			vim.keymap.set({ "n", "x" }, "<Plug>(C-G)<C-R>", function()
 				require("gitsigns").reset_hunk()
 
 				-- lazy save to avoid buf remains modified
-				local function cb(ctx)
-					if not vim.bo[ctx.buf].modified then
-						vim.api.nvim_del_autocmd(ctx.id)
-					elseif ctx.buf == buf then
-						vim.cmd([[silent up]])
-					end
-				end
-				vim.api.nvim_create_autocmd("User", { pattern = "GitSignsUpdate", callback = cb, once = true })
-				vim.api.nvim_create_autocmd("CursorMoved", { callback = cb, once = true })
+				local augroup = vim.api.nvim_create_augroup("atusy.gitsigns.reset_hunk", {})
+				vim.api.nvim_create_autocmd("User", { pattern = "GitSignsUpdate", callback = cb, group = augroup })
+				vim.api.nvim_create_autocmd("CursorMoved", { callback = cb, group = augroup })
 			end, { buffer = buf, desc = "reset hunk and ensure buf be up to date" })
 		end,
 	})
