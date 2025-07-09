@@ -12,8 +12,6 @@ local function setup_gitsigns()
 			local function save_and(x, cmd)
 				return "<Plug>(save)" .. (cmd or "<Cmd>") .. "Gitsigns " .. x .. "<CR>"
 			end
-			vim.keymap.set("n", "<Plug>(C-G)a", save_and("stage_buffer"), { buffer = buf }) -- add buf
-			vim.keymap.set("n", "<Plug>(C-G)r", save_and("reset_buffer"), { buffer = buf }) --reset buf
 			vim.keymap.set("n", "<Plug>(C-G)<C-H>", save_and("preview_hunk"), { buffer = buf }) -- preview hunk
 			vim.keymap.set("n", "<Plug>(C-G)<u>", save_and("undo_stage_hunk"), { buffer = buf }) -- undo add hunk
 			vim.keymap.set(
@@ -136,6 +134,8 @@ local function setup_gin()
 		[[<C-W>v<Cmd>lua require("plugins.git.log").exec_graph("-n", "200")<CR>]],
 		{ desc = "git graph" }
 	)
+	vim.keymap.set("n", "<Plug>(C-G)a", "<Plug>(save)<Cmd>Gin add -- %<CR>")
+	vim.keymap.set("n", "<Plug>(C-G)r", "<Plug>(save)<Cmd>Gin reset -- %<CR>")
 	vim.keymap.set("n", "<Plug>(C-G)<c-p>", "<Cmd>GinPatch ++opener=tabnew %<CR>")
 	vim.keymap.set("n", "<Plug>(C-G)<c-d>", "<Cmd>GinDiff -- %<CR>")
 	vim.keymap.set("n", "<Plug>(C-G)d", "<Cmd>GinDiff -- .<CR>")
@@ -196,5 +196,9 @@ return {
 		"https://github.com/lambdalisue/vim-gin", -- denops
 		config = setup_gin,
 	},
-	{ "https://github.com/lewis6991/gitsigns.nvim", config = setup_gitsigns },
+	{
+		"https://github.com/lewis6991/gitsigns.nvim",
+		-- lazy = true,
+		config = setup_gitsigns,
+	},
 }
