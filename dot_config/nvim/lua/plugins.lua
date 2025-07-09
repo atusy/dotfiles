@@ -199,24 +199,6 @@ return {
 		end,
 	},
 	{
-		"https://github.com/Wansmer/treesj",
-		lazy = true,
-		config = function()
-			require("treesj").setup({ use_default_keymaps = false })
-			-- treesj does not support visual mode, so leave the mode and use cursor as the node indicator
-			require("atusy.keymap.palette").add_item(
-				"",
-				"join lines based on AST",
-				[[<C-\><C-N>:lua require('treesj').join()<CR>]]
-			)
-			require("atusy.keymap.palette").add_item(
-				"",
-				"split lines based on AST",
-				[[<C-\><C-N>:lua require('treesj').split()<CR>]]
-			)
-		end,
-	},
-	{
 		"https://github.com/monaqa/dial.nvim",
 		lazy = true,
 		init = function()
