@@ -141,7 +141,9 @@ local function set_styler()
 			end
 
 			for _, w in pairs(extuiwins) do
-				require("styler").set_theme(w, { colorscheme = OUTSIDE_COLORSCHEME })
+				if vim.api.nvim_win_is_valid(w) then
+					require("styler").set_theme(w, { colorscheme = OUTSIDE_COLORSCHEME })
+				end
 			end
 		end,
 	})
