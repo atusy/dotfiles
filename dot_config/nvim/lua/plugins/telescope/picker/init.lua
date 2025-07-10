@@ -147,6 +147,15 @@ end
 function M.git_status()
 	local function _make_title()
 		local branch = vim.fn["gin#component#branch#unicode"]()
+		if branch == "" or branch == nil then
+			local alt = vim.system({ "git", "branch", "--points-at", "HEAD", "--all", "--format=%(refname:short)" })
+				:wait()
+			if alt.code ~= 0 then
+				return nil
+			end
+			local title = alt.stdout:gsub("\n", " ")
+			return title
+		end
 		local traffic = vim.fn["gin#component#traffic#unicode"]()
 		local title = branch .. " " .. traffic
 		return title ~= " " and title or nil
