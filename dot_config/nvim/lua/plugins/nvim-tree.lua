@@ -180,8 +180,8 @@ return {
 					nmap("f", require("nvim-tree.api").live_filter.start, "live filter: start")
 					nmap("m", require("nvim-tree.api").marks.toggle, "mark: toggle")
 					nmap("M", require("nvim-tree.api").marks.clear, "mark: clear")
-					nmap("<C-Right>", [[<Cmd>NvimTreeResize +2<CR>]], "ui: larger")
-					nmap("<C-Left>", [[<Cmd>NvimTreeResize -2<CR>]], "ui: smaller")
+					nmap("<S-Right>", [[<Cmd>NvimTreeResize +2<CR>]], "ui: larger")
+					nmap("<S-Left>", [[<Cmd>NvimTreeResize -2<CR>]], "ui: smaller")
 				end,
 			})
 		end,
