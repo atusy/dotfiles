@@ -96,14 +96,16 @@ function M.setup()
 			vim.lsp.set_log_level(vim.lsp.log_levels.OFF)
 			vim.lsp.enable({
 				"bashls",
+				-- "denols", -- enabled conditionally
 				"gopls",
 				"jsonls",
 				"lua_ls",
+				"nixd",
 				"pyright",
 				"r_language_server",
-				"nixd",
 				"rust_analyzer",
 				"terraformls",
+				-- "ts_ls", -- enabled conditionally
 				"yamlls",
 				has_node_modules() and "ts_ls" or "denols",
 			})
