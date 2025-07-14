@@ -102,6 +102,7 @@ function M.setup()
 				"pyright",
 				"r_language_server",
 				"nixd",
+				"rust_analyzer",
 				"terraformls",
 				"yamlls",
 				has_node_modules() and "ts_ls" or "denols",
