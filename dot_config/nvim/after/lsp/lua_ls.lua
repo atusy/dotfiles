@@ -8,6 +8,7 @@ vim.lsp.config.lua_ls = {
 				checkThirdParty = false,
 			},
 			format = { enable = false },
+			semantic = { enable = false },
 		},
 	},
 }
