@@ -4,31 +4,13 @@ local bufname = vim.api.nvim_buf_get_name(bufnr)
 local bufdir = vim.fs.dirname(bufname)
 local is_git_repo = vim.system({ "git", "rev-parse", "--is-inside-work-tree" }, { cwd = bufdir }):wait().code == 0
 
-vim.wo[winid][bufnr].conceallevel = 0
+vim.wo[winid][0].conceallevel = 0
 
-local function wincmd()
-	local wins = vim.api.nvim_tabpage_list_wins(0)
-	local wins_help = vim.tbl_filter(function(w)
-		return "help" == vim.bo[vim.api.nvim_win_get_buf(w)].filetype
-	end, wins)
-	if #wins_help == 1 then
-		local nm = vim.api.nvim_buf_get_name(vim.api.nvim_win_get_buf(wins_help[1]))
-		if not vim.startswith(nm, vim.fn.getcwd()) then
-			vim.api.nvim_win_call(wins_help[1], function()
-				vim.cmd("wincmd L | vertical resize 83")
-			end)
-		end
-	end
+if not vim.startswith(bufname, vim.fn.getcwd()) then
+	vim.api.nvim_win_call(winid, function()
+		vim.cmd("wincmd L | vertical resize 83")
+	end)
 end
-
--- Run on FileType event
-wincmd()
-
--- Run on BufWinEnter
-vim.api.nvim_create_autocmd("BufWinEnter", {
-	buffer = vim.api.nvim_get_current_buf(),
-	callback = wincmd,
-})
 
 -- Enhanced K
 vim.keymap.set("n", "K", function()
