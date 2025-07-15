@@ -42,9 +42,10 @@ local function find_tag_in_decendant(node)
 	end
 end
 
+---Find the nearest helptag node in the current block or its previous siblings.
 ---@param node TSNode
 ---@return TSNode | nil
-local function find_tag(node)
+local function find_helptag(node)
 	local node_ancestor = node ---@type TSNode
 
 	-- Find the nearest ancestor that is a block or tag
@@ -78,9 +79,10 @@ local function find_tag(node)
 	end
 end
 
+---Get helptag name within *helptag* node.
 ---@param node TSNode
 ---@return string
-local function get_tag_name(node)
+local function get_helptag_name(node)
 	local text = node:field("text")
 	if text and #text == 1 then
 		return vim.treesitter.get_node_text(text[1], 0, {})
@@ -105,13 +107,13 @@ if not is_git_repo then
 		if node_cursor == nil then
 			return
 		end
-		local node_tag = find_tag(node_cursor)
+		local node_helptag = find_helptag(node_cursor)
 
-		if not node_tag then
+		if not node_helptag then
 			return
 		end
 
-		local node_text = get_tag_name(node_tag)
+		local node_text = get_helptag_name(node_helptag)
 		local file_name = vim.fs.basename(vim.api.nvim_buf_get_name(0)):gsub("[.]txt$", "")
 		local url = string.format(
 			-- e.g., https://neovim.io/doc/user/editing.html#CTRL-G
