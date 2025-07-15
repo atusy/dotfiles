@@ -1,0 +1,4 @@
+#!/bin/sh
+
+# exec npx https://github.com/google-gemini/gemini-cli "$@"
+exec bunx @google/gemini-cli "$@"
