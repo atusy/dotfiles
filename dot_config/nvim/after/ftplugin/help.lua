@@ -7,9 +7,7 @@ local is_git_repo = vim.system({ "git", "rev-parse", "--is-inside-work-tree" }, 
 vim.wo[winid][0].conceallevel = 0
 
 if not vim.startswith(bufname, vim.fn.getcwd()) then
-	vim.api.nvim_win_call(winid, function()
-		vim.cmd("wincmd L | vertical resize 83")
-	end)
+	vim.cmd("wincmd L | vertical resize 83")
 end
 
 -- Enhanced K
