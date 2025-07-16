@@ -6,7 +6,7 @@ local is_git_repo = vim.system({ "git", "rev-parse", "--is-inside-work-tree" }, 
 
 vim.wo[winid][0].conceallevel = 0
 
-if not vim.startswith(bufname, vim.fn.getcwd()) then
+if vim.bo.buftype == "help" then
 	vim.cmd("wincmd L | vertical resize 83")
 end
 
