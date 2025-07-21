@@ -3,18 +3,20 @@
 set -eu
 
 MISE_INSTALL_PATH="${MISE_INSTALL_PATH:-${HOME}/.local/bin/mise}"
-MISE="$( command -v mise || true )"
+MISE="$(command -v mise || true)"
 
 if [ -z "$MISE" ] || [ "$MISE" = "$0" ]; then
   (
     cd "$(mktemp -d)"
     gpg --keyserver hkps://keyserver.ubuntu.com --recv-keys 0x7413A06D
-    curl https://mise.jdx.dev/install.sh.sig | gpg --decrypt > install.sh
+    curl https://mise.jdx.dev/install.sh.sig | gpg --decrypt >install.sh
     MISE_INSTALL_PATH="$MISE_INSTALL_PATH" sh ./install.sh
     mise install
   )
 fi
 
-if [ -z "${MISE_INSTALL_ONLY:-}" ]; then
-  "$MISE_INSTALL_PATH" "$@"
+if [ -n "${MISE_INSTALL_ONLY:-}" ]; then
+  exit 0
 fi
+
+exec "$MISE_INSTALL_PATH" "$@"

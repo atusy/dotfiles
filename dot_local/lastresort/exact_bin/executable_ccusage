@@ -1,2 +1,2 @@
 #!/usr/bin/env bash
-bunx ccusage@latest
+exec bunx ccusage@latest "$@"

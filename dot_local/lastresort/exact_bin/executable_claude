@@ -1,3 +1,2 @@
 #!/bin/sh
-
 exec bunx @anthropic-ai/claude-code "$@"
