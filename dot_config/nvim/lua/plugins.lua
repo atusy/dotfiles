@@ -243,7 +243,19 @@ return {
 			-- force (re-)install some parsers bundled with Neovim
 			vim.cmd.TSUpdate()
 		end,
-		event = { "BufReadPost", "BufNewFile" },
+		init = function()
+			vim.api.nvim_create_autocmd("FileType", {
+				group = vim.api.nvim_create_augroup("atusy.nvim-treesitter.init", {}),
+				callback = function(ctx)
+					require("nvim-treesitter")
+					local ok = pcall(vim.treesitter.query.get, ctx.match, "highlights")
+					if not ok then
+						return
+					end
+					pcall(vim.treesitter.start)
+				end,
+			})
+		end,
 		config = function()
 			-- install directory of treesitter parsers
 			local treesitterpath = vim.fn.stdpath("data") .. "/treesitter"
