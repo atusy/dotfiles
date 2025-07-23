@@ -50,7 +50,6 @@ vim.opt.winblend = 25
 vim.opt.autoread = true
 vim.opt.copyindent = true
 vim.opt.expandtab = true
-vim.opt.indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
 vim.opt.matchpairs:append(
 	[[<:>,「:」,（:）,『:』,【:】,《:》,〈:〉,｛:｝,［:］,【:】,‘:’,“:”]]
 )
