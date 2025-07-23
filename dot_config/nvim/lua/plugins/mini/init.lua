@@ -2,6 +2,7 @@ return {
 	{
 		-- mini.ai dependency
 		"https://github.com/nvim-treesitter/nvim-treesitter-textobjects",
+		branch = "main",
 		lazy = true,
 	},
 	{

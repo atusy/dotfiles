@@ -238,6 +238,7 @@ return {
 	},
 	{
 		"https://github.com/nvim-treesitter/nvim-treesitter",
+		branch = "main",
 		build = function()
 			-- force (re-)install some parsers bundled with Neovim
 			vim.cmd.TSUpdate()
@@ -249,7 +250,7 @@ return {
 			vim.opt.runtimepath:prepend(treesitterpath)
 
 			-- add non-official parsers
-			local parser_config = require("nvim-treesitter.parsers").get_parser_configs()
+			local parser_config = require("nvim-treesitter.parsers")
 			local parser_uri = vim.uv.os_homedir() .. "/ghq/github.com/atusy/tree-sitter-uri" ---@diagnostic disable-line: undefined-field
 			if not vim.uv.fs_stat(parser_uri) then ---@diagnostic disable-line: undefined-field
 				parser_uri = "https://github.com/atusy/tree-sitter-uri"
@@ -274,19 +275,18 @@ return {
 			}
 
 			-- setup
-			require("nvim-treesitter.configs").setup({
-				parser_install_dir = treesitterpath,
-				ensure_installed = "all",
-				highlight = {
-					enable = true,
-					disable = function(lang)
-						local ok = pcall(vim.treesitter.query.get, lang, "highlights")
-						return not ok
-					end,
-					additional_vim_regex_highlighting = false,
-				},
-				indent = { enable = true },
-				incremental_selection = { enable = false },
+			require("nvim-treesitter").setup({
+				install_dir = treesitterpath,
+				-- ensure_installed = "all",
+				-- highlight = {
+				-- 	enable = true,
+				-- 	disable = function(lang)
+				-- 		local ok = pcall(vim.treesitter.query.get, lang, "highlights")
+				-- 		return not ok
+				-- 	end,
+				-- 	additional_vim_regex_highlighting = false,
+				-- },
+				-- incremental_selection = { enable = false },
 			})
 
 			-- register parsers to some other languages
@@ -319,22 +319,24 @@ return {
 		end,
 	},
 	-- 'nvim-treesitter/playground', -- vim.treesitter.show_tree would be enough
-	{
-		"https://github.com/nvim-treesitter/nvim-treesitter-refactor",
-		lazy = true,
-		init = function()
-			vim.keymap.set(
-				"n",
-				" r",
-				[[<Cmd>lua require("nvim-treesitter-refactor.smart_rename").smart_rename(vim.fn.bufnr())<CR>]],
-				{}
-			)
-		end,
-	},
+	-- {
+	-- 	"https://github.com/nvim-treesitter/nvim-treesitter-refactor",
+	-- 	lazy = true,
+	-- 	dev = true,
+	-- 	init = function()
+	-- 		vim.keymap.set(
+	-- 			"n",
+	-- 			" r",
+	-- 			[[<Cmd>lua require("nvim-treesitter-refactor.smart_rename").smart_rename(vim.fn.bufnr())<CR>]],
+	-- 			{}
+	-- 		)
+	-- 	end,
+	-- },
 	-- 'haringsrob/nvim_context_vt',
 	{
 		"https://github.com/nvim-treesitter/nvim-treesitter-context",
 		event = "CursorHold",
+		branch = "master",
 		config = function()
 			require("treesitter-context").setup({
 				enable = true,
@@ -348,11 +350,11 @@ return {
 		end,
 	},
 	{
-		"https://github.com/RRethy/nvim-treesitter-endwise",
-		commit = "ad5ab41122a0b84f27101f1b5e6e55a681f84b2f",
+		"https://github.com/AbaoFromCUG/nvim-treesitter-endwise",
+		commit = "b826f3ee910b5f071840d9ecd39998740e19e60d",
 		ft = { "ruby", "lua", "sh", "bash", "zsh", "vim" },
 		config = function()
-			require("nvim-treesitter.configs").setup({ endwise = { enable = true } })
+			require("nvim-treesitter-endwise").init()
 		end,
 	},
 	{
