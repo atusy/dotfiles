@@ -52,8 +52,9 @@ local function extract_locations(resps, locs)
 		local result = x.result or x
 		local range = result.targetRange or result.range
 		if range == nil then
-			if not x.error then
+			if not x.error and not vim.bo.filetype == "lua" then
 				-- something wrong that I have never met
+				-- in Lua, this may happen when asking for a location on string
 				vim.notify(vim.inspect(x))
 			end
 			return
