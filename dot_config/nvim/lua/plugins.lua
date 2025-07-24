@@ -243,6 +243,7 @@ return {
 			-- force (re-)install some parsers bundled with Neovim
 			vim.cmd.TSUpdate()
 		end,
+		lazy = true,
 		init = function()
 			vim.api.nvim_create_autocmd("FileType", {
 				group = vim.api.nvim_create_augroup("atusy.nvim-treesitter.init", {}),
