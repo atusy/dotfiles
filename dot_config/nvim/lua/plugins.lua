@@ -288,19 +288,7 @@ return {
 			}
 
 			-- setup
-			require("nvim-treesitter").setup({
-				install_dir = treesitterpath,
-				-- ensure_installed = "all",
-				-- highlight = {
-				-- 	enable = true,
-				-- 	disable = function(lang)
-				-- 		local ok = pcall(vim.treesitter.query.get, lang, "highlights")
-				-- 		return not ok
-				-- 	end,
-				-- 	additional_vim_regex_highlighting = false,
-				-- },
-				-- incremental_selection = { enable = false },
-			})
+			require("nvim-treesitter").setup({ install_dir = treesitterpath })
 
 			-- register parsers to some other languages
 			vim.treesitter.language.register("bash", "zsh")
