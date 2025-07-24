@@ -42,7 +42,7 @@ local function config()
 			return "<Cmd>call ddc#map#manual_complete()<CR>"
 		end
 		local col = vim.fn.col(".")
-		local line = vim.fn.getline(".") ---@diagnostic disable-line: param-type-mismatch
+		local line = vim.fn.getline(".")
 		if col > 1 and type(line) == "string" and string.match(vim.fn.strpart(line, col - 2), "%s") == nil then
 			return "<Cmd>call ddc#map#manual_complete()<CR>"
 		end

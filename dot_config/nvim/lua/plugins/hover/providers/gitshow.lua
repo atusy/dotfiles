@@ -28,11 +28,9 @@ local function execute(opts, done)
 			return done(false)
 		end
 	else
-		---@diagnostic disable-next-line: cast-local-type
 		label = vim.fn.expand("<cword>")
 	end
 
-	---@diagnostic disable-next-line: assign-type-mismatch
 	local obj = vim.system({ "git", "show", "--patch", "--stat", label }, {}):wait()
 
 	if obj.code > 0 or not obj.stdout then

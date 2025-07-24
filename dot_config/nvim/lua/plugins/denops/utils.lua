@@ -5,7 +5,7 @@ function M.get_deno(version)
 	local cache = vim.fn.stdpath("cache") --[[@as string]]
 	local base = vim.fs.joinpath(cache, "denops", "deno", version)
 	local bin = vim.fs.joinpath(base, "bin", "deno")
-	if not vim.uv.fs_stat(bin) then ---@diagnostic disable-line: undefined-field
+	if not vim.uv.fs_stat(bin) then
 		local obj = require("atusy.bin.deno").install(version, { env = { DENO_INSTALL = base } }):wait()
 		if obj.code ~= 0 then
 			error(obj.stderr) -- requires unzip

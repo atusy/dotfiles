@@ -116,7 +116,7 @@ function M.expand(opts)
 end
 
 local function fs_stat(x)
-	return vim.uv.fs_stat(x) ---@diagnostic disable-line: undefined-field
+	return vim.uv.fs_stat(x)
 end
 
 ---@param path string

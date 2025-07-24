@@ -28,7 +28,7 @@ vim.g.loaded_remote_plugins = 1
 --[[ lazy.nvim ]]
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 
-if not vim.uv.fs_stat(lazypath) then ---@diagnostic disable-line: undefined-field
+if not vim.uv.fs_stat(lazypath) then
 	require("atusy.lazy").install(lazypath)
 end
 
@@ -52,7 +52,7 @@ require("lazy").setup("plugins", { ---@diagnostic disable-line: different-requir
 	},
 	dev = {
 		path = function(plugin)
-			local path, cnt = string.gsub(plugin.url, "^https://(.*)", vim.uv.os_homedir() .. "/ghq/%1") ---@diagnostic disable-line: undefined-field
+			local path, cnt = string.gsub(plugin.url, "^https://(.*)", vim.uv.os_homedir() .. "/ghq/%1")
 			if cnt == 1 then
 				if not vim.uv.fs_stat(path) then
 					vim.system({ "git", "clone", plugin.url, "--", path }):wait()

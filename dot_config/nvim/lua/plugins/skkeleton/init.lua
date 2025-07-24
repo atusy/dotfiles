@@ -77,7 +77,6 @@ return {
 				sources = { "deno_kv" }, -- no google_japanese_input to avoid unwanted candidates on affix
 				markerHenkan = "",
 				markerHenkanSelect = "",
-				---@diagnostic disable-next-line: param-type-mismatch
 				databasePath = vim.fs.joinpath(vim.fn.stdpath("cache"), "skkeleton-dictionary.sqlite3"),
 				lowercaseMap = { [":"] = ";" },
 				globalDictionaries = {

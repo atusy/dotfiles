@@ -125,7 +125,7 @@ local function setup_gin()
 	vim.keymap.set("n", "<Plug>(C-G)<C-L>", function()
 		vim.cmd("wincmd v")
 		local nm = vim.api.nvim_buf_get_name(vim.api.nvim_win_get_buf(0))
-		if nm ~= "" and vim.uv.fs_stat(nm) then ---@diagnostic disable-line: undefined-field
+		if nm ~= "" and vim.uv.fs_stat(nm) then
 			require("plugins.git.log").exec_graph("--follow", "-n", "200", "--", nm)
 		else
 			require("plugins.git.log").exec_graph("-n", "200")

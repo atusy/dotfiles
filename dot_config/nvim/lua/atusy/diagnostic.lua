@@ -32,11 +32,11 @@ function M.toggle_severity(keys, severities)
 		end
 
 		-- update severity
-		config[key] = type(config[key]) == "table" and config[key] or {} ---@diagnostic disable-line: assign-type-mismatch
-		config[key].severity = {} ---@diagnostic disable-line: inject-field
+		config[key] = type(config[key]) == "table" and config[key] or {}
+		config[key].severity = {}
 		for k, v in pairs(severity) do
 			if v then
-				table.insert(config[key].severity, k) ---@diagnostic disable-line: undefined-field
+				table.insert(config[key].severity, k)
 			end
 		end
 	end

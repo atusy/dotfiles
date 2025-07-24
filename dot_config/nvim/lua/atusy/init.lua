@@ -187,7 +187,6 @@ end, { expr = true })
 
 -- mappings: save and ...
 vim.keymap.set({ "n", "x" }, "<Plug>(save)", function()
-	---@diagnostic disable-next-line: undefined-field
 	local nm = vim.api.nvim_buf_get_name(0)
 	for _, prefix in ipairs({ "term://" }) do
 		if nm:sub(1, #prefix) == prefix then
