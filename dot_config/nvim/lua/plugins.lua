@@ -240,8 +240,7 @@ return {
 		"https://github.com/nvim-treesitter/nvim-treesitter",
 		branch = "main",
 		build = function()
-			-- force (re-)install some parsers bundled with Neovim
-			vim.cmd.TSUpdate()
+			require("nvim-treesitter").update()
 		end,
 		lazy = true,
 		init = function()
