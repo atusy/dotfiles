@@ -578,28 +578,38 @@ return {
 		cmd = "Copilot",
 		event = { "InsertEnter", "CursorHold" },
 		config = function()
-			require("copilot").setup({
-				server_opts_overrides = {
-					trace = "verbose",
-					settings = {
-						advanced = {
-							listCount = 10, -- #completions for panel
-							inlineSuggestCount = 3, -- #completions for getCompletions
+			-- setup iff network is available to avoid enormous errors on every input
+			local function setup()
+				require("copilot").setup({
+					server_opts_overrides = {
+						trace = "verbose",
+						settings = {
+							advanced = {
+								listCount = 10, -- #completions for panel
+								inlineSuggestCount = 3, -- #completions for getCompletions
+							},
 						},
 					},
-				},
-				suggestion = {
-					auto_trigger = true,
-					keymap = {
-						accept = false,
-						accept_line = "<C-X>l",
-						accept_word = "<C-X>w",
-						next = "<C-N>",
-						prev = "<C-P>",
+					suggestion = {
+						auto_trigger = true,
+						keymap = {
+							accept = false,
+							accept_line = "<C-X>l",
+							accept_word = "<C-X>w",
+							next = "<C-N>",
+							prev = "<C-P>",
+						},
 					},
-				},
-				filetypes = { ["*"] = true },
-			})
+					filetypes = { ["*"] = true },
+				})
+			end
+			vim.system({ "ping", "-c", "1", "-W", "0.1", "http://example.com" }, {}, function(obj)
+				if obj.code == 0 then
+					setup()
+				end
+			end)
+
+			-- mapping
 			vim.keymap.set("i", "<c-a>", function()
 				if require("copilot.suggestion").is_visible() then
 					require("copilot.suggestion").accept()
