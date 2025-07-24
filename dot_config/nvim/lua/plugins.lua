@@ -310,13 +310,6 @@ return {
 				"ColorScheme",
 				{ group = vim.api.nvim_create_augroup("atusy.nvim-treesitter", {}), callback = hi }
 			)
-
-			-- command palette
-			require("atusy.keymap.palette").add_item(
-				"n",
-				"treesitter: force install some queries",
-				[[<Cmd>TSInstall! lua query vimdoc vim c python bash markdown markdown_inline<CR>]]
-			)
 		end,
 	},
 	-- 'nvim-treesitter/playground', -- vim.treesitter.show_tree would be enough
