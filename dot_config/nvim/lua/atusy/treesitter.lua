@@ -154,7 +154,7 @@ function M.workaround_flickering(ctx)
 			is_open_neovim_32660 = obj.stdout:gsub("\n", ""):match("^OPEN$") ~= nil
 			if not is_open_neovim_32660 then
 				vim.schedule(function()
-					vim.notify("Updte neovim to experience TS async highlight without flickering: " .. issue)
+					vim.notify("Update neovim to experience TS async highlight without flickering: " .. issue)
 				end)
 			end
 		end)
