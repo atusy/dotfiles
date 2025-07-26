@@ -1,3 +1,6 @@
+local augroup = vim.api.nvim_create_augroup("atusy.plugins.nvim-treesitter", {})
+local treesitterpath = vim.fn.stdpath("data") .. "/treesitter"
+
 return {
 	{
 		"https://github.com/nvim-treesitter/nvim-treesitter",
@@ -8,7 +11,7 @@ return {
 		lazy = true,
 		init = function()
 			vim.api.nvim_create_autocmd("FileType", {
-				group = vim.api.nvim_create_augroup("atusy.nvim-treesitter.init", {}),
+				group = augroup,
 				callback = function(ctx)
 					require("nvim-treesitter")
 					local ok = pcall(vim.treesitter.query.get, ctx.match, "highlights")
@@ -22,7 +25,6 @@ return {
 		end,
 		config = function()
 			-- install directory of treesitter parsers
-			local treesitterpath = vim.fn.stdpath("data") .. "/treesitter"
 			vim.opt.runtimepath:prepend(treesitterpath)
 
 			-- add non-official parsers
