@@ -34,9 +34,6 @@ return {
 			})
 		end,
 		config = function()
-			-- install directory of treesitter parsers
-			vim.opt.runtimepath:prepend(treesitterpath)
-
 			-- add non-official parsers
 			local parser_config = require("nvim-treesitter.parsers")
 			local parser_uri = vim.uv.os_homedir() .. "/ghq/github.com/atusy/tree-sitter-uri"
