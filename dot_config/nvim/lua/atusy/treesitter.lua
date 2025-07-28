@@ -151,6 +151,10 @@ function M.workaround_flickering(ctx)
 			"--jq",
 			".state",
 		}, { text = true }, function(obj)
+			if obj.code ~= 0 then
+				-- e.g., when command is not available or network is disconnected
+				return
+			end
 			is_open_neovim_32660 = obj.stdout:gsub("\n", ""):match("^OPEN$") ~= nil
 			if not is_open_neovim_32660 then
 				vim.schedule(function()
