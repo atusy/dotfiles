@@ -69,7 +69,6 @@ end
 vim.api.nvim_create_user_command("W", "write !sudo tee % >/dev/null", {})
 
 --[[ mappings ]]
-vim.g.mapleader = " "
 vim.keymap.set({ "n", "x" }, "s", "<plug>(s)") -- be prefix for sandwich and fuzzy finders
 vim.keymap.set("n", "<C-G>", "<Cmd>lua if vim.o.laststatus == 0 then vim.cmd.f() end<CR><Plug>(C-G)")
 vim.keymap.set("n", "<Plug>(C-G)<C-G>", '<Cmd>let @+ = expand("%:~:.")<CR>')
