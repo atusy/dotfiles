@@ -100,9 +100,11 @@ return {
 
 			-- system-specific settings
 			if vim.loop.os_uname().sysname == "Linux" then
+				local focused = false
 				vim.api.nvim_create_autocmd({ "FocusGained", "InsertEnter", "User" }, {
 					group = augroup,
 					callback = function(ctx)
+						focused = true
 						if ctx.event == "User" and ctx.file ~= "skkeleton-enable-pre" then
 							return
 						end
@@ -112,13 +114,7 @@ return {
 				vim.api.nvim_create_autocmd({ "FocusLost", "VimLeave" }, {
 					group = augroup,
 					callback = function()
-						local focused = false
-						vim.api.nvim_create_autocmd({ "FocusGained", "InsertEnter" }, {
-							once = true,
-							callback = function()
-								focused = true
-							end,
-						})
+						focused = false
 						vim.defer_fn(function()
 							if not focused then
 								vim.system({ "fcitx5-remote", "-s", "skk" }):wait()
