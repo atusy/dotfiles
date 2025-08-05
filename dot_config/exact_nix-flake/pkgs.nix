@@ -1,4 +1,8 @@
-{ pkgs, ... }:
+{
+  pkgs,
+  pkgs-master ? null,
+  ...
+}:
 
 let
   common = [
@@ -53,7 +57,11 @@ let
     pkgs.trash-cli
     pkgs.uv
     pkgs.watch
-    pkgs.wget2
+    (
+      # TODO(2025-08-05): use pkgs.wget2 when it become available in unstable branch
+      # https://github.com/NixOS/nixpkgs/pull/429170
+      if pkgs-master != null then pkgs-master.wget2 else pkgs.wget2
+    )
     pkgs.zoxide
 
     # language servers
@@ -85,9 +93,11 @@ in
   x86_64-linux = [
     pkgs.paru
     pkgs.bitwarden-cli # fails on aarch64-darwin
-  ] ++ common;
+  ]
+  ++ common;
   aarch64-darwin = [
-  ] ++ common;
+  ]
+  ++ common;
   fonts = [
     pkgs.ibm-plex
     pkgs.noto-fonts-color-emoji

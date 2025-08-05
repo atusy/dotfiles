@@ -3,6 +3,7 @@
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
+    nixpkgs-master.url = "github:nixos/nixpkgs/master";
     nix-darwin.url = "github:nix-darwin/nix-darwin/master";
     nix-darwin.inputs.nixpkgs.follows = "nixpkgs";
     home-manager = {
@@ -20,17 +21,27 @@
       self,
       nix-darwin,
       nixpkgs,
+      nixpkgs-master,
       home-manager,
       ...
     }:
     let
       pkgs = nixpkgs.legacyPackages.${system};
+      pkgs-master = nixpkgs-master.legacyPackages.${system};
       overlays = [ inputs.neovim-nightly-overlay.overlays.default ];
       darwinConfiguration =
         { pkgs, ... }:
         {
-          environment.systemPackages = (import ./pkgs.nix { inherit pkgs; }).aarch64-darwin;
-          fonts.packages = (import ./pkgs.nix { inherit pkgs; }).fonts;
+          environment.systemPackages =
+            (import ./pkgs.nix {
+              inherit pkgs;
+              pkgs-master = pkgs-master;
+            }).aarch64-darwin;
+          fonts.packages =
+            (import ./pkgs.nix {
+              inherit pkgs;
+              pkgs-master = pkgs-master;
+            }).fonts;
 
           # Necessary for using flakes on this system.
           nix.settings.experimental-features = "nix-command flakes";
@@ -85,6 +96,10 @@
             }
             ./home.nix
           ];
+
+          extraSpecialArgs = {
+            pkgs-master = pkgs-master;
+          };
         };
       }
     else

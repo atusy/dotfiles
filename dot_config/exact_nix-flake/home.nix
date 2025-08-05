@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ config, pkgs, pkgs-master, ... }:
 
 {
   home.username = "atusy";
@@ -11,11 +11,11 @@
   # You should not change this value, even if you update Home Manager. If you do
   # want to update the value, then make sure to first check the Home Manager
   # release notes.
-  home.stateVersion = "24.05"; # Please read the comment before changing.
+  home.stateVersion = "25.11"; # Please read the comment before changing.
 
   nixpkgs.config.allowUnfree = true;
 
-  home.packages = (import ./pkgs.nix { inherit pkgs; }).x86_64-linux;
+  home.packages = (import ./pkgs.nix { inherit pkgs; inherit pkgs-master; }).x86_64-linux;
 
   home.file = { };
 
