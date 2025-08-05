@@ -502,34 +502,34 @@ return {
 		cmd = "Copilot",
 		event = { "InsertEnter", "CursorHold" },
 		config = function()
-			-- setup iff network is available to avoid enormous errors on every input
-			local function setup()
-				require("copilot").setup({
-					server_opts_overrides = {
-						trace = "verbose",
-						settings = {
-							advanced = {
-								listCount = 10, -- #completions for panel
-								inlineSuggestCount = 3, -- #completions for getCompletions
-							},
+			require("copilot").setup({
+				server_opts_overrides = {
+					trace = "verbose",
+					settings = {
+						advanced = {
+							listCount = 10, -- #completions for panel
+							inlineSuggestCount = 3, -- #completions for getCompletions
 						},
 					},
-					suggestion = {
-						auto_trigger = true,
-						keymap = {
-							accept = false,
-							accept_line = "<C-X>l",
-							accept_word = "<C-X>w",
-							next = "<C-N>",
-							prev = "<C-P>",
-						},
+				},
+				suggestion = {
+					auto_trigger = true,
+					hide_during_completion = false,
+					keymap = {
+						accept = false,
+						accept_line = "<C-X>l",
+						accept_word = "<C-X>w",
+						next = "<C-N>",
+						prev = "<C-P>",
 					},
-					filetypes = { ["*"] = true },
-				})
-			end
+				},
+				filetypes = { ["*"] = true },
+			})
+
+			-- disable copilot if no network
 			vim.system({ "ping", "-c", "1", "-W", "0.1", "http://example.com" }, {}, function(obj)
-				if obj.code == 0 then
-					setup()
+				if obj.code ~= 0 then
+					vim.cmd("Copilot disable")
 				end
 			end)
 
