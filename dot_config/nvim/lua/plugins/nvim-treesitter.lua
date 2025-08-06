@@ -11,6 +11,24 @@ local function with_parser_dir(cb)
 	end)
 end
 
+local function install_parser_unifieddiff(src, force)
+	with_parser_dir(function(parser_path)
+		local output = vim.fs.joinpath(parser_path, "unifieddiff.so")
+		if force or not output then
+			vim.system({ "tree-sitter", "build", "--output", output }, { cwd = src }, function() end)
+		end
+	end)
+end
+
+local function install_parser_uri(src, force)
+	with_parser_dir(function(parser_path)
+		local output = vim.fs.joinpath(parser_path, "uri.so")
+		if force or not vim.uv.fs_stat(output) then
+			vim.system({ "tree-sitter", "build", "--output", output }, { cwd = src }, function() end)
+		end
+	end)
+end
+
 return {
 	{
 		"https://github.com/nvim-treesitter/nvim-treesitter",
@@ -66,14 +84,11 @@ return {
 	{
 		"https://github.com/monaqa/tree-sitter-unifieddiff",
 		filetype = { "unifieddiff", "gin-diff" },
+		build = function(opts)
+			install_parser_unifieddiff(opts.dir, true)
+		end,
 		init = function(opts)
-			with_parser_dir(function(parser_path)
-				vim.system(
-					{ "tree-sitter", "build", "--output", vim.fs.joinpath(parser_path, "unifieddiff.so") },
-					{ cwd = opts.dir },
-					function() end
-				)
-			end)
+			install_parser_unifieddiff(opts.dir, false)
 		end,
 		config = function()
 			vim.treesitter.language.register("unifieddiff", "gin-diff")
@@ -81,14 +96,12 @@ return {
 	},
 	{
 		"https://github.com/atusy/tree-sitter-uri",
+		lazy = true,
 		build = function(opts)
-			with_parser_dir(function(parser_path)
-				vim.system(
-					{ "tree-sitter", "build", "--output", vim.fs.joinpath(parser_path, "uri.so") },
-					{ cwd = opts.dir },
-					function() end
-				)
-			end)
+			install_parser_uri(opts.dir, true)
+		end,
+		init = function(opts)
+			install_parser_uri(opts.dir, false)
 		end,
 	},
 }
