@@ -526,10 +526,12 @@ return {
 				filetypes = { ["*"] = true },
 			})
 
-			-- disable copilot if no network
-			vim.system({ "ping", "-c", "1", "-W", "0.1", "http://example.com" }, {}, function(obj)
+			-- disable copilot if unreachable
+			vim.system({ "ping", "-c", "1", "-W", "1", "api.github.com" }, {}, function(obj)
 				if obj.code ~= 0 then
-					vim.cmd("Copilot disable")
+					vim.schedule(function()
+						vim.cmd("Copilot disable")
+					end)
 				end
 			end)
 
