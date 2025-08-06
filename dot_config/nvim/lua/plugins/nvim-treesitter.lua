@@ -34,29 +34,10 @@ return {
 		end,
 		config = function()
 			-- add non-official parsers
-			local parser_config = require("nvim-treesitter.parsers")
 			local parser_uri = vim.uv.os_homedir() .. "/ghq/github.com/atusy/tree-sitter-uri"
 			if not vim.uv.fs_stat(parser_uri) then
 				parser_uri = "https://github.com/atusy/tree-sitter-uri"
 			end
-			parser_config.uri = {
-				install_info = {
-					url = parser_uri,
-					branch = "main",
-					files = { "src/parser.c" },
-					generate_requires_npm = false, -- if stand-alone parser without npm dependencies
-					requires_generate_from_grammar = false, -- if folder contains pre-generated src/parser.c
-				},
-				filetype = "uri", -- if filetype does not match the parser name
-			}
-			parser_config.unifieddiff = {
-				install_info = {
-					url = "https://github.com/monaqa/tree-sitter-unifieddiff",
-					branch = "master",
-					files = { "src/parser.c", "src/scanner.c" },
-				},
-				filetype = "diff", -- if filetype does not agrees with parser name
-			}
 
 			-- setup
 			require("nvim-treesitter").setup({ install_dir = treesitter_path })
