@@ -51,13 +51,6 @@ return {
 			})
 		end,
 		config = function()
-			-- add non-official parsers
-			local parser_uri = vim.uv.os_homedir() .. "/ghq/github.com/atusy/tree-sitter-uri"
-			if not vim.uv.fs_stat(parser_uri) then
-				parser_uri = "https://github.com/atusy/tree-sitter-uri"
-			end
-
-			-- setup
 			require("nvim-treesitter").setup({ install_dir = treesitter_path })
 
 			-- register parsers to some other languages
