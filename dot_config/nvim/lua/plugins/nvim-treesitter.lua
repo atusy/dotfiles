@@ -76,7 +76,7 @@ return {
 	},
 	{
 		"https://github.com/monaqa/tree-sitter-unifieddiff",
-		filetype = { "unifieddiff", "gin-diff" },
+		filetype = { "diff", "gin-diff" },
 		build = function(opts)
 			install_parser_unifieddiff(opts.dir, true)
 		end,
@@ -84,6 +84,7 @@ return {
 			install_parser_unifieddiff(opts.dir, false)
 		end,
 		config = function()
+			vim.treesitter.language.register("unifieddiff", "diff")
 			vim.treesitter.language.register("unifieddiff", "gin-diff")
 		end,
 	},
