@@ -579,6 +579,7 @@ return {
 	},
 	{
 		"https://github.com/yetone/avante.nvim",
+		cond = false,
 		build = "make",
 		lazy = true,
 		config = function()
