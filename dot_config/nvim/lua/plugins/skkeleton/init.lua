@@ -85,7 +85,6 @@ return {
 					dict("geo"),
 					dict("station"),
 					dict("hukugougo"),
-					dict("mazegaki"),
 					dict("jinmei"),
 					dict("fullname"),
 					dict("edict2"),
