@@ -54,6 +54,12 @@
 
           system.primaryUser = darwinUser;
 
+          system.defaults.dock = {
+            autohide = true;
+            autohide-delay = 0.0;
+            autohide-time-modifier = 0.5;
+          };
+
           # https://github.com/nix-darwin/nix-darwin/blob/master/modules/homebrew.nix
           homebrew = {
             enable = true;
