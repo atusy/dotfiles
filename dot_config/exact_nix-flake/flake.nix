@@ -60,6 +60,16 @@
             autohide-time-modifier = 0.5;
           };
 
+          system.defaults.trackpad = {
+            Clicking = true; # Enable tap to click
+            TrackpadRightClick = true; # Enable two-finger tap for right click
+          };
+
+          system.defaults.NSGlobalDomain = {
+            "com.apple.mouse.tapBehavior" = 1; # Enable tap to click for external trackpads
+            "com.apple.swipescrolldirection" = false; # Natural scrolling: false = traditional scroll (reverse for mouse)
+          };
+
           # https://github.com/nix-darwin/nix-darwin/blob/master/modules/homebrew.nix
           homebrew = {
             enable = true;
