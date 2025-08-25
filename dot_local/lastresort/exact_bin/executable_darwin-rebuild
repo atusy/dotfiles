@@ -1,2 +1,2 @@
 #!/bin/sh
-exec nix run nix-darwin/master#darwin-rebuild "$@"
+exec nix run nix-darwin/master#darwin-rebuild -- "$@"
