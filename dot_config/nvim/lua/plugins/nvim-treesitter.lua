@@ -35,7 +35,7 @@ return {
 		branch = "main",
 		build = function()
 			local ok, err = pcall(function()
-				local installed = require("nvim-treesittere").get_installed()
+				local installed = require("nvim-treesitter").get_installed()
 				local available = require("nvim-treesitter.config").get_available()
 				local target = vim.tbl_filter(function(lang)
 					vim.tbl_contains(available, lang)
@@ -52,11 +52,19 @@ return {
 				group = augroup,
 				callback = function(ctx)
 					require("nvim-treesitter")
-					local ok = pcall(vim.treesitter.query.get, ctx.match, "highlights")
-					if not ok then
+					local ok = pcall(vim.treesitter.start)
+					if ok then
 						return
 					end
-					pcall(vim.treesitter.start)
+
+					-- on fail, retry after installing the parser
+					local lang = vim.treesitter.language.get_lang(ctx.match)
+					require("nvim-treesitter").install({ lang }):await(function(err)
+						if err then
+							vim.notify(err, vim.log.levels.ERROR, { title = "nvim-treesitter" })
+						end
+						pcall(vim.treesitter.start)
+					end)
 				end,
 			})
 		end,
