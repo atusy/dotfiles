@@ -34,7 +34,17 @@ return {
 		"https://github.com/nvim-treesitter/nvim-treesitter",
 		branch = "main",
 		build = function()
-			require("nvim-treesitter").update()
+			local ok, err = pcall(function()
+				local installed = require("nvim-treesittere").get_installed()
+				local available = require("nvim-treesitter.config").get_available()
+				local target = vim.tbl_filter(function(lang)
+					vim.tbl_contains(available, lang)
+				end, installed)
+				require("nvim-treesitter").update(target)
+			end)
+			if not ok then
+				vim.notify(err or "failed to update parsers", vim.log.levels.ERROR, { title = "nvim-treesitter" })
+			end
 		end,
 		lazy = true,
 		init = function()
