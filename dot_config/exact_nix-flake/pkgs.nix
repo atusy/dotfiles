@@ -11,6 +11,7 @@ let
     pkgs.bash
     pkgs.bat
     pkgs.bun
+    pkgs.cargo
     pkgs.chezmoi
     pkgs.delta
     pkgs.deno
@@ -33,6 +34,7 @@ let
     pkgs.google-cloud-sdk
     pkgs.htop
     pkgs.jq
+    pkgs.just
     pkgs.kind
     pkgs.kubectl
     pkgs.kubectx

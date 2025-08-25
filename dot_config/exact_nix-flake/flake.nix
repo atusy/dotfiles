@@ -68,15 +68,18 @@
             brews = [
               "bitwarden-cli" # not available in nixpkgs for aarch64-darwin
               "mas"
+              "docker-compose"
             ];
             casks = [
               "chromium"
+              "docker"
               "firefox"
               "karabiner-elements"
               "keycastr"
               "libreoffice"
-              # "macskk"
+              "macskk"
               "r"
+              "slack"
               "raycast"
               "vlc"
               "wezterm"
