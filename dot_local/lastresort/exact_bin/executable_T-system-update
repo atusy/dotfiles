@@ -10,7 +10,7 @@ fi
 
 # nix
 chezmoi apply
-nix flake update --flake ~/.config/nix-flake
+nix --extra-experimental-features "nix-command flakes" flake update --flake ~/.config/nix-flake
 if [ "$OS_KERNEL" = "Darwin" ]; then
   T-darwin-switch
 else
