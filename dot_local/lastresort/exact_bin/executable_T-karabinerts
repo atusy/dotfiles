@@ -1,0 +1,17 @@
+#!/usr/bin/env -S deno run --allow-read --allow-write --allow-env --allow-run
+
+import * as k from "https://deno.land/x/karabinerts@1.35.1/deno.ts";
+
+k.writeToProfile("Default profile", [
+  k.rule("Change CapsLock to Ctrl")
+    .manipulators([
+      k.map({ key_code: "caps_lock" })
+        .to({ key_code: "left_control" })
+        .toIfAlone({ key_code: "escape" })
+        .parameters({ "basic.to_if_alone_timeout_milliseconds": 50 }),
+    ]),
+]);
+
+// reload config
+const restart = new Deno.Command("karabiner_cli", { args: ["restart"] });
+await restart.output();
