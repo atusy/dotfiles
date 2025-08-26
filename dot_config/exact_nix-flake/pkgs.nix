@@ -6,12 +6,13 @@
 
 let
   common = [
+    pkgs.fenix.stable.completeToolchain
     pkgs.aha # Converet ANSI escape sequences to HTML
     pkgs.avahi
     pkgs.bash
     pkgs.bat
+    pkgs.buf
     pkgs.bun
-    pkgs.cargo
     pkgs.chezmoi
     pkgs.delta
     pkgs.deno
@@ -72,7 +73,6 @@ let
     pkgs.nixd
     pkgs.nodePackages_latest.bash-language-server
     pkgs.pyright
-    pkgs.rust-analyzer
     pkgs.terraform-ls
     pkgs.typescript-language-server
     pkgs.yaml-language-server

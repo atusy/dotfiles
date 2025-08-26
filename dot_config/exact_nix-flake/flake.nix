@@ -14,6 +14,10 @@
       url = "github:nix-community/neovim-nightly-overlay";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    fenix = {
+      url = "github:nix-community/fenix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =
@@ -28,7 +32,10 @@
     let
       pkgs = nixpkgs.legacyPackages.${system};
       pkgs-master = nixpkgs-master.legacyPackages.${system};
-      overlays = [ inputs.neovim-nightly-overlay.overlays.default ];
+      overlays = [ 
+        inputs.neovim-nightly-overlay.overlays.default 
+        inputs.fenix.overlays.default
+      ];
       darwinConfiguration =
         { pkgs, ... }:
         {

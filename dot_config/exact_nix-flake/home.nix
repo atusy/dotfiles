@@ -1,4 +1,9 @@
-{ config, pkgs, pkgs-master, ... }:
+{
+  config,
+  pkgs,
+  pkgs-master,
+  ...
+}:
 
 {
   home.username = "atusy";
@@ -15,7 +20,11 @@
 
   nixpkgs.config.allowUnfree = true;
 
-  home.packages = (import ./pkgs.nix { inherit pkgs; inherit pkgs-master; }).x86_64-linux;
+  home.packages =
+    (import ./pkgs.nix {
+      inherit pkgs;
+      inherit pkgs-master;
+    }).x86_64-linux;
 
   home.file = { };
 
