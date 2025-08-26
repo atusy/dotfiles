@@ -96,11 +96,13 @@ function M.setup()
 			pcall(require, "lspconfig")
 			vim.lsp.set_log_level(vim.lsp.log_levels.OFF)
 			vim.lsp.inline_completion.enable(true)
+			vim.lsp.linked_editing_range.enable(true)
 			vim.lsp.enable({
 				"bashls",
 				"copilot",
 				-- "denols", -- enabled conditionally
 				"gopls",
+				"html",
 				"jsonls",
 				"lua_ls",
 				"nixd",
