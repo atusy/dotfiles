@@ -48,6 +48,7 @@ function M.setup_mappings(bufnr, client)
 		vim.keymap.set("n", "gs", [[<Cmd>lua vim.lsp.buf.signature_help()<CR>]], { silent = true })
 		vim.keymap.set("n", "gK", [[<Cmd>lua vim.lsp.buf.type_definition()<CR>]], { silent = true }) -- Kata teigi
 		vim.keymap.set("n", "ga", [[<Cmd>lua require('lspsaga.codeaction'):code_action()<CR>]], { silent = true }) -- use :as for original ga
+		vim.keymap.set("i", "<C-A>", [[<Cmd>lua vim.lsp.inline_completion.get()<CR>]], { silent = true })
 
 		-- mappings with plugin APIs with fallback
 		vim.keymap.set("n", "gd", function()
@@ -94,8 +95,10 @@ function M.setup()
 		callback = function()
 			pcall(require, "lspconfig")
 			vim.lsp.set_log_level(vim.lsp.log_levels.OFF)
+			vim.lsp.inline_completion.enable(true)
 			vim.lsp.enable({
 				"bashls",
+				"copilot",
 				-- "denols", -- enabled conditionally
 				"gopls",
 				"jsonls",
