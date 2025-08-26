@@ -15,7 +15,6 @@ async function get_fpath() {
 const makeSources = (sources: string[]) => {
   return [
     "denippet",
-    "copilot",
     "lsp",
     ...sources,
     "file",
@@ -115,13 +114,6 @@ export class Config extends BaseConfig {
           forceCompletionPattern: "\\S/\\S*|\\.\\w*",
           isVolatile: true,
           minAutoCompleteLength: 0,
-        },
-        copilot: {
-          mark: "AI",
-          isVolatile: true,
-          minAutoCompleteLength: 0,
-          matchers: ["matcher_word"],
-          converters: ["converter_word"],
         },
         denippet: {
           mark: "S",
@@ -225,7 +217,6 @@ export class Config extends BaseConfig {
           fromAltBuf: true,
           forceCollect: true,
         },
-        copilot: { copilot: "lua" },
         dictionary: {
           exactLength: 2,
           firstCaseInsensitive: true,
