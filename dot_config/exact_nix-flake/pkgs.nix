@@ -14,6 +14,7 @@ let
     pkgs.buf
     pkgs.bun
     pkgs.chezmoi
+    pkgs.copilot-language-server
     pkgs.delta
     pkgs.deno
     pkgs.direnv
