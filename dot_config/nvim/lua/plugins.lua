@@ -465,6 +465,86 @@ return {
 		end,
 	},
 
+	-- AI
+	{
+		"https://github.com/github/copilot.vim",
+		cond = false,
+		init = function(p)
+			if not p.cond then
+				return
+			end
+			vim.g.copilot_no_tab_map = true
+		end,
+		config = function()
+			vim.keymap.set("i", "<C-X>a", function()
+				vim.notify(vim.inspect(vim.fn["copilot#GetDisplayedSuggestion"]()))
+			end)
+			vim.keymap.set("i", "<C-N>", "<Plug>(copilot-next)")
+			vim.keymap.set("i", "<C-P>", "<Plug>(copilot-previous)")
+			vim.keymap.set("i", "<C-X>l", "<Plug>(copilot-accept-line)")
+			vim.keymap.set("i", "<C-X>w", "<Plug>(copilot-accept-word)")
+			vim.keymap.set("i", "<C-A>", function()
+				local s = vim.fn["copilot#GetDisplayedSuggestion"]()
+				if s.deleteSize == 0 and s.text == "" and s.outdentSize == 0 then
+					return vim.keycode("<Plug>(copilot-suggest)")
+				end
+				return vim.fn["copilot#Accept"]("\\<CR>")
+			end, {
+				expr = true,
+				replace_keycodes = false,
+			})
+		end,
+	},
+	{
+		"https://github.com/zbirenbaum/copilot.lua",
+		commit = "935ad6994dc5518a1aea1fda21a9c6fe1125bcc5", -- for compatibility with insx
+		-- cond = false,
+		cmd = "Copilot",
+		event = { "InsertEnter", "CursorHold" },
+		config = function()
+			require("copilot").setup({
+				server_opts_overrides = {
+					trace = "verbose",
+					settings = {
+						advanced = {
+							listCount = 10, -- #completions for panel
+							inlineSuggestCount = 3, -- #completions for getCompletions
+						},
+					},
+				},
+				suggestion = {
+					auto_trigger = true,
+					hide_during_completion = false,
+					keymap = {
+						accept = false,
+						accept_line = "<C-X>l",
+						accept_word = "<C-X>w",
+						next = "<C-N>",
+						prev = "<C-P>",
+					},
+				},
+				filetypes = { ["*"] = true },
+			})
+
+			-- disable copilot if unreachable
+			vim.system({ "ping", "-c", "1", "-W", "1", "api.github.com" }, {}, function(obj)
+				if obj.code ~= 0 then
+					vim.schedule(function()
+						vim.cmd("Copilot disable")
+					end)
+				end
+			end)
+
+			-- mapping
+			vim.keymap.set("i", "<c-a>", function()
+				if require("copilot.suggestion").is_visible() then
+					require("copilot.suggestion").accept()
+				else
+					require("copilot.suggestion").next()
+				end
+			end)
+		end,
+	},
 	{
 		"https://github.com/atusy/aibou.nvim",
 		dev = true,
