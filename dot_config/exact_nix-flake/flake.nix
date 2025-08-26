@@ -60,6 +60,15 @@
             autohide-time-modifier = 0.5;
           };
 
+          system.defaults.finder = {
+            AppleShowAllExtensions = true;
+            AppleShowAllFiles = true;
+            FXEnableExtensionChangeWarning = false;
+            QuitMenuItem = true;
+            ShowExternalHardDrivesOnDesktop = true;
+            _FXSortFoldersFirst = true;
+          };
+
           system.defaults.trackpad = {
             Clicking = true; # Enable tap to click
             TrackpadRightClick = true; # Enable two-finger tap for right click
