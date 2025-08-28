@@ -467,7 +467,7 @@ return {
 
 	-- AI
 	{
-		-- just for `:Copilot auth signin` to enable inline completion via copilot-language-server
+		-- required by codecompanion
 		"https://github.com/zbirenbaum/copilot.lua",
 		cmd = "Copilot",
 		config = function()
