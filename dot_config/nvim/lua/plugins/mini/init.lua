@@ -6,7 +6,7 @@ return {
 		lazy = true,
 	},
 	{
-		"https://github.com/echasnovski/mini.nvim",
+		"https://github.com/nvim-mini/mini.nvim",
 		lazy = true,
 		init = function()
 			require("plugins.mini.ai").lazy()
