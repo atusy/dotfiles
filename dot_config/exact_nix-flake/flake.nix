@@ -32,8 +32,8 @@
     let
       pkgs = nixpkgs.legacyPackages.${system};
       pkgs-master = nixpkgs-master.legacyPackages.${system};
-      overlays = [ 
-        inputs.neovim-nightly-overlay.overlays.default 
+      overlays = [
+        inputs.neovim-nightly-overlay.overlays.default
         inputs.fenix.overlays.default
       ];
       darwinConfiguration =
@@ -106,6 +106,7 @@
               "macskk"
               "r"
               "slack"
+              "spotify"
               "raycast"
               "vlc"
               "wezterm"

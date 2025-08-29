@@ -90,6 +90,8 @@ let
     pkgs.shellcheck
     pkgs.shfmt
     pkgs.stylua
+    pkgs.treefmt
+    pkgs.oxlint
   ];
 in
 {
