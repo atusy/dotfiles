@@ -13,35 +13,6 @@ return {
 		end,
 		config = function()
 			require("codecompanion").setup({
-				adapters = {
-					openrouter = require("plugins.codecompanion.adapter.openrouter"),
-					default = function()
-						-- change adapter based on repo visibility
-						local cwd = vim.fn.getcwd()
-						if state.public[cwd] == nil then
-							local res = vim.system({
-								"gh",
-								"repo",
-								"view",
-								"--json",
-								"visibility",
-								"--jq",
-								".visibility",
-							}):wait()
-							state.public[cwd] = res.code == 0 and res.stdout:match("PUBLIC\n*")
-						end
-						if state.public[cwd] and false then
-							local name = "qwen/qwq-32b:free"
-							return require("codecompanion.adapters").extend("openrouter", {
-								name = name,
-								formatted_name = name,
-								schema = { model = { default = name } },
-							})
-						else
-							return require("codecompanion.adapters").extend("copilot", {})
-						end
-					end,
-				},
 				strategies = {
 					chat = {
 						adapter = "default",
