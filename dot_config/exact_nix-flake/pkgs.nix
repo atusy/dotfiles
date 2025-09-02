@@ -86,12 +86,13 @@ let
     pkgs.checkmate
     pkgs.gotools
     pkgs.nixfmt-rfc-style
+    pkgs.oxlint
+    pkgs.prettierd
     pkgs.ruff
     pkgs.shellcheck
     pkgs.shfmt
     pkgs.stylua
     pkgs.treefmt
-    pkgs.oxlint
   ];
 in
 {
