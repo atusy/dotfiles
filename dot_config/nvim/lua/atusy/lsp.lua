@@ -3,10 +3,6 @@ local M = {
 	augroup = vim.api.nvim_create_augroup("atusy.lsp", {}),
 }
 
-local function has_node_modules()
-	return vim.fn.isdirectory("node_modules") == 1 or vim.fn.findfile("package.json", ".;") ~= ""
-end
-
 --- Cache the current buffer with the attached LSP clients.
 function M.cache(bufnr, clients)
 	bufnr = bufnr or vim.api.nvim_get_current_buf()
@@ -112,8 +108,27 @@ function M.setup()
 				"terraformls",
 				-- "ts_ls", -- enabled conditionally
 				"yamlls",
-				has_node_modules() and "ts_ls" or "denols",
 			})
+		end,
+	})
+
+	vim.api.nvim_create_autocmd("FileType", {
+		group = M.augroup,
+		callback = function(ctx)
+			-- ts_ls
+			if
+				vim.tbl_contains(vim.lsp.config.ts_ls.filetypes, ctx.match)
+				and vim.fn.findfile("package.json", ".;") ~= ""
+			then
+				vim.lsp.start(vim.lsp.config.ts_ls)
+				return
+			end
+
+			-- denols
+			if vim.tbl_contains(vim.lsp.config.denols.filetypes, ctx.match) then
+				vim.lsp.start(vim.lsp.config.denols)
+				return
+			end
 		end,
 	})
 
