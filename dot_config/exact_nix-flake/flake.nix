@@ -93,6 +93,7 @@
             onActivation.upgrade = true;
             brews = [
               "bitwarden-cli" # not available in nixpkgs for aarch64-darwin
+              "dnsmasq"
               "mas"
               "docker-compose"
             ];
