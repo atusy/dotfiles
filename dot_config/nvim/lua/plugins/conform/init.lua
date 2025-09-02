@@ -12,7 +12,7 @@ local function make_formatter_ts(buf)
 		if client.name == "denols" then
 			return { lsp_format = "prefer" }
 		end
-		if client.name == "tsserver" then
+		if client.name == "ts_ls" then
 			project_dir = client.config.root_dir
 			break
 		end
