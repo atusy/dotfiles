@@ -76,12 +76,12 @@ return {
 	{
 		mode = "n",
 		lhs = "lsp: loglevel to info",
-		rhs = "<Cmd>lua vim.lsp.set_log_level('info')<CR>",
+		rhs = "<Cmd>lua vim.lsp.log.set_level('info')<CR>",
 	},
 	{
 		mode = "n",
 		lhs = "lsp: loglevel to debug",
-		rhs = "<Cmd>lua vim.lsp.set_log_level('debug')<CR>",
+		rhs = "<Cmd>lua vim.lsp.log.set_level('debug')<CR>",
 	},
 	{
 		mode = "n",

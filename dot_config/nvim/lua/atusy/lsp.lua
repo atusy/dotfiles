@@ -90,7 +90,7 @@ function M.setup()
 		once = true,
 		callback = function()
 			pcall(require, "lspconfig")
-			vim.lsp.set_log_level(vim.lsp.log_levels.OFF)
+			vim.lsp.log.set_level(vim.lsp.log_levels.OFF)
 			vim.lsp.inline_completion.enable(true)
 			vim.lsp.linked_editing_range.enable(true)
 			vim.lsp.enable({
