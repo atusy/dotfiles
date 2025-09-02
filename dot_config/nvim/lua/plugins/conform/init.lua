@@ -24,8 +24,8 @@ local function make_formatter_ts(buf)
 	if vim.fn.filereadable(package_json) == 1 then
 		local package = vim.fn.json_decode(vim.fn.readfile(package_json))
 		if package and package.devDependencies and package.devDependencies.prettier then
-			-- return { "prettier" }
-			return biome
+			vim.system({ "prettierd", "start" }, {}, function() end) -- to avoid cold start
+			return { "prettierd" }
 		end
 	end
 
