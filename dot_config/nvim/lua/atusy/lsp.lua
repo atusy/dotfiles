@@ -118,7 +118,15 @@ function M.setup()
 			-- ts_ls
 			if
 				vim.tbl_contains(vim.lsp.config.ts_ls.filetypes, ctx.match)
-				and vim.fn.findfile("package.json", ".;") ~= ""
+				and (function()
+					local ok, is_node = pcall(function()
+						return require("lspconfig").util.root_pattern("package.json")(ctx.file)
+					end)
+					if ok then
+						return is_node
+					end
+					return vim.fn.findfile("package.json", ".;") ~= ""
+				end)()
 			then
 				vim.lsp.start(vim.lsp.config.ts_ls)
 				return
