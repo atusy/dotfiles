@@ -98,6 +98,7 @@ local function telescope_config(_)
 				},
 			},
 			dynamic_preview_title = true,
+			prompt_prefix = "", -- otherwise i_<Home> does not work
 		},
 		pickers = {
 			find_files = {
