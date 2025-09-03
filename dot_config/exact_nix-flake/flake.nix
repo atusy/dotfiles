@@ -105,6 +105,7 @@
               "keycastr"
               "libreoffice"
               "macskk"
+              "meetingbar"
               "r"
               "slack"
               "spotify"
