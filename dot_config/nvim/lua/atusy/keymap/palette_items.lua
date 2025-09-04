@@ -86,7 +86,7 @@ return {
 	{
 		mode = "n",
 		lhs = "lsp: loglevel to off",
-		rhs = "<Cmd>lua vim.lsp.set_log_level('off')<CR>",
+		rhs = "<Cmd>lua vim.lsp.log.set_level('off')<CR>",
 	},
 	{
 		mode = "n",
