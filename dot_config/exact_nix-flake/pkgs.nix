@@ -54,6 +54,7 @@ let
     pkgs.procs
     pkgs.python312
     pkgs.ripgrep
+    pkgs.rustup
     pkgs.rsync
     pkgs.sheldon
     pkgs.terraform
@@ -66,6 +67,7 @@ let
       # https://github.com/NixOS/nixpkgs/pull/429170
       if pkgs-master != null then pkgs-master.wget2 else pkgs.wget2
     )
+    pkgs.zig
     pkgs.zoxide
 
     # language servers
