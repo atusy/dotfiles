@@ -1,2 +1,8 @@
 #!/bin/sh
-exec bunx @openai/codex "$@"
+# NOTE: bunx @openapi/codex does not work because the actual executable is Rust-based binary
+
+CODEX="${HOME}/.bun/bin/codex"
+if ! test -x "$CODEX"; then
+  bun install --global @openapi/codex
+fi
+exec "$CODEX"
