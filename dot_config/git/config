@@ -63,6 +63,7 @@
 	detachedHead = false
 [fetch]
 	prune = true
+  showForcedUpdates = true
 [commit]
 	cleanup = scissors
 	verbose = false ; because I have special TUI on Neovim
