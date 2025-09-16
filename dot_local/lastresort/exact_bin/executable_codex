@@ -5,4 +5,4 @@ CODEX="${HOME}/.bun/bin/codex"
 if ! test -x "$CODEX"; then
   bun install --global @openapi/codex
 fi
-exec "$CODEX"
+exec "$CODEX" "$@"
