@@ -28,6 +28,7 @@ vim.opt.termguicolors = true
 vim.opt.updatetime = 250
 vim.opt.wildoptions:append("fuzzy")
 vim.opt.tabclose = "uselast,left"
+vim.g.clipboard = "osc52"
 
 -- window
 vim.opt.signcolumn = "yes"
