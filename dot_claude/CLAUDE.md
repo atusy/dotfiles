@@ -118,3 +118,133 @@ Claude は **Gemini CLI** を随時呼び出しながら、複数ターンにわ
 **Claude ➜**
 <統合コメント & 次アクション>
 ```
+
+# Codex CLI 連携ガイド
+
+## 目的
+
+ユーザーが **「Codexと相談しながら進めて」** （または類似表現）と指示した場合、
+Claude は **Codex CLI** を随時呼び出しながら、複数ターンにわたる協業を行う。
+Codex は OpenAI 製の AI コーディングアシスタントで、コンテキスト理解とコード生成に優れる。
+
+## トリガー
+
+- 正規表現: `/Codex.*相談しながら/`
+- 一度トリガーした後は、ユーザーが明示的に終了を指示するまで **協業モード** を維持する。
+
+## 協業ワークフロー (ループ可)
+
+1. **PROMPT 準備**
+    * 最新のユーザー要件とこれまでの議論をまとめて `$PROMPT` に格納
+    * コードの文脈や制約条件を明確に含める
+    * **重要**: `codex exec` は各呼び出しが独立セッションのため、会話履歴を含める必要がある
+
+2. **Codex 呼び出し（文脈保持版）**
+    * 会話履歴を含めた呼び出し方法:
+      ```bash
+      HISTORY="Previous conversation:
+      User: [前回のユーザー入力]
+      Codex: [前回のCodex応答]
+
+      Current request:"
+
+      codex exec <<EOF
+      $HISTORY
+      $PROMPT
+      EOF
+      ```
+
+    * ファイル操作が必要な場合:
+      ```bash
+      codex exec -s workspace-write <<EOF
+      $HISTORY
+      $PROMPT
+      EOF
+      ```
+
+    * モデル指定やその他オプション:
+      - `-m <MODEL>`: 使用するモデルを指定
+      - `-s <SANDBOX_MODE>`: サンドボックスポリシー (read-only, workspace-write, danger-full-access)
+      - `-a <APPROVAL_POLICY>`: 承認ポリシー (untrusted, on-failure, on-request, never)
+      - `--full-auto`: 自動実行モード (-a on-failure -s workspace-write)
+
+3. **出力貼り付け**
+    * Codex の応答を `Codex ➜` セクションに貼り付け
+    * 生成されたコードやパッチを含む場合は、その内容を明示
+
+4. **Claude 統合分析**
+    * `Claude ➜` セクションで Codex の提案を分析
+    * コード品質、セキュリティ、既存コードとの整合性を確認
+    * 必要に応じて修正案や改善案を提示
+
+5. **継続判定**
+    * ユーザーが入力を行うか、プラン継続を指示した場合、1〜4を繰り返す
+    * 「Codexコラボ終了」「ひとまずOK」などの指示で通常モードに復帰
+
+## 利用シナリオ例
+
+### 1. コード生成の相談（単発）
+```bash
+codex exec <<EOF
+Create a Python function that efficiently sorts a list of dictionaries by multiple keys.
+Requirements:
+- Support ascending and descending order for each key
+- Handle None values gracefully
+- Include type hints
+EOF
+```
+
+### 2. 複数ターンの会話例
+```bash
+# 1ターン目
+codex exec <<EOF
+I need help creating a user authentication system.
+What are the main components I should consider?
+EOF
+
+# 2ターン目（前回の会話を含める）
+codex exec <<EOF
+Previous conversation:
+User: I need help creating a user authentication system. What are the main components I should consider?
+Codex: [前回の応答内容]
+
+Current request:
+Let's start with the password hashing component.
+Can you show me a secure implementation using bcrypt?
+EOF
+```
+
+### 3. リファクタリング支援
+```bash
+codex exec -s workspace-write <<EOF
+Refactor the authentication module in src/auth.py:
+- Extract common validation logic into separate functions
+- Add proper error handling
+- Improve code readability while maintaining backward compatibility
+EOF
+```
+
+### 4. バグ修正協業
+```bash
+codex exec <<EOF
+The test 'test_user_login' is failing with a KeyError.
+Here's the error trace: [エラー内容]
+Suggest a fix that addresses the root cause.
+EOF
+```
+
+## 形式テンプレート
+```md
+**Codex ➜**
+<Codex からの応答・生成コード>
+**Claude ➜**
+<統合分析・改善提案 & 次アクション>
+```
+
+## 注意事項
+
+- **文脈保持の制限**: `codex exec` は各呼び出しが独立したセッションのため、複数ターンの会話では毎回会話履歴を含める必要がある
+- **プロトコルモード**: `codex proto` は複雑なJSONプロトコルを要求するため、通常使用には向かない
+- Codex は強力なコード生成能力を持つが、生成されたコードは必ず検証する
+- セキュリティやベストプラクティスの観点から Claude が補完的な分析を行う
+- 両 AI の強みを活かし、より高品質なソリューションを目指す
