@@ -57,6 +57,7 @@ let
     pkgs.rustup
     pkgs.rsync
     pkgs.sheldon
+    pkgs.sqlx-cli
     pkgs.terraform
     pkgs.tmux
     pkgs.trash-cli
