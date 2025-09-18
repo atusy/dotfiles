@@ -2,20 +2,6 @@ local M = {}
 
 local macro_register = nil
 
-local function on_macro_recording(ctx)
-	if vim.o.cmdheight > 0 then
-		-- register is shown in cmdline
-		return
-	end
-	macro_register = vim.fn.reg_recording()
-	vim.api.nvim_create_autocmd("RecordingLeave", {
-		group = ctx and ctx.group or vim.api.nvim_create_augroup("atusy-mini-statusline-recording-leave", {}),
-		callback = function()
-			macro_register = nil
-		end,
-	})
-end
-
 local function make_active_statusline()
 	local MiniStatusline = require("mini.statusline")
 	local mode, mode_hl = MiniStatusline.section_mode({ trunc_width = math.huge })
@@ -45,11 +31,6 @@ function M.setup()
 			end,
 		},
 	})
-
-	vim.api.nvim_create_autocmd("RecordingEnter", {
-		group = vim.api.nvim_create_augroup("atusy-mini-statusline-recording", {}),
-		callback = on_macro_recording,
-	})
 end
 
 function M.lazy()
@@ -67,27 +48,11 @@ function M.lazy()
 		loaded = true
 	end
 
-	-- lazy load with n/N to show search count
-	vim.keymap.set("n", "n", function()
-		setup()
-		return "n"
-	end, { expr = true })
-	vim.keymap.set("n", "N", function()
-		setup()
-		return "N"
-	end, { expr = true })
-
 	-- lazy load with WinNew to show window status
 	vim.api.nvim_create_autocmd({ "WinNew", "RecordingEnter" }, {
 		group = vim.api.nvim_create_augroup("atusy-mini-statusline", {}),
 		callback = function(ctx)
 			if loaded then
-				return true
-			end
-
-			if ctx.event == "RecordingEnter" and vim.o.cmdheight == 0 then
-				on_macro_recording()
-				setup()
 				return true
 			end
 

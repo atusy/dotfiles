@@ -62,7 +62,6 @@ vim.opt.tabstop = 2
 -- cmdline
 local ok_extui, extui = pcall(require, "vim._extui")
 if ok_extui then
-	vim.opt.cmdheight = 0
 	extui.enable({ enable = true, msg = { target = "msg", timeout = 4000 } })
 end
 
@@ -88,42 +87,6 @@ vim.keymap.set("x", " ue", [[<Cmd>lua require("atusy.misc").urlencode()<CR>]])
 vim.keymap.set("x", " ud", [[<Cmd>lua require("atusy.misc").urldecode()<CR>]])
 vim.keymap.set({ "n", "x" }, "gf", [[<Cmd>lua require("atusy.misc").open_cfile()<CR>]])
 vim.keymap.set({ "n", "x" }, "<C-W><C-F>", [[<Cmd>lua require("atusy.misc").open_cfile({ cmd = "vs" })<CR>]])
-
--- mappings: extui
----@param defer_revert number | nil
-local function toggle_cmdheight(defer_revert)
-	if vim.o.laststatus > 0 then
-		-- show index in statusline
-		return
-	end
-	if require("vim._extui.shared").cfg.enable then
-		vim.o.cmdheight = 1
-		local group = vim.api.nvim_create_augroup("atusy.n", { clear = true })
-		vim.api.nvim_create_autocmd("CursorHold", {
-			group = group,
-			callback = function(ctx)
-				vim.defer_fn(function()
-					local autocmds = vim.api.nvim_get_autocmds({ group = group })
-					for _, autocmd in ipairs(autocmds) do
-						if autocmd.id == ctx.id then
-							vim.o.cmdheight = 0
-							return
-						end
-					end
-					pcall(vim.api.nvim_del_autoccmd, ctx.id)
-				end, defer_revert or 5000)
-			end,
-		})
-	end
-end
-vim.keymap.set("n", "n", function()
-	toggle_cmdheight()
-	return "n"
-end, { expr = true, desc = "show index of match" })
-vim.keymap.set("n", "N", function()
-	toggle_cmdheight()
-	return "N"
-end, { expr = true, desc = "show index of match" })
 
 -- mappings: window management
 vim.keymap.set("n", "<C-W><C-V>", "<C-W><C-V><Cmd>horizontal wincmd =<CR>")
