@@ -1,5 +1,5 @@
 local augroup = vim.api.nvim_create_augroup("atusy.plugins.nvim-treesitter", {})
-local treesitter_path = vim.fs.joinpath(vim.fn.stdpath("data"), "/treesitter")
+local treesitter_path = vim.fs.joinpath(vim.fn.stdpath("data"), "treesitter")
 
 ---@param cb fun(parser_path: string): nil
 local function with_parser_dir(cb)
@@ -14,7 +14,7 @@ end
 local function install_parser_unifieddiff(src, force)
 	with_parser_dir(function(parser_path)
 		local output = vim.fs.joinpath(parser_path, "unifieddiff.so")
-		if force or not output then
+		if force or not vim.uv.fs_stat(output) then
 			vim.system({ "tree-sitter", "build", "--output", output }, { cwd = src }, function() end)
 		end
 	end)
