@@ -1,0 +1,12 @@
+#!/bin/sh
+
+set -e
+
+for bin in '/Applications/Tailscale.app/Contents/MacOS/Tailscale'; do
+  if test -x "$bin"; then
+    exec "$bin" "$@"
+  fi
+done
+
+echo "command not found: tailscale" >&2
+exit 1
