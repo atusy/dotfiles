@@ -10,6 +10,7 @@
 .tool-versions
 .venv
 .worktree
+__worktree
 __ignored
 __pycache__
 node_modules
