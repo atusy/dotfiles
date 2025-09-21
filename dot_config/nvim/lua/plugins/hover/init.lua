@@ -106,7 +106,7 @@ local function hover(opts)
 	if vim.b.hover_preview and vim.api.nvim_win_is_valid(vim.b.hover_preview) then
 		vim.api.nvim_set_current_win(vim.b.hover_preview)
 	else
-		require("hover").hover(vim.tbl_extend("keep", opts or {}, { providers = { "LSP" } }))
+		require("hover").open(vim.tbl_extend("keep", opts or {}, { providers = { "hover.providers.lsp" } }))
 	end
 end
 
@@ -133,11 +133,17 @@ return {
 						rhs = hover_diff
 					elseif ctx.match == "gitrebase" then
 						rhs = function()
-							hover({ providers = { "gitshow" } })
+							hover({ providers = { "plugins.hover.providers.gitshow" } })
 						end
 					elseif vim.tbl_contains({ "sh", "bash", "fish", "xonsh", "zsh" }, ctx.match) then
 						rhs = function()
-							hover({ providers = { "LSP", "Man", "cmdhelp" } })
+							hover({
+								providers = {
+									"hover.providers.lsp",
+									"hover.providers.man",
+									"plugins.hover.providers.cmdhelp",
+								},
+							})
 						end
 					elseif ctx.match == "man" then
 						rhs = "K"
@@ -150,24 +156,22 @@ return {
 
 			-- gm for get meaning
 			vim.keymap.set("n", "gm", function()
-				hover({ providers = { "Dictionary" } })
+				hover({ providers = { "hover.providers.dictionary" } })
 			end)
 
 			-- gh for github
 			vim.keymap.set("n", "gh", function()
-				hover({ providers = { "GitHub" } })
+				hover({ providers = { "hover.providers.gh" } })
 			end)
 		end,
 		config = function()
-			require("hover").setup({
-				init = function()
-					require("hover.providers.lsp")
-					require("hover.providers.gh")
-					require("hover.providers.man")
-					require("hover.providers.dictionary")
-					require("plugins.hover.providers.cmdhelp")
-					require("plugins.hover.providers.gitshow")
-				end,
+			require("hover").config({
+				providers = {
+					"hover.providers.lsp",
+					"hover.providers.gh",
+					"hover.providers.man",
+					"hover.providers.dictionary",
+				},
 				preview_opts = {
 					border = "single",
 				},

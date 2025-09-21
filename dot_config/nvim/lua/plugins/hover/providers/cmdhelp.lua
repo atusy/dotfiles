@@ -14,7 +14,7 @@ local function help(cmd)
 	return vim.fn.split(res, "\n")
 end
 
-require("hover").register({
+return {
 	name = "cmdhelp",
 	enabled = function(bufnr)
 		return true
@@ -31,4 +31,4 @@ require("hover").register({
 		end
 		done(false)
 	end,
-})
+}

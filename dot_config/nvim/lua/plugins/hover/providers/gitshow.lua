@@ -49,10 +49,10 @@ local function execute(opts, done)
 	return done({ lines = lines, filetype = "diff" })
 end
 
-require("hover").register({
+return {
 	name = "gitshow",
 	enabled = function(bufnr)
 		return true
 	end,
 	execute = execute,
-})
+}
