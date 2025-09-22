@@ -192,18 +192,15 @@ return {
 		dev = true,
 		lazy = true,
 		init = function()
-			vim.keymap.set({ "n", "x", "o" }, "f", function()
-				return require("jab").f()
-			end, { expr = true })
-			vim.keymap.set({ "n", "x", "o" }, "F", function()
-				return require("jab").F()
-			end, { expr = true })
-			vim.keymap.set({ "n", "x", "o" }, "t", function()
-				return require("jab").t()
-			end, { expr = true })
-			vim.keymap.set({ "n", "x", "o" }, "T", function()
-				return require("jab").T()
-			end, { expr = true })
+			for _, key in ipairs({ "f", "F", "t", "T" }) do
+				vim.keymap.set({ "n", "x", "o" }, key, function()
+					if vim.v.count > 0 then
+						-- Prefer builtin behavior when count is given
+						return key
+					end
+					return require("jab")[key]()
+				end, { expr = true })
+			end
 			vim.keymap.set({ "n", "x", "o" }, "<Plug>(jab-incremental)", function()
 				return require("jab").jab_win()
 			end, { expr = true })
