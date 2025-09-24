@@ -111,7 +111,7 @@
               "spotify"
               "raycast"
               "vlc"
-              "wezterm"
+              "wezterm@nightly"
             ];
           };
 
