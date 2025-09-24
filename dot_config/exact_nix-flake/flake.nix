@@ -99,7 +99,7 @@
             ];
             casks = [
               "chromium"
-              "docker"
+              "docker-desktop"
               "firefox"
               "karabiner-elements"
               "keycastr"
