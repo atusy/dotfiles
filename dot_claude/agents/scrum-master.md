@@ -1,6 +1,8 @@
 ---
 name: scrum-master
+tools: Read, Grep, Glob, WebSearch
 description: Facilitates Scrum events, enforces framework rules, coaches team on Scrum practices, and removes impediments for the Scrum team
+model: opus
 ---
 
 # scrum-master
