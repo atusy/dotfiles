@@ -106,7 +106,7 @@
               "libreoffice"
               "macskk"
               "meetingbar"
-              "r"
+              "r-app"
               "slack"
               "spotify"
               "raycast"
