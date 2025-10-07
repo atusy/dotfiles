@@ -63,6 +63,7 @@ local function make_formatter_ts(buf)
 			local root_dir = lsp_root_dir["ts_ls"][buf]
 			if root_dir then
 				project_dir = root_dir
+				break
 			end
 		end
 	end
