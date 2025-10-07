@@ -68,7 +68,6 @@ local function make_formatter_ts(buf)
 	end
 
 	-- use prettier if package.json contains prettier as a dependency
-	-- XXX: use biome anyway as prettier is too slow
 	local package_json = vim.fs.joinpath(project_dir, "package.json")
 	if vim.fn.filereadable(package_json) == 1 then
 		local package = vim.fn.json_decode(vim.fn.readfile(package_json))
