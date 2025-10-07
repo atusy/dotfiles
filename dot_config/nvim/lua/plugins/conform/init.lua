@@ -38,10 +38,9 @@ vim.api.nvim_create_autocmd("LspAttach", {
 	group = augroup,
 	callback = function(ctx)
 		local client = vim.lsp.get_client_by_id(ctx.data.client_id)
-		if not client then
-			return
+		if client then
+			register_root_dir(client, ctx.buf)
 		end
-		register_root_dir(client, ctx.buf)
 	end,
 })
 
