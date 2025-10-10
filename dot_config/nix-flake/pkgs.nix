@@ -30,6 +30,7 @@ let
     pkgs.ghq
     pkgs.git
     pkgs.glab
+    pkgs.gnumake
     pkgs.go
     pkgs.go-task
     pkgs.gojq
@@ -47,6 +48,7 @@ let
     pkgs.mypy
     pkgs.neovim # nightly
     pkgs.neovim-remote
+    pkgs.ninja
     pkgs.nodejs
     pkgs.ollama
     pkgs.pandoc
@@ -76,6 +78,7 @@ let
     # language servers
     pkgs.gopls
     pkgs.lua-language-server
+    pkgs.emmylua-ls
     pkgs.nixd
     pkgs.nodePackages_latest.bash-language-server
     pkgs.pyright
