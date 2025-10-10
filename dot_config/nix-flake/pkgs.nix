@@ -34,7 +34,9 @@ let
     pkgs.go-task
     pkgs.gojq
     pkgs.google-cloud-sdk
+    pkgs.grpcurl
     pkgs.htop
+    pkgs.hyperfine
     pkgs.jq
     pkgs.just
     pkgs.kind
