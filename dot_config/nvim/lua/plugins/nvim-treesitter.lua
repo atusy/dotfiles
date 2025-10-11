@@ -52,7 +52,7 @@ return {
 				group = augroup,
 				callback = function(ctx)
 					require("nvim-treesitter")
-					local ok = pcall(vim.treesitter.start)
+					local ok = pcall(vim.treesitter.start, ctx.buf)
 					if ok then
 						return
 					end
@@ -63,7 +63,7 @@ return {
 						if err then
 							vim.notify(err, vim.log.levels.ERROR, { title = "nvim-treesitter" })
 						end
-						pcall(vim.treesitter.start)
+						pcall(vim.treesitter.start, ctx.buf)
 					end)
 				end,
 			})
