@@ -128,13 +128,13 @@ function M.setup()
 					return vim.fn.findfile("package.json", ".;") ~= ""
 				end)()
 			then
-				vim.lsp.start(vim.lsp.config.ts_ls)
+				vim.lsp.start(vim.lsp.config.ts_ls, { bufnr = ctx.buf })
 				return
 			end
 
 			-- denols
 			if vim.tbl_contains(vim.lsp.config.denols.filetypes, ctx.match) then
-				vim.lsp.start(vim.lsp.config.denols)
+				vim.lsp.start(vim.lsp.config.denols, { bufnr = ctx.buf })
 				return
 			end
 		end,
