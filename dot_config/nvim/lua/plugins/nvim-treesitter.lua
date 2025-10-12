@@ -82,7 +82,7 @@ return {
 
 			-- custom highlights
 			local function hi()
-				vim.api.nvim_set_hl(0, "@illuminate", { bg = "#383D47" })
+				vim.api.nvim_set_hl(0, "@illuminate", { link = "LspReferenceTarget" })
 			end
 
 			hi()
