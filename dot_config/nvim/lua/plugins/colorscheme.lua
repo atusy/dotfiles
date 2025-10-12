@@ -160,10 +160,9 @@ return {
 		end,
 		config = function()
 			local function hi()
-				-- @illuminate is defined on configure of treesitter
-				vim.api.nvim_set_hl(0, "IlluminatedWordText", { link = "@illuminate" })
-				vim.api.nvim_set_hl(0, "IlluminatedWordRead", { link = "@illuminate" })
-				vim.api.nvim_set_hl(0, "IlluminatedWordWrite", { link = "@illuminate" })
+				vim.api.nvim_set_hl(0, "IlluminatedWordText", { link = "LspReferenceText" })
+				vim.api.nvim_set_hl(0, "IlluminatedWordRead", { link = "LspReferenceRead" })
+				vim.api.nvim_set_hl(0, "IlluminatedWordWrite", { link = "LspReferenceWrite" })
 			end
 
 			require("illuminate").configure({ modes_allowlist = { "n" } })
