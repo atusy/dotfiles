@@ -1,1 +1,2 @@
-vim.lsp.config.nixd = {}
+---@type vim.lsp.Config
+return {}

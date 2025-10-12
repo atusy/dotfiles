@@ -1,5 +1,7 @@
 local ok, schemastore = pcall(require, "schemastore")
-vim.lsp.config.yamlls = {
+
+---@type vim.lsp.Config
+return {
 	settings = {
 		yaml = {
 			schemaStore = { enable = false, url = "" },

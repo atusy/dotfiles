@@ -1,5 +1,7 @@
 local ok, schemastore = pcall(require, "schemastore")
-vim.lsp.config.jsonls = {
+
+---@type vim.lsp.Config
+return {
 	settings = {
 		json = {
 			schemas = ok and schemastore.json.schemas() or nil,

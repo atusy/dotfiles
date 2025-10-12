@@ -1,4 +1,5 @@
-vim.lsp.config.gopls = {
+---@type vim.lsp.Config
+return {
 	settings = {
 		gopls = {
 			gofumpt = true,

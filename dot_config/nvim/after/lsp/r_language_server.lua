@@ -1,4 +1,5 @@
-vim.lsp.config.r_language_server = {
+---@type vim.lsp.Config
+return {
 	settings = {
 		r = {
 			lsp = {

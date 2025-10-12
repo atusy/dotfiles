@@ -1,3 +1,4 @@
-vim.lsp.config.terraformls = {
+---@type vim.lsp.Config
+return {
 	filetypes = { "terraform", "tf" },
 }

@@ -1,4 +1,5 @@
-vim.lsp.config.pyright = {
+---@type vim.lsp.Config
+return {
 	settings = {
 		python = {
 			venvPath = ".",

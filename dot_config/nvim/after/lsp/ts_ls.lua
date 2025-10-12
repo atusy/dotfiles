@@ -1,1 +1,2 @@
-vim.lsp.config.ts_ls = {}
+---@type vim.lsp.Config
+return {}

@@ -1,4 +1,5 @@
-vim.lsp.config.rust_analyzer = {
+---@type vim.lsp.Config
+return {
 	settings = {
 		["rust-analyzer"] = {
 			cargo = {

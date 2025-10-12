@@ -1,1 +1,2 @@
-vim.lsp.config.denols = { single_file_support = true }
+---@type vim.lsp.Config
+return { single_file_support = true }
