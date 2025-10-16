@@ -115,10 +115,6 @@ function M.expand(opts)
 	return cfile1, row, col
 end
 
-local function fs_stat(x)
-	return vim.uv.fs_stat(x)
-end
-
 ---@param path string
 local function find_file(path)
 	local fullpath = vim.fn.fnamemodify(path, ":p")
@@ -134,14 +130,14 @@ local function find_file(path)
 		if bufname ~= "" then
 			table.insert(candidates, vim.fs.dirname(bufname))
 			local candidate = vim.fn.fnamemodify(vim.fs.joinpath(vim.fs.dirname(bufname), path), ":p")
-			if fs_stat(candidate) then
+			if vim.uv.fs_stat(candidate) then
 				return true, candidate
 			end
 		end
 	end
 
-	if fs_stat(path) then
-		return true, path
+	if vim.uv.fs_stat(fullpath) then
+		return true, fullpath
 	end
 
 	return false, path
