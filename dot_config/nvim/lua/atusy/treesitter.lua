@@ -42,13 +42,6 @@ function M.foldtext()
 		return vim.fn.foldtext()
 	end
 
-	local query = vim.treesitter.query.get(parser:lang(), "highlights")
-	if not query then
-		return vim.fn.foldtext()
-	end
-
-	local tree = parser:parse({ foldstart - 1, foldstart })[1]
-
 	---@type { [1]: string, [2]: string[], range: { [1]: integer, [2]: integer } }[] | { [1]: string, [2]: string[] }[]
 	local result = {}
 
@@ -68,7 +61,38 @@ function M.foldtext()
 	local text_concatenated = ""
 	local text_maxwidth = vim.api.nvim_win_get_width(0) * 2
 
-	for id, node, metadata in query:iter_captures(tree:root(), 0, foldstart - 1, row + 1) do
+	-- Collect captures from all trees (including injections)
+	---@type {id: integer, node: TSNode, metadata: table, query: vim.treesitter.Query}[]
+	local all_captures = {}
+
+	-- Use for_each_tree to iterate through all trees including injections
+	parser:for_each_tree(function(tree, ltree)
+		local lang = ltree:lang()
+		local query = vim.treesitter.query.get(lang, "highlights")
+		if query then
+			for id, node, metadata in query:iter_captures(tree:root(), bufnr, foldstart - 1, row + 1) do
+				table.insert(all_captures, {
+					id = id,
+					node = node,
+					metadata = metadata,
+					query = query,
+				})
+			end
+		end
+	end)
+
+	-- Sort captures by position for proper rendering order
+	table.sort(all_captures, function(a, b)
+		local a_start_row, a_start_col = a.node:range()
+		local b_start_row, b_start_col = b.node:range()
+		if a_start_row ~= b_start_row then
+			return a_start_row < b_start_row
+		end
+		return a_start_col < b_start_col
+	end)
+
+	for _, capture in ipairs(all_captures) do
+		local id, node, metadata, query = capture.id, capture.node, capture.metadata, capture.query
 		if vim.fn.strdisplaywidth(text_concatenated) > text_maxwidth then
 			break
 		end
