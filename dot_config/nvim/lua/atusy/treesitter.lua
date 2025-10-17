@@ -42,6 +42,12 @@ function M.foldtext()
 		return vim.fn.foldtext()
 	end
 
+	-- Parse only the required range for better performance
+	local trees = parser:parse({ foldstart - 1, foldstart })
+	if not trees then
+		return vim.fn.foldtext()
+	end
+
 	---@type { [1]: string, [2]: string[], range: { [1]: integer, [2]: integer } }[] | { [1]: string, [2]: string[] }[]
 	local result = {}
 
@@ -61,8 +67,8 @@ function M.foldtext()
 	local text_concatenated = ""
 	local text_maxwidth = vim.api.nvim_win_get_width(0) * 2
 
-	-- Collect captures from all trees (including injections)
-	---@type {id: integer, node: TSNode, metadata: table, query: vim.treesitter.Query}[]
+	-- Collect and sort captures from all trees (including injections) in one pass
+	---@type {id: integer, node: TSNode, metadata: table, query: vim.treesitter.Query, start_row: integer, start_col: integer}[]
 	local all_captures = {}
 
 	-- Use for_each_tree to iterate through all trees including injections
@@ -71,53 +77,59 @@ function M.foldtext()
 		local query = vim.treesitter.query.get(lang, "highlights")
 		if query then
 			for id, node, metadata in query:iter_captures(tree:root(), bufnr, foldstart - 1, row + 1) do
-				table.insert(all_captures, {
-					id = id,
-					node = node,
-					metadata = metadata,
-					query = query,
-				})
+				-- Cache node range to avoid duplicate calls
+				local start_row, start_col, end_row, end_col = node:range()
+				-- Pre-filter: only collect captures within the fold range
+				if start_row >= foldstart - 1 and end_row <= row then
+					table.insert(all_captures, {
+						id = id,
+						node = node,
+						metadata = metadata,
+						query = query,
+						start_row = start_row,
+						start_col = start_col,
+					})
+				end
 			end
 		end
 	end)
 
-	-- Sort captures by position for proper rendering order
+	-- Sort by cached position values
 	table.sort(all_captures, function(a, b)
-		local a_start_row, a_start_col = a.node:range()
-		local b_start_row, b_start_col = b.node:range()
-		if a_start_row ~= b_start_row then
-			return a_start_row < b_start_row
+		if a.start_row ~= b.start_row then
+			return a.start_row < b.start_row
 		end
-		return a_start_col < b_start_col
+		return a.start_col < b.start_col
 	end)
 
 	for _, capture in ipairs(all_captures) do
-		local id, node, metadata, query = capture.id, capture.node, capture.metadata, capture.query
+		-- Early exit if we've exceeded max width
 		if vim.fn.strdisplaywidth(text_concatenated) > text_maxwidth then
 			break
 		end
-		local name = query.captures[id]
-		local start_row, start_col, end_row, end_col = node:range()
 
+		local id, node, metadata, query = capture.id, capture.node, capture.metadata, capture.query
+		local start_row, start_col = capture.start_row, capture.start_col
+		local name = query.captures[id]
 		local priority = tonumber(metadata.priority or vim.highlight.priorities.treesitter)
 
-		if start_row >= foldstart - 1 and end_row <= row then
-			-- if true then
-			-- check for characters ignored by treesitter
-			if start_col > line_positions[start_row] or start_col == 0 then
-				local text = lines[start_row]:sub(line_positions[start_row] + 1, start_col)
-				if line_positions[start_row] == 0 and start_row > foldstart - 1 then
-					text = " "
-				end
-				table.insert(result, { text, {}, range = { line_positions[start_row], start_col } })
-				text_concatenated = text_concatenated .. text
-			end
-			line_positions[start_row] = end_col
+		-- Get end position only when needed (already filtered by range)
+		local _, _, _, end_col = node:range()
 
-			local text = lines[start_row]:sub(start_col + 1, end_col)
-			table.insert(result, { text, { { "@" .. name, priority } }, range = { start_col, end_col } })
+		-- check for characters ignored by treesitter
+		if start_col > line_positions[start_row] or start_col == 0 then
+			local text = lines[start_row]:sub(line_positions[start_row] + 1, start_col)
+			if line_positions[start_row] == 0 and start_row > foldstart - 1 then
+				text = " "
+			end
+			table.insert(result, { text, {}, range = { line_positions[start_row], start_col } })
 			text_concatenated = text_concatenated .. text
 		end
+		line_positions[start_row] = end_col
+
+		local text = lines[start_row]:sub(start_col + 1, end_col)
+		table.insert(result, { text, { { "@" .. name, priority } }, range = { start_col, end_col } })
+		text_concatenated = text_concatenated .. text
 	end
 
 	local i = 1
