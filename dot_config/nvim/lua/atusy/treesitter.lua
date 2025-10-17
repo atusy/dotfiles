@@ -32,9 +32,13 @@ function M.foldtext()
 	local foldstart = vim.v.foldstart
 	local bufnr = vim.api.nvim_get_current_buf()
 
-	---@type boolean, LanguageTree
-	local ok, parser = pcall(vim.treesitter.get_parser, bufnr)
-	if not ok then
+	local line = vim.api.nvim_buf_get_lines(bufnr, foldstart - 1, foldstart, false)[1]
+	if not line then
+		return vim.fn.foldtext()
+	end
+
+	local ok, parser = pcall(vim.treesitter.get_parser, bufnr, nil, { ignore_injections = false })
+	if not ok or not parser then
 		return vim.fn.foldtext()
 	end
 
@@ -44,11 +48,6 @@ function M.foldtext()
 	end
 
 	local tree = parser:parse({ foldstart - 1, foldstart })[1]
-
-	local line = vim.api.nvim_buf_get_lines(bufnr, foldstart - 1, foldstart, false)[1]
-	if not line then
-		return vim.fn.foldtext()
-	end
 
 	---@type { [1]: string, [2]: string[], range: { [1]: integer, [2]: integer } }[] | { [1]: string, [2]: string[] }[]
 	local result = {}
