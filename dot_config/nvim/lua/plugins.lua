@@ -233,20 +233,6 @@ return {
 			require("ts_context_commentstring").setup({ enable_autocmd = false })
 		end,
 	},
-	-- 'nvim-treesitter/playground', -- vim.treesitter.show_tree would be enough
-	-- {
-	-- 	"https://github.com/nvim-treesitter/nvim-treesitter-refactor",
-	-- 	lazy = true,
-	-- 	dev = true,
-	-- 	init = function()
-	-- 		vim.keymap.set(
-	-- 			"n",
-	-- 			" r",
-	-- 			[[<Cmd>lua require("nvim-treesitter-refactor.smart_rename").smart_rename(vim.fn.bufnr())<CR>]],
-	-- 			{}
-	-- 		)
-	-- 	end,
-	-- },
 	-- 'haringsrob/nvim_context_vt',
 	{
 		"https://github.com/nvim-treesitter/nvim-treesitter-context",
@@ -262,6 +248,9 @@ return {
 					yaml = { "block_mapping_pair", "block_sequence_item" },
 				},
 			})
+			require("atusy.keymap.palette").add_item("n", "toggle treesitter context", function()
+				require("treesitter-context").toggle()
+			end)
 		end,
 	},
 	{
