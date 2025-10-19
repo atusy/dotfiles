@@ -254,9 +254,8 @@ return {
 		end,
 	},
 	{
-		"https://github.com/AbaoFromCUG/nvim-treesitter-endwise",
-		commit = "b826f3ee910b5f071840d9ecd39998740e19e60d",
-		ft = { "ruby", "lua", "sh", "bash", "zsh", "vim" },
+		"https://github.com/RRethy/nvim-treesitter-endwise",
+		ft = { "bash", "elixir", "fish", "julia", "lua", "luau", "ruby", "verilog", "vim" },
 		config = function()
 			require("nvim-treesitter-endwise").init()
 		end,
