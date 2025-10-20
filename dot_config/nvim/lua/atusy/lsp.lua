@@ -85,13 +85,26 @@ function M.setup_mappings(bufnr, client)
 end
 
 function M.setup()
+	vim.api.nvim_create_autocmd("ModeChanged", {
+		group = M.augroup,
+		desc = "wouraround inline completion stop working at some point",
+		callback = function(ctx)
+			if ctx.match:match(":i$") then
+				if vim.lsp.inline_completion.is_enabled() then
+					vim.lsp.inline_completion.enable(false) -- force restart
+				end
+				vim.lsp.inline_completion.enable(true)
+			elseif ctx.match:match("^i:") then
+				vim.lsp.inline_completion.enable(false)
+			end
+		end,
+	})
 	vim.api.nvim_create_autocmd("FileType", {
 		group = M.augroup,
 		once = true,
 		callback = function()
 			pcall(require, "lspconfig")
 			vim.lsp.log.set_level(vim.lsp.log_levels.OFF)
-			vim.lsp.inline_completion.enable(true)
 			vim.lsp.linked_editing_range.enable(true)
 			vim.lsp.enable({
 				"bashls",
