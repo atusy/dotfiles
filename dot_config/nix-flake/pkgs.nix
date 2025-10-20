@@ -89,7 +89,7 @@ let
     pkgs.vtsls
 
     # formatters/linters
-    pkgs.actionlint
+    # pkgs.actionlint
     pkgs.biome
     pkgs.checkmate
     pkgs.gotools
