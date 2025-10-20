@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+
+TITLE="$1"
+shift 1
+BODY="$(git log -n 1 --pretty=format:%b)"
+
+printf "%s\n\n%s" "$TITLE" "$BODY" | git commit --amend --allow-empty --file - "$@"
