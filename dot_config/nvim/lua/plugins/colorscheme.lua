@@ -210,7 +210,12 @@ return {
 				},
 				options = { inverse = { visual = true } },
 			})
-			vim.cmd.colorscheme("duskfox")
+			vim.api.nvim_create_autocmd("User", {
+				pattern = "LazyDone",
+				callback = function()
+					vim.cmd.colorscheme("duskfox")
+				end,
+			})
 			-- NOTE: disable it because of strange behavior on opening telescope right after VimEnter
 			-- vim.schedule(function()
 			-- 	if vim.env.NVIM_TRANSPARENT == "1" then
