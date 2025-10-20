@@ -60,10 +60,10 @@ vim.opt.softtabstop = 2
 vim.opt.tabstop = 2
 
 -- cmdline
-local ok_extui, extui = pcall(require, "vim._extui")
-if ok_extui then
-	extui.enable({ enable = true, msg = { target = "msg", timeout = 4000 } })
-end
+-- local ok_extui, extui = pcall(require, "vim._extui")
+-- if ok_extui then
+-- 	extui.enable({ enable = true, msg = { target = "msg", timeout = 4000 } })
+-- end
 
 --[[ commands ]]
 vim.api.nvim_create_user_command("W", "write !sudo tee % >/dev/null", {})
