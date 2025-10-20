@@ -61,6 +61,7 @@ let
     pkgs.rustup
     pkgs.rsync
     pkgs.sheldon
+    pkgs.silicon
     pkgs.sqlx-cli
     pkgs.terraform
     pkgs.tmux
