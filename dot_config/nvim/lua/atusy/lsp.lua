@@ -128,6 +128,12 @@ function M.setup()
 	vim.api.nvim_create_autocmd("FileType", {
 		group = M.augroup,
 		callback = function(ctx)
+			if ctx.match == "lazy" then
+				-- NOTE: Avoid potential errors with lazy.nvim
+				-- lazy.nvim may open lazy-filetype buffer on startup before loading plugins
+				return
+			end
+
 			local filetypes =
 				{ "javascript", "javascriptreact", "javascript.jsx", "typescript", "typescriptreact", "typescript.tsx" }
 
