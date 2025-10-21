@@ -226,4 +226,5 @@ return {
 			-- end)
 		end,
 	},
+	{ "https://github.com/projekt0n/github-nvim-theme", lazy = true },
 }
