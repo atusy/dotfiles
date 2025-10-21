@@ -193,7 +193,9 @@ return {
 		"https://github.com/folke/styler.nvim",
 		lazy = true,
 		init = function()
-			set_styler()
+			if vim.env.NVIM_CONTEXT_THEME == "true" then
+				set_styler()
+			end
 		end,
 	},
 	{
