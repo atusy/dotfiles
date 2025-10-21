@@ -128,9 +128,12 @@ function M.setup()
 	vim.api.nvim_create_autocmd("FileType", {
 		group = M.augroup,
 		callback = function(ctx)
+			local filetypes =
+				{ "javascript", "javascriptreact", "javascript.jsx", "typescript", "typescriptreact", "typescript.tsx" }
+
 			-- ts_ls
 			if
-				vim.tbl_contains(vim.lsp.config.ts_ls.filetypes, ctx.match)
+				vim.tbl_contains(vim.lsp.config.ts_ls.filetypes or filetypes, ctx.match)
 				and (function()
 					local ok, is_node = pcall(function()
 						return require("lspconfig").util.root_pattern("package.json")(ctx.file)
@@ -146,7 +149,7 @@ function M.setup()
 			end
 
 			-- denols
-			if vim.tbl_contains(vim.lsp.config.denols.filetypes, ctx.match) then
+			if vim.tbl_contains(vim.lsp.config.denols.filetypes or filetypes, ctx.match) then
 				vim.lsp.start(vim.lsp.config.denols, { bufnr = ctx.buf })
 				return
 			end
