@@ -47,6 +47,7 @@
   "english-words": { "branch": "master", "commit": "20f5cc9b3f0ccc8ce45d814c532b7c2031bba31c" },
   "fidget.nvim": { "branch": "main", "commit": "3f5475949679953af6d78654db29b944fa826e6a" },
   "flash.nvim": { "branch": "main", "commit": "2febce67ff9cf7638d2569d17c41af02c38401eb" },
+  "github-nvim-theme": { "branch": "main", "commit": "c106c9472154d6b2c74b74565616b877ae8ed31d" },
   "gitsigns.nvim": { "branch": "main", "commit": "1ee5c1fd068c81f9dd06483e639c2aa4587dc197" },
   "guise.vim": { "branch": "main", "commit": "12e311bd48304ce3f724fdb9a9776816b845a9ba" },
   "hover.nvim": { "branch": "main", "commit": "3b49066e09e03e63be6d6f43ae2b8bcd58301f63" },
