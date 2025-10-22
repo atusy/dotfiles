@@ -15,6 +15,7 @@ let
     pkgs.bun
     pkgs.chezmoi
     pkgs.copilot-language-server
+    pkgs.coreutils-full
     pkgs.delta
     pkgs.deno
     pkgs.direnv
@@ -24,13 +25,16 @@ let
     pkgs.ffmpeg
     pkgs.fish
     pkgs.fzf
+    pkgs.gawk
     # pkgs.gcc # use one in system to avoid not found error from ld
     pkgs.gdu
     pkgs.gh
     pkgs.ghq
     pkgs.git
     pkgs.glab
+    pkgs.gnugrep
     pkgs.gnumake
+    pkgs.gnused
     pkgs.go
     pkgs.go-task
     pkgs.gojq
