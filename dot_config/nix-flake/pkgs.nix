@@ -11,6 +11,7 @@ let
     pkgs.avahi
     pkgs.bash
     pkgs.bat
+    pkgs.bitwarden-cli
     pkgs.buf
     pkgs.bun
     pkgs.chezmoi
@@ -111,12 +112,10 @@ in
 {
   x86_64-linux = common ++ [
     pkgs.paru
-    pkgs.bitwarden-cli # fails on aarch64-darwin
   ];
   aarch64-darwin = common ++ [
   ];
   aarch64-darwin-brews = [
-    "bitwarden-cli" # not available in nixpkgs for aarch64-darwin
     "dnsmasq"
     "mas"
     "docker-compose"
