@@ -114,11 +114,11 @@ in
     pkgs.paru
   ];
   aarch64-darwin = common ++ [
+    pkgs.mas
+    pkgs.docker-compose
   ];
   aarch64-darwin-brews = [
-    "dnsmasq"
-    "mas"
-    "docker-compose"
+    "dnsmasq" # remains here to solve *.localhost by https://zenn.dev/lambdalisue/scraps/db98eb60fa9d21
   ];
   aarch64-darwin-casks = [
     "chromium"
