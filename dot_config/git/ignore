@@ -7,6 +7,7 @@
 .mise.toml
 .python-version
 .rtx.toml
+.scalarDiagnostics
 .tool-versions
 .venv
 .worktree
