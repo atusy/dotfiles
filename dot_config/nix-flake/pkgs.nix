@@ -115,6 +115,28 @@ in
   ];
   aarch64-darwin = common ++ [
   ];
+  aarch64-darwin-brews = [
+    "bitwarden-cli" # not available in nixpkgs for aarch64-darwin
+    "dnsmasq"
+    "mas"
+    "docker-compose"
+  ];
+  aarch64-darwin-casks = [
+    "chromium"
+    "docker-desktop"
+    "firefox"
+    "karabiner-elements"
+    "keycastr"
+    "libreoffice"
+    "macskk"
+    "meetingbar"
+    "r-app"
+    "slack"
+    "spotify"
+    "raycast"
+    "vlc"
+    "wezterm@nightly"
+  ];
   fonts = [
     pkgs.ibm-plex
     pkgs.noto-fonts-color-emoji

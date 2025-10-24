@@ -38,17 +38,23 @@
       ];
       darwinConfiguration =
         { pkgs, ... }:
+        let
+          pkgs2 = import ./pkgs.nix {
+            inherit pkgs;
+            pkgs-master = pkgs-master;
+          };
+        in
         {
-          environment.systemPackages =
-            (import ./pkgs.nix {
-              inherit pkgs;
-              pkgs-master = pkgs-master;
-            }).aarch64-darwin;
-          fonts.packages =
-            (import ./pkgs.nix {
-              inherit pkgs;
-              pkgs-master = pkgs-master;
-            }).fonts;
+          environment.systemPackages = pkgs2.aarch64-darwin;
+          fonts.packages = pkgs2.fonts;
+          homebrew = {
+            # https://github.com/nix-darwin/nix-darwin/blob/master/modules/homebrew.nix
+            enable = true;
+            onActivation.autoUpdate = true;
+            onActivation.upgrade = true;
+            brews = pkgs2.aarch64-darwin-brews;
+            casks = pkgs2.aarch64-darwin-casks;
+          };
 
           # Necessary for using flakes on this system.
           nix.settings.experimental-features = "nix-command flakes";
@@ -84,35 +90,6 @@
           system.defaults.NSGlobalDomain = {
             "com.apple.mouse.tapBehavior" = 1; # Enable tap to click for external trackpads
             "com.apple.swipescrolldirection" = false; # Natural scrolling: false = traditional scroll (reverse for mouse)
-          };
-
-          # https://github.com/nix-darwin/nix-darwin/blob/master/modules/homebrew.nix
-          homebrew = {
-            enable = true;
-            onActivation.autoUpdate = true;
-            onActivation.upgrade = true;
-            brews = [
-              "bitwarden-cli" # not available in nixpkgs for aarch64-darwin
-              "dnsmasq"
-              "mas"
-              "docker-compose"
-            ];
-            casks = [
-              "chromium"
-              "docker-desktop"
-              "firefox"
-              "karabiner-elements"
-              "keycastr"
-              "libreoffice"
-              "macskk"
-              "meetingbar"
-              "r-app"
-              "slack"
-              "spotify"
-              "raycast"
-              "vlc"
-              "wezterm@nightly"
-            ];
           };
 
           nixpkgs.hostPlatform = "aarch64-darwin";
