@@ -109,14 +109,12 @@ let
   ];
 in
 {
-  x86_64-linux = [
+  x86_64-linux = common ++ [
     pkgs.paru
     pkgs.bitwarden-cli # fails on aarch64-darwin
-  ]
-  ++ common;
-  aarch64-darwin = [
-  ]
-  ++ common;
+  ];
+  aarch64-darwin = common ++ [
+  ];
   fonts = [
     pkgs.ibm-plex
     pkgs.noto-fonts-color-emoji
