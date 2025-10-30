@@ -124,6 +124,7 @@ in
     "chromium"
     "docker-desktop"
     "firefox"
+    "google-chrome"
     "karabiner-elements"
     "keycastr"
     "libreoffice"
