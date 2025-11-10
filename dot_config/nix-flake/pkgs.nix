@@ -6,7 +6,6 @@
 
 let
   common = [
-    pkgs.fenix.stable.completeToolchain
     pkgs.aha # Converet ANSI escape sequences to HTML
     pkgs.avahi
     pkgs.bash
@@ -107,13 +106,13 @@ let
     pkgs.stylua
     pkgs.treefmt
 
-    # rust without rustup
-    pkgs.rust-analyzer
-    pkgs.rustfmt
+    # rust
     pkgs.cargo
     pkgs.clippy
     pkgs.crate2nix
+    pkgs.rust-analyzer
     pkgs.rust.packages.stable.rustc-unwrapped
+    pkgs.rustfmt
   ];
 in
 {
