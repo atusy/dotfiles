@@ -63,7 +63,6 @@ let
     pkgs.procs
     pkgs.python312
     pkgs.ripgrep
-    pkgs.rustup
     pkgs.rsync
     pkgs.sheldon
     pkgs.silicon
@@ -107,6 +106,14 @@ let
     pkgs.shfmt
     pkgs.stylua
     pkgs.treefmt
+
+    # rust without rustup
+    pkgs.rust-analyzer
+    pkgs.rustfmt
+    pkgs.cargo
+    pkgs.clippy
+    pkgs.crate2nix
+    pkgs.rust.packages.stable.rustc-unwrapped
   ];
 in
 {
