@@ -84,21 +84,36 @@ function M.setup_mappings(bufnr, client)
 	end
 end
 
-function M.setup()
+--- Enable inline completion iff on Insert mode
+---
+--- To workaround the issue that inline completion stops working at some point.
+function M.setup_inline_completion()
+	vim.api.nvim_create_autocmd("InsertEnter", {
+		group = M.augroup,
+		desc = "Enable inline completion just before entering Insert mode",
+		callback = function(ctx)
+			local opts = { bufnr = ctx.buf }
+			if not vim.lsp.inline_completion.is_enabled(opts) then
+				vim.lsp.inline_completion.enable(false, opts) -- force restart
+			end
+			vim.lsp.inline_completion.enable(true, opts)
+		end,
+	})
+
 	vim.api.nvim_create_autocmd("ModeChanged", {
 		group = M.augroup,
-		desc = "wouraround inline completion stop working at some point",
+		desc = "Disable inline completion after leaving Insert mode",
 		callback = function(ctx)
-			if ctx.match:match(":i$") then
-				if vim.lsp.inline_completion.is_enabled() then
-					vim.lsp.inline_completion.enable(false) -- force restart
-				end
-				vim.lsp.inline_completion.enable(true)
-			elseif ctx.match:match("^i:") then
-				vim.lsp.inline_completion.enable(false)
+			if ctx.match:match("^i:") then
+				local opts = { bufnr = ctx.buf }
+				vim.lsp.inline_completion.enable(false, opts)
 			end
 		end,
 	})
+end
+
+function M.setup()
+	M.setup_inline_completion()
 	vim.api.nvim_create_autocmd("FileType", {
 		group = M.augroup,
 		once = true,
