@@ -163,7 +163,7 @@ return {
 				vim.api.nvim_set_hl(0, "IlluminatedWordText", { link = "LspReferenceText" })
 				vim.api.nvim_set_hl(0, "IlluminatedWordRead", { link = "LspReferenceRead" })
 				vim.api.nvim_set_hl(0, "IlluminatedWordWrite", { link = "LspReferenceWrite" })
-				vim.api.nvim_set_hl(0, "@string.special.url.path", { link = "@text.strong" })
+				vim.api.nvim_set_hl(0, "@string.special.url.path.segment", { link = "@text.strong" })
 			end
 
 			require("illuminate").configure({ modes_allowlist = { "n" } })
