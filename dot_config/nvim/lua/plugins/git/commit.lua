@@ -1,15 +1,11 @@
 local function leave(tab, buf, augroup)
 	vim.schedule(function()
+		-- separate pcall to ensure all are attempted
 		pcall(vim.api.nvim_del_augroup_by_id, augroup)
-		if vim.api.nvim_buf_is_valid(buf) then
-			vim.api.nvim_buf_delete(buf, { force = true })
-		end
-		if not vim.api.nvim_tabpage_is_valid(tab) then
-			return
-		end
-		if vim.api.nvim_get_current_tabpage() == tab then
-			vim.cmd("tabclose")
-		end
+		pcall(vim.api.nvim_buf_delete, buf, { force = true })
+		pcall(function()
+			vim.cmd.tabclose({ args = { vim.api.nvim_tabpage_get_number(tab) } })
+		end)
 	end)
 end
 
