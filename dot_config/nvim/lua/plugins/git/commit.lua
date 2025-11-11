@@ -55,6 +55,7 @@ local function exec(opts)
     setlocal number
     GinStatus ++opener=aboveleft\ sp
     exe 'aboveleft sp ' .. tempname() .. ".gitcommit"
+    set filetype=gitcommit
     ]],
 		{}
 	)
