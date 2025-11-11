@@ -57,9 +57,13 @@ function fish_prompt --description 'Write out the prompt'
     set -l prompt_vcs (fish_vcs_prompt)
 
     set -l prompt_kubeinfo
-    if test "$PROMPT_KUBEINFO" != "false"; and set -l kubeinfo ( get_kubeinfo | string split " " ); and test -n "$kubeinfo[1]"
-      test -z "$kubeinfo[2]"; and set kubeinfo[2] "N/A"
-      set prompt_kubeinfo " ["(set_color cyan){$kubeinfo[1]}{$normal}":"(set_color cyan){$kubeinfo[2]}{$normal}"]"
+    if set -l kubeinfo ( get_kubeinfo | string split " " ); and test -n "$kubeinfo[1]"
+      if test "$PROMPT_KUBEINFO" = "false"
+        set prompt_kubeinfo " ☸️" # At least notify that kubeinfo is available
+      else
+        test -z "$kubeinfo[2]"; and set kubeinfo[2] "N/A"
+        set prompt_kubeinfo " ["(set_color cyan){$kubeinfo[1]}{$normal}":"(set_color cyan){$kubeinfo[2]}{$normal}"]"
+      end
     end
 
     echo -s $prompt_user $prompt_cwd $prompt_vcs $prompt_kubeinfo " " $prompt_status
