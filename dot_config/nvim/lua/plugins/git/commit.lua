@@ -68,18 +68,13 @@ local function exec(opts)
 		end,
 	})
 
-	-- Ex-commands
-	vim.api.nvim_buf_create_user_command(buf, "Apply", function()
+	-- mappings
+	vim.keymap.set("n", "<Plug>(C-S)<C-Q>", function()
 		if commit(buf, opts.args) == 0 then
 			leave(tab, buf, augroup)
 		end
-	end, {})
-	vim.api.nvim_buf_create_user_command(buf, "Cancel", function()
-		leave(tab, buf, augroup)
-	end, {})
+	end, { buffer = buf })
 
-	-- mappings
-	vim.keymap.set("n", "<Plug>(C-S)<C-Q>", "<Cmd>Apply<CR>", { buffer = buf })
 	local n = -1
 	local function replace_message(delta)
 		n = n + delta
