@@ -44,9 +44,12 @@ local function exec(opts)
 	opts = vim.tbl_deep_extend("keep", opts or {}, { args = {} })
 
 	-- init UI
-	vim.cmd([[GinDiff! ++opener=tabnew --staged]])
-	vim.cmd([[GinBuffer ++opener=topleft\ vsplit graph -n 20 | setlocal number]])
-	vim.cmd([[GinStatus ++opener=aboveleft\ split]])
+	vim.cmd([[
+	  GinDiff! ++opener=tabnew --staged
+    GinBuffer ++opener=topleft\ vsplit graph -n 20
+    setlocal number
+    GinStatus ++opener=aboveleft\ split
+	]])
 	vim.cmd(([[aboveleft split %s]]):format(vim.fn.tempname() .. ".gitcommit"))
 
 	-- get ui data
