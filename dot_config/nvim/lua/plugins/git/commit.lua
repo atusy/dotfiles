@@ -60,6 +60,7 @@ local function exec(opts)
 	local augroup = vim.api.nvim_create_augroup(tostring(buf), {})
 	vim.api.nvim_create_autocmd({ "TabClosed", "BufHidden", "BufDelete" }, {
 		group = augroup,
+		buffer = buf,
 		callback = function(ctx)
 			if ctx.event ~= "TabClosed" or ctx.file == tab then
 				leave(tab, buf, augroup)
