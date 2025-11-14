@@ -44,13 +44,11 @@ local function exec(opts)
 	opts = vim.tbl_deep_extend("keep", opts or {}, { args = {} })
 
 	-- init UI
-	vim.cmd([[
-	  GinDiff! ++opener=tabnew --staged
-    GinBuffer ++opener=topleft\ vsplit graph -n 20
-    setlocal number
-    GinStatus ++opener=aboveleft\ split
-	]])
-	vim.cmd(([[aboveleft split %s]]):format(vim.fn.tempname() .. ".gitcommit"))
+	vim.cmd.GinDiff({ bang = true, args = { "++opener=tabnew", "--staged" } })
+	vim.cmd.GinBuffer({ args = { "++opener=topleft vsplit", "graph", "-n", "20" } })
+	vim.api.nvim_set_option_value("number", true, { win = 0, scope = "local" })
+	vim.cmd.GinStatus({ args = { "++opener=aboveleft split" } })
+	vim.cmd.split({ mods = { split = "aboveleft" }, args = { vim.fn.tempname() .. ".gitcommit" } })
 
 	-- get ui data
 	local tab = vim.api.nvim_get_current_tabpage()
