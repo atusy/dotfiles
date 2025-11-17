@@ -15,6 +15,7 @@ local function install_parser_unifieddiff(src, force)
 	with_parser_dir(function(parser_path)
 		local output = vim.fs.joinpath(parser_path, "unifieddiff.so")
 		if force or not vim.uv.fs_stat(output) then
+			vim.fs.rm(output, { force = true })
 			vim.system({ "tree-sitter", "build", "--output", output }, { cwd = src }, function() end)
 		end
 	end)
@@ -24,7 +25,8 @@ local function install_parser_uri(src, force)
 	with_parser_dir(function(parser_path)
 		local output = vim.fs.joinpath(parser_path, "uri.so")
 		if force or not vim.uv.fs_stat(output) then
-			vim.system({ "tree-sitter", "build", "--output", output }, { cwd = src }, function() end)
+			vim.fs.rm(output, { force = true })
+			vim.system({ "tree-sitter", "bu", "--output", output }, { cwd = src }, function() end)
 		end
 	end)
 end
