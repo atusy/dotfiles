@@ -26,7 +26,7 @@ local function install_parser_uri(src, force)
 		local output = vim.fs.joinpath(parser_path, "uri.so")
 		if force or not vim.uv.fs_stat(output) then
 			vim.fs.rm(output, { force = true })
-			vim.system({ "tree-sitter", "bu", "--output", output }, { cwd = src }, function() end)
+			vim.system({ "tree-sitter", "build", "--output", output }, { cwd = src }, function() end)
 		end
 	end)
 end
