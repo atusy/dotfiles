@@ -53,6 +53,17 @@ return {
 			vim.api.nvim_create_autocmd("FileType", {
 				group = augroup,
 				callback = function(ctx)
+					local filetype = ctx.match
+
+					-- treesitter tmux highlighting looks ugly...
+					-- only install parser
+					if filetype == "tmux" then
+						if not vim.tbl_contains(require("nvim-treesitter").get_installed(), "tmux") then
+							require("nvim-treesitter").install("tmux")
+						end
+						return
+					end
+
 					require("nvim-treesitter")
 					local ok = pcall(vim.treesitter.start, ctx.buf)
 					if ok then
@@ -60,7 +71,7 @@ return {
 					end
 
 					-- on fail, retry after installing the parser
-					local lang = vim.treesitter.language.get_lang(ctx.match)
+					local lang = vim.treesitter.language.get_lang(filetype)
 					require("nvim-treesitter").install({ lang }):await(function(err)
 						if err then
 							vim.notify(err, vim.log.levels.ERROR, { title = "nvim-treesitter" })
