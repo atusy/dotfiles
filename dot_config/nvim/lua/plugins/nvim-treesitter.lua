@@ -36,13 +36,16 @@ return {
 		"https://github.com/nvim-treesitter/nvim-treesitter",
 		branch = "main",
 		build = function()
+			-- update installed parsers and then install missing ones
 			local ok, err = pcall(function()
-				local installed = require("nvim-treesitter").get_installed()
-				local available = require("nvim-treesitter.config").get_available()
-				local target = vim.tbl_filter(function(lang)
-					vim.tbl_contains(available, lang)
-				end, installed)
-				require("nvim-treesitter").update(target)
+				local ts = require("nvim-treesitter")
+				ts.update():await(function()
+					local installed = ts.get_installed()
+					local missing = vim.tbl_filter(function(lang)
+						return not vim.tbl_contains(installed, lang)
+					end, ts.get_available())
+					ts.install(missing)
+				end)
 			end)
 			if not ok then
 				vim.notify(err or "failed to update parsers", vim.log.levels.ERROR, { title = "nvim-treesitter" })
