@@ -2,6 +2,7 @@
 .DS_Store
 .Rhistory
 .Rproj.user
+.direnv
 .envrc
 .git
 .ipynb_checkpoints
@@ -11,7 +12,6 @@
 .scalarDiagnostics
 .tool-versions
 .venv
-.worktree
 __worktree
 __ignored
 __pycache__
