@@ -189,7 +189,6 @@ return {
 	},
 	{
 		"https://github.com/atusy/jab.nvim",
-		dev = true,
 		lazy = true,
 		init = function()
 			for _, key in ipairs({ "f", "F", "t", "T" }) do
