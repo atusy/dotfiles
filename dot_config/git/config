@@ -73,3 +73,5 @@
 	helper = !/usr/bin/env gh auth git-credential
 [credential]
 	helper = cache
+[include]
+  path = ~/.config/git/local.config
