@@ -1,6 +1,5 @@
 return {
 	"https://github.com/uga-rosa/denippet.vim",
-	dependencies = { "https://github.com/vim-denops/denops.vim" },
 	config = function()
 		local snippetsdir = vim.fs.joinpath(vim.fs.dirname(debug.getinfo(1, "S").source:sub(2)), "snippets")
 		local function load(file, filetypes)
