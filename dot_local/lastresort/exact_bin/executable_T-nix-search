@@ -6,10 +6,7 @@ Find hash of a desired version of nixpkg and use it in nix-shell.
 $ nix-shell -I nixpkgs=https://github.com/NixOS/nixpkgs/archive/<hash>.tar.gz -p <pkg>
 */
 
-import {
-  DOMParser,
-  Element,
-} from "https://deno.land/x/deno_dom@v0.1.49/deno-dom-wasm.ts";
+import { DOMParser, Element } from "jsr:@b-fuze/deno-dom@0.1.56";
 
 const nixPackage = Deno.args[0];
 
@@ -59,4 +56,3 @@ if (import.meta.main) {
 }
 
 // vim: filetype=typescript
-
