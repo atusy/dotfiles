@@ -24,7 +24,7 @@ if [[ ! -o interactive ]] || (( ! $+commands[fish] )) || on_shell; then
   return
 fi
 
-# try fish on tmux
+# try fish on tmux if no session yet
 # don't exec, allows detaching and returning to fish
 if (( $+commands[tmux] )) && [[ -z "$TMUX" ]] && [[ "$TERM" != screen.* ]] && ! tmux has-session; then
   if fish_needs_login; then
