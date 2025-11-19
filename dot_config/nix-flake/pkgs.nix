@@ -54,7 +54,7 @@ let
     pkgs.neovim-remote
     pkgs.ninja
     pkgs.nodejs
-    pkgs.ollama
+    # pkgs.ollama
     pkgs.pandoc
     pkgs.pnpm
     pkgs.podman
