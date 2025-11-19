@@ -71,11 +71,7 @@ let
     pkgs.trash-cli
     pkgs.uv
     pkgs.watch
-    (
-      # TODO(2025-08-05): use pkgs.wget2 when it become available in unstable branch
-      # https://github.com/NixOS/nixpkgs/pull/429170
-      if pkgs-master != null then pkgs-master.wget2 else pkgs.wget2
-    )
+    pkgs.wget2
     pkgs.zig
     pkgs.zoxide
 
