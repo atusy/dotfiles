@@ -26,7 +26,7 @@ fi
 
 # try fish on tmux
 # don't exec, allows detaching and returning to fish
-if (( $+commands[tmux] )) && [[ -z "$TMUX" ]] && [[ "$TERM" != screen.* ]]; then
+if (( $+commands[tmux] )) && [[ -z "$TMUX" ]] && [[ "$TERM" != screen.* ]] && ! tmux has-session; then
   if fish_needs_login; then
     tmux new-session "fish --login"
   else

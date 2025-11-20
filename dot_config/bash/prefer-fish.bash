@@ -18,7 +18,7 @@ on_shell() {
 if [[ $- == *i* && $- != *c* ]] && command -v fish &>/dev/null && ! on_shell; then
   # try fish on tmux
   # don't exec, allows detaching and returning to fish
-  if command -v tmux &>/dev/null && test -z "$TMUX" && [[ $TERM != screen.* ]]; then
+  if command -v tmux &>/dev/null && test -z "$TMUX" && [[ $TERM != screen.* ]] && ! tmux has-session; then
     if shopt -q login_shell; then
       tmux new-session "fish --login"
     else
