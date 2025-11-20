@@ -43,7 +43,6 @@ abbr -a y --function __abbr-yank
 abbr -a git-switch-detach --regex '^(dev|main)$' --function __abbr-git-switch-detach --position anywhere
 abbr -a checkout --function __abbr-checkout --position anywhere
 abbr -a token --regex ',[-+]?[0-9]+' --function __abbr-token --position anywhere
-abbr -a by --function __abbr-by
 
 bind \t complete-and-search-if-not-empty
 bind \cr set_commandline_from_history
