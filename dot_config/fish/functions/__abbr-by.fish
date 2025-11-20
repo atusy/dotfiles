@@ -1,8 +1,4 @@
-function __bootstrap_by
-  if functions -q by
-    return 0
-  end
-
+if not functions -q by
   set -l root (ghq root)
   set -l repo "github.com/atusy/by-binds-yourself"
   set -l dir "$root/$repo"
@@ -15,6 +11,5 @@ function __bootstrap_by
 end
 
 function __abbr-by
-  __bootstrap_by
   echo "by"
 end
