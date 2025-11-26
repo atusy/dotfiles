@@ -127,6 +127,7 @@ in
     "docker-desktop"
     "firefox"
     "google-chrome"
+    "chatgpt"
     "karabiner-elements"
     "keycastr"
     "libreoffice"
