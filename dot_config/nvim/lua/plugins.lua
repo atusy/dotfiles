@@ -17,12 +17,6 @@ vim.api.nvim_create_autocmd("User", {
 })
 
 return {
-	{
-		"https://github.com/stevearc/oil.nvim",
-		config = function()
-			require("oil").setup({})
-		end,
-	},
 	-- basic dependencies
 	{ "https://github.com/nvim-lua/plenary.nvim", lazy = true },
 	{

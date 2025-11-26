@@ -102,7 +102,7 @@ return {
 		"https://github.com/nvim-tree/nvim-tree.lua",
 		lazy = true,
 		init = function()
-			vim.keymap.set("n", "S", [[<Cmd>lua require("nvim-tree.api").tree.open()<CR>]])
+			-- vim.keymap.set("n", "S", [[<Cmd>lua require("nvim-tree.api").tree.open()<CR>]])
 		end,
 		config = function()
 			require("plugins.mini.icons")

@@ -24,6 +24,8 @@ local function set_theme(win, colorscheme)
 end
 
 local function theme_active_win(win, tab)
+	local buf = vim.api.nvim_win_get_buf(win)
+
 	-- use default colorscheme on floating windows
 	if vim.api.nvim_win_get_config(win).relative ~= "" then
 		return
@@ -31,7 +33,9 @@ local function theme_active_win(win, tab)
 
 	-- apply colorscheme
 	local COLORSCHEME = ACTIVE_COLORSCHEME
-	if tab ~= 1 then
+	if vim.bo[buf].filetype == "oil" then
+		COLORSCHEME = ACTIVE_COLORSCHEME
+	elseif tab ~= 1 then
 		COLORSCHEME = TAB_COLORSCHEME
 	elseif not likely_cwd(vim.api.nvim_win_get_buf(win)) then
 		COLORSCHEME = OUTSIDE_COLORSCHEME
