@@ -28,21 +28,16 @@ return {
 		init = function()
 			vim.api.nvim_create_autocmd("BufWinEnter", {
 				callback = function(ctx)
-					if not vim.startswith(ctx.file, "oil://") then
+					if vim.startswith(ctx.file, "oil://") then
+						if not vim.w.old_winbar then
+							vim.w.old_winbar = vim.wo[0].winbar
+						end
+						vim.wo[0].winbar = "%F"
 						return
 					end
-					if not vim.w.old_winbar then
-						vim.w.old_winbar = vim.wo[0].winbar
-					end
-					vim.wo[0].winbar = "%F"
-				end,
-			})
 
-			vim.api.nvim_create_autocmd("BufWinLeave", {
-				callback = function()
 					if vim.w.old_winbar then
 						vim.wo[0].winbar = vim.w.old_winbar
-						vim.w.old_winbar = nil
 					end
 				end,
 			})
