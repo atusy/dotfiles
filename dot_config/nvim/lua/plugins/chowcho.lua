@@ -72,7 +72,7 @@ local setup_chowcho = function()
 	end
 
 	vim.keymap.set({ "", "t" }, "<c-w>e", _chowcho_edit)
-	vim.keymap.set({ "", "t" }, "<c-w><C-E>", _chowcho_edit)
+	vim.keymap.set({ "", "t" }, "<c-w><c-e>", _chowcho_edit)
 
 	---@param layout table returnd by vim.fn.winlayout()
 	---@param cur integer of the current winid
@@ -129,7 +129,7 @@ local setup_chowcho = function()
 		)
 	end
 
-	vim.keymap.set({ "", "t" }, "<c-w><C-X>", _chowcho_exchange)
+	vim.keymap.set({ "", "t" }, "<c-w><c-x>", _chowcho_exchange)
 	vim.keymap.set({ "", "t" }, "<c-w>x", _chowcho_exchange)
 end
 
