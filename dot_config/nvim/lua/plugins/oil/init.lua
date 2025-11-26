@@ -1,4 +1,5 @@
 local L = {}
+
 function L.cb(opts)
 	vim.keymap.set("n", "#", function()
 		local cdir = vim.fs.dirname(opts.cfile)
@@ -7,7 +8,7 @@ function L.cb(opts)
 		end
 	end, { buffer = true })
 	vim.keymap.set("n", "<c-s>", function()
-		require("oil").save(true)
+		require("oil").save()
 	end, { buffer = true })
 	vim.keymap.set("n", "<cr>", function()
 		require("oil").select(nil, function()
