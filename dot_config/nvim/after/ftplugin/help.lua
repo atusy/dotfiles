@@ -7,10 +7,13 @@ local is_git_repo = vim.system({ "git", "rev-parse", "--is-inside-work-tree" }, 
 vim.wo[winid][0].conceallevel = 0
 
 if vim.bo.buftype == "help" then
-	-- TODO:
-	-- これだと一度hiddenしてから開きなおすとwincmd Lされない
-	-- WinNewのときにやる
-	vim.cmd("wincmd L | vertical resize 83")
+	-- bufferがhideされている時でもウィンドウ幅を調整する
+	vim.api.nvim_create_autocmd("BufWinEnter", {
+		buffer = bufnr,
+		callback = function()
+			vim.cmd("wincmd L | vertical resize 83")
+		end,
+	})
 end
 
 -- Enhanced K
