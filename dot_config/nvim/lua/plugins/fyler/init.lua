@@ -42,6 +42,16 @@ function L.select(finder, open)
 	(open or vim.cmd.edit)(vim.fn.fnameescape(entry.path))
 end
 
+function L.yank_path(finder, absolute, reg)
+	reg = reg or vim.v.register or '"'
+	local entry = finder:cursor_node_entry()
+	if absolute then
+		vim.fn.setreg(reg, entry.path)
+	else
+		vim.fn.setreg(reg, vim.fn.fnamemodify(entry.path, ":."))
+	end
+end
+
 return {
 	{
 		"https://github.com/A7Lavinraj/fyler.nvim",
@@ -71,6 +81,20 @@ return {
 							end,
 							["zc"] = "CollapseNode",
 							["zM"] = "CollapseAll",
+
+							--[[yank path variants]]
+							["yap"] = function(finder)
+								L.yank_path(finder, true, nil)
+							end,
+							["yrp"] = function(finder)
+								L.yank_path(finder, false, nil)
+							end,
+							["gyap"] = function(finder)
+								L.yank_path(finder, true, "+")
+							end,
+							["gyrp"] = function(finder)
+								L.yank_path(finder, false, "+")
+							end,
 
 							--[[select variants]]
 							--- select normally to open/close a directory or edit a file
