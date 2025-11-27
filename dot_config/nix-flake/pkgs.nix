@@ -124,21 +124,24 @@ in
   ];
   aarch64-darwin-casks = [
     "chromium"
-    "docker-desktop"
-    "firefox"
+    "docker"
     "google-chrome"
-    "chatgpt"
     "karabiner-elements"
-    "keycastr"
-    "libreoffice"
     "macskk"
-    "meetingbar"
-    "r-app"
-    "slack"
     "spotify"
-    "raycast"
-    "vlc"
     "wezterm@nightly"
+  ];
+  aarch64-darwin-brew-casks = [
+    # https://github.com/BatteredBunny/brew-nix
+    pkgs.brewCasks.firefox
+    pkgs.brewCasks.chatgpt
+    pkgs.brewCasks.keycastr
+    pkgs.brewCasks.libreoffice
+    pkgs.brewCasks.meetingbar
+    pkgs.brewCasks.slack
+    pkgs.brewCasks.r-app
+    pkgs.brewCasks.raycast
+    pkgs.brewCasks.vlc
   ];
   fonts = [
     pkgs.ibm-plex

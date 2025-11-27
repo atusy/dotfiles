@@ -18,6 +18,15 @@
       url = "github:nix-community/fenix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    brew-nix = {
+      url = "github:BatteredBunny/brew-nix";
+      inputs.brew-api.follows = "brew-api";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    brew-api = {
+      url = "github:BatteredBunny/brew-api";
+      flake = false;
+    };
   };
 
   outputs =
@@ -35,6 +44,7 @@
       overlays = [
         inputs.neovim-nightly-overlay.overlays.default
         inputs.fenix.overlays.default
+        inputs.brew-nix.overlays.default
       ];
       darwinConfiguration =
         { pkgs, ... }:
@@ -45,7 +55,7 @@
           };
         in
         {
-          environment.systemPackages = pkgs2.aarch64-darwin;
+          environment.systemPackages = pkgs2.aarch64-darwin ++ pkgs2.aarch64-darwin-brew-casks;
           fonts.packages = pkgs2.fonts;
           homebrew = {
             # https://github.com/nix-darwin/nix-darwin/blob/master/modules/homebrew.nix
