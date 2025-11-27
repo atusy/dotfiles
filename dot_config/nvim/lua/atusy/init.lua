@@ -319,13 +319,13 @@ vim.api.nvim_create_autocmd("BufWritePost", {
 	end,
 })
 
-vim.api.nvim_create_autocmd({ "BufWinEnter", "WinNew", "WinClosed", "TabEnter" }, {
-	group = augroup,
-	desc = "Workaround flickering <https://github.com/neovim/neovim/issues/32660>",
-	callback = function(ctx)
-		require("atusy.treesitter").workaround_flickering(ctx)
-	end,
-})
+-- vim.api.nvim_create_autocmd({ "BufWinEnter", "WinNew", "WinClosed", "TabEnter" }, {
+-- 	group = augroup,
+-- 	desc = "Workaround flickering <https://github.com/neovim/neovim/issues/32660>",
+-- 	callback = function(ctx)
+-- 		require("atusy.treesitter").workaround_flickering(ctx)
+-- 	end,
+-- })
 
 --[[ Terminal ]]
 -- nvim-remote for edit-commandline zle
