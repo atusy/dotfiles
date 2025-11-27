@@ -1,3 +1,5 @@
+---@param finder table
+---@param open? function(string)
 local function select_entry(finder, open)
 	local entry = finder:cursor_node_entry()
 	if entry:isdir() then
@@ -5,6 +7,22 @@ local function select_entry(finder, open)
 		return
 	end
 	(open or vim.cmd.edit)(vim.fn.fnameescape(entry.path))
+end
+
+---@param file string
+local function open_with_chowcho(file)
+	require("chowcho").run(function(n)
+		vim.api.nvim_win_call(n, function()
+			vim.cmd.edit(file)
+		end)
+		vim.api.nvim_set_current_win(n)
+	end, {
+		use_exclude_default = false,
+		exclude = function(_, win)
+			local winconf = vim.api.nvim_win_get_config(win)
+			return winconf.external or winconf.relative ~= ""
+		end,
+	})
 end
 
 local M = {
@@ -39,21 +57,7 @@ local M = {
 	end,
 	--- select and edit in a selected window using *chowcho*
 	["<cr>"] = function(finder)
-		local function chowcho(file)
-			require("chowcho").run(function(n)
-				vim.api.nvim_win_call(n, function()
-					vim.cmd.edit(file)
-				end)
-				vim.api.nvim_set_current_win(n)
-			end, {
-				use_exclude_default = false,
-				exclude = function(_, win)
-					local winconf = vim.api.nvim_win_get_config(win)
-					return winconf.external or winconf.relative ~= ""
-				end,
-			})
-		end
-		select_entry(finder, chowcho)
+		select_entry(finder, open_with_chowcho)
 	end,
 	--- select and open file externally
 	gx = function(finder)
