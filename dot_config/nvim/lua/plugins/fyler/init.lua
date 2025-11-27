@@ -69,6 +69,8 @@ return {
 								local altbuf = vim.fn.expand("#")
 								require("fyler").navigate(vim.fn.filereadable(altbuf) == 1 and altbuf or nil)
 							end,
+							["zc"] = "CollapseNode",
+							["zM"] = "CollapseAll",
 
 							--[[select variants]]
 							--- select normally to open/close a directory or edit a file
