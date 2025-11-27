@@ -1,6 +1,4 @@
-local L = {}
-
-function L.select(finder, open)
+local function select_entry(finder, open)
 	local entry = finder:cursor_node_entry()
 	if entry:isdir() then
 		finder:exec_action("n_select")
@@ -33,11 +31,11 @@ local M = {
 	---
 	--- or edit in a new window with preceeding <c-w>s or <c-w>v
 	gf = function(finder)
-		L.select(finder)
+		select_entry(finder)
 	end,
 	--- select like *CTRL-W_gf*
 	["<c-w>gf"] = function(finder)
-		L.select(finder, vim.cmd.tabedit)
+		select_entry(finder, vim.cmd.tabedit)
 	end,
 	--- select and edit in a selected window using *chowcho*
 	["<cr>"] = function(finder)
@@ -55,7 +53,7 @@ local M = {
 				end,
 			})
 		end
-		L.select(finder, chowcho)
+		select_entry(finder, chowcho)
 	end,
 	--- select and open file externally
 	gx = function(finder)
