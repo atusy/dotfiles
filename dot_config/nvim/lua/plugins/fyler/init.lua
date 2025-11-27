@@ -102,6 +102,16 @@ return {
 								local entry = finder:cursor_node_entry()
 								vim.ui.open(entry.path)
 							end,
+
+							--[[disabled defaults]]
+							q = false,
+							["<C-t>"] = false,
+							["|"] = false,
+							["-"] = false,
+							["^"] = false,
+							["="] = false,
+							["."] = false,
+							["<BS>"] = false,
 						},
 					},
 				},
