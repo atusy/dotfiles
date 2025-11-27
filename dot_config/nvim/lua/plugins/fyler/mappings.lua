@@ -1,12 +1,13 @@
+---Select the current entry and toggle directory or open file
 ---@param finder table
----@param open? function(string)
+---@param open function(string)
 local function select_entry(finder, open)
 	local entry = finder:cursor_node_entry()
 	if entry:isdir() then
 		finder:exec_action("n_select")
 		return
 	end
-	(open or vim.cmd.edit)(vim.fn.fnameescape(entry.path))
+	open(vim.fn.fnameescape(entry.path))
 end
 
 ---@param file string
@@ -45,21 +46,15 @@ local M = {
 	end,
 
 	--[[select variants]]
-	--- select normally to open/close a directory or edit a file
-	---
-	--- or edit in a new window with preceeding <c-w>s or <c-w>v
 	gf = function(finder)
-		select_entry(finder)
+		select_entry(finder, vim.cmd.edit) -- to open in a new window, preceed with <c-w>s or <c-w>v
 	end,
-	--- select like *CTRL-W_gf*
 	["<c-w>gf"] = function(finder)
-		select_entry(finder, vim.cmd.tabedit)
+		select_entry(finder, vim.cmd.tabedit) -- opens file like *CTRL-W_gf* opens in a new tab
 	end,
-	--- select and edit in a selected window using *chowcho*
 	["<cr>"] = function(finder)
 		select_entry(finder, open_with_chowcho)
 	end,
-	--- select and open file externally
 	gx = function(finder)
 		vim.ui.open(finder:cursor_node_entry().path)
 	end,
