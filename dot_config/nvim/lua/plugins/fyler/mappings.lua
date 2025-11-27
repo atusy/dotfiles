@@ -21,10 +21,10 @@ local M = {
 	zM = "CollapseAll",
 
 	--[[yank path variants]]
-	yap = function(finder)
+	yp = function(finder)
 		vim.fn.setreg(vim.v.register, finder:cursor_node_entry().path)
 	end,
-	yrp = function(finder)
+	yr = function(finder)
 		vim.fn.setreg(vim.v.register, vim.fn.fnamemodify(finder:cursor_node_entry().path, ":."))
 	end,
 
