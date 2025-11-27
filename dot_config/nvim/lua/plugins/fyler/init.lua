@@ -55,11 +55,13 @@ return {
 					finder = {
 						follow_current_file = false,
 						mappings = {
-							q = false,
-							K = function(finder)
+							gK = function(finder)
 								vim.print(finder)
 							end,
-							["<C-T>"] = false,
+							K = function(finder)
+								local entry = finder:cursor_node_entry()
+								vim.print(entry)
+							end,
 							["<c-s>"] = function(finder)
 								finder:synchronize()
 							end,
