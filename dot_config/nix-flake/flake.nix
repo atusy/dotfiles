@@ -55,7 +55,7 @@
           };
         in
         {
-          environment.systemPackages = pkgs2.aarch64-darwin ++ pkgs2.aarch64-darwin-brew-casks;
+          environment.systemPackages = pkgs2.aarch64-darwin;
           fonts.packages = pkgs2.fonts;
           homebrew = {
             # https://github.com/nix-darwin/nix-darwin/blob/master/modules/homebrew.nix

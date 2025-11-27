@@ -116,32 +116,30 @@ in
     pkgs.paru
   ];
   aarch64-darwin = common ++ [
-    pkgs.mas
+    pkgs.google-chrome
     pkgs.docker-compose
-  ];
-  aarch64-darwin-brews = [
-    "dnsmasq" # remains here to solve *.localhost by https://zenn.dev/lambdalisue/scraps/db98eb60fa9d21
-  ];
-  aarch64-darwin-casks = [
-    "chromium"
-    "docker"
-    "google-chrome"
-    "karabiner-elements"
-    "macskk"
-    "spotify"
-    "wezterm@nightly"
-  ];
-  aarch64-darwin-brew-casks = [
+    pkgs.mas
+
     # https://github.com/BatteredBunny/brew-nix
     pkgs.brewCasks.firefox
     pkgs.brewCasks.chatgpt
     pkgs.brewCasks.keycastr
     pkgs.brewCasks.libreoffice
-    pkgs.brewCasks.meetingbar
     pkgs.brewCasks.slack
-    pkgs.brewCasks.r-app
     pkgs.brewCasks.raycast
     pkgs.brewCasks.vlc
+  ];
+  aarch64-darwin-brews = [
+    "dnsmasq" # remains here to solve *.localhost by https://zenn.dev/lambdalisue/scraps/db98eb60fa9d21
+  ];
+  aarch64-darwin-casks = [
+    "docker"
+    "macskk" # pkgs.macskk fails to setup input source
+    "meetingbar" # pkgs.brewCasks.meetingbar fails to start
+    "r" # pkgs.brewCasks.r does not exist and pkgs.brewCasks.r-app fails to start
+    "karabiner-elements" # pkgs fails to setup privilege and pkgs.brewCasks wont't even install
+    "spotify" # pkgs.brewCasks.spotify fails to start
+    "wezterm@nightly"
   ];
   fonts = [
     pkgs.ibm-plex
