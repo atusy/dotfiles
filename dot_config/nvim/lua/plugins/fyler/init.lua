@@ -70,6 +70,10 @@ return {
 							["<c-s>"] = function(finder)
 								finder:synchronize()
 							end,
+							["#"] = function()
+								local altbuf = vim.fn.expand("#")
+								require("fyler").navigate(vim.fn.filereadable(altbuf) == 1 and altbuf or nil)
+							end,
 						},
 					},
 				},
