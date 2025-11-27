@@ -54,7 +54,9 @@ return {
 		mode = "n",
 		lhs = "lsp: restart attached clients",
 		rhs = function()
-			vim.lsp.stop_client(vim.lsp.get_clients({ bufnr = 0 }))
+			for _, client in pairs(vim.lsp.get_clients({ bufnr = 0 })) do
+				client:stop()
+			end
 			vim.cmd("edit!")
 		end,
 	},
