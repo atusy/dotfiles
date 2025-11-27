@@ -26,27 +26,8 @@ end
 return {
 	{
 		"https://github.com/stevearc/oil.nvim",
-		init = function()
-			vim.api.nvim_create_autocmd("BufWinEnter", {
-				callback = function(ctx)
-					if vim.startswith(ctx.file, "oil://") then
-						if not vim.w.old_winbar then
-							vim.w.old_winbar = vim.wo[0].winbar
-						end
-						vim.wo[0].winbar = "%F"
-						return
-					end
-
-					if vim.w.old_winbar then
-						vim.wo[0].winbar = vim.w.old_winbar
-					end
-				end,
-			})
-
-			vim.keymap.set("n", "S", function()
-				L.open({ cfile = vim.api.nvim_buf_get_name(0) })
-			end)
-		end,
+		lazy = true,
+		init = function() end,
 		config = function()
 			require("oil").setup({
 				keymaps = {
