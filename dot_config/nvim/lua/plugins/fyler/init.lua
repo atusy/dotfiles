@@ -69,18 +69,23 @@ return {
 							end,
 
 							-- select variants
-							["<CR>"] = function(finder)
-								L.select(finder, vim.cmd.vsplit)
-							end,
+							-- select like *gf*
 							gf = function(finder)
 								L.select(finder)
 							end,
+							-- select like *CTRL-W_f*
 							["<c-w>f"] = function(finder)
 								L.select(finder, vim.cmd.split)
 							end,
+							-- select like *CTRL-W_gf*
 							["<c-w>gf"] = function(finder)
 								L.select(finder, vim.cmd.tabedit)
 							end,
+							-- select with vsplit
+							["<CR>"] = function(finder)
+								L.select(finder, vim.cmd.vsplit)
+							end,
+							-- select and edit in a selected window using *chowcho*
 							["<c-w><c-m>"] = function(finder)
 								local function chowcho(file)
 									require("chowcho").run(function(n)
