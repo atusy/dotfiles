@@ -42,6 +42,8 @@ return {
 			require("fyler").setup({
 				views = {
 					finder = {
+						close_on_select = false,
+						confirm_simple = true,
 						follow_current_file = false,
 						mappings = require("plugins.fyler.mappings"),
 					},
