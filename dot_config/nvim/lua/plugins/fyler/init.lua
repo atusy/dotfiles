@@ -68,25 +68,19 @@ return {
 								require("fyler").navigate(vim.fn.filereadable(altbuf) == 1 and altbuf or nil)
 							end,
 
-							-- select variants
-							-- select like *gf*
+							--[[select variants]]
+							--- select normally
+							---
+							--- or in a new window with preceeding <c-w>s or <c-w>v
 							gf = function(finder)
 								L.select(finder)
 							end,
-							-- select like *CTRL-W_f*
-							["<c-w>f"] = function(finder)
-								L.select(finder, vim.cmd.split)
-							end,
-							-- select like *CTRL-W_gf*
+							--- select like *CTRL-W_gf*
 							["<c-w>gf"] = function(finder)
 								L.select(finder, vim.cmd.tabedit)
 							end,
-							-- select with vsplit
-							["<CR>"] = function(finder)
-								L.select(finder, vim.cmd.vsplit)
-							end,
 							-- select and edit in a selected window using *chowcho*
-							["<c-w><c-m>"] = function(finder)
+							["<cr>"] = function(finder)
 								local function chowcho(file)
 									require("chowcho").run(function(n)
 										vim.api.nvim_win_call(n, function()
