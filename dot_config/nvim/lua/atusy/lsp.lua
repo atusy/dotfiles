@@ -28,11 +28,6 @@ end
 
 --- Setup buffer-local and global mappings for LSP
 function M.setup_mappings(bufnr, client)
-	-- mappings (buffer-local)
-	if client.server_capabilities.renameProvider then
-		vim.keymap.set("n", " r", [[<Cmd>lua vim.lsp.buf.rename()<CR>]], { silent = true, buffer = bufnr })
-	end
-
 	-- mappings (global)
 	if not M.did_setup_mappings then
 		-- on init
@@ -45,6 +40,7 @@ function M.setup_mappings(bufnr, client)
 		vim.keymap.set("n", "gK", [[<Cmd>lua vim.lsp.buf.type_definition()<CR>]], { silent = true }) -- Kata teigi
 		vim.keymap.set("n", "ga", [[<Cmd>lua require('lspsaga.codeaction'):code_action()<CR>]], { silent = true }) -- use :as for original ga
 		vim.keymap.set("i", "<C-A>", [[<Cmd>lua vim.lsp.inline_completion.get()<CR>]], { silent = true })
+		vim.keymap.set("n", " r", [[<Cmd>lua vim.lsp.buf.rename()<CR>]], { silent = true })
 
 		-- mappings with plugin APIs with fallback
 		vim.keymap.set("n", "gd", function()
