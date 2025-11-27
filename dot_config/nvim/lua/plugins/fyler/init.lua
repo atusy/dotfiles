@@ -1,6 +1,4 @@
-local L = {}
-
-function L.setup_winbar()
+local function setup_winbar()
 	vim.api.nvim_create_autocmd("BufWinEnter", {
 		callback = function(ctx)
 			if vim.startswith(ctx.file, "fyler://") then
@@ -18,7 +16,7 @@ function L.setup_winbar()
 	})
 end
 
-function L.open()
+local function open()
 	local bufs = vim.api.nvim_list_bufs()
 	for _, buf in ipairs(bufs) do
 		local nm = vim.api.nvim_buf_get_name(buf)
@@ -37,8 +35,8 @@ return {
 	{
 		"https://github.com/A7Lavinraj/fyler.nvim",
 		init = function()
-			L.setup_winbar()
-			vim.keymap.set("n", "S", L.open)
+			setup_winbar()
+			vim.keymap.set("n", "S", open)
 		end,
 		config = function()
 			require("fyler").setup({
