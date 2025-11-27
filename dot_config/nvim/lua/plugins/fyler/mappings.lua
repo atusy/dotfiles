@@ -34,20 +34,20 @@ local M = {
 		local altbuf = vim.fn.expand("#")
 		require("fyler").navigate(vim.fn.filereadable(altbuf) == 1 and altbuf or nil)
 	end,
-	["zc"] = "CollapseNode",
-	["zM"] = "CollapseAll",
+	zc = "CollapseNode",
+	zM = "CollapseAll",
 
 	--[[yank path variants]]
-	["yap"] = function(finder)
+	yap = function(finder)
 		L.yank_path(finder, true, nil)
 	end,
-	["yrp"] = function(finder)
+	yrp = function(finder)
 		L.yank_path(finder, false, nil)
 	end,
-	["gyap"] = function(finder)
+	gyap = function(finder)
 		L.yank_path(finder, true, "+")
 	end,
-	["gyrp"] = function(finder)
+	gyrp = function(finder)
 		L.yank_path(finder, false, "+")
 	end,
 
@@ -81,7 +81,7 @@ local M = {
 		L.select(finder, chowcho)
 	end,
 	--- select and open file externally
-	["gx"] = function(finder)
+	gx = function(finder)
 		local entry = finder:cursor_node_entry()
 		vim.ui.open(entry.path)
 	end,
