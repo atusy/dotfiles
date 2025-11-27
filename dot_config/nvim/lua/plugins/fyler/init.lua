@@ -69,9 +69,9 @@ return {
 							end,
 
 							--[[select variants]]
-							--- select normally
+							--- select normally to open/close a directory or edit a file
 							---
-							--- or in a new window with preceeding <c-w>s or <c-w>v
+							--- or edit in a new window with preceeding <c-w>s or <c-w>v
 							gf = function(finder)
 								L.select(finder)
 							end,
@@ -79,7 +79,7 @@ return {
 							["<c-w>gf"] = function(finder)
 								L.select(finder, vim.cmd.tabedit)
 							end,
-							-- select and edit in a selected window using *chowcho*
+							--- select and edit in a selected window using *chowcho*
 							["<cr>"] = function(finder)
 								local function chowcho(file)
 									require("chowcho").run(function(n)
@@ -96,6 +96,11 @@ return {
 									})
 								end
 								L.select(finder, chowcho)
+							end,
+							--- select and open file externally
+							["gx"] = function(finder)
+								local entry = finder:cursor_node_entry()
+								vim.ui.open(entry.path)
 							end,
 						},
 					},
