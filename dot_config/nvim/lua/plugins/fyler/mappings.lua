@@ -9,24 +9,7 @@ function L.select(finder, open)
 	(open or vim.cmd.edit)(vim.fn.fnameescape(entry.path))
 end
 
-function L.yank_path(finder, absolute, reg)
-	reg = reg or vim.v.register or '"'
-	local entry = finder:cursor_node_entry()
-	if absolute then
-		vim.fn.setreg(reg, entry.path)
-	else
-		vim.fn.setreg(reg, vim.fn.fnamemodify(entry.path, ":."))
-	end
-end
-
 local M = {
-	gK = function(finder)
-		vim.print(finder)
-	end,
-	K = function(finder)
-		local entry = finder:cursor_node_entry()
-		vim.print(entry)
-	end,
 	["<c-s>"] = function(finder)
 		finder:synchronize()
 	end,
@@ -39,10 +22,10 @@ local M = {
 
 	--[[yank path variants]]
 	yap = function(finder)
-		L.yank_path(finder, true, nil)
+		vim.fn.setreg(vim.v.register, finder:cursor_node_entry().path)
 	end,
 	yrp = function(finder)
-		L.yank_path(finder, false, nil)
+		vim.fn.setreg(vim.v.register, vim.fn.fnamemodify(finder:cursor_node_entry().path, ":."))
 	end,
 
 	--[[select variants]]
@@ -76,8 +59,15 @@ local M = {
 	end,
 	--- select and open file externally
 	gx = function(finder)
-		local entry = finder:cursor_node_entry()
-		vim.ui.open(entry.path)
+		vim.ui.open(finder:cursor_node_entry().path)
+	end,
+
+	--[[debugging]]
+	gK = function(finder)
+		vim.print(finder)
+	end,
+	K = function(finder)
+		vim.print(finder:cursor_node_entry())
 	end,
 
 	--[[disabled defaults]]
