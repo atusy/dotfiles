@@ -70,10 +70,10 @@ return {
 
 							-- select variants
 							["<CR>"] = function(finder)
-								L.select(finder)
+								L.select(finder, vim.cmd.vsplit)
 							end,
 							gf = function(finder)
-								L.select(finder, vim.cmd.vsplit)
+								L.select(finder)
 							end,
 							["<c-w>f"] = function(finder)
 								L.select(finder, vim.cmd.split)
