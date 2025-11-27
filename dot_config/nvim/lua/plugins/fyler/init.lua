@@ -66,6 +66,7 @@ return {
 								end
 								vim.cmd.edit(vim.fn.fnameescape(entry.path))
 							end,
+							["<C-T>"] = false,
 							["<c-s>"] = function(finder)
 								finder:synchronize()
 							end,
