@@ -63,6 +63,7 @@ update_completion gh completion -s fish
 update_completion mise completion fish
 update_completion deno completions fish
 update_completion task --completion fish
+update_completion kubectl completion fish
 
 set -l local_config (status dirname)/local.fish
 if test -f $local_config
