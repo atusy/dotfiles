@@ -44,12 +44,6 @@ local M = {
 	yrp = function(finder)
 		L.yank_path(finder, false, nil)
 	end,
-	gyap = function(finder)
-		L.yank_path(finder, true, "+")
-	end,
-	gyrp = function(finder)
-		L.yank_path(finder, false, "+")
-	end,
 
 	--[[select variants]]
 	--- select normally to open/close a directory or edit a file
