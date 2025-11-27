@@ -180,7 +180,6 @@ local function setup_gin()
 
 	-- command palette
 	add_item("n", "git amend", [[<Cmd>lua require("plugins.git.commit").exec({ args = {"--amend", "--quiet" } })<CR>]]) -- commit
-	add_item("n", "git amend --no-edit", ":Gin ++wait commit --amend --no-edit --quiet ")
 	add_item("n", "git rebase -i", ":Gin rebase --rebase-merge -i --quiet ")
 	add_item(
 		"n",
@@ -188,8 +187,6 @@ local function setup_gin()
 		":Gin rebase --quiet --rebase-merge --onto ",
 		{ desc = "AにBからCまでの差分を乗せる" }
 	)
-	add_item("n", "git push", ":Gin push --quiet origin HEAD ")
-	add_item("n", "git push --force", ":Gin push --quiet --force-with-lease --force-if-includes origin HEAD ")
 	add_item("n", "git diff", ":GinDiff ")
 	add_item("n", "git diff --ignore-all-space", ":GinDiff --ignore-all-space ")
 end

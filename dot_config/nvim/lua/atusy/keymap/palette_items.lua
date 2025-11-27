@@ -131,6 +131,34 @@ return {
 	--[[ git ]]
 	{
 		mode = "n",
+		lhs = "git amend --no-edit",
+		rhs = function()
+			vim.system({ "git", "commit", "--amend", "--no-edit", "--quiet" }, nil, function() end)
+		end,
+	},
+	{
+		mode = "n",
+		lhs = "git push",
+		rhs = function()
+			vim.system({ "git", "push", "--quiet", "origin", "HEAD" }, {
+				stdout = true,
+				stderr = true,
+			}, function() end)
+		end,
+	},
+	{
+		mode = "n",
+		lhs = "git push --force",
+		rhs = function()
+			vim.system(
+				{ "git", "push", "--quiet", "--force-with-lease", "--force-if-includes", "origin", "HEAD" },
+				nil,
+				function() end
+			)
+		end,
+	},
+	{
+		mode = "n",
 		lhs = "git: ignore % locally",
 		rhs = function()
 			git_exclude(vim.fn.expand("%"))
