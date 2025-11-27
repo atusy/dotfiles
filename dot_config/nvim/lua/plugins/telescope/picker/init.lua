@@ -101,7 +101,7 @@ local function gen_gtd_handler(opts, locs)
 		if #locs == 0 then
 			require("atusy.misc").open_cfile()
 		elseif #locs == 1 then
-			vim.lsp.util.jump_to_location(locs[1], "utf-8", false)
+			vim.lsp.util.show_document(locs[1], "utf-8")
 		else
 			M.locations(opts, vim.lsp.util.locations_to_items(locs, "utf-8"), "LSP definitions")
 		end
