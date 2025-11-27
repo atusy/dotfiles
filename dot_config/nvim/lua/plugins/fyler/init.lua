@@ -33,6 +33,15 @@ function L.open()
 	require("fyler").open()
 end
 
+function L.select(finder, open)
+	local entry = finder:cursor_node_entry()
+	if entry:isdir() then
+		finder:exec_action("n_select")
+		return
+	end
+	(open or vim.cmd.edit)(vim.fn.fnameescape(entry.path))
+end
+
 return {
 	{
 		"https://github.com/A7Lavinraj/fyler.nvim",
@@ -50,22 +59,6 @@ return {
 							K = function(finder)
 								vim.print(finder)
 							end,
-							gf = function(finder)
-								local entry = finder:cursor_node_entry()
-								if entry:isdir() then
-									finder:exec_action("n_select")
-									return
-								end
-								vim.cmd.edit(vim.fn.fnameescape(entry.path))
-							end,
-							["<CR>"] = function(finder)
-								local entry = finder:cursor_node_entry()
-								if entry:isdir() then
-									finder:exec_action("n_select")
-									return
-								end
-								vim.cmd.edit(vim.fn.fnameescape(entry.path))
-							end,
 							["<C-T>"] = false,
 							["<c-s>"] = function(finder)
 								finder:synchronize()
@@ -73,6 +66,37 @@ return {
 							["#"] = function()
 								local altbuf = vim.fn.expand("#")
 								require("fyler").navigate(vim.fn.filereadable(altbuf) == 1 and altbuf or nil)
+							end,
+
+							-- select variants
+							["<CR>"] = function(finder)
+								L.select(finder)
+							end,
+							gf = function(finder)
+								L.select(finder, vim.cmd.vsplit)
+							end,
+							["<c-w>f"] = function(finder)
+								L.select(finder, vim.cmd.split)
+							end,
+							["<c-w>gf"] = function(finder)
+								L.select(finder, vim.cmd.tabedit)
+							end,
+							["<c-w><c-m>"] = function(finder)
+								local function chowcho(file)
+									require("chowcho").run(function(n)
+										vim.api.nvim_win_call(n, function()
+											vim.cmd.edit(file)
+										end)
+										vim.api.nvim_set_current_win(n)
+									end, {
+										use_exclude_default = false,
+										exclude = function(_, win)
+											local winconf = vim.api.nvim_win_get_config(win)
+											return winconf.external or winconf.relative ~= ""
+										end,
+									})
+								end
+								L.select(finder, chowcho)
 							end,
 						},
 					},
