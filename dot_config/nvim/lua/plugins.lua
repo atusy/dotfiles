@@ -105,7 +105,6 @@ return {
 			end, { expr = true })
 		end,
 	},
-	{ "https://github.com/thinca/vim-qfreplace", cmd = "Qfreplace" },
 
 	-- better something
 	{
@@ -574,10 +573,12 @@ return {
 			})
 		end,
 	},
-	{ "https://github.com/itchyny/vim-qfedit", ft = "qf" },
 	{
-		"https://github.com/kevinhwang91/nvim-bqf",
+		"https://github.com/stevearc/quicker.nvim",
 		ft = "qf",
+		config = function()
+			require("quicker").setup()
+		end,
 	},
 	{ "https://github.com/jmbuhr/otter.nvim", lazy = true },
 	{
