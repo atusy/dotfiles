@@ -17,6 +17,16 @@ local function setup_winbar()
 end
 
 local function open()
+	local wins = vim.api.nvim_tabpage_list_wins(0)
+	for _, win in ipairs(wins) do
+		local buf = vim.api.nvim_win_get_buf(win)
+		local nm = vim.api.nvim_buf_get_name(buf)
+		if vim.startswith(nm, "fyler://") then
+			vim.api.nvim_set_current_win(win)
+			return
+		end
+	end
+
 	local bufs = vim.api.nvim_list_bufs()
 	for _, buf in ipairs(bufs) do
 		local nm = vim.api.nvim_buf_get_name(buf)
@@ -25,6 +35,7 @@ local function open()
 			return
 		end
 	end
+
 	if vim.v.count > 0 then
 		require("fyler").close()
 	end
