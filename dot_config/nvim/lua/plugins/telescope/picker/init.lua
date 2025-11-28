@@ -167,7 +167,6 @@ function M.git_status()
 	end
 	require("telescope.builtin").git_status({
 		prompt_title = make_title(), -- initial title can be nil and thus requires updates by autocmd
-		sorter = require("plugins.telescope.sorter").filter_only_sorter(),
 		attach_mappings = function(prompt_bufnr, _)
 			local picker = require("telescope.actions.state").get_current_picker(prompt_bufnr)
 
