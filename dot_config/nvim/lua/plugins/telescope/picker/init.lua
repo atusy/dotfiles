@@ -9,7 +9,7 @@ function M.outline()
 		end)
 		picker = ok and aerial or picker
 	end
-	picker({ sorter = require("plugins.telescope.sorter").filter_only_sorter() })
+	picker({ sorter = require("plugins.telescope.sorter").get_filter_only_sorter() })
 end
 
 function M.keymaps(opts)

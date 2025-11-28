@@ -1,6 +1,6 @@
 local M = {}
 
-function M.filter_only_sorter(sorter)
+function M.get_filter_only_sorter(sorter)
 	sorter = sorter or require("telescope.config").values.generic_sorter()
 	local base_scorer = sorter.scoring_function
 	local score_match = require("telescope.sorters").empty().scoring_function()
