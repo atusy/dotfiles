@@ -121,7 +121,6 @@ in
     pkgs.mas
 
     # https://github.com/BatteredBunny/brew-nix
-    pkgs.brewCasks.firefox
     pkgs.brewCasks.chatgpt
     pkgs.brewCasks.keycastr
     pkgs.brewCasks.libreoffice
@@ -134,6 +133,7 @@ in
   ];
   aarch64-darwin-casks = [
     "docker"
+    "firefox" # pkgs or brewCasks works, but without firefox as terminal command
     "macskk" # pkgs.macskk fails to setup input source
     "meetingbar" # pkgs.brewCasks.meetingbar fails to start
     "r" # pkgs.brewCasks.r does not exist and pkgs.brewCasks.r-app fails to start
