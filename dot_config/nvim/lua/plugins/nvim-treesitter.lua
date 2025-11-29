@@ -88,7 +88,6 @@ return {
 			require("nvim-treesitter").setup({ install_dir = treesitter_path })
 
 			-- register parsers to some other languages
-			vim.treesitter.language.register("bash", "sh")
 			vim.treesitter.language.register("json", "jsonl")
 			vim.treesitter.language.register("json", "ndjson")
 			vim.treesitter.language.register("hcl", "tf")
