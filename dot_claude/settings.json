@@ -68,7 +68,7 @@
     "padding": 0
   },
   "outputStyle": "Explanatory",
-  "alwaysThinkingEnabled": false,
+  "alwaysThinkingEnabled": true,
   "autoCompactEnabled": false,
   "autoUpdates": false,
   "feedbackSurveyState": {
