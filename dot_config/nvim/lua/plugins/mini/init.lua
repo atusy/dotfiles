@@ -13,6 +13,17 @@ return {
 			require("plugins.mini.surround").lazy()
 			require("plugins.mini.statusline").lazy()
 			require("plugins.mini.indentscope").lazy()
+			vim.keymap.set("n", "ZR", function()
+				if vim.v.count > 0 then
+					vim.cmd("restart")
+					return
+				end
+				require("mini.sessions").setup()
+				require("mini.sessions").write("ZR")
+				vim.cmd(
+					[[restart lua (function() require("mini.sessions").setup(); require("mini.sessions").read("ZR") end)()]]
+				)
+			end)
 		end,
 		config = function()
 			-- lazy load mini.bufremove
