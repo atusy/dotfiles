@@ -7,7 +7,7 @@ vim.opt.backspace = { "indent", "eol", "start" }
 vim.opt.diffopt:append("algorithm:histogram")
 vim.opt.exrc = true
 vim.opt.grepprg = [[rg --glob '!.git' --hidden --vimgrep --follow $*]]
-vim.opt.grepformat = vim.opt.grepformat ^ { "%f:%l:%c:%m" }
+vim.opt.grepformat:prepend({ "%f:%l:%c:%m" })
 vim.opt.guicursor = {
 	[[n-v-c:block,i-ci-ve:ver25,r-cr:hor20,o:hor50]],
 	[[a:blinkwait700-blinkoff400-blinkon250-Cursor/lCursor]],
