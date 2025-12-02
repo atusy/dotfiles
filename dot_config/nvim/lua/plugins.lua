@@ -140,14 +140,14 @@ return {
 		lazy = true,
 		init = function()
 			-- also set `a`-mark
-			vim.keymap.set("n", "<C-a>", [[<Cmd>lua require("dial.map").manipulate("increment", "normal")<CR>ma]])
-			vim.keymap.set("n", "<C-x>", [[<Cmd>lua require("dial.map").manipulate("decrement", "normal")<CR>ma]])
-			vim.keymap.set("n", "g<C-a>", [[<Cmd>lua require("dial.map").manipulate("increment", "gnormal")<CR>ma]])
-			vim.keymap.set("n", "g<C-x>", [[<Cmd>lua require("dial.map").manipulate("decrement", "gnormal")<CR>ma]])
-			vim.keymap.set("v", "<C-a>", [[<Cmd>lua require("dial.map").manipulate("increment", "visual")<CR>ma]])
-			vim.keymap.set("v", "<C-x>", [[<Cmd>lua require("dial.map").manipulate("decrement", "visual")<CR>ma]])
-			vim.keymap.set("v", "g<C-a>", [[<Cmd>lua require("dial.map").manipulate("increment", "gvisual")<CR>ma]])
-			vim.keymap.set("v", "g<C-x>", [[<Cmd>lua require("dial.map").manipulate("decrement", "gvisual")<CR>ma]])
+			vim.keymap.set("n", "<c-a>", [[<Cmd>lua require("dial.map").manipulate("increment", "normal")<CR>ma]])
+			vim.keymap.set("n", "<c-x>", [[<Cmd>lua require("dial.map").manipulate("decrement", "normal")<CR>ma]])
+			vim.keymap.set("n", "g<c-a>", [[<Cmd>lua require("dial.map").manipulate("increment", "gnormal")<CR>ma]])
+			vim.keymap.set("n", "g<c-x>", [[<Cmd>lua require("dial.map").manipulate("decrement", "gnormal")<CR>ma]])
+			vim.keymap.set("v", "<c-a>", [[<Cmd>lua require("dial.map").manipulate("increment", "visual")<CR>ma]])
+			vim.keymap.set("v", "<c-x>", [[<Cmd>lua require("dial.map").manipulate("decrement", "visual")<CR>ma]])
+			vim.keymap.set("v", "g<c-a>", [[<Cmd>lua require("dial.map").manipulate("increment", "gvisual")<CR>ma]])
+			vim.keymap.set("v", "g<c-x>", [[<Cmd>lua require("dial.map").manipulate("decrement", "gvisual")<CR>ma]])
 		end,
 	},
 
