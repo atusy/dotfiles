@@ -32,7 +32,7 @@ return {
 				require("mini.sessions").setup()
 				require("mini.sessions").write("ZR")
 				vim.cmd(
-					[[restart lua (function() require("mini.sessions").setup(); require("mini.sessions").read("ZR") end)()]]
+					[[restart +xa lua (function() require("mini.sessions").setup(); require("mini.sessions").read("ZR") end)()]]
 				)
 			end)
 		end,
