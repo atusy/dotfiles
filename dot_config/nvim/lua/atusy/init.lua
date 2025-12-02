@@ -217,9 +217,10 @@ vim.api.nvim_create_autocmd("TermOpen", { pattern = "*", group = augroup, comman
 vim.api.nvim_create_autocmd("ModeChanged", {
 	pattern = "c:*",
 	group = augroup,
-	desc = "cleanup cmdline history which are short enough or prefixed by space",
+	desc = "cleanup old cmdline history which are short enough or prefixed by space",
 	callback = function()
-		local hist = vim.fn.histget(":", -1)
+		local idx = -5
+		local hist = vim.fn.histget(":", idx)
 		if not hist then
 			return
 		end
@@ -230,7 +231,7 @@ vim.api.nvim_create_autocmd("ModeChanged", {
 			or hist == "source %"
 			or hist:sub(0, 1) == " "
 		then
-			vim.fn.histdel(":", -1)
+			vim.fn.histdel(":", idx)
 		end
 	end,
 })
