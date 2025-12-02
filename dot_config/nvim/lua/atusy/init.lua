@@ -184,16 +184,16 @@ local function win_move_or_cmd(row, col, cmd)
 	end
 end
 
-vim.keymap.set({ "", "t" }, "<S-Up>", function()
+vim.keymap.set("n", "<S-Up>", function()
 	win_move_or_cmd(-1, 0, "2+")
 end)
-vim.keymap.set({ "", "t" }, "<S-Down>", function()
+vim.keymap.set("n", "<S-Down>", function()
 	win_move_or_cmd(1, 0, "2-")
 end)
-vim.keymap.set({ "", "t" }, "<S-Right>", function()
+vim.keymap.set("n", "<S-Right>", function()
 	win_move_or_cmd(0, 2, "2>")
 end)
-vim.keymap.set({ "", "t" }, "<S-Left>", function()
+vim.keymap.set("n", "<S-Left>", function()
 	win_move_or_cmd(0, -2, "2<")
 end)
 
