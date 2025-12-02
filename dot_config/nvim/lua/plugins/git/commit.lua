@@ -49,6 +49,7 @@ local function exec(opts)
 	vim.api.nvim_set_option_value("number", true, { win = 0, scope = "local" })
 	vim.cmd.GinStatus({ args = { "++opener=aboveleft split" } })
 	vim.cmd.split({ mods = { split = "aboveleft" }, args = { vim.fn.tempname() .. ".gitcommit" } })
+	pcall(vim.treesitter.start) -- manually start to avoid unexpected skip (often happens after :LazySync)
 
 	-- get ui data
 	local tab = vim.api.nvim_get_current_tabpage()
