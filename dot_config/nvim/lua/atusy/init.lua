@@ -69,7 +69,7 @@ end
 vim.api.nvim_create_user_command("W", "write !sudo tee % >/dev/null", {})
 
 --[[ mappings ]]
-vim.keymap.set({ "n", "x" }, "s", "<plug>(s)") -- be prefix for sandwich and fuzzy finders
+vim.keymap.set({ "n", "x" }, "s", "<Plug>(s)") -- be prefix for sandwich and fuzzy finders
 vim.keymap.set("n", "<C-G>", "<Cmd>lua if vim.o.laststatus == 0 then vim.cmd.f() end<CR><Plug>(C-G)")
 vim.keymap.set("n", "<Plug>(C-G)<C-G>", '<Cmd>let @+ = expand("%:~:.")<CR>')
 vim.keymap.set("n", "<Plug>(C-G)g", '<Cmd>let @+ = expand("%:~")<CR>')
@@ -77,7 +77,7 @@ vim.keymap.set("n", "H", "H<Plug>(H)")
 vim.keymap.set("n", "<Plug>(H)H", "<PageUp>H<Plug>(H)")
 vim.keymap.set("n", "L", "L<Plug>(L)")
 vim.keymap.set("n", "<Plug>(L)L", "<PageDown>Lzb<Plug>(L)")
-vim.keymap.set("n", "ZA", "<cmd>xa<cr>")
+vim.keymap.set("n", "ZA", "<Cmd>xa<Cr>")
 vim.keymap.set("x", "<C-G>", "<Plug>(C-G)")
 vim.keymap.set("x", "<Plug>(C-G)<C-G>", "<C-G>")
 vim.keymap.set("c", "<C-A>", "<Home>")
@@ -106,7 +106,7 @@ vim.keymap.set("n", "<Plug>(gt)t", "gt<Plug>(gt)")
 vim.keymap.set("n", "<Plug>(gt)T", "gT<Plug>(gt)")
 
 -- mappings: diagnostics
-vim.keymap.set("n", "<space>d", [[<Cmd>lua vim.diagnostic.open_float({border = "single"})<CR>]])
+vim.keymap.set("n", "<Space>d", [[<Cmd>lua vim.diagnostic.open_float({border = "single"})<CR>]])
 
 -- mappings: insert-mode horizontal moves in the current undo block
 vim.keymap.set("i", "<Left>", "<C-G>U<Left>")
@@ -127,8 +127,8 @@ vim.keymap.set("n", "<C-R>", "<C-R>mu")
 
 -- mappings: textobj
 -- vim.keymap.set({ "o", "x" }, "ii", "2i") -- ii' selects 'foo' without outer spaces (:h v_i)
-vim.keymap.set({ "o", "x" }, "ii", ":<c-u>keepjumps normal! g_v^<cr>", { silent = true })
-vim.keymap.set({ "o", "x" }, "ae", ":<c-u>keepjumps normal! G$vgo<cr>", { silent = true })
+vim.keymap.set({ "o", "x" }, "ii", ":<C-U>keepjumps normal! g_v^<Cr>", { silent = true })
+vim.keymap.set({ "o", "x" }, "ae", ":<C-U>keepjumps normal! G$vgo<Cr>", { silent = true })
 
 -- mappings: mouse
 vim.keymap.set("!", "<LeftMouse>", "<Esc><LeftMouse>")
@@ -139,7 +139,7 @@ vim.keymap.set("n", "<LeftRelease>", "<Nop>")
 -- mappings: undo/redo
 -- they are too noisy when using extui
 vim.keymap.set("n", "u", "<Cmd>silent! undo<CR>")
-vim.keymap.set("n", "<c-r>", "<Cmd>silent! redo<CR>")
+vim.keymap.set("n", "<C-R>", "<Cmd>silent! redo<CR>")
 
 -- mappings: jumplist
 vim.keymap.set("n", "g<C-O>", function()
@@ -166,8 +166,8 @@ vim.keymap.set({ "n", "x" }, "<Plug>(save)", function()
 	vim.cmd((vim.uv.fs_stat(nm) and "up" or "write ++p") .. " | redraw")
 end)
 vim.keymap.set({ "i", "n" }, "<C-S>", [[<C-\><C-N><Plug>(save)<Plug>(C-S)]], { desc = "save" })
-vim.keymap.set("n", "<Plug>(C-S)<C-A>", "<cmd>wa<cr>", { desc = "save all" })
-vim.keymap.set("n", "<Plug>(C-S)<C-Q>", "<cmd>q<cr>", { desc = "save and quit" })
+vim.keymap.set("n", "<Plug>(C-S)<C-A>", "<Cmd>wa<Cr>", { desc = "save all" })
+vim.keymap.set("n", "<Plug>(C-S)<C-Q>", "<Cmd>q<Cr>", { desc = "save and quit" })
 vim.keymap.set("n", "<Plug>(C-S)<C-M>", function()
 	local bufname = vim.api.nvim_buf_get_name(vim.api.nvim_get_current_buf())
 	local bufext = bufname:gsub(".*%.", "")
