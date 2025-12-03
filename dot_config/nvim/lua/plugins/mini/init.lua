@@ -16,7 +16,7 @@ return {
 			vim.keymap.set("n", "ZR", function()
 				-- force restart if count givens
 				if vim.v.count > 0 then
-					vim.cmd("restart")
+					vim.cmd.restart()
 					return
 				end
 
