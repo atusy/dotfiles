@@ -529,7 +529,7 @@ return {
 				return
 			end
 			-- p stands for pilot
-			vim.keymap.set({ "n", "x" }, "<Plug>(s)p", '<cmd>lua require("CopilotChat").open()<cr>')
+			vim.keymap.set({ "n", "x" }, "<Plug>(s)p", '<cmd>lua require("CopilotChat").open()<CR>')
 		end,
 		config = function(opts)
 			if not opts.cond then

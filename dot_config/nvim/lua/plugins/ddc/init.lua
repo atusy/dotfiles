@@ -69,7 +69,7 @@ local function config()
 		end
 		return "<C-C>"
 	end, { expr = true })
-	vim.keymap.set({ "i", "c" }, "<C-X><cr>", function()
+	vim.keymap.set({ "i", "c" }, "<C-X><CR>", function()
 		vim.notify(vim.inspect(vim.fn["pum#current_item"]()))
 	end)
 

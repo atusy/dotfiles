@@ -52,7 +52,7 @@ local M = {
 	["<C-W>gf"] = function(finder)
 		select_entry(finder, vim.cmd.tabedit) -- opens file like *CTRL-W_gf* opens in a new tab
 	end,
-	["<cr>"] = function(finder)
+	["<CR>"] = function(finder)
 		select_entry(finder, open_with_chowcho)
 	end,
 	gx = function(finder)

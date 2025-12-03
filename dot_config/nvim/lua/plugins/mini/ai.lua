@@ -60,11 +60,11 @@ function M.setup()
 
 			-- mappings for various Japanese brackets
 			for k, v in pairs(DATA.japanese_brackets) do
-				-- e.g., vim.keymap.set({"x", "o"}, "ij[", "i?「<cr>」<cr>", { remap = true })
+				-- e.g., vim.keymap.set({"x", "o"}, "ij[", "i?「<CR>」<CR>", { remap = true })
 				vim.keymap.set(
 					mode,
 					lhs .. "j" .. k,
-					lhs .. "?" .. v.left .. "<cr>" .. v.right .. "<cr>",
+					lhs .. "?" .. v.left .. "<CR>" .. v.right .. "<CR>",
 					{ remap = true }
 				)
 			end
