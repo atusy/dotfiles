@@ -10,8 +10,8 @@ function M.toggle_left_drag()
 			return
 		end
 	end
-	vim.keymap.set("n", "<LeftDrag>", "<Nop>")
-	vim.keymap.set("n", "<LeftRelease>", "<Nop>")
+	vim.keymap.set("n", "<LeftDrag>", "<NOP>")
+	vim.keymap.set("n", "<LeftRelease>", "<NOP>")
 end
 
 return M

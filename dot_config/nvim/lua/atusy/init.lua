@@ -133,8 +133,8 @@ vim.keymap.set({ "o", "x" }, "ae", ":<C-U>keepjumps normal! G$vgo<Cr>", { silent
 -- mappings: mouse
 vim.keymap.set("!", "<LeftMouse>", "<Esc><LeftMouse>")
 vim.keymap.set("n", "<2-LeftMouse>", "gf", { remap = true })
-vim.keymap.set("n", "<LeftDrag>", "<Nop>")
-vim.keymap.set("n", "<LeftRelease>", "<Nop>")
+vim.keymap.set("n", "<LeftDrag>", "<NOP>")
+vim.keymap.set("n", "<LeftRelease>", "<NOP>")
 
 -- mappings: undo/redo
 -- they are too noisy when using extui
@@ -200,7 +200,7 @@ end)
 
 -- mappings: macro
 -- disable macro a-z except q on normal mode and entirely on visual mode
-vim.keymap.set("x", "q", "<Nop>")
+vim.keymap.set("x", "q", "<NOP>")
 vim.keymap.set("n", "q", function()
 	return vim.fn.reg_recording() == "" and "<Plug>(q)" or "q"
 end, { expr = true })

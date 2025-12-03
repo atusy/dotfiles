@@ -43,7 +43,7 @@ function M.lazy()
 	-- lazy load mini.surround
 	vim.keymap.set({ "x", "n" }, "s", function()
 		vim.keymap.set({ "x", "n" }, "s", "<Plug>(s)")
-		vim.keymap.set({ "x", "n" }, "<Plug>s", "<nop>")
+		vim.keymap.set({ "x", "n" }, "<Plug>s", "<NOP>")
 		M.setup()
 		return "<Plug>(s)"
 	end, { remap = true, expr = true })
