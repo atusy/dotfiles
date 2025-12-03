@@ -20,9 +20,8 @@ return {
 					return
 				end
 
-				-- cleanup session-unfriendly buffers
-				local bufname = vim.api.nvim_list_bufs()
-				for _, buf in ipairs(bufname) do
+				-- cleanup session-unfriendly buftypes
+				for _, buf in ipairs(vim.api.nvim_list_bufs()) do
 					local buftype = vim.bo[buf].buftype
 					if buftype == "prompt" or buftype == "quickfix" or buftype == "terminal" then
 						vim.api.nvim_buf_delete(buf, { force = true })
