@@ -1,6 +1,6 @@
 local function telescope(key, opts)
 	if not opts then
-		return "<cmd>lua require('telescope.builtin')." .. key .. "()<CR>"
+		return "<Cmd>lua require('telescope.builtin')." .. key .. "()<CR>"
 	end
 	return function()
 		require("telescope.builtin")[key](opts)
