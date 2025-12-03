@@ -139,13 +139,13 @@ local function setup_gin()
 	)
 	vim.keymap.set("n", "<Plug>(C-G)a", "<Plug>(save)<Cmd>silent Gin add -- %<CR>")
 	vim.keymap.set("n", "<Plug>(C-G)r", "<Plug>(save)<Cmd>silent Gin ++wait checkout HEAD -- %<CR><Cmd>e<CR>")
-	vim.keymap.set("n", "<Plug>(C-G)<c-p>", "<Cmd>GinPatch ++opener=tabnew %<CR>")
-	vim.keymap.set("n", "<Plug>(C-G)<c-d>", "<Cmd>GinDiff -- %<CR>")
+	vim.keymap.set("n", "<Plug>(C-G)<C-P>", "<Cmd>GinPatch ++opener=tabnew %<CR>")
+	vim.keymap.set("n", "<Plug>(C-G)<C-D>", "<Cmd>GinDiff -- %<CR>")
 	vim.keymap.set("n", "<Plug>(C-G)d", "<Cmd>GinDiff -- .<CR>")
-	vim.keymap.set("n", "<Plug>(C-G)<c-u>", "<Cmd>silent Gin reset -- %<CR>") -- unstage buf
-	vim.keymap.set("n", "<Plug>(C-G)<c-m>", [[<Cmd>lua require("plugins.git.commit").exec()<CR>]]) -- commit
-	vim.keymap.set("n", "<Plug>(C-G)<c-f>", ":.GinBrowse<CR>") -- i.e. open file in hosting site
-	vim.keymap.set("x", "<Plug>(C-G)<c-f>", ":GinBrowse<CR>")
+	vim.keymap.set("n", "<Plug>(C-G)<C-U>", "<Cmd>silent Gin reset -- %<CR>") -- unstage buf
+	vim.keymap.set("n", "<Plug>(C-G)<C-M>", [[<Cmd>lua require("plugins.git.commit").exec()<CR>]]) -- commit
+	vim.keymap.set("n", "<Plug>(C-G)<C-F>", ":.GinBrowse<CR>") -- i.e. open file in hosting site
+	vim.keymap.set("x", "<Plug>(C-G)<C-F>", ":GinBrowse<CR>")
 
 	--- Yank permalink iff the current buffer is commited and the commit is pushed
 	local function yank()

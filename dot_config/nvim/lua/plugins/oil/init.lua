@@ -7,7 +7,7 @@ function L.cb(opts)
 			L.open({ dir = cdir, cfile = opts.cfile })
 		end
 	end, { buffer = true })
-	vim.keymap.set("n", "<c-s>", function()
+	vim.keymap.set("n", "<C-S>", function()
 		require("oil").save()
 	end, { buffer = true })
 	vim.keymap.set("n", "<cr>", function()

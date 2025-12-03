@@ -27,7 +27,7 @@ local function open_with_chowcho(file)
 end
 
 local M = {
-	["<c-s>"] = function(finder)
+	["<C-S>"] = function(finder)
 		finder:synchronize()
 	end,
 	["#"] = function()
@@ -47,9 +47,9 @@ local M = {
 
 	--[[select variants]]
 	gf = function(finder)
-		select_entry(finder, vim.cmd.edit) -- to open in a new window, preceed with <c-w>s or <c-w>v
+		select_entry(finder, vim.cmd.edit) -- to open in a new window, preceed with <C-W>s or <C-W>v
 	end,
-	["<c-w>gf"] = function(finder)
+	["<C-W>gf"] = function(finder)
 		select_entry(finder, vim.cmd.tabedit) -- opens file like *CTRL-W_gf* opens in a new tab
 	end,
 	["<cr>"] = function(finder)

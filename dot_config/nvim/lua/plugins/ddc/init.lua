@@ -54,27 +54,27 @@ local function config()
 		end
 		return "<S-Tab>"
 	end, { expr = true })
-	vim.keymap.set({ "i", "c" }, "<c-y>", function()
+	vim.keymap.set({ "i", "c" }, "<C-Y>", function()
 		if vim.fn["pum#visible"]() then
 			return "<Cmd>call pum#map#confirm()<CR>"
 		end
 		return "<C-Y>"
 	end, { expr = true })
-	vim.keymap.set({ "i", "c" }, "<c-c>", function()
+	vim.keymap.set({ "i", "c" }, "<C-C>", function()
 		if vim.fn["pum#visible"]() then
 			return "<Cmd>call pum#map#cancel()<CR>"
 		end
 		if vim.api.nvim_get_mode().mode == "c" then
-			return "<c-u><c-c>"
+			return "<C-U><C-C>"
 		end
-		return "<c-c>"
+		return "<C-C>"
 	end, { expr = true })
-	vim.keymap.set({ "i", "c" }, "<c-x><cr>", function()
+	vim.keymap.set({ "i", "c" }, "<C-X><cr>", function()
 		vim.notify(vim.inspect(vim.fn["pum#current_item"]()))
 	end)
 
 	-- on insert
-	vim.keymap.set("i", "<c-x><c-f>", function()
+	vim.keymap.set("i", "<C-X><C-F>", function()
 		vim.fn["ddc#map#manual_complete"]({ sources = { "file" } })
 	end)
 
@@ -85,7 +85,7 @@ local function config()
 			return lhs
 		end, { expr = true })
 	end
-	vim.keymap.set("c", "<c-x><c-m>", function()
+	vim.keymap.set("c", "<C-X><C-M>", function()
 		local t = vim.fn.getcmdtype()
 		local line = vim.fn.getcmdline()
 		local match = function(x)
