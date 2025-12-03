@@ -31,9 +31,7 @@ return {
 				-- save session and restart
 				require("mini.sessions").setup()
 				require("mini.sessions").write("ZR")
-				vim.cmd(
-					[[restart +xa lua (function() require("mini.sessions").setup(); require("mini.sessions").read("ZR") end)()]]
-				)
+				vim.cmd([[restart +xa lua (function(s) s.setup(); s.read("ZR") end)(require("mini.sessions"))]])
 			end)
 		end,
 		config = function()
