@@ -8,8 +8,8 @@ return {
 		lazy = true,
 		event = "CmdlineEnter",
 		init = function()
-			vim.keymap.set({ "n", "x" }, "<plug>(s)c", ":CodeCompanionChat ")
-			vim.keymap.set({ "n", "x" }, "<plug>(s)i", ":CodeCompanion ")
+			vim.keymap.set({ "n", "x" }, "<Plug>(s)c", ":CodeCompanionChat ")
+			vim.keymap.set({ "n", "x" }, "<Plug>(s)i", ":CodeCompanion ")
 		end,
 		config = function()
 			require("codecompanion").setup({

@@ -1,10 +1,10 @@
 local M = {
 	loaded = false,
 	mappings = {
-		object_scope = "<plug>(MiniIndentscope-ii)",
-		object_scope_with_border = "<plug>(MiniIndentscope-ai)",
-		goto_top = "<plug>(indentscope-goto-top)",
-		goto_bottom = "<plug>(indentscope-goto-bottom)",
+		object_scope = "<Plug>(MiniIndentscope-ii)",
+		object_scope_with_border = "<Plug>(MiniIndentscope-ai)",
+		goto_top = "<Plug>(indentscope-goto-top)",
+		goto_bottom = "<Plug>(indentscope-goto-bottom)",
 	},
 }
 
@@ -18,7 +18,7 @@ function M.setup()
 end
 
 function M.set_keymaps()
-	local plug_lazy = "<plug>(mini.indentscope-lazy)"
+	local plug_lazy = "<Plug>(mini.indentscope-lazy)"
 	vim.keymap.set({ "n", "x", "o" }, plug_lazy, function()
 		if not M.loaded then
 			M.setup()

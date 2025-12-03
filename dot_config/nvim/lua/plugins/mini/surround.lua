@@ -23,9 +23,9 @@ function M.setup()
 	require("mini.surround").setup({
 		n_lines = 100,
 		mappings = {
-			add = "<plug>(s)a",
-			delete = "<plug>(s)d",
-			replace = "<plug>(s)r",
+			add = "<Plug>(s)a",
+			delete = "<Plug>(s)d",
+			replace = "<Plug>(s)r",
 			find = "",
 			find_left = "",
 			highlight = "",
@@ -42,10 +42,10 @@ end
 function M.lazy()
 	-- lazy load mini.surround
 	vim.keymap.set({ "x", "n" }, "s", function()
-		vim.keymap.set({ "x", "n" }, "s", "<plug>(s)")
-		vim.keymap.set({ "x", "n" }, "<plug>s", "<nop>")
+		vim.keymap.set({ "x", "n" }, "s", "<Plug>(s)")
+		vim.keymap.set({ "x", "n" }, "<Plug>s", "<nop>")
 		M.setup()
-		return "<plug>(s)"
+		return "<Plug>(s)"
 	end, { remap = true, expr = true })
 end
 

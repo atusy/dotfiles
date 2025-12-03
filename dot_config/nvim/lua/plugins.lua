@@ -456,7 +456,7 @@ return {
 		"https://github.com/atusy/aibou.nvim",
 		dev = true,
 		init = function()
-			vim.keymap.set("n", "<plug>(s)n", function()
+			vim.keymap.set("n", "<Plug>(s)n", function()
 				require("aibou.codecompanion").start({
 					system_prompt = require("atusy.ai.prompt.gal").GAL_PAIR_PROGRAMMING.system_prompt,
 					user_prompt = "#{lsp}\n#{buffer}\n\n日本語でペアプロしよ。",
@@ -529,7 +529,7 @@ return {
 				return
 			end
 			-- p stands for pilot
-			vim.keymap.set({ "n", "x" }, "<plug>(s)p", '<cmd>lua require("CopilotChat").open()<cr>')
+			vim.keymap.set({ "n", "x" }, "<Plug>(s)p", '<cmd>lua require("CopilotChat").open()<cr>')
 		end,
 		config = function(opts)
 			if not opts.cond then
