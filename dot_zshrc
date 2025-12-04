@@ -1,5 +1,3 @@
-#!/usr/bin/env zsh
-
 function source {
   local compiled="$1.zwc"
   if [[ ! -r "$compiled" || "$1" -nt "$compiled" ]]; then
