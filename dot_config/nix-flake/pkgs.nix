@@ -134,11 +134,11 @@ in
     "dnsmasq" # remains here to solve *.localhost by https://zenn.dev/lambdalisue/scraps/db98eb60fa9d21
   ];
   aarch64-darwin-casks = [
-    "docker"
+    "docker-desktop"
     "firefox" # pkgs or brewCasks works, but without firefox as terminal command
     "macskk" # pkgs.macskk fails to setup input source
     "meetingbar" # pkgs.brewCasks.meetingbar fails to start
-    "r" # pkgs.brewCasks.r does not exist and pkgs.brewCasks.r-app fails to start
+    "r-app" # pkgs.brewCasks.r does not exist and pkgs.brewCasks.r-app fails to start
     "karabiner-elements" # pkgs fails to setup privilege and pkgs.brewCasks wont't even install
     "spotify" # pkgs.brewCasks.spotify fails to start
     "wezterm@nightly"
