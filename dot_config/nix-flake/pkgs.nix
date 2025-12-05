@@ -61,6 +61,7 @@ let
     pkgs.podman-compose
     pkgs.procs
     pkgs.python312
+    pkgs.quarto
     pkgs.ripgrep
     pkgs.rsync
     pkgs.sheldon
@@ -90,6 +91,7 @@ let
 
     # formatters/linters
     # pkgs.actionlint
+    pkgs.air-formatter
     pkgs.biome
     pkgs.checkmate
     pkgs.gotools
