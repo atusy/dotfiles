@@ -3,7 +3,6 @@ local augroup = vim.api.nvim_create_augroup("atusy", {})
 
 --[[ options ]]
 -- global
-vim.opt.backspace = { "indent", "eol", "start" }
 vim.opt.diffopt:append("algorithm:histogram")
 vim.opt.exrc = true
 vim.opt.grepprg = [[rg --glob '!.git' --hidden --vimgrep --follow $*]]
@@ -48,7 +47,6 @@ vim.opt.virtualedit = "block"
 vim.opt.winblend = 25
 
 -- buffer
-vim.opt.autoread = true
 vim.opt.copyindent = true
 vim.opt.expandtab = true
 vim.opt.matchpairs:append(
