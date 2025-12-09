@@ -121,6 +121,7 @@ in
     pkgs.google-chrome
     pkgs.docker-compose
     pkgs.mas
+    pkgs.terminal-notifier
 
     # https://github.com/BatteredBunny/brew-nix
     pkgs.brewCasks.chatgpt
