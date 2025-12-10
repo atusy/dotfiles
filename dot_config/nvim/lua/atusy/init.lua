@@ -149,18 +149,19 @@ end, { expr = true })
 
 -- mappings: save and ...
 vim.keymap.set({ "n", "x" }, "<Plug>(save)", function()
-	local nm = vim.api.nvim_buf_get_name(0)
-	for _, prefix in ipairs({ "term://" }) do
-		if nm:sub(1, #prefix) == prefix then
-			return
-		end
+	local buf = vim.api.nvim_get_current_buf()
+	local buftype = vim.bo[buf].buftype
+
+	if buftype == "help" or buftype == "nofile" or buftype == "terminal" then
+		return
 	end
-	for _, prefix in ipairs({ "ginedit://" }) do
-		if nm:sub(1, #prefix) == prefix then
-			vim.cmd.w()
-			return
-		end
+
+	if buftype ~= "" then
+		vim.cmd.write()
+		return
 	end
+
+	local nm = vim.api.nvim_buf_get_name(buf)
 	vim.cmd((vim.uv.fs_stat(nm) and "up" or "write ++p") .. " | redraw")
 end)
 vim.keymap.set({ "i", "n" }, "<C-S>", [[<C-\><C-N><Plug>(save)<Plug>(C-S)]], { desc = "save" })
