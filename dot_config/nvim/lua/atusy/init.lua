@@ -168,10 +168,9 @@ vim.keymap.set({ "i", "n" }, "<C-S>", [[<C-\><C-N><Plug>(save)<Plug>(C-S)]], { d
 vim.keymap.set("n", "<Plug>(C-S)<C-A>", "<Cmd>wa<Cr>", { desc = "save all" })
 vim.keymap.set("n", "<Plug>(C-S)<C-Q>", "<Cmd>q<Cr>", { desc = "save and quit" })
 vim.keymap.set("n", "<Plug>(C-S)<C-M>", function()
-	local bufname = vim.api.nvim_buf_get_name(vim.api.nvim_get_current_buf())
-	local bufext = bufname:gsub(".*%.", "")
-	if bufext ~= "vim" and bufext ~= "lua" then
-		vim.notify("Cannot source: " .. bufname, vim.log.levels.ERROR)
+	local filetype = vim.bo.filetype
+	if filetype ~= "vim" and filetype ~= "lua" then
+		vim.notify("Cannot source: " .. vim.api.nvim_get_bufname(0), vim.log.levels.ERROR)
 		return
 	end
 	return ":source %" -- without <CR> to confirm manually
