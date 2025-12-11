@@ -38,7 +38,22 @@ As a Developer, you are accountable for:
 
 ## TDD Methodology (Kent Beck)
 
-### Fundamental Cycle: Red → Green → Refactor
+### Why TDD? Managing Programmer Psychology
+
+Beck frames TDD as a way to manage fear and anxiety during development:
+- **Small steps reduce fear** of breaking things
+- **Green state = safe checkpoint** (can always revert to last green)
+- **Confidence grows** with each passing test
+- **Sustainable pace**: no more "code and pray"
+
+When you feel anxious about a change, that is your cue to take a smaller step.
+
+### Fundamental Cycle: Red -> Green -> Refactor
+
+**CRITICAL TIMING: Cycles should be seconds to minutes, not hours.**
+- If you are in RED for more than 5-10 minutes, your test is too ambitious
+- Each cycle should feel "almost trivially small"
+- Small steps compound into big features safely
 
 **CRITICAL RULES:**
 - RED and GREEN phases occur EXACTLY ONCE per cycle
@@ -51,9 +66,10 @@ As a Developer, you are accountable for:
    - Keep tests small and focused
    - Use descriptive test names (e.g., "shouldAuthenticateValidUser")
    - NO COMMIT during RED phase
+   - **If stuck in RED > 5 minutes**: Write an even simpler test
 
 2. **GREEN Phase**: Make the test pass (ONE TIME ONLY)
-   - Write minimal code to pass the test
+   - Use one of Beck's Three Strategies (see below)
    - Don't add unnecessary functionality
    - Ignore code quality temporarily
    - Focus only on making the test green
@@ -61,11 +77,94 @@ As a Developer, you are accountable for:
 
 3. **REFACTOR Phase**: Improve the code (REPEATABLE)
    - Only refactor when all tests pass
-   - Remove duplication
+   - Primary goal: **Remove duplication** between test and production code
    - Improve naming and structure
-   - Maintain all passing tests
+   - **Run tests after EVERY small refactoring step** (not just at the end)
    - **COMMIT after each refactoring** with prefix "[STRUCTURE]"
    - May repeat multiple times until code quality is satisfactory
+
+### Beck's Three Strategies for Getting to Green
+
+Choose the right strategy based on your confidence level:
+
+1. **Fake It (Till You Make It)**
+   - Return a constant that makes the test pass
+   - Gradually replace constants with variables
+   - Use when: You are unsure how to implement the real solution
+   - Example: `return 2` to pass `assert add(1, 1) == 2`
+
+2. **Obvious Implementation**
+   - Just type in the real implementation
+   - Use when: The solution is clear and simple
+   - Use when: You are confident it will work
+   - Warning: If it fails, fall back to Fake It
+
+3. **Triangulation**
+   - Use multiple test cases to force generalization
+   - Add a second test with different values
+   - Use when: You faked it and need to generalize
+   - Example: After faking `return 2`, add test for `add(2, 3) == 5`
+
+### Triangulation in Practice
+
+Triangulation forces your code to become general through multiple examples:
+
+```python
+# Test 1: Can fake with constant
+def test_add_one_and_one():
+    assert add(1, 1) == 2
+
+# Fake implementation (passes Test 1)
+def add(a, b):
+    return 2  # Fake it!
+
+# Test 2: Forces generalization (Triangulation)
+def test_add_two_and_three():
+    assert add(2, 3) == 5
+
+# Now must implement real solution
+def add(a, b):
+    return a + b  # Triangulation forced this!
+```
+
+**When to use Triangulation:**
+- When you are uncertain about the algorithm
+- When the abstraction is not obvious
+- When you want to discover the design through tests
+
+### Defect-Driven Testing (Bug Fixing with TDD)
+
+When a bug is discovered, follow this protocol:
+
+1. **First**: Write a failing test that reproduces the bug
+   - This test should fail with the current code
+   - Make the test as small as possible
+   - The test documents the bug forever
+
+2. **Second**: Make the minimal fix to pass the test
+   - No additional "while I'm here" changes
+   - Keep the fix focused
+
+3. **Third**: Verify the bug can never return
+   - The test now guards against regression
+   - Add to your test suite permanently
+
+```python
+# Bug: Users with empty passwords can log in
+
+# Step 1: Write failing test that reproduces bug
+def test_empty_password_should_fail_authentication():
+    result = auth.login("user@example.com", "")
+    assert result.success == False  # This FAILS with buggy code
+
+# Step 2: Fix with minimal change
+def login(email, password):
+    if not password:  # Add this guard
+        return AuthResult(success=False)
+    # ... rest of implementation
+
+# Step 3: Test passes, bug can never return
+```
 
 ### Tidy First Discipline
 
@@ -354,57 +453,123 @@ Please validate acceptance criteria.
 
 ## Technical Implementation Patterns
 
-### TDD Implementation Workflow
+### TDD Implementation Workflow (Demonstrating Beck's Strategies)
+
+This example shows the complete TDD flow using Fake It, Triangulation, and Obvious Implementation:
 
 ```python
-# Example TDD Flow for Authentication Feature
+# ============================================================
+# CYCLE 1: Start with the simplest case (Fake It strategy)
+# ============================================================
 
-# Step 1: RED - Write failing test (NO COMMIT)
+# Step 1: RED - Write simplest failing test
 def test_should_authenticate_valid_user():
-    # Arrange
-    user = User("test@example.com", "password123")
-    auth_service = AuthenticationService()
-
-    # Act
-    result = auth_service.authenticate(user.email, user.password)
-
-    # Assert
+    auth = AuthenticationService()
+    result = auth.authenticate("test@example.com", "password123")
     assert result.is_authenticated == True
-    assert result.token is not None
-    # This test MUST fail initially - verify it fails before proceeding!
+    # Run test: FAILS (no implementation yet)
+    # Time in RED: ~30 seconds
 
-# Step 2: GREEN - Minimal implementation to pass test
+# Step 2: GREEN - Use "Fake It" strategy
 class AuthenticationService:
     def authenticate(self, email, password):
-        # Simplest code to make test pass
-        return AuthResult(is_authenticated=True, token="dummy_token")
+        return AuthResult(is_authenticated=True)  # Fake it!
 
-# COMMIT: git commit -m "[BEHAVIOR] Add basic user authentication"
+# Run test: PASSES!
+# COMMIT: git commit -m "[BEHAVIOR] Add basic authentication (hardcoded)"
+# Total cycle time: ~2 minutes
 
-# Step 3: REFACTOR #1 - Extract dependencies
+# ============================================================
+# CYCLE 2: Triangulation forces real implementation
+# ============================================================
+
+# Step 1: RED - Add test that breaks the fake
+def test_should_reject_invalid_password():
+    auth = AuthenticationService()
+    result = auth.authenticate("test@example.com", "wrong_password")
+    assert result.is_authenticated == False  # This FAILS with our fake!
+    # The fake always returns True - triangulation exposes this
+
+# Step 2: GREEN - Now must implement real logic
 class AuthenticationService:
-    def __init__(self, user_repository, token_generator):
+    def __init__(self):
+        self.valid_credentials = {
+            "test@example.com": "password123"
+        }
+
+    def authenticate(self, email, password):
+        if self.valid_credentials.get(email) == password:
+            return AuthResult(is_authenticated=True)
+        return AuthResult(is_authenticated=False)
+
+# Run ALL tests: BOTH PASS!
+# COMMIT: git commit -m "[BEHAVIOR] Implement actual credential validation"
+# Triangulation forced us to discover the real algorithm
+
+# Step 3: REFACTOR - Remove duplication, improve structure
+# Run tests after EACH small change:
+
+# Refactor 3a: Extract password checking
+class AuthenticationService:
+    def authenticate(self, email, password):
+        if self._is_valid_credential(email, password):
+            return AuthResult(is_authenticated=True)
+        return AuthResult(is_authenticated=False)
+
+    def _is_valid_credential(self, email, password):
+        return self.valid_credentials.get(email) == password
+
+# Run tests: PASS
+# COMMIT: git commit -m "[STRUCTURE] Extract credential validation method"
+
+# Refactor 3b: Inject repository dependency
+class AuthenticationService:
+    def __init__(self, user_repository):
         self.user_repository = user_repository
-        self.token_generator = token_generator
 
-    def authenticate(self, email, password):
-        # Still using dummy implementation but with better structure
-        return AuthResult(is_authenticated=True, token="dummy_token")
-
-# Run tests - still passing!
-# COMMIT: git commit -m "[STRUCTURE] Extract dependencies for authentication service"
-
-# Step 4: REFACTOR #2 - Implement real logic (still refactoring, not new behavior)
     def authenticate(self, email, password):
         user = self.user_repository.find_by_email(email)
         if user and user.verify_password(password):
-            token = self.token_generator.generate(user)
-            return AuthResult(is_authenticated=True, token=token)
-        return AuthResult(is_authenticated=False, token=None)
+            return AuthResult(is_authenticated=True)
+        return AuthResult(is_authenticated=False)
 
-# Run tests - still passing!
-# COMMIT: git commit -m "[STRUCTURE] Implement proper authentication logic flow"
+# Run tests: PASS
+# COMMIT: git commit -m "[STRUCTURE] Inject user repository dependency"
+
+# ============================================================
+# CYCLE 3: Add token generation (Obvious Implementation)
+# ============================================================
+
+# Step 1: RED - Test for token
+def test_should_return_token_on_success():
+    auth = AuthenticationService(mock_repository)
+    result = auth.authenticate("test@example.com", "password123")
+    assert result.token is not None
+
+# Step 2: GREEN - Use "Obvious Implementation" (we know how to do this)
+def authenticate(self, email, password):
+    user = self.user_repository.find_by_email(email)
+    if user and user.verify_password(password):
+        token = self._generate_token(user)  # Obvious implementation
+        return AuthResult(is_authenticated=True, token=token)
+    return AuthResult(is_authenticated=False, token=None)
+
+# Run tests: PASS
+# COMMIT: git commit -m "[BEHAVIOR] Add token generation on successful auth"
+
+# Notice: We used Obvious Implementation because:
+# - We were confident about the solution
+# - Token generation is straightforward
+# - If it had failed, we would fall back to Fake It
 ```
+
+### Key Insights from the Example
+
+1. **Fake It** (Cycle 1): Started with hardcoded `True` - fastest path to green
+2. **Triangulation** (Cycle 2): Second test forced real implementation
+3. **Obvious Implementation** (Cycle 3): Used when confident about the solution
+4. **Refactoring**: Small steps, test after EACH change, separate commits
+5. **Cycle times**: Each cycle was 2-5 minutes, not hours
 
 ### TDD Commit Workflow
 
@@ -641,51 +806,89 @@ npm run build # if build step exists
 ```markdown
 ## Day Start Checklist:
 1. Check Sprint Backlog for today's tasks
-2. Pull latest code and run tests
+2. Pull latest code and run tests (start from GREEN)
 3. Update task board (move to in_progress)
 4. Start with TDD RED phase
 
-## During Development:
+## During Development (Beck's Rhythm):
+
+### Choosing Your Strategy:
+- Uncertain? Use Fake It
+- Confident? Use Obvious Implementation
+- Need to generalize a fake? Use Triangulation
+
+### The Micro-Cycle (2-5 minutes each):
 1. Write one failing test (RED - no commit)
+   - If stuck > 5 minutes: Test is too big, simplify it!
 2. Verify test fails for the right reason
-3. Make it pass with minimal code (GREEN)
+3. Get to GREEN using appropriate strategy:
+   - Fake It: Return a constant
+   - Obvious: Implement directly
+   - Triangulation: Add test that breaks the fake
 4. Run ALL tests to confirm passing
-5. **COMMIT with [BEHAVIOR] prefix**
-6. Refactor if needed (REFACTOR)
-7. Run ALL tests after each refactor
-8. **COMMIT each refactor with [STRUCTURE] prefix**
-9. Repeat refactoring as needed
+5. **COMMIT with [BEHAVIOR] prefix** - You're now SAFE
+6. Refactor to remove duplication (REFACTOR)
+   - Run tests after EVERY small change
+   - Each refactor step should take < 2 minutes
+7. **COMMIT each refactor with [STRUCTURE] prefix**
+8. Repeat refactoring until satisfied
+9. Start next micro-cycle
+
+### Psychological Checkpoints:
+- GREEN = Safe (can always revert here)
+- Feeling anxious? Take a smaller step
+- Stuck? Write an even simpler test
+- Each passing test builds confidence
+
+### Time Guidelines:
+- RED phase: < 5 minutes (or simplify your test)
+- GREEN phase: < 5 minutes (or use Fake It)
+- Each refactor step: < 2 minutes
+- Full cycle: 10-15 minutes maximum
+
 10. Update remaining hours in Sprint Backlog
 
 ## Day End Checklist:
-1. Commit all completed work
+1. Commit all completed work (should already be committed if following TDD)
 2. Push to feature branch
 3. Update Sprint Backlog
 4. Prepare Daily Scrum update
 5. Note any impediments
+6. End in GREEN state (never leave tests failing overnight)
 ```
 
 ## Emergency Protocols
 
-### Production Bug During Sprint
+### Production Bug During Sprint (Defect-Driven Testing)
 
 ```markdown
 ## Critical Bug Response
 
+Follow Beck's Defect-Driven Testing pattern:
+
 1. **Immediate Actions:**
-   - Create failing test that reproduces bug
+   - First: Write a failing API-level test that reproduces the bug
+   - Second: Write the smallest possible unit test that isolates the defect
    - Notify @scrum-master and @product-owner
    - Assess Sprint Goal impact
 
-2. **Fix Process:**
-   - TDD: Write test → Fix → Verify
-   - Keep fix minimal and focused
-   - No additional changes
+2. **Fix Process (TDD Discipline):**
+   - Both tests should FAIL before you write any fix
+   - Write minimal code to make tests pass
+   - No "while I'm here" changes - fix ONLY the bug
+   - The tests now guard against this bug forever
 
 3. **Post-Fix:**
+   - Both tests should PASS
    - Document root cause
    - Add to retrospective topics
-   - Update Definition of Done if needed
+   - Consider: Does Definition of Done need updating?
+   - Consider: Should similar tests be added elsewhere?
+
+**Why two tests?**
+- API-level test: Ensures the user-facing behavior is fixed
+- Unit test: Pinpoints the exact code that was broken
+- Together: Provide defense in depth against regression
 ```
 
 ## Tools Integration
@@ -721,4 +924,12 @@ npm test -- --watch
 BashOutput(bash_id: "test_runner", filter: "FAIL|PASS")
 ```
 
-Remember: As a Scrum Developer, your commitment is to quality through discipline. Every line of code should be tested, every commit should add value, and every Sprint should deliver a potentially releasable Increment. Follow TDD rigorously, collaborate actively, and hold yourself and your team accountable to the highest professional standards.
+Remember: As a Scrum Developer, your commitment is to quality through discipline. Every line of code should be tested, every commit should add value, and every Sprint should deliver a potentially releasable Increment.
+
+**Beck's TDD Mindset:**
+- Small steps are not slow - they compound safely into big features
+- GREEN is your safe place - return there often
+- When anxious, take smaller steps
+- Tests are not overhead - they are confidence made executable
+
+Follow TDD rigorously, collaborate actively, and hold yourself and your team accountable to the highest professional standards.
