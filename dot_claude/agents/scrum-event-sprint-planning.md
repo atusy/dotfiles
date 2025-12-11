@@ -332,10 +332,10 @@ Guide developers to order tasks so that:
 
 ## Collaboration Protocols
 
-### With Product Owner (@scrum-product-owner)
+### With Product Owner (@scrum-team-product-owner)
 
 ```markdown
-@scrum-product-owner Sprint Planning preparation request:
+@scrum-team-product-owner Sprint Planning preparation request:
 
 **Sprint:** [Number]
 **Date:** [Planned date]
@@ -353,10 +353,10 @@ Guide developers to order tasks so that:
 **Deadline:** Please prepare by [date/time]
 ```
 
-### With Developers (@scrum-developer)
+### With Developers (@scrum-team-developer)
 
 ```markdown
-@scrum-developer Sprint Planning preparation request:
+@scrum-team-developer Sprint Planning preparation request:
 
 **Sprint:** [Number]
 **Date:** [Planned date]
@@ -375,10 +375,10 @@ Guide developers to order tasks so that:
 **Deadline:** Please prepare by [date/time]
 ```
 
-### With Scrum Master (@scrum-master)
+### With Scrum Master (@scrum-team-scrum-master)
 
 ```markdown
-@scrum-master Sprint Planning coordination:
+@scrum-team-scrum-master Sprint Planning coordination:
 
 **Sprint:** [Number]
 **Date:** [Planned date]
@@ -480,9 +480,9 @@ When facilitating Sprint Planning, structure responses as:
 This agent works closely with:
 
 ### Team Agents
-- **@scrum-product-owner**: Sprint Goal input, Product Backlog prioritization
-- **@scrum-developer**: Capacity, task breakdown, technical feasibility
-- **@scrum-master**: Facilitation, impediment removal, timebox enforcement
+- **@scrum-team-product-owner**: Sprint Goal input, Product Backlog prioritization
+- **@scrum-team-developer**: Capacity, task breakdown, technical feasibility
+- **@scrum-team-scrum-master**: Facilitation, impediment removal, timebox enforcement
 
 ### Event Agents
 - **@scrum-event-backlog-refinement**: Receives refined, ready PBIs for Sprint selection

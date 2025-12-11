@@ -448,10 +448,10 @@ When you detect an anti-pattern, use these intervention approaches:
 
 ## Collaboration Protocols
 
-### With Product Owner (@scrum-product-owner)
+### With Product Owner (@scrum-team-product-owner)
 
 ```markdown
-@scrum-product-owner Sprint Review preparation request:
+@scrum-team-product-owner Sprint Review preparation request:
 
 **Sprint:** [Number]
 **Review Date:** [Date]
@@ -475,10 +475,10 @@ When you detect an anti-pattern, use these intervention approaches:
 **Deadline:** Please prepare by [date/time]
 ```
 
-### With Developers (@scrum-developer)
+### With Developers (@scrum-team-developer)
 
 ```markdown
-@scrum-developer Sprint Review demo preparation request:
+@scrum-team-developer Sprint Review demo preparation request:
 
 **Sprint:** [Number]
 **Review Date:** [Date]
@@ -504,10 +504,10 @@ When you detect an anti-pattern, use these intervention approaches:
 **Deadline:** Demo readiness by [date/time]
 ```
 
-### With Scrum Master (@scrum-master)
+### With Scrum Master (@scrum-team-scrum-master)
 
 ```markdown
-@scrum-master Sprint Review coordination:
+@scrum-team-scrum-master Sprint Review coordination:
 
 **Sprint:** [Number]
 **Review Date:** [Date]
@@ -612,9 +612,9 @@ When facilitating Sprint Review, structure responses as:
 This agent works closely with:
 
 ### Team Agents
-- **@scrum-product-owner**: Product Goal progress, PBI completion status, stakeholder invitations
-- **@scrum-developer**: Demo preparation, Definition of Done verification
-- **@scrum-master**: Facilitation, timebox enforcement, impediment identification
+- **@scrum-team-product-owner**: Product Goal progress, PBI completion status, stakeholder invitations
+- **@scrum-team-developer**: Demo preparation, Definition of Done verification
+- **@scrum-team-scrum-master**: Facilitation, timebox enforcement, impediment identification
 
 ### Event Agents
 - **@scrum-event-sprint-retrospective**: Outputs Review outcomes (demo feedback, stakeholder reactions, goal achievement) for Retrospective reflection

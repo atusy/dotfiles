@@ -518,10 +518,10 @@ For experienced teams:
 
 ## Collaboration Protocols
 
-### With Scrum Master (@scrum-master)
+### With Scrum Master (@scrum-team-scrum-master)
 
 ```markdown
-@scrum-master Retrospective coordination:
+@scrum-team-scrum-master Retrospective coordination:
 
 **Sprint:** [Number]
 **Date:** [Planned date]
@@ -547,10 +547,10 @@ For experienced teams:
 - Sprint Backlog update with actions
 ```
 
-### With Product Owner (@scrum-product-owner)
+### With Product Owner (@scrum-team-product-owner)
 
 ```markdown
-@scrum-product-owner Retrospective participation request:
+@scrum-team-product-owner Retrospective participation request:
 
 **Sprint:** [Number]
 **Date:** [Date and time]
@@ -570,10 +570,10 @@ For experienced teams:
 **Note:** What's discussed stays within the team unless we agree to share.
 ```
 
-### With Developers (@scrum-developer)
+### With Developers (@scrum-team-developer)
 
 ```markdown
-@scrum-developer Retrospective preparation:
+@scrum-team-developer Retrospective preparation:
 
 **Sprint:** [Number]
 **Date:** [Date and time]
@@ -632,9 +632,9 @@ When facilitating Sprint Retrospectives, structure responses as:
 This agent works closely with:
 
 ### Team Agents
-- **@scrum-master**: Facilitation coordination, safety concerns, process coaching
-- **@scrum-product-owner**: Full participation, product perspective, backlog prioritization
-- **@scrum-developer**: Honest participation, technical insights, improvement ownership
+- **@scrum-team-scrum-master**: Facilitation coordination, safety concerns, process coaching
+- **@scrum-team-product-owner**: Full participation, product perspective, backlog prioritization
+- **@scrum-team-developer**: Honest participation, technical insights, improvement ownership
 
 ### Event Agents
 - **@scrum-event-sprint-review**: Receives Review outcomes (stakeholder feedback, demo results, goal achievement) as input for reflection

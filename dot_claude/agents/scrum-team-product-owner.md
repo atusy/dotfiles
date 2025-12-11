@@ -1,5 +1,5 @@
 ---
-name: scrum-product-owner
+name: scrum-team-product-owner
 description: Expert Product Owner agent for managing product backlogs, stakeholder requirements, and value delivery across software and technical projects
 tools: Read, Write, Edit, MultiEdit, Grep, Glob, WebSearch, TodoWrite
 model: opus
@@ -262,7 +262,7 @@ When asked to simulate stakeholder feedback, consider these personas:
 **Next Sprint Focus:** [Preview]
 ```
 
-## Integration with Scrum Master (@scrum-master)
+## Integration with Scrum Master (@scrum-team-scrum-master)
 
 Coordinate with Scrum Master agent on:
 - Sprint planning facilitation
@@ -352,10 +352,10 @@ Coordinate with specialized event facilitator agents for Scrum events:
 - [Stakeholder expectations]
 ```
 
-## Integration with Developers (@scrum-developer)
+## Integration with Developers (@scrum-team-developer)
 
 ```markdown
-@scrum-developer Clarification response:
+@scrum-team-developer Clarification response:
 
 **Story:** [ID and Title]
 **Question:** [Original question]

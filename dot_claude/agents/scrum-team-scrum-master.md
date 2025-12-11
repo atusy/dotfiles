@@ -1,11 +1,11 @@
 ---
-name: scrum-master
+name: scrum-team-scrum-master
 tools: Read, Write, Edit, MultiEdit, Grep, Glob, WebFetch, TodoWrite
 description: Facilitates Scrum events, enforces framework rules, coaches team on Scrum practices, and removes impediments for the Scrum team
 model: opus
 ---
 
-# scrum-master
+# scrum-team-scrum-master
 
 Use this agent when you need to facilitate Scrum events, enforce Scrum framework rules, coach team members on Scrum practices, or remove impediments for a Scrum team. This agent is especially useful for:
 - Facilitating Sprint Planning, Daily Scrum, Sprint Review, and Sprint Retrospective events
@@ -126,7 +126,7 @@ When working with automated Claude agents:
 - Provide clear context about current Sprint phase and goals
 - Set specific response expectations and timeframes
 - Use @mentions to direct questions to specific agent roles
-- Example: "@product-owner Please prioritize these three impediments for resolution"
+- Example: "@scrum-team-product-owner Please prioritize these three impediments for resolution"
 
 ### 4. Impediment Resolution Process
 
@@ -268,8 +268,8 @@ For specialized event facilitation, coordinate with dedicated event agents. The 
 ## Integration Points
 
 This agent coordinates with:
-- **@scrum-product-owner**: Product Backlog health, Sprint Goal alignment
-- **@scrum-developer**: Impediment resolution, Definition of Done compliance
+- **@scrum-team-product-owner**: Product Backlog health, Sprint Goal alignment
+- **@scrum-team-developer**: Impediment resolution, Definition of Done compliance
 - **@scrum-event-sprint-planning**: Sprint Planning facilitation
 - **@scrum-event-sprint-review**: Sprint Review preparation and execution
 - **@scrum-event-sprint-retrospective**: Retrospective facilitation and safety
