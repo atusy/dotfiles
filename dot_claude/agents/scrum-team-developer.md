@@ -85,14 +85,14 @@ When you feel anxious about a change, that is your cue to take a smaller step.
    - Don't add unnecessary functionality
    - Ignore code quality temporarily
    - Focus only on making the test green
-   - **COMMIT immediately when test passes** with prefix "[BEHAVIOR]"
+   - **COMMIT immediately when test passes** using `/git:commit`
 
 3. **REFACTOR Phase**: Improve the code (REPEATABLE)
    - Only refactor when all tests pass
    - Primary goal: **Remove duplication** between test and production code
    - Improve naming and structure
    - **Run tests after EVERY small refactoring step** (not just at the end)
-   - **COMMIT after each refactoring** with prefix "[STRUCTURE]"
+   - **COMMIT after each refactoring** using `/git:commit`
    - May repeat multiple times until code quality is satisfactory
 
 ### Beck's Three Strategies for Getting to Green
@@ -199,8 +199,9 @@ def login(email, password):
 - NEVER mix structural and behavioral changes
 - Always make structural changes first
 - Run tests before AND after structural changes
-- Commit structural changes separately with prefix "[STRUCTURE]"
-- Commit behavioral changes with prefix "[BEHAVIOR]"
+- Use `/git:commit` for all commits - it will identify the appropriate type:
+  - Structural changes: `refactor:` type
+  - Behavioral changes: `feat:`, `fix:`, `test:` types as appropriate
 
 ## Sprint Backlog Management
 
@@ -256,7 +257,7 @@ Update subtask status in the dashboard immediately:
 
 Before requesting review:
 - [ ] All tests passing locally
-- [ ] Clear commit messages with prefixes
+- [ ] Clear commit messages (use `/git:commit` for WHY-focused messages)
 - [ ] Updated documentation
 - [ ] No security vulnerabilities
 - [ ] Performance implications considered
@@ -339,7 +340,7 @@ class AuthenticationService:
         return AuthResult(is_authenticated=True)  # Fake it!
 
 # Run test: PASSES!
-# COMMIT: git commit -m "[BEHAVIOR] Add basic authentication (hardcoded)"
+# COMMIT: /git:commit  # Stage and commit with WHY-focused message
 # Total cycle time: ~2 minutes
 
 # ============================================================
@@ -366,7 +367,7 @@ class AuthenticationService:
         return AuthResult(is_authenticated=False)
 
 # Run ALL tests: BOTH PASS!
-# COMMIT: git commit -m "[BEHAVIOR] Implement actual credential validation"
+# COMMIT: /git:commit  # Stage and commit with WHY-focused message
 # Triangulation forced us to discover the real algorithm
 
 # Step 3: REFACTOR - Remove duplication, improve structure
@@ -383,7 +384,7 @@ class AuthenticationService:
         return self.valid_credentials.get(email) == password
 
 # Run tests: PASS
-# COMMIT: git commit -m "[STRUCTURE] Extract credential validation method"
+# COMMIT: /git:commit  # Stage and commit with WHY-focused message
 
 # Refactor 3b: Inject repository dependency
 class AuthenticationService:
@@ -397,7 +398,7 @@ class AuthenticationService:
         return AuthResult(is_authenticated=False)
 
 # Run tests: PASS
-# COMMIT: git commit -m "[STRUCTURE] Inject user repository dependency"
+# COMMIT: /git:commit  # Stage and commit with WHY-focused message
 
 # ============================================================
 # CYCLE 3: Add token generation (Obvious Implementation)
@@ -418,7 +419,7 @@ def authenticate(self, email, password):
     return AuthResult(is_authenticated=False, token=None)
 
 # Run tests: PASS
-# COMMIT: git commit -m "[BEHAVIOR] Add token generation on successful auth"
+# COMMIT: /git:commit  # Stage and commit with WHY-focused message
 
 # Notice: We used Obvious Implementation because:
 # - We were confident about the solution
@@ -438,39 +439,45 @@ def authenticate(self, email, password):
 
 **The Complete TDD Cycle with Commits:**
 
+Use the `/git:commit` slash command for all commits. This command:
+- Analyzes staged and unstaged changes
+- Groups changes logically
+- Stages changes meaningfully
+- Crafts WHY-focused commit messages following Conventional Commits 1.0.0
+- Handles the entire commit workflow interactively
+
 ```bash
 # 1. RED PHASE - Write failing test (NO COMMIT)
 echo "Write test_should_authenticate_user()"
 npm test  # Verify test fails
-git add <files>
-git commit -m "test: Add user authentication functionality"
 
-# 2. GREEN PHASE - Make test pass
+# 2. GREEN PHASE - Make test pass, then commit
 echo "Implement minimal code to pass"
 npm test  # Verify test passes
-git add <files>
-git commit -m "feat: Add user authentication functionality"
+/git:commit  # Stages test + implementation, commits with type "feat:" or "test:"
 
 # 3. REFACTOR PHASE #1 - First improvement
 echo "Extract authentication logic to service"
 npm test  # Verify tests still pass
-git add <files>
-git commit -m "refactor: Extract authentication to dedicated service"
+/git:commit  # Commits with type "refactor:"
 
 # 4. REFACTOR PHASE #2 - Second improvement (optional)
 echo "Improve error handling"
 npm test  # Verify tests still pass
-git add <files>
-git commit -m "refactor: Add comprehensive error handling"
+/git:commit  # Commits with type "refactor:"
 
 # 5. REFACTOR PHASE #3 - Third improvement (optional)
 echo "Optimize database queries"
 npm test  # Verify tests still pass
-git add <files>
-git commit -m "refactor: Optimize authentication queries"
+/git:commit  # Commits with type "refactor:"
 
 # Ready for next RED phase with new test!
 ```
+
+**Note:** The `/git:commit` command automatically:
+- Identifies the appropriate commit type (feat, fix, refactor, test, etc.)
+- Creates a WHY-focused message body explaining the reasoning
+- Handles partial staging when files contain multiple logical changes
 
 ## Sprint Event Participation
 
@@ -649,11 +656,11 @@ Before marking Sprint as done:
    - Obvious: Implement directly
    - Triangulation: Add test that breaks the fake
 4. Run ALL tests to confirm passing
-5. **COMMIT with [BEHAVIOR] prefix** - You're now SAFE
+5. **Use `/git:commit`** - You're now SAFE
 6. Refactor to remove duplication (REFACTOR)
    - Run tests after EVERY small change
    - Each refactor step should take < 2 minutes
-7. **COMMIT each refactor with [STRUCTURE] prefix**
+7. **Use `/git:commit` after each refactor**
 8. Repeat refactoring until satisfied
 9. Start next micro-cycle
 
