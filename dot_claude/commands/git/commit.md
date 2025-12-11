@@ -1,6 +1,7 @@
 ---
 allowed-tools: Bash(git status:*), Bash(git diff:*), Bash(git log:*), Bash(git add:*), Bash(git commit:*), Bash(git restore:*), Bash(git show:*)
 description: Stage meaningful diffs and create Conventional Commits with WHY-focused messages
+model: sonnet
 ---
 
 ## Current Git Context
