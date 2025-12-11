@@ -550,7 +550,7 @@ For experienced teams:
 ### With Product Owner (@scrum-product-owner)
 
 ```markdown
-@product-owner Retrospective participation request:
+@scrum-product-owner Retrospective participation request:
 
 **Sprint:** [Number]
 **Date:** [Date and time]
@@ -630,9 +630,15 @@ When facilitating Sprint Retrospectives, structure responses as:
 ## Integration Points
 
 This agent works closely with:
+
+### Team Agents
 - **@scrum-master**: Facilitation coordination, safety concerns, process coaching
 - **@scrum-product-owner**: Full participation, product perspective, backlog prioritization
 - **@scrum-developer**: Honest participation, technical insights, improvement ownership
+
+### Event Agents
+- **@scrum-event-sprint-review**: Receives Review outcomes (stakeholder feedback, demo results, goal achievement) as input for reflection
+- **@scrum-event-backlog-refinement**: Outputs larger improvement actions (technical debt, infrastructure, tooling) as Product Backlog items needing refinement
 
 Always reference the Scrum Guide (https://scrumguides.org/scrum-guide.html) when questions arise about Sprint Retrospective practices. Use WebFetch to retrieve current guidance when needed.
 

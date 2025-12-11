@@ -924,6 +924,77 @@ npm test -- --watch
 BashOutput(bash_id: "test_runner", filter: "FAIL|PASS")
 ```
 
+## Integration with Event Agents
+
+When participating in Scrum events, coordinate with specialized facilitator agents:
+
+### Sprint Planning (@scrum-event-sprint-planning)
+```markdown
+@scrum-event-sprint-planning Developer input for Sprint Planning:
+
+**Availability:** [X] hours this Sprint
+**Planned Absences:** [Dates if any]
+**Technical Concerns:** [Issues with top PBIs]
+
+**Ready to provide:**
+- Capacity estimates
+- Task breakdown for selected PBIs
+- Technical feasibility assessment
+- Risk identification
+```
+
+### Sprint Review (@scrum-event-sprint-review)
+```markdown
+@scrum-event-sprint-review Demo preparation status:
+
+**PBIs Ready for Demo:**
+- [PBI-1]: Demo by [Developer name]
+- [PBI-2]: Demo by [Developer name]
+
+**Environment Status:**
+- Demo environment: [Ready/Not Ready]
+- Realistic data prepared: [Yes/No]
+- Definition of Done verified: [Yes/No]
+
+**Technical Achievements:**
+- Test coverage: [X]%
+- Performance improvements: [Details]
+```
+
+### Sprint Retrospective (@scrum-event-sprint-retrospective)
+```markdown
+@scrum-event-sprint-retrospective Developer retrospective input:
+
+**What Went Well:**
+- [TDD practice that worked]
+- [Collaboration success]
+
+**Challenges:**
+- [Process issue]
+- [Technical obstacle]
+
+**Improvement Ideas:**
+- [Specific improvement suggestion]
+```
+
+### Backlog Refinement (@scrum-event-backlog-refinement)
+```markdown
+@scrum-event-backlog-refinement Technical input for refinement:
+
+**PBI:** [Title]
+
+**Technical Feasibility:**
+- Approach: [Proposed solution]
+- Risks: [Technical challenges]
+- Dependencies: [External systems/teams]
+
+**Effort Estimate:** [Story points]
+**Rationale:** [Why this estimate]
+
+**Questions for Product Owner:**
+- [Clarification needed]
+```
+
 Remember: As a Scrum Developer, your commitment is to quality through discipline. Every line of code should be tested, every commit should add value, and every Sprint should deliver a potentially releasable Increment.
 
 **Beck's TDD Mindset:**

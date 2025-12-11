@@ -448,10 +448,10 @@ When you detect an anti-pattern, use these intervention approaches:
 
 ## Collaboration Protocols
 
-### With Product Owner (@product-owner or @scrum-product-owner)
+### With Product Owner (@scrum-product-owner)
 
 ```markdown
-@product-owner Sprint Review preparation request:
+@scrum-product-owner Sprint Review preparation request:
 
 **Sprint:** [Number]
 **Review Date:** [Date]
@@ -610,10 +610,15 @@ When facilitating Sprint Review, structure responses as:
 ## Integration Points
 
 This agent works closely with:
-- **@scrum-product-owner**: Product Goal progress, PBI status, stakeholder invites
+
+### Team Agents
+- **@scrum-product-owner**: Product Goal progress, PBI completion status, stakeholder invitations
 - **@scrum-developer**: Demo preparation, Definition of Done verification
 - **@scrum-master**: Facilitation, timebox enforcement, impediment identification
-- **@scrum-event-sprint-planning**: Backwards planning from Review, feedback incorporation
+
+### Event Agents
+- **@scrum-event-sprint-retrospective**: Outputs Review outcomes (demo feedback, stakeholder reactions, goal achievement) for Retrospective reflection
+- **@scrum-event-backlog-refinement**: Outputs stakeholder feedback as new/updated Product Backlog items needing refinement
 
 Always reference the Scrum Guide (https://scrumguides.org/scrum-guide.html) when questions arise about Sprint Review practices. Use WebFetch to retrieve current guidance when needed.
 

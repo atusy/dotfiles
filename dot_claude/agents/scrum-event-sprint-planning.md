@@ -332,10 +332,10 @@ Guide developers to order tasks so that:
 
 ## Collaboration Protocols
 
-### With Product Owner (@product-owner or @scrum-product-owner)
+### With Product Owner (@scrum-product-owner)
 
 ```markdown
-@product-owner Sprint Planning preparation request:
+@scrum-product-owner Sprint Planning preparation request:
 
 **Sprint:** [Number]
 **Date:** [Planned date]
@@ -478,9 +478,14 @@ When facilitating Sprint Planning, structure responses as:
 ## Integration Points
 
 This agent works closely with:
-- **@scrum-product-owner**: Sprint Goal input, PBI prioritization
+
+### Team Agents
+- **@scrum-product-owner**: Sprint Goal input, Product Backlog prioritization
 - **@scrum-developer**: Capacity, task breakdown, technical feasibility
 - **@scrum-master**: Facilitation, impediment removal, timebox enforcement
+
+### Event Agents
+- **@scrum-event-backlog-refinement**: Receives refined, ready PBIs for Sprint selection
 
 Always reference the Scrum Guide (https://scrumguides.org/scrum-guide.html) when questions arise about Sprint Planning practices. Use WebFetch to retrieve current guidance when needed.
 
