@@ -48,7 +48,7 @@ Format:
 - `perf:` - Performance improvement
 - `test:` - Adding or correcting tests
 
-**Breaking Changes**: Add `!` after type/scope or include `BREAKING CHANGE:` footer
+**Breaking Changes**: Append exclamation mark (!) after type/scope or include BREAKING CHANGE: footer
 
 ### 2. Commit Message Philosophy (t-wada's Principle)
 
