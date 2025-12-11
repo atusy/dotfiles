@@ -50,6 +50,45 @@ Consider creating a separate test function when:
 - [ ] Test FAILS (verify by running tests)
 - [ ] Test fails for the RIGHT reason (not syntax/typo)
 
+### Defect-Driven Testing (Bug Fixing with TDD)
+
+When a bug is discovered, use this special RED phase protocol:
+
+**1. First**: Write a failing test that reproduces the bug
+   - This test should fail with the current code
+   - Make the test as small as possible
+   - The test documents the bug forever
+
+**2. Second**: Make the minimal fix to pass the test (in GREEN phase)
+   - No additional "while I'm here" changes
+   - Keep the fix focused
+
+**3. Third**: Verify the bug can never return
+   - The test now guards against regression
+   - Add to your test suite permanently
+
+```python
+# Bug: Users with empty passwords can log in
+
+# Step 1: Write failing test that reproduces bug
+def test_empty_password_should_fail_authentication():
+    result = auth.login("user@example.com", "")
+    assert result.success == False  # This FAILS with buggy code
+
+# Step 2 (GREEN phase): Fix with minimal change
+def login(email, password):
+    if not password:  # Add this guard
+        return AuthResult(success=False)
+    # ... rest of implementation
+
+# Step 3: Test passes, bug can never return
+```
+
+**Two-Level Testing for Critical Bugs:**
+- **API-level test**: Ensures the user-facing behavior is fixed
+- **Unit test**: Pinpoints the exact code that was broken
+- **Together**: Provide defense in depth against regression
+
 ### Next Step
 
 Once your test fails for the right reason, proceed to `/tdd:green` to make it pass.

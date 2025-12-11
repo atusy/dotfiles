@@ -68,6 +68,51 @@ Each refactor commit should be small and focused:
 | Extract Variable | Expression is complex or repeated |
 | Move Method | Method uses more of another class |
 
+### Example: Refactoring in Small Steps
+
+After implementing the authentication service, we might refactor like this:
+
+```python
+# Starting point (after GREEN phase):
+class AuthenticationService:
+    def __init__(self):
+        self.valid_credentials = {"test@example.com": "password123"}
+
+    def authenticate(self, email, password):
+        if self.valid_credentials.get(email) == password:
+            return AuthResult(is_authenticated=True)
+        return AuthResult(is_authenticated=False)
+
+# Run tests: PASS (starting from GREEN)
+
+# Refactor Step 1: Extract password checking method
+class AuthenticationService:
+    def authenticate(self, email, password):
+        if self._is_valid_credential(email, password):
+            return AuthResult(is_authenticated=True)
+        return AuthResult(is_authenticated=False)
+
+    def _is_valid_credential(self, email, password):
+        return self.valid_credentials.get(email) == password
+
+# Run tests: PASS -> /git:commit (refactor: extract credential validation)
+
+# Refactor Step 2: Inject repository dependency
+class AuthenticationService:
+    def __init__(self, user_repository):
+        self.user_repository = user_repository
+
+    def authenticate(self, email, password):
+        user = self.user_repository.find_by_email(email)
+        if user and user.verify_password(password):
+            return AuthResult(is_authenticated=True)
+        return AuthResult(is_authenticated=False)
+
+# Run tests: PASS -> /git:commit (refactor: inject user repository)
+```
+
+**Notice**: Each refactor step is small (< 20 lines), focused (one concept), and committed separately.
+
 ### Checklist Per Refactor Step
 
 - [ ] Change is purely structural (no behavior change)
