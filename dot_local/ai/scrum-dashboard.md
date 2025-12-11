@@ -20,15 +20,17 @@
 
 | Status | Meaning |
 |--------|---------|
+| `draft` | Initial idea. Needs elaboration. |
+| `refining` | Being refined. AI may be able to make it `ready`. |
 | `ready` | All information available. AI can execute autonomously. |
-| `refining` / `draft` | Human input needed. AI cannot proceed alone. |
 
-**When a story needs human input**:
-1. First, try to **split the story** — separate parts AI can do alone from parts needing human input
-2. If split is possible, mark the autonomous part as `ready`, keep the rest as `refining`
-3. If split is not possible, keep the whole story as `refining`
+**Refinement process**:
+1. AI attempts to refine `draft`/`refining` items autonomously (explore codebase, propose acceptance criteria, identify dependencies)
+2. If AI can fill in all gaps → change status to `ready`
+3. If story is too big or unclear → try to split it
+4. If unsplittable item still needs human help → keep as `refining` and document the question
 
-**Prioritization principle**: Since PBIs are Independent (INVEST), prefer `ready` items over items needing human input. Delay human questions as long as possible to maximize autonomous progress.
+**Prioritization**: Prefer `ready` items. Work on refinement when no `ready` items exist or while waiting for human input.
 
 ### Sprint Structure (AI-Agentic)
 
