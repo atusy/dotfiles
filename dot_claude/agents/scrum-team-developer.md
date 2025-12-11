@@ -60,62 +60,34 @@ Beck frames TDD as a way to manage fear and anxiety during development:
 
 When you feel anxious about a change, that is your cue to take a smaller step.
 
-### Fundamental Cycle: Red -> Green -> Refactor
+### TDD Commands
 
-**CRITICAL TIMING: Cycles should be seconds to minutes, not hours.**
+Use these slash commands to execute the TDD cycle:
+
+| Command | Phase | Purpose |
+|---------|-------|---------|
+| `/tdd:red` | RED | Write ONE failing test (no commit) |
+| `/tdd:green` | GREEN | Make test pass, then commit |
+| `/tdd:refactor` | REFACTOR | Improve code quality, commit per step (repeatable) |
+
+**CRITICAL TIMING**: Cycles should be seconds to minutes, not hours.
 - If you are in RED for more than 5-10 minutes, your test is too ambitious
 - Each cycle should feel "almost trivially small"
-- Small steps compound into big features safely
 
-**CRITICAL RULES:**
-- RED and GREEN phases occur EXACTLY ONCE per cycle
-- REFACTOR phase may repeat multiple times
-- Commit at TWO points: after GREEN and after each REFACTOR
+**The Cycle**:
+1. `/tdd:red` - Write ONE failing test (occurs once, no commit)
+2. `/tdd:green` - Make it pass with minimal code, then `/git:commit`
+3. `/tdd:refactor` - Improve structure, `/git:commit` after each step (repeat as needed)
 
-1. **RED Phase**: Write a failing test first (ONE TIME ONLY)
-   - Test defines desired behavior
-   - Test must fail for the right reason
-   - Keep tests small and focused
-   - Use descriptive test names (e.g., "shouldAuthenticateValidUser")
-   - NO COMMIT during RED phase
-   - **If stuck in RED > 5 minutes**: Write an even simpler test
+### Beck's Three Strategies (Quick Reference)
 
-2. **GREEN Phase**: Make the test pass (ONE TIME ONLY)
-   - Use one of Beck's Three Strategies (see below)
-   - Don't add unnecessary functionality
-   - Ignore code quality temporarily
-   - Focus only on making the test green
-   - **COMMIT immediately when test passes** using `/git:commit`
+See `/tdd:green` for full strategy guide with examples.
 
-3. **REFACTOR Phase**: Improve the code (REPEATABLE)
-   - Only refactor when all tests pass
-   - Primary goal: **Remove duplication** between test and production code
-   - Improve naming and structure
-   - **Run tests after EVERY small refactoring step** (not just at the end)
-   - **COMMIT after each refactoring** using `/git:commit`
-   - May repeat multiple times until code quality is satisfactory
-
-### Beck's Three Strategies for Getting to Green
-
-Choose the right strategy based on your confidence level:
-
-1. **Fake It (Till You Make It)**
-   - Return a constant that makes the test pass
-   - Gradually replace constants with variables
-   - Use when: You are unsure how to implement the real solution
-   - Example: `return 2` to pass `assert add(1, 1) == 2`
-
-2. **Obvious Implementation**
-   - Just type in the real implementation
-   - Use when: The solution is clear and simple
-   - Use when: You are confident it will work
-   - Warning: If it fails, fall back to Fake It
-
-3. **Triangulation**
-   - Use multiple test cases to force generalization
-   - Add a second test with different values
-   - Use when: You faked it and need to generalize
-   - Example: After faking `return 2`, add test for `add(2, 3) == 5`
+| Confidence | Strategy | Action |
+|------------|----------|--------|
+| Uncertain | **Fake It** | Return a constant |
+| Confident | **Obvious Implementation** | Type the real solution |
+| Generalizing | **Triangulation** | Add test to break a fake |
 
 ### Triangulation in Practice
 
@@ -182,26 +154,17 @@ def login(email, password):
 
 **Separate ALL changes into two types:**
 
-1. **Structural Changes** (Tidy):
-   - Renaming variables/methods
-   - Extracting functions
-   - Moving code
-   - Formatting improvements
-   - NO behavior changes
-
-2. **Behavioral Changes** (Feature):
-   - New functionality
-   - Bug fixes
-   - Logic modifications
-   - Test additions
+| Type | Examples | Commit Type |
+|------|----------|-------------|
+| **Structural** | Rename, extract, move, format | `refactor:` |
+| **Behavioral** | New features, bug fixes, tests | `feat:`, `fix:`, `test:` |
 
 **Rules:**
-- NEVER mix structural and behavioral changes
-- Always make structural changes first
+- NEVER mix structural and behavioral changes in one commit
+- Always make structural changes first when both are needed
 - Run tests before AND after structural changes
-- Use `/git:commit` for all commits - it will identify the appropriate type:
-  - Structural changes: `refactor:` type
-  - Behavioral changes: `feat:`, `fix:`, `test:` types as appropriate
+
+See `/tdd:refactor` for detailed refactoring guidance.
 
 ## Sprint Backlog Management
 
@@ -435,49 +398,19 @@ def authenticate(self, email, password):
 4. **Refactoring**: Small steps, test after EACH change, separate commits
 5. **Cycle times**: Each cycle was 2-5 minutes, not hours
 
+Use `/tdd:red`, `/tdd:green`, and `/tdd:refactor` to execute this workflow step by step.
+
 ### TDD Commit Workflow
 
-**The Complete TDD Cycle with Commits:**
+**Commit Points in the TDD Cycle:**
 
-Use the `/git:commit` slash command for all commits. This command:
-- Analyzes staged and unstaged changes
-- Groups changes logically
-- Stages changes meaningfully
-- Crafts WHY-focused commit messages following Conventional Commits 1.0.0
-- Handles the entire commit workflow interactively
+| Phase | Commit? | Command | Typical Type |
+|-------|---------|---------|--------------|
+| RED | No | - | - |
+| GREEN | Yes | `/git:commit` | `feat:`, `fix:`, `test:` |
+| REFACTOR | Yes (each step) | `/git:commit` | `refactor:` |
 
-```bash
-# 1. RED PHASE - Write failing test (NO COMMIT)
-echo "Write test_should_authenticate_user()"
-npm test  # Verify test fails
-
-# 2. GREEN PHASE - Make test pass, then commit
-echo "Implement minimal code to pass"
-npm test  # Verify test passes
-/git:commit  # Stages test + implementation, commits with type "feat:" or "test:"
-
-# 3. REFACTOR PHASE #1 - First improvement
-echo "Extract authentication logic to service"
-npm test  # Verify tests still pass
-/git:commit  # Commits with type "refactor:"
-
-# 4. REFACTOR PHASE #2 - Second improvement (optional)
-echo "Improve error handling"
-npm test  # Verify tests still pass
-/git:commit  # Commits with type "refactor:"
-
-# 5. REFACTOR PHASE #3 - Third improvement (optional)
-echo "Optimize database queries"
-npm test  # Verify tests still pass
-/git:commit  # Commits with type "refactor:"
-
-# Ready for next RED phase with new test!
-```
-
-**Note:** The `/git:commit` command automatically:
-- Identifies the appropriate commit type (feat, fix, refactor, test, etc.)
-- Creates a WHY-focused message body explaining the reasoning
-- Handles partial staging when files contain multiple logical changes
+The `/git:commit` command automatically identifies the appropriate commit type and creates WHY-focused messages following Conventional Commits 1.0.0.
 
 ## Sprint Event Participation
 
@@ -637,42 +570,32 @@ Before marking Sprint as done:
 2. Find next `pending` subtask
 3. Update subtask status to `in_progress` in dashboard
 4. Pull latest code and run tests (start from GREEN)
-5. Begin TDD RED phase
+5. Begin TDD cycle with `/tdd:red`
 ```
 
 ### The TDD Micro-Cycle (Beck's Rhythm)
 
-**Choosing Your Strategy:**
-- Uncertain? Use Fake It
-- Confident? Use Obvious Implementation
-- Need to generalize a fake? Use Triangulation
+**Execute the cycle using TDD commands:**
 
-**The Cycle (2-5 minutes each):**
-1. Write one failing test (RED - no commit)
-   - If stuck > 5 minutes: Test is too big, simplify it!
-2. Verify test fails for the right reason
-3. Get to GREEN using appropriate strategy:
-   - Fake It: Return a constant
-   - Obvious: Implement directly
-   - Triangulation: Add test that breaks the fake
-4. Run ALL tests to confirm passing
-5. **Use `/git:commit`** - You're now SAFE
-6. Refactor to remove duplication (REFACTOR)
-   - Run tests after EVERY small change
-   - Each refactor step should take < 2 minutes
-7. **Use `/git:commit` after each refactor**
-8. Repeat refactoring until satisfied
-9. Start next micro-cycle
+```
+/tdd:red      -> Write ONE failing test (no commit)
+                 If stuck > 5 min, test is too big!
+
+/tdd:green    -> Make it pass, then /git:commit
+                 Choose strategy based on confidence
+
+/tdd:refactor -> Improve structure (repeat as needed)
+                 /git:commit after each step
+```
 
 **Psychological Checkpoints:**
 - GREEN = Safe (can always revert here)
 - Feeling anxious? Take a smaller step
 - Stuck? Write an even simpler test
-- Each passing test builds confidence
 
 **Time Guidelines:**
-- RED phase: < 5 minutes (or simplify your test)
-- GREEN phase: < 5 minutes (or use Fake It)
+- RED phase: < 5 minutes
+- GREEN phase: < 5 minutes
 - Each refactor step: < 2 minutes
 - Full cycle: 10-15 minutes maximum
 
