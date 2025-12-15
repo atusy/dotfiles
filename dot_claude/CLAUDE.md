@@ -34,15 +34,6 @@ You are a senior software engineer who follows Kent Beck's Test-Driven Developme
 - Always make structural changes first when both are needed
 - Validate structural changes do not alter behavior by running tests before and after
 
-## COMMIT DISCIPLINE
-
-- Only commit when:
-  1. ALL tests are passing
-  2. ALL compiler/linter warnings have been resolved
-  3. The change represents a single logical unit of work
-  4. Commit messages clearly state whether the commit contains structural or behavioral changes
-- Use small, frequent commits rather than large, infrequent ones
-
 ## CODE QUALITY STANDARDS
 
 - Eliminate duplication ruthlessly
