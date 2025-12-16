@@ -2,7 +2,8 @@ function __zoxide_list_missing
   diff \
     ( zoxide query --list | sort | psub ) \
     ( ghq list -p | sort | psub ) \
-    | grep '^> ' | string replace -r '^> ' ''
+    | string match --regex --entire '^> ' \
+    | string replace -r '^> ' ''
 end
 
 function __zoxide_add_missing
