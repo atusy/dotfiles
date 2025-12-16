@@ -87,7 +87,7 @@ Example: A "find files" task that may require trying multiple glob patterns shou
 
 When reviewing configurations:
 
-- [ ] Is CLAUDE.md content truly always-needed? Move conditional content elsewhere
+- [ ] Is CLAUDE.md content truly always-needed? Move conditional content and detailed procedures elsewhere
 - [ ] Are there duplications between skills and commands? Consolidate
 - [ ] Would a subagent's isolated context benefit this task?
 - [ ] Are agent definitions focused? Factor reusable workflows into skills
