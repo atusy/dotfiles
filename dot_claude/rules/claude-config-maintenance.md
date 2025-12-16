@@ -47,6 +47,28 @@ Benefits:
 - Allows explicit `/git:commit` for manual control
 - Eliminates duplication between skill and command
 
+### Agents vs Skills: Choosing Context Isolation
+
+Both can auto-trigger, but they differ in **context sharing**:
+
+| Aspect | Skills | Agents |
+|--------|--------|--------|
+| Context | Shared with main conversation | Isolated subprocess |
+| Results | Full context visible | Only final result returned |
+| Best for | Deterministic workflows | Exploratory/trial-and-error tasks |
+
+**Use skills when:**
+- The workflow is predictable and benefits from shared context
+- Intermediate steps inform subsequent decisions in the conversation
+- You want the user to see the full process
+
+**Use agents when:**
+- The task involves exploration, debugging, or multiple attempts
+- Failed attempts would pollute the main context
+- The task is heavyweight and the user only needs the final result
+
+Example: A "find files" task that may require trying multiple glob patterns should use an agent—failed searches won't clutter the conversation. A "commit changes" workflow should use a skill—the user benefits from seeing staged files and commit reasoning.
+
 ### Path-specific Rules
 
 To lazy load rules that should only apply to certain file paths.
