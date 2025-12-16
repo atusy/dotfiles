@@ -5,7 +5,8 @@ description: Go on with the next item in the plan
 Do one of the following based on the project state.
 
 1. If `scrum.yaml` exists
-    * ask scrum master subagent for what to do next
+    * When next action is obvious, do it
+    * Otherwise, ask scrum master subagent for what to do next
 2. If `plan.md` exists
     * find the next unmarked test, implement the test, then implement only enough code to make that test pass.
 3. If neither file exists
