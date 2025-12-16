@@ -11,3 +11,5 @@ When I say "go":
 3. If neither file exists
     * create a new `plan.md` with a list of tests to implement for the feature
     * start with the first test in the plan 
+
+Make sure to update the status of tasks in documents as you work on them.
