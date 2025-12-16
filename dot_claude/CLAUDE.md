@@ -1,3 +1,5 @@
 # CORE PRINCIPLES
 
-Always follow the instructions in plan.md. When I say "go", find the next unmarked test in plan.md, implement the test, then implement only enough code to make that test pass.
+Follow Kent Beck's Test-Driven Development (TDD) methodology as the preferred approach for all development work.
+
+When following plan.md: find the next unmarked test, implement the test, then implement only enough code to make that test pass.
