@@ -30,7 +30,15 @@ Choose configuration type based on **when context should load** and **how contex
 
 ### Optimizing Startup Context
 
-Skills and agents load only their `description` field at startup—full content loads on-demand when Claude determines relevance. This enables complex capabilities without upfront context cost. Write descriptions specific enough for accurate auto-discovery but concise enough to minimize baseline overhead.
+**Skills/agents**: Load only `description` at startup; full content loads on-demand. Write descriptions specific enough for auto-discovery but concise enough to minimize overhead.
+
+**Path-filtered rules**: Use `paths:` frontmatter to defer loading until relevant files are touched:
+
+```yaml
+---
+paths: "{src,lib}/**/*.ts, tests/**/*.test.ts"
+---
+```
 
 ### Skills + Commands Integration Pattern
 
@@ -74,17 +82,6 @@ Both can auto-trigger, but they differ in **context sharing**:
 Example: A "find files" task that may require trying multiple glob patterns should use an agent—failed searches won't clutter the conversation. A "commit changes" workflow should use a skill—the user benefits from seeing staged files and commit reasoning.
 
 **Keep agent definitions concise**: Factor out reusable workflows into skills that agents can invoke. This keeps agent prompts focused on their unique purpose (exploration strategy, output format) while delegating standard procedures to skills. Multiple agents needing the same workflow should share a skill rather than duplicate instructions.
-
-### Path-specific Rules
-
-To lazy load rules that should only apply to certain file paths.
-Use glob patterns to specify paths:
-
-```yaml
----
-paths: "{src,lib}/**/*.ts, tests/**/*.test.ts"
----
-```
 
 ## Refactoring Checklist
 
