@@ -13,3 +13,4 @@ Taskfile.yml
 Taskfile.dist.yml
 CLAUDE.md
 **/.claude/settings.local.json
+plan.md
