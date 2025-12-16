@@ -48,7 +48,7 @@ Format:
 - `perf:` - Performance improvement
 - `test:` - Adding or correcting tests
 
-**Breaking Changes**: Append exclamation mark (!) after type/scope or include BREAKING CHANGE: footer
+**Breaking Changes**: Use `feat!:` or `fix!:` only. Other types (refactor, style, docs, chore) cannot be breaking by definition—if behavior changed, recategorize as feat or fix.
 
 ### 2. Commit Message Philosophy (t-wada's Principle)
 
