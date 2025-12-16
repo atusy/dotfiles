@@ -16,7 +16,7 @@ Choose configuration type based on **when context should load** and **how contex
 | Startup/Path | Shared | `rules/` | Lazy if paths specified |
 | User | Shared | `commands/` | On `/command` invocation |
 | Auto | Shared | `skills/` | Description only until triggered |
-| Auto | Isolated | `agents/` | Returns results only |
+| Auto/User | Isolated | `agents/` | Returns results only |
 
 ## Anti-Patterns to Avoid
 
