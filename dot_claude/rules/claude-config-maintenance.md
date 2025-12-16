@@ -18,6 +18,8 @@ Choose configuration type based on **when context should load** and **how contex
 | `skills/`   | Auto         | Shared, description only until triggered |
 | `agents/`   | Auto/User    | Isolated, returns results only |
 
+**Context optimization principle**: Skills and agents load only their `description` field at startup—full content loads on-demand when Claude determines relevance. This enables complex capabilities without upfront context cost. Write descriptions specific enough for accurate auto-discovery but concise enough to minimize baseline overhead.
+
 ## Anti-Patterns to Avoid
 
 1. **Context bloat in CLAUDE.md**: Move task-specific procedures to slash commands
