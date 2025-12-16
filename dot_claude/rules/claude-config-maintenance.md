@@ -69,6 +69,8 @@ Both can auto-trigger, but they differ in **context sharing**:
 
 Example: A "find files" task that may require trying multiple glob patterns should use an agent—failed searches won't clutter the conversation. A "commit changes" workflow should use a skill—the user benefits from seeing staged files and commit reasoning.
 
+**Keep agent definitions concise**: Factor out reusable workflows into skills that agents can invoke. This keeps agent prompts focused on their unique purpose (exploration strategy, output format) while delegating standard procedures to skills. Multiple agents needing the same workflow should share a skill rather than duplicate instructions.
+
 ### Path-specific Rules
 
 To lazy load rules that should only apply to certain file paths.
