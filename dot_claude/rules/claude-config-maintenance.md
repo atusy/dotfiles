@@ -10,7 +10,7 @@ When creating or modifying Claude Code configuration files, follow these context
 
 Choose configuration type based on **when context should load** and **how context should be shared**:
 
-| Kind        | Trigger      | Context |
+| Type        | Trigger      | Context |
 |-------------|--------------|---------|
 | `CLAUDE.md` | Startup      | Shared, always loaded |
 | `rules/`    | Startup/Path | Shared, lazy if paths specified |
