@@ -32,7 +32,7 @@ Choose configuration type based on **when context should load** and **how contex
 
 **Skills/agents**: Load only `description` at startup; full content loads on-demand. Write descriptions specific enough for auto-discovery but concise enough to minimize overhead.
 
-**Path-filtered rules**: Use `paths:` frontmatter to defer loading until relevant files are touched:
+**Path-specific rules**: Defer loading until touching files that match the specified glob patterns in `paths:` frontmatter
 
 ```yaml
 ---
