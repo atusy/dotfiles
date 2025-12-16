@@ -10,13 +10,13 @@ When creating or modifying Claude Code configuration files, follow these context
 
 Choose configuration type based on **when context should load** and **how context should be shared**:
 
-| Need | Configuration | Reason |
-|------|---------------|--------|
-| Always-needed, project-agnostic | `CLAUDE.md` | Loaded at startup |
-| Always-needed, project-agnostic | `rules/` | Loaded at startup, or lazy loaded if path-specific |
-| User-triggered actions | `commands/` | Zero context until `/command` invoked |
-| Auto-triggered, shared context | `skills/` | Only description loaded initially |
-| Auto-triggered, isolated context | `agents/` | Independent context, returns results only |
+| Trigger | Context | Configuration | Reason |
+|---------|---------|---------------|--------|
+| Startup | Shared | `CLAUDE.md` | Always loaded |
+| Startup/Path | Shared | `rules/` | Lazy if paths specified |
+| User | Shared | `commands/` | On `/command` invocation |
+| Auto | Shared | `skills/` | Description only until triggered |
+| Auto | Isolated | `agents/` | Returns results only |
 
 ## Anti-Patterns to Avoid
 
