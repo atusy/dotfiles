@@ -10,13 +10,13 @@ When creating or modifying Claude Code configuration files, follow these context
 
 Choose configuration type based on **when context should load** and **how context should be shared**:
 
-| Type        | Trigger      | Context |
-|-------------|--------------|---------|
-| `CLAUDE.md` | Startup      | Shared, always loaded |
-| `rules/`    | Startup/Path | Shared, lazy if paths specified |
-| `commands/` | User         | Shared, on invocation |
-| `skills/`   | Auto         | Shared, description only until triggered |
-| `agents/`   | Auto/User    | Isolated, returns results only |
+| Type        | Trigger      | Context Isolation | Startup Loading |
+|-------------|--------------|-------------------|-----------------|
+| `CLAUDE.md` | Startup      | Shared            | Full content |
+| `rules/`    | Startup/Path | Shared            | Full (lazy if paths specified) |
+| `commands/` | User         | Shared            | None |
+| `skills/`   | Auto         | Shared            | Description only |
+| `agents/`   | Auto/User    | Isolated          | Description only |
 
 **Context optimization principle**: Skills and agents load only their `description` field at startup—full content loads on-demand when Claude determines relevance. This enables complex capabilities without upfront context cost. Write descriptions specific enough for accurate auto-discovery but concise enough to minimize baseline overhead.
 
