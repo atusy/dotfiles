@@ -1,7 +1,5 @@
 ---
-paths:
-  - "**/.claude/**"
-  - "**/dot_claude/**"
+paths: "**/{.,dot_}claude/**"
 ---
 
 # Claude Code Configuration Maintenance Guide
