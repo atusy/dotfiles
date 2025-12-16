@@ -24,7 +24,7 @@ Choose configuration type based on **when context should load** and **how contex
 2. **Duplicated content**: If skill and command overlap, have skill invoke the command
 3. **Shared rules in multiple agents**: Extract to CLAUDE.md (always-needed) or skill (conditional)
 4. **Heavyweight tasks in main context**: Use subagent when trial-and-error would pollute context
-5. **User-level path rules leaking**: Path-filtered rules at user level may apply unintentionally (e.g., `*.ts` frontend rules activating in CLI projects)—prefer skills/commands for user-level task-specific guidance
+5. **User-level path rules leaking**: Path-filtered rules at user level may apply unintentionally (e.g., `*.ts` frontend rules activating in CLI projects). Prefer skills/commands for user-level task-specific guidance
 
 ## Best Practices Examples
 
@@ -89,6 +89,7 @@ When reviewing configurations:
 - [ ] Is CLAUDE.md content truly always-needed? Move conditional content elsewhere
 - [ ] Are there duplications between skills and commands? Consolidate
 - [ ] Would a subagent's isolated context benefit this task?
+- [ ] Are agent definitions focused? Factor reusable workflows into skills
 - [ ] Is the skill description specific enough for auto-discovery?
 - [ ] Are commands self-contained without requiring other context?
 - [ ] Are user-level path rules leaking into unintended project types?
