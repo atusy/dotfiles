@@ -54,7 +54,7 @@ Use glob patterns to specify paths:
 
 ```yaml
 ---
-paths: {src,lib}/**/*.ts, tests/**/*.test.ts
+paths: "{src,lib}/**/*.ts, tests/**/*.test.ts"
 ---
 ```
 
