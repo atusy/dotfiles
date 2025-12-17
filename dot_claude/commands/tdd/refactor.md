@@ -23,15 +23,14 @@ Look for:
 - Similar code patterns that could be extracted
 - Unclear naming that hides intent
 
-### Tidy First Discipline
+### Structural Changes Only
 
-**STRUCTURAL changes only - NO behavior changes!**
+**NO behavior changes in REFACTOR phase!**
 
-Allowed in this phase:
-- Renaming variables/methods for clarity
+Allowed:
+- Renaming for clarity
 - Extracting functions/methods
-- Moving code to better locations
-- Improving formatting
+- Removing duplication
 - Simplifying expressions
 
 **NOT allowed** (save for next RED phase):
@@ -89,8 +88,11 @@ The commit will be typed as `refactor:` - structural improvement without behavio
 
 ### Next Step
 
-When you are satisfied with the code quality, start the next TDD cycle with `/tdd:red` to add new behavior.
+When duplication is removed and the code is clean:
+
+1. **More TDD?** → Start next cycle with `/tdd:red`
+2. **Broader cleanup?** → Use `/tidy:after` for structural improvements beyond test-code duplication
 
 ---
 
-**Remember**: The REFACTOR phase is about making the code better WITHOUT changing what it does. Run tests after EVERY change!
+**Remember**: REFACTOR focuses on removing duplication from RED→GREEN. For broader tidying, use the `tidying` skill.
