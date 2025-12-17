@@ -30,15 +30,27 @@ Choose configuration type based on **when context should load** and **how contex
 
 ### Optimizing Startup Context
 
-**Skills/agents**: Load only `description` at startup; full content loads on-demand. Write descriptions specific enough for auto-discovery but concise enough to minimize overhead.
+**CLAUDE.md/rules** should include only always-needed context (e.g., role, expertise, core principles).
+Move conditional content and detailed procedures, and deep knowledge to commands, skills, subagents, or path-specific rules.
 
-**Path-specific rules**: Defer loading until touching files that match the specified glob patterns in `paths:` frontmatter
+Note that **Path-specific rules** defer loading until touching files that match the specified glob patterns in `paths:` frontmatter
 
 ```yaml
 ---
 paths: "{src,lib}/**/*.ts, tests/**/*.test.ts"
 ---
 ```
+
+### Enhance discoverability of skills and subagents
+
+When extracting skills and subagents, mention their names for discoverability.
+
+```md
+Use `commit` skill to git commit the change
+```
+
+Avoid mentioning user-invoked commands in CLAUDE.md and non-path-specific rules as they need no discovery.
+If discoverability is desired, have the skill invoke the command instead.
 
 ### Skills + Commands Integration Pattern
 
