@@ -20,6 +20,8 @@ Apply Dave Cheney's logging philosophy: simplify ruthlessly, handle errors prope
    | Fatal | Avoid | Bypasses `defer`, prevents cleanup. Let errors bubble to `main()` |
    | Error | Rethink | If handled, it's info. If not handled, return it to caller |
 
+   **Exception**: Warnings from runtimes and external libraries should be logged at warning level. You don't control these sources, and their warnings often signal deprecations or upcoming breaking changes that operators need to track.
+
 3. **The Golden Rule of Error Logging**
    > "You should either handle the error, or pass it back to the caller."
 
