@@ -20,9 +20,8 @@ Create Architecture Decision Records (ADRs) using the MADR format when architect
    - What are the key decision drivers?
    - Who should be consulted/informed?
 4. **Draft the ADR** using template from `template.md`
-5. **Review with user** before saving
-6. **Save to appropriate location**
-7. **Suggest commit integration** (see `operations.md`)
+5. **Save and commit** (amend later if needed)
+6. **Suggest commit integration** for implementation (see `operations.md`)
 
 ## Quality Checklist
 
