@@ -10,16 +10,6 @@ Create Architecture Decision Records (ADRs) using the MADR format when architect
 - **Template**: See `template.md` for the full MADR structure
 - **Operations**: See `operations.md` for discovery, naming, and commit integration
 
-## When to Trigger
-
-Activate this skill when detecting:
-- Phrases like "we should use", "let's go with", "I've decided to"
-- Trade-off discussions between alternatives
-- Technology or framework selection
-- Structural changes to the codebase
-- Breaking changes or deprecations
-- Questions like "why did we choose X?"
-
 ## Workflow
 
 1. **Detect decision context** from conversation
