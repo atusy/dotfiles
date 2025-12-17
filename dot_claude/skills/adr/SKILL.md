@@ -1,6 +1,6 @@
 ---
 name: adr
-description: Document architectural decisions using MADR format. Use when making significant technical choices, discussing trade-offs, or when context suggests an architectural decision is being made.
+description: Document architectural decisions using MADR format. Use when user says "we should use", "let's go with", "I've decided to", discusses trade-offs between alternatives, selects technologies/frameworks, makes structural changes, deprecates features, or asks "why did we choose X?"
 ---
 
 # INSTRUCTIONS

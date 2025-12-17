@@ -1,6 +1,6 @@
 ---
 name: logging
-description: Guide logging practices based on Dave Cheney's minimalist philosophy. Use when adding logging, reviewing log statements, or designing error handling strategies.
+description: Guide logging practices based on Dave Cheney's minimalist philosophy. Use when adding log.Info/Debug/Error/Warn/Fatal calls, reviewing logging code, handling errors with log+return pattern, discussing log levels, or designing error handling strategies.
 ---
 
 # INSTRUCTIONS
