@@ -140,10 +140,12 @@ return {
 		mode = "n",
 		lhs = "git push",
 		rhs = function()
-			vim.system({ "git", "push", "--quiet", "origin", "HEAD" }, {
-				stdout = true,
-				stderr = true,
-			}, function() end)
+			vim.system({ "git", "push", "--quiet", "origin", "HEAD" }, { text = true }, function(obj)
+				vim.schedule(function()
+					vim.notify(obj.stdout)
+					vim.notify(obj.stderr, vim.log.levels.WARN)
+				end)
+			end)
 		end,
 	},
 	{
