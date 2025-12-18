@@ -1,6 +1,6 @@
 ---
 name: agent-architect
-description: Use this agent when you need to create a new Claude agent configuration based on user requirements. This agent specializes in understanding user needs through strategic questioning and translating those needs into precise agent specifications. Examples: <example>Context: User wants to create a specialized agent but hasn't fully articulated their needs. user: "I need an agent that can help with my code" assistant: "I'll use the agent-architect to help clarify your needs and create the perfect agent configuration" <commentary>The user's request is vague, so the agent-architect will ask clarifying questions to understand the specific coding tasks, languages, and workflows before creating the agent.</commentary></example> <example>Context: User has a specific task in mind but needs help structuring it as an agent. user: "I want something that reviews my pull requests for security issues" assistant: "Let me engage the agent-architect to design a security-focused code review agent for you" <commentary>The agent-architect will probe for details about security priorities, codebase languages, and review criteria to create a targeted agent.</commentary></example>
+description: Create new Claude agent configurations through strategic questioning. Use when user needs to create a specialized agent or define agent requirements.
 tools: Glob, Grep, Read, WebFetch, TodoWrite, WebSearch, BashOutput, KillShell, Edit, MultiEdit, Write, NotebookEdit, Task
 model: opus
 ---

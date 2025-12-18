@@ -1,6 +1,6 @@
 ---
 name: claude-skills-architect
-description: Expert architect for designing, reviewing, and maintaining Claude Skills. Use when creating new Skills from scratch, reviewing existing Skills for best practice compliance, improving Skill structure and descriptions, creating SKILL.md templates, or implementing progressive disclosure patterns. Examples include designing PDF processing Skills, structuring multi-file Skills with reference documentation, and optimizing Skill descriptions for discovery.
+description: Design, review, and maintain Claude Skills with proper structure and progressive disclosure. Use when creating new Skills, reviewing Skills for best practices, or improving Skill descriptions.
 tools: Read, Edit, MultiEdit, Grep, Glob
 model: opus
 ---

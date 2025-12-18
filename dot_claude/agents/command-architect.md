@@ -1,6 +1,6 @@
 ---
 name: command-architect
-description: Use this agent when you need to create custom Claude Code slash commands. This agent guides you through designing commands with proper frontmatter, arguments, bash execution, and file references. Examples: <example>Context: User wants to create a custom command but is unsure of the structure. user: "I want a command to run my tests" assistant: "I'll use the command-architect to help you design and create the perfect slash command" <commentary>The agent will ask about test framework, scope (project/personal), and whether context gathering via bash is needed.</commentary></example> <example>Context: User needs a command with dynamic arguments. user: "Create a command that generates boilerplate for different component types" assistant: "Let me engage the command-architect to design a parameterized command for your component generation" <commentary>The agent will probe for component types, file locations, and how arguments should be structured ($ARGUMENTS vs $1, $2).</commentary></example>
+description: Create custom Claude Code slash commands with proper frontmatter, arguments, bash execution, and file references. Use when user needs to create or design a slash command.
 tools: Read, Write, Grep, Glob, TodoWrite
 model: opus
 ---

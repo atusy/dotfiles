@@ -1,41 +1,6 @@
 ---
 name: scrum-event-sprint-retrospective
-description: |
-    Use this agent when you need to facilitate Sprint Retrospectives, guide team reflection, identify improvement actions, or help create a safe environment for honest discussion. This agent specializes in the Sprint Retrospective event according to Scrum methodology, based on Ryutaro Yoshiba's Sprint Retrospective Deep Dive principles.
-
-    Examples:
-    <example>
-    Context: The team is preparing for their Sprint Retrospective session.
-    user: "Help us run our Sprint Retrospective"
-    assistant: "I'll use the scrum-event-sprint-retrospective agent to facilitate your Sprint Retrospective, starting with setting the stage and gathering data."
-    <commentary>
-    The user needs to conduct a Sprint Retrospective, so use the Task tool to launch the scrum-event-sprint-retrospective agent for full facilitation.
-    </commentary>
-    </example>
-    <example>
-    Context: The team wants to try a different retrospective format.
-    user: "KPT isn't working for us, what else can we try?"
-    assistant: "Let me use the scrum-event-sprint-retrospective agent to suggest alternative retrospective frameworks that might better suit your team's needs."
-    <commentary>
-    Framework selection is a core retrospective facilitation skill, so use the scrum-event-sprint-retrospective agent.
-    </commentary>
-    </example>
-    <example>
-    Context: The team needs to decide where to track improvement actions.
-    user: "Should our improvement items go in the Sprint Backlog or Product Backlog?"
-    assistant: "I'll use the scrum-event-sprint-retrospective agent to guide the decision on improvement item placement based on scope and team ownership."
-    <commentary>
-    Improvement item management is part of retrospective outcomes, so use the scrum-event-sprint-retrospective agent.
-    </commentary>
-    </example>
-    <example>
-    Context: External pressure to skip the retrospective.
-    user: "We're too busy to do a retro this Sprint"
-    assistant: "I'll use the scrum-event-sprint-retrospective agent to address this - retrospectives should NEVER be skipped, and 'too busy to improve' often means 'not improving makes us busier'."
-    <commentary>
-    Protecting the retrospective event is critical. Use scrum-event-sprint-retrospective to explain why and facilitate efficiently.
-    </commentary>
-    </example>
+description: Facilitate Sprint Retrospectives, guide team reflection, and identify improvement actions. Use when running or preparing a retrospective session.
 tools: Read, Write, Edit, MultiEdit, Grep, Glob, WebFetch, TodoWrite
 model: opus
 ---

@@ -1,41 +1,6 @@
 ---
 name: scrum-event-sprint-review
-description: |
-    Use this agent when you need to facilitate Sprint Reviews, coordinate demos, gather stakeholder feedback, review Increment completion, or guide Product Goal progress discussions. This agent specializes in the Sprint Review event according to Scrum methodology, based on Ryutaro Yoshiba's Sprint Review Deep Dive principles.
-
-    Examples:
-    <example>
-    Context: The team is preparing for their Sprint Review session.
-    user: "Help us prepare for Sprint Review"
-    assistant: "I'll use the scrum-event-sprint-review agent to help prepare your Sprint Review, including stakeholder identification, demo planning, and agenda creation."
-    <commentary>
-    The user needs to conduct Sprint Review preparation, so use the Task tool to launch the scrum-event-sprint-review agent for full facilitation.
-    </commentary>
-    </example>
-    <example>
-    Context: The team needs to identify stakeholders for the upcoming review.
-    user: "Who should we invite to our Sprint Review?"
-    assistant: "Let me use the scrum-event-sprint-review agent to help identify and classify appropriate stakeholders based on your Sprint Goal."
-    <commentary>
-    Stakeholder management is a core Sprint Review responsibility, so use the scrum-event-sprint-review agent.
-    </commentary>
-    </example>
-    <example>
-    Context: The team needs help facilitating the demo portion of Sprint Review.
-    user: "How should we demo these completed PBIs?"
-    assistant: "I'll use the scrum-event-sprint-review agent to guide demo facilitation with realistic data and interactive exploration."
-    <commentary>
-    Demo facilitation is part of Sprint Review, so use the scrum-event-sprint-review agent.
-    </commentary>
-    </example>
-    <example>
-    Context: No Increment was completed this Sprint.
-    user: "We have no completed stories for Sprint Review"
-    assistant: "I'll use the scrum-event-sprint-review agent to facilitate a Sprint Review focused on discussing the situation - Sprint Review should NEVER be skipped even without a completed Increment."
-    <commentary>
-    Even without completed work, Sprint Review must happen. Use scrum-event-sprint-review for proper facilitation.
-    </commentary>
-    </example>
+description: Facilitate Sprint Reviews, coordinate demos, and gather stakeholder feedback. Use when preparing or running a sprint review session.
 tools: Read, Write, Edit, MultiEdit, Grep, Glob, WebFetch, TodoWrite
 model: opus
 ---

@@ -1,25 +1,6 @@
 ---
 name: scrum-event-backlog-refinement
-description: |
-    Use this agent when you need to refine product backlog items, break down user stories, estimate story points, write acceptance criteria, prioritize features, or prepare backlog items for sprint planning. This includes creating well-defined user stories, identifying dependencies, clarifying requirements, and ensuring backlog items meet the Definition of Ready.
-
-    Examples:
-    <example>
-    Context: The user needs help refining a vague feature request into actionable backlog items.
-    user: "We need to add a notification system to our app"
-    assistant: "I'll use the scrum-event-backlog-refinement agent to break this down into well-defined user stories with acceptance criteria."
-    <commentary>
-    Since the user has a high-level feature that needs refinement into backlog items, use the Task tool to launch the scrum-event-backlog-refinement agent.
-    </commentary>
-    </example>
-    <example>
-    Context: The user wants to estimate and prioritize existing backlog items.
-    user: "Can you help me estimate these user stories for next sprint?"
-    assistant: "Let me use the scrum-event-backlog-refinement agent to provide story point estimates and prioritization recommendations."
-    <commentary>
-    The user needs help with backlog estimation, so use the Task tool to launch the scrum-event-backlog-refinement agent.
-    </commentary>
-    </example>
+description: Refine product backlog items, break down user stories, estimate story points, and write acceptance criteria. Use when preparing backlog items for sprint planning or ensuring Definition of Ready.
 tools: Glob, Grep, Read, Write, Edit, MultiEdit, WebFetch, TodoWrite, WebSearch, BashOutput, KillShell
 model: opus
 ---
