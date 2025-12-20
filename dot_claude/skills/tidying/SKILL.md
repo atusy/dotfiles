@@ -124,6 +124,21 @@ This separation:
 | Speculative Tidying | Waste if code changes | Tidy what you're touching |
 | Comment-Out Code | Creates noise | Delete it (git has history) |
 | Tidying Forever | Procrastination | Time-box, then ship |
+| Excessive DRY | Premature abstraction | Keep simple patterns inline |
+
+### When NOT to DRY
+
+Not all repetition needs abstraction. Keep code inline when:
+
+- **The pattern is simple and self-explanatory** (e.g., `vec![]`, `None`, error returns)
+- **Abstraction adds indirection without clarity** (helper name doesn't help understanding)
+- **The repetitions might evolve differently** (different error messages, future divergence)
+- **grep/search is easier with inline code** (debugging, code review)
+- **The "abstraction" would just be wrapping** (no logic, just constructor calls)
+
+> "Duplication is far cheaper than the wrong abstraction." — Sandi Metz
+
+**Rule of thumb**: If extracting a helper doesn't make the code *significantly* easier to understand or change, leave it inline. Three copies of `return Ok(None)` is fine.
 
 ## Reference
 
