@@ -13,15 +13,13 @@ You are entering the **REFACTOR** phase. Your goal is to improve code quality wh
 - This phase is **REPEATABLE** - do multiple refactors as needed
 - **Commit after EACH successful refactor**
 
-### Primary Goal: Remove Duplication
+### Primary Goals
 
-The main purpose of refactoring is to **remove duplication** between test and production code.
+Improve code quality while keeping tests green:
 
-Look for:
-- Duplicated logic
-- Magic numbers/strings that appear in multiple places
-- Similar code patterns that could be extracted
-- Unclear naming that hides intent
+- **Remove duplication** between test and production code
+- **Improve clarity** through better naming and structure
+- **Simplify** complex expressions or logic
 
 ### Structural Changes Only
 
@@ -50,12 +48,11 @@ Allowed:
 7. Satisfied? -> Start next TDD cycle with /tdd:red
 ```
 
-### Refactor Step Size Limits
+### Keep Steps Small
 
 Each refactor commit should be small and focused:
-- **Lines changed**: < 20 lines per commit
-- **Files touched**: 1 file per commit (ideally)
 - **Scope**: One rename, one extraction, or one move at a time
+- **Revertability**: If tests fail, you should be able to easily undo
 
 ### Common Refactoring Patterns
 

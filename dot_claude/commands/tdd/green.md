@@ -4,7 +4,7 @@ description: Complete the GREEN phase - Make the test pass with minimal code
 
 ## TDD GREEN Phase: Make the Test Pass
 
-You are entering the **GREEN** phase. Your goal is to make the failing test pass with **minimal code**.
+You are entering the **GREEN** phase. Your goal is to make the failing test pass with a **minimal behavioral change**.
 
 ### Phase Rules
 
@@ -82,10 +82,7 @@ def add(a, b):
 
 **GREEN = SAFE**. You now have a working checkpoint you can always return to.
 
-Run `/git:commit` to commit this behavioral change. The commit will be typed as:
-- `feat:` for new functionality
-- `fix:` for bug fixes
-- `test:` for test additions
+Run `/git:commit` to commit this behavioral change.
 
 ### Next Step
 
