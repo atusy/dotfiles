@@ -5,10 +5,10 @@ description: Guide Test-Driven Development using Kent Beck's Red-Green-Refactor 
 
 # INSTRUCTIONS
 
-Follow Kent Beck's TDD and Tidy First principles using the three-phase workflow:
+Follow Kent Beck's TDD and Tidy First principles using the following workflow. None of the phases can be skipped.
 
 1. **RED** - `/tdd:red` - Write ONE small failing test
-2. **GREEN** - `/tdd:green` - Make it pass with minimal code, then commit
+2. **GREEN** - `/tdd:green` - Make minimal behavioral change, then commit
 3. **REFACTOR** - `/tdd:refactor` - Improve structure without changing behavior, commit each step
 
 ## Workflow Pattern
@@ -18,10 +18,6 @@ RED → GREEN → commit → REFACTOR (commit each) → satisfied? ──yes─�
  ↑                                                  │
  └───── no (more behavior needed OR triangulate) ───┘
 ```
-
-## Core Principles
-
-- **Never skip REFACTOR**: Every TDD cycle must complete all three phases
 
 ## Strategy Selection (GREEN Phase)
 
