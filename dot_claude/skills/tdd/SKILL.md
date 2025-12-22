@@ -14,9 +14,9 @@ Follow Kent Beck's TDD and Tidy First principles using the three-phase workflow:
 ## Workflow Pattern
 
 ```
-/tdd:red → write failing test → /tdd:green → pass test → /git:commit
-                                                              ↓
-        ← next feature ← /tdd:red ← satisfied? ← /tdd:refactor (repeat as needed)
+RED → GREEN → commit → REFACTOR (commit each) → satisfied? ──yes──→ done
+ ↑                                                  │
+ └───── no (more behavior needed OR triangulate) ───┘
 ```
 
 ## Core Principles
