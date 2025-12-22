@@ -222,23 +222,41 @@ Focus energy on what we can control.
 4. **Team responsibility, not individual assignment** - "We" own improvements, not "you"
 5. **"Too busy to improve" means "not improving makes us busy"** - Time investment now saves time later
 
-**Where Do Improvements Go?**
+**Improvement Timing System (AI-Agentic)**
 
-```markdown
-### Sprint Backlog
-Add improvements here when:
-- Team-internal process changes
-- Can be completed within next Sprint
-- No Product Owner/stakeholder input needed
-- Examples: "Pair on complex stories", "Add pre-commit hooks"
+Each improvement action must have a `timing` field:
 
-### Product Backlog
-Add improvements here when:
-- Requires prioritization against product work
-- Affects the product (e.g., tech debt)
-- Needs stakeholder visibility
-- Larger scope requiring multiple Sprints
-- Examples: "Improve test coverage", "Refactor authentication module"
+| Timing | When to Execute | Where Documented |
+|--------|-----------------|------------------|
+| `immediate` | During Retrospective itself | Complete within this event |
+| `sprint` | Next Sprint as subtask | Add to Sprint Backlog |
+| `product` | New PBI in Product Backlog | Add to Product Backlog |
+
+**Timing Selection Criteria**:
+
+| Category | Examples | Timing |
+|----------|----------|--------|
+| Prompt adjustments | Update CLAUDE.md, skills, commands, agent definitions | `immediate` |
+| Process adjustments | Add notes to scrum.yaml, update DoD, improve templates | `immediate` |
+| Tool/Environment | Add MCP server, configure hooks, set up pre-commit | `immediate` |
+| Documentation | Create ADRs, code conventions | `sprint` |
+| Code quality | Test helpers, shared utilities, error messages | `sprint` or `product` |
+| Automation | Create slash commands, CI/CD improvements | `sprint` or `product` |
+
+**`immediate` Constraints**:
+- NO production code changes (config, docs, prompts only)
+- Must be a single logical change (1 commit, easily revertable)
+
+**Improvement Action Format in scrum.yaml**:
+
+```yaml
+retrospectives:
+  - sprint: 1
+    improvements:
+      - action: "Add pre-commit hook for linting"
+        timing: immediate  # immediate | sprint | product
+        status: completed  # active | completed | abandoned
+        outcome: "Reduced lint errors in PRs"
 ```
 
 **Decision Techniques**:
@@ -278,11 +296,13 @@ Each improvement should be:
 
 **Purpose**: Summarize, appreciate, and end positively.
 
-**Activities**:
-- Review action items and owners
-- Express appreciation for participation
-- Evaluate the retrospective itself
-- End on a positive note
+**Activities (AI-Agentic)**:
+1. Execute all `timing: immediate` actions and mark `status: completed`
+2. Add `timing: sprint` actions to next Sprint's subtasks
+3. Add `timing: product` actions as new PBIs in Product Backlog
+4. Update `scrum.yaml` with retrospective record
+5. Review action items
+6. Evaluate the retrospective itself
 
 **Closing Techniques**:
 
