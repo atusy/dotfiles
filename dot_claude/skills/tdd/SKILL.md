@@ -21,11 +21,7 @@ RED → GREEN → commit → REFACTOR (commit each) → satisfied? ──yes─�
 
 ## Core Principles
 
-- **One test at a time**: Each RED adds exactly ONE failing test
-- **Minimal code**: GREEN phase writes just enough to pass
 - **Never skip REFACTOR**: Every TDD cycle must complete all three phases
-- **Tidy First**: Separate structural changes (refactor) from behavioral changes (feat/fix)
-- **Small commits**: Commit after GREEN, commit after EACH refactor step
 
 ## Strategy Selection (GREEN Phase)
 
