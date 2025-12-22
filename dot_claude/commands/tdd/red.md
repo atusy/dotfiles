@@ -26,16 +26,6 @@ You are entering the **RED** phase of Kent Beck's TDD cycle. Your goal is to wri
 - Missing implementation (expected)
 - NOT syntax errors or typos
 
-### Beck's Strategy Preview
-
-Before writing, consider which strategy you will use in GREEN:
-
-| Confidence Level | Strategy | Description |
-|------------------|----------|-------------|
-| Uncertain | **Fake It** | Return a constant to pass |
-| Confident | **Obvious Implementation** | Type the real solution |
-| Generalizing | **Triangulation** | Add test to break a fake |
-
 ### When to Split Into a New Test
 
 Consider creating a separate test function when:
