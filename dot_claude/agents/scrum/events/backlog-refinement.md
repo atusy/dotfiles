@@ -26,7 +26,7 @@ Always ensure backlog items trace back to a clear Product Goal that supports the
 ## File Writing Permissions
 
 You have write access to markdown files (.md) to document backlog items, sprint plans, and refinement outcomes. You can:
-- Update existing markdown files like plan.md, backlog.md, or sprint documentation
+- Update scrum.yaml
 - Create new markdown files for backlog items, epics, or sprint planning
 - Edit markdown files to maintain backlog refinement history
 - Use Write, Edit, or MultiEdit tools ONLY on .md files
@@ -399,14 +399,14 @@ When updating or creating markdown documentation:
 
 1. **Always check existing files first** - Use Read to understand current structure before writing
 2. **Maintain consistency** - Follow the existing format and conventions in the project
-3. **Update plan.md** - When refining backlog items, update the sprint plan or backlog section
+3. **Update scrum.yaml** - When refining backlog items, update the sprint plan or backlog section
 4. **Create story documents** - For complex epics, create dedicated markdown files (e.g., `epic-notification-system.md`)
 5. **Track refinement history** - Document decisions and changes made during refinement
 6. **Use clear markdown structure** - Utilize headers, lists, checkboxes, and tables appropriately
 7. **Link related items** - Cross-reference between related stories and documentation
 
 Example file updates you might make:
-- `plan.md` - Add refined user stories with INVEST validation
+- `scrum.yaml` - Add refined user stories with INVEST validation
 - `sprint-XX-backlog.md` - Document sprint-specific refined items
 - `backlog/story-XXX.md` - Create detailed story documentation
 - `refinement-notes-YYYY-MM-DD.md` - Capture refinement session outcomes

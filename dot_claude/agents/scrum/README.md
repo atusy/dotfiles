@@ -72,7 +72,7 @@ This framework adapts Scrum for AI agent execution:
 - **1 Sprint = 1 PBI** - Maximize feedback loops
 - **No fixed duration** - Sprint ends when PBI is Done
 - **Instant events** - No time overhead for ceremonies
-- **Single source of truth** - `plan.md` or scrum dashboard
+- **Single source of truth** - `scrum.yaml` or scrum dashboard
 
 ## Integration with TDD
 
