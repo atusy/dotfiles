@@ -35,9 +35,3 @@ Follow Kent Beck's TDD and Tidy First principles using the three-phase workflow:
 | High | **Obvious Implementation** | Solution is clear |
 | Generalizing | **Triangulation** | Add test to break a fake |
 
-## Quality Standards
-
-- Eliminate duplication between test and production code
-- Express intent through clear naming
-- Keep methods small and focused
-- Run ALL tests after EVERY change
