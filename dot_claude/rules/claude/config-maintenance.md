@@ -25,6 +25,7 @@ Choose configuration type based on **when context should load** and **how contex
 3. **Shared rules in multiple agents**: Extract to CLAUDE.md (always-needed) or skill (conditional)
 4. **Heavyweight tasks in main context**: Use subagent when trial-and-error would pollute context
 5. **User-level path rules leaking**: Path-filtered rules at user level may apply unintentionally (e.g., `*.ts` frontend rules activating in CLI projects). Prefer skills/commands for user-level task-specific guidance
+6. **Over-documenting mechanics**: Don't specify *how* to use tools Claude already knows (e.g., `git commit --amend` syntax). Use subtle hints for *when* to consider options (e.g., "Consider: Are there changes to amend?")
 
 ## Best Practices Examples
 
@@ -60,7 +61,7 @@ For tasks needing both auto-detection AND manual invocation:
 ---
 # skills/git-commit/SKILL.md
 name: git-commit
-description: Stage meaningful diffs and create commits with WHY-focused messages. Use when agent needs to commit code changes.
+description: Stage meaningful diffs and create commits with WHY-focused messages. Use whenever making git commits.
 ---
 
 Use `/git:commit` slash command to stage meaningful diffs and create commits with WHY-focused messages.
