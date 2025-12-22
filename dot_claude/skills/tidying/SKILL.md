@@ -57,23 +57,6 @@ Use when:
 Note the opportunity → add to backlog/TODO → continue current work
 ```
 
-## Tidying Catalog
-
-Small, safe structural improvements:
-
-| Tidying | Description |
-|---------|-------------|
-| **Guard Clauses** | Replace nested conditionals with early returns |
-| **Dead Code** | Remove unused code (don't comment out—delete) |
-| **Normalize Symmetries** | Make similar code look similar |
-| **Extract Helper** | Pull out a chunk that does one thing |
-| **Inline** | Remove unhelpful abstraction |
-| **Rename** | Make names reveal intent |
-| **Reorder** | Put related code together |
-| **Chunk Statements** | Add blank lines to group related statements |
-| **Explaining Variable** | Replace complex expression with named variable |
-| **Explaining Constant** | Replace magic number/string with named constant |
-
 ## Decision Framework
 
 When you encounter messy code, ask:
@@ -104,29 +87,7 @@ When using TDD:
 2. Optionally: `/tidy:after` for broader cleanup
 3. Repeat
 
-## Commit Discipline
-
-- **Every tidying gets its own commit**: `refactor: <what you tidied>`
-- **Never mix tidying with behavioral changes**: Separate commits
-- **Small commits**: One tidying per commit when possible
-
-This separation:
-- Makes code review easier
-- Enables safe reverts
-- Documents intent clearly
-
-## Anti-Patterns
-
-| Anti-Pattern | Problem | Instead |
-|--------------|---------|---------|
-| Big Bang Refactor | Risky, hard to review | Many small tidyings |
-| Tidying + Feature | Obscures both changes | Separate commits |
-| Speculative Tidying | Waste if code changes | Tidy what you're touching |
-| Comment-Out Code | Creates noise | Delete it (git has history) |
-| Tidying Forever | Procrastination | Time-box, then ship |
-| Excessive DRY | Premature abstraction | Keep simple patterns inline |
-
-### When NOT to DRY
+## When NOT to DRY
 
 Not all repetition needs abstraction. Keep code inline when:
 
