@@ -1,6 +1,6 @@
 ---
 name: git-commit
-description: Stage meaningful diffs and create commits with WHY-focused messages. Use when agent needs to commit code changes.
+description: Stage meaningful diffs and create commits with WHY-focused messages. Use whenever making git commits.
 ---
 
 # INSTRUCTIONS

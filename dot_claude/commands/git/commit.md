@@ -70,6 +70,7 @@ The commit message body should explain the **reasoning** and **motivation** behi
 - Group changes that belong together conceptually
 - Separate unrelated changes into different commits
 - Consider: Does this change serve a single purpose?
+- Consider: Are there changes to amend the previous commit?
 
 **Step 3: Stage Meaningfully**
 - Use `git add -p <file>` for partial staging when a file contains multiple logical changes
