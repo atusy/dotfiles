@@ -18,12 +18,3 @@ RED → GREEN → commit → REFACTOR (commit each) → satisfied? ──yes─�
  ↑                                                  │
  └───── no (more behavior needed OR triangulate) ───┘
 ```
-
-## Strategy Selection (GREEN Phase)
-
-| Confidence | Strategy | Use When |
-|------------|----------|----------|
-| Low | **Fake It** | Return constant, generalize later |
-| High | **Obvious Implementation** | Solution is clear |
-| Generalizing | **Triangulation** | Add test to break a fake |
-
