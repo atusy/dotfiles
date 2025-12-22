@@ -1,0 +1,54 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+ROOT=$(git rev-parse --show-toplevel)
+N_STAGED=$(git diff --staged --name-only | wc -l | tr -d ' ')
+
+PLAN_MD="${ROOT}/plan.md"
+SCRUM_YAML="${ROOT}/scrum.yaml"
+
+_test_status() {
+  local query="$1"
+  shift 1
+  local status
+  status=$(git status --porcelain -- "$@")
+  if test -z "$status"; then
+    return 1
+  fi
+  echo "$status" | grep -q "$query"
+}
+
+_test_staged() {
+  _test_status '^[^?]' "$@"
+}
+
+# Validate planning files
+# - Only one of plan.md or scrum.yaml may exist
+# - Staged files must exclude files other than the planning file being committed
+validate_plan() {
+  if test -f "$PLAN_MD" && test -f "$SCRUM_YAML"; then
+    echo "ERROR: You have both plan.md and scrum.yaml files. Please keep only one as the single source of truth." >&2
+    return 1
+  fi
+
+  if test "${N_STAGED}" -le 1; then
+    return 0
+  fi
+
+  if test -f "$PLAN_MD" && _test_staged "${PLAN_MD}"; then
+    echo "ERROR: Must commit plan.md alone." >&2
+    return 1
+  fi
+
+  if test -f "$SCRUM_YAML" && _test_staged "${SCRUM_YAML}"; then
+    echo "ERROR: Must commit scrum.yaml alone." >&2
+    return 1
+  fi
+}
+
+main() {
+  validate_plan
+}
+
+main "$@"
