@@ -14,9 +14,10 @@ Do one of the following based on the project state.
     * sprint review
     * sprint retrospective
     * `scrum.yaml` compaction
-3. If `plan.md` exists, do
-    * find the next unmarked test, implement the test, then implement only enough code to make that test pass.
-4. If neither file exists, do
+3. If `plan.md` exists, do following
+    * ensure plan follows Follow Kent Beck's Test-Driven Development (`tdd` skill) and Tidy First (`tidying` skill) methodologies
+    * find the next unmarked test, use `tdd` skill to implement it, update `plan.md`
+4. If neither file exists, do following
     * create a new `plan.md` with a list of tests to implement for the feature
     * start with the first test in the plan 
 
