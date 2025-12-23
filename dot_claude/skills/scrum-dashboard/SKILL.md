@@ -7,6 +7,10 @@ description: Maintain scrum.ts dashboard following Agentic Scrum principles. Use
 
 Guide for maintaining the `scrum.ts` dashboard - the single source of truth for AI-Agentic Scrum.
 
+## Template
+
+Use `scrum.template.ts` in this skill directory as the starting point for new dashboards.
+
 ## When This Skill Applies
 
 - Editing `scrum.ts` in any project
