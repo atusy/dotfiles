@@ -3,10 +3,6 @@ name: scrum-dashboard
 description: Maintain scrum.ts dashboard following Agentic Scrum principles. Use when editing scrum.ts, updating sprint status, or managing Product Backlog.
 ---
 
-# Scrum Dashboard Maintenance
-
-Use `scrum.template.ts` in this skill directory as the starting point for new dashboards.
-
 ## Core Principles
 
 | Principle | Practice |
@@ -34,4 +30,5 @@ After retrospective, prune if >300 lines:
 ## Integration
 
 - `/scrum:init` - Create new dashboard
+    - Use `scrum.template.ts` in this skill directory as the starting point for new dashboards.
 - `@scrum-event-*` agents - Deep facilitation for sprint events
