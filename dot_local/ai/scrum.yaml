@@ -1,0 +1,162 @@
+# Product Goal
+product_goal:
+  statement: "Deliver a functional MVP of [product name] that enables [core user value]"
+  success_metrics:
+    - metric: "All acceptance criteria verified by automated tests"
+      target: "100% pass rate"
+    - metric: "Documentation generated for public API"
+      target: "Complete"
+    - metric: "Performance benchmarks met"
+      target: "As defined per PBI"
+
+# Product Backlog (order = priority)
+product_backlog:
+  - id: PBI-001
+    story:
+      role: "registered user"
+      capability: "log in with my email and password"
+      benefit: "I can access my personalized content securely"
+    acceptance_criteria:
+      - criterion: "Login endpoint returns valid JWT on correct credentials"
+        verification: "pytest tests/auth/test_login.py -v"
+      - criterion: "Invalid credentials return 401 with error message"
+        verification: "pytest tests/auth/test_login_errors.py -v"
+      - criterion: "JWT expires after configured duration"
+        verification: "pytest tests/auth/test_token_expiry.py -v"
+      - criterion: "User can refresh token before expiry"
+        verification: "pytest tests/auth/test_token_refresh.py -v"
+      - criterion: "User can log out and invalidate session"
+        verification: "pytest tests/auth/test_logout.py -v"
+    status: ready
+
+  - id: PBI-002
+    story:
+      role: "developer"
+      capability: "run database migrations safely"
+      benefit: "schema changes are versioned and reversible"
+    acceptance_criteria:
+      - criterion: "Alembic configured with auto-generation support"
+        verification: "alembic check"
+      - criterion: "Initial migration creates users and sessions tables"
+        verification: "alembic upgrade head && pytest tests/db/test_schema.py"
+      - criterion: "Rollback works correctly"
+        verification: "alembic downgrade -1 && alembic upgrade head"
+    status: ready
+
+  - id: PBI-003
+    story:
+      role: "system administrator"
+      capability: "limit API requests per user"
+      benefit: "the system is protected from abuse and overload"
+    acceptance_criteria:
+      - criterion: "Rate limiter blocks requests exceeding threshold"
+        verification: "pytest tests/middleware/test_rate_limit.py -v"
+      - criterion: "Rate limit headers included in responses"
+        verification: "pytest tests/middleware/test_rate_headers.py -v"
+      - criterion: "Configuration allows per-route customization"
+        verification: "pytest tests/middleware/test_rate_config.py -v"
+    status: refining
+
+  - id: PBI-004
+    story:
+      role: "registered user"
+      capability: "view and update my profile information"
+      benefit: "I can personalize my account and upload an avatar"
+    acceptance_criteria:
+      - criterion: "GET /profile returns current user data"
+        verification: "pytest tests/profile/test_get_profile.py"
+      - criterion: "PATCH /profile updates allowed fields"
+        verification: "pytest tests/profile/test_update_profile.py"
+      - criterion: "Avatar upload accepts PNG/JPG under 5MB"
+        verification: "pytest tests/profile/test_avatar_upload.py"
+    status: draft
+
+  - id: PBI-005
+    story:
+      role: "new user"
+      capability: "sign up using my Google, GitHub, or Microsoft account"
+      benefit: "I can start using the service without creating a new password"
+    acceptance_criteria:
+      - criterion: "OAuth2 flow completes for Google provider"
+        verification: "pytest tests/auth/test_oauth_google.py"
+      - criterion: "New OAuth users automatically create local account"
+        verification: "pytest tests/auth/test_oauth_account_creation.py"
+    status: draft
+
+# Current Sprint
+sprint:
+  number: 1
+  pbi_id: PBI-001
+  goal: "Enable secure user authentication with JWT tokens"
+  status: in_progress  # planning | in_progress | review | done | cancelled
+  subtasks:
+    - test: "User model has email and hashed_password fields"
+      implementation: "Create User model and database migration"
+      type: behavioral
+      status: completed
+      commits: []
+      notes: []
+
+    - test: "hash_password returns bcrypt hash"
+      implementation: "Implement password hashing utility"
+      type: behavioral
+      status: completed
+      commits: []
+      notes:
+        - "Using bcrypt for password hashing (industry standard)"
+
+    - test: "Login endpoint returns JWT on valid credentials"
+      implementation: "Create login endpoint with JWT generation"
+      type: behavioral
+      status: green
+      commits: []
+      notes:
+        - "JWT includes user_id and role claims"
+        - "Token expiry set to 1 hour with 7-day refresh token"
+
+    - test: "Refresh endpoint returns new token before expiry"
+      implementation: "Implement token refresh endpoint"
+      type: behavioral
+      status: pending
+      commits: []
+      notes: []
+
+    - test: "Logout endpoint invalidates token"
+      implementation: "Add logout endpoint (token blacklist)"
+      type: behavioral
+      status: pending
+      commits: []
+      notes: []
+
+    - test: "All auth flows work end-to-end"
+      implementation: "Write integration tests for all auth flows"
+      type: behavioral
+      status: pending
+      commits: []
+      notes: []
+
+# Definition of Done
+definition_of_done:
+  checks:
+    - name: "Tests pass"
+      run: "pytest tests/ -v --tb=short"
+    - name: "Lint clean"
+      run: "ruff check . && ruff format --check ."
+    - name: "Types valid"
+      run: "mypy src/ --strict"
+    - name: "Acceptance criteria"
+      run: "<PBI acceptance_criteria.verification commands>"
+
+# Completed Sprints (keep latest 2-3 only)
+completed: []
+
+# Retrospectives
+# timing: immediate (do now) | sprint (next sprint subtask) | product (new PBI)
+retrospectives: []
+
+# Resolved Impediments (for reference)
+impediments_resolved:
+  - id: IMP-000
+    description: "Missing pytest-asyncio dependency"
+    impact: "Async tests could not run"
+    resolution: "Added pytest-asyncio to dev dependencies"
