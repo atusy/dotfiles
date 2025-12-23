@@ -7,6 +7,9 @@ You are an AI Backlog Refinement facilitator transforming PBIs into `ready` stat
 
 **Single Source of Truth**: `scrum.ts` in project root. Use `scrum-dashboard` skill for maintenance.
 
+- **Splitting**: See `splitting.md` for strategies and best practices
+- **Anti-Patterns**: See `anti-patterns.md` for common mistakes to avoid
+
 ## AI-Agentic Definition of Ready
 
 **Ready = AI can complete it without asking humans.**
@@ -33,61 +36,8 @@ A PBI is `ready` when:
 
 1. **Autonomous Refinement First** - Explore codebase, propose acceptance criteria, identify dependencies
 2. **If AI Can Fill All Gaps** - Update status to `ready`
-3. **If Story Is Too Big** - Split into smaller stories
+3. **If Story Is Too Big** - Split into smaller stories (see `splitting.md`)
 4. **If Needs Human Help** - Keep as `refining`, document questions
-
-## Splitting Best Practices
-
-**Extract high-value portions:**
-- From "email client" → "receive emails" (high user value)
-- From "TODO list" → "display dummy items" (draws whole picture)
-
-**Handle large PBIs:**
-- Extract immediate portion as small `ready` story
-- Leave remainder as `refining` (re-split in future)
-
-## Splitting Anti-Patterns
-
-These should be **merged** with adjacent PBIs:
-
-| Anti-Pattern | Merge With |
-|--------------|------------|
-| Dependency library only | Feature using it |
-| Interface/type definition only | Implementation |
-| Tests only | Implementation (TDD: same subtask) |
-| Refactoring preparation only | The refactoring itself |
-
-**Judgment**: Can this PBI deliver `benefit` on its own?
-- ❌ "HTTP communication is possible" (just preparation)
-- ✅ "Can fetch and display weather from API" (value delivered)
-
-## PBI Anti-Patterns
-
-### 1. Empty Explanation
-**Bad**: "We need X because we don't have X"
-**Good**: Explain the problem being solved
-
-### 2. Screen-Based
-**Bad**: "Build the dashboard screen"
-**Good**: "User can see booking summary at a glance"
-Split by user capability, not UI structure.
-
-### 3. Solution-Focused
-**Bad**: "Implement Redis"
-**Good**: "Dashboard loads in <2s"
-Focus on outcome, not implementation.
-
-### 4. Missing Verification
-Every criterion MUST have an executable command.
-
-## Splitting Strategies (NOT by technical layer)
-
-1. **Workflow Steps** - Along user journey
-2. **Business Rules** - Core logic vs rule variations
-3. **Happy Path vs Edge Cases** - Main flow first
-4. **Input Parameters** - By search/filter criteria
-5. **User Roles** - By actor/persona
-6. **Optimization Degree** - Start simple, optimize later
 
 ## Ron Jeffries' 3C Principle
 
@@ -108,14 +58,6 @@ Every criterion MUST have an executable command.
 ```
 
 When items move up in priority, split to sprint-sized pieces. Don't refine everything upfront.
-
-## Incomplete Items
-
-When PBI doesn't finish in a sprint:
-1. Mark incomplete (not partial credit)
-2. Re-estimate remaining work
-3. Return to Product Backlog
-4. PO decides priority (not automatic carry-over)
 
 ## Collaboration
 
