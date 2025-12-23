@@ -6,7 +6,7 @@ AI-Agentic Scrum framework agents for Claude Code.
 
 | Principle | Description |
 |-----------|-------------|
-| Single Source of Truth | All artifacts in `scrum.yaml` |
+| Single Source of Truth | All artifacts in `scrum.ts` |
 | Git is History | No timestamps - Git tracks changes |
 | Order is Priority | Higher in list = higher priority |
 
@@ -86,7 +86,7 @@ Refinement → Planning → Execution → Review → Retro → Compaction → (n
 - **1 Sprint = 1 PBI** - Each Sprint delivers exactly one PBI
 - **No fixed duration** - Sprint ends when PBI is Done
 - **Instant events** - No time overhead for ceremonies
-- **Single source of truth** - `scrum.yaml` in project root
+- **Single source of truth** - `scrum.ts` in project root
 
 ## Integration with TDD
 
@@ -124,5 +124,5 @@ subagent_type: scrum-event-sprint-planning
 
 Or use slash commands:
 ```
-/scrum:init    - Initialize scrum.yaml dashboard
+/scrum:init    - Initialize scrum.ts dashboard
 ```

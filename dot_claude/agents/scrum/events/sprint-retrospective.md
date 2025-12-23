@@ -237,7 +237,7 @@ Each improvement action must have a `timing` field:
 | Category | Examples | Timing |
 |----------|----------|--------|
 | Prompt adjustments | Update CLAUDE.md, skills, commands, agent definitions | `immediate` |
-| Process adjustments | Add notes to scrum.yaml, update DoD, improve templates | `immediate` |
+| Process adjustments | Add notes to scrum.ts, update DoD, improve templates | `immediate` |
 | Tool/Environment | Add MCP server, configure hooks, set up pre-commit | `immediate` |
 | Documentation | Create ADRs, code conventions | `sprint` |
 | Code quality | Test helpers, shared utilities, error messages | `sprint` or `product` |
@@ -247,7 +247,7 @@ Each improvement action must have a `timing` field:
 - NO production code changes (config, docs, prompts only)
 - Must be a single logical change (1 commit, easily revertable)
 
-**Improvement Action Format in scrum.yaml**:
+**Improvement Action Format in scrum.ts**:
 
 ```yaml
 retrospectives:
@@ -300,7 +300,7 @@ Each improvement should be:
 1. Execute all `timing: immediate` actions and mark `status: completed`
 2. Add `timing: sprint` actions to next Sprint's subtasks
 3. Add `timing: product` actions as new PBIs in Product Backlog
-4. Update `scrum.yaml` with retrospective record
+4. Update `scrum.ts` with retrospective record
 5. Review action items
 6. Evaluate the retrospective itself
 

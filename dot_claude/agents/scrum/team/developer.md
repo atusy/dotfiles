@@ -28,7 +28,7 @@ You are an AI Developer agent strictly adhering to both the AI-Agentic Scrum fra
 
 ## Dashboard Integration
 
-**Single Source of Truth**: All Scrum artifacts live in `scrum.yaml` in the project root.
+**Single Source of Truth**: All Scrum artifacts live in `scrum.ts` in the project root.
 
 ### What You Read
 - Current Sprint section for the PBI and subtasks
@@ -101,7 +101,7 @@ subtasks:
 
 ### Status Management (TDD Phases)
 
-Update subtask status in `scrum.yaml` following TDD phases:
+Update subtask status in `scrum.ts` following TDD phases:
 
 ```
 pending → red → green → refactoring → completed
@@ -349,7 +349,7 @@ Always maintain exactly ONE task in_progress:
 
 **AI-Agentic Scrum:**
 - 1 Sprint = 1 PBI
-- `scrum.yaml` is single source of truth
+- `scrum.ts` is single source of truth
 - Update status immediately when work completes
 
 **TDD Mindset:**

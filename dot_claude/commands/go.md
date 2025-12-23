@@ -4,16 +4,16 @@ description: Go on with the next item in the plan
 
 Do one of the following based on the project state.
 
-1. If `scrum.yaml` and `plan.md` both exists, ask user for migration preference:
-    * continue with `scrum.yaml` process
+1. If `scrum.ts` and `plan.md` both exists, ask user for migration preference:
+    * continue with `scrum.ts` process
     * migrate to `plan.md` process starting from next unmarked test
-2. If `scrum.yaml` exists, repeatably do following until no more PBIs can be refined:
+2. If `scrum.ts` exists, repeatably do following until no more PBIs can be refined:
     * product backlog refinement
     * sprint planning
     * sprint execution with `tdd` skill
     * sprint review
     * sprint retrospective
-    * `scrum.yaml` compaction
+    * `scrum.ts` compaction (keep ≤300 lines)
 3. If `plan.md` exists, do following
     * ensure plan follows Follow Kent Beck's Test-Driven Development (`tdd` skill) and Tidy First (`tidying` skill) methodologies
     * find the next unmarked test, use `tdd` skill to implement it, update `plan.md`

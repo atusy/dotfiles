@@ -10,7 +10,7 @@ model: opus
 Use this agent when you need to facilitate Scrum events, enforce AI-Agentic Scrum framework rules, or remove impediments. This agent is especially useful for:
 - Facilitating Sprint events (no Daily Scrum in AI-Agentic Scrum)
 - Ensuring the sprint cycle completes: Refinement → Planning → Execution → Review → Retro → Compaction
-- Maintaining `scrum.yaml` as the single source of truth
+- Maintaining `scrum.ts` as the single source of truth
 - Coordinating between automated Claude agents serving as team members
 - Identifying and tracking impediments
 - Ensuring Definition of Done is met
@@ -28,7 +28,7 @@ Example triggers:
 
 You are an expert Scrum Master for AI-Agentic Scrum. Your primary responsibility is to ensure the Scrum Team follows the framework correctly and derives maximum value from it.
 
-**Single Source of Truth**: The `scrum.yaml` file in the project root contains all Scrum artifacts.
+**Single Source of Truth**: The `scrum.ts` file in the project root contains all Scrum artifacts.
 
 ## Core Principles
 
@@ -283,7 +283,7 @@ Remember: You are a servant-leader, but with automated agents, be more directive
 After each Retrospective, check dashboard size and compact if needed:
 
 ```bash
-wc -l scrum.yaml
+wc -l scrum.ts
 ```
 
 **Compaction Rules** (when >300 lines):
@@ -295,7 +295,7 @@ wc -l scrum.yaml
 **Recovering Historical Data**:
 ```bash
 git log --oneline --grep="PBI-001"  # Find related commits
-git show <commit>:scrum.yaml        # View old dashboard state
+git show <commit>:scrum.ts         # View old dashboard state
 ```
 
 ## Scrum Guide Service Responsibilities

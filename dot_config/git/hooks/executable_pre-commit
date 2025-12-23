@@ -5,8 +5,8 @@ set -euo pipefail
 ROOT=$(git rev-parse --show-toplevel)
 N_STAGED=$(git diff --staged --name-only | wc -l | tr -d ' ')
 
-PLAN_MD="${ROOT}/plan.md"
-SCRUM_YAML="${ROOT}/scrum.yaml"
+PLAN="${ROOT}/plan.md"
+SCRUM_DASHBOARD="${ROOT}/scrum.ts"
 
 _test_status() {
   local query="$1"
@@ -24,11 +24,11 @@ _test_staged() {
 }
 
 # Validate planning files
-# - Only one of plan.md or scrum.yaml may exist
+# - Only one of plan.md or scrum.ts may exist
 # - Staged files must exclude files other than the planning file being committed
 validate_plan() {
-  if test -f "$PLAN_MD" && test -f "$SCRUM_YAML"; then
-    echo "ERROR: You have both plan.md and scrum.yaml files. Please keep only one as the single source of truth." >&2
+  if test -f "$PLAN" && test -f "$SCRUM_DASHBOARD"; then
+    echo "ERROR: You have both plan.md and scrum.ts files. Please keep only one as the single source of truth." >&2
     return 1
   fi
 
@@ -36,13 +36,13 @@ validate_plan() {
     return 0
   fi
 
-  if test -f "$PLAN_MD" && _test_staged "${PLAN_MD}"; then
+  if test -f "$PLAN" && _test_staged "${PLAN}"; then
     echo "ERROR: Must commit plan.md alone." >&2
     return 1
   fi
 
-  if test -f "$SCRUM_YAML" && _test_staged "${SCRUM_YAML}"; then
-    echo "ERROR: Must commit scrum.yaml alone." >&2
+  if test -f "$SCRUM_DASHBOARD" && _test_staged "${SCRUM_DASHBOARD}"; then
+    echo "ERROR: Must commit scrum.ts alone." >&2
     return 1
   fi
 }
