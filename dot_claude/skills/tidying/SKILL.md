@@ -7,6 +7,9 @@ description: Guide structural code improvements using Kent Beck's Tidy First met
 
 Apply Kent Beck's "Tidy First?" philosophy: small, safe structural changes that improve code without changing behavior. Tidying is separate from feature work and gets its own commits.
 
+- **Behavior Contract**: See `behavior-contract.md` for what defines "behavior" (inputs, outputs, side effects, errors)
+- **Context Boundaries**: See `context-boundaries.md` for frontend/backend/CLI/library specifics
+
 ## Core Principle
 
 > "Tidying is a special kind of refactoring... tidying is small, and you never need to tidy."
@@ -17,90 +20,38 @@ Tidyings are:
 - **Optional**: You choose when (or if) to tidy
 - **Separate**: Own commits, distinct from behavioral changes
 
-## When to Tidy: The Three Timings
+## The Three Timings
 
-### Tidy First (Before Behavior Change)
-**Trigger**: You need to change code that's hard to understand or modify
-
-Use when:
-- Reading code takes longer than it should
-- The change you need to make would be simpler if code were cleaner
-- Coupling makes the change risky
-
-```
-/tidy:first → structural improvements → /git:commit (refactor:)
-           → now make behavioral change → /git:commit (feat:/fix:)
-```
-
-### Tidy After (After Behavior Change)
-**Trigger**: You just finished a feature and see improvement opportunities
-
-Use when:
-- The working code revealed better structure possibilities
-- You added duplication to make tests pass (TDD GREEN phase)
-- You now understand the domain better
-
-```
-behavioral change → /git:commit (feat:/fix:)
-                 → /tidy:after → cleanup → /git:commit (refactor:)
-```
-
-### Tidy Later (Add to Backlog)
-**Trigger**: Tidying would take too long or distract from current work
-
-Use when:
-- The tidying is substantial (more than a few minutes)
-- You're in flow on something else
-- The code works and tidying can wait
-
-```
-Note the opportunity → add to backlog/TODO → continue current work
-```
+| Timing | Trigger | Flow |
+|--------|---------|------|
+| **Tidy First** | Code is hard to change | `/tidy:first` → `refactor:` commit → behavioral change → `feat:/fix:` commit |
+| **Tidy After** | Feature revealed better structure | behavioral change → `feat:/fix:` commit → `/tidy:after` → `refactor:` commit |
+| **Tidy Later** | Tidying too big or off-focus | Note opportunity → backlog/TODO → continue current work |
 
 ## Decision Framework
-
-When you encounter messy code, ask:
 
 ```
 1. Does this code need to change for my current task?
    No  → Tidy Later (or never)
-   Yes → Continue to 2
-
+   Yes ↓
 2. Would tidying make my change easier/safer?
-   No  → Make behavioral change, then consider Tidy After
-   Yes → Continue to 3
-
+   No  → Make behavioral change, consider Tidy After
+   Yes ↓
 3. Is the tidying small (< 15 minutes)?
    No  → Tidy Later, make behavioral change anyway
    Yes → Tidy First, then make behavioral change
 ```
 
-## Integration with TDD
-
-Tidying complements TDD's REFACTOR phase:
-
-- **TDD REFACTOR**: Remove duplication introduced during RED→GREEN
-- **Tidy First/After**: Broader structural improvements, not tied to a specific test
-
-When using TDD:
-1. `/tdd:red` → `/tdd:green` → `/tdd:refactor` (remove test-code duplication)
-2. Optionally: `/tidy:after` for broader cleanup
-3. Repeat
-
 ## When NOT to DRY
-
-Not all repetition needs abstraction. Keep code inline when:
-
-- **The pattern is simple and self-explanatory** (e.g., `vec![]`, `None`, error returns)
-- **Abstraction adds indirection without clarity** (helper name doesn't help understanding)
-- **The repetitions might evolve differently** (different error messages, future divergence)
-- **grep/search is easier with inline code** (debugging, code review)
-- **The "abstraction" would just be wrapping** (no logic, just constructor calls)
 
 > "Duplication is far cheaper than the wrong abstraction." — Sandi Metz
 
-**Rule of thumb**: If extracting a helper doesn't make the code *significantly* easier to understand or change, leave it inline. Three copies of `return Ok(None)` is fine.
+Keep code inline when:
+- Pattern is simple and self-explanatory (`vec![]`, `None`, error returns)
+- Abstraction adds indirection without clarity
+- Repetitions might evolve differently
+- grep/search is easier with inline code
 
 ## Reference
 
-Based on: *Tidy First?* by Kent Beck (2023) - A practical guide to when and how to make structural improvements to code.
+Based on: *Tidy First?* by Kent Beck (2023)
