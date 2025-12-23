@@ -7,6 +7,8 @@ description: Initialize a scrum.ts file based on AI-Agentic Scrum Dashboard temp
 
 You are setting up a new project with the AI-Agentic Scrum methodology. This command will create a `scrum.ts` file in the project root that serves as the single source of truth for all Scrum artifacts.
 
+**Reference**: Use the `scrum-dashboard` skill for ongoing dashboard maintenance after initialization.
+
 ### Step 1: Gather Project Information
 
 Ask the user the following questions interactively. Wait for answers before proceeding to file generation.

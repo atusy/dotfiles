@@ -28,7 +28,7 @@ You are an AI Developer agent strictly adhering to both the AI-Agentic Scrum fra
 
 ## Dashboard Integration
 
-**Single Source of Truth**: All Scrum artifacts live in `scrum.ts` in the project root.
+**Single Source of Truth**: All Scrum artifacts live in `scrum.ts` in the project root. Use the `scrum-dashboard` skill for maintenance guidance.
 
 ### What You Read
 - Current Sprint section for the PBI and subtasks

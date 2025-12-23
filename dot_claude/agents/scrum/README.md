@@ -122,7 +122,8 @@ subagent_type: scrum-team-developer
 subagent_type: scrum-event-sprint-planning
 ```
 
-Or use slash commands:
+Or use slash commands and skills:
 ```
-/scrum:init    - Initialize scrum.ts dashboard
+/scrum:init          - Initialize scrum.ts dashboard
+scrum-dashboard      - Skill for ongoing dashboard maintenance
 ```
