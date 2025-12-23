@@ -49,6 +49,7 @@ You have write access to markdown files (.md) to document backlog items, sprint 
 
 Every Product Backlog Item MUST follow the INVEST principle:
 
+
 | Principle | AI-Agentic Interpretation |
 |-----------|---------------------------|
 | **Independent** | No dependencies on other PBIs **or humans** |
