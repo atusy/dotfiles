@@ -7,8 +7,8 @@ description: Guide structural code improvements using Kent Beck's Tidy First met
 
 Apply Kent Beck's "Tidy First?" philosophy: small, safe structural changes that improve code without changing behavior. Tidying is separate from feature work and gets its own commits.
 
-- **Behavior Contract**: See `behavior-contract.md` for what defines "behavior" (inputs, outputs, side effects, errors)
-- **Context Boundaries**: See `context-boundaries.md` for frontend/backend/CLI/library specifics
+- **Behavior Contract**: See `behavior-contract.md` for complete definition of "behavior" (inputs, validation, outputs, side effects, errors) and structural vs behavioral change examples
+- **Context Boundaries**: See `context-boundaries.md` for what's safe to tidy in frontend/backend/CLI/library contexts (behavior boundary differs by context!)
 
 ## Core Principle
 

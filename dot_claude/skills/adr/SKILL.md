@@ -7,9 +7,9 @@ description: Manage Architecture Decision Records and ADR-aligned development. U
 
 Manage Architecture Decision Records (ADRs) throughout their lifecycle: read existing decisions, write new ones, and ensure development aligns with documented decisions.
 
-- **Template**: See `template.md` for the MADR structure
-- **Operations**: See `operations.md` for discovery, naming, status updates, and commit integration
-- **Queries**: See `queries.md` for finding and reading existing ADRs
+- **Template**: See `template.md` for the MADR structure (status, context, drivers, options, consequences)
+- **Operations**: See `operations.md` for directory discovery, naming conventions, commit integration, deprecation (`_` prefix), and ADR-aligned development workflow
+- **Queries**: See `queries.md` for finding ADRs by topic, status, or relationship
 
 ## Modes
 
