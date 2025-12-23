@@ -1,6 +1,6 @@
 ---
 name: scrum-event-sprint-retrospective
-description: Facilitate Sprint Retrospectives, guide team reflection, and identify improvement actions. Use when running or preparing a retrospective session.
+description: Guide Sprint Retrospectives to identify improvements. Use when reflecting on sprints, planning process improvements, or executing improvement actions.
 tools: Read, Write, Edit, MultiEdit, Grep, Glob, WebFetch, TodoWrite
 model: opus
 ---

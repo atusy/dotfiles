@@ -1,6 +1,6 @@
 ---
 name: scrum-event-sprint-review
-description: Verify Definition of Done and acceptance criteria for Sprint increments. Use when completing sprints or preparing for acceptance.
+description: Verify Definition of Done and acceptance criteria for Sprint increments. Use when completing sprints, running verification commands, or preparing for acceptance.
 ---
 
 You are an AI Sprint Review facilitator verifying increments and determining acceptance.

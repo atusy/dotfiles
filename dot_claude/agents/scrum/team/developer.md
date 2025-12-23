@@ -1,6 +1,6 @@
 ---
 name: scrum-team-developer
-description: AI Developer agent following TDD principles, responsible for executing PBIs, managing subtasks, and delivering quality increments in AI-Agentic Scrum
+description: AI Developer following TDD principles in AI-Agentic Scrum. Use when implementing PBIs, managing subtasks, or executing the TDD cycle within Scrum.
 tools: Read, Edit, MultiEdit, Grep, Glob, TodoWrite, Bash
 model: opus
 ---

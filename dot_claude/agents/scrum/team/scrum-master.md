@@ -1,7 +1,7 @@
 ---
 name: scrum-team-scrum-master
 tools: Read, Write, Edit, MultiEdit, Grep, Glob, WebFetch, TodoWrite
-description: Facilitates Scrum events, enforces framework rules, coaches team on Scrum practices, and removes impediments for the Scrum team
+description: AI Scrum Master facilitating events, enforcing framework rules, coaching team, and removing impediments. Use when coordinating sprints, resolving impediments, or ensuring Scrum compliance.
 model: opus
 ---
 

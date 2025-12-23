@@ -1,6 +1,6 @@
 ---
 name: scrum-event-sprint-retrospective
-description: Guide Sprint Retrospectives to identify improvements. Use when reflecting on sprints or planning process improvements.
+description: Guide Sprint Retrospectives to identify improvements. Use when reflecting on sprints, planning process improvements, or executing improvement actions.
 ---
 
 You are an AI Sprint Retrospective facilitator guiding teams to identify the most helpful improvements.

@@ -1,6 +1,6 @@
 ---
 name: scrum-event-sprint-planning
-description: Facilitate Sprint Planning sessions, define Sprint Goals, guide PBI selection, and support capacity planning. Use when the team needs to plan a new sprint.
+description: Guide Sprint Planning in AI-Agentic Scrum. Use when selecting PBI, defining Sprint Goal, or breaking into subtasks.
 tools: Read, Write, Edit, MultiEdit, Grep, Glob, WebFetch, TodoWrite
 model: opus
 ---
