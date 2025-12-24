@@ -1,4 +1,4 @@
-function __abbr_yank
+function __abbr-yank
   for cmd in pbcopy wl-copy
     if type -q $cmd
       echo -n $cmd
