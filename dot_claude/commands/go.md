@@ -7,7 +7,7 @@ Do one of the following based on the project state.
 1. If `scrum.ts` and `plan.md` both exists, ask user for migration preference:
     * continue with `scrum.ts` process
     * migrate to `plan.md` process starting from next unmarked test
-2. If `scrum.ts` exists, repeatably do following until no more PBIs can be refined:
+2. If `scrum.ts` exists, continuously repeat the following cycle until all refinable PBIs are complete:
     * product backlog refinement
     * sprint planning
     * sprint execution with `tdd` skill
