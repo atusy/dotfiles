@@ -30,6 +30,9 @@ local M = {
 	["<C-S>"] = function(finder)
 		finder:dispatch_mutation()
 	end,
+	["<F5>"] = function(finder)
+		finder:dispatch_refresh()
+	end,
 	["#"] = function()
 		local altbuf = vim.fn.expand("#")
 		require("fyler").navigate(vim.fn.filereadable(altbuf) == 1 and altbuf or nil)
