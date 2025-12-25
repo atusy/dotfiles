@@ -28,7 +28,7 @@ end
 
 local M = {
 	["<C-S>"] = function(finder)
-		finder:synchronize()
+		finder:dispatch_mutation()
 	end,
 	["#"] = function()
 		local altbuf = vim.fn.expand("#")
