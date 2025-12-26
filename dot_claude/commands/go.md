@@ -8,12 +8,12 @@ Do one of the following based on the project state.
     * continue with `scrum.ts` process
     * migrate to `plan.md` process starting from next unmarked test
 2. If `scrum.ts` exists, continuously repeat the following cycle until all refinable PBIs are complete:
-    * product backlog refinement
-    * sprint planning
-    * sprint execution with `tdd` skill
-    * sprint review
-    * sprint retrospective
-    * `scrum.ts` compaction (keep ≤300 lines)
+    * @scrum-events-backlog-refinement
+    * @scrum-events-sprint-planning
+    * @scrum-team-developer do sprint execution with `tdd` skill
+    * @scrum-events-sprint-review
+    * @scrum-events-sprint-retrospective
+    * @scrum-team-scrum-master do `scrum.ts` compaction (keep ≤300 lines)
 3. If `plan.md` exists, do following
     * ensure plan follows Follow Kent Beck's Test-Driven Development (`tdd` skill) and Tidy First (`tidying` skill) methodologies
     * find the next unmarked test, use `tdd` skill to implement it, update `plan.md`
