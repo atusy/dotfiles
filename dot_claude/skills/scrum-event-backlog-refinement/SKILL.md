@@ -40,6 +40,20 @@ A PBI is `ready` when:
 4. **If Story Lacks Value Alone** - Merge with adjacent PBI (see `splitting.md` Anti-Patterns)
 5. **If Needs Human Help** - Keep as `refining`, document questions
 
+## Adaptation Check for Ready PBIs
+
+Even `ready` PBIs must be inspected before Sprint Planning:
+
+| Check | Question | If Failed |
+|-------|----------|-----------|
+| **Goal Alignment** | Still aligned with Product Goal? | Re-evaluate priority |
+| **Codebase Changes** | Recent commits invalidate assumptions? | Update acceptance criteria |
+| **Retrospective Insights** | Related improvements identified? | Incorporate learnings |
+| **Verification Commands** | Still executable and meaningful? | Update commands |
+| **Dependencies** | New blockers emerged? | Document and resolve |
+
+**If any check fails**: Change status back to `refining` and address gaps.
+
 ## Ron Jeffries' 3C Principle
 
 - **Card**: Story on card with estimates (intentionally brief)
