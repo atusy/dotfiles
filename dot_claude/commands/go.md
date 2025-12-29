@@ -8,7 +8,7 @@ Do one of the following based on the project state.
     * continue with `scrum.ts` process
     * migrate to `plan.md` process starting from next unmarked test
 2. If `scrum.ts` exists
-    * use /go:scrum command
+    * use /agentic-scrum:go command
 3. If `plan.md` exists, do following
     * ensure plan follows Follow Kent Beck's Test-Driven Development (`tdd` skill) and Tidy First (`tidying` skill) methodologies
     * find the next unmarked test, use `tdd` skill to implement it, update `plan.md`
