@@ -67,6 +67,9 @@
     "command": "./statusline.sh",
     "padding": 0
   },
+  "enabledPlugins": {
+    "agentic-scrum@agentic-scrum": true
+  },
   "outputStyle": "Explanatory",
   "alwaysThinkingEnabled": true,
   "autoCompactEnabled": false,
