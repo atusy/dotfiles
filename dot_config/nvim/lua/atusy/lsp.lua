@@ -117,6 +117,17 @@ function M.setup()
 			pcall(require, "lspconfig")
 			vim.lsp.log.set_level(vim.lsp.log_levels.OFF)
 			vim.lsp.linked_editing_range.enable(true)
+			vim.lsp.config("*", {
+				---@param client vim.lsp.Client
+				on_init = function(client)
+					-- Prefer semanticTokens/full/delta over range (Neovim default) to avoid flikering on scroll
+					pcall(function()
+						if client.server_capabilities.semanticTokensProvider.full.delta then
+							client.server_capabilities.semanticTokensProvider.range = false
+						end
+					end)
+				end,
+			})
 			vim.lsp.enable({
 				"bashls",
 				"copilot",
