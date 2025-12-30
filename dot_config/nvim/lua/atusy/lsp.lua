@@ -191,6 +191,8 @@ function M.setup()
 		callback = function()
 			vim.diagnostic.config({
 				signs = false,
+				underline = true,
+				virtual_text = true,
 				jump = {
 					severity = {
 						vim.diagnostic.severity.INFO,
