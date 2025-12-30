@@ -1,2 +1,15 @@
 #!/bin/sh
-exec bunx @anthropic-ai/claude-code "$@"
+
+AGENTIC_SCRUM_REPOSITORY="github.com/atusy/agentic-scrum"
+AGENTIC_SCRUM_PLUGIN="$HOME/ghq/$AGENTIC_SCRUM_REPOSITORY/claude-plugins/agentic-scrum"
+
+if [ ! -d "$AGENTIC_SCRUM_PLUGIN" ]; then
+  ghq get "$AGENTIC_SCRUM_REPOSITORY"
+else
+  git -C "$AGENTIC_SCRUM_PLUGIN" pull --ff-only 2>/dev/null 1>/dev/null &
+fi
+
+exec bunx @anthropic-ai/claude-code \
+  --dangerously-skip-permissions \
+  --plugin-dir "$AGENTIC_SCRUM_PLUGIN" \
+  "$@"
