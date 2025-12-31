@@ -25,7 +25,8 @@ Apply behavior-preserving transformations to improve quality of any codes, inclu
 - Adding new functionality
 - Fixing bugs (if you find one, write a failing test first)
 - Changing observable behavior in any way
-- Changing public API of libraries (exported symbols, function signatures)
+
+See `library-application-criteria.md` for public API constraints (libraries vs applications).
 
 ## Refactoring Workflow
 
