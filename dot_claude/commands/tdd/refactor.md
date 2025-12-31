@@ -23,20 +23,7 @@ Improve code quality while keeping tests green:
 - **Improve clarity** through better naming and structure
 - **Simplify** complex expressions or logic
 
-### Structural Changes Only
-
-**NO behavior changes in REFACTOR phase!**
-
-Allowed:
-- Renaming for clarity
-- Extracting functions/methods
-- Removing duplication
-- Simplifying expressions
-
-**NOT allowed** (save for next RED phase):
-- Adding new functionality
-- Fixing bugs (write a failing test first)
-- Changing behavior in any way
+New functionality or bug fixes? Save for next RED phase.
 
 ### Keep Steps Small
 

@@ -11,6 +11,19 @@ Apply behavior-preserving transformations to improve quality of any codes, inclu
 
 > "Refactoring is a disciplined technique for restructuring an existing body of code, altering its internal structure without changing its external behavior." — Martin Fowler
 
+## Structural Changes Only
+
+**Allowed:**
+- Renaming for clarity
+- Extracting functions/methods
+- Removing duplication
+- Simplifying expressions
+
+**NOT allowed:**
+- Adding new functionality
+- Fixing bugs (if you find one, write a failing test first)
+- Changing observable behavior in any way
+
 ## Refactoring Workflow
 
 1. **Ensure tests pass** (you need a safety net)
