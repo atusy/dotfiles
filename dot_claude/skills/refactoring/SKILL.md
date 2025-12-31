@@ -18,11 +18,14 @@ Apply behavior-preserving transformations to improve quality of any codes, inclu
 - Extracting functions/methods
 - Removing duplication
 - Simplifying expressions
+- Moving files/modules between directories
+- Reorganizing module boundaries
 
 **NOT allowed:**
 - Adding new functionality
 - Fixing bugs (if you find one, write a failing test first)
 - Changing observable behavior in any way
+- Changing public API of libraries (exported symbols, function signatures)
 
 ## Refactoring Workflow
 
