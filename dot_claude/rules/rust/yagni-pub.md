@@ -6,8 +6,8 @@ paths: "**/*.rs"
 
 * Apply You Aren’t Gonna Need It (YAGNI) principle to visibility, and reduce API surface area
     * private by default
-    * limited visibility when needed (e.g., use `pub(crate)` or `pub(super)` when appropriate)
-    * public only when required by external code
+    * `pub(crate)` / `pub(super)` for internal sharing
+    * `pub` only for external API surface
 * Keep in mind that applications and libraries have different visibility needs
 * Review existing `pub` usages during refactoring to ensure they are still needed
 
