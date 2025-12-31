@@ -5,7 +5,7 @@ description: Guide code refactoring using Martin Fowler's catalog of behavior-pr
 
 # Refactoring Skill
 
-Apply behavior-preserving transformations to improve code quality.
+Apply behavior-preserving transformations to improve quality of any codes, including tests.
 
 ## Core Principle
 
