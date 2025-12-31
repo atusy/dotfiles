@@ -12,7 +12,7 @@ Use the `refactoring` skill for pattern selection and workflow mechanics.
 
 - **ONLY refactor when all tests pass** (you should be GREEN)
 - **Run tests after EVERY small change** (not just at the end)
-- This phase is **REPEATABLE** - do multiple refactors as needed
+- This phase is **REPEATABLE** - start with small patterns (e.g., rename, extract variable) and work up to larger refactors
 - **Commit after EACH successful refactor** using `/git:commit`
 
 ### Primary Goals
