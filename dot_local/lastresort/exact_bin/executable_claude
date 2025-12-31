@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/usr/bin/env bash
 
 set -euo pipefail
 
@@ -7,11 +7,16 @@ AGENTIC_SCRUM_ROOT="$HOME/ghq/$AGENTIC_SCRUM_REPOSITORY"
 AGENTIC_SCRUM_PLUGIN="$AGENTIC_SCRUM_ROOT/claude-plugins/agentic-scrum"
 
 if [ ! -d "$AGENTIC_SCRUM_ROOT" ]; then
-  ghq get "$AGENTIC_SCRUM_REPOSITORY"
+  if command -v ghq >/dev/null 2>&1; then
+    ghq get "$AGENTIC_SCRUM_REPOSITORY"
+  else
+    git clone "https://$AGENTIC_SCRUM_REPOSITORY" -- "$AGENTIC_SCRUM_ROOT"
+  fi
 else
-  git -C "$AGENTIC_SCRUM_PLUGIN" pull --ff-only origin HEAD &
+  git -C "$AGENTIC_SCRUM_ROOT" pull --ff-only origin HEAD &
 fi
 
+export ENABLE_TOOL_SEARCH="${ENABLE_TOOL_SEARCH:-true}"
 exec bunx @anthropic-ai/claude-code \
   --dangerously-skip-permissions \
   --plugin-dir "$AGENTIC_SCRUM_PLUGIN" \
