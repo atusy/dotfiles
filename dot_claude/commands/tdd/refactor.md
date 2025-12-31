@@ -34,11 +34,4 @@ Each refactor commit should be small and focused:
 
 ### Next Step
 
-When duplication is removed and the code is clean:
-
-1. **More TDD?** → Start next cycle with `/tdd:red`
-2. **Broader cleanup?** → Use `/tidy:after` for structural improvements beyond test-code duplication
-
----
-
-**Remember**: REFACTOR focuses on removing duplication from RED→GREEN. For broader tidying, use the `tidying` skill.
+When duplication is removed and the code is clean, start the next cycle with `/tdd:red`.
