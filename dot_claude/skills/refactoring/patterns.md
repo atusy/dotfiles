@@ -103,6 +103,29 @@ Long-term structural improvements (use incrementally).
 | **Separate Domain from Presentation** | UI logic mixed with business logic |
 | **Extract Hierarchy** | Class doing too much with many conditionals |
 
+## Test Code Refactoring
+
+Patterns for improving test code quality (often overlooked!).
+
+| Pattern | When to Use | Mechanics |
+|---------|-------------|-----------|
+| **Extract Test Fixture Factory** | Same struct constructed in 5+ tests | Create `make_default_X()` helper function |
+| **Extract Test Helper** | Same setup/assertion sequence in multiple tests | Create helper function with clear name |
+| **Move Integration Tests to tests/** | Inline `#[cfg(test)]` module > 500 lines | Create `tests/test_<feature>.rs` file |
+| **Parameterize Test** | Multiple tests differ only in input/expected values | Use test framework's parameterization |
+| **Extract Availability Check** | Same "skip if unavailable" guard repeated | Create `check_X_available()` helper |
+
+## Commonly Missed Patterns (TDD Post-GREEN)
+
+Patterns that are frequently skipped after the GREEN phase.
+
+| Pattern | Smell | Example |
+|---------|-------|---------|
+| **Extract Higher-Order Helper** | Two async methods share setup→action→teardown | `with_connection(\|conn\| { ... })` |
+| **Replace Hardcoded with Parameter** | Literal works now but will break for expansion | Change `"rust"` to `region.language` |
+| **Remove Vestigial Method** | Old method duplicates new abstraction | Delete `main_rs_uri()`, keep `virtual_file_uri()` |
+| **Extract Match Arm to Lookup** | Long match statement mapping values | Replace 30-line match with `HashMap` |
+
 ## Pattern Selection by Smell
 
 Quick reference for common code smells:
@@ -131,3 +154,6 @@ Quick reference for common code smells:
 | **Data Class** | Move Method, Encapsulate Field, Encapsulate Collection |
 | **Refused Bequest** | Push Down Method, Replace Inheritance with Delegation |
 | **Comments** | Extract Method, Rename (the code should speak for itself) |
+| **Repeated Test Setup** | Extract Test Fixture Factory, Extract Test Helper |
+| **Large Test Module** | Move Integration Tests to tests/ |
+| **Hardcoded Expansion Blocker** | Replace Hardcoded with Parameter |
