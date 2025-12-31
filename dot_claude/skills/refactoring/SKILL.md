@@ -1,18 +1,11 @@
 ---
 name: refactoring
-description: Guide code refactoring using Martin Fowler's catalog of behavior-preserving transformations. Use when improving code structure, removing duplication, addressing code smells, or during TDD REFACTOR phase.
+description: Guide code refactoring using Martin Fowler's catalog of behavior-preserving transformations. Use during TDD REFACTOR phase, when code smells are detected (duplication, long methods, feature envy), when discussing structural improvements, or before behavioral changes (Tidy First).
 ---
 
 # Refactoring Skill
 
 Apply behavior-preserving transformations to improve code quality.
-
-## When This Skill Activates
-
-- During TDD REFACTOR phase (`/tdd:refactor`)
-- When code smells are detected (duplication, long methods, feature envy)
-- When discussing structural improvements
-- Before making behavioral changes (Tidy First)
 
 ## Core Principle
 
@@ -27,30 +20,9 @@ Apply behavior-preserving transformations to improve code quality.
 5. **Run tests after each step**
 6. **Commit when green**
 
-## Quick Pattern Selection
-
-| Code Smell | Start With |
-|------------|------------|
-| Duplicate code | Extract Method/Variable |
-| Long method | Extract Method |
-| Long parameter list | Introduce Parameter Object |
-| Unclear name | Rename |
-| Complex conditional | Decompose Conditional |
-| Primitive obsession | Replace Data Value with Object |
-| Feature envy | Move Method |
-| Magic numbers | Replace with Symbolic Constant |
-
-For comprehensive patterns, see `patterns.md`.
-
 ## Safety Rules
 
 - **Never refactor with failing tests**
 - **One pattern at a time**
 - **Commit after each successful refactor**
 - **Revert immediately if tests fail**
-
-## Integration with TDD
-
-This skill complements `/tdd:refactor`:
-- TDD REFACTOR focuses on removing RED→GREEN duplication
-- This skill provides the full pattern catalog for deeper improvements
