@@ -3,6 +3,6 @@
 
 CODEX="${HOME}/.bun/bin/codex"
 if ! test -x "$CODEX"; then
-  bun install --global @openapi/codex
+  bun install --global @openai/codex
 fi
 exec "$CODEX" "$@"
