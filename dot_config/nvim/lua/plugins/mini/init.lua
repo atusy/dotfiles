@@ -21,9 +21,15 @@ return {
 				end
 
 				-- cleanup session-unfriendly buffers
+				local targets = { prompt = true, quickfix = true, terminal = true }
+				for _, win in ipairs(vim.api.nvim_list_wins()) do
+					local buf = vim.api.nvim_win_get_buf(win)
+					if targets[vim.bo[buf].buftype] then
+						vim.api.nvim_win_close(win, true)
+					end
+				end
 				for _, buf in ipairs(vim.api.nvim_list_bufs()) do
-					local buftype = vim.bo[buf].buftype
-					if buftype == "prompt" or buftype == "quickfix" or buftype == "terminal" then
+					if targets[vim.bo[buf].buftype] then
 						vim.api.nvim_buf_delete(buf, { force = true })
 					end
 				end
