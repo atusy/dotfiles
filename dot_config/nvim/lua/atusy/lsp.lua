@@ -115,7 +115,9 @@ function M.setup()
 		once = true,
 		callback = function()
 			pcall(require, "lspconfig")
-			vim.lsp.log.set_level(vim.lsp.log_levels.OFF)
+			vim.lsp.log.set_level(
+				vim.env.NVIM_LSP_LOGLEVEL and vim.lsp.log_levels[vim.env.NVIM_LSP_LOGLEVEL] or vim.lsp.log_levels.ERROR
+			)
 			vim.lsp.linked_editing_range.enable(true)
 			vim.lsp.config("*", {
 				---@param client vim.lsp.Client
