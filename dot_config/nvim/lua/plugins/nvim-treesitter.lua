@@ -75,9 +75,14 @@ return {
 
 					-- on fail, retry after installing the parser
 					local lang = vim.treesitter.language.get_lang(filetype)
+					local available = vim.tbl_contains(require("nvim-treesitter").get_available(), lang)
+					if not available then
+						return
+					end
 					require("nvim-treesitter").install({ lang }):await(function(err)
 						if err then
 							vim.notify(err, vim.log.levels.ERROR, { title = "nvim-treesitter" })
+							return
 						end
 						pcall(vim.treesitter.start, ctx.buf)
 					end)
