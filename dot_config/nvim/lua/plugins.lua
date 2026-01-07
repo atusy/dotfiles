@@ -573,13 +573,8 @@ return {
 			})
 		end,
 	},
-	{
-		"https://github.com/stevearc/quicker.nvim",
-		ft = "qf",
-		config = function()
-			require("quicker").setup()
-		end,
-	},
+	{ "https://github.com/itchyny/vim-qfedit", ft = "qf" },
+	{ "https://github.com/thinca/vim-qfreplace", ft = "qf" },
 	{ "https://github.com/jmbuhr/otter.nvim", lazy = true },
 	{
 		"https://github.com/quarto-dev/quarto-nvim",
