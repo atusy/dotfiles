@@ -84,7 +84,7 @@
   },
   "statusLine": {
     "type": "command",
-    "command": "./statusline.sh",
+    "command": "bash ~/.claude/statusline.sh",
     "padding": 0
   },
   "enabledPlugins": {
