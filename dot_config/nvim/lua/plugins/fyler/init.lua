@@ -50,7 +50,9 @@ return {
 		"https://github.com/A7Lavinraj/fyler.nvim",
 		init = function()
 			setup_winbar()
-			vim.keymap.set("n", "S", open)
+			vim.keymap.set("n", "S", function()
+				require("fyler").open()
+			end)
 		end,
 		config = function()
 			require("fyler").setup({
