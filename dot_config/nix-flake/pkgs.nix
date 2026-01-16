@@ -70,6 +70,7 @@ let
     pkgs.terraform
     pkgs.tmux
     pkgs.trash-cli
+    pkgs.typst
     pkgs.uv
     pkgs.watch
     pkgs.wget2
