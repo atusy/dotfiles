@@ -179,22 +179,6 @@ return {
 		end,
 	},
 	{
-		"https://github.com/uga-rosa/ccc.nvim",
-		-- migrated from https://github.com/norcalli/nvim-colorizer.lua
-		-- because colorizer's extmark are vulnerable to text editing
-		-- For example, extmark apparently disappears when `i#123456<Esc>O`
-		lazy = true,
-		event = "BufReadPost",
-		config = function()
-			require("ccc").setup({
-				highlighter = {
-					auto_enable = true,
-					lsp = true,
-				},
-			})
-		end,
-	},
-	{
 		"https://github.com/folke/styler.nvim",
 		lazy = true,
 		init = function()
