@@ -1,0 +1,33 @@
+# Documentation: https://github.com/atusy/kakehashi/blob/main/docs/README.md
+
+autoInstall = true
+
+[languages.markdown]
+aliases = ["rmd", "qmd"]
+
+[captureMappings._.highlights]
+"markup.heading" = "class"
+"markup.heading.1" = "class"
+"markup.heading.2" = "class"
+"markup.heading.3" = "class"
+"markup.heading.4" = "class"
+"markup.heading.5" = "class"
+"markup.heading.6" = "class"
+"markup.italic" = "keyword"
+"markup.link.label" = "keyword"
+"markup.link.url" = ""
+"markup.link" = ""
+"markup.list.checked" = "property"
+"markup.list.unchecked" = "property"
+"markup.list" = "property"
+"markup.math" = ""
+"markup.quote" = "string"
+"markup.raw.block" = "string"
+"markup.raw" = ""
+"markup.strikethrough" = "keyword.deprecated"
+"markup.strong" = "keyword"
+"markup.underline" = "keyword"
+
+[captureMappings._.locals]
+
+[captureMappings._.folds]
