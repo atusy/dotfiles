@@ -122,6 +122,12 @@ function M.setup()
 			vim.lsp.config("*", {
 				---@param client vim.lsp.Client
 				on_init = function(client)
+					-- Disable semantic tokens for all LSPs except kakehashi
+					if client.name ~= "kakehashi" then
+						client.server_capabilities.semanticTokensProvider = nil
+						return
+					end
+
 					-- Prefer semanticTokens/full/delta over range (Neovim default) to avoid flikering on scroll
 					pcall(function()
 						if client.server_capabilities.semanticTokensProvider.full.delta then
