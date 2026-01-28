@@ -81,34 +81,6 @@ function M.setup_mappings(bufnr, client)
 	end
 end
 
---- Enable inline completion iff on Insert mode
----
---- To workaround the issue that inline completion stops working at some point.
-function M.setup_inline_completion()
-	vim.api.nvim_create_autocmd("InsertEnter", {
-		group = M.augroup,
-		desc = "Enable inline completion just before entering Insert mode",
-		callback = function(ctx)
-			local opts = { bufnr = ctx.buf }
-			if not vim.lsp.inline_completion.is_enabled(opts) then
-				vim.lsp.inline_completion.enable(false, opts) -- force restart
-			end
-			vim.lsp.inline_completion.enable(true, opts)
-		end,
-	})
-
-	vim.api.nvim_create_autocmd("ModeChanged", {
-		group = M.augroup,
-		desc = "Disable inline completion after leaving Insert mode",
-		callback = function(ctx)
-			if ctx.match:match("^i:") then
-				local opts = { bufnr = ctx.buf }
-				vim.lsp.inline_completion.enable(false, opts)
-			end
-		end,
-	})
-end
-
 function M.setup()
 	vim.lsp.inline_completion.enable(true)
 	vim.api.nvim_create_autocmd("FileType", {
@@ -120,6 +92,7 @@ function M.setup()
 				vim.env.NVIM_LSP_LOGLEVEL and vim.lsp.log_levels[vim.env.NVIM_LSP_LOGLEVEL] or vim.lsp.log_levels.ERROR
 			)
 			vim.lsp.linked_editing_range.enable(true)
+			vim.lsp.inline_completion.enable(true)
 			vim.lsp.config("*", {
 				---@param client vim.lsp.Client
 				on_init = function(client)
