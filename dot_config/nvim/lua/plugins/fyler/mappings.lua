@@ -3,7 +3,7 @@
 ---@param open function(string)
 local function select_entry(finder, open)
 	local entry = finder:cursor_node_entry()
-	if entry:is_directory() then
+	if entry.type == "directory" then
 		finder:exec_action("n_select")
 		return
 	end
