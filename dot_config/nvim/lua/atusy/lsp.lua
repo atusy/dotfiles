@@ -130,22 +130,26 @@ function M.setup()
 					end)
 				end,
 			})
-			vim.lsp.enable({
-				"bashls",
-				"copilot",
-				-- "denols", -- enabled conditionally
-				"gopls",
-				"html",
-				"jsonls",
-				"lua_ls",
-				"nixd",
-				"pyright",
-				"r_language_server",
-				"rust_analyzer",
-				"terraformls",
-				-- "ts_ls", -- enabled conditionally
-				"yamlls",
-			})
+
+			-- NOTE: If unscheduled, fails to attach servers to files opened via CLI command (e.g., nvim foo.rs)
+			vim.schedule(function()
+				vim.lsp.enable({
+					"bashls",
+					-- "denols", -- enabled conditionally
+					"gopls",
+					"html",
+					"jsonls",
+					"kakehashi",
+					"lua_ls",
+					"nixd",
+					"pyright",
+					"r_language_server",
+					"rust_analyzer",
+					"terraformls",
+					-- "ts_ls", -- enabled conditionally
+					"yamlls",
+				})
+			end)
 		end,
 	})
 
