@@ -248,12 +248,12 @@ function M.setup()
 			local clients = vim.lsp.get_clients({ bufnr = bufnr, name = "copilot" })
 			for _, client in ipairs(clients) do
 				---@diagnostic disable-next-line: param-type-mismatch
-				if not client.supports_method("textDocument/didFocus", bufnr) then
+				if not client:supports_method("textDocument/didFocus", bufnr) then
 					return
 				end
 				if client.initialized then
 					---@diagnostic disable-next-line: param-type-mismatch
-					client.notify("textDocument/didFocus", { textDocument = { uri = vim.uri_from_bufnr(bufnr) } })
+					client:notify("textDocument/didFocus", { textDocument = { uri = vim.uri_from_bufnr(bufnr) } })
 					prev_buf = bufnr
 				end
 				return
