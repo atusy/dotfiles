@@ -228,40 +228,6 @@ function M.setup()
 			})
 		end,
 	})
-
-	-- copilot: send didFocus on buffer/window change
-	local prev_buf = nil
-	vim.api.nvim_create_autocmd({
-		"BufWinEnter", -- when changing buffer in window
-		"WinEnter", -- when changing window
-		"LspNotify", -- when copilot is initialized
-	}, {
-		group = M.augroup,
-		callback = function(ev)
-			if ev.event == "lsp_notify" and ev.data.method ~= "initialized" then
-				return
-			end
-
-			local bufnr = vim.api.nvim_get_current_buf()
-			if prev_buf == bufnr then
-				return
-			end
-
-			local clients = vim.lsp.get_clients({ bufnr = bufnr, name = "copilot" })
-			for _, client in ipairs(clients) do
-				---@diagnostic disable-next-line: param-type-mismatch
-				if not client:supports_method("textDocument/didFocus", bufnr) then
-					return
-				end
-				if client.initialized then
-					---@diagnostic disable-next-line: param-type-mismatch
-					client:notify("textDocument/didFocus", { textDocument = { uri = vim.uri_from_bufnr(bufnr) } })
-					prev_buf = bufnr
-				end
-				return
-			end
-		end,
-	})
 end
 
 return M
