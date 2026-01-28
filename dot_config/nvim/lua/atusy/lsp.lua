@@ -142,6 +142,7 @@ function M.setup()
 			vim.schedule(function()
 				vim.lsp.enable({
 					"bashls",
+					"copilot",
 					-- "denols", -- enabled conditionally
 					"gopls",
 					"html",
