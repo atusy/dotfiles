@@ -415,33 +415,6 @@ return {
 		end,
 	},
 
-	-- cmdwin
-	{
-		"https://github.com/notomo/cmdbuf.nvim",
-		lazy = true,
-		init = function()
-			vim.keymap.set("c", "<C-F>", function()
-				require("cmdbuf").split_open(
-					vim.o.cmdwinheight,
-					{ line = vim.fn.getcmdline(), column = vim.fn.getcmdpos() }
-				)
-				vim.api.nvim_feedkeys(vim.keycode("<C-C>"), "n", true)
-			end)
-		end,
-		config = function()
-			vim.api.nvim_create_autocmd({ "User" }, {
-				group = vim.api.nvim_create_augroup("atusy.cmdbuf", {}),
-				pattern = { "CmdbufNew" },
-				callback = function(args)
-					vim.bo.bufhidden = "wipe"
-					local max_count = 10
-					local lines = vim.api.nvim_buf_get_lines(args.buf, 0, -1, false)
-					vim.api.nvim_buf_set_lines(args.buf, 0, -1, false, vim.list_slice(lines, #lines - max_count))
-				end,
-			})
-		end,
-	},
-
 	-- AI
 	{
 		-- required by codecompanion
