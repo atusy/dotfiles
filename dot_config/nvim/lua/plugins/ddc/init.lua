@@ -110,7 +110,6 @@ local function config()
 	-- configure
 	vim.fn["ddc#custom#load_config"](vim.fs.joinpath(vim.fs.dirname(debug.getinfo(1, "S").source:sub(2)), "init.ts"))
 	require("plugins.ddc.gitcommit")()
-	require("plugins.ddc.codecompanion")()
 
 	-- lazy enable
 	vim.api.nvim_create_autocmd({ "InsertEnter", "CmdlineEnter" }, {
