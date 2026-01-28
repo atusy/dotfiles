@@ -3,20 +3,6 @@ local M = {
 	augroup = vim.api.nvim_create_augroup("atusy.lsp", {}),
 }
 
---- Cache the current buffer with the attached LSP clients.
-function M.cache(bufnr, clients)
-	bufnr = bufnr or vim.api.nvim_get_current_buf()
-	clients = clients or vim.lsp.get_clients({ bufnr = bufnr })
-	for _, client in ipairs(clients) do
-		if client.name == "denols" then
-			local filename = vim.api.nvim_buf_get_name(bufnr)
-			if filename ~= "" then
-				vim.system({ "deno", "cache", filename }, {}, function() end)
-			end
-		end
-	end
-end
-
 --- Delete lsp-default mappings starting with 'gr'
 function M.delete_default_mappings()
 	for _, m in pairs(vim.api.nvim_get_keymap("n")) do
@@ -82,7 +68,6 @@ function M.setup_mappings(bufnr, client)
 end
 
 function M.setup()
-	vim.lsp.inline_completion.enable(true)
 	vim.api.nvim_create_autocmd("FileType", {
 		group = M.augroup,
 		once = true,
@@ -177,7 +162,6 @@ function M.setup()
 		callback = function(ctx)
 			local client = vim.lsp.get_client_by_id(ctx.data.client_id)
 			if client then
-				M.cache(ctx.buf, { client })
 				M.setup_mappings(ctx.buf, client)
 			end
 		end,
