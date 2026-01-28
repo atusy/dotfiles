@@ -575,12 +575,4 @@ return {
 	},
 	{ "https://github.com/itchyny/vim-qfedit", ft = "qf" },
 	{ "https://github.com/thinca/vim-qfreplace", ft = "qf" },
-	{ "https://github.com/jmbuhr/otter.nvim", lazy = true },
-	{
-		"https://github.com/quarto-dev/quarto-nvim",
-		ft = { "quarto" },
-		config = function()
-			require("quarto").setup({})
-		end,
-	},
 }
