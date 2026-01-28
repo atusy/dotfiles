@@ -15,7 +15,7 @@ async function get_fpath() {
 const makeSources = (sources: string[]) => {
   return [
     "denippet",
-    "copilot",
+    // "copilot",
     "lsp",
     ...sources,
     "file",
