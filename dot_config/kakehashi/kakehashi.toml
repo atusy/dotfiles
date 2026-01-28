@@ -27,7 +27,3 @@ aliases = ["rmd", "qmd"]
 "markup.strikethrough" = "keyword.deprecated"
 "markup.strong" = "keyword"
 "markup.underline" = "keyword"
-
-[captureMappings._.locals]
-
-[captureMappings._.folds]
