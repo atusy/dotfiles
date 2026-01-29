@@ -5,6 +5,14 @@ autoInstall = true
 [languages.markdown]
 aliases = ["rmd", "qmd"]
 
+[languageServers.lua_ls]
+cmd = ["lua-language-server"]
+languages = ["lua"]
+
+[languageServers.pyright]
+cmd = ["pyright-langserver", "--stdio"]
+languages = ["python"]
+
 [captureMappings._.highlights]
 "markup.heading" = "class"
 "markup.heading.1" = "class"
