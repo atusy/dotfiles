@@ -17,7 +17,7 @@ else
 fi
 
 export ENABLE_TOOL_SEARCH="${ENABLE_TOOL_SEARCH:-true}"
-exec tmux new-session \
+TMUX_STATUSLINE=false exec tmux -L claude2 new-session -e ENABLE_TOOL_SEARCH="$ENABLE_TOOL_SEARCH" \
   bunx @anthropic-ai/claude-code \
   --dangerously-skip-permissions \
   --plugin-dir "$AGENTIC_SCRUM_PLUGIN" \
