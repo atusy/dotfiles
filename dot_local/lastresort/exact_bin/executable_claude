@@ -17,7 +17,8 @@ else
 fi
 
 export ENABLE_TOOL_SEARCH="${ENABLE_TOOL_SEARCH:-true}"
-exec bunx @anthropic-ai/claude-code \
+exec tmux new-session \
+  bunx @anthropic-ai/claude-code \
   --dangerously-skip-permissions \
   --plugin-dir "$AGENTIC_SCRUM_PLUGIN" \
   "$@"
