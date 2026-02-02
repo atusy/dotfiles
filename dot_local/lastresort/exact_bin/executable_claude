@@ -13,7 +13,7 @@ if [ ! -d "$AGENTIC_SCRUM_ROOT" ]; then
     git clone "https://$AGENTIC_SCRUM_REPOSITORY" -- "$AGENTIC_SCRUM_ROOT"
   fi
 else
-  git -C "$AGENTIC_SCRUM_ROOT" pull --ff-only origin HEAD &
+  git -C "$AGENTIC_SCRUM_ROOT" pull --ff-only origin HEAD
 fi
 
 export ENABLE_TOOL_SEARCH="${ENABLE_TOOL_SEARCH:-true}"
