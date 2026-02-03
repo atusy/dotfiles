@@ -15,6 +15,7 @@ vim.api.nvim_create_autocmd("LspAttach", {
 			buffer = ev.buf,
 			once = true,
 			callback = function()
+				vim.cmd.syntax("off")
 				vim.treesitter.stop()
 			end,
 		})
