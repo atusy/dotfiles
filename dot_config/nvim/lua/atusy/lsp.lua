@@ -185,6 +185,17 @@ function M.setup()
 			})
 		end,
 	})
+
+	vim.lsp.handlers["textDocument/publishDiagnostics"] = function(err, result, ctx)
+		local client = vim.lsp.get_client_by_id(ctx.client_id)
+
+		local ignore_pull = { "kakehashi" }
+		if client and vim.tbl_contains(ignore_pull, client.name) then
+			return
+		end
+
+		return vim.lsp.diagnostic.on_publish_diagnostics(err, result, ctx)
+	end
 end
 
 return M
