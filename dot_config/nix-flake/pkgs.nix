@@ -96,7 +96,7 @@ let
     pkgs.biome
     pkgs.checkmate
     pkgs.gotools
-    pkgs.nixfmt-rfc-style
+    pkgs.nixfmt
     pkgs.oxlint
     pkgs.prettierd
     pkgs.ruff
