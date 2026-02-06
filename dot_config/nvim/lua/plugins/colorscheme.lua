@@ -127,21 +127,22 @@ local function set_styler()
 
 	vim.api.nvim_create_autocmd("CmdlineEnter", {
 		group = augroup,
-		callback = function()
+		callback = function(ctx)
 			local ok_extui, enabled = pcall(function()
-				return require("vim._extui.shared").cfg.enable
+				return require("vim._core.ui2.shared").cfg.enable
 			end)
 			if ok_extui and not enabled then
 				return
 			end
 
 			local ok_extuiwins, extuiwins = pcall(function()
-				return require("vim._extui.shared").wins
+				return require("vim._core.ui2").wins
 			end)
 
 			if not ok_extuiwins then
 				vim.notify("styling extui with styler.nvim failed", vim.log.levels.ERROR)
-				return true -- delete autocmd
+				vim.api.nvim_del_autocmd(ctx.id)
+				return
 			end
 
 			for _, w in pairs(extuiwins) do

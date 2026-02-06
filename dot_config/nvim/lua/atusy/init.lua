@@ -58,7 +58,7 @@ vim.opt.softtabstop = 2
 vim.opt.tabstop = 2
 
 -- cmdline
-local ok_extui, extui = pcall(require, "vim._extui")
+local ok_extui, extui = pcall(require, "vim._core.ui2")
 if ok_extui then
 	extui.enable({ enable = true, msg = { target = "msg", timeout = 4000 } })
 end
