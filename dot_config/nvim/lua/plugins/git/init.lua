@@ -87,7 +87,7 @@ local function setup_gin()
 	local augroup = vim.api.nvim_create_augroup("atusy.gin", {})
 	vim.api.nvim_create_autocmd("BufReadCmd", {
 		group = augroup,
-		pattern = { "gin://*", "ginedit://*", "ginlog://*", "gindiff://*" },
+		pattern = { "gin*://*" },
 		callback = function(ctx)
 			vim.keymap.set("n", "<F5>", "<Cmd>call gin#util#reload()<CR>", { buffer = ctx.buf })
 			if ctx.match:match("^ginedit://") then
