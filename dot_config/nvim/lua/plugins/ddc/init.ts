@@ -168,6 +168,7 @@ export class Config extends BaseConfig {
           forceCompletionPattern: "\\.\\w*|::\\w*|->\\w*",
           dup: "force",
           isVolatile: true,
+          volatilePattern: "[\p{P}\p{S}]",
         },
         shell_history: {
           mark: "HIST_SH",
