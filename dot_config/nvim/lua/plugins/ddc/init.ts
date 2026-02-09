@@ -1,7 +1,7 @@
 import {
   BaseConfig,
   type ConfigArguments,
-} from "jsr:@shougo/ddc-vim@~9.4.0/config";
+} from "jsr:@shougo/ddc-vim@~10.2.0/config";
 import { join } from "jsr:@std/path@~1.0.0/join";
 
 async function get_fpath() {
