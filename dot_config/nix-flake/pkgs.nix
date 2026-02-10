@@ -119,7 +119,6 @@ in
     pkgs.paru
   ];
   aarch64-darwin = common ++ [
-    pkgs.google-chrome
     pkgs.docker-compose
     pkgs.mas
     pkgs.terminal-notifier
@@ -138,6 +137,7 @@ in
   aarch64-darwin-casks = [
     "docker-desktop"
     "firefox" # pkgs or brewCasks works, but without firefox as terminal command
+    "google-chrome"
     "macskk" # pkgs.macskk fails to setup input source
     "meetingbar" # pkgs.brewCasks.meetingbar fails to start
     "r-app" # pkgs.brewCasks.r does not exist and pkgs.brewCasks.r-app fails to start
