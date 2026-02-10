@@ -128,24 +128,24 @@ local function set_styler()
 	vim.api.nvim_create_autocmd("CmdlineEnter", {
 		group = augroup,
 		callback = function(ctx)
-			local ok_extui, enabled = pcall(function()
+			local ok_ui2, enabled = pcall(function()
 				return require("vim._core.ui2.shared").cfg.enable
 			end)
-			if ok_extui and not enabled then
+			if ok_ui2 and not enabled then
 				return
 			end
 
-			local ok_extuiwins, extuiwins = pcall(function()
+			local ok_ui2_wins, ui2_wins = pcall(function()
 				return require("vim._core.ui2").wins
 			end)
 
-			if not ok_extuiwins then
-				vim.notify("styling extui with styler.nvim failed", vim.log.levels.ERROR)
+			if not ok_ui2_wins then
+				vim.notify("styling ui2 with styler.nvim failed", vim.log.levels.ERROR)
 				vim.api.nvim_del_autocmd(ctx.id)
 				return
 			end
 
-			for _, w in pairs(extuiwins) do
+			for _, w in pairs(ui2_wins) do
 				if vim.api.nvim_win_is_valid(w) then
 					require("styler").set_theme(w, { colorscheme = OUTSIDE_COLORSCHEME })
 				end

@@ -58,9 +58,9 @@ vim.opt.softtabstop = 2
 vim.opt.tabstop = 2
 
 -- cmdline
-local ok_extui, extui = pcall(require, "vim._core.ui2")
-if ok_extui then
-	extui.enable({ enable = true, msg = { target = "msg", timeout = 4000 } })
+local ok_ui2, ui2 = pcall(require, "vim._core.ui2")
+if ok_ui2 then
+	ui2.enable({ enable = true, msg = { target = "msg", timeout = 4000 } })
 end
 
 --[[ commands ]]
@@ -135,7 +135,7 @@ vim.keymap.set("n", "<LeftDrag>", "<NOP>")
 vim.keymap.set("n", "<LeftRelease>", "<NOP>")
 
 -- mappings: undo/redo
--- they are too noisy when using extui
+-- they are too noisy when using ui2
 vim.keymap.set("n", "u", "<Cmd>silent! undo<CR>")
 vim.keymap.set("n", "<C-R>", "<Cmd>silent! redo<CR>")
 
