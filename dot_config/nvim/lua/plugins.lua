@@ -419,7 +419,7 @@ return {
 		ft = { "javascript", "typescript", "typescriptreact" },
 		build = "sh install.sh bun",
 		config = function()
-			require("import-cost").setup()
+			require("import-cost")
 		end,
 	},
 	{
