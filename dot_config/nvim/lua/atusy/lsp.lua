@@ -108,7 +108,7 @@ function M.setup()
 					"kakehashi",
 					"lua_ls",
 					"nixd",
-					"pyright",
+					"basedpyright",
 					"r_language_server",
 					"rust_analyzer",
 					"terraformls",

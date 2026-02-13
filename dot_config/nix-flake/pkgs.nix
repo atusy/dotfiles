@@ -83,7 +83,7 @@ let
     pkgs.emmylua-ls
     pkgs.nixd
     pkgs.nodePackages_latest.bash-language-server
-    pkgs.pyright
+    pkgs.basedpyright
     pkgs.terraform-ls
     pkgs.typescript-language-server
     pkgs.yaml-language-server
