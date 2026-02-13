@@ -7,7 +7,6 @@ return {
 			analysis = {
 				extraPaths = { "." },
 			},
-			exclude = { "./.worktree" },
 		},
 	},
 }
