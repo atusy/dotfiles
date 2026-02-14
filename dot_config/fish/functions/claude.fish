@@ -20,5 +20,5 @@ function claude
   command claude \
     --dangerously-skip-permissions \
     --plugin-dir "$AGENTIC_SCRUM_PLUGIN" \
-    "$argv"
+    $argv
 end
