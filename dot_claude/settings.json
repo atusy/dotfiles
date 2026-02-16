@@ -97,5 +97,6 @@
   "feedbackSurveyState": {
     "lastShownTime": 1754089004345
   },
-  "theme": "dark"
+  "theme": "dark",
+  "skipDangerousModePermissionPrompt": true
 }
