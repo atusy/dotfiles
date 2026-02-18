@@ -2,23 +2,10 @@
 
 set -euo pipefail
 
-AGENTIC_SCRUM_REPOSITORY="github.com/atusy/agentic-scrum"
-AGENTIC_SCRUM_ROOT="$HOME/ghq/$AGENTIC_SCRUM_REPOSITORY"
-AGENTIC_SCRUM_PLUGIN="$AGENTIC_SCRUM_ROOT/claude-plugins/agentic-scrum"
+CLAUDE_BIN="$HOME/.local/bin/claude"
 
-if [ ! -d "$AGENTIC_SCRUM_ROOT" ]; then
-  if command -v ghq >/dev/null 2>&1; then
-    ghq get "$AGENTIC_SCRUM_REPOSITORY"
-  else
-    git clone "https://$AGENTIC_SCRUM_REPOSITORY" -- "$AGENTIC_SCRUM_ROOT"
-  fi
-else
-  git -C "$AGENTIC_SCRUM_ROOT" pull --ff-only origin HEAD
+if [ -x "$CLAUDE_BIN" ]; then
+  curl -fsSL https://claude.ai/install.sh | bash
 fi
 
-export ENABLE_TOOL_SEARCH="${ENABLE_TOOL_SEARCH:-true}"
-TMUX_STATUSLINE=false exec tmux -L claude2 new-session -e ENABLE_TOOL_SEARCH="$ENABLE_TOOL_SEARCH" \
-  bunx @anthropic-ai/claude-code \
-  --dangerously-skip-permissions \
-  --plugin-dir "$AGENTIC_SCRUM_PLUGIN" \
-  "$@"
+exec "$CLAUDE_BIN" "$@"

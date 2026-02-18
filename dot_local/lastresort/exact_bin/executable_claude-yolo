@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+
+export ENABLE_TOOL_SEARCH="${ENABLE_TOOL_SEARCH:-true}"
+command claude "$@" --dangerously-skip-permissions
