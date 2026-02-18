@@ -4,7 +4,9 @@ return {
 	{ "https://github.com/b0o/SchemaStore.nvim", lazy = true }, -- loaded via after/lsp/*.lua
 	--[[ LSP UI ]]
 	{
-		"https://github.com/ray-x/lsp_signature.nvim",
+		-- "https://github.com/ray-x/lsp_signature.nvim",
+		"https://github.com/atusy/lsp_signature.nvim",
+		branch = "fix-attempt-to-index-field-signatures-a-userdata-value",
 		lazy = true,
 		init = function()
 			vim.api.nvim_create_autocmd("LspAttach", {
