@@ -1,4 +1,4 @@
-if test -n CLAUDECODE; then
+if test -n "$CLAUDECODE"; then
   return
 fi
 
