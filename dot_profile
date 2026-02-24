@@ -1,6 +1,8 @@
 export XDG_CONFIG_DIR="$HOME/.config"
 mkdir -p "$XDG_CONFIG_DIR"
 
+export NIX_USER_CONF_FILES="$XDG_CONFIG_DIR/nix/nix.local.conf:$XDG_CONFIG_DIR/nix/nix.conf"
+
 newpath=:
 while read -rd : path; do
   if [[ $newpath != *:$path:* ]]; then
