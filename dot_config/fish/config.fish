@@ -45,7 +45,7 @@ abbr -a checkout --function __abbr-checkout --position anywhere
 abbr -a token --regex ',[-+]?[0-9]+' --function __abbr-token --position anywhere
 
 bind \t complete-and-search-if-not-empty
-bind \cr set_commandline_from_history
+bind \cr set_commandline_from_suggestions
 bind \cc cancel-commandline
 
 if set -q "NVIM"
