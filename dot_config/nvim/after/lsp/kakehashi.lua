@@ -26,14 +26,13 @@ vim.api.nvim_create_autocmd("LspAttach", {
 return {
 	cmd = { vim.fs.joinpath(home, ".cargo/bin/kakehashi") },
 	before_init = function(params, config)
-		local enabled_configs = vim.lsp._enabled_configs
-		local language_servers = {}
-		for name, enabled_config in pairs(enabled_configs) do
+		local language_servers = (params.initializationOptions or {}).languageServers or {}
+		for name, enabled_config in pairs(vim.lsp._enabled_configs) do
 			if enabled_config.resolved_config.filetypes and ({ copilot = false, kakehashi = false })[name] ~= false then
-				language_servers[name] = {
+				language_servers[name] = vim.tbl_extend("force", {
 					cmd = enabled_config.resolved_config.cmd,
 					languages = enabled_config.resolved_config.filetypes,
-				}
+				}, language_servers[name] or {})
 			end
 		end
 		params.initializationOptions = { languageServers = language_servers }
