@@ -5,12 +5,10 @@ autoInstall = true
 [languages.markdown]
 aliases = ["rmd", "qmd"]
 
-[languageServers.lua_ls]
-cmd = ["lua-language-server"]
-languages = ["lua"]
-
-[languageServers.pyright]
-cmd = ["pyright-langserver", "--stdio"]
+# For Neovim, languageServers are setup by using Neovim Lua API
+# The below is just an example of how to setup a language server
+[languageServers.basedpyright]
+cmd = ["basedpyright-langserver", "--stdio"]
 languages = ["python"]
 
 [captureMappings._.highlights]

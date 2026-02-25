@@ -25,6 +25,19 @@ vim.api.nvim_create_autocmd("LspAttach", {
 ---@type vim.lsp.Config
 return {
 	cmd = { vim.fs.joinpath(home, ".cargo/bin/kakehashi") },
+	before_init = function(params, config)
+		local enabled_configs = vim.lsp._enabled_configs
+		local language_servers = {}
+		for name, enabled_config in pairs(enabled_configs) do
+			if enabled_config.resolved_config.filetypes and ({ copilot = false, kakehashi = false })[name] ~= false then
+				language_servers[name] = {
+					cmd = enabled_config.resolved_config.cmd,
+					languages = enabled_config.resolved_config.filetypes,
+				}
+			end
+		end
+		params.initializationOptions = { languageServers = language_servers }
+	end,
 	on_init = function(client)
 		-- to use semanticTokens/full/delta
 		client.server_capabilities.semanticTokensProvider.range = false

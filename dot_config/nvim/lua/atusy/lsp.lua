@@ -105,7 +105,6 @@ function M.setup()
 					"gopls",
 					"html",
 					"jsonls",
-					"kakehashi",
 					"lua_ls",
 					"nixd",
 					"basedpyright",
@@ -115,6 +114,10 @@ function M.setup()
 					-- "ts_ls", -- enabled conditionally
 					"yamlls",
 				})
+
+				-- Ensure kakehashi is enabled after other servers to allow it to gather information about them
+				-- This workaround will be removed once kakehashi supports dynamic registration of language servers via `workspace/configuration`
+				vim.lsp.enable("kakehashi")
 			end)
 		end,
 	})
