@@ -99,6 +99,7 @@ function M.setup()
 			-- NOTE: If unscheduled, fails to attach servers to files opened via CLI command (e.g., nvim foo.rs)
 			vim.schedule(function()
 				vim.lsp.enable({
+					"basedpyright",
 					"bashls",
 					"copilot",
 					-- "denols", -- enabled conditionally
@@ -107,17 +108,13 @@ function M.setup()
 					"jsonls",
 					"lua_ls",
 					"nixd",
-					"basedpyright",
+					"kakehashi",
 					"r_language_server",
 					"rust_analyzer",
 					"terraformls",
 					-- "ts_ls", -- enabled conditionally
 					"yamlls",
 				})
-
-				-- Ensure kakehashi is enabled after other servers to allow it to gather information about them
-				-- This workaround will be removed once kakehashi supports dynamic registration of language servers via `workspace/configuration`
-				vim.lsp.enable("kakehashi")
 			end)
 		end,
 	})
