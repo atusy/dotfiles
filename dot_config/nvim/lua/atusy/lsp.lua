@@ -102,7 +102,7 @@ function M.setup()
 					"basedpyright",
 					"bashls",
 					"copilot",
-					-- "denols", -- enabled conditionally
+					"denols",
 					"gopls",
 					"html",
 					"jsonls",
@@ -112,47 +112,10 @@ function M.setup()
 					"r_language_server",
 					"rust_analyzer",
 					"terraformls",
-					-- "ts_ls", -- enabled conditionally
+					"ts_ls",
 					"yamlls",
 				})
 			end)
-		end,
-	})
-
-	vim.api.nvim_create_autocmd("FileType", {
-		group = M.augroup,
-		callback = function(ctx)
-			if ctx.match == "lazy" then
-				-- NOTE: Avoid potential errors with lazy.nvim
-				-- lazy.nvim may open lazy-filetype buffer on startup before loading plugins
-				return
-			end
-
-			local filetypes =
-				{ "javascript", "javascriptreact", "javascript.jsx", "typescript", "typescriptreact", "typescript.tsx" }
-
-			-- ts_ls
-			if
-				vim.tbl_contains(vim.lsp.config.ts_ls.filetypes or filetypes, ctx.match)
-				and (function()
-					local ok, is_node = pcall(function()
-						return require("lspconfig").util.root_pattern("package.json")(ctx.file)
-					end)
-					if ok then
-						return is_node
-					end
-					return vim.fn.findfile("package.json", ".;") ~= ""
-				end)()
-			then
-				vim.lsp.start(vim.lsp.config.ts_ls, { bufnr = ctx.buf })
-				return
-			end
-
-			-- denols
-			if vim.tbl_contains(vim.lsp.config.denols.filetypes or filetypes, ctx.match) then
-				vim.lsp.start(vim.lsp.config.denols, { bufnr = ctx.buf })
-				return
-			end
 		end,
 	})
 
