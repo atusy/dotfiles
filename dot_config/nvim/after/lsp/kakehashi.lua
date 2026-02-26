@@ -31,27 +31,23 @@ vim.api.nvim_create_autocmd("LspAttach", {
 			return
 		end
 
-		local settings = (function()
-			local ok, given = pcall(function()
-				---@diagnostic disable-next-line: param-type-mismatch
-				local resp = client:request_sync("kakehashi/internal/effectiveConfiguration", vim.empty_dict())
-				return resp and resp.result and resp.result.settings
-			end)
-			return ok and given or {}
-		end)()
-		local language_servers = settings.languageServers or {}
-		local ignored_servers = { copilot = true, kakehashi = true, denols = true }
-		for name, enabled_config in pairs(vim.lsp._enabled_configs) do
-			if not ignored_servers[name] ~= false then
-				language_servers[name] = vim.tbl_extend("force", {
-					cmd = enabled_config.resolved_config.cmd,
-					languages = enabled_config.resolved_config.filetypes,
-				}, language_servers[name] or {})
+		---@diagnostic disable-next-line: param-type-mismatch
+		client:request("kakehashi/internal/effectiveConfiguration", vim.empty_dict(), function(err, result)
+			local settings = (not err and result and result.settings) or {}
+			local language_servers = settings.languageServers or {}
+			local ignored_servers = { copilot = true, kakehashi = true, denols = true }
+			for name, enabled_config in pairs(vim.lsp._enabled_configs) do
+				if not ignored_servers[name] ~= false then
+					language_servers[name] = vim.tbl_extend("force", {
+						cmd = enabled_config.resolved_config.cmd,
+						languages = enabled_config.resolved_config.filetypes,
+					}, language_servers[name] or {})
+				end
 			end
-		end
-		client:notify("workspace/didChangeConfiguration", {
-			settings = { languageServers = language_servers },
-		})
+			client:notify("workspace/didChangeConfiguration", {
+				settings = { languageServers = language_servers },
+			})
+		end)
 	end,
 })
 
