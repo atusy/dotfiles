@@ -1,0 +1,88 @@
+#!/usr/bin/env fish
+
+set -l QUERY 'query($owner: String!, $repo: String!, $number: Int!, $threadsFirst: Int!, $threadsAfter: String, $commentsFirst: Int!) {
+  repository(owner: $owner, name: $repo) {
+    pullRequest(number: $number) {
+      number
+      url
+      reviewThreads(first: $threadsFirst, after: $threadsAfter) {
+        nodes {
+          id
+          path
+          line
+          originalLine
+          diffSide
+          isResolved
+          isOutdated
+          isCollapsed
+
+          comments(first: $commentsFirst) {
+            nodes {
+              id
+              url
+              createdAt
+              author { login }
+
+              body
+
+              isMinimized
+              minimizedReason
+
+              replyTo {id}
+            }
+          }
+        }
+        pageInfo {
+          hasNextPage
+          endCursor
+        }
+      }
+    }
+  }
+}'
+
+function get_query_params
+  set -l input $argv[1]
+
+  # input is URL https://github.com/exampleOwner/exampleRepo/pull/123
+  if set -l params (string match --regex --groups-only '/([^/]+)/([^/]+)/pull/([0-9]+)$' $input)
+    for param in $params
+      echo $param
+    end
+    return
+  end
+
+  # input is owner/repo#123
+  if set -l params (string match --regex --groups-only '^([^/]+)/([^/]+)#([0-9]+)$' $input)
+    for param in $params
+      echo $param
+    end
+    return
+  end
+
+  # input is #123 or 123
+  if string match --quiet --regex '^#?[0-9]+$' $input
+    set -l repo (gh repo view $input --json url -q .url)
+    basename (dirname $repo)
+    basename $repo
+    string trim -c '#' $input
+    return
+  end
+
+  # input is empty or invalid
+  set -l repo (gh repo view --json url -q .url)
+  basename (dirname $repo)
+  basename $repo
+  gh pr view --json number -q .number
+end
+
+function main
+  set -l query $argv[1]
+  set -l params (get_query_params $argv[2])
+  set -l owner $params[1]
+  set -l repo $params[2]
+  set -l number $params[3]
+  gh api graphql -f query=$query -F owner=$owner -F repo=$repo -F number=$number -F threadsFirst=50 -F commentsFirst=100 # | jq . > __ignored/comments.json
+end
+
+main $QUERY $argv # | jq -r '.data.repository.pullRequest.reviewThreads.nodes[] | select(.isOutdated == false) | "# File: \(.path):\(.line // .originalLine)\n\n\(.comments.nodes[] | .body)\n\n\n---\n\n\n"'
