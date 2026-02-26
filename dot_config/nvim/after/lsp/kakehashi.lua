@@ -33,7 +33,10 @@ vim.api.nvim_create_autocmd("LspAttach", {
 
 		---@diagnostic disable-next-line: param-type-mismatch
 		client:request("kakehashi/internal/effectiveConfiguration", vim.empty_dict(), function(err, result)
-			local settings = (not err and result and result.settings) or {}
+			if err then
+				error(tostring(err), vim.log.levels.ERROR)
+			end
+			local settings = result and result.settings or {}
 			local language_servers = settings.languageServers or {}
 			local ignored_servers = { copilot = true, kakehashi = true, denols = true }
 			for name, enabled_config in pairs(vim.lsp._enabled_configs) do
