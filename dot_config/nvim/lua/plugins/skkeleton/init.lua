@@ -92,7 +92,7 @@ return {
 					dict("fullname"),
 					dict("edict2"),
 					dict("assoc"),
-					dict("jawiki", "jawiki-kana-kanji-dict"),
+					-- dict("jawiki", "jawiki-kana-kanji-dict"), -- TODO: needs to download from GH Releases
 					dict("emoji"),
 				},
 			})
