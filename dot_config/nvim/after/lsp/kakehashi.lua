@@ -4,13 +4,20 @@ if not home then
 end
 
 vim.api.nvim_create_autocmd("LspAttach", {
-	desc = "Prefer LSP semantic tokens over Treesitter for kakehashi",
+	desc = "kakehashi setup per buffer",
 	callback = function(ev)
 		local client = vim.lsp.get_client_by_id(ev.data.client_id)
 		if not client or client.name ~= "kakehashi" then
 			return
 		end
 
+		-- ignore unsupported filetypes
+		if vim.bo.filetype == "toggleterm" then
+			vim.lsp.buf_detach_client(ev.buf, ev.data.client.id)
+			return
+		end
+
+		-- Prefer LSP semantic tokens over Treesitter for kakehashi
 		vim.api.nvim_create_autocmd("LspTokenUpdate", {
 			buffer = ev.buf,
 			once = true,
