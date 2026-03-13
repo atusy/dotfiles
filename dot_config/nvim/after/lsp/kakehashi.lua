@@ -13,7 +13,9 @@ vim.api.nvim_create_autocmd("LspAttach", {
 
 		-- ignore unsupported filetypes
 		if vim.bo.filetype == "toggleterm" then
-			vim.lsp.buf_detach_client(ev.buf, ev.data.client.id)
+			vim.schedule(function()
+				vim.lsp.buf_detach_client(ev.buf, ev.data.client_id)
+			end)
 			return
 		end
 
