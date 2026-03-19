@@ -4,7 +4,7 @@
 local function select_entry(finder, open)
 	local entry = finder:cursor_node_entry()
 	if entry.type == "directory" then
-		finder:exec_action("n_select")
+		finder:action_call("n_select")
 		return
 	end
 	open(vim.fn.fnameescape(entry.path))
@@ -26,6 +26,22 @@ local function open_with_chowcho(file)
 	})
 end
 
+local navigation = nil
+vim.api.nvim_create_autocmd({ "BufWinEnter", "WinEnter" }, {
+	callback = function(ev)
+		local bufname = vim.api.nvim_buf_get_name(0)
+		if ev.event == "BufWinEnter" and ev.file ~= bufname then
+			return
+		end
+
+		vim.uv.fs_stat(bufname, function(err)
+			if not err then
+				navigation = bufname
+			end
+		end)
+	end,
+})
+
 local M = {
 	["<C-S>"] = function(finder)
 		finder:dispatch_mutation()
@@ -34,8 +50,7 @@ local M = {
 		finder:dispatch_refresh()
 	end,
 	["#"] = function()
-		local altbuf = vim.fn.expand("#")
-		require("fyler").navigate(vim.fn.filereadable(altbuf) == 1 and altbuf or nil)
+		require("fyler").navigate(navigation)
 	end,
 	zc = "CollapseNode",
 	zM = "CollapseAll",
