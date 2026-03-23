@@ -25,6 +25,7 @@ taskfile.yml
 taskfile.yaml
 .task
 
-# Calude
+# AI
 **/.claude/settings.local.json
 CLAUDE.md
+AGENTS.md
