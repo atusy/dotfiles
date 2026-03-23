@@ -24,8 +24,8 @@ return {
 		config = function()
 			vim.keymap.set({ "i", "c", "t" }, "<C-J>", "<Plug>(skkeleton-enable)")
 			local register_kanatable = vim.fn["skkeleton#register_kanatable"]
-			register_kanatable("azik", require("plugins.skkeleton.azik"), true)
-			register_kanatable("azik", {
+			register_kanatable("rom", require("plugins.skkeleton.azik"), true)
+			register_kanatable("rom", {
 				["\\"] = "disable",
 				["<s-l>"] = "zenkaku",
 				["'"] = "katakana",
@@ -77,7 +77,7 @@ return {
 				return vim.fs.joinpath(lazyroot, repo or "dict", "SKK-JISYO." .. nm)
 			end
 			vim.fn["skkeleton#config"]({
-				kanaTable = "azik",
+				kanaTable = "rom",
 				sources = { "deno_kv" }, -- no google_japanese_input to avoid unwanted candidates on affix
 				markerHenkan = "",
 				markerHenkanSelect = "",
