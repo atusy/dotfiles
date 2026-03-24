@@ -417,7 +417,6 @@ return {
 	{
 		"https://github.com/barrett-ruth/import-cost.nvim",
 		ft = { "javascript", "typescript", "typescriptreact" },
-		build = "sh install.sh bun",
 		config = function()
 			require("import-cost")
 		end,
