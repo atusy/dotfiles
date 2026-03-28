@@ -1,7 +1,12 @@
 function __zoxide_list_missing
   diff \
     ( zoxide query --list | sort | psub ) \
-    ( ghq list -p | sort | psub ) \
+    (
+      begin
+        ghq list -p
+        find "$HOME/.local/share/nvim/lazy" -maxdepth 1 -type d
+      end  | sort | psub 
+    ) \
     | string match --regex --entire '^> ' \
     | string replace -r '^> ' ''
 end

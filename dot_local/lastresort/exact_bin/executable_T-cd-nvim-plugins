@@ -1,3 +1,0 @@
-#!/bin/sh
-
-cd "$HOME/.local/share/nvim/lazy" && $SHELL
