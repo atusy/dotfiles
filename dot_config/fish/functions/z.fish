@@ -1,7 +1,9 @@
 function __z_query
-  zoxide query --list
-  ghq list -p
-  find "$HOME/.local/share/nvim/lazy" -maxdepth 1 -type d
+  begin
+    zoxide query --list
+    ghq list -p
+    find "$HOME/.local/share/nvim/lazy" -maxdepth 1 -type d
+  end | awk '!seen[$0]++ { print; fflush() }'
 end
 
 function __zi
