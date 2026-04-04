@@ -8,7 +8,7 @@ function __zi
   set -l result (
     __z_query | fzf --layout=reverse --no-sort --height=~15 $argv
   )
-  __zoxide_cd $result
+  and __zoxide_cd $result
 end
 
 function z --description 'zoxide wrapper'
