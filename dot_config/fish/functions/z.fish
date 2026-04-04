@@ -1,21 +1,14 @@
-function __zoxide_list_missing
-  diff \
-    ( zoxide query --list | sort | psub ) \
-    (
-      begin
-        ghq list -p
-        find "$HOME/.local/share/nvim/lazy" -maxdepth 1 -type d
-      end  | sort | psub 
-    ) \
-    | string match --regex --entire '^> ' \
-    | string replace -r '^> ' ''
+function __z_query
+  zoxide query --list
+  ghq list -p
+  find "$HOME/.local/share/nvim/lazy" -maxdepth 1 -type d
 end
 
-function __zoxide_add_missing
-  set -l missing ( __zoxide_list_missing )
-  if test ( count $missing ) -gt 0
-    zoxide add $missing
-  end
+function __zi
+  set -l result (
+    __z_query | fzf --layout=reverse --no-sort --height=~15 $argv
+  )
+  __zoxide_cd $result
 end
 
 function z --description 'zoxide wrapper'
@@ -23,6 +16,6 @@ function z --description 'zoxide wrapper'
   if test (count $argv) -eq 1
     __zoxide_z $argv || true
   else
-    __zoxide_zi $argv || true
+    __zi --query="$argv"
   end
 end
