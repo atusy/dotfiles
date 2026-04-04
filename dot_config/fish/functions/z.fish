@@ -12,7 +12,6 @@ function __zi
 end
 
 function z --description 'zoxide wrapper'
-  __zoxide_add_missing
   if test (count $argv) -eq 1
     __zoxide_z $argv || true
   else
