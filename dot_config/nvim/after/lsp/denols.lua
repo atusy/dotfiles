@@ -14,4 +14,21 @@ vim.api.nvim_create_autocmd("LspAttach", {
 })
 
 ---@type vim.lsp.Config
-return { single_file_support = true }
+return {
+	single_file_support = true,
+	root_dir = function(bufnr, on_dir)
+		local node_root =
+			vim.fs.root(bufnr, { "package-lock.json", "yarn.lock", "pnpm-lock.yaml", "bun.lockb", "bun.lock" })
+		local deno_lock_root = vim.fs.root(bufnr, { "deno.lock" })
+		local deno_root = vim.fs.root(bufnr, { "deno.json", "deno.jsonc" })
+
+		local len_node_root = node_root and #node_root or 0
+		local len_deno_lock_root = deno_lock_root and #deno_lock_root or 0
+		local len_deno_root = deno_root and #deno_root or 0
+
+		if len_node_root == 0 or (len_deno_lock_root > len_node_root) or (len_deno_root > len_node_root) then
+			on_dir(deno_lock_root or deno_root)
+			return
+		end
+	end,
+}
