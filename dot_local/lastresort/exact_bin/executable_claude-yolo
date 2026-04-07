@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
 
+export CLAUDE_CODE_NO_FLICKER="${CLAUDE_CODE_NO_FLICKER:-1}"
 export ENABLE_TOOL_SEARCH="${ENABLE_TOOL_SEARCH:-true}"
 command claude "$@" --dangerously-skip-permissions
