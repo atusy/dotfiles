@@ -26,13 +26,13 @@ fi
 
 # try fish on tmux if no session yet
 # don't exec, allows detaching and returning to fish
-if (( $+commands[tmux] )) && [[ -z "$TMUX" ]] && [[ "$TERM" != screen.* ]] && ! tmux has-session; then
-  if fish_needs_login; then
-    tmux new-session "fish --login"
-  else
-    tmux new-session fish
-  fi
-fi
+# if (( $+commands[tmux] )) && [[ -z "$TMUX" ]] && [[ "$TERM" != screen.* ]] && ! tmux has-session; then
+#   if fish_needs_login; then
+#     tmux new-session "fish --login"
+#   else
+#     tmux new-session fish
+#   fi
+# fi
 
 # if tmux is unavaailable or exited, exec fish
 # feel free to exec we can always enter zsh intentionally
