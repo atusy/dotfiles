@@ -44,8 +44,8 @@ let
     pkgs.hyperfine
     pkgs.jq
     pkgs.just
-    pkgs.kitty
     pkgs.kind
+    pkgs.kitty
     pkgs.kubectl
     pkgs.kubectx
     pkgs.lnav
@@ -140,11 +140,12 @@ in
     "docker-desktop"
     "firefox" # pkgs or brewCasks works, but without firefox as terminal command
     "google-chrome"
+    "karabiner-elements" # pkgs fails to setup privilege and pkgs.brewCasks wont't even install
     "macskk" # pkgs.macskk fails to setup input source
     "meetingbar" # pkgs.brewCasks.meetingbar fails to start
     "r-app" # pkgs.brewCasks.r does not exist and pkgs.brewCasks.r-app fails to start
-    "karabiner-elements" # pkgs fails to setup privilege and pkgs.brewCasks wont't even install
     "spotify" # pkgs.brewCasks.spotify fails to start
+    "thaw"
     "wezterm@nightly"
   ];
   fonts = [
