@@ -2,8 +2,18 @@
 
 autoInstall = true
 
-[languages.markdown]
-aliases = ["rmd", "qmd"]
+[languages.rmd]
+base = "markdown"
+[languages.rmd.bridge]
+r = { enabled = false } # r_language_server directly handles rmd file
+
+[languages.qmd]
+base = "markdown"
+[languages.qmd.bridge]
+r = { enabled = false } # r_language_server directly handles qmd file
+
+[languages._.bridge.python.aggregation]
+"textDocument/completion" = { "priorities" = ["basedpyright"] }
 
 # For Neovim, languageServers are setup by using Neovim Lua API
 # The below is just an example of how to setup a language server
