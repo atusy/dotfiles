@@ -56,6 +56,7 @@
         in
         {
           environment.systemPackages = pkgs2.aarch64-darwin;
+          environment.pathsToLink = [ "/share/nix-direnv" ];
           fonts.packages = pkgs2.fonts;
           homebrew = {
             # https://github.com/nix-darwin/nix-darwin/blob/master/modules/homebrew.nix
