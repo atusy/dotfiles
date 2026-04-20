@@ -54,6 +54,7 @@ let
     pkgs.neovim # nightly
     pkgs.neovim-remote
     pkgs.ninja
+    pkgs.nix-direnv
     pkgs.nodejs
     # pkgs.ollama
     pkgs.pandoc
