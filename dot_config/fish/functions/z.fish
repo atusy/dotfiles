@@ -1,15 +1,12 @@
-function __z_query
+function __zi
   begin
     zoxide query --list
     ghq list -p
     find "$HOME/.local/share/nvim/lazy" -maxdepth 1 -type d
-  end | awk '!seen[$0]++ { print; fflush() }'
-end
-
-function __zi
-  set -l result (
-    __z_query | fzf --layout=reverse --no-sort --height=~15 $argv
-  )
+  end \
+    | perl -ne 'print unless $seen{$_}++' \
+    | fzf --layout=reverse --no-sort --height=~15 $argv \
+    | read -l result
   and __zoxide_cd $result
 end
 
