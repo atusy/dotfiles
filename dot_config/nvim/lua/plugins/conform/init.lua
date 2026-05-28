@@ -122,8 +122,6 @@ return {
 					typescriptreact = make_formatter_ts,
 					nix = { "nixfmt" },
 					python = { "ruff_format", "ruff_fix" },
-					r = { "air", "styler", stop_after_first = true },
-					rmd = { "styler" },
 				},
 			})
 		end,

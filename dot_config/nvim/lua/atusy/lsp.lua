@@ -99,6 +99,7 @@ function M.setup()
 			-- NOTE: If unscheduled, fails to attach servers to files opened via CLI command (e.g., nvim foo.rs)
 			vim.schedule(function()
 				vim.lsp.enable({
+					"air",
 					"basedpyright",
 					"bashls",
 					"copilot",
