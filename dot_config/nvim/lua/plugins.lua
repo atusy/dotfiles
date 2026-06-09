@@ -265,12 +265,12 @@ return {
 			vim.keymap.set({ "x", "o" }, "<Plug>(treemonkey)", function()
 				local mode = vim.api.nvim_get_mode()
 				if mode.mode == "V" or mode.mode == "noV" then
-					require("treemonkey").select(vim.tbl_extend("force", base_opts, {
+					require("treemonkey.lsp.selection_range").select(vim.tbl_extend("force", base_opts, {
 						filter = require("treemonkey.filters").linewise,
 					}))
 					return
 				end
-				require("treemonkey").select(base_opts)
+				require("treemonkey.lsp.selection_range").select(base_opts)
 			end)
 			vim.keymap.set({ "x", "o" }, "m", "<Plug>(treemonkey)")
 			vim.keymap.set("n", "zf", "zfV<Plug>(treemonkey)")
