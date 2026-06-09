@@ -92,13 +92,12 @@
   },
   "outputStyle": "Explanatory",
   "alwaysThinkingEnabled": true,
+  "effortLevel": "high",
   "skipDangerousModePermissionPrompt": true,
+  "theme": "dark",
   "autoCompactEnabled": false,
   "autoUpdates": false,
   "feedbackSurveyState": {
     "lastShownTime": 1754089004345
-  },
-  "theme": "dark",
-  "effortLevel": "medium",
-  "model": "sonnet"
+  }
 }
