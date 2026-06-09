@@ -1,16 +1,29 @@
 # Documentation: https://github.com/atusy/kakehashi/blob/main/docs/README.md
 
 autoInstall = true
+searchPaths = ["${HOME}/ghq/github.com/nvim-orgmode/tree-sitter-org", "${KAKEHASHI_DATA_DIR}"]
+
+[languages.org]
+parser = "${HOME}/ghq/github.com/nvim-orgmode/tree-sitter-org/org.dylib"
+queries = [
+  { path = "${HOME}/ghq/github.com/nvim-orgmode/tree-sitter-org/queries/highlights.scm" },
+  { path = "${HOME}/ghq/github.com/nvim-orgmode/tree-sitter-org/queries/injections.scm" }
+]
 
 [languages.rmd]
 base = "markdown"
-[languages.rmd.bridge]
-r = { enabled = false } # r_language_server directly handles rmd file
+# [languages.rmd.bridge]
+# r = { enabled = false } # r_language_server directly handles rmd file
 
 [languages.qmd]
 base = "markdown"
-[languages.qmd.bridge]
-r = { enabled = false } # r_language_server directly handles qmd file
+# [languages.qmd.bridge]
+# r = { enabled = false } # r_language_server directly handles qmd file
+
+[languages.quarto]
+base = "qmd"
+[languages.rmarkdown]
+base = "rmd"
 
 [languages._.bridge.python.aggregation]
 "textDocument/completion" = { "priorities" = ["basedpyright"] }
@@ -18,8 +31,16 @@ r = { enabled = false } # r_language_server directly handles qmd file
 # For Neovim, languageServers are setup by using Neovim Lua API
 # The below is just an example of how to setup a language server
 [languageServers.basedpyright]
-cmd = ["basedpyright-langserver", "--stdio"]
+cmd = ["/run/current-system/sw/bin/basedpyright-langserver", "--stdio"]
 languages = ["python"]
+
+[languageServers.r_language_server]
+cmd = [ "R", "--no-echo", "-e", "languageserver::run()"]
+languages = ["R", "r"]
+
+[languageServers.lua_ls]
+cmd = ["/run/current-system/sw/bin/lua-language-server"]
+languages = ["lua"]
 
 [captureMappings._.highlights]
 "markup.heading" = "class"
@@ -43,3 +64,96 @@ languages = ["python"]
 "markup.strikethrough" = "keyword.deprecated"
 "markup.strong" = "keyword"
 "markup.underline" = "keyword"
+
+[captureMappings.org.highlights]
+# --- queries/highlights.scm ---
+
+# Headlines: stars (`*`, `**`, ...) and the headline text.
+"OrgStars1" = "class"
+"OrgStars2" = "class"
+"OrgStars3" = "class"
+"OrgHeadlineLevel1" = "class"
+"OrgHeadlineLevel2" = "class"
+"OrgHeadlineLevel3" = "class"
+
+# TODO / DONE keywords on the headline.
+"OrgKeywordTodo" = "keyword"
+"OrgKeywordDone" = "keyword"
+
+# Priority cookies — [#A], [#B], ...
+"OrgPriority" = "number"
+"OrgPriorityCookie" = "number"
+
+# Tags — :work:urgent:
+"OrgTag" = "enumMember"
+"OrgTagList" = "enumMember"
+
+# :PROPERTIES: ... :END: drawer and its `:name: value` entries.
+"OrgPropertyDrawer" = "property"
+"OrgProperty" = "property"
+"OrgPropertyName" = "property"
+"OrgPropertyValue" = "string"
+
+# Timestamps — <2026-05-21 Thu 09:00 +1w -2d> and [2026-05-21 Thu].
+"OrgTimestampActive" = "number"
+"OrgTimestampInactive" = "number"
+"OrgTimestampDay" = "number"
+"OrgTimestampDate" = "number"
+"OrgTimestampTime" = "number"
+"OrgTimestampRepeat" = "number"
+"OrgTimestampDelay" = "number"
+
+# Footnotes — [fn:1] ...
+"OrgFootnoteDefinition" = ""
+"OrgFootnoteLabel" = "keyword"
+"OrgFootnoteDescription" = ""
+
+# #+name: value directives (TITLE, AUTHOR, OPTIONS, NAME, CAPTION, TBLFM, ...)
+"OrgDirective" = "decorator"
+"OrgDirectiveName" = "decorator"
+"OrgDirectiveValue" = "string"
+
+# Line comments — # ...
+"OrgComment" = "comment"
+
+# :NAME: ... :END: drawers (LOGBOOK, etc.) — distinct from PROPERTIES.
+"OrgDrawer" = "property"
+"OrgDrawerName" = "property"
+"OrgDrawerContents" = ""
+
+# #+BEGIN_... / #+END_... blocks (QUOTE, EXAMPLE, VERSE, SRC, EXPORT, ...).
+# Contents of SRC / EXPORT will normally be overridden by language injection.
+"OrgBlock" = ""
+"OrgBlockName" = "decorator"
+"OrgBlockContents" = "string"
+"OrgDynamicBlock" = ""
+"OrgDynamicBlockName" = "decorator"
+"OrgDynamicBlockContents" = "string"
+
+# List bullets and checkboxes — mirrors `markup.list*` → property above.
+"OrgListBullet" = "property"
+"OrgCheckbox" = "property"
+"OrgCheckInProgress" = "property"
+"OrgCheckDone" = "property"
+
+# Tables — horizontal rule and cell contents.
+"OrgTableHorizontalRuler" = "operator"
+"OrgCellFormula" = "operator"
+"OrgCellNumber" = "number"
+
+# --- queries/markup.scm ---
+# Mirrors the markdown `markup.*` conventions above:
+# strong/italic/underline → keyword, strikethrough → keyword.deprecated,
+# verbatim/code → string.
+"bold.start" = "keyword"
+"bold.end" = "keyword"
+"italic.start" = "keyword"
+"italic.end" = "keyword"
+"underline.start" = "keyword"
+"underline.end" = "keyword"
+"strikethrough.start" = "keyword.deprecated"
+"strikethrough.end" = "keyword.deprecated"
+"verbatim.start" = "string"
+"verbatim.end" = "string"
+"code.start" = "string"
+"code.end" = "string"
