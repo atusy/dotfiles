@@ -415,13 +415,6 @@ return {
 
 	-- filetype specific
 	{
-		"https://github.com/barrett-ruth/import-cost.nvim",
-		ft = { "javascript", "typescript", "typescriptreact" },
-		config = function()
-			require("import-cost")
-		end,
-	},
-	{
 		"https://github.com/phelipetls/jsonpath.nvim",
 		lazy = true,
 		init = function()
