@@ -22,11 +22,16 @@ base = "markdown"
 
 [languages.quarto]
 base = "qmd"
+
 [languages.rmarkdown]
 base = "rmd"
 
 [languages._.bridge.python.aggregation]
 "textDocument/completion" = { "priorities" = ["basedpyright"] }
+"textDocument/formatting" = { "priorities" = ["ruff"] }
+
+[languages._.bridge.lua.aggregation]
+"textDocument/formatting" = { "priorities" = ["stylua"] }
 
 # For Neovim, languageServers are setup by using Neovim Lua API
 # The below is just an example of how to setup a language server
