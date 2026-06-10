@@ -81,6 +81,7 @@ let
     pkgs.zoxide
 
     # language servers
+    pkgs.efm-langserver
     pkgs.gopls
     pkgs.lua-language-server
     pkgs.emmylua-ls
