@@ -2,7 +2,10 @@
   "mcpServers": {
     "codex": {
       "command": "codex",
-      "args": ["mcp-server"]
+      "args": [
+        "mcp-server"
+      ],
+      "timeout": 600000
     }
   }
 }
