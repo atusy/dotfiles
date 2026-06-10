@@ -6,6 +6,7 @@ return {
 			pythonPath = "./.venv/bin/python",
 			analysis = {
 				extraPaths = { "." },
+				ignore = { "*" },
 			},
 		},
 	},
