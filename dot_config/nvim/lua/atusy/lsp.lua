@@ -104,6 +104,7 @@ function M.setup()
 					"bashls",
 					"copilot",
 					"denols",
+					"efm",
 					"gopls",
 					"html",
 					"jsonls",
