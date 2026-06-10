@@ -115,13 +115,9 @@ return {
 					return {}
 				end,
 				formatters_by_ft = {
-					go = { "goimports", lsp_format = "last" }, -- to use gofumpt via LSP
 					javascript = make_formatter_ts,
-					lua = { "stylua" },
 					typescript = make_formatter_ts,
 					typescriptreact = make_formatter_ts,
-					nix = { "nixfmt" },
-					python = { "ruff_format", "ruff_fix" },
 				},
 			})
 		end,
