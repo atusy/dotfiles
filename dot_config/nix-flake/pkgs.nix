@@ -137,7 +137,6 @@ in
   ];
   aarch64-darwin-brews = [
     "dnsmasq" # remains here to solve *.localhost by https://zenn.dev/lambdalisue/scraps/db98eb60fa9d21
-    "neurosnap/tap/zmx" # not yet available in pkgs
   ];
   aarch64-darwin-casks = [
     "docker-desktop"
