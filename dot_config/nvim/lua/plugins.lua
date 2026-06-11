@@ -275,6 +275,9 @@ return {
 		"https://github.com/atusy/tsnode-marker.nvim",
 		lazy = true,
 		init = function()
+			if true then
+				return
+			end
 			local group = vim.api.nvim_create_augroup("atusy.tsnode-maker", {})
 			vim.api.nvim_create_autocmd("FileType", {
 				desc = "High-level reproduction of highlights by delta via GinDiff",
