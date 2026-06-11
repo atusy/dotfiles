@@ -139,17 +139,6 @@ return {
 		init = telescope_init,
 		config = telescope_config,
 	},
-	{
-		"https://github.com/stevearc/aerial.nvim",
-		lazy = true,
-		init = function()
-			vim.keymap.set("n", "gO", [[<Cmd>lua require("aerial").open()<CR>]])
-		end,
-		config = function()
-			require("aerial").setup()
-			require("telescope").load_extension("aerial")
-		end,
-	},
 	{ "https://github.com/atusy/qfscope.nvim", lazy = true },
 	-- { 'tknightz/telescope-termfinder.nvim' },  -- finds toggleterm terminals
 }
