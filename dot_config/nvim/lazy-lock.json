@@ -46,7 +46,6 @@
   "github-nvim-theme": { "branch": "main", "commit": "c106c9472154d6b2c74b74565616b877ae8ed31d" },
   "gitsigns.nvim": { "branch": "main", "commit": "25050e4ed39e628282831d4cbecb1850454ce915" },
   "hover.nvim": { "branch": "main", "commit": "e73c00da3a9c87a21d2a8ddf7ab4a39824bd5d56" },
-  "import-cost.nvim": { "branch": "main", "commit": "30935f8a5fa9e1970ce1f4082dcb10e90d286c6f" },
   "jab.nvim": { "branch": "main", "commit": "79a64869a6ed29f034b8baaba49d215ee3b3087c" },
   "jawiki-kana-kanji-dict": { "branch": "master", "commit": "d9c0302d82181b841012f244b8ad22c61c7b82d5" },
   "jsonpath.nvim": { "branch": "main", "commit": "9e7a3c2aec3465a8f7c86cec6424cf98ee62ee24" },
