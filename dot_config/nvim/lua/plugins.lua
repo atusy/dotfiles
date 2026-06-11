@@ -415,23 +415,6 @@ return {
 	},
 
 	-- filetype specific
-	{
-		"https://github.com/phelipetls/jsonpath.nvim",
-		lazy = true,
-		init = function()
-			vim.api.nvim_create_autocmd("FileType", {
-				group = vim.api.nvim_create_augroup("atusy.jsonpath", {}),
-				pattern = "json",
-				callback = function(ctx)
-					require("atusy.keymap.palette").add_item("n", "clipboard: json path", function()
-						local path = require("jsonpath").get()
-						vim.fn.setreg("+", path)
-						vim.notify("jsonpath: " .. path)
-					end, { buffer = ctx.buf })
-				end,
-			})
-		end,
-	},
 	{ "https://github.com/itchyny/vim-qfedit", ft = "qf" },
 	{ "https://github.com/thinca/vim-qfreplace", ft = "qf" },
 }
