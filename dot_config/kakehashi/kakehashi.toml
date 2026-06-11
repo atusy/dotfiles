@@ -38,11 +38,18 @@ base = "rmd"
 [languages._.bridge.lua.aggregation]
 "textDocument/formatting" = { "priorities" = ["stylua"] }
 
+[languages._.bridge.r.aggregation]
+"textDocument/formatting" = { "priorities" = ["air"] }
+
 # For Neovim, languageServers are setup by using Neovim Lua API
 # The below is just an example of how to setup a language server
 [languageServers.basedpyright]
 cmd = ["/run/current-system/sw/bin/basedpyright-langserver", "--stdio"]
 languages = ["python"]
+
+[languageServers.air]
+cmd = [ "air", "language-server" ]
+languages = ["r"]
 
 [languageServers.r_language_server]
 cmd = [ "R", "--no-echo", "-e", "languageserver::run()"]
