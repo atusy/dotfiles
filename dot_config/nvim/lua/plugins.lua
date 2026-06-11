@@ -60,11 +60,41 @@ return {
 			)
 		end,
 		config = function()
-			require("ts_context_commentstring")
+			require("kakehashi.extra.commentstring").watch() -- for performance
 			require("Comment").setup({
 				mappings = false,
-				pre_hook = function()
-					require("ts_context_commentstring.integrations.comment_nvim").create_pre_hook()
+				pre_hook = function(ctx)
+					-- try find commentstring via kakehashi
+					local blockwise = ctx.ctype == require("Comment.utils").ctype.blockwise
+					local ok, commentstring = pcall(function()
+						local bufnr = vim.api.nvim_get_current_buf()
+						-- consult the commented rows, excluding indentation and trailing
+						-- blanks, so the range stays inside the capture holding the code
+						local first = vim.api.nvim_buf_get_lines(bufnr, ctx.range.srow - 1, ctx.range.srow, false)[1]
+							or ""
+						local last = ctx.range.srow == ctx.range.erow and first
+							or vim.api.nvim_buf_get_lines(bufnr, ctx.range.erow - 1, ctx.range.erow, false)[1]
+							or ""
+						return require("kakehashi.extra.commentstring").get({
+							bufnr = bufnr,
+							range = {
+								start = { line = ctx.range.srow - 1, character = (first:find("%S") or 1) - 1 },
+								["end"] = {
+									line = ctx.range.erow - 1,
+									character = vim.str_utfindex(last, "utf-16", #(last:gsub("%s+$", "")), false),
+								},
+							},
+						})
+					end)
+					-- blockwise needs a closing side ("{/* %s */}" has one, "-- %s" not)
+					if ok and commentstring and (not blockwise or commentstring:find("%%s%s*%S")) then
+						return commentstring
+					end
+					-- fall back to Comment.nvim's filetype table / the option here
+					-- in the hook: ft.get is a plain table lookup, no treesitter
+					return require("Comment.ft").get(vim.bo.filetype, ctx.ctype)
+						or (not blockwise and vim.bo.commentstring)
+						or error(vim.bo.filetype .. " doesn't support block comments!")
 				end,
 			})
 		end,
