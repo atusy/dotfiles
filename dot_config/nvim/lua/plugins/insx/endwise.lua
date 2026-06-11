@@ -1,9 +1,5 @@
 -- Kakehashi-driven endwise recipe for nvim-insx, with a regex fallback.
 
-local insx = require("insx")
-
-local M = {}
-
 ---Resolve the closing keyword to insert at the cursor, or nil if none
 ---applies (including buffers without a kakehashi client).
 ---@return string?
@@ -39,21 +35,22 @@ local function recipe()
 	}
 end
 
-function M.setup()
-	-- primary: kakehashi-driven detection across every language whose
-	-- endwise query the server can see.
-	insx.add("<CR>", recipe())
+return {
+	setup = function()
+		local insx = require("insx")
+		-- primary: kakehashi-driven detection across every language whose
+		-- endwise query the server can see.
+		insx.add("<CR>", recipe())
 
-	-- fallback: insx's built-in regex endwise for buffers without kakehashi.
-	-- Lower priority, so it only fires when detection misses.
-	local endwise = require("insx.recipe.endwise")
-	insx.add(
-		"<CR>",
-		endwise({
-			lua = endwise.builtin.lua,
-			html = endwise.builtin.html,
-		})
-	)
-end
-
-return M
+		-- fallback: insx's built-in regex endwise for buffers without kakehashi.
+		-- Lower priority, so it only fires when detection misses.
+		local endwise = require("insx.recipe.endwise")
+		insx.add(
+			"<CR>",
+			endwise({
+				lua = endwise.builtin.lua,
+				html = endwise.builtin.html,
+			})
+		)
+	end,
+}
