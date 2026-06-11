@@ -33,7 +33,7 @@ base = "rmd"
 
 [languages._.bridge.python.aggregation]
 "textDocument/completion" = { "priorities" = ["basedpyright"] }
-"textDocument/formatting" = { "priorities" = ["ruff"] }
+"textDocument/formatting" = { "priorities" = ["basedpyright"] }
 
 [languages._.bridge.lua.aggregation]
 "textDocument/formatting" = { "priorities" = ["stylua"] }
