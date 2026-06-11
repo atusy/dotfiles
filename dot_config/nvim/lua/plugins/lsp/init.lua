@@ -112,4 +112,10 @@ return {
 			})
 		end,
 	},
+	{
+		-- kakehashi.nvim requires query files
+		"https://github.com/nvim-treesitter/nvim-treesitter-context",
+		branch = "master",
+		lazy = true,
+	},
 }
