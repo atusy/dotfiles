@@ -17,8 +17,6 @@ local function detect_end_text()
 	return nil
 end
 
-M.detect_end_text = detect_end_text
-
 ---@return insx.RecipeSource
 local function recipe()
 	return {
