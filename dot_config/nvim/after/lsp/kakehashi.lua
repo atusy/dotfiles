@@ -11,14 +11,6 @@ vim.api.nvim_create_autocmd("LspAttach", {
 			return
 		end
 
-		-- ignore unsupported filetypes
-		if vim.bo.filetype == "toggleterm" then
-			vim.schedule(function()
-				vim.lsp.buf_detach_client(ev.buf, ev.data.client_id)
-			end)
-			return
-		end
-
 		-- Prefer LSP semantic tokens over Treesitter for kakehashi
 		vim.api.nvim_create_autocmd("LspTokenUpdate", {
 			buffer = ev.buf,
@@ -34,6 +26,16 @@ vim.api.nvim_create_autocmd("LspAttach", {
 ---@type vim.lsp.Config
 return {
 	cmd = { vim.fs.joinpath(home, ".cargo/bin/kakehashi") },
+	root_dir = function(bufnr, on_dir)
+		-- skip terminal buffers (e.g., toggleterm)
+		if vim.bo[bufnr].buftype == "terminal" then
+			return
+		end
+		if vim.bo[bufnr].filetype == "gin-buffer" then
+			return
+		end
+		on_dir()
+	end,
 	on_init = function(client)
 		-- to use semanticTokens/full/delta
 		client.server_capabilities.semanticTokensProvider.range = false
