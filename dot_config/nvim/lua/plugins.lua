@@ -246,14 +246,6 @@ return {
 
 	-- treesitter
 	{
-		"https://github.com/JoosepAlviste/nvim-ts-context-commentstring",
-		lazy = true, -- will be loaded via Comment.nvim
-		config = function()
-			require("ts_context_commentstring").setup({ enable_autocmd = false })
-		end,
-	},
-	-- 'haringsrob/nvim_context_vt',
-	{
 		-- kakehashi.nvim requires query files
 		"https://github.com/nvim-treesitter/nvim-treesitter-context",
 		branch = "master",
