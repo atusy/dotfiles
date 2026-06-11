@@ -231,13 +231,6 @@ return {
 		lazy = true,
 	},
 	{
-		"https://github.com/RRethy/nvim-treesitter-endwise",
-		ft = { "bash", "elixir", "fish", "julia", "lua", "luau", "ruby", "verilog", "vim" },
-		config = function()
-			require("nvim-treesitter-endwise").init()
-		end,
-	},
-	{
 		"https://github.com/atusy/treemonkey.nvim",
 		lazy = true,
 		dev = true,
@@ -338,15 +331,6 @@ return {
 		end,
 		config = function()
 			-- vim.api.nvim_set_hl(0, "@tsnodemarker", { link = "@illuminate" })
-		end,
-	},
-
-	-- autopairs
-	{
-		"https://github.com/hrsh7th/nvim-insx",
-		event = "InsertEnter",
-		config = function()
-			require("insx.preset.standard").setup()
 		end,
 	},
 
