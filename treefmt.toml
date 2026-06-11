@@ -12,12 +12,6 @@ priority = 1
 command = "nixfmt"
 includes = ["*.nix"]
 
-[formatter.ruff-check]
-command = "ruff"
-options = ["check", "--fix-only"]
-includes = ["*.py"]
-priority = 0
-
 [formatter.ruff-format]
 command = "ruff"
 options = ["format"]
