@@ -87,14 +87,14 @@ return {
 							vim.tbl_keys(vim.lsp._enabled_configs),
 							"keep"
 						)
-						vim.api.nvim_create_autocmd("CursorHold", {
-							once = true,
-							callback = function()
-								require("treesitter-context")
-								require("kakehashi.extra.context").toggle()
-							end,
-						})
 					end
+				end,
+			})
+			vim.api.nvim_create_autocmd("CursorHold", {
+				once = true,
+				callback = function()
+					require("kakehashi.extra.context").toggle()
+					require("kakehashi.extra.commentstring").watch()
 				end,
 			})
 		end,
