@@ -90,11 +90,24 @@ return {
 					end
 				end,
 			})
-			vim.api.nvim_create_autocmd("CursorHold", {
-				once = true,
-				callback = function()
-					require("kakehashi.extra.context").toggle()
-					require("kakehashi.extra.commentstring").watch()
+			vim.api.nvim_create_autocmd("LspAttach", {
+				callback = function(ev)
+					local client = vim.lsp.get_client_by_id(ev.data.client_id)
+					if client and client.name == "kakehashi" then
+						vim.api.nvim_create_autocmd("CursorHold", {
+							once = true,
+							callback = function()
+								require("kakehashi.extra.context").toggle()
+								require("kakehashi.extra.commentstring").watch()
+							end,
+						})
+						vim.api.nvim_create_autocmd("InsertEnter", {
+							once = true,
+							callback = function()
+								require("kakehashi.extra.endwise").watch()
+							end,
+						})
+					end
 				end,
 			})
 		end,

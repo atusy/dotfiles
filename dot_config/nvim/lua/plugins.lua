@@ -60,7 +60,6 @@ return {
 			)
 		end,
 		config = function()
-			require("kakehashi.extra.commentstring").watch() -- for performance
 			require("Comment").setup({
 				mappings = false,
 				pre_hook = function(ctx)
