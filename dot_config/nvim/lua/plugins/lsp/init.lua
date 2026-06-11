@@ -76,6 +76,7 @@ return {
 	{
 		"https://github.com/atusy/kakehashi.nvim",
 		lazy = true,
+		dev = true,
 		init = function()
 			vim.api.nvim_create_autocmd("LspAttach", {
 				callback = function(ev)
@@ -86,6 +87,13 @@ return {
 							vim.tbl_keys(vim.lsp._enabled_configs),
 							"keep"
 						)
+						vim.api.nvim_create_autocmd("CursorHold", {
+							once = true,
+							callback = function()
+								require("treesitter-context")
+								require("kakehashi.extra.context").toggle()
+							end,
+						})
 					end
 				end,
 			})

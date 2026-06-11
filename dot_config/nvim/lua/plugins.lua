@@ -225,23 +225,10 @@ return {
 	},
 	-- 'haringsrob/nvim_context_vt',
 	{
+		-- kakehashi.nvim requires query files
 		"https://github.com/nvim-treesitter/nvim-treesitter-context",
-		event = "CursorHold",
 		branch = "master",
-		config = function()
-			require("treesitter-context").setup({
-				enable = true,
-				patterns = {
-					css = { "media_statement", "rule_set" },
-					scss = { "media_statement", "rule_set" },
-					rmd = { "section" },
-					yaml = { "block_mapping_pair", "block_sequence_item" },
-				},
-			})
-			require("atusy.keymap.palette").add_item("n", "toggle treesitter context", function()
-				require("treesitter-context").toggle()
-			end)
-		end,
+		lazy = true,
 	},
 	{
 		"https://github.com/RRethy/nvim-treesitter-endwise",
