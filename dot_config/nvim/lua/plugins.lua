@@ -205,6 +205,22 @@ return {
 					vim.api.nvim_win_set_cursor(0, { pos.row, pos.col })
 				end
 			end)
+			vim.keymap.set("n", "B", function()
+				local pos = require("budouxify.motion").find_backward({
+					head = true,
+				})
+				if pos then
+					vim.api.nvim_win_set_cursor(0, { pos.row, pos.col })
+				end
+			end)
+			vim.keymap.set("n", "gE", function()
+				local pos = require("budouxify.motion").find_backward({
+					head = false,
+				})
+				if pos then
+					vim.api.nvim_win_set_cursor(0, { pos.row, pos.col })
+				end
+			end)
 		end,
 	},
 	{
