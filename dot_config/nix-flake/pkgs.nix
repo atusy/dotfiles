@@ -85,9 +85,11 @@ let
     pkgs.gopls
     pkgs.lua-language-server
     pkgs.emmylua-ls
+    pkgs.marksman
     pkgs.nixd
     pkgs.bash-language-server
     pkgs.basedpyright
+    pkgs.panache
     pkgs.terraform-ls
     pkgs.typescript-language-server
     pkgs.yaml-language-server
