@@ -31,7 +31,8 @@ return {
 		if vim.bo[bufnr].buftype == "terminal" then
 			return
 		end
-		if vim.bo[bufnr].filetype == "gin-buffer" then
+		local ft = vim.bo[bufnr].filetype
+		if ft == "gin-buffer" or ft == "toggleterm" then
 			return
 		end
 		on_dir()
