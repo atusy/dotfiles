@@ -6,6 +6,16 @@
         "mcp-server"
       ],
       "timeout": 600000
+    },
+    "codex-work": {
+      "command": "codex",
+      "args": [
+        "mcp-server"
+      ],
+      "timeout": 600000,
+      "env": {
+        "CODEX_HOME": "${HOME}/.cache/codex-work"
+      }
     }
   }
 }
