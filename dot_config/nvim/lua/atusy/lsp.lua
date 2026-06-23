@@ -114,7 +114,6 @@ function M.setup()
 					"r_language_server",
 					"ruff",
 					"rust_analyzer",
-					"stylua",
 					"terraformls",
 					"ts_ls",
 					"yamlls",

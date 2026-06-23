@@ -8,6 +8,9 @@ searchPaths = [
   "${KAKEHASHI_DATA_DIR}"
 ]
 
+[languages.markdown.layers.aggregation."textDocument/formatting"]
+strategy = "concatenated"
+
 [languages.org]
 parser = "${HOME}/ghq/github.com/nvim-orgmode/tree-sitter-org/org.dylib"
 queries = [
@@ -31,15 +34,22 @@ base = "qmd"
 [languages.rmarkdown]
 base = "rmd"
 
+[languages.lua.bridge._self]
+enabled = true
+
 [languages._.bridge.python.aggregation]
 "textDocument/completion" = { "priorities" = ["basedpyright"] }
 "textDocument/formatting" = { "priorities" = ["basedpyright"] }
 
 [languages._.bridge.lua.aggregation]
-"textDocument/formatting" = { "priorities" = ["stylua"] }
+"textDocument/formatting" = { "priorities" = ["stylua"], maxFanOut = 1 }
 
 [languages._.bridge.r.aggregation]
 "textDocument/formatting" = { "priorities" = ["air"] }
+
+[languageServers._]
+rootMarkers = [".git"]
+preferSharedInstance = true
 
 # For Neovim, languageServers are setup by using Neovim Lua API
 # The below is just an example of how to setup a language server
@@ -57,6 +67,10 @@ languages = ["R", "r"]
 
 [languageServers.lua_ls]
 cmd = ["/run/current-system/sw/bin/lua-language-server"]
+languages = ["lua"]
+
+[languageServers.stylua]
+cmd = ["/run/current-system/sw/bin/stylua", "--lsp"]
 languages = ["lua"]
 
 [captureMappings._.highlights]
