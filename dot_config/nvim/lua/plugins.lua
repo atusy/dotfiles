@@ -418,6 +418,20 @@ return {
 		end,
 	},
 
+	-- AI
+	{
+		"https://github.com/carlos-algms/agentic.nvim",
+		lazy = true,
+		init = function()
+			require("atusy.keymap.palette").add_item("n", "AI: restore session", function()
+				require("agentic").restore_session()
+			end)
+			require("atusy.keymap.palette").add_item("n", "AI: chat", function()
+				require("agentic").toggle({ auto_add_to_context = false })
+			end)
+		end,
+	},
+
 	-- filetype specific
 	{ "https://github.com/itchyny/vim-qfedit", ft = "qf" },
 	{ "https://github.com/thinca/vim-qfreplace", ft = "qf" },
