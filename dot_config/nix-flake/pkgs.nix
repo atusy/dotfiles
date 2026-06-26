@@ -14,6 +14,8 @@ let
     pkgs.buf
     pkgs.bun
     pkgs.chezmoi
+    pkgs.claude-agent-acp
+    pkgs.codex-acp
     pkgs.copilot-language-server
     pkgs.coreutils-full
     pkgs.delta
