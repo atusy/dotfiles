@@ -39,6 +39,9 @@ base = "rmd"
 
 [languages.lua.bridge._self]
 enabled = true
+aggregation = {
+  "textDocument/formatting" = { "priorities" = ["stylua"], maxFanOut = 1 }
+}
 
 [languages._.bridge.python.aggregation]
 "textDocument/completion" = { "priorities" = ["basedpyright"] }
