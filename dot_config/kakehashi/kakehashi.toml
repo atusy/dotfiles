@@ -34,6 +34,9 @@ base = "qmd"
 [languages.rmarkdown]
 base = "rmd"
 
+[languages.markdown.bridge._self.aggregation]
+"textDocument/formatting" = { "priorities" = [] }
+
 [languages.lua.bridge._self]
 enabled = true
 
