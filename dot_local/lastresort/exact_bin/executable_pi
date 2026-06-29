@@ -1,0 +1,2 @@
+#!/bin/sh
+exec bun x @earendil-works/pi-coding-agent "$@"

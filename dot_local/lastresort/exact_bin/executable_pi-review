@@ -1,0 +1,10 @@
+#!/bin/sh
+set -eu
+
+REPO="$HOME/ghq/github.com/atusy/pi-review"
+
+if ! test -d "$REPO"; then
+  ghq get atusy/pi-review
+fi
+
+exec bun run "$REPO/src/pi-review.ts"
