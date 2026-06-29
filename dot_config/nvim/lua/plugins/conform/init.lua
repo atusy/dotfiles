@@ -115,6 +115,14 @@ return {
 					return {}
 				end,
 				formatters_by_ft = {
+					lua = function()
+						return {
+							lsp_format = "prefer",
+							filter = function(client)
+								return client.name == "kakehashi" and {} or nil
+							end,
+						}
+					end,
 					javascript = make_formatter_ts,
 					typescript = make_formatter_ts,
 					typescriptreact = make_formatter_ts,
