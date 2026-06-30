@@ -40,7 +40,7 @@ base = "rmd"
 [languages.lua.bridge._self]
 enabled = true
 aggregation = {
-  "textDocument/formatting" = { "priorities" = ["stylua"], maxFanOut = 1 }
+  "textDocument/formatting" = { "priorities" = ["stylua"] }
 }
 
 [languages._.bridge.python.aggregation]
@@ -48,7 +48,7 @@ aggregation = {
 "textDocument/formatting" = { "priorities" = ["basedpyright"] }
 
 [languages._.bridge.lua.aggregation]
-"textDocument/formatting" = { "priorities" = ["stylua"], maxFanOut = 1 }
+"textDocument/formatting" = { "priorities" = ["stylua"] }
 
 [languages._.bridge.r.aggregation]
 "textDocument/formatting" = { "priorities" = ["air"] }
