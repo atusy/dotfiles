@@ -54,7 +54,6 @@ aggregation = {
 "textDocument/formatting" = { "priorities" = ["air"] }
 
 [languageServers._]
-rootMarkers = [".git"]
 preferSharedInstance = true
 
 # For Neovim, languageServers are setup by using Neovim Lua API
