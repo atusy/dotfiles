@@ -7,4 +7,4 @@ if ! test -d "$REPO"; then
   ghq get atusy/pi-review
 fi
 
-exec bun run "$REPO/src/pi-review.ts"
+exec bun run "$REPO/src/pi-review.ts" "$@"

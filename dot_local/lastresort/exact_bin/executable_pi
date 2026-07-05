@@ -1,2 +1,6 @@
 #!/bin/sh
-exec bun x @earendil-works/pi-coding-agent "$@"
+PI="$HOME/.bun/bin/pi"
+if ! test -x "$PI"; then
+  bun add -g --ignore-scripts @earendil-works/pi-coding-agent
+fi
+exec "$PI" "$@"
