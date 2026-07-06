@@ -3,9 +3,22 @@ if not home then
 	return
 end
 
+local cmd = { vim.fs.joinpath(home, ".cargo/bin/kakehashi") }
+
+for _, path in ipairs({
+	vim.fs.joinpath(home, "ghq/github.com/atusy/kakehashi-lspconfig/lsp.toml"),
+	vim.fs.joinpath(home, ".config/kakehashi/kakehashi.toml"),
+	"kakehashi.toml",
+}) do
+	if vim.uv.fs_stat(path) then
+		table.insert(cmd, "--config-file")
+		table.insert(cmd, path)
+	end
+end
+
 ---@type vim.lsp.Config
 return {
-	cmd = { vim.fs.joinpath(home, ".cargo/bin/kakehashi") },
+	cmd = cmd,
 	root_dir = function(bufnr, on_dir)
 		-- skip terminal buffers (e.g., toggleterm)
 		if vim.bo[bufnr].buftype == "terminal" then

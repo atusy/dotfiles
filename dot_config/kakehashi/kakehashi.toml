@@ -37,11 +37,11 @@ base = "rmd"
 [languages.markdown.bridge._self.aggregation]
 "textDocument/formatting" = { "priorities" = [] }
 
-[languages.lua.bridge._self]
+[languages._.bridge._.aggregation]
+"_" = { "priorities" = ["*"] }
+
+[languages._.bridge._self]
 enabled = true
-aggregation = {
-  "textDocument/formatting" = { "priorities" = ["stylua"] }
-}
 
 [languages._.bridge.python.aggregation]
 "textDocument/completion" = { "priorities" = ["basedpyright"] }
@@ -53,30 +53,29 @@ aggregation = {
 [languages._.bridge.r.aggregation]
 "textDocument/formatting" = { "priorities" = ["air"] }
 
+[languages.lua.bridge._self]
+aggregation = {
+  "_" = { "priorities" = ["lua_ls"] },
+  "textDocument/formatting" = { "priorities" = ["stylua"] }
+}
+
 [languageServers._]
 preferSharedInstance = true
 
-# For Neovim, languageServers are setup by using Neovim Lua API
-# The below is just an example of how to setup a language server
-[languageServers.basedpyright]
-cmd = ["/run/current-system/sw/bin/basedpyright-langserver", "--stdio"]
-languages = ["python"]
-
-[languageServers.air]
-cmd = [ "air", "language-server" ]
-languages = ["r"]
-
-[languageServers.r_language_server]
-cmd = [ "R", "--no-echo", "-e", "languageserver::run()"]
-languages = ["R", "r"]
-
-[languageServers.lua_ls]
-cmd = ["/run/current-system/sw/bin/lua-language-server"]
-languages = ["lua"]
-
-[languageServers.stylua]
-cmd = ["stylua", "--lsp"]
-languages = ["lua"]
+[languageServers]
+air = { enabled = true }
+basedpyright = { enabled = true }
+bashls = { enabled = true }
+efm = { enabled = true }
+jsonls = { enabled = true }
+lua_ls = { enabled = true }
+nixd = { enabled = true }
+r_language_server = { enabled = true }
+ruff = { enabled = true }
+rust_analyzer = { enabled = true }
+terraformls = { enabled = true }
+stylua = { enabled = true }
+yamlls = { enabled = true }
 
 [captureMappings._.highlights]
 "markup.heading" = "class"
