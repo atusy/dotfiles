@@ -61,8 +61,6 @@ let
     # pkgs.ollama
     pkgs.pandoc
     pkgs.pnpm
-    pkgs.podman
-    pkgs.podman-compose
     pkgs.procs
     pkgs.python312
     pkgs.quarto
@@ -125,6 +123,8 @@ in
 {
   x86_64-linux = common ++ [
     pkgs.paru
+    pkgs.podman
+    pkgs.podman-compose
   ];
   aarch64-darwin = common ++ [
     pkgs.docker-compose
