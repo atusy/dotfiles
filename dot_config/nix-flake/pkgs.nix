@@ -51,7 +51,7 @@ let
     pkgs.kubectl
     pkgs.kubectx
     pkgs.lnav
-    pkgs.mise
+    pkgs-master.mise
     pkgs.mypy
     pkgs.neovim # nightly
     pkgs.neovim-remote
