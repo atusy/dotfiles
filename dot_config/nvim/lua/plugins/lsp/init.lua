@@ -126,6 +126,19 @@ return {
 		end,
 	},
 	{
+		"https://github.com/atusy/kakehashi-lspconfig",
+		dev = true,
+		build = function(plugin)
+			vim.system({ "bash", "-c", "cat lsp/* > lsp.toml" }, { cwd = plugin.dir }, function() end)
+		end,
+		init = function(plugin)
+			vim.print(plugin)
+			if plugin.dev then
+				plugin.build(plugin)
+			end
+		end,
+	},
+	{
 		-- kakehashi.nvim requires query files
 		"https://github.com/nvim-treesitter/nvim-treesitter-context",
 		branch = "master",
