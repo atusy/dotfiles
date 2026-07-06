@@ -132,7 +132,6 @@ return {
 			vim.system({ "bash", "-c", "cat lsp/* > lsp.toml" }, { cwd = plugin.dir }, function() end)
 		end,
 		init = function(plugin)
-			vim.print(plugin)
 			if plugin.dev then
 				plugin.build(plugin)
 			end
