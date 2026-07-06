@@ -1,4 +1,5 @@
 local.*
+*.local.*
 .luarc.json
 Taskfile.yml
 !dot_claude/CLAUDE.md
