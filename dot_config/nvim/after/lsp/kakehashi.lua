@@ -55,8 +55,9 @@ return {
 			buffer = bufnr,
 			once = true,
 			callback = function()
-				vim.opt_local.syntax = "OFF"
+				-- order matters
 				vim.treesitter.stop(bufnr)
+				vim.opt_local.syntax = "OFF"
 			end,
 		})
 	end,
