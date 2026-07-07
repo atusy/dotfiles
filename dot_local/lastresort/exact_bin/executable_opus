@@ -17,5 +17,4 @@ fi
 exec claude-yolo \
   --model opus \
   --plugin-dir "$AGENTIC_SCRUM_PLUGIN" \
-  --mcp-config "$HOME/.claude/mcp.json" \
   "$@"
