@@ -22,6 +22,9 @@ end
 ---@type vim.lsp.Config
 return {
 	cmd = cmd,
+	cmd_env = {
+		KAKEHASHI_EXPERIMENTAL = vim.env.KAKEHASHI_EXPERIMENTAL or "true",
+	},
 	root_dir = function(bufnr, on_dir)
 		-- skip terminal buffers (e.g., toggleterm)
 		if vim.bo[bufnr].buftype == "terminal" then
