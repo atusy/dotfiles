@@ -56,4 +56,14 @@ return {
 			end,
 		})
 	end,
+	init_options = {
+		languageServers = {
+			basedpyright = { settings = vim.lsp.config.basedpyright.settings },
+			jsonls = { settings = vim.lsp.config.jsonls.settings },
+			lua_ls = { settings = vim.lsp.config.lua_ls.settings },
+			r_language_server = { settings = vim.lsp.config.r_language_server.settings },
+			rust_analyzer = { settings = vim.lsp.config.rust_analyzer.settings },
+			yamlls = { settings = vim.lsp.config.yamlls.settings },
+		},
+	},
 }

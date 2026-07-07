@@ -78,30 +78,6 @@ return {
 		lazy = true,
 		dev = true,
 		init = function()
-			-- Forward the nvim-side `settings` (after/lsp/*.lua) of servers
-			-- such as `diagnostics.globals` / `workspace.library`.
-			-- Carrying them on the kakehashi client's own `init_options` makes
-			-- kakehashi deep-merge them over its TOML config as the top layer
-			-- at `initialize`, so they are ready before any downstream spawns.
-			-- `vim.lsp.config[name]` resolves after/lsp/<name>.lua regardless of
-			-- being enabled.
-			local function inherit_settings(servers)
-				local language_servers = {}
-				for _, name in ipairs(servers) do
-					local config = vim.lsp.config[name]
-					if config and config.settings then
-						language_servers[name] = { settings = config.settings }
-					end
-				end
-				return language_servers
-			end
-
-			vim.lsp.config("kakehashi", {
-				init_options = {
-					languageServers = inherit_settings({ "lua_ls", "yamlls", "jsonls" }),
-				},
-			})
-
 			vim.api.nvim_create_autocmd("LspAttach", {
 				callback = function(ev)
 					local client = vim.lsp.get_client_by_id(ev.data.client_id)
