@@ -18,9 +18,9 @@ return {
 	single_file_support = true,
 	root_dir = function(bufnr, on_dir)
 		local node_root =
-			vim.fs.root(bufnr, { "package-lock.json", "yarn.lock", "pnpm-lock.yaml", "bun.lockb", "bun.lock" })
+			vim.fs.root(bufnr, { { "package-lock.json", "yarn.lock", "pnpm-lock.yaml", "bun.lockb", "bun.lock" } })
 		local deno_lock_root = vim.fs.root(bufnr, { "deno.lock" })
-		local deno_root = vim.fs.root(bufnr, { "deno.json", "deno.jsonc" })
+		local deno_root = vim.fs.root(bufnr, { { "deno.json", "deno.jsonc" } })
 
 		local len_node_root = node_root and #node_root or 0
 		local len_deno_lock_root = deno_lock_root and #deno_lock_root or 0

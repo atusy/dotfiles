@@ -8,8 +8,10 @@ return {
 	---
 	--- Apache License Version 2.0 https://github.com/neovim/nvim-lspconfig
 	root_dir = function(bufnr, on_dir)
-		local node_root =
-			vim.fs.root(bufnr, { "package-lock.json", "yarn.lock", "pnpm-lock.yaml", "bun.lockb", "bun.lock" })
+		local node_root = vim.fs.root(
+			bufnr,
+			{ { "package-lock.json", "yarn.lock", "pnpm-lock.yaml", "bun.lockb", "bun.lock", "package.json" } }
+		)
 		if not node_root then
 			return
 		end
