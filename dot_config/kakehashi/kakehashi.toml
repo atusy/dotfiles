@@ -59,6 +59,9 @@ aggregation = {
   "textDocument/formatting" = { "priorities" = ["stylua"] }
 }
 
+[languages.sh]
+base = "bash" # because Neovim maps bash filetype to sh languageId
+
 [languageServers._]
 preferSharedInstance = true
 
