@@ -133,6 +133,7 @@ in
     pkgs.terminal-notifier
 
     # https://github.com/BatteredBunny/brew-nix
+    pkgs.brewCasks.bitwarden
     pkgs.brewCasks.chatgpt
     pkgs.brewCasks.keycastr
     pkgs.brewCasks.libreoffice
