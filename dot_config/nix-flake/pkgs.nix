@@ -92,6 +92,7 @@ let
     pkgs.panache
     pkgs.terraform-ls
     pkgs.typescript-language-server
+    pkgs.typescript-go
     pkgs.yaml-language-server
     pkgs.vscode-langservers-extracted # JSON, HTML, CSS, ESLint
     pkgs.vtsls
