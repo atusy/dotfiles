@@ -6,6 +6,7 @@
 
 let
   common = [
+    pkgs.agent-browser
     pkgs.aha # Converet ANSI escape sequences to HTML
     pkgs.avahi
     pkgs.bash
