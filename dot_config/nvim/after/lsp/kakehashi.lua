@@ -19,6 +19,12 @@ for _, path in ipairs({
 	end
 end
 
+---@type string[]
+local extra_args = vim.json.decode(vim.env.KAKEHASHI_EXTRA_ARGS or "[]")
+for _, arg in ipairs(extra_args) do
+	table.insert(cmd, arg)
+end
+
 ---@type vim.lsp.Config
 return {
 	cmd = cmd,
