@@ -19,8 +19,9 @@ rounds. The local stages are where problems must die.
 3. **Create the PR** (or push to the existing one).
 4. **Copilot** PR review. Fix/refute, re-request until a round produces zero
    new actionable comments.
-5. **Gemini** (`/gemini review`). Same convergence rule. (Steps 4–5 can run as
-   combined rounds: request both, wait for both, handle the union.)
+5. **Gemini** (`/gemini review`). Same convergence rule. Run if repo is under
+   https://github.com/atusy (Steps 4–5 can run as combined rounds: request
+   both, wait for both, handle the union.)
 
 ## Universal rules (every stage)
 
