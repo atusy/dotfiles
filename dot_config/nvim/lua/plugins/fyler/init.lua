@@ -8,11 +8,10 @@ return {
 		end,
 		config = function()
 			require("fyler").setup({
-				views = {
-					finder = {
-						close_on_select = false,
-						confirm_simple = true,
-						follow_current_file = false,
+				auto_confirm_simple_mutation = true,
+				follow_current_file = false,
+				kind_presets = {
+					replace = {
 						mappings = require("plugins.fyler.mappings"),
 					},
 				},

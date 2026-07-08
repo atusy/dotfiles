@@ -1,10 +1,20 @@
----Select the current entry and toggle directory or open file
----@param finder table
+---@param instance table
+---@return table|nil
+local function cursor_entry(instance)
+	return require("fyler.finder").parse_cursor_line(instance)
+end
+
+---Select the current entry and toggle directory or open file.
+---@param instance table
 ---@param open function(string)
-local function select_entry(finder, open)
-	local entry = finder:cursor_node_entry()
+local function select_entry(instance, open)
+	local entry = cursor_entry(instance)
+	if not entry then
+		return
+	end
+
 	if entry.type == "directory" then
-		finder:action_call("n_select")
+		instance:select()
 		return
 	end
 	open(vim.fn.fnameescape(entry.path))
@@ -43,57 +53,100 @@ vim.api.nvim_create_autocmd({ "BufWinEnter", "WinEnter" }, {
 })
 
 local M = {
-	["<C-S>"] = function(finder)
-		finder:dispatch_mutation()
-	end,
-	["<F5>"] = function(finder)
-		finder:dispatch_refresh()
-	end,
-	["#"] = function()
-		require("fyler").navigate(navigation)
-	end,
-	zc = "CollapseNode",
-	zM = "CollapseAll",
+	n = {
+		["<C-S>"] = {
+			action = "mutate",
+		},
+		["<F5>"] = {
+			action = "refresh",
+			args = { force = true, recursive = true },
+		},
+		["#"] = {
+			action = function(instance)
+				if navigation then
+					instance:follow({ target_path = navigation, force = true })
+				end
+			end,
+		},
+		zc = {
+			action = "shrink",
+		},
+		zM = {
+			action = function(instance)
+				local libpath = require("fyler.lib.path")
+				local root_key = libpath.to_key(instance.state.pseudo_root_path)
+				for key in pairs(instance.state.meta) do
+					instance.state.meta[key] = key == root_key
+				end
+				instance:refresh()
+			end,
+		},
 
-	--[[yank path variants]]
-	yp = function(finder)
-		vim.fn.setreg(vim.v.register, finder:cursor_node_entry().path)
-	end,
-	yr = function(finder)
-		vim.fn.setreg(vim.v.register, vim.fn.fnamemodify(finder:cursor_node_entry().path, ":."))
-	end,
+		-- yank path variants
+		yp = {
+			action = function(instance)
+				local entry = cursor_entry(instance)
+				if entry then
+					vim.fn.setreg(vim.v.register, entry.path)
+				end
+			end,
+		},
+		yr = {
+			action = function(instance)
+				local entry = cursor_entry(instance)
+				if entry then
+					vim.fn.setreg(vim.v.register, vim.fn.fnamemodify(entry.path, ":."))
+				end
+			end,
+		},
 
-	--[[select variants]]
-	gf = function(finder)
-		select_entry(finder, vim.cmd.edit) -- to open in a new window, preceed with <C-W>s or <C-W>v
-	end,
-	["<C-W>gf"] = function(finder)
-		select_entry(finder, vim.cmd.tabedit) -- opens file like *CTRL-W_gf* opens in a new tab
-	end,
-	["<CR>"] = function(finder)
-		select_entry(finder, open_with_chowcho)
-	end,
-	gx = function(finder)
-		vim.ui.open(finder:cursor_node_entry().path)
-	end,
+		-- select variants
+		gf = {
+			action = function(instance)
+				select_entry(instance, vim.cmd.edit) -- to open in a new window, precede with <C-W>s or <C-W>v
+			end,
+		},
+		["<C-W>gf"] = {
+			action = function(instance)
+				select_entry(instance, vim.cmd.tabedit) -- opens file like *CTRL-W_gf* opens in a new tab
+			end,
+		},
+		["<CR>"] = {
+			action = function(instance)
+				select_entry(instance, open_with_chowcho)
+			end,
+		},
+		gx = {
+			action = function(instance)
+				local entry = cursor_entry(instance)
+				if entry then
+					vim.ui.open(entry.path)
+				end
+			end,
+		},
 
-	--[[debugging]]
-	gK = function(finder)
-		vim.print(finder)
-	end,
-	K = function(finder)
-		vim.print(finder:cursor_node_entry())
-	end,
+		-- debugging
+		gK = {
+			action = function(instance)
+				vim.print(instance)
+			end,
+		},
+		K = {
+			action = function(instance)
+				vim.print(cursor_entry(instance))
+			end,
+		},
 
-	--[[disabled defaults]]
-	q = false,
-	["<C-t>"] = false,
-	["|"] = false,
-	["-"] = false,
-	["^"] = false,
-	["="] = false,
-	["."] = false,
-	["<BS>"] = false,
+		-- disabled defaults
+		q = { disabled = true },
+		["<C-t>"] = { disabled = true },
+		["|"] = { disabled = true },
+		["-"] = { disabled = true },
+		["^"] = { disabled = true },
+		["="] = { disabled = true },
+		["."] = { disabled = true },
+		["<BS>"] = { disabled = true },
+	},
 }
 
 return M
