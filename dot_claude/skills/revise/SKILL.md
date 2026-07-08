@@ -41,7 +41,7 @@ rounds. The local stages are where problems must die.
 
 ## Stage 1 — /review (kill everything here)
 
-Invoke the `/review` command (orchestrator subagent + ~10 parallel
+Invoke the `review` skill (orchestrator subagent + ~10 parallel
 single-perspective reviewers + a fact-check pass that reads the actual code
 before reporting). Give the orchestrator the branch, base, changed files, and
 per-file perspective assignments.
