@@ -20,7 +20,13 @@ assert_contains() {
 assert_absent dot_claude/commands/tdd/red.md
 assert_absent dot_claude/commands/tdd/green.md
 assert_absent dot_claude/commands/tdd/refactor.md
+assert_absent dot_claude/commands/tidy/first.md
+assert_absent dot_claude/commands/tidy/after.md
+assert_absent dot_claude/commands/tidy/later.md
 
 assert_contains dot_claude/skills/tdd/SKILL.md "Write ONE small failing test"
 assert_contains dot_claude/skills/tdd/SKILL.md "Make minimal behavioral change"
 assert_contains dot_claude/skills/tdd/SKILL.md "Improve structure without changing behavior"
+assert_contains dot_claude/skills/tidying/SKILL.md "Tidy First"
+assert_contains dot_claude/skills/tidying/SKILL.md "Tidy After"
+assert_contains dot_claude/skills/tidying/SKILL.md "Tidy Later"

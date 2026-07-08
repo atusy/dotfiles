@@ -1,6 +1,6 @@
 ---
 name: tidying
-description: Guide structural code improvements using Kent Beck's Tidy First methodology. Use when seeing messy code, before making behavioral changes, after completing features, or discussing when to clean up code.
+description: Guide structural code improvements using Kent Beck's Tidy First methodology. Use when seeing messy code, before making behavioral changes, after completing features, documenting deferred cleanup, or discussing when to clean up code.
 ---
 
 # INSTRUCTIONS
@@ -55,3 +55,49 @@ Keep code inline when:
 ## Reference
 
 Based on: *Tidy First?* by Kent Beck (2023)
+
+## Tidy First
+
+Use before a behavioral change when the code you need to touch is hard to
+understand, tightly coupled, poorly named, duplicated, or otherwise messy.
+
+1. Identify one small tidying
+2. Make the structural change without changing behavior
+3. Run tests to confirm nothing broke
+4. Commit with `refactor:`
+5. Repeat only while the next behavioral change is still easier or safer
+
+Good small tidyings include guard clauses, dead code removal, normalizing
+symmetries, extracting a helper, inlining an obscuring abstraction, renaming,
+reordering related code, and introducing explaining variables or constants.
+
+## Tidy After
+
+Use after a committed behavioral change when implementation revealed clearer
+structure.
+
+1. Ensure the behavior change is already committed as `feat:` or `fix:`
+2. Identify one small cleanup opportunity
+3. Make only the structural change
+4. Run tests
+5. Commit with `refactor:`
+6. Repeat only while value remains high
+
+Favor cleanup that removes copy-paste from getting green, improves names after
+learning the domain, simplifies conditionals, removes scaffolding, or improves
+cohesion.
+
+## Tidy Later
+
+Use when a tidying is valuable but too large, disruptive, or not blocking the
+current work.
+
+Document enough context for future work:
+
+- Location: where the messy code is
+- Problem: what makes it hard to work with
+- Opportunity: what tidying would help
+- Trigger: when to revisit it
+
+Prefer the project's existing convention: an in-code TODO, an issue or ticket,
+or a tech-debt log. Keep entries specific enough to act on later.
