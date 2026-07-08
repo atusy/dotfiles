@@ -72,6 +72,7 @@ bashls = { enabled = true }
 efm = { enabled = true }
 jsonls = { enabled = true }
 lua_ls = { enabled = true }
+makrsman = { enabled = true }
 nixd = { enabled = true }
 r_language_server = { enabled = true }
 ruff = { enabled = true }
