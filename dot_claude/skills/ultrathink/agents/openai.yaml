@@ -1,0 +1,4 @@
+interface:
+  display_name: "Ultrathink"
+  short_description: "Analyze deeply with multiple lenses"
+  default_prompt: "Analyze this problem with multiple perspectives and recommend next steps."

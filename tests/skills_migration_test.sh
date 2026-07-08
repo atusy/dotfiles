@@ -24,6 +24,8 @@ assert_absent dot_claude/commands/tidy/first.md
 assert_absent dot_claude/commands/tidy/after.md
 assert_absent dot_claude/commands/tidy/later.md
 assert_absent dot_claude/commands/git/commit.md
+assert_absent dot_claude/commands/review.md
+assert_absent dot_claude/commands/ultrathink.md
 
 assert_contains dot_claude/skills/tdd/SKILL.md "Write ONE small failing test"
 assert_contains dot_claude/skills/tdd/SKILL.md "Make minimal behavioral change"
@@ -33,3 +35,7 @@ assert_contains dot_claude/skills/tidying/SKILL.md "Tidy After"
 assert_contains dot_claude/skills/tidying/SKILL.md "Tidy Later"
 assert_contains dot_claude/skills/git-commit/SKILL.md "Conventional Commits"
 assert_contains dot_claude/skills/git-commit/SKILL.md "Commit log describes WHY"
+assert_contains dot_claude/skills/review/SKILL.md "multi-perspective review"
+assert_contains dot_claude/skills/review/SKILL.md "fact-check"
+assert_contains dot_claude/skills/ultrathink/SKILL.md "analytical lenses"
+assert_contains dot_claude/skills/ultrathink/SKILL.md "final recommendation"
