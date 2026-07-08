@@ -23,6 +23,7 @@ assert_absent dot_claude/commands/tdd/refactor.md
 assert_absent dot_claude/commands/tidy/first.md
 assert_absent dot_claude/commands/tidy/after.md
 assert_absent dot_claude/commands/tidy/later.md
+assert_absent dot_claude/commands/git/commit.md
 
 assert_contains dot_claude/skills/tdd/SKILL.md "Write ONE small failing test"
 assert_contains dot_claude/skills/tdd/SKILL.md "Make minimal behavioral change"
@@ -30,3 +31,5 @@ assert_contains dot_claude/skills/tdd/SKILL.md "Improve structure without changi
 assert_contains dot_claude/skills/tidying/SKILL.md "Tidy First"
 assert_contains dot_claude/skills/tidying/SKILL.md "Tidy After"
 assert_contains dot_claude/skills/tidying/SKILL.md "Tidy Later"
+assert_contains dot_claude/skills/git-commit/SKILL.md "Conventional Commits"
+assert_contains dot_claude/skills/git-commit/SKILL.md "Commit log describes WHY"
