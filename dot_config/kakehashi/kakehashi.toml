@@ -78,6 +78,7 @@ r_language_server = { enabled = true }
 ruff = { enabled = true }
 rust_analyzer = { enabled = true }
 terraformls = { enabled = true }
+tsgo = { enabled = true }
 stylua = { enabled = true }
 yamlls = { enabled = true }
 

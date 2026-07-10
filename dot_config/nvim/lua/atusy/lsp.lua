@@ -101,7 +101,6 @@ function M.setup()
 				vim.lsp.enable({
 					"denols",
 					"kakehashi",
-					"tsgo",
 				})
 			end)
 		end,
