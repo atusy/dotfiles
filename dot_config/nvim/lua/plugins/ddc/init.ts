@@ -50,7 +50,7 @@ export class Config extends BaseConfig {
     args.setAlias("source", "shell_history", "dictionary");
     args.setAlias("source", "ex_command_history", "cmdline_history");
     args.setAlias("source", "ex_command_history_cmd", "cmdline_history");
-    args.setAlias("filter", "matcher_head_dictionary", "matcher_head");
+    args.setAlias("filter", "matcher_head_initial", "matcher_head");
     args.setAlias("filter", "matcher_head_shell_history", "matcher_head");
     args.setAlias("filter", "matcher_word", "matcher_string_match");
     args.setAlias("filter", "converter_ex_command", "converter_string_match");
@@ -96,6 +96,10 @@ export class Config extends BaseConfig {
         },
         around: {
           mark: "A",
+          matchers: [
+            "matcher_head_initial",
+            "matcher_fuzzy",
+          ],
           converters: [
             "converter_fuzzy",
             "converter_dictionary",
@@ -104,6 +108,10 @@ export class Config extends BaseConfig {
         },
         buffer: {
           mark: "B",
+          matchers: [
+            "matcher_head_initial",
+            "matcher_fuzzy",
+          ],
           converters: [
             "converter_fuzzy",
             "converter_dictionary",
@@ -126,7 +134,7 @@ export class Config extends BaseConfig {
         denippet: {
           mark: "S",
           matchers: ["matcher_head"],
-          // matchers: ["matcher_head_dictionary", "matcher_fuzzy"],
+          // matchers: ["matcher_head_initial", "matcher_fuzzy"],
           // matchers: ["matcher_fuzzy"],
           minKeywordLength: 1,
           minAutoCompleteLength: 1,
@@ -134,7 +142,10 @@ export class Config extends BaseConfig {
         },
         dictionary: {
           mark: "Dict",
-          matchers: ["matcher_fuzzy"],
+          matchers: [
+            "matcher_head_initial",
+            "matcher_fuzzy",
+          ],
           converters: ["converter_fuzzy", "converter_dictionary"],
           keywordPattern: "[a-zA-Z]+",
         },
@@ -272,7 +283,7 @@ export class Config extends BaseConfig {
       },
       filterParams: {
         // matcher
-        matcher_head_dictionary: {
+        matcher_head_initial: {
           maxMatchLength: 1,
         },
         matcher_head_shell_history: {
