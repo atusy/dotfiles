@@ -16,6 +16,17 @@
       "env": {
         "CODEX_HOME": "${HOME}/.cache/codex-work"
       }
+    },
+    "lsmcp": {
+      "command": "bunx",
+      "args": [
+        "@mizchi/lsmcp",
+        "--bin",
+        "${HOME}/.cargo/bin/kakehashi --config-file ${HOME}/ghq/github.com/atusy/kakehashi-lspconfig/lsp.toml --config-file ${HOME}/.config/kakehashi/kakehashi.toml",
+        "--files",
+        "**/*"
+      ],
+      "timeout": 600000
     }
   }
 }
