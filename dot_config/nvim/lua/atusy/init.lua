@@ -298,7 +298,7 @@ vim.api.nvim_create_autocmd("TextYankPost", {
 
 		-- highlight yanked region
 		if vim.v.event.operator == "y" then
-			vim.highlight.on_yank()
+			vim.hl.hl_op()
 		end
 	end,
 })
