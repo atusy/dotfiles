@@ -6,6 +6,7 @@
 .envrc
 .git
 .ipynb_checkpoints
+.lsmcp
 .mise.toml
 .python-version
 .rtx.toml
