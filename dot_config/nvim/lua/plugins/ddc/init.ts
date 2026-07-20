@@ -75,7 +75,6 @@ export class Config extends BaseConfig {
           "zsh",
           // "xonsh",
           "cmdline",
-          "file",
           "ex_command_history",
           // "shell_history",
           "around",
@@ -121,8 +120,6 @@ export class Config extends BaseConfig {
         },
         cmdline: {
           mark: "CMD",
-          enabledIf:
-            "index(['file', 'file_in_path', 'dir', 'dir_in_path'], getcmdcompltype()) < 0",
           forceCompletionPattern: "\\S/\\S*|\\.\\w*",
           isVolatile: true,
           minAutoCompleteLength: 0,
