@@ -70,6 +70,11 @@
           # Necessary for using flakes on this system.
           nix.settings.experimental-features = "nix-command flakes";
 
+          nix.settings.trusted-users = [
+            "root"
+            "@admin"
+          ];
+
           system.configurationRevision = self.rev or self.dirtyRev or null;
 
           # Used for backwards compatibility, please read the changelog before changing.
