@@ -140,15 +140,6 @@ return {
 		-- lazy = false,
 	},
 	{
-		"https://github.com/lambdalisue/kensaku.vim", -- denops
-		lazy = false,
-		config = function(p)
-			if p.lazy then
-				require("denops-lazy").load("kensaku.vim")
-			end
-		end,
-	},
-	{
 		"https://github.com/wsdjeg/vim-fetch", -- :e with linenumber
 		lazy = false, -- some how event-based lazy loading won't work as expected
 	},
@@ -243,6 +234,7 @@ return {
 			vim.keymap.set({ "x", "o" }, ";", "<Plug>(jab-incremental)")
 		end,
 	},
+	{ "https://github.com/delphinus/luamigemo", lazy = true },
 	{
 		"https://github.com/haya14busa/vim-edgemotion",
 		keys = {
