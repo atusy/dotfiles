@@ -8,11 +8,4 @@ return {
 			vim.g["denops#server#deno_args"] = { "-q", "--no-lock", "-A", "--unstable-kv" }
 		end,
 	},
-	{
-		"https://github.com/yuki-yano/denops-lazy.nvim",
-		lazy = true,
-		config = function()
-			require("denops-lazy").setup()
-		end,
-	},
 }
