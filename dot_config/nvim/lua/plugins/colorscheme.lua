@@ -198,6 +198,7 @@ return {
 					all = {
 						["@text.literal"] = { link = "String" },
 						NvimTreeNormal = { link = "Normal" },
+						DiagnosticUnnecessary = {}, -- do not dim unused
 					},
 				},
 				options = { inverse = { visual = true } },
