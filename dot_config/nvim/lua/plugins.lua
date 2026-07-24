@@ -232,6 +232,19 @@ return {
 			end, { expr = true })
 			vim.keymap.set("n", ";", "m'<Plug>(jab-incremental)")
 			vim.keymap.set({ "x", "o" }, ";", "<Plug>(jab-incremental)")
+			vim.keymap.set("n", "gn", function()
+				return require("jab").jab_win({
+					str = vim.fn.getreg("/"),
+					matcher = function(line, query, init)
+						local pattern = [[\%>]] .. (init - 1) .. "c" .. query
+						local ok, match = pcall(vim.fn.matchstrpos, line, pattern)
+						if not ok or match[2] == -1 then
+							return nil
+						end
+						return { match[2], match[3] }
+					end,
+				})
+			end, { expr = true })
 		end,
 	},
 	{ "https://github.com/delphinus/luamigemo", lazy = true },
