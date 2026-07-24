@@ -98,9 +98,7 @@ return {
 			})
 		end,
 	},
-	{ "https://github.com/segeljakt/vim-silicon", cmd = { "Silicon", "SiliconHighlight" } }, -- pacman -S silicon
 	{ "https://github.com/tpope/vim-characterize", cmd = { "Characterize" } },
-	{ "https://github.com/thinca/vim-partedit", cmd = "Partedit" },
 
 	-- ui
 	{ "https://github.com/xiyaowong/nvim-transparent", lazy = true }, -- watch, but prefer atusy.highlight to support styler.nvim
@@ -248,13 +246,6 @@ return {
 		end,
 	},
 	{ "https://github.com/delphinus/luamigemo", lazy = true },
-	{
-		"https://github.com/haya14busa/vim-edgemotion",
-		keys = {
-			{ "<A-j>", "<Plug>(edgemotion-j)", mode = "" },
-			{ "<A-k>", "<Plug>(edgemotion-k)", mode = "" },
-		},
-	},
 	{
 		"https://github.com/rapan931/lasterisk.nvim",
 		lazy = true,
