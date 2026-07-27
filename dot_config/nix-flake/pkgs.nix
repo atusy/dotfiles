@@ -105,6 +105,7 @@ let
     pkgs.checkmate
     pkgs.gotools
     pkgs.nixfmt
+    pkgs.oxfmt
     pkgs.oxlint
     pkgs.prettierd
     pkgs.ruff
