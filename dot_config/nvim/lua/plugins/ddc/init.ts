@@ -152,7 +152,7 @@ export class Config extends BaseConfig {
         },
         lsp: {
           mark: "L",
-          forceCompletionPattern: "\\.\\w*|::\\w*|->\\w*",
+          forceCompletionPattern: "(\\.|::|->)\\w*",
           dup: "force",
           isVolatile: true,
           volatilePattern: "[\p{P}\p{S}]",
