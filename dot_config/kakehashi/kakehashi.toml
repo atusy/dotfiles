@@ -7,6 +7,10 @@ searchPaths = [
   "${KAKEHASHI_DATA_DIR}"
 ]
 
+[languages._.bridge._.aggregation."textDocument/completion"]
+strategy = "concatenated"
+priorities = ["*", "tsudoi"]
+
 [languages.markdown.layers.aggregation."textDocument/formatting"]
 strategy = "concatenated"
 
@@ -35,6 +39,7 @@ base = "rmd"
 
 [languages.markdown.bridge._self.aggregation]
 "textDocument/formatting" = { "priorities" = [] }
+"textDocument/completion" = { "priorities" = ["tsudoi"] }
 
 [languages._.bridge._.aggregation]
 "_" = { "priorities" = ["*"] }
@@ -43,7 +48,7 @@ base = "rmd"
 enabled = true
 
 [languages._.bridge.python.aggregation]
-"textDocument/completion" = { "priorities" = ["basedpyright"] }
+"textDocument/completion" = { "priorities" = ["basedpyright", "tsudoi"], strategy = "concatenated" }
 "textDocument/formatting" = { "priorities" = ["basedpyright"] }
 
 [languages._.bridge.lua.aggregation]
@@ -68,6 +73,16 @@ base = "bash" # because Neovim maps bash filetype to sh languageId
 preferSharedInstance = true
 
 [languageServers]
+tsudoi = {
+  enabled = true,
+  command = [
+    "bun",
+    "run",
+    "/Users/atusy/ghq/github.com/atusy/tsudoi-language-server/src/cli.ts",
+    "--config",
+    "/Users/atusy/ghq/github.com/atusy/tsudoi-language-server/examples/tsudoi.config.ts"
+  ]
+}
 air = { enabled = true }
 basedpyright = { enabled = true }
 bashls = { enabled = true }

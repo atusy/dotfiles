@@ -16,7 +16,7 @@ const makeSources = (sources: string[]) => {
   return [
     "lsp",
     ...sources,
-    "file",
+    // "file",
     "around",
     "buffer",
     "dictionary",
