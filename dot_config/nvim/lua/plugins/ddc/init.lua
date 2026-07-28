@@ -187,7 +187,7 @@ return {
 		"https://github.com/uga-rosa/ddc-source-lsp-setup",
 		event = "LspAttach",
 		config = function()
-			require("ddc_source_lsp_setup").setup()
+			require("ddc_source_lsp_setup").setup({ respect_trigger = false })
 		end,
 	},
 	{ "https://github.com/LumaKernel/ddc-source-file" },
