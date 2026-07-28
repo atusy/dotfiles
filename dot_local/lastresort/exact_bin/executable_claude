@@ -4,7 +4,7 @@ set -euo pipefail
 
 CLAUDE_BIN="$HOME/.local/bin/claude"
 
-if [ -x "$CLAUDE_BIN" ]; then
+if [ ! -x "$CLAUDE_BIN" ]; then
   curl -fsSL https://claude.ai/install.sh | bash
 fi
 
