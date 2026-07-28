@@ -1,13 +1,12 @@
 ---
 name: revise
-description: Run the full multi-stage review pipeline on the current branch — /review (multi-perspective subagents) → codex MCP → PR → Copilot/Gemini bots — fixing findings at each stage until convergence. Use when the user asks to "revise", run the review pipeline, or prepare a branch/PR for merge review.
+description: Run the full multi-stage review pipeline on the current branch — /review (multi-perspective subagents) → codex MCP → PR — fixing findings at each stage until convergence. Use when the user asks to "revise", run the review pipeline, or prepare a branch/PR for merge review.
 ---
 
 # Revise: staged review pipeline until convergence
 
-Goal: converge each stage BEFORE advancing, so the expensive/noisy late stages
-(Copilot/Gemini PR bots) see an already-hardened diff and produce minimal
-rounds. The local stages are where problems must die.
+Goal: converge each review stage BEFORE advancing. The local stages are where
+problems must die.
 
 ## Pipeline
 
@@ -17,11 +16,15 @@ rounds. The local stages are where problems must die.
    until it answers "no comments to provide" — then request one FRESH review
    in a NEW session (no thread carryover) and converge that too.
 3. **Create the PR** (or push to the existing one).
-4. **Copilot** PR review. Fix/refute, re-request until a round produces zero
+4. Bot PR review. Fix/refute, re-request until a round produces zero
    new actionable comments.
-5. **Gemini** (`/gemini review`). Same convergence rule. Run if repo is under
-   https://github.com/atusy (Steps 4–5 can run as combined rounds: request
-   both, wait for both, handle the union.)
+    - do iff the repository is public under https://github.com/atusy
+    - Candidates
+        - GitHub Copilot by running `gh pr edit --add-reviewer @copilot`
+        - CodeRabbit by mentioning `@coderabbitai review`
+        - Greptile by mentioning `@greptileai`
+        - Qodo by commenting `/agentic_review`
+        - Codex by mentioning `@codex review`
 
 ## Universal rules (every stage)
 
@@ -48,10 +51,9 @@ per-file perspective assignments.
 
 Beyond the change-specific perspectives (concurrency, cancellation, caching,
 protocol conformance…), ALWAYS include one reviewer running the
-**bot-anticipation checklist** below — these are the classes Copilot/Gemini
-reliably flag, and catching them locally is the whole point:
+**review checklist** below:
 
-### Bot-anticipation checklist
+### Review checklist
 
 - **Doc/comment drift**: any comment, doc-comment, ADR sentence, or test name
   that describes the OLD behavior after this diff changed it. Also claims that
@@ -108,37 +110,6 @@ independent reviewer — look for what they missed"). Use `sandbox:
 - codex findings are usually real (it reads code paths, not patterns) — expect
   design-level items like "this wait isn't observable by supersession" or
   "this policy leaks into the wrong request class".
-
-## Stages 4–5 — PR bots
-
-Mechanics (GitHub CLI):
-
-- Copilot: `gh api repos/{owner}/{repo}/pulls/{n}/requested_reviewers -X POST
-  -f 'reviewers[]=copilot-pull-request-reviewer[bot]'` (ignore misleading
-  `gh pr edit` errors).
-- Gemini: comment `/gemini review` on the PR.
-- Wait by **polling reviews filtered to the HEAD commit SHA and bot logins**
-  (a background `until` loop, ~30s interval). Your own replies also create
-  reviews — filter authors, or you'll wake on yourself.
-- Reply to every inline comment (`gh api .../comments/{id}/replies`), then
-  resolve threads via GraphQL `resolveReviewThread` — unresolved threads get
-  re-anchored onto every new commit and re-listed forever.
-- Re-request both bots after each fix commit; converged when a round yields
-  zero NEW actionable comments (re-anchored old threads don't count).
-
-Bot triage priors (from experience):
-
-- Gemini "critical/high" claims of **compile errors are usually
-  hallucinations** (match ergonomics, `!Unpin` in `select!`) — refute with CI
-  evidence, resolve, move on. But Gemini's concurrency-window findings on
-  code you wrote in this session can be real — check before dismissing.
-- Copilot is strongest on doc-vs-code mismatches and platform assumptions;
-  its perf claims about serialization ("this deep-clones") often miss that
-  one materialization is inherent to the wire format — refute with the
-  before/after clone count.
-- Never weaken a deterministic test to satisfy a bot's style preference
-  (e.g. paused-clock `sleep` → `yield_now` makes park tests racy, not
-  cleaner).
 
 ## Done
 
