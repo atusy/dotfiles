@@ -82,7 +82,7 @@ tsudoi = {
     "--config",
     "/Users/atusy/ghq/github.com/atusy/tsudoi-language-server/examples/tsudoi.config.ts",
   ],
-  languages = ["markdown"],
+  languages = ["*"],
 }
 air = { enabled = true }
 basedpyright = { enabled = true }
