@@ -81,9 +81,9 @@ export class Config extends BaseConfig {
         ],
         "@": ["input", "cmdline_history", "file", "around"],
         ">": ["input", "cmdline_history", "file", "around"],
-        "/": ["around", "line"],
-        "?": ["around", "line"],
-        "-": ["around", "line"],
+        "/": ["around"],
+        "?": ["around"],
+        "-": ["around"],
         "=": ["input"],
       },
       sourceOptions: {
@@ -167,12 +167,6 @@ export class Config extends BaseConfig {
           forceCompletionPattern: "\\S/\\S*",
           isVolatile: true,
           replaceSourceInputPattern: "[^/]*$", // do not remove slash so that file completion works
-        },
-        line: {
-          mark: "LINE",
-          matchers: ["matcher_vimregexp"],
-          sorters: [],
-          converters: ["converter_remove_overlap", "converter_truncate_abbr"],
         },
         lsp: {
           mark: "L",
