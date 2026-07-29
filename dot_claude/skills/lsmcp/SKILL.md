@@ -59,6 +59,16 @@ If the server process is simply gone, that's a real crash/restart, not a busy-wa
 
 **Prefer targeted calls for large codebases:** skip the directory-wide overview and call `lsp_get_document_symbols` on the handful of files that actually matter (entry points, core structs/coordinators) one at a time. Slower per file, but far more reliable than one bulk call that silently degrades.
 
+## Running the lsmcp CLI
+
+`lsmcp` is usually not installed on PATH — the MCP server is launched via `bunx` (see `~/.claude/mcp.json`). Invoke CLI subcommands the same way when the command is missing:
+
+```bash
+if command -v lsmcp >/dev/null; then lsmcp <cmd>; else bunx @mizchi/lsmcp <cmd>; fi
+```
+
+`doctor` (environment check, runs standalone with no config) is the only subcommand usable here. **`lsmcp index` is not** — it requires a `.lsmcp/config.json`, which the flags-only (`--bin`/`--files`) server setup never writes. Rebuild the index through `search_symbols` after clearing the cache, as above.
+
 ## Other notes
 
 - **`files` glob is required.** lsmcp only indexes files matched by its `files` pattern; the global config uses `**/*`. If you scope a project with `.lsmcp/config.json`, include every language's extension (or `**/*`) or those files are never indexed.
