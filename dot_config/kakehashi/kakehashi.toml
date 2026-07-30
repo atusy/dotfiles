@@ -1,6 +1,5 @@
 # Documentation: https://github.com/atusy/kakehashi/blob/main/docs/README.md
 
-autoInstall = true
 searchPaths = [
   "${HOME}/ghq/github.com/atusy/kakehashi.nvim",
   "${HOME}/.local/share/nvim/lazy/nvim-treesitter-context",
@@ -52,6 +51,9 @@ enabled = true
 
 [languages._.bridge.r.aggregation]
 "textDocument/formatting" = { "priorities" = ["air"] }
+
+[languages._]
+autoInstall = true
 
 [languages.lua.bridge._self]
 aggregation = {
