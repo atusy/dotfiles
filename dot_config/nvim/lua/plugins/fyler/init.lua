@@ -13,6 +13,7 @@ return {
 				kind_presets = {
 					replace = {
 						mappings = require("plugins.fyler.mappings"),
+						win_opts = { winfixwidth = false },
 					},
 				},
 			})
