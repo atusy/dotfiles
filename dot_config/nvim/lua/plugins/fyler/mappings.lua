@@ -20,9 +20,13 @@ local function select_entry(instance, open)
 	open(vim.fn.fnameescape(entry.path))
 end
 
+---@param instance table
 ---@param file string
-local function open_with_chowcho(file)
+local function open_with_chowcho(instance, file)
 	require("chowcho").run(function(n)
+		if n == instance.win_id then
+			instance:close()
+		end
 		vim.api.nvim_win_call(n, function()
 			vim.cmd.edit(file)
 		end)
@@ -113,7 +117,9 @@ local M = {
 		},
 		["<CR>"] = {
 			action = function(instance)
-				select_entry(instance, open_with_chowcho)
+				select_entry(instance, function(file)
+					open_with_chowcho(instance, file)
+				end)
 			end,
 		},
 		gx = {
