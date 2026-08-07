@@ -17,17 +17,16 @@ vim.api.nvim_create_autocmd("LspAttach", {
 			return false
 		end
 
-		notify_did_focus(client, vim.api.nvim_get_current_buf())
+		notify_did_focus(client, ev.buf)
 
 		vim.api.nvim_create_autocmd({
 			"BufWinEnter", -- when changing buffer in window
 			"WinEnter", -- when changing window
 		}, {
-			callback = function()
-				local bufnr = vim.api.nvim_get_current_buf()
-				local client = vim.lsp.get_clients({ bufnr = bufnr, name = "copilot" })[1]
-				notify_did_focus(client, bufnr)
+			callback = function(ev2)
+				notify_did_focus(client, ev2.buf)
 			end,
+			group = vim.api.nvim_create_augroup("atusy-copilot-did-focus", { clear = true }),
 		})
 
 		return true
