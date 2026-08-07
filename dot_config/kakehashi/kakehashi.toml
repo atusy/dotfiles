@@ -78,7 +78,7 @@ tsudoi = {
   cmd = [
     "bun",
     "run",
-    "/Users/atusy/ghq/github.com/atusy/tsudoi-language-server/src/cli.ts",
+    "/Users/atusy/ghq/github.com/atusy/tsudoi-language-server/packages/tsudoi-language-server/src/cli.ts",
     "--config",
     "/Users/atusy/ghq/github.com/atusy/tsudoi-language-server/examples/tsudoi.config.ts",
   ],
