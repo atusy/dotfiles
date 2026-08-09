@@ -7,9 +7,6 @@ searchPaths = [
   "${KAKEHASHI_DATA_DIR}"
 ]
 
-[languages._.bridge._.aggregation."textDocument/completion"]
-strategy = "concatenated"
-
 [languages.markdown.layers.aggregation."textDocument/formatting"]
 strategy = "concatenated"
 
@@ -42,6 +39,7 @@ base = "rmd"
 
 [languages._.bridge._.aggregation]
 "_" = { "priorities" = ["*", "tsudoi"] }
+"textDocument/completion" = { strategy = "concatenated" }
 
 [languages._.bridge._self]
 enabled = true
