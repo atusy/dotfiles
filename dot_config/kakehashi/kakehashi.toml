@@ -66,6 +66,9 @@ base = "bash" # because Neovim maps bash filetype to sh languageId
 
 [languageServers._]
 preferSharedInstance = true
+features = {
+ "window/logMessage" = { logLevel = "warn" },
+}
 
 [languageServers]
 air = { enabled = true }
