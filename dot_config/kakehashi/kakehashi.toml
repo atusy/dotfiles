@@ -9,7 +9,6 @@ searchPaths = [
 
 [languages._.bridge._.aggregation."textDocument/completion"]
 strategy = "concatenated"
-priorities = ["*", "tsudoi"]
 
 [languages.markdown.layers.aggregation."textDocument/formatting"]
 strategy = "concatenated"
@@ -42,7 +41,7 @@ base = "rmd"
 "textDocument/completion" = { "priorities" = ["tsudoi"] }
 
 [languages._.bridge._.aggregation]
-"_" = { "priorities" = ["*"] }
+"_" = { "priorities" = ["*", "tsudoi"] }
 
 [languages._.bridge._self]
 enabled = true
