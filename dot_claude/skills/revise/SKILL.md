@@ -24,7 +24,7 @@ problems must die.
         - CodeRabbit by mentioning `@coderabbitai review`
         - Greptile by mentioning `@greptileai`
         - Qodo by commenting `/agentic_review`
-        - Codex by mentioning `@codex review`
+        - Codex by mentioning `@codex review` (do this regardless of codex MCP stage)
 
 ## Universal rules (every stage)
 
