@@ -1,0 +1,44 @@
+{
+  "version": "5",
+  "specifiers": {
+    "npm:vscode-languageserver-protocol@^3.17.5": "3.18.2",
+    "npm:vscode-languageserver-types@^3.18.0": "3.18.0",
+    "npm:wordnet@2": "2.0.0"
+  },
+  "npm": {
+    "vscode-jsonrpc@9.0.1": {
+      "integrity": "sha512-rfuA6T75H6m5EkbhtEPzre9pT0HPcDI2MMy4+nPFIBks5J8JBAUHD4tRYSgaBOijIEC7SRkC1kKyXTLqbmh9jw=="
+    },
+    "vscode-languageserver-protocol@3.18.2": {
+      "integrity": "sha512-XRyDbT0Pp3sSNti3JmxVEUMySWCSi1hhM+/KUlCy1hV1zmrqpM1OwO12EAki8blhmLuIMpaJrYbo0OzGVfK2Qg==",
+      "dependencies": [
+        "vscode-jsonrpc",
+        "vscode-languageserver-types"
+      ]
+    },
+    "vscode-languageserver-types@3.18.0": {
+      "integrity": "sha512-8TsGPNMIMiiBdkORgRSvLjuiEIiAFtO+KssmYWxQ+uSVvlf7RjK8YKCOjPzZ+YA04jXEV7+7LvkSmHkhpNS99g=="
+    },
+    "wordnet@2.0.0": {
+      "integrity": "sha512-VQOEUBHU6drwXGQx37bVaRqi042IZ8NwJiT9qLtM2x1QzqgIJIRoyZa++rWrUvICK+tYz9ttfYFk1c8IiN6DVQ=="
+    }
+  },
+  "remote": {
+    "https://raw.githubusercontent.com/atusy/tsudoi-language-server/14c189e803a401e59bfcfd6a3fc6364eca7b37bf/packages/tsudoi-completion-path/src/completion.ts": "ee6587f3d10472d59b636911dad62e89e8963b544547e763f2ddb02cb82dd5c9",
+    "https://raw.githubusercontent.com/atusy/tsudoi-language-server/14c189e803a401e59bfcfd6a3fc6364eca7b37bf/packages/tsudoi-completion-path/src/index.ts": "64fbf76e6956206a031f3fc4b26c0057c1bba1ca8d3c553db82ae61ad28d20cb",
+    "https://raw.githubusercontent.com/atusy/tsudoi-language-server/14c189e803a401e59bfcfd6a3fc6364eca7b37bf/packages/tsudoi-completion-path/src/resolve.ts": "07c69cad9b8c56f271707fab3acbe7878699ddd46f09d3d4535a5093764a5d7e",
+    "https://raw.githubusercontent.com/atusy/tsudoi-language-server/14c189e803a401e59bfcfd6a3fc6364eca7b37bf/packages/tsudoi-hover-wordnet/src/hover.ts": "4d528f2af590f39e5a2044cc054d5f714a341ab17399a882f700014c968ee198",
+    "https://raw.githubusercontent.com/atusy/tsudoi-language-server/14c189e803a401e59bfcfd6a3fc6364eca7b37bf/packages/tsudoi-hover-wordnet/src/index.ts": "f834b629b037445a0066bf00b6c91e2459ed24bdf9f9569b56c5e7aa9874512b",
+    "https://raw.githubusercontent.com/atusy/tsudoi-language-server/14c189e803a401e59bfcfd6a3fc6364eca7b37bf/packages/tsudoi-language-server/src/deps/protocol.ts": "55e6b6c783c2f80ae91656762517cf80c409a97786c8d8ac485601fd7a478d2b",
+    "https://raw.githubusercontent.com/atusy/tsudoi-language-server/14c189e803a401e59bfcfd6a3fc6364eca7b37bf/packages/tsudoi-language-server/src/deps/types.ts": "4eacb29155f0419de446b6ed955cb326eb05a6205d3ee2602540bb911e64f103",
+    "https://raw.githubusercontent.com/atusy/tsudoi-language-server/14c189e803a401e59bfcfd6a3fc6364eca7b37bf/packages/tsudoi-language-server/src/types.ts": "141e01d3bcf72ef45a6c38ccda08f4c614076c3a051f5928a8e3e3c3bab285b8"
+  },
+  "workspace": {
+    "dependencies": [
+      "npm:vscode-languageserver-protocol@^3.17.5",
+      "npm:vscode-languageserver-textdocument@^1.0.12",
+      "npm:vscode-languageserver-types@^3.18.0",
+      "npm:wordnet@2"
+    ]
+  }
+}
