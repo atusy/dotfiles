@@ -5,8 +5,6 @@
 import { pathCompletion, resolvePathStat } from "@atusy/tsudoi-completion-path";
 import { hoverWordnet } from "@atusy/tsudoi-hover-wordnet";
 import type { TsudoiConfigFactory } from "@atusy/tsudoi-language-server/types";
-import { trailingWhitespaceDiagnostics } from "./diagnostic-trailing-whitespace.ts";
-import { removeTrailingWhitespace } from "./formatting-trailing-whitespace.ts";
 
 const config: TsudoiConfigFactory = () =>
   Promise.resolve({
@@ -19,8 +17,6 @@ const config: TsudoiConfigFactory = () =>
         yield* pathCompletion(context, params);
       },
       "textDocument/hover": hoverWordnet,
-      "textDocument/diagnostic": trailingWhitespaceDiagnostics,
-      "textDocument/formatting": removeTrailingWhitespace,
       "completionItem/resolve": resolvePathStat,
     },
   });
