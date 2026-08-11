@@ -84,6 +84,8 @@ export class Config extends BaseConfig {
       sourceOptions: {
         _: {
           ignoreCase: true,
+          keywordPattern:
+            "[[:keyword:]\\u3040-\\u309f\\u30a0-\\u30ff\\u4e00-\\u9fff\\uff66-\\uff9f]*",
           matchers: ["matcher_fuzzy"],
           sorters: ["sorter_fuzzy"],
           converters: ["converter_fuzzy"],
