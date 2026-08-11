@@ -51,7 +51,7 @@ return {
 					-- ddcによるskkelton補完
 					local ddc_ok, ddc_config = pcall(function()
 						local config = vim.fn["ddc#custom#get_buffer"]()
-						vim.fn["ddc#custom#patch_buffer"]("sources", { "skkeleton" })
+						vim.fn["ddc#custom#patch_buffer"]("sources", { "skkeleton", "lsp" })
 						return config
 					end)
 
