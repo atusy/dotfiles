@@ -71,7 +71,6 @@ export class Config extends BaseConfig {
           "ex_command_history_cmd",
           "fish",
           "zsh",
-          // "xonsh",
           "cmdline",
           "ex_command_history",
           // "shell_history",
@@ -187,12 +186,6 @@ export class Config extends BaseConfig {
           sorters: [],
           converters: ["converter_truncate_abbr"],
         },
-        xonsh: {
-          mark: "XONSH",
-          isVolatile: true,
-          minAutoCompleteLength: 1,
-          minKeywordLength: 0,
-        },
         fish: {
           mark: "FISH",
           isVolatile: true,
@@ -247,12 +240,6 @@ export class Config extends BaseConfig {
           shell: "zsh",
           envs: {
             FPATH: await get_fpath(),
-            COLUMNS: "200", // to get more preview info
-          },
-        },
-        xonsh: {
-          shell: "xonsh",
-          envs: {
             COLUMNS: "200", // to get more preview info
           },
         },
