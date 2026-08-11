@@ -6,7 +6,10 @@ description: Run the full multi-stage review pipeline on the current branch — 
 # Revise: staged review pipeline until convergence
 
 Goal: converge each review stage BEFORE advancing. The local stages are where
-problems must die.
+problems must die — the PR-bot stage should find nothing new.
+[references/pr-blind-spots.md](references/pr-blind-spots.md) catalogs, from
+~1,650 fixed PR-stage findings, exactly what local review historically
+missed; stage 1 must cover its passes so convergence happens locally.
 
 ## Pipeline
 
@@ -17,7 +20,11 @@ problems must die.
    in a NEW session (no thread carryover) and converge that too.
 3. **Create the PR** (or push to the existing one).
 4. Bot PR review. Fix/refute, re-request until a round produces zero
-   new actionable comments.
+   new actionable comments. Triage bot comments against the
+   false-positive catalog in
+   [references/pr-blind-spots.md](references/pr-blind-spots.md) — ~16% of
+   bot findings are recurring noise classes with known evidence-based
+   rebuttals.
     - do iff the repository is public under https://github.com/atusy
     - Candidates
         - GitHub Copilot by running `gh pr edit --add-reviewer @copilot`
@@ -49,8 +56,16 @@ single-perspective reviewers + a fact-check pass that reads the actual code
 before reporting). Give the orchestrator the branch, base, changed files, and
 per-file perspective assignments.
 
-Beyond the change-specific perspectives (concurrency, cancellation, caching,
-protocol conformance…), ALWAYS include one reviewer running the
+Read [references/pr-blind-spots.md](references/pr-blind-spots.md) first and
+assign its high-yield passes as DEDICATED single-perspective reviewers, each
+sweeping the ENTIRE diff for one class (doc/comment truth, hot-path perf,
+concurrency interleavings, error-path audit, test quality, untrusted input —
+plus whichever remaining passes the diff touches). Historically these
+classes account for ~75% of what escaped to the PR stage; holistic reviewers
+sample, dedicated sweeps don't.
+
+Beyond those and the change-specific perspectives (concurrency, cancellation,
+caching, protocol conformance…), ALWAYS include one reviewer running the
 **review checklist** below:
 
 ### Review checklist
