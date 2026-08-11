@@ -83,6 +83,7 @@ let
 
     # language servers
     pkgs.efm-langserver
+    pkgs.fish-lsp
     pkgs.gopls
     pkgs.lua-language-server
     pkgs.emmylua-ls

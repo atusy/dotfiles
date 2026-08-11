@@ -85,6 +85,7 @@ air = { enabled = true }
 basedpyright = { enabled = true }
 bashls = { enabled = true }
 efm = { enabled = true }
+fish_lsp = { enabled = true }
 jsonls = { enabled = true }
 lua_ls = { enabled = true }
 makrsman = { enabled = true }
