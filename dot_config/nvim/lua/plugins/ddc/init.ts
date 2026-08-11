@@ -47,7 +47,6 @@ export class Config extends BaseConfig {
     );
     args.setAlias("source", "shell_history", "dictionary");
     args.setAlias("source", "ex_command_history", "cmdline_history");
-    args.setAlias("source", "ex_command_history_cmd", "cmdline_history");
     args.setAlias("filter", "matcher_head_initial", "matcher_head");
     args.setAlias("filter", "matcher_head_shell_history", "matcher_head");
     args.setAlias("filter", "matcher_word", "matcher_string_match");
@@ -68,7 +67,6 @@ export class Config extends BaseConfig {
       sources: sources,
       cmdlineSources: {
         ":": [
-          "ex_command_history_cmd",
           "fish",
           "zsh",
           "cmdline",
@@ -171,14 +169,6 @@ export class Config extends BaseConfig {
         },
 
         // aliases
-        ex_command_history_cmd: {
-          mark: "RECENT",
-          minAutoCompleteLength: 0,
-          matchers: ["matcher_head"],
-          sorters: [],
-          converters: ["converter_ex_command"],
-          enabledIf: "getcmdline() =~# ' ' ? v:false : v:true",
-        },
         ex_command_history: {
           mark: "HIST",
           minAutoCompleteLength: 0,
@@ -258,10 +248,6 @@ export class Config extends BaseConfig {
             "kantan-ej-dictionary/kantan-ej-dictionary.json",
             "WebstersEnglishDictionary/dictionary.json",
           ].map((x) => join(lazyroot, x)),
-        },
-        converter_ex_command: {
-          regexp: "[^ ]*[^ !]",
-          convertAbbr: true,
         },
         converter_word: {
           regexp: "^[a-zA-Z0-9_]+",
