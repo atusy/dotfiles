@@ -4,6 +4,8 @@
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
     nixpkgs-master.url = "github:nixos/nixpkgs/master";
+    # Held back for oxlint only; see the comment in pkgs.nix.
+    nixpkgs-oxlint.url = "github:nixos/nixpkgs/241313f4e8e508cb9b13278c2b0fa25b9ca27163";
     nix-darwin.url = "github:nix-darwin/nix-darwin/master";
     nix-darwin.inputs.nixpkgs.follows = "nixpkgs";
     home-manager = {
@@ -35,12 +37,14 @@
       nix-darwin,
       nixpkgs,
       nixpkgs-master,
+      nixpkgs-oxlint,
       home-manager,
       ...
     }:
     let
       pkgs = nixpkgs.legacyPackages.${system};
       pkgs-master = nixpkgs-master.legacyPackages.${system};
+      pkgs-oxlint = nixpkgs-oxlint.legacyPackages.${system};
       overlays = [
         inputs.neovim-nightly-overlay.overlays.default
         inputs.fenix.overlays.default
@@ -52,6 +56,7 @@
           pkgs2 = import ./pkgs.nix {
             inherit pkgs;
             pkgs-master = pkgs-master;
+            pkgs-oxlint = pkgs-oxlint;
           };
         in
         {
@@ -130,6 +135,7 @@
 
           extraSpecialArgs = {
             pkgs-master = pkgs-master;
+            pkgs-oxlint = pkgs-oxlint;
           };
         };
       }

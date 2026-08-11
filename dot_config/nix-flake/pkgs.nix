@@ -1,6 +1,7 @@
 {
   pkgs,
   pkgs-master ? null,
+  pkgs-oxlint,
   ...
 }:
 
@@ -107,7 +108,11 @@ let
     pkgs.gotools
     pkgs.nixfmt
     pkgs.oxfmt
-    pkgs.oxlint
+    # Not pkgs.oxlint: 1.77.0 has no cached aarch64-darwin binary, so it builds
+    # locally and fails -- it bumped @napi-rs/cli to 3.8.2, which execs a
+    # hard-coded /bin/ps that the nix build context refuses (EPERM).
+    # Unpin once nixpkgs builds it again.
+    pkgs-oxlint.oxlint
     pkgs.prettierd
     pkgs.ruff
     pkgs.shellcheck

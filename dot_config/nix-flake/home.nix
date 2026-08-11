@@ -2,6 +2,7 @@
   config,
   pkgs,
   pkgs-master,
+  pkgs-oxlint,
   ...
 }:
 
@@ -24,6 +25,7 @@
     (import ./pkgs.nix {
       inherit pkgs;
       inherit pkgs-master;
+      inherit pkgs-oxlint;
     }).x86_64-linux;
 
   home.file = { };
