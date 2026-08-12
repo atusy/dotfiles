@@ -1,26 +1,27 @@
-// Deno equivalent of tsudoi's examples/tsudoi.config.ts. tsudoi is not
-// published to npm/JSR, so every @atusy/tsudoi-* specifier here is resolved
-// through deno.json's import map (raw GitHub URLs, since the repo went
-// public) rather than through node_modules.
+// Tsudoi configuration to be run on Deno
+// Unpublished packages are resolved through deno.json's import map.
 import {
   completeAround,
   completeCorpus,
+  segmentScanner,
 } from "@atusy/tsudoi-completion-document";
 import { completePath, resolvePathStat } from "@atusy/tsudoi-completion-path";
 import { hoverWordnet } from "@atusy/tsudoi-hover-wordnet";
 import type { TsudoiConfigFactory } from "@atusy/tsudoi-language-server/types";
 
-const config: TsudoiConfigFactory = () =>
-  Promise.resolve({
+const config: TsudoiConfigFactory = () => {
+  const scanner = segmentScanner("ja"); // build outside handler to stabilize memoization of complete functions
+  return Promise.resolve({
     methods: {
       "textDocument/completion": async function* (context, params) {
         yield* completePath(context, params);
-        yield* completeAround(context, params, { maxSize: 500 });
-        yield* completeCorpus(context, params);
+        yield* completeAround(context, params, { maxLines: 500, scanner });
+        yield* completeCorpus(context, params, { scanner, maxItems: 2000 });
       },
       "textDocument/hover": hoverWordnet,
       "completionItem/resolve": resolvePathStat,
     },
   });
+};
 
 export default config;
