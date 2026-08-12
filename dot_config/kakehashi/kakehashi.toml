@@ -47,24 +47,30 @@ enabled = false
 [languages._.bridge._self]
 enabled = true
 
+[languages.python.bridge._self.aggregation]
+"textDocument/completion" = { "priorities" = ["basedpyright", "tsudoi"], strategy = "concatenated" }
+"textDocument/formatting" = { "priorities" = ["basedpyright"] }
+
 [languages._.bridge.python.aggregation]
 "textDocument/completion" = { "priorities" = ["basedpyright", "tsudoi"], strategy = "concatenated" }
 "textDocument/formatting" = { "priorities" = ["basedpyright"] }
 
-[languages._.bridge.lua.aggregation]
+[languages.lua.bridge._self.aggregation]
+"_" = { "priorities" = ["lua_ls"] }
 "textDocument/formatting" = { "priorities" = ["stylua"] }
+
+[languages._.bridge.lua.aggregation]
+"_" = { "priorities" = ["lua_ls"] }
+"textDocument/formatting" = { "priorities" = ["stylua"] }
+
+[languages.r.bridge._self.aggregation]
+"textDocument/formatting" = { "priorities" = ["air"] }
 
 [languages._.bridge.r.aggregation]
 "textDocument/formatting" = { "priorities" = ["air"] }
 
 [languages._]
 autoInstall = true
-
-[languages.lua.bridge._self]
-aggregation = {
-  "_" = { "priorities" = ["lua_ls"] },
-  "textDocument/formatting" = { "priorities" = ["stylua"] }
-}
 
 [languages.sh]
 base = "bash" # because Neovim maps bash filetype to sh languageId
