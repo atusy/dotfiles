@@ -88,7 +88,7 @@ efm = { enabled = true }
 fish_lsp = { enabled = true }
 jsonls = { enabled = true }
 lua_ls = { enabled = true }
-makrsman = { enabled = true }
+marksman = { enabled = true }
 nixd = { enabled = true }
 r_language_server = { enabled = true }
 ruff = { enabled = true }
