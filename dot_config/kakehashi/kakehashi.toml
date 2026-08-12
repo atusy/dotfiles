@@ -37,6 +37,9 @@ base = "rmd"
 "textDocument/formatting" = { "priorities" = [] }
 "textDocument/completion" = { "priorities" = ["tsudoi"] }
 
+[languages.markdown.bridge.markdown_inline]
+enabled = false
+
 [languages._.bridge._.aggregation]
 "_" = { "priorities" = ["*", "tsudoi"] }
 "textDocument/completion" = { strategy = "concatenated" }
