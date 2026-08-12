@@ -8,6 +8,7 @@ import {
 import { completePath, resolvePathStat } from "@atusy/tsudoi-completion-path";
 import { hoverWordnet } from "@atusy/tsudoi-hover-wordnet";
 import type { TsudoiConfigFactory } from "@atusy/tsudoi-language-server/types";
+import { formatDocument } from "./formatting.ts";
 
 const config: TsudoiConfigFactory = () => {
   const scanner = segmentScanner("ja"); // build outside handler to stabilize memoization of complete functions
@@ -19,6 +20,7 @@ const config: TsudoiConfigFactory = () => {
         yield* completeCorpus(context, params, { scanner, maxItems: 2000 });
       },
       "textDocument/hover": hoverWordnet,
+      "textDocument/formatting": formatDocument,
       "completionItem/resolve": resolvePathStat,
     },
   });
