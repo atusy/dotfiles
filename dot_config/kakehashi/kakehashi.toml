@@ -75,11 +75,11 @@ autoInstall = true
 [languages.sh]
 base = "bash" # because Neovim maps bash filetype to sh languageId
 
+[features."window/logMessage"]
+logLevel = "warning"
+
 [languageServers._]
 preferSharedInstance = true
-features = {
- "window/logMessage" = { logLevel = "warn" },
-}
 
 [languageServers]
 tsudoi = {
