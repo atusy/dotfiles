@@ -35,7 +35,6 @@ base = "rmd"
 
 [languages.markdown.bridge._self.aggregation]
 "textDocument/formatting" = { "priorities" = [] }
-"textDocument/completion" = { "priorities" = ["tsudoi"] }
 
 [languages.markdown.bridge.markdown_inline]
 enabled = false
