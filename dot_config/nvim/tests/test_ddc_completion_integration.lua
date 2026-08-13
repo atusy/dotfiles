@@ -62,6 +62,26 @@ T["all local identities attach once and return isolated results"] = function()
 
 	expect.no_equality(buffers[1], buffers[2])
 	expect.no_equality(buffers[2], buffers[3])
+
+	local original = cmdline.ensure_buffer("ddc_input")
+	expect.equality(cmdline.ensure_buffer("ddc_input"), original)
+	expect.equality(#vim.lsp.get_clients({ bufnr = original.bufnr, name = "nvim-input" }), 1)
+
+	vim.bo[original.bufnr].bufhidden = "hide"
+	vim.api.nvim_buf_delete(original.bufnr, { unload = true })
+	local reloaded = cmdline.ensure_buffer("ddc_input")
+	expect.equality(reloaded, original)
+	expect.equality(vim.wait(3000, function()
+		return #vim.lsp.get_clients({ bufnr = reloaded.bufnr, name = "nvim-input" }) == 1
+	end), true)
+
+	vim.bo[reloaded.bufnr].bufhidden = "wipe"
+	vim.api.nvim_buf_delete(reloaded.bufnr, { force = true })
+	local recreated = cmdline.ensure_buffer("ddc_input")
+	expect.no_equality(recreated.bufnr, reloaded.bufnr)
+	expect.equality(vim.wait(3000, function()
+		return #vim.lsp.get_clients({ bufnr = recreated.bufnr, name = "nvim-input" }) == 1
+	end), true)
 end
 
 return T

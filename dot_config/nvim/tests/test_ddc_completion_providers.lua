@@ -213,6 +213,17 @@ T["cmdline provider preserves absolute and tilde paths"] = function()
 	})
 end
 
+T["cmdline provider keeps directory slash only in the display label"] = function()
+	local provider = cmdline_provider({ "/tmp/dir/" })
+	local item = provider(request(":", "dir", "edit /tmp/d"), {
+		text = "edit /tmp/d",
+		version = 1,
+	}).items[1]
+	expect.equality(item.label, "/tmp/dir/")
+	expect.equality(item.insertText, "/tmp/dir")
+	expect.equality(item.textEdit.newText, "/tmp/dir")
+end
+
 T["cmdline provider completes from text before a middle cursor"] = function()
 	local provider, calls = cmdline_provider({ "getbuffer" })
 	local params = request(":", "function", "call getb")

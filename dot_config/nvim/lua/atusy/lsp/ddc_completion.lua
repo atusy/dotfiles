@@ -156,6 +156,7 @@ function M.make_cmdline_provider(api)
 			if help_matches then
 				local item = completion_items({ word }).items[1]
 				item.textEdit = completion_edit(input, word)
+				item.textEdit.newText = item.insertText or word
 				table.insert(items, item)
 			end
 		end

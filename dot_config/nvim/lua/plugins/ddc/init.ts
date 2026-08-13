@@ -3,6 +3,16 @@ import {
   type ConfigArguments,
 } from "jsr:@shougo/ddc-vim@~10.2.0/config";
 
+export const cmdlineSources = {
+  ":": ["nvim-cmdline", "nvim-lsp-cmdline", "nvim-ex-command-history"],
+  "@": ["nvim-input", "nvim-cmdline-history", "nvim-lsp-cmdline"],
+  ">": ["nvim-input", "nvim-cmdline-history", "nvim-lsp-cmdline"],
+  "/": ["nvim-lsp-cmdline"],
+  "?": ["nvim-lsp-cmdline"],
+  "-": ["nvim-lsp-cmdline"],
+  "=": ["nvim-input"],
+};
+
 export class Config extends BaseConfig {
   override config(args: ConfigArguments): Promise<void> {
     args.setAlias("source", "nvim-input", "nvim-lsp-cmdline");
@@ -24,15 +34,7 @@ export class Config extends BaseConfig {
         // "TextChangedT",
       ],
       sources: ["nvim-lsp"],
-      cmdlineSources: {
-        ":": ["nvim-cmdline", "nvim-lsp-cmdline", "nvim-ex-command-history"],
-        "@": ["nvim-input", "nvim-cmdline-history", "nvim-lsp-cmdline"],
-        ">": ["nvim-input", "nvim-cmdline-history", "nvim-lsp-cmdline"],
-        "/": ["nvim-lsp-cmdline"],
-        "?": ["nvim-lsp-cmdline"],
-        "-": ["nvim-lsp-cmdline"],
-        "=": ["nvim-input"],
-      },
+      cmdlineSources,
       sourceOptions: {
         _: {
           ignoreCase: true,
@@ -116,6 +118,7 @@ export class Config extends BaseConfig {
         "nvim-cmdline": {
           languageId: "ddc_cmdline",
           allowedServers: ["nvim-cmdline"],
+          enableHelpPreview: true,
         },
         "nvim-ex-command-history": {
           languageId: "ddc_cmdline_history",
