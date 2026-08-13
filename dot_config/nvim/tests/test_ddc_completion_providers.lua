@@ -56,4 +56,54 @@ T["input provider preserves directory display but omits trailing slash insertion
 	expect.equality(result.items, { { label = "dir/", insertText = "dir" } })
 end
 
+local function history_provider(histories, paths)
+	local calls = {}
+	local provider = require("atusy.lsp.ddc_completion").make_history_provider({
+		gethistory = function(cmd_type, limit)
+			table.insert(calls, { cmd_type, limit })
+			return histories
+		end,
+		isdirectory = function(path)
+			return paths and paths[path] == "dir" or false
+		end,
+		isfile = function(path)
+			return paths and paths[path] == "file" or false
+		end,
+	}, 1000)
+	return provider, calls
+end
+
+T["history provider keeps newest-first full entries before a space"] = function()
+	local provider, calls = history_provider({ "write", "wall" })
+	local result = provider(request(":", "command", "w"), { text = "w", version = 1 })
+	expect.equality(calls, { { ":", 1000 } })
+	expect.equality(result.items, { { label = "write" }, { label = "wall" } })
+end
+
+T["history provider returns matching suffixes after a space"] = function()
+	local provider = history_provider({ "git checkout main", "git status", "make test" })
+	local params = request(":", "shellcmd", "git ch")
+	params.xDdc.completePos = 4
+	local result = provider(params, { text = "git ch", version = 1 })
+	expect.equality(result.items, { { label = "checkout main" }, { label = "status" } })
+end
+
+T["history provider rejects multiline entries"] = function()
+	local provider = history_provider({ "git status\nquit", "git status" })
+	local params = request(":", "shellcmd", "git s")
+	params.xDdc.completePos = 4
+	local result = provider(params, { text = "git s", version = 1 })
+	expect.equality(result.items, { { label = "status" } })
+end
+
+T["history provider filters file and directory completion types"] = function()
+	local histories = { "/tmp/missing", "/tmp/file", "/tmp/dir" }
+	local paths = { ["/tmp/file"] = "file", ["/tmp/dir"] = "dir" }
+	local provider = history_provider(histories, paths)
+	local files = provider(request(":", "file", "/tmp/"), { text = "/tmp/", version = 1 })
+	local dirs = provider(request(":", "dir", "/tmp/"), { text = "/tmp/", version = 1 })
+	expect.equality(files.items, { { label = "/tmp/file" }, { label = "/tmp/dir" } })
+	expect.equality(dirs.items, { { label = "/tmp/dir" } })
+end
+
 return T

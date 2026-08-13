@@ -46,6 +46,35 @@ function M.make_input_provider(api)
 	end
 end
 
+---@param api { gethistory: fun(cmd_type: string, limit: integer): string[], isdirectory: fun(path: string): boolean, isfile: fun(path: string): boolean }
+---@param limit integer
+---@return fun(params: table, document: table?): table
+function M.make_history_provider(api, limit)
+	return function(params, document)
+		local metadata = params.xDdc or {}
+		local ok, histories = pcall(api.gethistory, metadata.cmdType or ":", limit)
+		if not ok then
+			return { items = {} }
+		end
+
+		local input = text_before_cursor(params, document)
+		local complete_pos = metadata.completePos or 0
+		local prefix = input:find(" ", 1, true) and input:sub(1, complete_pos) or nil
+		local items = {}
+		for _, history in ipairs(histories or {}) do
+			local single_line = type(history) == "string" and not history:find("[\r\n]")
+			local path_matches = metadata.completionType ~= "dir" or api.isdirectory(history)
+			path_matches = path_matches
+				and (metadata.completionType ~= "file" or api.isdirectory(history) or api.isfile(history))
+			local prefix_matches = prefix == nil or vim.startswith(history, prefix)
+			if single_line and path_matches and prefix_matches then
+				table.insert(items, { label = prefix and history:sub(complete_pos + 1) or history })
+			end
+		end
+		return { items = items }
+	end
+end
+
 ---@param dispatchers vim.lsp.rpc.Dispatchers
 ---@param opts { provider: fun(params: table, document: table?): table? }
 ---@return vim.lsp.rpc.Client
