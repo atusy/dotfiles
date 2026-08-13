@@ -123,6 +123,14 @@ T["history provider rejects multiline entries"] = function()
 	expect.equality(result.items, { { label = "status" } })
 end
 
+T["history provider converts UTF-16 completion positions to Lua bytes"] = function()
+	local provider = history_provider({ "echo あ alpha" })
+	local params = request(":", "command", "echo あ a")
+	params.xDdc.completePos = 7
+	local result = provider(params, { text = "echo あ a", version = 1 })
+	expect.equality(result.items, { { label = "alpha" } })
+end
+
 T["history provider filters file and directory completion types"] = function()
 	local histories = { "/tmp/missing", "/tmp/file", "/tmp/dir" }
 	local paths = { ["/tmp/file"] = "file", ["/tmp/dir"] = "dir" }
@@ -157,7 +165,12 @@ T["cmdline provider completes Ex commands and buffers"] = function()
 	local provider, calls = cmdline_provider({ "buffer", "bdelete" })
 	local result = provider(request(":", "command", "b"), { text = "b", version = 1 })
 	expect.equality(calls, { { "b", "cmdline" } })
-	expect.equality(result.items, { { label = "buffer" }, { label = "bdelete" } })
+	expect.equality(
+		vim.tbl_map(function(item)
+			return item.label
+		end, result.items),
+		{ "buffer", "bdelete" }
+	)
 end
 
 T["cmdline provider restores no-prefixed set options"] = function()
@@ -165,32 +178,39 @@ T["cmdline provider restores no-prefixed set options"] = function()
 	local params = request(":", "option", "set noig")
 	params.xDdc.completePos = 4
 	local result = provider(params, { text = "set noig", version = 1 })
-	expect.equality(result.items, { { label = "noignorecase" } })
+	expect.equality(result.items[1].label, "noignorecase")
 end
 
 T["cmdline provider head-filters help tags"] = function()
 	local provider = cmdline_provider({ "lua-guide", "vim.lua", "lua.txt" })
 	local result = provider(request(":", "help", "help lua"), { text = "help lua", version = 1 })
-	expect.equality(result.items, { { label = "lua-guide" }, { label = "lua.txt" } })
+	expect.equality(
+		vim.tbl_map(function(item)
+			return item.label
+		end, result.items),
+		{ "lua-guide", "lua.txt" }
+	)
 end
 
 T["cmdline provider preserves absolute and tilde paths"] = function()
 	local absolute = cmdline_provider({ "/Users/atusy/file" })
 	local tilde = cmdline_provider({ "~/file" })
-	expect.equality(
-		absolute(request(":", "file", "edit /Users/atusy/f"), {
-			text = "edit /Users/atusy/f",
-			version = 1,
-		}).items,
-		{ { label = "/Users/atusy/file" } }
-	)
-	expect.equality(
-		tilde(request(":", "file", "edit ~/f"), {
-			text = "edit ~/f",
-			version = 1,
-		}).items,
-		{ { label = "~/file" } }
-	)
+	local absolute_item = absolute(request(":", "file", "edit /Users/atusy/f"), {
+		text = "edit /Users/atusy/f",
+		version = 1,
+	}).items[1]
+	local tilde_item = tilde(request(":", "file", "edit ~/f"), {
+		text = "edit ~/f",
+		version = 1,
+	}).items[1]
+	expect.equality(absolute_item.textEdit, {
+		range = { start = { line = 0, character = 5 }, ["end"] = { line = 0, character = 19 } },
+		newText = "/Users/atusy/file",
+	})
+	expect.equality(tilde_item.textEdit, {
+		range = { start = { line = 0, character = 5 }, ["end"] = { line = 0, character = 8 } },
+		newText = "~/file",
+	})
 end
 
 T["cmdline provider completes from text before a middle cursor"] = function()
@@ -199,7 +219,7 @@ T["cmdline provider completes from text before a middle cursor"] = function()
 	params.position.character = 8
 	local result = provider(params, { text = "call getb()", version = 1 })
 	expect.equality(calls, { { "call get", "cmdline" } })
-	expect.equality(result.items, { { label = "getbuffer" } })
+	expect.equality(result.items[1].label, "getbuffer")
 end
 
 return T

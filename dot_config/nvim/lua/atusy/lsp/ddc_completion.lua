@@ -32,6 +32,27 @@ local function completion_items(words)
 	return { items = items }
 end
 
+local function utf16_index(text, byte_offset)
+	return vim.str_utfindex(text, "utf-16", byte_offset, false)
+end
+
+local function completion_edit(input, word)
+	local start_byte = #input
+	for index = 1, #input + 1 do
+		if vim.startswith(word, input:sub(index)) then
+			start_byte = index - 1
+			break
+		end
+	end
+	return {
+		range = {
+			start = { line = 0, character = utf16_index(input, start_byte) },
+			["end"] = { line = 0, character = utf16_index(input, #input) },
+		},
+		newText = word,
+	}
+end
+
 local function position_byte_offset(text, position)
 	local lines = vim.split(text, "\n", { plain = true })
 	local offset = 0
@@ -83,7 +104,9 @@ function M.make_history_provider(api, limit)
 
 		local input = text_before_cursor(params, document)
 		local complete_pos = metadata.completePos or 0
-		local prefix = input:find(" ", 1, true) and input:sub(1, complete_pos) or nil
+		local ok_index, complete_byte = pcall(vim.str_byteindex, input, "utf-16", complete_pos, false)
+		complete_byte = ok_index and complete_byte or #input
+		local prefix = input:find(" ", 1, true) and input:sub(1, complete_byte) or nil
 		local items = {}
 		for _, history in ipairs(histories or {}) do
 			local single_line = type(history) == "string" and not history:find("[\r\n]")
@@ -92,7 +115,7 @@ function M.make_history_provider(api, limit)
 				and (metadata.completionType ~= "file" or api.isdirectory(history) or api.isfile(history))
 			local prefix_matches = prefix == nil or vim.startswith(history, prefix)
 			if single_line and path_matches and prefix_matches then
-				table.insert(items, { label = prefix and history:sub(complete_pos + 1) or history })
+				table.insert(items, { label = prefix and history:sub(complete_byte + 1) or history })
 			end
 		end
 		return { items = items }
@@ -131,7 +154,9 @@ function M.make_cmdline_provider(api)
 			local help_matches = not vim.startswith(input, "help ")
 				or vim.startswith(word:lower(), input:gsub("^help%s+", ""):lower())
 			if help_matches then
-				table.insert(items, completion_items({ word }).items[1])
+				local item = completion_items({ word }).items[1]
+				item.textEdit = completion_edit(input, word)
+				table.insert(items, item)
 			end
 		end
 		return { items = items }
