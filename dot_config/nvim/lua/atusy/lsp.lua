@@ -100,7 +100,6 @@ function M.setup()
 			vim.lsp.linked_editing_range.enable(true)
 			vim.lsp.inline_completion.enable(true)
 			vim.lsp.config("*", {
-				capabilities = require("ddc_source_nvim_lsp").make_client_capabilities(),
 				---@param client vim.lsp.Client
 				on_init = function(client)
 					-- Disable semantic tokens for all LSPs except kakehashi

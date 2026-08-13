@@ -168,6 +168,11 @@ return {
 		"https://github.com/atusy/ddc-source-nvim-lsp",
 		branch = "feat/nvim-lsp-cmdline",
 		lazy = false,
+		config = function()
+			vim.lsp.config("*", {
+				capabilities = require("ddc_source_nvim_lsp").make_client_capabilities(),
+			})
+		end,
 	},
 	{ "https://github.com/atusy/ddc-source-lsp-cmdline", dev = true },
 	{ "https://github.com/Shougo/ddc-ui-pum" },
