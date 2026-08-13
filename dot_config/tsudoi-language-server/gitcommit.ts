@@ -103,6 +103,13 @@ function scopesFrom(logs: readonly string[]): CompletionItem[] {
   );
 }
 
+function prefixesFrom(logs: readonly string[]): CompletionItem[] {
+  return Array.from(
+    new Set(logs.flatMap((log) => log.match(/^\S+\(\S+\)!?:/u)?.[0] ?? [])),
+    (label) => ({ label }),
+  );
+}
+
 export async function* completeGitCommit(
   context: RequestContext,
   params: CompletionParams,
@@ -130,9 +137,10 @@ export async function* completeGitCommit(
   const semantic = templateItems.length === 0;
   if (!subject.match(/\s/u) && !(semantic && subject.includes(":"))) {
     const baseItems = semantic
-      ? subject.includes("(")
-        ? scopesFrom(logs)
-        : conventionalCommitTypes.map((label) => ({ label }))
+      ? subject.includes("(") ? scopesFrom(logs) : [
+        ...prefixesFrom(logs),
+        ...conventionalCommitTypes.map((label) => ({ label })),
+      ]
       : templateItems.map((label) => ({ label }));
     if (baseItems.length > 0) {
       yield baseItems;
