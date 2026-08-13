@@ -9,6 +9,7 @@ export class Config extends BaseConfig {
     args.setAlias("source", "nvim-input", "nvim-lsp-cmdline");
     args.setAlias("source", "nvim-cmdline-history", "nvim-lsp-cmdline");
     args.setAlias("source", "nvim-ex-command-history", "nvim-lsp-cmdline");
+    args.setAlias("source", "nvim-cmdline", "nvim-lsp-cmdline");
     args.setAlias("filter", "matcher_head_initial", "matcher_head");
     args.setAlias("filter", "converter_ex_command", "converter_string_match");
 
@@ -25,7 +26,7 @@ export class Config extends BaseConfig {
       ],
       sources: ["nvim-lsp"],
       cmdlineSources: {
-        ":": ["cmdline", "nvim-lsp-cmdline", "nvim-ex-command-history"],
+        ":": ["nvim-cmdline", "nvim-lsp-cmdline", "nvim-ex-command-history"],
         "@": ["nvim-input", "nvim-cmdline-history", "nvim-lsp-cmdline"],
         ">": ["nvim-input", "nvim-cmdline-history", "nvim-lsp-cmdline"],
         "/": ["nvim-lsp-cmdline"],
@@ -43,7 +44,7 @@ export class Config extends BaseConfig {
           converters: ["converter_fuzzy"],
           timeout: 1000,
         },
-        cmdline: {
+        "nvim-cmdline": {
           mark: "CMD",
           forceCompletionPattern: "\\S/\\S*|\\.\\w*",
           isVolatile: true,
@@ -112,6 +113,10 @@ export class Config extends BaseConfig {
         "nvim-cmdline-history": {
           languageId: "ddc_cmdline_history",
           allowedServers: ["nvim-cmdline-history"],
+        },
+        "nvim-cmdline": {
+          languageId: "ddc_cmdline",
+          allowedServers: ["nvim-cmdline"],
         },
         "nvim-ex-command-history": {
           languageId: "ddc_cmdline_history",
