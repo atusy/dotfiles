@@ -65,6 +65,7 @@ local fake_vim = {
 }
 
 local chunk = assert(loadfile("dot_config/nvim/lua/plugins/git/commit.lua"))
+---@diagnostic disable-next-line: deprecated -- Neovim runs LuaJIT, where setfenv supplies the fixture environment.
 setfenv(chunk, setmetatable({ vim = fake_vim }, { __index = _G }))
 local commit = chunk()
 commit.exec()
