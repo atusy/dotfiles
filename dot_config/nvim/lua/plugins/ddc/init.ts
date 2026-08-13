@@ -31,13 +31,8 @@ export class Config extends BaseConfig {
     args.contextBuilder.patchFiletype("fish", {
       sources: makeSources(["fish"]),
     });
-    args.contextBuilder.patchFiletype("xonsh", {
-      sources: makeSources(["xonsh"]),
-    });
 
-    ["zsh", "fish", "xonsh"].map((x) =>
-      args.setAlias("source", x, "shell_native")
-    );
+    ["zsh", "fish"].map((x) => args.setAlias("source", x, "shell_native"));
     args.setAlias("source", "shell_history", "dictionary");
     args.setAlias("source", "ex_command_history", "cmdline_history");
     args.setAlias("filter", "matcher_head_initial", "matcher_head");
