@@ -37,7 +37,9 @@ const completeXonsh = useShellCompletion("xonsh", {
   env: { COLUMNS: "200" },
 });
 const shellCompletions = {
+  bash: completeZsh,
   fish: completeFish,
+  sh: completeZsh,
   xonsh: completeXonsh,
   zsh: completeZsh,
 } as const;
