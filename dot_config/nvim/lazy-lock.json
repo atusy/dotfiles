@@ -22,7 +22,7 @@
   "ddc-source-buffer": { "branch": "main", "commit": "bc2416de3629693f88e66870ca11090571f265ec" },
   "ddc-source-dictionary": { "branch": "main", "commit": "457a95a3c444fe48091319298668c27dc867e7d3" },
   "ddc-source-file": { "branch": "main", "commit": "8548b553c7dbf49728788c29142108c437e0ec76" },
-  "ddc-source-nvim-lsp": { "branch": "feat/nvim-lsp-cmdline", "commit": "714f7cdc6938e1544c8595281279d40f49e8e4b8" },
+  "ddc-source-nvim-lsp": { "branch": "feat/nvim-lsp-cmdline", "commit": "bac355501f146dd3644b29034e841d1b2155a954" },
   "ddc-source-shell_native": { "branch": "main", "commit": "86686bd68cc7d26866ee5cf8cdfc1808f20c42a8" },
   "ddc-ui-native": { "branch": "main", "commit": "7b946489962453c485b894c18dd8e81057dd8098" },
   "ddc-ui-pum": { "branch": "main", "commit": "0679df221520576d07add3cf4219d478db110801" },
