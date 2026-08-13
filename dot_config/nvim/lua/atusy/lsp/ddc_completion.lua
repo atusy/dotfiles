@@ -114,6 +114,41 @@ function M.make_cmdline_provider(api)
 	end
 end
 
+---@param api table
+---@return { name: string, filetype: string, provider: function }[]
+function M.configurations(api)
+	return {
+		{ name = "nvim-cmdline", filetype = "ddc_cmdline", provider = M.make_cmdline_provider(api) },
+		{ name = "nvim-input", filetype = "ddc_input", provider = M.make_input_provider(api) },
+		{
+			name = "nvim-cmdline-history",
+			filetype = "ddc_cmdline_history",
+			provider = M.make_history_provider(api, 1000),
+		},
+	}
+end
+
+local function default_api()
+	return {
+		getcompletion = function(input, completion_type)
+			return vim.fn.getcompletion(input, completion_type)
+		end,
+		gethistory = function(cmd_type, limit)
+			local histories = {}
+			for index = -1, -math.min(limit, vim.fn.histnr(cmd_type)), -1 do
+				table.insert(histories, vim.fn.histget(cmd_type, index))
+			end
+			return histories
+		end,
+		isdirectory = function(path)
+			return vim.fn.isdirectory(path) == 1
+		end,
+		isfile = function(path)
+			return vim.fn.filereadable(path) == 1
+		end,
+	}
+end
+
 ---@param dispatchers vim.lsp.rpc.Dispatchers
 ---@param opts { provider: fun(params: table, document: table?): table? }
 ---@return vim.lsp.rpc.Client
@@ -240,6 +275,23 @@ function M.command(provider)
 	return function(dispatchers)
 		return M.create(dispatchers, { provider = provider })
 	end
+end
+
+function M.setup()
+	local names = {}
+	for _, provider_config in ipairs(M.configurations(default_api())) do
+		local name = provider_config.name
+		vim.lsp.config(name, {
+			cmd = M.command(provider_config.provider),
+			filetypes = { provider_config.filetype },
+			root_dir = vim.uv.cwd(),
+			reuse_client = function(client)
+				return client.name == name
+			end,
+		})
+		table.insert(names, name)
+	end
+	vim.lsp.enable(names)
 end
 
 return M

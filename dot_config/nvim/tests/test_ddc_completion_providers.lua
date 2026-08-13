@@ -3,6 +3,33 @@ local expect = MiniTest.expect
 
 local T = MiniTest.new_set()
 
+T["local provider configurations have stable independent identities"] = function()
+	local configs = require("atusy.lsp.ddc_completion").configurations({
+		getcompletion = function()
+			return {}
+		end,
+		gethistory = function()
+			return {}
+		end,
+		isdirectory = function()
+			return false
+		end,
+		isfile = function()
+			return false
+		end,
+	})
+	expect.equality(
+		vim.tbl_map(function(config)
+			return { config.name, config.filetype }
+		end, configs),
+		{
+			{ "nvim-cmdline", "ddc_cmdline" },
+			{ "nvim-input", "ddc_input" },
+			{ "nvim-cmdline-history", "ddc_cmdline_history" },
+		}
+	)
+end
+
 local function input_provider(results)
 	local calls = {}
 	local provider = require("atusy.lsp.ddc_completion").make_input_provider({
