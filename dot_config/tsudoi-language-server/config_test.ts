@@ -55,6 +55,31 @@ async function completionLabels(
   return labels;
 }
 
+async function initializeRepository(root: string, subjects: readonly string[]) {
+  const init = await new Deno.Command("git", {
+    args: ["init", "--quiet"],
+    cwd: root,
+  }).output();
+  assertEquals(init.success, true);
+  for (const subject of subjects) {
+    const commit = await new Deno.Command("git", {
+      args: [
+        "-c",
+        "user.name=Test",
+        "-c",
+        "user.email=test@example.com",
+        "commit",
+        "--quiet",
+        "--allow-empty",
+        "-m",
+        subject,
+      ],
+      cwd: root,
+    }).output();
+    assertEquals(commit.success, true);
+  }
+}
+
 Deno.test("the server advertises and serves bridge routing", async () => {
   const config = await configFactory();
   const initialize = config.methods?.initialize as
@@ -122,26 +147,7 @@ Deno.test("gitcommit completion uses emoji entries from the commit template", as
 Deno.test("gitcommit completion continues matching recent subjects", async () => {
   const root = await Deno.makeTempDir();
   try {
-    for (
-      const args of [
-        ["init", "--quiet"],
-        [
-          "-c",
-          "user.name=Test",
-          "-c",
-          "user.email=test@example.com",
-          "commit",
-          "--quiet",
-          "--allow-empty",
-          "-m",
-          "feat: support input",
-        ],
-      ]
-    ) {
-      const output = await new Deno.Command("git", { args, cwd: root })
-        .output();
-      assertEquals(output.success, true);
-    }
+    await initializeRepository(root, ["feat: support input"]);
     const uri = pathToFileURL(join(root, ".git", "COMMIT_EDITMSG")).href;
 
     const labels = await completionLabels("gitcommit", "feat: ", uri);
