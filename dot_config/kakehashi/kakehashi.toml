@@ -84,6 +84,7 @@ preferSharedInstance = true
 air = { enabled = true }
 basedpyright = { enabled = true }
 bashls = { enabled = true }
+denols = { enabled = true }
 efm = { enabled = true }
 fish_lsp = { enabled = true }
 jsonls = { enabled = true }
