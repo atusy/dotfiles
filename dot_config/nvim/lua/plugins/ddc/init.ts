@@ -20,7 +20,7 @@ export class Config extends BaseConfig {
         "CmdlineChanged",
         // "TextChangedT",
       ],
-      sources: ["lsp"],
+      sources: ["nvim-lsp"],
       cmdlineSources: {
         ":": ["cmdline", "lsp-cmdline", "ex_command_history"],
         "@": ["input", "cmdline_history", "lsp-cmdline"],
@@ -67,7 +67,7 @@ export class Config extends BaseConfig {
           isVolatile: true,
           volatilePattern: "[p{P}p{S}]",
         },
-        lsp: {
+        "nvim-lsp": {
           mark: "L",
           forceCompletionPattern: "(\\.|::|->|/)\\w*",
           dup: "force",
@@ -93,7 +93,7 @@ export class Config extends BaseConfig {
         },
       },
       sourceParams: {
-        lsp: {
+        "nvim-lsp": {
           enableResolveItem: true,
           enableAdditionalTextEdit: true,
           confirmBehavior: "replace",

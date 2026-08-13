@@ -164,16 +164,9 @@ return {
 	{ "https://github.com/Shougo/ddc-source-cmdline" },
 	{ "https://github.com/Shougo/ddc-source-cmdline_history" },
 	{ "https://github.com/Shougo/ddc-source-input" },
-	{ "https://github.com/Shougo/ddc-source-lsp" },
+	{ "https://github.com/atusy/ddc-source-nvim-lsp", branch = "feat/nvim-lsp-cmdline" },
 	{ "https://github.com/atusy/ddc-source-lsp-cmdline", dev = true },
 	{ "https://github.com/Shougo/ddc-ui-pum" },
-	{
-		"https://github.com/uga-rosa/ddc-source-lsp-setup",
-		event = "LspAttach",
-		config = function()
-			require("ddc_source_lsp_setup").setup({ respect_trigger = false })
-		end,
-	},
 	-- filter
 	{ "https://github.com/tani/ddc-fuzzy" },
 	-- matcher
