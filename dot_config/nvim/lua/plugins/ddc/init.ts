@@ -22,12 +22,12 @@ export class Config extends BaseConfig {
       ],
       sources: ["nvim-lsp"],
       cmdlineSources: {
-        ":": ["cmdline", "lsp-cmdline", "ex_command_history"],
-        "@": ["input", "cmdline_history", "lsp-cmdline"],
-        ">": ["input", "cmdline_history", "lsp-cmdline"],
-        "/": ["lsp-cmdline"],
-        "?": ["lsp-cmdline"],
-        "-": ["lsp-cmdline"],
+        ":": ["cmdline", "nvim-lsp-cmdline", "ex_command_history"],
+        "@": ["input", "cmdline_history", "nvim-lsp-cmdline"],
+        ">": ["input", "cmdline_history", "nvim-lsp-cmdline"],
+        "/": ["nvim-lsp-cmdline"],
+        "?": ["nvim-lsp-cmdline"],
+        "-": ["nvim-lsp-cmdline"],
         "=": ["input"],
       },
       sourceOptions: {
@@ -60,7 +60,7 @@ export class Config extends BaseConfig {
           isVolatile: true,
           replaceSourceInputPattern: "[^/]*$", // do not remove slash so that file completion works
         },
-        "lsp-cmdline": {
+        "nvim-lsp-cmdline": {
           mark: "L",
           forceCompletionPattern: "(\\.|::|->|/)\\w*",
           dup: "force",
@@ -97,6 +97,9 @@ export class Config extends BaseConfig {
           enableResolveItem: true,
           enableAdditionalTextEdit: true,
           confirmBehavior: "replace",
+        },
+        "nvim-lsp-cmdline": {
+          allowedServers: ["kakehashi"],
         },
       },
       filterParams: {
