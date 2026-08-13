@@ -77,3 +77,36 @@ Deno.test("a package project selects tsgo at the package root", async () => {
     await Deno.remove(root, { recursive: true });
   }
 });
+
+Deno.test("a loose TypeScript file falls back to denols when tsgo is disabled", async () => {
+  const root = await Deno.makeTempDir();
+  try {
+    const params: RoutingParams = {
+      textDocument: {
+        uri: pathToFileURL(join(root, "main.ts")).href,
+        languageId: "typescript",
+      },
+      languageServers: {
+        denols: {
+          languages: ["typescript"],
+          workspaceMarkers: [],
+          preferSharedInstance: true,
+        },
+        tsgo: {
+          languages: ["typescript"],
+          workspaceMarkers: [],
+          preferSharedInstance: true,
+        },
+      },
+    };
+
+    assertEquals(await routeTypeScript(params), {
+      routing: {
+        denols: { enabled: true },
+        tsgo: { enabled: false },
+      },
+    });
+  } finally {
+    await Deno.remove(root, { recursive: true });
+  }
+});

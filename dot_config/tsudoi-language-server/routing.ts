@@ -129,7 +129,7 @@ export async function routeTypeScript(
   > = {};
   if (Object.hasOwn(params.languageServers, "denols")) {
     routing.denols = denoRoot === null
-      ? { enabled: false }
+      ? { enabled: tsgoRoot === null }
       : { enabled: true, workspaceFolders: [pathToFileURL(denoRoot).href] };
   }
   if (Object.hasOwn(params.languageServers, "tsgo")) {
