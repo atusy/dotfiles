@@ -119,7 +119,7 @@ export async function routeTypeScript(
       ? (denoLockRoot ?? denoConfigRoot)
       : null;
   const tsgoRoot = tsgoNodeRoot !== null &&
-      !isDeeper(denoLockRoot, tsgoNodeRoot) &&
+      !(denoLockRoot !== null && denoLockRoot.length >= tsgoNodeRoot.length) &&
       !(denoConfigRoot !== null && denoConfigRoot.length >= tsgoNodeRoot.length)
     ? tsgoNodeRoot
     : null;
