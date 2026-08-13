@@ -60,7 +60,7 @@ const config: TsudoiConfigFactory = () => {
       "textDocument/formatting": formatDocument,
       "completionItem/resolve": resolvePathStat,
     },
-    customMethod: {
+    customMethods: {
       "kakehashi/bridge/routing": bridgeRouting,
     },
   });

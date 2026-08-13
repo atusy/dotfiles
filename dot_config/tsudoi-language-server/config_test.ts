@@ -93,7 +93,7 @@ Deno.test("the server advertises and serves bridge routing", async () => {
   const initialize = config.methods?.initialize as
     | MethodHandler<"initialize">
     | undefined;
-  const route = config.customMethod?.["kakehashi/bridge/routing"] as
+  const route = config.customMethods?.["kakehashi/bridge/routing"] as
     | CustomRequestHandler
     | undefined;
 
