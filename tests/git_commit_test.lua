@@ -1,17 +1,20 @@
 local split_path
 local mappings = {}
+local system_calls = {}
 
 vim = {
 	tbl_deep_extend = function()
 		return { args = {} }
 	end,
-	system = function()
+	system = function(command, opts)
+		table.insert(system_calls, { command = command, opts = opts })
 		return {
 			wait = function()
-				return { code = 0, stdout = "/repo\n", stderr = "" }
+				return { code = 0, stdout = command[2] == "rev-parse" and "/repo\n" or "", stderr = "" }
 			end,
 		}
 	end,
+	schedule = function() end,
 	trim = function(value)
 		return value:gsub("^%s+", ""):gsub("%s+$", "")
 	end,
@@ -31,6 +34,9 @@ vim = {
 		end,
 		nvim_get_current_buf = function()
 			return 2
+		end,
+		nvim_buf_get_lines = function()
+			return { "feat: message" }
 		end,
 		nvim_create_augroup = function()
 			return 3
@@ -61,3 +67,6 @@ local commit = dofile("dot_config/nvim/lua/plugins/git/commit.lua")
 commit.exec()
 
 assert(split_path == "/repo/.commit-123.gitcommit", "commit buffer must be anchored to the repository")
+
+mappings["<Plug>(C-S)<C-Q>"]()
+assert(system_calls[2].opts.cwd == "/repo", "git commit must use the captured repository root")

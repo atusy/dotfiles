@@ -11,8 +11,10 @@ end
 
 ---@param buf number A buffer of commit message
 ---@param args string[] A list of extra arguments to be passed to git commit
-local function commit(buf, args)
+---@param root string The repository root
+local function commit(buf, args, root)
 	local res = vim.system({ "git", "commit", unpack(args or {}), "--quiet", "--file", "-" }, {
+		cwd = root,
 		stdin = vim.api.nvim_buf_get_lines(buf, 0, -1, false),
 	}):wait()
 	if res.code ~= 0 then
@@ -83,7 +85,7 @@ local function exec(opts)
 
 	-- mappings
 	vim.keymap.set("n", "<Plug>(C-S)<C-Q>", function()
-		if commit(buf, opts.args) == 0 then
+		if commit(buf, opts.args, root) == 0 then
 			leave(tab, buf, augroup)
 		end
 	end, { buffer = buf })
