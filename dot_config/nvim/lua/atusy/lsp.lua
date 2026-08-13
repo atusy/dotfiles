@@ -68,6 +68,8 @@ function M.setup_mappings(bufnr, client)
 end
 
 function M.setup()
+	require("atusy.lsp.deno").setup()
+
 	vim.api.nvim_create_autocmd("FileType", {
 		group = M.augroup,
 		once = true,
