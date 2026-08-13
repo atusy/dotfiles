@@ -105,6 +105,7 @@ let
     pkgs.air-formatter
     pkgs.biome
     pkgs.checkmate
+    pkgs.dprint
     pkgs.gotools
     pkgs.nixfmt
     pkgs.oxfmt
