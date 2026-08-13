@@ -87,7 +87,7 @@ const config: TsudoiConfigFactory = () => {
         yield* completePath(context, params);
         yield* completeAround(context, params, { maxLines: 500, scanner });
         yield* completeCorpus(context, params, { scanner, maxItems: 2000 });
-        yield* completeDictionary(context, params);
+        yield* completeDictionary(context, params, { maxItems: 2000 });
       },
       "textDocument/hover": hoverWordnet,
       "textDocument/formatting": formatDocument,
