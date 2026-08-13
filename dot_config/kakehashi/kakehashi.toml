@@ -42,6 +42,7 @@ enabled = false
 [languages._.bridge._.aggregation]
 "_" = { "priorities" = ["*", "tsudoi"] }
 "textDocument/completion" = { strategy = "concatenated" }
+"textDocument/formatting" = { "priorities" = ["*", "tsudoi", "oxfmt", "denols", "tsgo"] }
 
 [languages._.bridge._self]
 enabled = true
@@ -91,6 +92,7 @@ jsonls = { enabled = true }
 lua_ls = { enabled = true }
 marksman = { enabled = true }
 nixd = { enabled = true }
+oxfmt = { enabled = true }
 r_language_server = { enabled = true }
 ruff = { enabled = true }
 rust_analyzer = { enabled = true }
