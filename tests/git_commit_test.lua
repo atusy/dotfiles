@@ -2,7 +2,7 @@ local split_path
 local mappings = {}
 local system_calls = {}
 
-vim = {
+local fake_vim = {
 	tbl_deep_extend = function()
 		return { args = {} }
 	end,
@@ -64,7 +64,9 @@ vim = {
 	},
 }
 
-local commit = dofile("dot_config/nvim/lua/plugins/git/commit.lua")
+local chunk = assert(loadfile("dot_config/nvim/lua/plugins/git/commit.lua"))
+setfenv(chunk, setmetatable({ vim = fake_vim }, { __index = _G }))
+local commit = chunk()
 commit.exec()
 
 assert(split_path == "/repo/.commit-123.gitcommit", "commit buffer must be anchored to the repository")
