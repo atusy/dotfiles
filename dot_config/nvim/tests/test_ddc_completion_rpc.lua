@@ -94,6 +94,32 @@ T["completion observes the matching document version"] = function()
 	expect.equality(seen.params.xDdc, { cmdType = ":", generation = 2 })
 end
 
+T["incremental UTF-16 changes update the captured document"] = function()
+	local seen
+	local rpc = new_client(function(_, document)
+		seen = document
+		return { items = {} }
+	end)
+	rpc.notify("textDocument/didOpen", {
+		textDocument = { uri = "untitled://ddc/test", version = 1, text = "😀old" },
+	})
+	rpc.notify("textDocument/didChange", {
+		textDocument = { uri = "untitled://ddc/test", version = 2 },
+		contentChanges = {
+			{
+				range = { start = { line = 0, character = 2 }, ["end"] = { line = 0, character = 5 } },
+				text = "new",
+			},
+		},
+	})
+	local _, _, await = request(rpc, "textDocument/completion", {
+		textDocument = { uri = "untitled://ddc/test" },
+		position = { line = 0, character = 5 },
+	})
+	await()
+	expect.equality(seen, { uri = "untitled://ddc/test", version = 2, text = "😀new" })
+end
+
 T["terminate closes once and rejects later requests"] = function()
 	local rpc, _, exits = new_client(function()
 		return {}

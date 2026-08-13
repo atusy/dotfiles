@@ -32,6 +32,30 @@ local function completion_items(words)
 	return { items = items }
 end
 
+local function position_byte_offset(text, position)
+	local lines = vim.split(text, "\n", { plain = true })
+	local offset = 0
+	for line = 1, position.line do
+		offset = offset + #(lines[line] or "") + 1
+	end
+	local current = lines[position.line + 1] or ""
+	local ok, column = pcall(vim.str_byteindex, current, "utf-16", position.character, false)
+	return offset + (ok and column or #current)
+end
+
+local function apply_content_changes(text, changes)
+	for _, change in ipairs(changes or {}) do
+		if change.range == nil then
+			text = change.text
+		else
+			local start_offset = position_byte_offset(text, change.range.start)
+			local end_offset = position_byte_offset(text, change.range["end"])
+			text = text:sub(1, start_offset) .. change.text .. text:sub(end_offset + 1)
+		end
+	end
+	return text
+end
+
 ---@param api { getcompletion: fun(input: string, completion_type: string): string[] }
 ---@return fun(params: table, document: table?): table
 function M.make_input_provider(api)
@@ -247,9 +271,8 @@ function M.create(dispatchers, opts)
 			}
 		elseif method == "textDocument/didChange" then
 			local document = documents[params.textDocument.uri]
-			local change = params.contentChanges and params.contentChanges[#params.contentChanges]
-			if document and change and change.range == nil then
-				document.text = change.text
+			if document then
+				document.text = apply_content_changes(document.text, params.contentChanges)
 				document.version = params.textDocument.version
 			end
 		elseif method == "textDocument/didClose" then
