@@ -102,8 +102,9 @@ The decision is confirmed when:
 * MiniTest runs the Lua RPC and scratch-buffer lifecycle in headless Neovim,
   including attach, reuse, unload, wipe, local RPC cancellation, at-most-once
   reply notification, and the synchronous command-line timeout boundary.
-* Headless integration tests cover every configured command type and prove
-  CMD, INPUT, and HIST alias isolation.
+* A Deno configuration test locks the source order for every configured
+  command type, while headless integration proves the three local client
+  identities attach, reuse, and return isolated results.
 * Normal-buffer and skkeleton completion use `nvim-lsp` without references to
   the old source.
 * The live chezmoi-applied configuration contains none of the six superseded
