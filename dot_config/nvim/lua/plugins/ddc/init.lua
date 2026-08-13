@@ -163,7 +163,6 @@ return {
 	-- source
 	{
 		"https://github.com/atusy/ddc-source-nvim-lsp",
-		branch = "feat/nvim-lsp-cmdline",
 		lazy = false,
 		config = function()
 			vim.lsp.config("*", {
