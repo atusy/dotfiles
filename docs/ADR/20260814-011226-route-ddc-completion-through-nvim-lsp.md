@@ -25,7 +25,9 @@ of the Neovim LSP clients that should contribute candidates.
 * Normal-buffer completion must retain resolve, snippet, additional-edit,
   preview, and command behavior.
 * Command-line completion must retain its one-line editing and completion
-  position contracts without blocking or corrupting the command line.
+  position contracts without corrupting the command line, with synchronous
+  requests bounded by the configured timeout until async delivery is validated
+  for ddc's command-line gather lifecycle.
 * CMD, INPUT, and HIST candidates must retain independent marks, filters,
   ordering, caches, and replacement ranges during migration.
 * The migration must be independently reversible at each source boundary.
@@ -51,11 +53,13 @@ The fork is named `atusy/ddc-source-nvim-lsp`. Its public ddc sources are
 HIST presentation so each alias retains independent ddc options and cache
 identity.
 
-The chezmoi-managed configuration supplies one in-process Lua LSP transport,
-instantiated as `nvim-cmdline`, `nvim-input`, and `nvim-cmdline-history`.
-One scratch-buffer controller attaches those clients exactly once and manages
-the separate language-aware client. Completion requests use immutable command
-line type and versioned document snapshots.
+The chezmoi-managed configuration supplies an in-process Lua LSP transport for
+each of `nvim-cmdline`, `nvim-input`, and `nvim-cmdline-history`. Each ddc alias
+uses a distinct language ID and scratch URI, so Neovim attaches and reuses the
+matching client independently. Language-aware command-line clients use the
+same scratch-buffer mechanism with their own language IDs. Completion requests
+carry immutable command-line type metadata and use the synchronized scratch
+document snapshot.
 
 `allowedServers` and `deniedServers` match exact, case-sensitive
 `vim.lsp.Client.name` values. Both default to `null`. An empty allow list
@@ -66,8 +70,8 @@ Neovim client; downstream routing remains kakehashi's responsibility.
 ### Consequences
 
 **Positive:**
-* Normal and command-line completion share nvim-lsp client discovery, request,
-  encoding, cancellation, and server-filtering primitives.
+* Normal and command-line completion share nvim-lsp client discovery, encoding,
+  and server-filtering contracts.
 * Users can isolate local command, input, and history providers with the same
   server-selection contract used for ordinary LSP clients.
 * Each legacy source can be replaced and rolled back independently.
@@ -79,8 +83,9 @@ Neovim client; downstream routing remains kakehashi's responsibility.
 * The command-line adapter and scratch controller retain lifecycle complexity
   that does not exist for ordinary buffers.
 * Three logical local clients are required to preserve ddc source identity.
-* Async request cancellation and versioned snapshots require explicit testing
-  to prevent stale candidates.
+* Command-line completion uses `Client:request_sync()` and can block Neovim for
+  up to the configured source timeout. Normal-buffer completion remains async
+  and propagates ddc cancellation to `Client:cancel_request()`.
 
 **Neutral:**
 * Neovim client filters see `kakehashi`, not its downstream server names.
@@ -92,11 +97,11 @@ Neovim client; downstream routing remains kakehashi's responsibility.
 The decision is confirmed when:
 
 * Deno tests cover normal and command-line item conversion, UTF-8/16/32
-  positions, server filtering, deny precedence, resolve, cancellation, and
-  scratch-generation isolation.
+  positions, server filtering, deny precedence, resolve, normal-request
+  cancellation, and immutable command-line request metadata.
 * MiniTest runs the Lua RPC and scratch-buffer lifecycle in headless Neovim,
-  including attach, detach, unload, wipe, cancellation, and at-most-once reply
-  notification behavior.
+  including attach, reuse, unload, wipe, local RPC cancellation, at-most-once
+  reply notification, and the synchronous command-line timeout boundary.
 * Headless integration tests cover every configured command type and prove
   CMD, INPUT, and HIST alias isolation.
 * Normal-buffer and skkeleton completion use `nvim-lsp` without references to
@@ -116,7 +121,8 @@ The decision is confirmed when:
   semantics.
 * Good, because source aliases preserve user-visible completion boundaries.
 * Bad, because the fork must track selected upstream completion-item changes.
-* Bad, because scratch-buffer ownership and cancellation need dedicated tests.
+* Bad, because scratch-buffer ownership and the synchronous command-line
+  request boundary need dedicated tests.
 
 ### Keep independent ddc sources
 
