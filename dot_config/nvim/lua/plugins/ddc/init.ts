@@ -5,7 +5,6 @@ import {
 
 export class Config extends BaseConfig {
   override config(args: ConfigArguments): Promise<void> {
-    args.setAlias("source", "ex_command_history", "cmdline_history");
     args.setAlias("source", "nvim-input", "nvim-lsp-cmdline");
     args.setAlias("source", "nvim-cmdline-history", "nvim-lsp-cmdline");
     args.setAlias("source", "nvim-ex-command-history", "nvim-lsp-cmdline");

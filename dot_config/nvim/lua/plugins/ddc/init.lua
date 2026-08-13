@@ -161,9 +161,6 @@ return {
 		end,
 	},
 	-- source
-	{ "https://github.com/Shougo/ddc-source-cmdline" },
-	{ "https://github.com/Shougo/ddc-source-cmdline_history" },
-	{ "https://github.com/Shougo/ddc-source-input" },
 	{
 		"https://github.com/atusy/ddc-source-nvim-lsp",
 		branch = "feat/nvim-lsp-cmdline",
@@ -174,7 +171,6 @@ return {
 			})
 		end,
 	},
-	{ "https://github.com/atusy/ddc-source-lsp-cmdline", dev = true },
 	{ "https://github.com/Shougo/ddc-ui-pum" },
 	-- filter
 	{ "https://github.com/tani/ddc-fuzzy" },
