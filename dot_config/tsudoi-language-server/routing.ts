@@ -75,14 +75,22 @@ export async function routeTypeScript(
     return null;
   }
 
-  const [nodeRoot, denoLockRoot, denoConfigRoot] = await Promise.all([
-    findRoot(filePath, nodeLocks),
-    findRoot(filePath, ["deno.lock"]),
-    findRoot(filePath, ["deno.json", "deno.jsonc"]),
-  ]);
-  const denoRoot = nodeRoot === null || isDeeper(denoLockRoot, nodeRoot) ||
-      isDeeper(denoConfigRoot, nodeRoot)
-    ? (denoLockRoot ?? denoConfigRoot)
+  const [denolsNodeRoot, tsgoNodeRoot, denoLockRoot, denoConfigRoot] =
+    await Promise.all([
+      findRoot(filePath, nodeLocks),
+      findRoot(filePath, [...nodeLocks, "package.json"]),
+      findRoot(filePath, ["deno.lock"]),
+      findRoot(filePath, ["deno.json", "deno.jsonc"]),
+    ]);
+  const denoRoot =
+    denolsNodeRoot === null || isDeeper(denoLockRoot, denolsNodeRoot) ||
+      isDeeper(denoConfigRoot, denolsNodeRoot)
+      ? (denoLockRoot ?? denoConfigRoot)
+      : null;
+  const tsgoRoot = tsgoNodeRoot !== null &&
+      !isDeeper(denoLockRoot, tsgoNodeRoot) &&
+      !(denoConfigRoot !== null && denoConfigRoot.length >= tsgoNodeRoot.length)
+    ? tsgoNodeRoot
     : null;
   const routing: Record<
     string,
@@ -94,7 +102,9 @@ export async function routeTypeScript(
       : { enabled: true, workspaceFolders: [pathToFileURL(denoRoot).href] };
   }
   if (Object.hasOwn(params.languageServers, "tsgo")) {
-    routing.tsgo = { enabled: denoRoot === null };
+    routing.tsgo = tsgoRoot === null
+      ? { enabled: false }
+      : { enabled: true, workspaceFolders: [pathToFileURL(tsgoRoot).href] };
   }
   return Object.keys(routing).length === 0 ? null : { routing };
 }

@@ -42,3 +42,38 @@ Deno.test("a nested Deno config selects denols over a parent Node project", asyn
     await Deno.remove(root, { recursive: true });
   }
 });
+
+Deno.test("a package project selects tsgo at the package root", async () => {
+  const root = await Deno.makeTempDir();
+  try {
+    await Deno.writeTextFile(join(root, "package.json"), "{}");
+    await Deno.mkdir(join(root, "src"));
+    const params: RoutingParams = {
+      textDocument: {
+        uri: pathToFileURL(join(root, "src", "main.ts")).href,
+        languageId: "typescript",
+      },
+      languageServers: {
+        denols: {
+          languages: ["typescript"],
+          workspaceMarkers: [],
+          preferSharedInstance: true,
+        },
+        tsgo: {
+          languages: ["typescript"],
+          workspaceMarkers: [],
+          preferSharedInstance: true,
+        },
+      },
+    };
+
+    assertEquals(await routeTypeScript(params), {
+      routing: {
+        denols: { enabled: false },
+        tsgo: { enabled: true, workspaceFolders: [pathToFileURL(root).href] },
+      },
+    });
+  } finally {
+    await Deno.remove(root, { recursive: true });
+  }
+});
