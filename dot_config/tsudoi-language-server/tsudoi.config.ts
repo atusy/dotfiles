@@ -1,11 +1,12 @@
 // Tsudoi configuration to be run on Deno
 // Unpublished packages are resolved through deno.json's import map.
+
+import { useDictionaryCompletion } from "@atusy/tsudoi-completion-dictionary";
 import {
   completeAround,
   completeCorpus,
   segmentScanner,
 } from "@atusy/tsudoi-completion-document";
-import { useDictionaryCompletion } from "@atusy/tsudoi-completion-dictionary";
 import { completePath, resolvePathStat } from "@atusy/tsudoi-completion-path";
 import { useShellCompletion } from "@atusy/tsudoi-completion-shell";
 import { hoverWordnet } from "@atusy/tsudoi-hover-wordnet";
@@ -19,7 +20,7 @@ import { isRoutingParams, routeTypeScript } from "./routing.ts";
 
 function record(value: unknown): Readonly<Record<string, unknown>> {
   return typeof value === "object" && value !== null
-    ? value as Readonly<Record<string, unknown>>
+    ? (value as Readonly<Record<string, unknown>>)
     : {};
 }
 
@@ -31,7 +32,16 @@ const completeFish = useShellCompletion("fish", {
   env: { COLUMNS: "200", DDCVIM: "1" },
 });
 const completeZsh = useShellCompletion("zsh", {
-  env: { COLUMNS: "200" },
+  env: {
+    COLUMNS: "200",
+    FPATH: await (async () => {
+      const cmd = new Deno.Command("zsh", {
+        args: ["-c", 'echo -n "$FPATH"'],
+      });
+      const output = await cmd.output();
+      return new TextDecoder().decode(output.stdout);
+    })(),
+  },
 });
 const completeXonsh = useShellCompletion("xonsh", {
   env: { COLUMNS: "200" },
@@ -45,9 +55,7 @@ const shellCompletions = {
 } as const;
 
 const completeDictionary = await useDictionaryCompletion({
-  files: [
-    "/Users/atusy/.local/share/nvim/lazy/english-words/words_alpha.txt",
-  ],
+  files: ["/Users/atusy/.local/share/nvim/lazy/english-words/words_alpha.txt"],
 });
 
 const config: TsudoiConfigFactory = () => {
@@ -75,9 +83,10 @@ const config: TsudoiConfigFactory = () => {
       "textDocument/completion": async function* (context, params) {
         const document = context.tsudoi.documents.get(params.textDocument.uri);
         const languageId = document?.languageId;
-        const completeShell = languageId === undefined
-          ? undefined
-          : shellCompletions[languageId as keyof typeof shellCompletions];
+        const completeShell =
+          languageId === undefined
+            ? undefined
+            : shellCompletions[languageId as keyof typeof shellCompletions];
         if (completeShell !== undefined) {
           yield* completeShell(context, params);
         }
