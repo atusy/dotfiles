@@ -6,6 +6,46 @@ local function response_error(code, message)
 	return vim.lsp.rpc.rpc_response_error(code, message)
 end
 
+local function text_before_cursor(params, document)
+	if document == nil or type(document.text) ~= "string" then
+		return ""
+	end
+	local character = params.position and params.position.character or 0
+	local ok, byte_index = pcall(vim.str_byteindex, document.text, "utf-16", character, false)
+	if not ok then
+		return document.text
+	end
+	return document.text:sub(1, byte_index)
+end
+
+local function completion_items(words)
+	local items = {}
+	for _, word in ipairs(words or {}) do
+		if type(word) == "string" then
+			local item = { label = word }
+			if vim.endswith(word, "/") then
+				item.insertText = word:sub(1, -2)
+			end
+			table.insert(items, item)
+		end
+	end
+	return { items = items }
+end
+
+---@param api { getcompletion: fun(input: string, completion_type: string): string[] }
+---@return fun(params: table, document: table?): table
+function M.make_input_provider(api)
+	return function(params, document)
+		local metadata = params.xDdc or {}
+		local completion_type = metadata.cmdType == "=" and "expression" or metadata.completionType
+		if completion_type == nil or completion_type == "" then
+			return { items = {} }
+		end
+		local ok, words = pcall(api.getcompletion, text_before_cursor(params, document), completion_type)
+		return completion_items(ok and words or {})
+	end
+end
+
 ---@param dispatchers vim.lsp.rpc.Dispatchers
 ---@param opts { provider: fun(params: table, document: table?): table? }
 ---@return vim.lsp.rpc.Client
