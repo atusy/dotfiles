@@ -192,6 +192,20 @@ Deno.test("gitcommit completion continues matching recent subjects", async () =>
   }
 });
 
+Deno.test("gitcommit completion resolves a root-local transient buffer", async () => {
+  const root = await Deno.makeTempDir();
+  try {
+    await initializeRepository(root, ["feat: repository-local completion"]);
+    const uri = pathToFileURL(join(root, ".nvim-commit.gitcommit")).href;
+
+    const labels = await completionLabels("gitcommit", "feat: ", uri);
+
+    assertEquals(labels.includes("repository-local completion"), true);
+  } finally {
+    await Deno.remove(root, { recursive: true });
+  }
+});
+
 Deno.test("gitcommit completion reuses scopes from recent subjects", async () => {
   const root = await Deno.makeTempDir();
   try {

@@ -20,13 +20,30 @@ const conventionalCommitTypes = [
   "test",
 ] as const;
 
-function gitRoot(uri: string): string {
+async function gitRoot(uri: string): Promise<string> {
+  let directory: string;
   try {
-    const directory = dirname(fileURLToPath(uri));
-    return basename(directory) === ".git" ? dirname(directory) : Deno.cwd();
+    directory = dirname(fileURLToPath(uri));
   } catch {
     return Deno.cwd();
   }
+  if (basename(directory) === ".git") {
+    return dirname(directory);
+  }
+  try {
+    const output = await new Deno.Command("git", {
+      args: ["rev-parse", "--show-toplevel"],
+      cwd: directory,
+      stdout: "piped",
+      stderr: "null",
+    }).output();
+    if (output.success) {
+      return new TextDecoder().decode(output.stdout).trim();
+    }
+  } catch {
+    // Fall through to the document directory.
+  }
+  return directory;
 }
 
 async function configuredTemplate(root: string): Promise<string> {
@@ -127,7 +144,7 @@ export async function* completeGitCommit(
     return;
   }
   const subject = line.slice(0, params.position.character);
-  const root = gitRoot(document.uri);
+  const root = await gitRoot(document.uri);
   const [template, logs] = await Promise.all([
     commitTemplate(root),
     recentSubjects(root),
