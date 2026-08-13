@@ -7,13 +7,45 @@ import {
 } from "@atusy/tsudoi-completion-document";
 import { completePath, resolvePathStat } from "@atusy/tsudoi-completion-path";
 import { hoverWordnet } from "@atusy/tsudoi-hover-wordnet";
-import type { TsudoiConfigFactory } from "@atusy/tsudoi-language-server/types";
+import type {
+  CustomRequestHandler,
+  TsudoiConfigFactory,
+} from "@atusy/tsudoi-language-server/types";
 import { formatDocument } from "./formatting.ts";
+import { isRoutingParams, routeTypeScript } from "./routing.ts";
+
+function record(value: unknown): Readonly<Record<string, unknown>> {
+  return typeof value === "object" && value !== null
+    ? value as Readonly<Record<string, unknown>>
+    : {};
+}
+
+const bridgeRouting: CustomRequestHandler = async (_context, params) => ({
+  result: isRoutingParams(params) ? await routeTypeScript(params) : null,
+});
 
 const config: TsudoiConfigFactory = () => {
   const scanner = segmentScanner("ja"); // build outside handler to stabilize memoization of complete functions
   return Promise.resolve({
     methods: {
+      initialize: (context) => {
+        const experimental = record(
+          context.preparedResult.capabilities.experimental,
+        );
+        return Promise.resolve({
+          ...context.preparedResult,
+          capabilities: {
+            ...context.preparedResult.capabilities,
+            experimental: {
+              ...experimental,
+              kakehashi: {
+                ...record(experimental.kakehashi),
+                bridgeRouting: true,
+              },
+            },
+          },
+        });
+      },
       "textDocument/completion": async function* (context, params) {
         yield* completePath(context, params);
         yield* completeAround(context, params, { maxLines: 500, scanner });
@@ -22,6 +54,9 @@ const config: TsudoiConfigFactory = () => {
       "textDocument/hover": hoverWordnet,
       "textDocument/formatting": formatDocument,
       "completionItem/resolve": resolvePathStat,
+    },
+    customMethod: {
+      "kakehashi/bridge/routing": bridgeRouting,
     },
   });
 };

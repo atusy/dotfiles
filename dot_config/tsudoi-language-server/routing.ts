@@ -28,6 +28,37 @@ export interface RoutingResult {
   >;
 }
 
+export function isRoutingParams(value: unknown): value is RoutingParams {
+  if (typeof value !== "object" || value === null) {
+    return false;
+  }
+  const { textDocument, languageServers } = value as {
+    readonly textDocument?: unknown;
+    readonly languageServers?: unknown;
+  };
+  if (
+    typeof textDocument !== "object" ||
+    textDocument === null ||
+    typeof (textDocument as { readonly uri?: unknown }).uri !== "string" ||
+    typeof (textDocument as { readonly languageId?: unknown }).languageId !==
+      "string"
+  ) {
+    return false;
+  }
+  const host = (textDocument as { readonly host?: unknown }).host;
+  if (
+    host !== undefined &&
+    (typeof host !== "object" ||
+      host === null ||
+      typeof (host as { readonly uri?: unknown }).uri !== "string" ||
+      typeof (host as { readonly languageId?: unknown }).languageId !==
+        "string")
+  ) {
+    return false;
+  }
+  return typeof languageServers === "object" && languageServers !== null;
+}
+
 const nodeLocks = [
   "package-lock.json",
   "yarn.lock",

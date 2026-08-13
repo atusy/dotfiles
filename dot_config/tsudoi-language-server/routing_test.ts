@@ -1,4 +1,4 @@
-import { assertEquals } from "jsr:@std/assert@^1.0.14";
+import { assertEquals } from "@std/assert";
 import { join } from "node:path";
 import { pathToFileURL } from "node:url";
 import { routeTypeScript, type RoutingParams } from "./routing.ts";
