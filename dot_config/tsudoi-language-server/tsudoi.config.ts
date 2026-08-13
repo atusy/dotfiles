@@ -12,6 +12,7 @@ import type {
   TsudoiConfigFactory,
 } from "@atusy/tsudoi-language-server/types";
 import { formatDocument } from "./formatting.ts";
+import { completeGitCommit } from "./gitcommit.ts";
 import { isRoutingParams, routeTypeScript } from "./routing.ts";
 
 function record(value: unknown): Readonly<Record<string, unknown>> {
@@ -47,6 +48,10 @@ const config: TsudoiConfigFactory = () => {
         });
       },
       "textDocument/completion": async function* (context, params) {
+        const document = context.tsudoi.documents.get(params.textDocument.uri);
+        if (document?.languageId === "gitcommit") {
+          yield* completeGitCommit(context, params);
+        }
         yield* completePath(context, params);
         yield* completeAround(context, params, { maxLines: 500, scanner });
         yield* completeCorpus(context, params, { scanner, maxItems: 2000 });
