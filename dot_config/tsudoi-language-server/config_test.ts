@@ -3,6 +3,7 @@ import type {
   CustomRequestHandler,
   MethodHandler,
 } from "@atusy/tsudoi-language-server/types";
+import { join } from "node:path";
 import { pathToFileURL } from "node:url";
 import configFactory from "./tsudoi.config.ts";
 
@@ -101,4 +102,19 @@ Deno.test("the server advertises and serves bridge routing", async () => {
 Deno.test("gitcommit completion offers conventional commit types", async () => {
   const labels = await completionLabels("gitcommit", "");
   assertEquals(labels.includes("feat"), true);
+});
+
+Deno.test("gitcommit completion uses emoji entries from the commit template", async () => {
+  const root = await Deno.makeTempDir();
+  try {
+    await Deno.mkdir(join(root, ".git"));
+    await Deno.writeTextFile(join(root, ".gitmessage"), "✨ feat:\nplain\n");
+    const uri = pathToFileURL(join(root, ".git", "COMMIT_EDITMSG")).href;
+
+    const labels = await completionLabels("gitcommit", "", uri);
+
+    assertEquals(labels.includes("✨ feat:"), true);
+  } finally {
+    await Deno.remove(root, { recursive: true });
+  }
 });
