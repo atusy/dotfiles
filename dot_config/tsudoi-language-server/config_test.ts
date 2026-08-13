@@ -157,3 +157,17 @@ Deno.test("gitcommit completion continues matching recent subjects", async () =>
     await Deno.remove(root, { recursive: true });
   }
 });
+
+Deno.test("gitcommit completion reuses scopes from recent subjects", async () => {
+  const root = await Deno.makeTempDir();
+  try {
+    await initializeRepository(root, ["feat(parser): support input"]);
+    const uri = pathToFileURL(join(root, ".git", "COMMIT_EDITMSG")).href;
+
+    const labels = await completionLabels("gitcommit", "feat(", uri);
+
+    assertEquals(labels.includes("parser"), true);
+  } finally {
+    await Deno.remove(root, { recursive: true });
+  }
+});
