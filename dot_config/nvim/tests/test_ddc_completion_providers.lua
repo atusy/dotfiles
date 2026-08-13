@@ -192,6 +192,17 @@ T["cmdline provider head-filters help tags"] = function()
 	)
 end
 
+T["cmdline provider replaces case-insensitive help prefixes"] = function()
+	local provider = cmdline_provider({ "lua-guide" })
+	local params = request(":", "help", "help LUA")
+	params.xDdc.completePos = 5
+	local item = provider(params, { text = "help LUA", version = 1 }).items[1]
+	expect.equality(item.textEdit, {
+		range = { start = { line = 0, character = 5 }, ["end"] = { line = 0, character = 8 } },
+		newText = "lua-guide",
+	})
+end
+
 T["cmdline provider preserves absolute and tilde paths"] = function()
 	local absolute = cmdline_provider({ "/Users/atusy/file" })
 	local tilde = cmdline_provider({ "~/file" })

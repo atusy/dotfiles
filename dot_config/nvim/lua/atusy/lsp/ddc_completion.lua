@@ -39,7 +39,7 @@ end
 local function completion_edit(input, word)
 	local start_byte = #input
 	for index = 1, #input + 1 do
-		if vim.startswith(word, input:sub(index)) then
+		if vim.startswith(word:lower(), input:sub(index):lower()) then
 			start_byte = index - 1
 			break
 		end
