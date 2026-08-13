@@ -38,6 +38,7 @@ vim = {
 		nvim_buf_get_lines = function()
 			return { "feat: message" }
 		end,
+		nvim_buf_set_lines = function() end,
 		nvim_create_augroup = function()
 			return 3
 		end,
@@ -70,3 +71,6 @@ assert(split_path == "/repo/.commit-123.gitcommit", "commit buffer must be ancho
 
 mappings["<Plug>(C-S)<C-Q>"]()
 assert(system_calls[2].opts.cwd == "/repo", "git commit must use the captured repository root")
+
+mappings["<C-O>"]()
+assert((system_calls[3].opts or {}).cwd == "/repo", "git log must use the captured repository root")

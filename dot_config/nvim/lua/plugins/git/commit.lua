@@ -29,8 +29,10 @@ local function commit(buf, args, root)
 	return res.code
 end
 
-local function get_message(ref)
-	local res = vim.system({ "git", "log", "-n", "1", "--format=%s%n%n%b", ref }):wait()
+---@param ref string A revision to read
+---@param root string The repository root
+local function get_message(ref, root)
+	local res = vim.system({ "git", "log", "-n", "1", "--format=%s%n%n%b", ref }, { cwd = root }):wait()
 	if res.code == 0 then
 		local message = {}
 		for line in res.stdout:gmatch("[^\n]*") do
@@ -96,7 +98,7 @@ local function exec(opts)
 		if n < 0 then
 			n = -1
 		end
-		vim.api.nvim_buf_set_lines(buf, 0, -1, false, n < 0 and {} or get_message("HEAD~" .. tostring(n)))
+		vim.api.nvim_buf_set_lines(buf, 0, -1, false, n < 0 and {} or get_message("HEAD~" .. tostring(n), root))
 	end
 	vim.keymap.set("n", "<C-O>", function()
 		replace_message(1)
