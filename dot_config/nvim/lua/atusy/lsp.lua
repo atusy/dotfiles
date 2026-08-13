@@ -67,6 +67,25 @@ function M.setup_mappings(bufnr, client)
 	end
 end
 
+--- Warmup LSP server for a specific filetype by creating a temporary buffer
+function M.warmup(filetype)
+	local buf = vim.api.nvim_create_buf(false, false)
+	vim.api.nvim_create_autocmd("LspAttach", {
+		once = true,
+		callback = function(ev)
+			if ev.buf ~= buf then
+				return
+			end
+			local client = vim.lsp.get_client_by_id(ev.data.client_id)
+			if client and client.name == "kakehashi" then
+				vim.api.nvim_buf_delete(ev.buf, { force = true })
+			end
+			return true
+		end,
+	})
+	vim.bo[buf].filetype = filetype
+end
+
 function M.setup()
 	require("atusy.lsp.deno").setup()
 
@@ -148,6 +167,10 @@ function M.setup()
 
 		return vim.lsp.diagnostic.on_publish_diagnostics(err, result, ctx)
 	end
+
+	-- To start kakehashi and underlying tsudoi and optionally fish_lsp
+	-- Tsudoi is for common completion, and fish_lsp is for shell command completion on cmdline
+	M.warmup("fish")
 end
 
 return M
