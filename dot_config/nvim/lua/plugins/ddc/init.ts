@@ -6,6 +6,7 @@ import {
 export class Config extends BaseConfig {
   override config(args: ConfigArguments): Promise<void> {
     args.setAlias("source", "ex_command_history", "cmdline_history");
+    args.setAlias("source", "nvim-input", "nvim-lsp-cmdline");
     args.setAlias("filter", "matcher_head_initial", "matcher_head");
     args.setAlias("filter", "converter_ex_command", "converter_string_match");
 
@@ -23,12 +24,12 @@ export class Config extends BaseConfig {
       sources: ["nvim-lsp"],
       cmdlineSources: {
         ":": ["cmdline", "nvim-lsp-cmdline", "ex_command_history"],
-        "@": ["input", "cmdline_history", "nvim-lsp-cmdline"],
-        ">": ["input", "cmdline_history", "nvim-lsp-cmdline"],
+        "@": ["nvim-input", "cmdline_history", "nvim-lsp-cmdline"],
+        ">": ["nvim-input", "cmdline_history", "nvim-lsp-cmdline"],
         "/": ["nvim-lsp-cmdline"],
         "?": ["nvim-lsp-cmdline"],
         "-": ["nvim-lsp-cmdline"],
-        "=": ["input"],
+        "=": ["nvim-input"],
       },
       sourceOptions: {
         _: {
@@ -54,7 +55,7 @@ export class Config extends BaseConfig {
           sorters: [],
           converters: [],
         },
-        input: {
+        "nvim-input": {
           mark: "INPUT",
           forceCompletionPattern: "\\S/\\S*",
           isVolatile: true,
@@ -100,6 +101,11 @@ export class Config extends BaseConfig {
         },
         "nvim-lsp-cmdline": {
           allowedServers: ["kakehashi"],
+        },
+        "nvim-input": {
+          languageId: "ddc_input",
+          allowedServers: ["nvim-input"],
+          completePosition: "head",
         },
       },
       filterParams: {
