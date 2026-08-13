@@ -109,7 +109,6 @@ local function config()
 
 	-- configure
 	vim.fn["ddc#custom#load_config"](vim.fs.joinpath(vim.fs.dirname(debug.getinfo(1, "S").source:sub(2)), "init.ts"))
-	require("plugins.ddc.gitcommit")()
 
 	-- lazy enable
 	vim.api.nvim_create_autocmd({ "InsertEnter", "CmdlineEnter" }, {
@@ -167,7 +166,6 @@ return {
 		end,
 	},
 	-- source
-	{ "https://github.com/atusy/ddc-source-parametric" },
 	{ "https://github.com/Shougo/ddc-source-cmdline" },
 	{ "https://github.com/Shougo/ddc-source-cmdline_history" },
 	{ "https://github.com/Shougo/ddc-source-input" },

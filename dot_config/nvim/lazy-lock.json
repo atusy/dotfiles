@@ -27,7 +27,6 @@
   "ddc-source-input": { "branch": "main", "commit": "4f0def28b394c7a7e421a9f5c07e6b93b010cfaa" },
   "ddc-source-lsp": { "branch": "main", "commit": "10a221b96fee9161a96df532b1ae055846b22c48" },
   "ddc-source-lsp-setup": { "branch": "main", "commit": "88cf5ee67d469c61788762ba407e753e18d3fc02" },
-  "ddc-source-parametric": { "branch": "main", "commit": "744bc8658d5d1e508d433565be738cf890568c70" },
   "ddc-source-shell_native": { "branch": "main", "commit": "86686bd68cc7d26866ee5cf8cdfc1808f20c42a8" },
   "ddc-ui-native": { "branch": "main", "commit": "7b946489962453c485b894c18dd8e81057dd8098" },
   "ddc-ui-pum": { "branch": "main", "commit": "0679df221520576d07add3cf4219d478db110801" },
