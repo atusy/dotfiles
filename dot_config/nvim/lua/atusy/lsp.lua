@@ -88,6 +88,7 @@ end
 
 function M.setup()
 	require("atusy.lsp.deno").setup()
+	require("atusy.lsp.ddc_completion").setup()
 
 	vim.api.nvim_create_autocmd("FileType", {
 		group = M.augroup,

@@ -3,9 +3,22 @@ import {
   type ConfigArguments,
 } from "jsr:@shougo/ddc-vim@~10.2.0/config";
 
+export const cmdlineSources = {
+  ":": ["nvim-cmdline", "nvim-lsp-cmdline", "nvim-ex-command-history"],
+  "@": ["nvim-input", "nvim-cmdline-history", "nvim-lsp-cmdline"],
+  ">": ["nvim-input", "nvim-cmdline-history", "nvim-lsp-cmdline"],
+  "/": ["nvim-lsp-cmdline"],
+  "?": ["nvim-lsp-cmdline"],
+  "-": ["nvim-lsp-cmdline"],
+  "=": ["nvim-input"],
+};
+
 export class Config extends BaseConfig {
   override config(args: ConfigArguments): Promise<void> {
-    args.setAlias("source", "ex_command_history", "cmdline_history");
+    args.setAlias("source", "nvim-input", "nvim-lsp-cmdline");
+    args.setAlias("source", "nvim-cmdline-history", "nvim-lsp-cmdline");
+    args.setAlias("source", "nvim-ex-command-history", "nvim-lsp-cmdline");
+    args.setAlias("source", "nvim-cmdline", "nvim-lsp-cmdline");
     args.setAlias("filter", "matcher_head_initial", "matcher_head");
     args.setAlias("filter", "converter_ex_command", "converter_string_match");
 
@@ -20,16 +33,8 @@ export class Config extends BaseConfig {
         "CmdlineChanged",
         // "TextChangedT",
       ],
-      sources: ["lsp"],
-      cmdlineSources: {
-        ":": ["cmdline", "lsp-cmdline", "ex_command_history"],
-        "@": ["input", "cmdline_history", "lsp-cmdline"],
-        ">": ["input", "cmdline_history", "lsp-cmdline"],
-        "/": ["lsp-cmdline"],
-        "?": ["lsp-cmdline"],
-        "-": ["lsp-cmdline"],
-        "=": ["input"],
-      },
+      sources: ["nvim-lsp"],
+      cmdlineSources,
       sourceOptions: {
         _: {
           ignoreCase: true,
@@ -40,13 +45,13 @@ export class Config extends BaseConfig {
           converters: ["converter_fuzzy"],
           timeout: 1000,
         },
-        cmdline: {
+        "nvim-cmdline": {
           mark: "CMD",
           forceCompletionPattern: "\\S/\\S*|\\.\\w*",
           isVolatile: true,
           minAutoCompleteLength: 0,
         },
-        cmdline_history: {
+        "nvim-cmdline-history": {
           mark: "HIST",
           minAutoCompleteLength: 0,
           minKeywordLength: 2,
@@ -54,20 +59,20 @@ export class Config extends BaseConfig {
           sorters: [],
           converters: [],
         },
-        input: {
+        "nvim-input": {
           mark: "INPUT",
           forceCompletionPattern: "\\S/\\S*",
           isVolatile: true,
           replaceSourceInputPattern: "[^/]*$", // do not remove slash so that file completion works
         },
-        "lsp-cmdline": {
+        "nvim-lsp-cmdline": {
           mark: "L",
           forceCompletionPattern: "(\\.|::|->|/)\\w*",
           dup: "force",
           isVolatile: true,
           volatilePattern: "[p{P}p{S}]",
         },
-        lsp: {
+        "nvim-lsp": {
           mark: "L",
           forceCompletionPattern: "(\\.|::|->|/)\\w*",
           dup: "force",
@@ -84,7 +89,7 @@ export class Config extends BaseConfig {
         },
 
         // aliases
-        ex_command_history: {
+        "nvim-ex-command-history": {
           mark: "HIST",
           minAutoCompleteLength: 0,
           matchers: ["matcher_head"],
@@ -93,10 +98,31 @@ export class Config extends BaseConfig {
         },
       },
       sourceParams: {
-        lsp: {
+        "nvim-lsp": {
           enableResolveItem: true,
           enableAdditionalTextEdit: true,
           confirmBehavior: "replace",
+        },
+        "nvim-lsp-cmdline": {
+          allowedServers: ["kakehashi"],
+        },
+        "nvim-input": {
+          languageId: "ddc_input",
+          allowedServers: ["nvim-input"],
+          completePosition: "head",
+        },
+        "nvim-cmdline-history": {
+          languageId: "ddc_cmdline_history",
+          allowedServers: ["nvim-cmdline-history"],
+        },
+        "nvim-cmdline": {
+          languageId: "ddc_cmdline",
+          allowedServers: ["nvim-cmdline"],
+          enableHelpPreview: true,
+        },
+        "nvim-ex-command-history": {
+          languageId: "ddc_cmdline_history",
+          allowedServers: ["nvim-cmdline-history"],
         },
       },
       filterParams: {
