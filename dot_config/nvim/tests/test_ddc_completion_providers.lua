@@ -132,11 +132,15 @@ T["history provider converts UTF-16 completion positions to Lua bytes"] = functi
 end
 
 T["history provider filters file and directory completion types"] = function()
-	local histories = { "/tmp/missing", "/tmp/file", "/tmp/dir" }
+	local histories = { "edit /tmp/missing", "edit /tmp/file", "edit /tmp/dir" }
 	local paths = { ["/tmp/file"] = "file", ["/tmp/dir"] = "dir" }
 	local provider = history_provider(histories, paths)
-	local files = provider(request(":", "file", "/tmp/"), { text = "/tmp/", version = 1 })
-	local dirs = provider(request(":", "dir", "/tmp/"), { text = "/tmp/", version = 1 })
+	local file_params = request(":", "file", "edit /tmp/")
+	file_params.xDdc.completePos = 5
+	local dir_params = vim.deepcopy(file_params)
+	dir_params.xDdc.completionType = "dir"
+	local files = provider(file_params, { text = "edit /tmp/", version = 1 })
+	local dirs = provider(dir_params, { text = "edit /tmp/", version = 1 })
 	expect.equality(files.items, { { label = "/tmp/file" }, { label = "/tmp/dir" } })
 	expect.equality(dirs.items, { { label = "/tmp/dir" } })
 end
@@ -242,6 +246,7 @@ T["cmdline provider completes from text before a middle cursor"] = function()
 	local result = provider(params, { text = "call getb()", version = 1 })
 	expect.equality(calls, { { "call get", "cmdline" } })
 	expect.equality(result.items[1].label, "getbuffer")
+	expect.equality(result.items[1].textEdit.range["end"], { line = 0, character = 9 })
 end
 
 return T

@@ -36,7 +36,7 @@ local function utf16_index(text, byte_offset)
 	return vim.str_utfindex(text, "utf-16", byte_offset, false)
 end
 
-local function completion_edit(input, word)
+local function completion_edit(input, full_text, word)
 	local start_byte = #input
 	for index = 1, #input + 1 do
 		if vim.startswith(word:lower(), input:sub(index):lower()) then
@@ -44,10 +44,12 @@ local function completion_edit(input, word)
 			break
 		end
 	end
+	local token_end = full_text:find("[^0-9A-Za-z_:#%./~%-]", #input + 1)
+	local end_byte = token_end and token_end - 1 or #full_text
 	return {
 		range = {
 			start = { line = 0, character = utf16_index(input, start_byte) },
-			["end"] = { line = 0, character = utf16_index(input, #input) },
+			["end"] = { line = 0, character = utf16_index(full_text, end_byte) },
 		},
 		newText = word,
 	}
@@ -110,12 +112,13 @@ function M.make_history_provider(api, limit)
 		local items = {}
 		for _, history in ipairs(histories or {}) do
 			local single_line = type(history) == "string" and not history:find("[\r\n]")
-			local path_matches = metadata.completionType ~= "dir" or api.isdirectory(history)
+			local candidate = prefix and history:sub(complete_byte + 1) or history
+			local path_matches = metadata.completionType ~= "dir" or api.isdirectory(candidate)
 			path_matches = path_matches
-				and (metadata.completionType ~= "file" or api.isdirectory(history) or api.isfile(history))
+				and (metadata.completionType ~= "file" or api.isdirectory(candidate) or api.isfile(candidate))
 			local prefix_matches = prefix == nil or vim.startswith(history, prefix)
 			if single_line and path_matches and prefix_matches then
-				table.insert(items, { label = prefix and history:sub(complete_byte + 1) or history })
+				table.insert(items, { label = candidate })
 			end
 		end
 		return { items = items }
@@ -155,7 +158,7 @@ function M.make_cmdline_provider(api)
 				or vim.startswith(word:lower(), input:gsub("^help%s+", ""):lower())
 			if help_matches then
 				local item = completion_items({ word }).items[1]
-				item.textEdit = completion_edit(input, word)
+				item.textEdit = completion_edit(input, document and document.text or input, word)
 				item.textEdit.newText = item.insertText or word
 				table.insert(items, item)
 			end
