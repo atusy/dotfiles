@@ -137,6 +137,11 @@ Deno.test("gitcommit completion offers conventional commit types", async () => {
   assertEquals(labels.includes("feat"), true);
 });
 
+Deno.test("gitcommit completion ignores other language ids", async () => {
+  const labels = await completionLabels("markdown", "");
+  assertEquals(labels.includes("feat"), false);
+});
+
 Deno.test("gitcommit completion uses emoji entries from the commit template", async () => {
   const root = await Deno.makeTempDir();
   try {
