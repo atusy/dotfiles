@@ -45,11 +45,6 @@ return {
 			return
 		end
 
-		if vim.tbl_contains(vim.lsp.config.tsgo.filetypes, ft) then
-			vim.lsp.config.ts_ls.root_dir(bufnr, on_dir)
-			return
-		end
-
 		on_dir()
 	end,
 	on_init = function(client)

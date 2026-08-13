@@ -100,7 +100,6 @@ function M.setup()
 			vim.schedule(function()
 				vim.lsp.enable({
 					"copilot",
-					"denols",
 					"kakehashi",
 				})
 			end)
