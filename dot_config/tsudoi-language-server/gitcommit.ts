@@ -4,7 +4,8 @@ import type { RequestContext } from "@atusy/tsudoi-language-server/types";
 import { basename, dirname, isAbsolute, join } from "node:path";
 import { fileURLToPath } from "node:url";
 
-const emoji = /\p{Regional_Indicator}{2}|\p{Extended_Pictographic}/u;
+const templateMarker =
+  /[\u{1F600}-\u{1F64F}\u{1F300}-\u{1F5FF}\u{1F680}-\u{1F6FF}\u{1F1E0}-\u{1F1FF}\u2500-\u2BEF\u2702-\u27B0\u{1F926}-\u{1F937}\u{10000}-\u{10FFFF}\u2640-\u2642\u2600-\u2B55\u200D\u23CF\u23E9\u231A\uFE0F\u3030]/u;
 
 const conventionalCommitTypes = [
   "build",
@@ -132,7 +133,7 @@ export async function* completeGitCommit(
     recentSubjects(root),
   ]);
   const templateItems = template.filter(
-    (line) => emoji.test(line),
+    (line) => templateMarker.test(line),
   );
   const semantic = templateItems.length === 0;
   if (!subject.match(/\s/u) && !(semantic && subject.includes(":"))) {

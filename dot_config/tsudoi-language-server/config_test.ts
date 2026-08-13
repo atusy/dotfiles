@@ -163,12 +163,16 @@ Deno.test("gitcommit completion uses emoji entries from the commit template", as
   const root = await Deno.makeTempDir();
   try {
     await Deno.mkdir(join(root, ".git"));
-    await Deno.writeTextFile(join(root, ".gitmessage"), "✨ feat:\nplain\n");
+    await Deno.writeTextFile(
+      join(root, ".gitmessage"),
+      "✨ feat:\n─ chore:\nplain\n",
+    );
     const uri = pathToFileURL(join(root, ".git", "COMMIT_EDITMSG")).href;
 
     const labels = await completionLabels("gitcommit", "", uri);
 
     assertEquals(labels.includes("✨ feat:"), true);
+    assertEquals(labels.includes("─ chore:"), true);
   } finally {
     await Deno.remove(root, { recursive: true });
   }
