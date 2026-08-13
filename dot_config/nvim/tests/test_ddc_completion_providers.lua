@@ -106,4 +106,73 @@ T["history provider filters file and directory completion types"] = function()
 	expect.equality(dirs.items, { { label = "/tmp/dir" } })
 end
 
+local function cmdline_provider(results)
+	local calls = {}
+	local provider = require("atusy.lsp.ddc_completion").make_cmdline_provider({
+		getcompletion = function(input, completion_type)
+			table.insert(calls, { input, completion_type })
+			return results
+		end,
+	})
+	return provider, calls
+end
+
+T["cmdline provider excludes unsupported command types"] = function()
+	for _, cmd_type in ipairs({ "/", "?", ">", "=", "@" }) do
+		local provider, calls = cmdline_provider({ "unused" })
+		local result = provider(request(cmd_type, "", "x"), { text = "x", version = 1 })
+		expect.equality(result.items, {})
+		expect.equality(calls, {})
+	end
+end
+
+T["cmdline provider completes Ex commands and buffers"] = function()
+	local provider, calls = cmdline_provider({ "buffer", "bdelete" })
+	local result = provider(request(":", "command", "b"), { text = "b", version = 1 })
+	expect.equality(calls, { { "b", "cmdline" } })
+	expect.equality(result.items, { { label = "buffer" }, { label = "bdelete" } })
+end
+
+T["cmdline provider restores no-prefixed set options"] = function()
+	local provider = cmdline_provider({ "ignorecase" })
+	local params = request(":", "option", "set noig")
+	params.xDdc.completePos = 4
+	local result = provider(params, { text = "set noig", version = 1 })
+	expect.equality(result.items, { { label = "noignorecase" } })
+end
+
+T["cmdline provider head-filters help tags"] = function()
+	local provider = cmdline_provider({ "lua-guide", "vim.lua", "lua.txt" })
+	local result = provider(request(":", "help", "help lua"), { text = "help lua", version = 1 })
+	expect.equality(result.items, { { label = "lua-guide" }, { label = "lua.txt" } })
+end
+
+T["cmdline provider preserves absolute and tilde paths"] = function()
+	local absolute = cmdline_provider({ "/Users/atusy/file" })
+	local tilde = cmdline_provider({ "~/file" })
+	expect.equality(
+		absolute(request(":", "file", "edit /Users/atusy/f"), {
+			text = "edit /Users/atusy/f",
+			version = 1,
+		}).items,
+		{ { label = "/Users/atusy/file" } }
+	)
+	expect.equality(
+		tilde(request(":", "file", "edit ~/f"), {
+			text = "edit ~/f",
+			version = 1,
+		}).items,
+		{ { label = "~/file" } }
+	)
+end
+
+T["cmdline provider completes from text before a middle cursor"] = function()
+	local provider, calls = cmdline_provider({ "getbuffer" })
+	local params = request(":", "function", "call getb")
+	params.position.character = 8
+	local result = provider(params, { text = "call getb()", version = 1 })
+	expect.equality(calls, { { "call get", "cmdline" } })
+	expect.equality(result.items, { { label = "getbuffer" } })
+end
+
 return T

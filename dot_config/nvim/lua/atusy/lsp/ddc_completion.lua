@@ -75,6 +75,45 @@ function M.make_history_provider(api, limit)
 	end
 end
 
+local excluded_cmd_types = {
+	["/"] = true,
+	["?"] = true,
+	[">"] = true,
+	["="] = true,
+	["@"] = true,
+}
+
+---@param api { getcompletion: fun(input: string, completion_type: string): string[] }
+---@return fun(params: table, document: table?): table
+function M.make_cmdline_provider(api)
+	return function(params, document)
+		local metadata = params.xDdc or {}
+		if excluded_cmd_types[metadata.cmdType] then
+			return { items = {} }
+		end
+
+		local input = text_before_cursor(params, document)
+		local ok, words = pcall(api.getcompletion, input, "cmdline")
+		if not ok then
+			return { items = {} }
+		end
+
+		local complete_str = input:sub((metadata.completePos or 0) + 1)
+		local items = {}
+		for _, word in ipairs(words or {}) do
+			if complete_str:sub(1, 2) == "no" and vim.startswith(input, "set") then
+				word = "no" .. word
+			end
+			local help_matches = not vim.startswith(input, "help ")
+				or vim.startswith(word:lower(), input:gsub("^help%s+", ""):lower())
+			if help_matches then
+				table.insert(items, completion_items({ word }).items[1])
+			end
+		end
+		return { items = items }
+	end
+end
+
 ---@param dispatchers vim.lsp.rpc.Dispatchers
 ---@param opts { provider: fun(params: table, document: table?): table? }
 ---@return vim.lsp.rpc.Client
