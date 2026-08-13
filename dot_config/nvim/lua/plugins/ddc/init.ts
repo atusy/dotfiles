@@ -7,6 +7,8 @@ export class Config extends BaseConfig {
   override config(args: ConfigArguments): Promise<void> {
     args.setAlias("source", "ex_command_history", "cmdline_history");
     args.setAlias("source", "nvim-input", "nvim-lsp-cmdline");
+    args.setAlias("source", "nvim-cmdline-history", "nvim-lsp-cmdline");
+    args.setAlias("source", "nvim-ex-command-history", "nvim-lsp-cmdline");
     args.setAlias("filter", "matcher_head_initial", "matcher_head");
     args.setAlias("filter", "converter_ex_command", "converter_string_match");
 
@@ -23,9 +25,9 @@ export class Config extends BaseConfig {
       ],
       sources: ["nvim-lsp"],
       cmdlineSources: {
-        ":": ["cmdline", "nvim-lsp-cmdline", "ex_command_history"],
-        "@": ["nvim-input", "cmdline_history", "nvim-lsp-cmdline"],
-        ">": ["nvim-input", "cmdline_history", "nvim-lsp-cmdline"],
+        ":": ["cmdline", "nvim-lsp-cmdline", "nvim-ex-command-history"],
+        "@": ["nvim-input", "nvim-cmdline-history", "nvim-lsp-cmdline"],
+        ">": ["nvim-input", "nvim-cmdline-history", "nvim-lsp-cmdline"],
         "/": ["nvim-lsp-cmdline"],
         "?": ["nvim-lsp-cmdline"],
         "-": ["nvim-lsp-cmdline"],
@@ -47,7 +49,7 @@ export class Config extends BaseConfig {
           isVolatile: true,
           minAutoCompleteLength: 0,
         },
-        cmdline_history: {
+        "nvim-cmdline-history": {
           mark: "HIST",
           minAutoCompleteLength: 0,
           minKeywordLength: 2,
@@ -85,7 +87,7 @@ export class Config extends BaseConfig {
         },
 
         // aliases
-        ex_command_history: {
+        "nvim-ex-command-history": {
           mark: "HIST",
           minAutoCompleteLength: 0,
           matchers: ["matcher_head"],
@@ -106,6 +108,14 @@ export class Config extends BaseConfig {
           languageId: "ddc_input",
           allowedServers: ["nvim-input"],
           completePosition: "head",
+        },
+        "nvim-cmdline-history": {
+          languageId: "ddc_cmdline_history",
+          allowedServers: ["nvim-cmdline-history"],
+        },
+        "nvim-ex-command-history": {
+          languageId: "ddc_cmdline_history",
+          allowedServers: ["nvim-cmdline-history"],
         },
       },
       filterParams: {
