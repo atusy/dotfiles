@@ -69,6 +69,33 @@ async function commitTemplate(root: string): Promise<string[]> {
   ) ?? [];
 }
 
+async function recentSubjects(root: string): Promise<string[]> {
+  try {
+    const output = await new Deno.Command("git", {
+      args: ["log", "-n", "100", "--format=%s"],
+      cwd: root,
+      stdout: "piped",
+      stderr: "null",
+    }).output();
+    return output.success
+      ? new TextDecoder().decode(output.stdout).split(/\r?\n/).filter(Boolean)
+      : [];
+  } catch {
+    return [];
+  }
+}
+
+function matchingSubjects(
+  logs: readonly string[],
+  subject: string,
+): CompletionItem[] {
+  const currentWord = subject.match(/[\p{L}\p{N}_]+$/u)?.[0] ?? "";
+  const prefix = subject.slice(0, subject.length - currentWord.length);
+  return logs
+    .filter((log) => log.startsWith(subject))
+    .map((log) => ({ label: log.slice(prefix.length) }));
+}
+
 export async function* completeGitCommit(
   context: RequestContext,
   params: CompletionParams,
@@ -80,12 +107,27 @@ export async function* completeGitCommit(
   if (document === undefined) {
     return;
   }
-  const templateItems = (await commitTemplate(gitRoot(document.uri))).filter(
-    (line) => emoji.test(line),
-  );
-  if (templateItems.length > 0) {
-    yield templateItems.map((label) => ({ label }));
+  const line = document.getText().split(/\r?\n/)[params.position.line];
+  if (line === undefined) {
     return;
   }
-  yield conventionalCommitTypes.map((label) => ({ label }));
+  const subject = line.slice(0, params.position.character);
+  const root = gitRoot(document.uri);
+  const [template, logs] = await Promise.all([
+    commitTemplate(root),
+    recentSubjects(root),
+  ]);
+  const templateItems = template.filter(
+    (line) => emoji.test(line),
+  );
+  const semantic = templateItems.length === 0;
+  if (!subject.match(/\s/u) && !(semantic && subject.includes(":"))) {
+    yield (semantic ? conventionalCommitTypes : templateItems).map((label) => ({
+      label,
+    }));
+  }
+  const logItems = matchingSubjects(logs, subject);
+  if (logItems.length > 0) {
+    yield logItems;
+  }
 }

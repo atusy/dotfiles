@@ -118,3 +118,36 @@ Deno.test("gitcommit completion uses emoji entries from the commit template", as
     await Deno.remove(root, { recursive: true });
   }
 });
+
+Deno.test("gitcommit completion continues matching recent subjects", async () => {
+  const root = await Deno.makeTempDir();
+  try {
+    for (
+      const args of [
+        ["init", "--quiet"],
+        [
+          "-c",
+          "user.name=Test",
+          "-c",
+          "user.email=test@example.com",
+          "commit",
+          "--quiet",
+          "--allow-empty",
+          "-m",
+          "feat: support input",
+        ],
+      ]
+    ) {
+      const output = await new Deno.Command("git", { args, cwd: root })
+        .output();
+      assertEquals(output.success, true);
+    }
+    const uri = pathToFileURL(join(root, ".git", "COMMIT_EDITMSG")).href;
+
+    const labels = await completionLabels("gitcommit", "feat: ", uri);
+
+    assertEquals(labels.includes("support input"), true);
+  } finally {
+    await Deno.remove(root, { recursive: true });
+  }
+});
