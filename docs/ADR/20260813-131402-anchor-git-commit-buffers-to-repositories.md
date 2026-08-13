@@ -2,7 +2,7 @@
 
 | | |
 |---|---|
-| **Status** | proposed |
+| **Status** | accepted |
 | **Date** | 2026-08-13 |
 | **Decision-makers** | atusy |
 | **Consulted** | Codex |
@@ -69,3 +69,5 @@ Automated tests must show that a root-local `gitcommit` URI resolves repository 
 ## More Information
 
 Implementation spans `dot_config/nvim/lua/plugins/git/commit.lua` and `dot_config/tsudoi-language-server/gitcommit.ts`.
+
+Implemented on 2026-08-13 in commits `cc6fcff6`, `d0c06fe0`, `0c8ad229`, and `9f04e653`.
