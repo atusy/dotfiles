@@ -2,7 +2,7 @@
 
 | | |
 |---|---|
-| **Status** | proposed |
+| **Status** | accepted |
 | **Date** | 2026-08-14 |
 | **Decision-makers** | atusy |
 | **Consulted** | Codex |
@@ -143,6 +143,6 @@ The decision is confirmed when:
 
 ## More Information
 
-The implementation is tracked by `__ignored/plan.md` in the primary chezmoi
-worktree. The ADR will become accepted only after the legacy dependencies are
-removed, the live configuration is applied, and the revise pipeline converges.
+The implementation was tracked by `__ignored/plan.md` in the primary chezmoi
+worktree. The legacy dependencies were removed, the live configuration was
+applied, and the implementation review converged before this ADR was accepted.
