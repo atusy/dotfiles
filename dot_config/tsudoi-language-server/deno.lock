@@ -1,10 +1,23 @@
 {
   "version": "5",
   "specifiers": {
+    "jsr:@std/assert@^1.0.14": "1.0.19",
+    "jsr:@std/internal@^1.0.12": "1.0.14",
     "npm:vscode-languageserver-protocol@^3.18.2": "3.18.2",
     "npm:vscode-languageserver-textdocument@^1.0.12": "1.0.12",
     "npm:vscode-languageserver-types@^3.18.0": "3.18.0",
     "npm:wordnet@2": "2.0.0"
+  },
+  "jsr": {
+    "@std/assert@1.0.19": {
+      "integrity": "eaada96ee120cb980bc47e040f82814d786fe8162ecc53c91d8df60b8755991e",
+      "dependencies": [
+        "jsr:@std/internal"
+      ]
+    },
+    "@std/internal@1.0.14": {
+      "integrity": "291516b3d4c35024d6ffbc0a9df5bf4c64116e05b50012cf846710152d2ffdf7"
+    }
   },
   "npm": {
     "vscode-jsonrpc@9.0.1": {
