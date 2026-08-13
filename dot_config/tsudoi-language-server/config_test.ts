@@ -142,6 +142,23 @@ Deno.test("gitcommit completion ignores other language ids", async () => {
   assertEquals(labels.includes("feat"), false);
 });
 
+Deno.test("gitcommit completion precedes path completion", async () => {
+  const root = await Deno.makeTempDir();
+  try {
+    await Deno.mkdir(join(root, ".git"));
+    await Deno.writeTextFile(join(root, ".git", "fixture"), "");
+    const uri = pathToFileURL(join(root, ".git", "COMMIT_EDITMSG")).href;
+
+    const batches = await completionBatches("gitcommit", "f", uri);
+    const pathBatch = batches.findIndex((labels) => labels.includes("fixture"));
+
+    assertEquals(batches[0]?.includes("feat"), true);
+    assertEquals(pathBatch > 0, true);
+  } finally {
+    await Deno.remove(root, { recursive: true });
+  }
+});
+
 Deno.test("gitcommit completion uses emoji entries from the commit template", async () => {
   const root = await Deno.makeTempDir();
   try {
