@@ -73,11 +73,6 @@ local function config()
 		vim.notify(vim.inspect(vim.fn["pum#current_item"]()))
 	end)
 
-	-- on insert
-	vim.keymap.set("i", "<C-X><C-F>", function()
-		vim.fn["ddc#map#manual_complete"]({ sources = { "file" } })
-	end)
-
 	-- on cmdline
 	for _, lhs in pairs({ ":", "/", "?" }) do
 		vim.keymap.set({ "n", "x" }, lhs, function()
@@ -170,15 +165,8 @@ return {
 	{ "https://github.com/Shougo/ddc-source-cmdline_history" },
 	{ "https://github.com/Shougo/ddc-source-input" },
 	{ "https://github.com/Shougo/ddc-source-lsp" },
-	{ "https://github.com/Shougo/ddc-source-shell_native" },
+	{ "https://github.com/atusy/ddc-source-lsp-cmdline", dev = true },
 	{ "https://github.com/Shougo/ddc-ui-pum" },
-	{
-		"https://github.com/uga-rosa/ddc-source-dictionary",
-		build = function()
-			local d = vim.fn.stdpath("data") --[[@as string]]
-			vim.fn.mkdir(vim.fs.joinpath(d, "ddc", "dictionary"), "p")
-		end,
-	},
 	{
 		"https://github.com/uga-rosa/ddc-source-lsp-setup",
 		event = "LspAttach",
@@ -186,24 +174,12 @@ return {
 			require("ddc_source_lsp_setup").setup({ respect_trigger = false })
 		end,
 	},
-	{ "https://github.com/LumaKernel/ddc-source-file" },
 	-- filter
 	{ "https://github.com/tani/ddc-fuzzy" },
-	-- sorter
-	{ "https://github.com/Shougo/ddc-filter-sorter_rank" },
 	-- matcher
 	{ "https://github.com/Shougo/ddc-filter-matcher_head" },
-	{ "https://github.com/Shougo/ddc-filter-matcher_vimregexp" },
-	{ "https://github.com/matsui54/ddc-filter_editdistance" },
 	-- converter
-	{ "https://github.com/Shougo/ddc-filter-converter_remove_overlap" },
 	{ "https://github.com/Shougo/ddc-filter-converter_truncate_abbr" },
-	{ "https://github.com/atusy/ddc-filter_string-match" },
-	{ "https://github.com/atusy/ddc-filter-converter_dictionary" },
 	-- dictionaries for ddc (install only)
 	{ "https://github.com/dwyl/english-words", lazy = true },
-	{ "https://github.com/gunyarakun/kantan-ej-dictionary", lazy = true },
-	{ "https://github.com/matthewreagan/WebstersEnglishDictionary", lazy = true },
-	-- for debugging (install only)
-	{ "https://github.com/Shougo/ddc-ui-native", lazy = true },
 }
