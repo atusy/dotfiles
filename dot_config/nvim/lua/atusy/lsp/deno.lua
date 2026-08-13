@@ -1,6 +1,5 @@
 local M = {}
 
-local client_name = "denols-cache"
 local cache_root = vim.fs.joinpath(vim.fn.stdpath("cache"), "deno", "modules")
 
 ---@param specifier string
@@ -72,28 +71,6 @@ local function materialize(url)
 	return target
 end
 
----@param buf integer
-local function start_client(buf)
-	local client = vim.lsp.get_clients({ name = client_name })[1]
-	if client then
-		vim.lsp.buf_attach_client(buf, client.id)
-		return
-	end
-
-	vim.lsp.start({
-		name = client_name,
-		cmd = { "deno", "lsp" },
-		cmd_env = { NO_COLOR = true },
-		root_dir = cache_root,
-		settings = { deno = { enable = true } },
-	}, {
-		bufnr = buf,
-		reuse_client = function(candidate)
-			return candidate.name == client_name
-		end,
-	})
-end
-
 ---@param uri string
 ---@return string?
 function M.to_url(uri)
@@ -151,7 +128,6 @@ local function redirect(buf, uri)
 	if filetype then
 		vim.bo[buf].filetype = filetype
 	end
-	start_client(buf)
 end
 
 function M.setup()
@@ -162,28 +138,6 @@ function M.setup()
 		desc = "Redirect Deno URIs to a local module cache",
 		callback = function(ctx)
 			redirect(ctx.buf, ctx.match)
-		end,
-	})
-	vim.api.nvim_create_autocmd("BufReadPost", {
-		group = group,
-		pattern = vim.fs.joinpath(cache_root, "*"),
-		desc = "Attach Deno LSP to cached remote modules",
-		callback = function(ctx)
-			vim.schedule(function()
-				if vim.api.nvim_buf_is_valid(ctx.buf) then
-					start_client(ctx.buf)
-				end
-			end)
-		end,
-	})
-	vim.api.nvim_create_autocmd("LspAttach", {
-		group = group,
-		callback = function(ctx)
-			local client = vim.lsp.get_client_by_id(ctx.data.client_id)
-			local path = vim.api.nvim_buf_get_name(ctx.buf)
-			if client and client.name == "kakehashi" and vim.startswith(path, cache_root) then
-				vim.lsp.buf_detach_client(ctx.buf, client.id)
-			end
 		end,
 	})
 end
