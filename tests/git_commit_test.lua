@@ -1,4 +1,5 @@
 local split_path
+local mappings = {}
 
 vim = {
 	tbl_deep_extend = function()
@@ -36,7 +37,11 @@ vim = {
 		end,
 		nvim_create_autocmd = function() end,
 	},
-	keymap = { set = function() end },
+	keymap = {
+		set = function(_, lhs, rhs)
+			mappings[lhs] = rhs
+		end,
+	},
 	fn = {
 		tempname = function()
 			return "/tmp/nvim/commit-123"
