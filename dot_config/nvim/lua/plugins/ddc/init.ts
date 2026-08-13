@@ -4,12 +4,7 @@ import {
 } from "jsr:@shougo/ddc-vim@~10.2.0/config";
 
 export class Config extends BaseConfig {
-  override async config(args: ConfigArguments): Promise<void> {
-    const lazyroot = (await args.denops.call(
-      "luaeval",
-      `require("lazy.core.config").options.root`,
-    )) as string;
-
+  override config(args: ConfigArguments): Promise<void> {
     args.setAlias("source", "ex_command_history", "cmdline_history");
     args.setAlias("filter", "matcher_head_initial", "matcher_head");
     args.setAlias("filter", "converter_ex_command", "converter_string_match");
@@ -111,5 +106,6 @@ export class Config extends BaseConfig {
         },
       },
     });
+    return Promise.resolve();
   }
 }
