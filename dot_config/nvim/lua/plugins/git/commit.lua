@@ -39,16 +39,30 @@ local function get_message(ref)
 	vim.notify(res.stderr, vim.log.levels.ERROR)
 end
 
+local function git_root()
+	local res = vim.system({ "git", "rev-parse", "--show-toplevel" }):wait()
+	local root = vim.trim(res.stdout or "")
+	if res.code == 0 and root ~= "" then
+		return root
+	end
+	vim.notify(res.stderr or "Failed to resolve Git repository", vim.log.levels.ERROR)
+end
+
 ---@param opts? { args: string[] }
 local function exec(opts)
 	opts = vim.tbl_deep_extend("keep", opts or {}, { args = {} })
+	local root = git_root()
+	if not root then
+		return
+	end
 
 	-- init UI
 	vim.cmd.GinDiff({ bang = true, args = { "++opener=tabnew", "--staged" } })
 	vim.cmd.GinBuffer({ args = { "++opener=topleft vsplit", "graph", "-n", "20" } })
 	vim.api.nvim_set_option_value("number", true, { win = 0, scope = "local" })
 	vim.cmd.GinStatus({ args = { "++opener=aboveleft split" } })
-	vim.cmd.split({ mods = { split = "aboveleft" }, args = { vim.fn.tempname() .. ".gitcommit" } })
+	local name = "." .. vim.fs.basename(vim.fn.tempname()) .. ".gitcommit"
+	vim.cmd.split({ mods = { split = "aboveleft" }, args = { vim.fs.joinpath(root, name) } })
 	pcall(vim.treesitter.start) -- manually start to avoid unexpected skip (often happens after :LazySync)
 
 	-- get ui data
