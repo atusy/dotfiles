@@ -7,11 +7,11 @@ import { join } from "node:path";
 import { pathToFileURL } from "node:url";
 import configFactory from "./tsudoi.config.ts";
 
-async function completionLabels(
+async function completionBatches(
   languageId: string,
   text: string,
   uri = pathToFileURL("/tmp/COMMIT_EDITMSG").href,
-): Promise<string[]> {
+): Promise<string[][]> {
   const config = await configFactory();
   const complete = config.methods?.["textDocument/completion"] as
     | MethodHandler<"textDocument/completion">
@@ -25,7 +25,7 @@ async function completionLabels(
     positionAt: () => ({ line: 0, character: 0 }),
     offsetAt: () => 0,
   };
-  const labels: string[] = [];
+  const batches: string[][] = [];
 
   for await (
     const batch of complete!(
@@ -50,9 +50,17 @@ async function completionLabels(
       },
     )
   ) {
-    labels.push(...batch.map((item) => item.label));
+    batches.push(batch.map((item) => item.label));
   }
-  return labels;
+  return batches;
+}
+
+async function completionLabels(
+  languageId: string,
+  text: string,
+  uri = pathToFileURL("/tmp/COMMIT_EDITMSG").href,
+): Promise<string[]> {
+  return (await completionBatches(languageId, text, uri)).flat();
 }
 
 async function initializeRepository(root: string, subjects: readonly string[]) {
