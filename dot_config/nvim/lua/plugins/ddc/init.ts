@@ -26,7 +26,7 @@ export class Config extends BaseConfig {
 
     const sources = makeSources([]);
     ["sh", "bash", "zsh"].map((x) =>
-      args.contextBuilder.patchFiletype(x, { sources: makeSources(["zsh"]) })
+      args.contextBuilder.patchFiletype(x, { sources: makeSources(["zsh"]) }),
     );
     args.contextBuilder.patchFiletype("fish", {
       sources: makeSources(["fish"]),
@@ -36,10 +36,7 @@ export class Config extends BaseConfig {
     args.setAlias("source", "shell_history", "dictionary");
     args.setAlias("source", "ex_command_history", "cmdline_history");
     args.setAlias("filter", "matcher_head_initial", "matcher_head");
-    args.setAlias("filter", "matcher_head_shell_history", "matcher_head");
-    args.setAlias("filter", "matcher_word", "matcher_string_match");
     args.setAlias("filter", "converter_ex_command", "converter_string_match");
-    args.setAlias("filter", "converter_word", "converter_string_match");
 
     args.contextBuilder.patchGlobal({
       ui: "pum",
@@ -78,24 +75,6 @@ export class Config extends BaseConfig {
           sorters: ["sorter_fuzzy"],
           converters: ["converter_fuzzy"],
           timeout: 1000,
-        },
-        around: {
-          mark: "A",
-          matchers: ["matcher_head_initial", "matcher_fuzzy"],
-          converters: [
-            "converter_fuzzy",
-            "converter_dictionary",
-            "converter_truncate_abbr",
-          ],
-        },
-        buffer: {
-          mark: "B",
-          matchers: ["matcher_head_initial", "matcher_fuzzy"],
-          converters: [
-            "converter_fuzzy",
-            "converter_dictionary",
-            "converter_truncate_abbr",
-          ],
         },
         cmdline: {
           mark: "CMD",
@@ -178,22 +157,11 @@ export class Config extends BaseConfig {
         },
       },
       sourceParams: {
-        around: { maxSize: 500 },
-        buffer: {
-          requireSameFiletype: false,
-          limitBytes: 50000,
-          fromAltBuf: true,
-          forceCollect: true,
-        },
-        copilot: { copilot: "lua" },
         dictionary: {
           exactLength: 2,
           firstCaseInsensitive: true,
           paths: [join(lazyroot, "english-words/words_alpha.txt")],
           databasePath: join(stddata, "ddc", "dictionary", "base.sqlite3"),
-        },
-        file: {
-          filenameChars: "[:keyword:].",
         },
         lsp: {
           enableResolveItem: true,
@@ -227,22 +195,12 @@ export class Config extends BaseConfig {
         matcher_head_initial: {
           maxMatchLength: 1,
         },
-        matcher_head_shell_history: {
-          maxMatchLength: 2,
-        },
         // converter
         converter_dictionary: {
           dicts: [
             "kantan-ej-dictionary/kantan-ej-dictionary.json",
             "WebstersEnglishDictionary/dictionary.json",
           ].map((x) => join(lazyroot, x)),
-        },
-        converter_word: {
-          regexp: "^[a-zA-Z0-9_]+",
-          convertAbbr: true,
-        },
-        matcher_word: {
-          regexp: "^[a-zA-Z0-9_]+",
         },
       },
     });
