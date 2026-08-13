@@ -13,14 +13,7 @@ async function get_fpath() {
 }
 
 const makeSources = (sources: string[]) => {
-  return [
-    "lsp",
-    ...sources,
-    // "file",
-    "around",
-    "buffer",
-    "dictionary",
-  ];
+  return ["lsp", ...sources, "dictionary"];
 };
 
 export class Config extends BaseConfig {
@@ -93,10 +86,7 @@ export class Config extends BaseConfig {
         },
         around: {
           mark: "A",
-          matchers: [
-            "matcher_head_initial",
-            "matcher_fuzzy",
-          ],
+          matchers: ["matcher_head_initial", "matcher_fuzzy"],
           converters: [
             "converter_fuzzy",
             "converter_dictionary",
@@ -105,10 +95,7 @@ export class Config extends BaseConfig {
         },
         buffer: {
           mark: "B",
-          matchers: [
-            "matcher_head_initial",
-            "matcher_fuzzy",
-          ],
+          matchers: ["matcher_head_initial", "matcher_fuzzy"],
           converters: [
             "converter_fuzzy",
             "converter_dictionary",
@@ -123,10 +110,7 @@ export class Config extends BaseConfig {
         },
         dictionary: {
           mark: "Dict",
-          matchers: [
-            "matcher_head_initial",
-            "matcher_fuzzy",
-          ],
+          matchers: ["matcher_head_initial", "matcher_fuzzy"],
           converters: ["converter_fuzzy", "converter_dictionary"],
           keywordPattern: "[a-zA-Z]+",
         },
@@ -149,12 +133,19 @@ export class Config extends BaseConfig {
           isVolatile: true,
           replaceSourceInputPattern: "[^/]*$", // do not remove slash so that file completion works
         },
+        "lsp-cmdline": {
+          mark: "L",
+          forceCompletionPattern: "(\\.|::|->|/)\\w*",
+          dup: "force",
+          isVolatile: true,
+          volatilePattern: "[p{P}p{S}]",
+        },
         lsp: {
           mark: "L",
           forceCompletionPattern: "(\\.|::|->|/)\\w*",
           dup: "force",
           isVolatile: true,
-          volatilePattern: "[\p{P}\p{S}]",
+          volatilePattern: "[p{P}p{S}]",
         },
         shell_history: {
           mark: "HIST_SH",
