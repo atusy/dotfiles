@@ -109,6 +109,7 @@ cmd = [
   'exec deno run -A --import-map "$HOME/.config/tsudoi-language-server/deno.json" "$HOME/.config/tsudoi-language-server/cli.ts" --config "$HOME/.config/tsudoi-language-server/tsudoi.config.ts"',
 ]
 languages = ["*"]
+forceStart = true
 
 [captureMappings._.highlights]
 "markup.heading" = "class"
