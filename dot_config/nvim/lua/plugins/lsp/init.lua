@@ -86,17 +86,19 @@ return {
 					local client = vim.lsp.get_client_by_id(ev.data.client_id)
 					if client and client.name == "kakehashi" then
 						vim.api.nvim_create_autocmd("CursorHold", {
-							once = true,
+							buf = ev.buf,
 							callback = function()
 								require("kakehashi.extra.context").toggle()
 								require("kakehashi.extra.commentstring").watch()
 								require("kakehashi.extra.conceal").toggle()
+								return true
 							end,
 						})
 						vim.api.nvim_create_autocmd("InsertEnter", {
-							once = true,
+							buf = ev.buf,
 							callback = function()
 								require("kakehashi.extra.endwise").watch()
+								return true
 							end,
 						})
 					end
