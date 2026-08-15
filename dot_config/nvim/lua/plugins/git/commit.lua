@@ -73,9 +73,6 @@ local function exec(opts)
 	local tab = vim.api.nvim_get_current_tabpage()
 	local buf = vim.api.nvim_get_current_buf()
 
-	-- options
-	vim.bo[buf].buftype = "nofile"
-
 	-- autocmd
 	local augroup = vim.api.nvim_create_augroup(tostring(buf), {})
 	vim.api.nvim_create_autocmd({ "TabClosed", "BufHidden", "BufDelete" }, {
@@ -89,6 +86,7 @@ local function exec(opts)
 	})
 
 	-- mappings
+	vim.keymap.set("n", "<C-S>", "<Plug>(C-S)") -- disable saving
 	vim.keymap.set("n", "<Plug>(C-S)<C-Q>", function()
 		if commit(buf, opts and opts.args or {}, root) == 0 then
 			leave(tab, buf, augroup)
