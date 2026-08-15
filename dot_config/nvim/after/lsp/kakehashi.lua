@@ -41,7 +41,13 @@ return {
 			return
 		end
 		local ft = vim.bo[bufnr].filetype
-		if ft == "gin-buffer" or ft == "toggleterm" then
+		if ft == "toggleterm" then
+			return
+		end
+
+		local bufname = vim.api.nvim_buf_get_name(bufnr)
+		if bufname:find(" ", 1, true) then
+			vim.notify("Skip attaching to kakehashi due to spaces in bufname: " .. bufname, vim.log.levels.WARN)
 			return
 		end
 
