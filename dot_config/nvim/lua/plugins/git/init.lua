@@ -112,7 +112,7 @@ local function setup_gin()
 				if
 					vim.fn.getcmdtype() == ":"
 					and vim.fn.getcmdline() == "q!"
-					and vim.api.nvim_buf_get_commands(0, {}).Cancel
+					and vim.api.nvim_buf_get_commands(0, {}).Cancel ---@diagnostic disable-line: undefined-field
 				then
 					return "up <Bar> Cancel"
 				end
