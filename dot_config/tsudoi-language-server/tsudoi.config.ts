@@ -18,15 +18,14 @@ import {
   handleKakehashiBridgeRouting,
 } from "./kakehashi-bridge-routing.ts";
 
-const completeMyShell = useMyShellCompletion();
+const config: TsudoiConfigFactory = async () => {
+  const scanner = segmentScanner("ja"); // build outside handler for memoization
+  const completeMyShell = useMyShellCompletion();
+  const completeDictionary = await useDictionaryCompletion({
+    files: ["/Users/atusy/.local/share/nvim/lazy/english-words/words_alpha.txt"],
+  });
 
-const completeDictionary = await useDictionaryCompletion({
-  files: ["/Users/atusy/.local/share/nvim/lazy/english-words/words_alpha.txt"],
-});
-
-const config: TsudoiConfigFactory = () => {
-  const scanner = segmentScanner("ja"); // build outside handler to stabilize memoization of complete functions
-  return Promise.resolve({
+  return {
     methods: {
       initialize: (context) => {
         return Promise.resolve(
@@ -53,7 +52,7 @@ const config: TsudoiConfigFactory = () => {
     customMethods: {
       "kakehashi/bridge/routing": handleKakehashiBridgeRouting,
     },
-  });
+  };
 };
 
 export default config;
