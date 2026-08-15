@@ -132,6 +132,13 @@ export class Config extends BaseConfig {
         },
       },
     });
+    args.contextBuilder.patchFiletype("gitcommit", {
+      sourceOptions: {
+        "nvim-lsp": {
+          sorters: [],
+        },
+      },
+    });
     return Promise.resolve();
   }
 }
