@@ -20,7 +20,7 @@ return {
 					if client.name == "copilot" then
 						return
 					end
-					if vim.bo[bufnr].filetype == "gin-buffer" then
+					if vim.bo[bufnr].buftype == "nofile" then
 						return
 					end
 					require("lsp_signature").on_attach(
