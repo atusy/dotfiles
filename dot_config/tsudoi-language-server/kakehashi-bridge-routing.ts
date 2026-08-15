@@ -12,7 +12,7 @@ function record(value: unknown): Readonly<Record<string, unknown>> {
     : {};
 }
 
-export function advertiseHandleKakehashiBridgeRoutingCapability(
+export function initalizeKakehashiBridgeRouting(
   preparedResult: DeepReadonly<InitializeResult>,
 ): DeepReadonly<InitializeResult> {
   const experimental = record(preparedResult.capabilities.experimental);

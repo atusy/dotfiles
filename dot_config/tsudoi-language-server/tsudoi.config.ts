@@ -10,28 +10,28 @@ import {
 import { completePath, resolvePathStat } from "@atusy/tsudoi-completion-path";
 import { hoverWordnet } from "@atusy/tsudoi-hover-wordnet";
 import type { TsudoiConfigFactory } from "@atusy/tsudoi-language-server/types";
-import { useMyShellCompletion } from "./complete-my-shell.ts";
+import { useMyShellCompletion } from "./completion-my-shell.ts";
 import { formatDocument } from "./formatting.ts";
 import { completeGitCommit } from "./completion-git.ts";
 import {
-  advertiseHandleKakehashiBridgeRoutingCapability,
   handleKakehashiBridgeRouting,
+  initalizeKakehashiBridgeRouting,
 } from "./kakehashi-bridge-routing.ts";
 
 const config: TsudoiConfigFactory = async () => {
   const scanner = segmentScanner("ja"); // build outside handler for memoization
   const completeMyShell = useMyShellCompletion();
   const completeDictionary = await useDictionaryCompletion({
-    files: ["/Users/atusy/.local/share/nvim/lazy/english-words/words_alpha.txt"],
+    files: [
+      "/Users/atusy/.local/share/nvim/lazy/english-words/words_alpha.txt",
+    ],
   });
 
   return {
     methods: {
       initialize: (context) => {
         return Promise.resolve(
-          advertiseHandleKakehashiBridgeRoutingCapability(
-            context.preparedResult,
-          ),
+          initalizeKakehashiBridgeRouting(context.preparedResult),
         );
       },
       "textDocument/completion": async function* (context, params) {
