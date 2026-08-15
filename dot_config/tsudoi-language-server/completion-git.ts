@@ -156,8 +156,8 @@ export async function* completeGitCommit(
   if (!subject.match(/\s/u) && !(semantic && subject.includes(":"))) {
     const baseItems = semantic
       ? subject.includes("(") ? scopesFrom(logs) : [
-        ...prefixesFrom(logs),
         ...conventionalCommitTypes.map((label) => ({ label })),
+        ...prefixesFrom(logs),
       ]
       : templateItems.map((label) => ({ label }));
     if (baseItems.length > 0) {

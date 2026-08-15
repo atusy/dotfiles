@@ -138,6 +138,20 @@ Deno.test("gitcommit completion offers conventional commit types", async () => {
   assertEquals(labels.includes("feat"), true);
 });
 
+Deno.test("gitcommit completion prioritizes conventional types over scoped prefixes", async () => {
+  const root = await Deno.makeTempDir();
+  try {
+    await initializeRepository(root, ["feat(nvim): support input"]);
+    const uri = pathToFileURL(join(root, ".git", "COMMIT_EDITMSG")).href;
+
+    const [labels] = await completionBatches("gitcommit", "fe", uri);
+
+    assertEquals(labels.indexOf("feat") < labels.indexOf("feat(nvim):"), true);
+  } finally {
+    await Deno.remove(root, { recursive: true });
+  }
+});
+
 Deno.test("gitcommit completion ignores other language ids", async () => {
   const labels = await completionLabels("markdown", "");
   assertEquals(labels.includes("feat"), false);
