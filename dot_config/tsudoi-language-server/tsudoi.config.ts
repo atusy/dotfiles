@@ -15,7 +15,7 @@ import type {
   TsudoiConfigFactory,
 } from "@atusy/tsudoi-language-server/types";
 import { formatDocument } from "./formatting.ts";
-import { completeGitCommit } from "./gitcommit.ts";
+import { completeGitCommit } from "./completion-git.ts";
 import { isRoutingParams, routeTypeScript } from "./routing.ts";
 
 function record(value: unknown): Readonly<Record<string, unknown>> {
@@ -83,10 +83,9 @@ const config: TsudoiConfigFactory = () => {
       "textDocument/completion": async function* (context, params) {
         const document = context.tsudoi.documents.get(params.textDocument.uri);
         const languageId = document?.languageId;
-        const completeShell =
-          languageId === undefined
-            ? undefined
-            : shellCompletions[languageId as keyof typeof shellCompletions];
+        const completeShell = languageId === undefined
+          ? undefined
+          : shellCompletions[languageId as keyof typeof shellCompletions];
         if (completeShell !== undefined) {
           yield* completeShell(context, params);
         }
