@@ -152,6 +152,13 @@ Deno.test("gitcommit completion prioritizes conventional types over scoped prefi
   }
 });
 
+Deno.test("gitcommit completion does not duplicate conventional types as dictionary words", async () => {
+  const batches = await completionBatches("gitcommit", "fe");
+  const labels = batches.flat();
+
+  assertEquals(labels.filter((label) => label === "feat").length, 1);
+});
+
 Deno.test("gitcommit completion ignores other language ids", async () => {
   const labels = await completionLabels("markdown", "");
   assertEquals(labels.includes("feat"), false);

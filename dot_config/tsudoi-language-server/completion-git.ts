@@ -20,6 +20,10 @@ const conventionalCommitTypes = [
   "test",
 ] as const;
 
+export function isConventionalCommitType(label: string): boolean {
+  return conventionalCommitTypes.some((type) => type === label);
+}
+
 async function gitRoot(uri: string): Promise<string> {
   let directory: string;
   try {
