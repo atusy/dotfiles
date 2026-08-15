@@ -17,7 +17,10 @@ return {
 					if not client then
 						return
 					end
-					if client.name == "copilot" or client.name == "ts_ls" then
+					if client.name == "copilot" then
+						return
+					end
+					if vim.bo[bufnr].filetype == "gin-buffer" then
 						return
 					end
 					require("lsp_signature").on_attach(
