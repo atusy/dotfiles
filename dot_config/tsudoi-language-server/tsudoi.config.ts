@@ -8,12 +8,12 @@ import {
   segmentScanner,
 } from "@atusy/tsudoi-completion-document";
 import { completePath, resolvePathStat } from "@atusy/tsudoi-completion-path";
-import { useShellCompletion } from "@atusy/tsudoi-completion-shell";
 import { hoverWordnet } from "@atusy/tsudoi-hover-wordnet";
 import type {
   CustomRequestHandler,
   TsudoiConfigFactory,
 } from "@atusy/tsudoi-language-server/types";
+import { useMyShellCompletion } from "./complete-my-shell.ts";
 import { formatDocument } from "./formatting.ts";
 import { completeGitCommit } from "./completion-git.ts";
 import { isRoutingParams, routeTypeScript } from "./routing.ts";
@@ -28,31 +28,7 @@ const bridgeRouting: CustomRequestHandler = async (_context, params) => ({
   result: isRoutingParams(params) ? await routeTypeScript(params) : null,
 });
 
-const completeFish = useShellCompletion("fish", {
-  env: { COLUMNS: "200", DDCVIM: "1" },
-});
-const completeZsh = useShellCompletion("zsh", {
-  env: {
-    COLUMNS: "200",
-    FPATH: await (async () => {
-      const cmd = new Deno.Command("zsh", {
-        args: ["-c", 'echo -n "$FPATH"'],
-      });
-      const output = await cmd.output();
-      return new TextDecoder().decode(output.stdout);
-    })(),
-  },
-});
-const completeXonsh = useShellCompletion("xonsh", {
-  env: { COLUMNS: "200" },
-});
-const shellCompletions = {
-  bash: completeZsh,
-  fish: completeFish,
-  sh: completeZsh,
-  xonsh: completeXonsh,
-  zsh: completeZsh,
-} as const;
+const completeMyShell = useMyShellCompletion();
 
 const completeDictionary = await useDictionaryCompletion({
   files: ["/Users/atusy/.local/share/nvim/lazy/english-words/words_alpha.txt"],
@@ -82,13 +58,7 @@ const config: TsudoiConfigFactory = () => {
       },
       "textDocument/completion": async function* (context, params) {
         const document = context.tsudoi.documents.get(params.textDocument.uri);
-        const languageId = document?.languageId;
-        const completeShell = languageId === undefined
-          ? undefined
-          : shellCompletions[languageId as keyof typeof shellCompletions];
-        if (completeShell !== undefined) {
-          yield* completeShell(context, params);
-        }
+        yield* completeMyShell(context, params);
         if (document?.languageId === "gitcommit") {
           yield* completeGitCommit(context, params);
         }
