@@ -1,3 +1,36 @@
+import type { InitializeResult } from "@atusy/tsudoi-language-server/deps/protocol";
+import type {
+  CustomRequestHandler,
+  DeepReadonly,
+} from "@atusy/tsudoi-language-server/types";
+import { dirname, join } from "node:path";
+import { fileURLToPath, pathToFileURL } from "node:url";
+
+function record(value: unknown): Readonly<Record<string, unknown>> {
+  return typeof value === "object" && value !== null
+    ? (value as Readonly<Record<string, unknown>>)
+    : {};
+}
+
+export function advertiseHandleKakehashiBridgeRoutingCapability(
+  preparedResult: DeepReadonly<InitializeResult>,
+): DeepReadonly<InitializeResult> {
+  const experimental = record(preparedResult.capabilities.experimental);
+  return {
+    ...preparedResult,
+    capabilities: {
+      ...preparedResult.capabilities,
+      experimental: {
+        ...experimental,
+        kakehashi: {
+          ...record(experimental.kakehashi),
+          bridgeRouting: true,
+        },
+      },
+    },
+  };
+}
+
 export interface RoutingParams {
   readonly textDocument: {
     readonly uri: string;
@@ -139,5 +172,10 @@ export async function routeTypeScript(
   }
   return Object.keys(routing).length === 0 ? null : { routing };
 }
-import { dirname, join } from "node:path";
-import { fileURLToPath, pathToFileURL } from "node:url";
+
+export const handleKakehashiBridgeRouting: CustomRequestHandler = async (
+  _context,
+  params,
+) => ({
+  result: isRoutingParams(params) ? await routeTypeScript(params) : null,
+});

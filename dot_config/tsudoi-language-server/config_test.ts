@@ -5,6 +5,7 @@ import type {
 } from "@atusy/tsudoi-language-server/types";
 import { join } from "node:path";
 import { pathToFileURL } from "node:url";
+import { handleKakehashiBridgeRouting } from "./kakehashi-bridge-routing.ts";
 import configFactory from "./tsudoi.config.ts";
 
 async function completionBatches(
@@ -98,7 +99,7 @@ Deno.test("the server advertises and serves bridge routing", async () => {
     | undefined;
 
   assertEquals(typeof initialize, "function");
-  assertEquals(typeof route, "function");
+  assertEquals(route, handleKakehashiBridgeRouting);
 
   const result = await initialize!(
     {

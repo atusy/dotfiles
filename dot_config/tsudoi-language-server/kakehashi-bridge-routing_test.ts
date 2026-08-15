@@ -1,7 +1,10 @@
 import { assertEquals } from "@std/assert";
 import { join } from "node:path";
 import { pathToFileURL } from "node:url";
-import { routeTypeScript, type RoutingParams } from "./routing.ts";
+import {
+  routeTypeScript,
+  type RoutingParams,
+} from "./kakehashi-bridge-routing.ts";
 
 Deno.test("a nested Deno config selects denols over a parent Node project", async () => {
   const root = await Deno.makeTempDir();

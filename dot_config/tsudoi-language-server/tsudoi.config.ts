@@ -9,24 +9,14 @@ import {
 } from "@atusy/tsudoi-completion-document";
 import { completePath, resolvePathStat } from "@atusy/tsudoi-completion-path";
 import { hoverWordnet } from "@atusy/tsudoi-hover-wordnet";
-import type {
-  CustomRequestHandler,
-  TsudoiConfigFactory,
-} from "@atusy/tsudoi-language-server/types";
+import type { TsudoiConfigFactory } from "@atusy/tsudoi-language-server/types";
 import { useMyShellCompletion } from "./complete-my-shell.ts";
 import { formatDocument } from "./formatting.ts";
 import { completeGitCommit } from "./completion-git.ts";
-import { isRoutingParams, routeTypeScript } from "./routing.ts";
-
-function record(value: unknown): Readonly<Record<string, unknown>> {
-  return typeof value === "object" && value !== null
-    ? (value as Readonly<Record<string, unknown>>)
-    : {};
-}
-
-const bridgeRouting: CustomRequestHandler = async (_context, params) => ({
-  result: isRoutingParams(params) ? await routeTypeScript(params) : null,
-});
+import {
+  advertiseHandleKakehashiBridgeRoutingCapability,
+  handleKakehashiBridgeRouting,
+} from "./kakehashi-bridge-routing.ts";
 
 const completeMyShell = useMyShellCompletion();
 
@@ -39,22 +29,11 @@ const config: TsudoiConfigFactory = () => {
   return Promise.resolve({
     methods: {
       initialize: (context) => {
-        const experimental = record(
-          context.preparedResult.capabilities.experimental,
+        return Promise.resolve(
+          advertiseHandleKakehashiBridgeRoutingCapability(
+            context.preparedResult,
+          ),
         );
-        return Promise.resolve({
-          ...context.preparedResult,
-          capabilities: {
-            ...context.preparedResult.capabilities,
-            experimental: {
-              ...experimental,
-              kakehashi: {
-                ...record(experimental.kakehashi),
-                bridgeRouting: true,
-              },
-            },
-          },
-        });
       },
       "textDocument/completion": async function* (context, params) {
         const document = context.tsudoi.documents.get(params.textDocument.uri);
@@ -72,7 +51,7 @@ const config: TsudoiConfigFactory = () => {
       "completionItem/resolve": resolvePathStat,
     },
     customMethods: {
-      "kakehashi/bridge/routing": bridgeRouting,
+      "kakehashi/bridge/routing": handleKakehashiBridgeRouting,
     },
   });
 };
