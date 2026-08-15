@@ -67,8 +67,12 @@ function M.setup_mappings(bufnr, client)
 	end
 end
 
---- Warmup LSP server for a specific filetype by creating a temporary buffer
-function M.warmup(filetype)
+--- Start kakehashi during setup
+---
+--- * to warmup downstream servers for a specific filetype
+--- * to attach buffers excluded by builtin attach logic
+function M.start_kakehashi(filetype)
+	-- warmup
 	local buf = vim.api.nvim_create_buf(false, false)
 	vim.api.nvim_create_autocmd("LspAttach", {
 		once = true,
@@ -76,14 +80,30 @@ function M.warmup(filetype)
 			if ev.buf ~= buf then
 				return
 			end
-			local client = vim.lsp.get_client_by_id(ev.data.client_id)
+			local client_id = ev.data.client_id
+			local client = vim.lsp.get_client_by_id(client_id)
 			if client and client.name == "kakehashi" then
 				vim.api.nvim_buf_delete(ev.buf, { force = true })
 			end
+
 			return true
 		end,
 	})
 	vim.bo[buf].filetype = filetype
+
+	-- extra attach logic
+	vim.api.nvim_create_autocmd("FileType", {
+		callback = function(ev_ft)
+			local client = vim.lsp.get_clients({ name = "kakehashi" })[1]
+			if not client then
+				return
+			end
+			local buftype = vim.bo[ev_ft.buf].buftype
+			if buftype == "nofile" or buftype == "help" then
+				vim.lsp.buf_attach_client(ev_ft.buf, client.id)
+			end
+		end,
+	})
 end
 
 function M.setup()
@@ -171,7 +191,7 @@ function M.setup()
 
 	-- To start kakehashi and underlying tsudoi and optionally fish_lsp
 	-- Tsudoi is for common completion, and fish_lsp is for shell command completion on cmdline
-	M.warmup("fish")
+	M.start_kakehashi("fish")
 end
 
 return M
