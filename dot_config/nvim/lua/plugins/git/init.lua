@@ -193,7 +193,9 @@ end
 -- return
 return {
 	{
-		"https://github.com/lambdalisue/vim-gin", -- denops
+		-- "https://github.com/lambdalisue/vim-gin", -- denops
+		"https://github.com/atusy/gin.vim", -- denops
+		branch = "bufname",
 		config = setup_gin,
 	},
 	{
