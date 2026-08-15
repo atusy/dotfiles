@@ -15,11 +15,13 @@ end
 
 function M.show(...)
 	vim.cmd.GinBuffer({
-		args = vim.tbl_flatten({
+		args = vim.iter({
 			"++processor=delta --no-gitconfig --color-only",
 			"show",
 			...,
-		}),
+		})
+			:flatten()
+			:totable(),
 	})
 end
 
