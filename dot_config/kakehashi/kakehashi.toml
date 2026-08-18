@@ -4,7 +4,7 @@ searchPaths = [
   "${HOME}/ghq/github.com/atusy/kakehashi.nvim",
   "${HOME}/.local/share/nvim/lazy/nvim-treesitter-context",
   "${HOME}/ghq/github.com/nvim-orgmode/tree-sitter-org",
-  "${KAKEHASHI_DATA_DIR}"
+  "${KAKEHASHI_DATA_DIR}",
 ]
 
 [languages.markdown.layers.aggregation."textDocument/formatting"]
