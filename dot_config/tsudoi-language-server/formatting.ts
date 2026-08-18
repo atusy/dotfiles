@@ -55,18 +55,18 @@ async function formatWithDprint(
 export const formatDocument: MethodHandler<"textDocument/formatting"> = async (context, params) => {
   const document = context.tsudoi.documents.get(params.textDocument.uri);
   if (document === undefined) {
-    return null;
+    throw "RequestFailed"; // so that kakehashi can fallback to oxfmt
   }
 
   let filePath: string;
   try {
     filePath = fileURLToPath(document.uri);
   } catch {
-    return null;
+    throw "RequestFailed"; // so that kakehashi can fallback to oxfmt
   }
   const configPath = await findDprintConfig(filePath);
   if (configPath === null) {
-    return null;
+    throw "RequestFailed"; // so that kakehashi can fallback to oxfmt
   }
 
   const text = document.getText();
