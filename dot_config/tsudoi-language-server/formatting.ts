@@ -174,26 +174,25 @@ async function runFormatter(
   }
 }
 
+/** Lets kakehashi continue to a lower-priority formatter such as oxfmt. */
+function requestFormatterFallback(message: string): never {
+  throw new ResponseError(LSPErrorCodes.RequestFailed, message);
+}
+
 export const formatDocument: MethodHandler<"textDocument/formatting"> = async (
   context,
   params,
 ) => {
   const document = context.tsudoi.documents.get(params.textDocument.uri);
   if (document === undefined) {
-    throw new ResponseError(
-      LSPErrorCodes.RequestFailed,
-      "Document is not open",
-    ); // so that kakehashi can fallback to oxfmt
+    requestFormatterFallback("Document is not open");
   }
 
   let filePath: string;
   try {
     filePath = fileURLToPath(document.uri);
   } catch {
-    throw new ResponseError(
-      LSPErrorCodes.RequestFailed,
-      "Document URI is not a file URI",
-    ); // so that kakehashi can fallback to oxfmt
+    requestFormatterFallback("Document URI is not a file URI");
   }
   const format = await findFormatFunc(filePath, [
     resolveTreefmtToml,
@@ -201,10 +200,7 @@ export const formatDocument: MethodHandler<"textDocument/formatting"> = async (
     resolveDprint,
   ]);
   if (format === null) {
-    throw new ResponseError(
-      LSPErrorCodes.RequestFailed,
-      "No formatter configuration found",
-    ); // so that kakehashi can fallback to oxfmt
+    requestFormatterFallback("No formatter configuration found");
   }
 
   const text = document.getText();
