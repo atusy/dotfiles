@@ -1,9 +1,10 @@
-import { assertEquals } from "@std/assert";
-import { dirname } from "node:path";
+import { assertEquals, assertExists } from "@std/assert";
+import { dirname, join } from "node:path";
 import {
   findFormatFunc,
   type FormatFunc,
   type FormatFuncResolver,
+  resolveTreefmtToml,
 } from "./formatting.ts";
 
 Deno.test("findFormatFunc checks resolvers in order for each directory", async () => {
@@ -28,4 +29,15 @@ Deno.test("findFormatFunc checks resolvers in order for each directory", async (
     "second:/project",
   ]);
   assertEquals(dirname("/project"), "/");
+});
+
+Deno.test("resolveTreefmtToml selects a directory containing treefmt.toml", async () => {
+  const directory = await Deno.makeTempDir();
+  try {
+    await Deno.writeTextFile(join(directory, "treefmt.toml"), "");
+
+    assertExists(await resolveTreefmtToml(directory));
+  } finally {
+    await Deno.remove(directory, { recursive: true });
+  }
 });

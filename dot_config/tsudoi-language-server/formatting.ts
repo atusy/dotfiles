@@ -33,6 +33,21 @@ export async function findFormatFunc(
   }
 }
 
+export const resolveTreefmtToml: FormatFuncResolver = async (directoryPath) => {
+  const configPath = join(directoryPath, "treefmt.toml");
+  try {
+    if ((await Deno.stat(configPath)).isFile) {
+      return (filePath, text, signal) =>
+        formatWithTreefmt(filePath, configPath, text, signal);
+    }
+  } catch (error) {
+    if (!(error instanceof Deno.errors.NotFound)) {
+      throw error;
+    }
+  }
+  return null;
+};
+
 const resolveDprint: FormatFuncResolver = async (directoryPath) => {
   const configPath = join(directoryPath, "dprint.json");
   try {
@@ -47,6 +62,43 @@ const resolveDprint: FormatFuncResolver = async (directoryPath) => {
   }
   return null;
 };
+
+async function formatWithTreefmt(
+  filePath: string,
+  configPath: string,
+  text: string,
+  signal: AbortSignal,
+): Promise<string> {
+  const child = new Deno.Command("treefmt", {
+    args: [
+      "--config-file",
+      configPath,
+      "--tree-root",
+      dirname(configPath),
+      "--stdin",
+      filePath,
+    ],
+    stdin: "piped",
+    stdout: "piped",
+    stderr: "piped",
+  }).spawn();
+  const abort = () => child.kill("SIGTERM");
+  signal.addEventListener("abort", abort, { once: true });
+
+  try {
+    const writer = child.stdin.getWriter();
+    const write = writer.write(new TextEncoder().encode(text)).then(() =>
+      writer.close()
+    );
+    const [output] = await Promise.all([child.output(), write]);
+    if (!output.success) {
+      throw new Error(new TextDecoder().decode(output.stderr).trim());
+    }
+    return new TextDecoder().decode(output.stdout);
+  } finally {
+    signal.removeEventListener("abort", abort);
+  }
+}
 
 async function formatWithDprint(
   filePath: string,
@@ -93,7 +145,10 @@ export const formatDocument: MethodHandler<"textDocument/formatting"> = async (
   } catch {
     throw "RequestFailed"; // so that kakehashi can fallback to oxfmt
   }
-  const format = await findFormatFunc(filePath, [resolveDprint]);
+  const format = await findFormatFunc(filePath, [
+    resolveTreefmtToml,
+    resolveDprint,
+  ]);
   if (format === null) {
     throw "RequestFailed"; // so that kakehashi can fallback to oxfmt
   }
