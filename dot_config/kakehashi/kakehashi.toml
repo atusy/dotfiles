@@ -1,6 +1,7 @@
 # Documentation: https://github.com/atusy/kakehashi/blob/main/docs/README.md
 
 searchPaths = [
+  "${HOME}/.config/kakehashi/language",
   "${HOME}/ghq/github.com/atusy/kakehashi.nvim",
   "${HOME}/.local/share/nvim/lazy/nvim-treesitter-context",
   "${HOME}/ghq/github.com/nvim-orgmode/tree-sitter-org",
