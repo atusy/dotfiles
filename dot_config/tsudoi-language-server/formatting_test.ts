@@ -26,6 +26,24 @@ Deno.test("formatting without an open document requests fallback", async () => {
   assertEquals(error.code, LSPErrorCodes.RequestFailed);
 });
 
+Deno.test("formatting a non-file document requests fallback", async () => {
+  const uri = "untitled:buffer";
+  const error = await assertRejects(
+    () =>
+      formatDocument(
+        {
+          tsudoi: {
+            documents: { get: () => ({ uri }) },
+          },
+        } as never,
+        { textDocument: { uri } } as never,
+      ),
+    ResponseError,
+  );
+
+  assertEquals(error.code, LSPErrorCodes.RequestFailed);
+});
+
 Deno.test("findFormatFunc checks resolvers in order for each directory", async () => {
   const checked: string[] = [];
   const expected: FormatFunc = async (_filePath, text) => text;

@@ -190,7 +190,10 @@ export const formatDocument: MethodHandler<"textDocument/formatting"> = async (
   try {
     filePath = fileURLToPath(document.uri);
   } catch {
-    throw "RequestFailed"; // so that kakehashi can fallback to oxfmt
+    throw new ResponseError(
+      LSPErrorCodes.RequestFailed,
+      "Document URI is not a file URI",
+    ); // so that kakehashi can fallback to oxfmt
   }
   const format = await findFormatFunc(filePath, [
     resolveTreefmtToml,
