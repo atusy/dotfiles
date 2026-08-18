@@ -1,12 +1,30 @@
-import { assertEquals, assertExists } from "@std/assert";
+import { assertEquals, assertExists, assertRejects } from "@std/assert";
 import { dirname, join } from "node:path";
 import {
+  LSPErrorCodes,
+  ResponseError,
+} from "vscode-languageserver-protocol/node";
+import {
   findFormatFunc,
+  formatDocument,
   type FormatFunc,
   type FormatFuncResolver,
   resolveFlakeTreefmt,
   resolveTreefmtToml,
 } from "./formatting.ts";
+
+Deno.test("formatting without an open document requests fallback", async () => {
+  const error = await assertRejects(
+    () =>
+      formatDocument(
+        { tsudoi: { documents: { get: () => undefined } } } as never,
+        { textDocument: { uri: "file:///missing.ts" } } as never,
+      ),
+    ResponseError,
+  );
+
+  assertEquals(error.code, LSPErrorCodes.RequestFailed);
+});
 
 Deno.test("findFormatFunc checks resolvers in order for each directory", async () => {
   const checked: string[] = [];

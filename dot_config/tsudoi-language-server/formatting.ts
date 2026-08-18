@@ -1,4 +1,8 @@
 import type { MethodHandler } from "@atusy/tsudoi-language-server/types";
+import {
+  LSPErrorCodes,
+  ResponseError,
+} from "@atusy/tsudoi-language-server/deps/error";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -176,7 +180,10 @@ export const formatDocument: MethodHandler<"textDocument/formatting"> = async (
 ) => {
   const document = context.tsudoi.documents.get(params.textDocument.uri);
   if (document === undefined) {
-    throw "RequestFailed"; // so that kakehashi can fallback to oxfmt
+    throw new ResponseError(
+      LSPErrorCodes.RequestFailed,
+      "Document is not open",
+    ); // so that kakehashi can fallback to oxfmt
   }
 
   let filePath: string;

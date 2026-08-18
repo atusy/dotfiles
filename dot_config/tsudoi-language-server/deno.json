@@ -1,18 +1,19 @@
 {
-    "imports": {
-        "@atusy/tsudoi-completion-dictionary": "file:///Users/atusy/ghq/github.com/atusy/tsudoi-language-server/packages/tsudoi-completion-dictionary/src/index.ts",
-        "@atusy/tsudoi-completion-document": "https://raw.githubusercontent.com/atusy/tsudoi-language-server/0b8f088/packages/tsudoi-completion-document/src/index.ts",
-        "@atusy/tsudoi-completion-path": "https://raw.githubusercontent.com/atusy/tsudoi-language-server/0b8f088/packages/tsudoi-completion-path/src/index.ts",
-        "@atusy/tsudoi-completion-shell": "file:///Users/atusy/ghq/github.com/atusy/tsudoi-language-server/packages/tsudoi-completion-shell/src/index.ts",
-        "@atusy/tsudoi-hover-wordnet": "https://raw.githubusercontent.com/atusy/tsudoi-language-server/0b8f088/packages/tsudoi-hover-wordnet/src/index.ts",
-        "@atusy/tsudoi-language-server/deps/protocol": "https://raw.githubusercontent.com/atusy/tsudoi-language-server/0b8f088/packages/tsudoi-language-server/src/deps/protocol.ts",
-        "@atusy/tsudoi-language-server/deps/types": "https://raw.githubusercontent.com/atusy/tsudoi-language-server/0b8f088/packages/tsudoi-language-server/src/deps/types.ts",
-        "@atusy/tsudoi-language-server/types": "https://raw.githubusercontent.com/atusy/tsudoi-language-server/0b8f088/packages/tsudoi-language-server/src/types.ts",
-        "@std/assert": "jsr:@std/assert@^1.0.14",
-        "vscode-languageserver-protocol": "npm:vscode-languageserver-protocol@^3.18.2",
-        "vscode-languageserver-protocol/node": "npm:vscode-languageserver-protocol@^3.18.2/node",
-        "vscode-languageserver-textdocument": "npm:vscode-languageserver-textdocument@^1.0.12",
-        "vscode-languageserver-types": "npm:vscode-languageserver-types@^3.18.0",
-        "wordnet": "npm:wordnet@^2.0.0"
-    }
+  "imports": {
+    "@atusy/tsudoi-completion-dictionary": "file:///Users/atusy/ghq/github.com/atusy/tsudoi-language-server/packages/tsudoi-completion-dictionary/src/index.ts",
+    "@atusy/tsudoi-completion-document": "https://raw.githubusercontent.com/atusy/tsudoi-language-server/0b8f088/packages/tsudoi-completion-document/src/index.ts",
+    "@atusy/tsudoi-completion-path": "https://raw.githubusercontent.com/atusy/tsudoi-language-server/0b8f088/packages/tsudoi-completion-path/src/index.ts",
+    "@atusy/tsudoi-completion-shell": "file:///Users/atusy/ghq/github.com/atusy/tsudoi-language-server/packages/tsudoi-completion-shell/src/index.ts",
+    "@atusy/tsudoi-hover-wordnet": "https://raw.githubusercontent.com/atusy/tsudoi-language-server/0b8f088/packages/tsudoi-hover-wordnet/src/index.ts",
+    "@atusy/tsudoi-language-server/deps/protocol": "https://raw.githubusercontent.com/atusy/tsudoi-language-server/0b8f088/packages/tsudoi-language-server/src/deps/protocol.ts",
+    "@atusy/tsudoi-language-server/deps/error": "file:///Users/atusy/ghq/github.com/atusy/tsudoi-language-server/packages/tsudoi-language-server/src/deps/error.ts",
+    "@atusy/tsudoi-language-server/deps/types": "https://raw.githubusercontent.com/atusy/tsudoi-language-server/0b8f088/packages/tsudoi-language-server/src/deps/types.ts",
+    "@atusy/tsudoi-language-server/types": "https://raw.githubusercontent.com/atusy/tsudoi-language-server/0b8f088/packages/tsudoi-language-server/src/types.ts",
+    "@std/assert": "jsr:@std/assert@^1.0.14",
+    "vscode-languageserver-protocol": "npm:vscode-languageserver-protocol@^3.18.2",
+    "vscode-languageserver-protocol/node": "npm:vscode-languageserver-protocol@^3.18.2/node",
+    "vscode-languageserver-textdocument": "npm:vscode-languageserver-textdocument@^1.0.12",
+    "vscode-languageserver-types": "npm:vscode-languageserver-types@^3.18.0",
+    "wordnet": "npm:wordnet@^2.0.0"
+  }
 }
