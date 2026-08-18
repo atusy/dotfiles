@@ -14,7 +14,7 @@ strategy = "concatenated"
 parser = "${HOME}/ghq/github.com/nvim-orgmode/tree-sitter-org/org.dylib"
 queries = [
   { path = "${HOME}/ghq/github.com/nvim-orgmode/tree-sitter-org/queries/highlights.scm" },
-  { path = "${HOME}/ghq/github.com/nvim-orgmode/tree-sitter-org/queries/injections.scm" }
+  { path = "${HOME}/ghq/github.com/nvim-orgmode/tree-sitter-org/queries/injections.scm" },
 ]
 
 [languages.rmd]
