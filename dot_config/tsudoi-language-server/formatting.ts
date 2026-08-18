@@ -94,8 +94,9 @@ async function formatWithTreefmt(
   text: string,
   signal: AbortSignal,
 ): Promise<string> {
-  const child = new Deno.Command("treefmt", {
-    args: [
+  return await runFormatter(
+    "treefmt",
+    [
       "--config-file",
       configPath,
       "--tree-root",
@@ -103,26 +104,9 @@ async function formatWithTreefmt(
       "--stdin",
       filePath,
     ],
-    stdin: "piped",
-    stdout: "piped",
-    stderr: "piped",
-  }).spawn();
-  const abort = () => child.kill("SIGTERM");
-  signal.addEventListener("abort", abort, { once: true });
-
-  try {
-    const writer = child.stdin.getWriter();
-    const write = writer.write(new TextEncoder().encode(text)).then(() =>
-      writer.close()
-    );
-    const [output] = await Promise.all([child.output(), write]);
-    if (!output.success) {
-      throw new Error(new TextDecoder().decode(output.stderr).trim());
-    }
-    return new TextDecoder().decode(output.stdout);
-  } finally {
-    signal.removeEventListener("abort", abort);
-  }
+    text,
+    signal,
+  );
 }
 
 async function formatWithFlakeTreefmt(
@@ -131,29 +115,13 @@ async function formatWithFlakeTreefmt(
   text: string,
   signal: AbortSignal,
 ): Promise<string> {
-  const child = new Deno.Command("nix", {
-    args: ["fmt", "--", "--stdin", filePath],
-    cwd: directoryPath,
-    stdin: "piped",
-    stdout: "piped",
-    stderr: "piped",
-  }).spawn();
-  const abort = () => child.kill("SIGTERM");
-  signal.addEventListener("abort", abort, { once: true });
-
-  try {
-    const writer = child.stdin.getWriter();
-    const write = writer.write(new TextEncoder().encode(text)).then(() =>
-      writer.close()
-    );
-    const [output] = await Promise.all([child.output(), write]);
-    if (!output.success) {
-      throw new Error(new TextDecoder().decode(output.stderr).trim());
-    }
-    return new TextDecoder().decode(output.stdout);
-  } finally {
-    signal.removeEventListener("abort", abort);
-  }
+  return await runFormatter(
+    "nix",
+    ["fmt", "--", "--stdin", filePath],
+    text,
+    signal,
+    directoryPath,
+  );
 }
 
 async function formatWithDprint(
@@ -162,8 +130,24 @@ async function formatWithDprint(
   text: string,
   signal: AbortSignal,
 ): Promise<string> {
-  const child = new Deno.Command("dprint", {
-    args: ["fmt", "--config", configPath, "--stdin", filePath],
+  return await runFormatter(
+    "dprint",
+    ["fmt", "--config", configPath, "--stdin", filePath],
+    text,
+    signal,
+  );
+}
+
+async function runFormatter(
+  command: string,
+  args: string[],
+  text: string,
+  signal: AbortSignal,
+  cwd?: string,
+): Promise<string> {
+  const child = new Deno.Command(command, {
+    args,
+    cwd,
     stdin: "piped",
     stdout: "piped",
     stderr: "piped",
