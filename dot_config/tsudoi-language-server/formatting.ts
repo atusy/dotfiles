@@ -41,9 +41,7 @@ async function formatWithDprint(
 
   try {
     const writer = child.stdin.getWriter();
-    const write = writer.write(new TextEncoder().encode(text)).then(() =>
-      writer.close()
-    );
+    const write = writer.write(new TextEncoder().encode(text)).then(() => writer.close());
     const [output] = await Promise.all([child.output(), write]);
     if (!output.success) {
       throw new Error(new TextDecoder().decode(output.stderr).trim());
@@ -54,10 +52,7 @@ async function formatWithDprint(
   }
 }
 
-export const formatDocument: MethodHandler<"textDocument/formatting"> = async (
-  context,
-  params,
-) => {
+export const formatDocument: MethodHandler<"textDocument/formatting"> = async (context, params) => {
   const document = context.tsudoi.documents.get(params.textDocument.uri);
   if (document === undefined) {
     return null;
@@ -75,20 +70,18 @@ export const formatDocument: MethodHandler<"textDocument/formatting"> = async (
   }
 
   const text = document.getText();
-  const formatted = await formatWithDprint(
-    filePath,
-    configPath,
-    text,
-    context.signal,
-  );
+  const formatted = await formatWithDprint(filePath, configPath, text, context.signal);
+
   if (formatted === text) {
     return [];
   }
-  return [{
-    range: {
-      start: { line: 0, character: 0 },
-      end: document.positionAt(text.length),
+  return [
+    {
+      range: {
+        start: { line: 0, character: 0 },
+        end: document.positionAt(text.length),
+      },
+      newText: formatted,
     },
-    newText: formatted,
-  }];
+  ];
 };
