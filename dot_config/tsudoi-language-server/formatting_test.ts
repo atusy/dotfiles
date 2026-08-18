@@ -4,6 +4,7 @@ import {
   findFormatFunc,
   type FormatFunc,
   type FormatFuncResolver,
+  resolveFlakeTreefmt,
   resolveTreefmtToml,
 } from "./formatting.ts";
 
@@ -37,6 +38,20 @@ Deno.test("resolveTreefmtToml selects a directory containing treefmt.toml", asyn
     await Deno.writeTextFile(join(directory, "treefmt.toml"), "");
 
     assertExists(await resolveTreefmtToml(directory));
+  } finally {
+    await Deno.remove(directory, { recursive: true });
+  }
+});
+
+Deno.test("resolveFlakeTreefmt selects a flake containing treefmt", async () => {
+  const directory = await Deno.makeTempDir();
+  try {
+    await Deno.writeTextFile(
+      join(directory, "flake.nix"),
+      '{ inputs.treefmt-nix.url = "github:numtide/treefmt-nix"; }',
+    );
+
+    assertExists(await resolveFlakeTreefmt(directory));
   } finally {
     await Deno.remove(directory, { recursive: true });
   }

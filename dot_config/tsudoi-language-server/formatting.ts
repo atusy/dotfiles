@@ -48,6 +48,31 @@ export const resolveTreefmtToml: FormatFuncResolver = async (directoryPath) => {
   return null;
 };
 
+export const resolveFlakeTreefmt: FormatFuncResolver = async (
+  directoryPath,
+) => {
+  const flakePath = join(directoryPath, "flake.nix");
+  try {
+    if ((await Deno.stat(flakePath)).isFile) {
+      const flake = await Deno.readTextFile(flakePath);
+      if (flake.includes("treefmt")) {
+        return (filePath, text, signal) =>
+          formatWithFlakeTreefmt(
+            directoryPath,
+            filePath,
+            text,
+            signal,
+          );
+      }
+    }
+  } catch (error) {
+    if (!(error instanceof Deno.errors.NotFound)) {
+      throw error;
+    }
+  }
+  return null;
+};
+
 const resolveDprint: FormatFuncResolver = async (directoryPath) => {
   const configPath = join(directoryPath, "dprint.json");
   try {
@@ -78,6 +103,37 @@ async function formatWithTreefmt(
       "--stdin",
       filePath,
     ],
+    stdin: "piped",
+    stdout: "piped",
+    stderr: "piped",
+  }).spawn();
+  const abort = () => child.kill("SIGTERM");
+  signal.addEventListener("abort", abort, { once: true });
+
+  try {
+    const writer = child.stdin.getWriter();
+    const write = writer.write(new TextEncoder().encode(text)).then(() =>
+      writer.close()
+    );
+    const [output] = await Promise.all([child.output(), write]);
+    if (!output.success) {
+      throw new Error(new TextDecoder().decode(output.stderr).trim());
+    }
+    return new TextDecoder().decode(output.stdout);
+  } finally {
+    signal.removeEventListener("abort", abort);
+  }
+}
+
+async function formatWithFlakeTreefmt(
+  directoryPath: string,
+  filePath: string,
+  text: string,
+  signal: AbortSignal,
+): Promise<string> {
+  const child = new Deno.Command("nix", {
+    args: ["fmt", "--", "--stdin", filePath],
+    cwd: directoryPath,
     stdin: "piped",
     stdout: "piped",
     stderr: "piped",
@@ -147,6 +203,7 @@ export const formatDocument: MethodHandler<"textDocument/formatting"> = async (
   }
   const format = await findFormatFunc(filePath, [
     resolveTreefmtToml,
+    resolveFlakeTreefmt,
     resolveDprint,
   ]);
   if (format === null) {
