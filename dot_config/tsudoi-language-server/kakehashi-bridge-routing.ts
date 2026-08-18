@@ -1,8 +1,5 @@
 import type { InitializeResult } from "@atusy/tsudoi-language-server/deps/protocol";
-import type {
-  CustomRequestHandler,
-  DeepReadonly,
-} from "@atusy/tsudoi-language-server/types";
+import type { CustomRequestHandler, DeepReadonly } from "@atusy/tsudoi-language-server/types";
 import { dirname, join } from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
 
@@ -73,8 +70,7 @@ export function isRoutingParams(value: unknown): value is RoutingParams {
     typeof textDocument !== "object" ||
     textDocument === null ||
     typeof (textDocument as { readonly uri?: unknown }).uri !== "string" ||
-    typeof (textDocument as { readonly languageId?: unknown }).languageId !==
-      "string"
+    typeof (textDocument as { readonly languageId?: unknown }).languageId !== "string"
   ) {
     return false;
   }
@@ -84,26 +80,16 @@ export function isRoutingParams(value: unknown): value is RoutingParams {
     (typeof host !== "object" ||
       host === null ||
       typeof (host as { readonly uri?: unknown }).uri !== "string" ||
-      typeof (host as { readonly languageId?: unknown }).languageId !==
-        "string")
+      typeof (host as { readonly languageId?: unknown }).languageId !== "string")
   ) {
     return false;
   }
   return typeof languageServers === "object" && languageServers !== null;
 }
 
-const nodeLocks = [
-  "package-lock.json",
-  "yarn.lock",
-  "pnpm-lock.yaml",
-  "bun.lockb",
-  "bun.lock",
-];
+const nodeLocks = ["package-lock.json", "yarn.lock", "pnpm-lock.yaml", "bun.lockb", "bun.lock"];
 
-async function findRoot(
-  filePath: string,
-  markers: readonly string[],
-): Promise<string | null> {
+async function findRoot(filePath: string, markers: readonly string[]): Promise<string | null> {
   let directory = dirname(filePath);
   while (true) {
     for (const marker of markers) {
@@ -128,9 +114,7 @@ function isDeeper(root: string | null, than: string): boolean {
   return root !== null && root.length > than.length;
 }
 
-export async function routeTypeScript(
-  params: RoutingParams,
-): Promise<RoutingResult | null> {
+export async function routeTypeScript(params: RoutingParams): Promise<RoutingResult | null> {
   const documentUri = params.textDocument.host?.uri ?? params.textDocument.uri;
   let filePath: string;
   try {
@@ -139,43 +123,40 @@ export async function routeTypeScript(
     return null;
   }
 
-  const [denolsNodeRoot, tsgoNodeRoot, denoLockRoot, denoConfigRoot] =
-    await Promise.all([
-      findRoot(filePath, nodeLocks),
-      findRoot(filePath, [...nodeLocks, "package.json"]),
-      findRoot(filePath, ["deno.lock"]),
-      findRoot(filePath, ["deno.json", "deno.jsonc"]),
-    ]);
+  const [denolsNodeRoot, tsgoNodeRoot, denoLockRoot, denoConfigRoot] = await Promise.all([
+    findRoot(filePath, nodeLocks),
+    findRoot(filePath, [...nodeLocks, "package.json"]),
+    findRoot(filePath, ["deno.lock"]),
+    findRoot(filePath, ["deno.json", "deno.jsonc"]),
+  ]);
   const denoRoot =
-    denolsNodeRoot === null || isDeeper(denoLockRoot, denolsNodeRoot) ||
-      isDeeper(denoConfigRoot, denolsNodeRoot)
+    denolsNodeRoot === null ||
+    isDeeper(denoLockRoot, denolsNodeRoot) ||
+    isDeeper(denoConfigRoot, denolsNodeRoot)
       ? (denoLockRoot ?? denoConfigRoot)
       : null;
-  const tsgoRoot = tsgoNodeRoot !== null &&
-      !(denoLockRoot !== null && denoLockRoot.length >= tsgoNodeRoot.length) &&
-      !(denoConfigRoot !== null && denoConfigRoot.length >= tsgoNodeRoot.length)
-    ? tsgoNodeRoot
-    : null;
-  const routing: Record<
-    string,
-    { enabled?: boolean; workspaceFolders?: readonly string[] }
-  > = {};
+  const tsgoRoot =
+    tsgoNodeRoot !== null &&
+    !(denoLockRoot !== null && denoLockRoot.length >= tsgoNodeRoot.length) &&
+    !(denoConfigRoot !== null && denoConfigRoot.length >= tsgoNodeRoot.length)
+      ? tsgoNodeRoot
+      : null;
+  const routing: Record<string, { enabled?: boolean; workspaceFolders?: readonly string[] }> = {};
   if (Object.hasOwn(params.languageServers, "denols")) {
-    routing.denols = denoRoot === null
-      ? { enabled: tsgoRoot === null }
-      : { enabled: true, workspaceFolders: [pathToFileURL(denoRoot).href] };
+    routing.denols =
+      denoRoot === null
+        ? { enabled: tsgoRoot === null }
+        : { enabled: true, workspaceFolders: [pathToFileURL(denoRoot).href] };
   }
   if (Object.hasOwn(params.languageServers, "tsgo")) {
-    routing.tsgo = tsgoRoot === null
-      ? { enabled: false }
-      : { enabled: true, workspaceFolders: [pathToFileURL(tsgoRoot).href] };
+    routing.tsgo =
+      tsgoRoot === null
+        ? { enabled: false }
+        : { enabled: true, workspaceFolders: [pathToFileURL(tsgoRoot).href] };
   }
   return Object.keys(routing).length === 0 ? null : { routing };
 }
 
-export const handleKakehashiBridgeRouting: CustomRequestHandler = async (
-  _context,
-  params,
-) => ({
+export const handleKakehashiBridgeRouting: CustomRequestHandler = async (_context, params) => ({
   result: isRoutingParams(params) ? await routeTypeScript(params) : null,
 });

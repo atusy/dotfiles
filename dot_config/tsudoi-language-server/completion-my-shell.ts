@@ -33,14 +33,11 @@ export function useMyShellCompletion(): (
   } as const;
 
   return async function* (context, params) {
-    const languageId = context.tsudoi.documents.get(
-      params.textDocument.uri,
-    )?.languageId;
+    const languageId = context.tsudoi.documents.get(params.textDocument.uri)?.languageId;
     if (languageId === undefined) {
       return;
     }
-    const completeShell =
-      shellCompletions[languageId as keyof typeof shellCompletions];
+    const completeShell = shellCompletions[languageId as keyof typeof shellCompletions];
     if (completeShell !== undefined) {
       yield* completeShell(context, params);
     }

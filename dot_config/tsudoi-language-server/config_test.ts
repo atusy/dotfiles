@@ -1,8 +1,5 @@
 import { assertEquals } from "@std/assert";
-import type {
-  CustomRequestHandler,
-  MethodHandler,
-} from "@atusy/tsudoi-language-server/types";
+import type { CustomRequestHandler, MethodHandler } from "@atusy/tsudoi-language-server/types";
 import { join } from "node:path";
 import { pathToFileURL } from "node:url";
 import { handleKakehashiBridgeRouting } from "./kakehashi-bridge-routing.ts";
@@ -28,29 +25,26 @@ async function completionBatches(
   };
   const batches: string[][] = [];
 
-  for await (
-    const batch of complete!(
-      {
-        signal: new AbortController().signal,
-        tsudoi: {
-          documents: {
-            get: (documentUri: string) =>
-              documentUri === uri ? document : undefined,
-            values: () => [document],
-          },
-          workspaceFolders: { get: () => [], values: () => [] },
-          rootUri: null,
-          rootPath: null,
-          clientCapabilities: {},
-          notify: () => Promise.resolve(),
+  for await (const batch of complete!(
+    {
+      signal: new AbortController().signal,
+      tsudoi: {
+        documents: {
+          get: (documentUri: string) => (documentUri === uri ? document : undefined),
+          values: () => [document],
         },
+        workspaceFolders: { get: () => [], values: () => [] },
+        rootUri: null,
+        rootPath: null,
+        clientCapabilities: {},
+        notify: () => Promise.resolve(),
       },
-      {
-        textDocument: { uri },
-        position: { line: 0, character: text.length },
-      },
-    )
-  ) {
+    },
+    {
+      textDocument: { uri },
+      position: { line: 0, character: text.length },
+    },
+  )) {
     batches.push(batch.map((item) => item.label));
   }
   return batches;
@@ -91,9 +85,7 @@ async function initializeRepository(root: string, subjects: readonly string[]) {
 
 Deno.test("the server advertises and serves bridge routing", async () => {
   const config = await configFactory();
-  const initialize = config.methods?.initialize as
-    | MethodHandler<"initialize">
-    | undefined;
+  const initialize = config.methods?.initialize as MethodHandler<"initialize"> | undefined;
   const route = config.customMethods?.["kakehashi/bridge/routing"] as
     | CustomRequestHandler
     | undefined;
@@ -185,10 +177,7 @@ Deno.test("gitcommit completion uses emoji entries from the commit template", as
   const root = await Deno.makeTempDir();
   try {
     await Deno.mkdir(join(root, ".git"));
-    await Deno.writeTextFile(
-      join(root, ".gitmessage"),
-      "✨ feat:\n─ chore:\nplain\n",
-    );
+    await Deno.writeTextFile(join(root, ".gitmessage"), "✨ feat:\n─ chore:\nplain\n");
     const uri = pathToFileURL(join(root, ".git", "COMMIT_EDITMSG")).href;
 
     const labels = await completionLabels("gitcommit", "", uri);

@@ -86,9 +86,7 @@ async function commitTemplate(root: string): Promise<string[]> {
   if (configured === "") {
     return [];
   }
-  return await readLines(
-    isAbsolute(configured) ? configured : join(root, configured),
-  ) ?? [];
+  return (await readLines(isAbsolute(configured) ? configured : join(root, configured))) ?? [];
 }
 
 async function recentSubjects(root: string): Promise<string[]> {
@@ -107,10 +105,7 @@ async function recentSubjects(root: string): Promise<string[]> {
   }
 }
 
-function matchingSubjects(
-  logs: readonly string[],
-  subject: string,
-): CompletionItem[] {
+function matchingSubjects(logs: readonly string[], subject: string): CompletionItem[] {
   const currentWord = subject.match(/[\p{L}\p{N}_]+$/u)?.[0] ?? "";
   const prefix = subject.slice(0, subject.length - currentWord.length);
   return logs
@@ -149,20 +144,14 @@ export async function* completeGitCommit(
   }
   const subject = line.slice(0, params.position.character);
   const root = await gitRoot(document.uri);
-  const [template, logs] = await Promise.all([
-    commitTemplate(root),
-    recentSubjects(root),
-  ]);
-  const templateItems = template.filter(
-    (line) => templateMarker.test(line),
-  );
+  const [template, logs] = await Promise.all([commitTemplate(root), recentSubjects(root)]);
+  const templateItems = template.filter((line) => templateMarker.test(line));
   const semantic = templateItems.length === 0;
   if (!subject.match(/\s/u) && !(semantic && subject.includes(":"))) {
     const baseItems = semantic
-      ? subject.includes("(") ? scopesFrom(logs) : [
-        ...conventionalCommitTypes.map((label) => ({ label })),
-        ...prefixesFrom(logs),
-      ]
+      ? subject.includes("(")
+        ? scopesFrom(logs)
+        : [...conventionalCommitTypes.map((label) => ({ label })), ...prefixesFrom(logs)]
       : templateItems.map((label) => ({ label }));
     if (baseItems.length > 0) {
       yield baseItems;
