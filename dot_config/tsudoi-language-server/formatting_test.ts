@@ -1,5 +1,6 @@
 import { assertEquals, assertExists, assertRejects } from "@std/assert";
 import { dirname, join } from "node:path";
+import { pathToFileURL } from "node:url";
 import {
   LSPErrorCodes,
   ResponseError,
@@ -42,6 +43,29 @@ Deno.test("formatting a non-file document requests fallback", async () => {
   );
 
   assertEquals(error.code, LSPErrorCodes.RequestFailed);
+});
+
+Deno.test("formatting without a formatter config requests fallback", async () => {
+  const directory = await Deno.makeTempDir();
+  try {
+    const uri = pathToFileURL(join(directory, "main.ts")).href;
+    const error = await assertRejects(
+      () =>
+        formatDocument(
+          {
+            tsudoi: {
+              documents: { get: () => ({ uri }) },
+            },
+          } as never,
+          { textDocument: { uri } } as never,
+        ),
+      ResponseError,
+    );
+
+    assertEquals(error.code, LSPErrorCodes.RequestFailed);
+  } finally {
+    await Deno.remove(directory, { recursive: true });
+  }
 });
 
 Deno.test("findFormatFunc checks resolvers in order for each directory", async () => {

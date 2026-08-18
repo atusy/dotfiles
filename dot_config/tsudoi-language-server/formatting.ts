@@ -201,7 +201,10 @@ export const formatDocument: MethodHandler<"textDocument/formatting"> = async (
     resolveDprint,
   ]);
   if (format === null) {
-    throw "RequestFailed"; // so that kakehashi can fallback to oxfmt
+    throw new ResponseError(
+      LSPErrorCodes.RequestFailed,
+      "No formatter configuration found",
+    ); // so that kakehashi can fallback to oxfmt
   }
 
   const text = document.getText();
