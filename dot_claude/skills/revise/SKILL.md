@@ -38,8 +38,23 @@ missed; stage 1 must cover its passes so convergence happens locally.
 
 ## Universal rules (every stage)
 
-- **One commit per fix item**, each passing the project's quality gate.
-  Reference the finding (e.g. "Review finding M1") in the commit body.
+- **One commit per finding**, each passing the project's quality gate; use the
+  `git-commit` skill for the mechanics. A review round is NOT a commit unit:
+  nine findings answered in one round are nine commits, even when they all
+  touch the same file — stage by hunk. Only genuinely overlapping fixes (two
+  findings on the same sentence or expression) collapse into one commit, whose
+  body then explains both.
+- **Keep the review process out of the history.** The subject describes the
+  change; the reviewer that found it is not part of the change. Banned in
+  subject and body: reviewer names, round numbers, finding IDs, finding counts,
+  "address", "review feedback". The body explains what was wrong and why the
+  new state is right — that is the durable WHY; a finding ID has no referent
+  six months later. Traceability runs finding → commit hash and lives in the
+  thread reply and the ledger, never the reverse.
+    - Bad: `docs(adr): address codex fresh round 2 (9 findings)`
+    - Good: nine commits, e.g. `docs(adr): correct retry-budget claim in
+      ADR-0007`, body: the ADR promised a bounded retry budget the
+      implementation never enforced.
 - **Append to the ledger as each item closes**, not at the end: findings
   refuted (with the evidence used), anything kept over a reviewer's objection,
   and rounds per stage. Git already records what was fixed
