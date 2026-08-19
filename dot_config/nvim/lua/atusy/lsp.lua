@@ -99,7 +99,7 @@ function M.start_kakehashi(filetype)
 				return
 			end
 			local buftype = vim.bo[ev_ft.buf].buftype
-			if buftype == "nofile" or buftype == "help" then
+			if (buftype == "nofile" or buftype == "help") and vim.api.nvim_buf_get_name(ev_ft.buf) ~= "" then
 				vim.lsp.buf_attach_client(ev_ft.buf, client.id)
 			end
 		end,
