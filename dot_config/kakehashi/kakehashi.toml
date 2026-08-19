@@ -76,9 +76,6 @@ autoInstall = true
 [languages.sh]
 base = "bash" # because Neovim maps bash filetype to sh languageId
 
-[features."window/logMessage"]
-logLevel = "warning"
-
 [languageServers._]
 preferSharedInstance = true
 
@@ -112,7 +109,10 @@ cmd = [
 languages = ["*"]
 forceStart = true
 
-[captureMappings._.highlights]
+[features."window/logMessage"]
+logLevel = "warning"
+
+[features."textDocument/semanticTokens".captureMappings._]
 "markup.heading" = "class"
 "markup.heading.1" = "class"
 "markup.heading.2" = "class"
@@ -135,7 +135,7 @@ forceStart = true
 "markup.strong" = "keyword"
 "markup.underline" = "keyword"
 
-[captureMappings.org.highlights]
+[features."textDocument/semanticTokens".captureMappings.org]
 # --- queries/highlights.scm ---
 
 # Headlines: stars (`*`, `**`, ...) and the headline text.
