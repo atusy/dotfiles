@@ -13,6 +13,9 @@ missed; stage 1 must cover its passes so convergence happens locally.
 
 ## Pipeline
 
+0. **Record the start ref** (`git rev-parse HEAD`) and open a ledger file in the
+   session scratchpad. Do not rewrite history afterwards — thread replies cite
+   commit hashes, and the final summary reads `<start-ref>..HEAD`.
 1. **`/review`** (subagent-orchestrated multi-perspective review + fact-check).
    Repeat until no actionable findings.
 2. **codex MCP server** review. Repeat (reply-to-continue on the SAME thread)
@@ -37,6 +40,10 @@ missed; stage 1 must cover its passes so convergence happens locally.
 
 - **One commit per fix item**, each passing the project's quality gate.
   Reference the finding (e.g. "Review finding M1") in the commit body.
+- **Append to the ledger as each item closes**, not at the end: findings
+  refuted (with the evidence used), anything kept over a reviewer's objection,
+  and rounds per stage. Git already records what was fixed
+  (`git log <start-ref>..HEAD`); the ledger holds only what git cannot recover.
 - When a finding is fixed, **sweep for siblings**: the same bug class usually
   exists at the other call sites / the twin handler / the delta path when the
   full path was flagged.
@@ -129,5 +136,14 @@ independent reviewer — look for what they missed"). Use `sandbox:
 ## Done
 
 Converged = all stages passed with zero unresolved threads and CI green.
-Report: rounds per stage, findings fixed (with commits), findings refuted and
-why, and anything deliberately kept over a reviewer's objection.
+
+Report to the user, in this order:
+
+1. **What the branch does differently now** — a handful of bullets grouped by
+   behavior/area, written from `git diff <start-ref>..HEAD` plus the diffstat.
+   Change-centric, not commit-centric — a 40-row commit table is bookkeeping,
+   not a summary of what the branch now does.
+2. **Findings fixed** — one line each: the defect, then the commit hash.
+3. **Findings refuted** — with the evidence that refuted them.
+4. **Kept over a reviewer's objection** — and why.
+5. **Rounds per stage.**
