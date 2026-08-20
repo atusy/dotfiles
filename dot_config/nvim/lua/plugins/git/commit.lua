@@ -86,7 +86,7 @@ local function exec(opts)
 	})
 
 	-- mappings
-	vim.keymap.set("n", "<C-S>", "<Plug>(C-S)") -- disable saving
+	vim.keymap.set("n", "<C-S>", "<Plug>(C-S)", { buffer = buf }) -- disable saving
 	vim.keymap.set("n", "<Plug>(C-S)<C-Q>", function()
 		if commit(buf, opts and opts.args or {}, root) == 0 then
 			leave(tab, buf, augroup)
