@@ -67,10 +67,7 @@ function M.setup_mappings(bufnr, client)
 	end
 end
 
---- Start kakehashi during setup
----
---- * to warmup downstream servers for a specific filetype
---- * to attach buffers excluded by builtin attach logic
+--- Force start kakehashi with specific filetype attached
 function M.start_kakehashi(filetype)
 	-- warmup
 	local buf = vim.api.nvim_create_buf(false, false)
@@ -90,20 +87,6 @@ function M.start_kakehashi(filetype)
 		end,
 	})
 	vim.bo[buf].filetype = filetype
-
-	-- extra attach logic
-	vim.api.nvim_create_autocmd("FileType", {
-		callback = function(ev_ft)
-			local client = vim.lsp.get_clients({ name = "kakehashi" })[1]
-			if not client then
-				return
-			end
-			local buftype = vim.bo[ev_ft.buf].buftype
-			if (buftype == "nofile" or buftype == "help") and vim.api.nvim_buf_get_name(ev_ft.buf) ~= "" then
-				vim.lsp.buf_attach_client(ev_ft.buf, client.id)
-			end
-		end,
-	})
 end
 
 function M.setup()
