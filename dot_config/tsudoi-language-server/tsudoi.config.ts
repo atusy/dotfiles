@@ -8,6 +8,7 @@ import { hoverWordnet } from "@atusy/tsudoi-hover-wordnet";
 import type { TsudoiConfigFactory } from "@atusy/tsudoi-language-server/types";
 import { useMyShellCompletion } from "./completion-my-shell.ts";
 import { formatDocument } from "./formatting.ts";
+import { completeEmoji } from "./completion-emoji.ts";
 import { completeGitCommit, isConventionalCommitType } from "./completion-git.ts";
 import {
   handleKakehashiBridgeRouting,
@@ -32,6 +33,7 @@ const config: TsudoiConfigFactory = async () => {
         if (document?.languageId === "gitcommit") {
           yield* completeGitCommit(context, params);
         }
+        yield* completeEmoji(context, params);
         yield* completePath(context, params);
         yield* completeAround(context, params, { maxLines: 500, scanner });
         yield* completeCorpus(context, params, { scanner, maxItems: 2000 });

@@ -244,3 +244,17 @@ Deno.test("gitcommit completion reuses conventional prefixes from recent subject
     await Deno.remove(root, { recursive: true });
   }
 });
+
+Deno.test("emoji completion answers a shortcode in any language", async () => {
+  const labels = await completionLabels("markdown", "Yay :tada");
+  assertEquals(labels.includes(":tada:🎉"), true);
+});
+
+Deno.test("emoji completion precedes the dictionary", async () => {
+  const batches = await completionBatches("markdown", "Yay :tada");
+  const emojiBatch = batches.findIndex((labels) => labels.includes(":tada:🎉"));
+  const wordBatch = batches.findIndex((labels) => labels.includes("tada"));
+
+  assertEquals(emojiBatch >= 0, true);
+  assertEquals(wordBatch === -1 || emojiBatch < wordBatch, true);
+});

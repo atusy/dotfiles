@@ -3,6 +3,7 @@
   "specifiers": {
     "jsr:@std/assert@^1.0.14": "1.0.19",
     "jsr:@std/internal@^1.0.12": "1.0.14",
+    "npm:gemoji@^8.1.0": "8.1.0",
     "npm:vscode-languageserver-protocol@^3.18.2": "3.18.2",
     "npm:vscode-languageserver-textdocument@^1.0.12": "1.0.12",
     "npm:vscode-languageserver-types@^3.18.0": "3.18.0",
@@ -20,6 +21,9 @@
     }
   },
   "npm": {
+    "gemoji@8.1.0": {
+      "integrity": "sha512-HA4Gx59dw2+tn+UAa7XEV4ufUKI4fH1KgcbenVA9YKSj1QJTT0xh5Mwv5HMFNN3l2OtUe3ZIfuRwSyZS5pLIWw=="
+    },
     "vscode-jsonrpc@9.0.1": {
       "integrity": "sha512-rfuA6T75H6m5EkbhtEPzre9pT0HPcDI2MMy4+nPFIBks5J8JBAUHD4tRYSgaBOijIEC7SRkC1kKyXTLqbmh9jw=="
     },
@@ -234,6 +238,7 @@
   "workspace": {
     "dependencies": [
       "jsr:@std/assert@^1.0.14",
+      "npm:gemoji@^8.1.0",
       "npm:vscode-languageserver-protocol@^3.18.2",
       "npm:vscode-languageserver-textdocument@^1.0.12",
       "npm:vscode-languageserver-types@^3.18.0",

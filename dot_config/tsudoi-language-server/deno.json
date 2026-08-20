@@ -10,6 +10,7 @@
     "@atusy/tsudoi-language-server/deps/types": "https://raw.githubusercontent.com/atusy/tsudoi-language-server/0b8f088/packages/tsudoi-language-server/src/deps/types.ts",
     "@atusy/tsudoi-language-server/types": "https://raw.githubusercontent.com/atusy/tsudoi-language-server/0b8f088/packages/tsudoi-language-server/src/types.ts",
     "@std/assert": "jsr:@std/assert@^1.0.14",
+    "gemoji": "npm:gemoji@^8.1.0",
     "vscode-languageserver-protocol": "npm:vscode-languageserver-protocol@^3.18.2",
     "vscode-languageserver-protocol/node": "npm:vscode-languageserver-protocol@^3.18.2/node",
     "vscode-languageserver-textdocument": "npm:vscode-languageserver-textdocument@^1.0.12",
