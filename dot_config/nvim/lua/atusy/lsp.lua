@@ -172,9 +172,20 @@ function M.setup()
 		return vim.lsp.diagnostic.on_publish_diagnostics(err, result, ctx)
 	end
 
-	-- To start kakehashi and underlying tsudoi and optionally fish_lsp
+	-- Start kakehashi and underlying tsudoi and optionally fish_lsp
+	--
 	-- Tsudoi is for common completion, and fish_lsp is for shell command completion on cmdline
-	M.start_kakehashi("fish")
+	-- Hook to LazyDone so that lspconfig is ready.
+	-- Hook to VimEnter in case lazy.nvim is not used.
+	vim.api.nvim_create_autocmd({ "User", "VimEnter" }, {
+		callback = function(ev)
+			if ev.event ~= "User" or ev.match ~= "LazyDone" then
+				return false
+			end
+			M.start_kakehashi("fish")
+			return true
+		end,
+	})
 end
 
 return M
