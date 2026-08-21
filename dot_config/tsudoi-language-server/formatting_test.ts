@@ -92,6 +92,23 @@ Deno.test("findFormatFunc checks resolvers in order for each directory", async (
   assertEquals(dirname("/project"), "/");
 });
 
+Deno.test("findFormatFunc stops after checking a workspace root", async () => {
+  const checked: string[] = [];
+  const resolver: FormatFuncResolver = async (directoryPath) => {
+    checked.push(directoryPath);
+    return null;
+  };
+
+  const actual = await findFormatFunc(
+    "/project/src/main.ts",
+    [resolver],
+    ["/project"],
+  );
+
+  assertEquals(actual, null);
+  assertEquals(checked, ["/project/src", "/project"]);
+});
+
 Deno.test("resolveTreefmtToml selects a directory containing treefmt.toml", async () => {
   const directory = await Deno.makeTempDir();
   try {

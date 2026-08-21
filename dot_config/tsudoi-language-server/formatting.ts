@@ -3,7 +3,15 @@ import {
   LSPErrorCodes,
   ResponseError,
 } from "@atusy/tsudoi-language-server/deps/error";
-import { dirname, join } from "node:path";
+import {
+  dirname,
+  isAbsolute,
+  join,
+  parse,
+  relative,
+  resolve,
+  sep,
+} from "node:path";
 import { fileURLToPath } from "node:url";
 
 export type FormatFunc = (
@@ -19,8 +27,21 @@ export type FormatFuncResolver = (
 export async function findFormatFunc(
   filePath: string,
   resolvers: readonly FormatFuncResolver[],
+  rootPaths: readonly string[] = [parse(filePath).root],
 ): Promise<FormatFunc | null> {
-  let directory = dirname(filePath);
+  let directory = resolve(dirname(filePath));
+  const roots = rootPaths.map((rootPath) => resolve(rootPath)).filter(
+    (rootPath) => {
+      const relativePath = relative(rootPath, directory);
+      return relativePath === "" ||
+        (!isAbsolute(relativePath) && relativePath !== ".." &&
+          !relativePath.startsWith(`..${sep}`));
+    },
+  );
+  if (roots.length === 0) {
+    return null;
+  }
+
   while (true) {
     for (const resolve of resolvers) {
       const format = await resolve(directory);
@@ -29,6 +50,9 @@ export async function findFormatFunc(
       }
     }
 
+    if (roots.includes(directory)) {
+      return null;
+    }
     const parent = dirname(directory);
     if (parent === directory) {
       return null;
