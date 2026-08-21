@@ -55,6 +55,7 @@ Deno.test("formatting without a formatter config requests fallback", async () =>
           {
             tsudoi: {
               documents: { get: () => ({ uri }) },
+              workspaceFolders: { values: () => [] },
             },
           } as never,
           { textDocument: { uri } } as never,
@@ -65,6 +66,68 @@ Deno.test("formatting without a formatter config requests fallback", async () =>
     assertEquals(error.code, LSPErrorCodes.RequestFailed);
   } finally {
     await Deno.remove(directory, { recursive: true });
+  }
+});
+
+Deno.test("formatting does not discover config above a workspace root", async () => {
+  const outer = await Deno.makeTempDir();
+  const workspace = join(outer, "workspace");
+  await Deno.mkdir(workspace);
+  await Deno.writeTextFile(join(outer, "dprint.json"), "not json");
+  try {
+    const uri = pathToFileURL(join(workspace, "main.ts")).href;
+    const error = await assertRejects(
+      () =>
+        formatDocument(
+          {
+            tsudoi: {
+              documents: { get: () => ({ uri }) },
+              workspaceFolders: {
+                values: () => [{
+                  name: "workspace",
+                  uri: pathToFileURL(workspace).href,
+                }],
+              },
+            },
+          } as never,
+          { textDocument: { uri } } as never,
+        ),
+      ResponseError,
+    );
+
+    assertEquals(error.code, LSPErrorCodes.RequestFailed);
+  } finally {
+    await Deno.remove(outer, { recursive: true });
+  }
+});
+
+Deno.test("formatting does not discover config above cwd without workspace folders", async () => {
+  const originalCwd = Deno.cwd();
+  const outer = await Deno.makeTempDir();
+  const cwd = join(outer, "cwd");
+  await Deno.mkdir(cwd);
+  await Deno.writeTextFile(join(outer, "dprint.json"), "not json");
+  try {
+    Deno.chdir(cwd);
+    const uri = pathToFileURL(join(cwd, "main.ts")).href;
+    const error = await assertRejects(
+      () =>
+        formatDocument(
+          {
+            tsudoi: {
+              documents: { get: () => ({ uri }) },
+              workspaceFolders: { values: () => [] },
+            },
+          } as never,
+          { textDocument: { uri } } as never,
+        ),
+      ResponseError,
+    );
+
+    assertEquals(error.code, LSPErrorCodes.RequestFailed);
+  } finally {
+    Deno.chdir(originalCwd);
+    await Deno.remove(outer, { recursive: true });
   }
 });
 
@@ -92,7 +155,7 @@ Deno.test("findFormatFunc checks resolvers in order for each directory", async (
   assertEquals(dirname("/project"), "/");
 });
 
-Deno.test("findFormatFunc stops after checking a workspace root", async () => {
+Deno.test("findFormatFunc stops after checking the nearest workspace root", async () => {
   const checked: string[] = [];
   const resolver: FormatFuncResolver = async (directoryPath) => {
     checked.push(directoryPath);
@@ -102,7 +165,7 @@ Deno.test("findFormatFunc stops after checking a workspace root", async () => {
   const actual = await findFormatFunc(
     "/project/src/main.ts",
     [resolver],
-    ["/project"],
+    ["/", "/project"],
   );
 
   assertEquals(actual, null);

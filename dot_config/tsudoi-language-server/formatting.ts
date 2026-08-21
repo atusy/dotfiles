@@ -30,15 +30,16 @@ export async function findFormatFunc(
   rootPaths: readonly string[] = [parse(filePath).root],
 ): Promise<FormatFunc | null> {
   let directory = resolve(dirname(filePath));
-  const roots = rootPaths.map((rootPath) => resolve(rootPath)).filter(
-    (rootPath) => {
+  const root = rootPaths
+    .map((rootPath) => resolve(rootPath))
+    .filter((rootPath) => {
       const relativePath = relative(rootPath, directory);
       return relativePath === "" ||
         (!isAbsolute(relativePath) && relativePath !== ".." &&
           !relativePath.startsWith(`..${sep}`));
-    },
-  );
-  if (roots.length === 0) {
+    })
+    .sort((a, b) => b.length - a.length)[0];
+  if (root === undefined) {
     return null;
   }
 
@@ -50,7 +51,7 @@ export async function findFormatFunc(
       }
     }
 
-    if (roots.includes(directory)) {
+    if (directory === root) {
       return null;
     }
     const parent = dirname(directory);
@@ -218,11 +219,23 @@ export const formatDocument: MethodHandler<"textDocument/formatting"> = async (
   } catch {
     requestFormatterFallback("Document URI is not a file URI");
   }
-  const format = await findFormatFunc(filePath, [
-    resolveTreefmtToml,
-    resolveFlakeTreefmt,
-    resolveDprint,
-  ]);
+  const workspaceFolders = Array.from(context.tsudoi.workspaceFolders.values());
+  const workspaceRootPaths = workspaceFolders.flatMap(({ uri }) => {
+    try {
+      return [fileURLToPath(uri)];
+    } catch {
+      return [];
+    }
+  });
+  const format = await findFormatFunc(
+    filePath,
+    [
+      resolveTreefmtToml,
+      resolveFlakeTreefmt,
+      resolveDprint,
+    ],
+    workspaceFolders.length === 0 ? [Deno.cwd()] : workspaceRootPaths,
+  );
   if (format === null) {
     requestFormatterFallback("No formatter configuration found");
   }
