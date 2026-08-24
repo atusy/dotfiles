@@ -1,0 +1,54 @@
+--- Confirm the selected pum.vim candidate when typing continues.
+---
+--- Selecting with pum#map#insert_relative() only inserts the candidate's word;
+--- LSP-side effects (textEdit expansion such as emoji shortcodes, and
+--- additionalTextEdits) are applied by ddc's onCompleteDone, which normally
+--- fires asynchronously and bails out once the typed character has changed the
+--- line. Intercepting InsertCharPre lets us confirm synchronously first and
+--- re-feed the character afterwards, so continuing to type behaves like <C-Y>.
+local M = {}
+
+local function selected_item()
+	if not vim.fn["pum#visible"]() then
+		return nil
+	end
+	local info = vim.fn["pum#complete_info"]()
+	if info.selected < 0 or info.inserted == "" then
+		return nil
+	end
+	return vim.fn["pum#current_item"]()
+end
+
+--- Runs via <Cmd> (outside textlock) before the suppressed char is re-inserted.
+function M.confirm()
+	local item = selected_item()
+	if not item then
+		return
+	end
+	vim.fn["pum#map#confirm"]()
+	-- pum#close() publishes v:completed_item on a timer, which is too late for
+	-- the synchronous request below; ddc-source-nvim-lsp reads it to decide
+	-- whether the buffer still matches the confirmed word.
+	vim.v.completed_item = item
+	pcall(vim.fn["denops#request"], "ddc", "onCompleteDone", { item })
+end
+
+function M.setup()
+	vim.api.nvim_create_autocmd("InsertCharPre", {
+		group = vim.api.nvim_create_augroup("atusy.ddc.auto_confirm", {}),
+		callback = function()
+			if not selected_item() then
+				return
+			end
+			local char = vim.v.char
+			vim.v.char = ""
+			vim.api.nvim_feedkeys(
+				vim.keycode("<Cmd>lua require('atusy.ddc.auto_confirm').confirm()<CR>") .. char,
+				"in",
+				false
+			)
+		end,
+	})
+end
+
+return M

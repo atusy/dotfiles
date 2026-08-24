@@ -54,6 +54,7 @@ local function config()
 		end
 		return "<S-Tab>"
 	end, { expr = true })
+	require("atusy.ddc.auto_confirm").setup()
 	vim.keymap.set({ "i", "c" }, "<C-Y>", function()
 		if vim.fn["pum#visible"]() then
 			return "<Cmd>call pum#map#confirm()<CR>"
