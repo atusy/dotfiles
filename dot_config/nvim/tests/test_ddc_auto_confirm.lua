@@ -47,17 +47,20 @@ local function setup_fakes()
 	vim.opt.runtimepath:prepend(root)
 end
 
-T["typing while a candidate is selected confirms it before the char"] = function()
-	setup_fakes()
+-- Type " x" after the inserted-but-unconfirmed word and return the buffer line.
+local function type_after_inserted_word()
 	local buf = vim.api.nvim_create_buf(false, true)
 	vim.api.nvim_set_current_buf(buf)
 	vim.api.nvim_buf_set_lines(buf, 0, -1, false, { ":smile:" })
-
 	require("atusy.ddc.auto_confirm").setup()
-
 	vim.api.nvim_feedkeys(vim.keycode("A x<Esc>"), "x", false)
+	return vim.api.nvim_buf_get_lines(buf, 0, -1, false)
+end
 
-	expect.equality(vim.api.nvim_buf_get_lines(buf, 0, -1, false), { "😄 x" })
+T["typing while a candidate is selected confirms it before the char"] = function()
+	setup_fakes()
+
+	expect.equality(type_after_inserted_word(), { "😄 x" })
 	expect.equality(vim.g.confirm_calls, 1)
 	expect.equality(vim.g.denops_requests, { { "ddc", "onCompleteDone" } })
 end
@@ -65,15 +68,8 @@ end
 T["typing without a selection inserts the char unchanged"] = function()
 	setup_fakes()
 	vim.g.fake_pum_visible = false
-	local buf = vim.api.nvim_create_buf(false, true)
-	vim.api.nvim_set_current_buf(buf)
-	vim.api.nvim_buf_set_lines(buf, 0, -1, false, { ":smile:" })
 
-	require("atusy.ddc.auto_confirm").setup()
-
-	vim.api.nvim_feedkeys(vim.keycode("A x<Esc>"), "x", false)
-
-	expect.equality(vim.api.nvim_buf_get_lines(buf, 0, -1, false), { ":smile: x" })
+	expect.equality(type_after_inserted_word(), { ":smile: x" })
 	expect.equality(vim.g.confirm_calls, 0)
 	expect.equality(vim.g.denops_requests, {})
 end
