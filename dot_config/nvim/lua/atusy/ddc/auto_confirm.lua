@@ -50,6 +50,15 @@ function M.setup()
 				return
 			end
 			pending = item
+			-- pum.vim's own InsertCharPre handler runs next and calls pum#close(),
+			-- which schedules a deferred complete-done for the still-active
+			-- candidate. That event would notify ddc's onCompleteDone a second
+			-- time and race the synchronous confirm below inside denops, with
+			-- both passing the buffer-text guard on the same pre-edit snapshot
+			-- and double-applying the textEdit (LSPRangeError). Clearing the
+			-- candidate state here makes that close a plain window close;
+			-- pum#popup#_close() performs the same reset itself.
+			vim.cmd([[call extend(pum#_get(), #{cursor: -1, current_word: ''})]])
 			local char = vim.v.char
 			vim.v.char = ""
 			vim.api.nvim_feedkeys(

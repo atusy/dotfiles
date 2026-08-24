@@ -7,29 +7,49 @@ local T = MiniTest.new_set()
 -- the fake denops request rewrites ":smile:" at end-of-line into the emoji,
 -- so the emoji only appears if confirmation runs BEFORE the typed char lands.
 local function setup_fakes()
-	vim.g.fake_pum_visible = true
+	vim.g.fake_pum_visible = false
 	vim.g.confirm_calls = 0
 	vim.g.denops_requests = {}
+	vim.g.deferred_complete_dones = 0
 	local root = vim.fn.tempname()
 	local autoloads = {
 		["pum.vim"] = [[
+			let s:pum = #{cursor: -1, current_word: ''}
+			function! pum#_fake_open() abort
+				let s:pum = #{cursor: 1, current_word: ':smile:'}
+				let g:fake_pum_visible = v:true
+			endfunction
+			function! pum#_get() abort
+				return s:pum
+			endfunction
 			function! pum#visible() abort
 				return g:fake_pum_visible
 			endfunction
 			function! pum#complete_info() abort
-				if !g:fake_pum_visible
+				if !g:fake_pum_visible || s:pum.cursor <= 0 || s:pum.current_word ==# ''
 					return #{selected: -1, inserted: ''}
 				endif
-				return #{selected: 0, inserted: ':smile:'}
+				return #{selected: s:pum.cursor - 1, inserted: s:pum.current_word}
 			endfunction
 			function! pum#current_item() abort
-				return g:fake_pum_visible ? #{word: ':smile:', user_data: #{lspitem: '{}'}} : {}
+				return pum#complete_info().selected >= 0
+					\ ? #{word: ':smile:', user_data: #{lspitem: '{}'}}
+					\ : {}
+			endfunction
+			function! pum#_fake_close() abort
+				" Mirrors pum#close(): it schedules a deferred complete-done event
+				" (later notified to ddc) whenever a candidate is still active.
+				if s:pum.cursor >= 0 && s:pum.current_word !=# ''
+					let g:deferred_complete_dones += 1
+				endif
+				let g:fake_pum_visible = v:false
+				let s:pum = #{cursor: -1, current_word: ''}
 			endfunction
 		]],
 		["pum/map.vim"] = [[
 			function! pum#map#confirm() abort
 				let g:confirm_calls += 1
-				let g:fake_pum_visible = v:false
+				call pum#_fake_close()
 				return ''
 			endfunction
 		]],
@@ -62,7 +82,9 @@ local function type_after_inserted_word()
 	vim.api.nvim_create_autocmd("InsertCharPre", {
 		group = vim.api.nvim_create_augroup("fake-pum-temp", {}),
 		callback = function()
-			vim.g.fake_pum_visible = false
+			if vim.g.fake_pum_visible then
+				vim.fn["pum#_fake_close"]()
+			end
 		end,
 	})
 	vim.api.nvim_feedkeys(vim.keycode("A x<Esc>"), "x", false)
@@ -71,6 +93,7 @@ end
 
 T["typing while a candidate is selected confirms it before the char"] = function()
 	setup_fakes()
+	vim.fn["pum#_fake_open"]()
 
 	expect.equality(type_after_inserted_word(), { "😄 x" })
 	expect.equality(vim.g.denops_requests, { { "ddc", "onCompleteDone" } })
@@ -78,11 +101,22 @@ end
 
 T["typing without a selection inserts the char unchanged"] = function()
 	setup_fakes()
-	vim.g.fake_pum_visible = false
 
 	expect.equality(type_after_inserted_word(), { ":smile: x" })
 	expect.equality(vim.g.confirm_calls, 0)
 	expect.equality(vim.g.denops_requests, {})
+end
+
+T["confirming leaves no deferred complete-done to notify ddc again"] = function()
+	setup_fakes()
+	vim.fn["pum#_fake_open"]()
+
+	type_after_inserted_word()
+
+	-- pum#close()'s deferred complete-done would notify ddc's onCompleteDone a
+	-- second time, racing the synchronous request and double-applying the
+	-- textEdit (observed as LSPRangeError from #restoreRequestedState).
+	expect.equality(vim.g.deferred_complete_dones, 0)
 end
 
 return T
