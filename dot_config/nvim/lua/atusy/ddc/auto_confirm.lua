@@ -8,6 +8,11 @@
 --- re-feed the character afterwards, so continuing to type behaves like <C-Y>.
 local M = {}
 
+--- The candidate captured on InsertCharPre. It must be captured there because
+--- pum.vim's own InsertCharPre handler (s:check_user_input) closes the popup
+--- and discards the selection before the re-fed <Cmd> below gets to run.
+local pending = nil
+
 local function selected_item()
 	if not vim.fn["pum#visible"]() then
 		return nil
@@ -21,11 +26,14 @@ end
 
 --- Runs via <Cmd> (outside textlock) before the suppressed char is re-inserted.
 function M.confirm()
-	local item = selected_item()
+	local item = pending
+	pending = nil
 	if not item then
 		return
 	end
-	vim.fn["pum#map#confirm"]()
+	if vim.fn["pum#visible"]() then
+		vim.fn["pum#map#confirm"]()
+	end
 	-- pum#close() publishes v:completed_item on a timer, which is too late for
 	-- the synchronous request below; ddc-source-nvim-lsp reads it to decide
 	-- whether the buffer still matches the confirmed word.
@@ -37,9 +45,11 @@ function M.setup()
 	vim.api.nvim_create_autocmd("InsertCharPre", {
 		group = vim.api.nvim_create_augroup("atusy.ddc.auto_confirm", {}),
 		callback = function()
-			if not selected_item() then
+			local item = selected_item()
+			if not item then
 				return
 			end
+			pending = item
 			local char = vim.v.char
 			vim.v.char = ""
 			vim.api.nvim_feedkeys(

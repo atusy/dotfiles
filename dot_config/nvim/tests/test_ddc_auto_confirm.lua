@@ -17,10 +17,13 @@ local function setup_fakes()
 				return g:fake_pum_visible
 			endfunction
 			function! pum#complete_info() abort
+				if !g:fake_pum_visible
+					return #{selected: -1, inserted: ''}
+				endif
 				return #{selected: 0, inserted: ':smile:'}
 			endfunction
 			function! pum#current_item() abort
-				return #{word: ':smile:', user_data: #{lspitem: '{}'}}
+				return g:fake_pum_visible ? #{word: ':smile:', user_data: #{lspitem: '{}'}} : {}
 			endfunction
 		]],
 		["pum/map.vim"] = [[
@@ -53,6 +56,15 @@ local function type_after_inserted_word()
 	vim.api.nvim_set_current_buf(buf)
 	vim.api.nvim_buf_set_lines(buf, 0, -1, false, { ":smile:" })
 	require("atusy.ddc.auto_confirm").setup()
+	-- pum.vim installs its own InsertCharPre handler (s:check_user_input) that
+	-- closes the popup on any typed char; it runs AFTER the module's handler
+	-- because it is registered later (at selection time).
+	vim.api.nvim_create_autocmd("InsertCharPre", {
+		group = vim.api.nvim_create_augroup("fake-pum-temp", {}),
+		callback = function()
+			vim.g.fake_pum_visible = false
+		end,
+	})
 	vim.api.nvim_feedkeys(vim.keycode("A x<Esc>"), "x", false)
 	return vim.api.nvim_buf_get_lines(buf, 0, -1, false)
 end
@@ -61,7 +73,6 @@ T["typing while a candidate is selected confirms it before the char"] = function
 	setup_fakes()
 
 	expect.equality(type_after_inserted_word(), { "😄 x" })
-	expect.equality(vim.g.confirm_calls, 1)
 	expect.equality(vim.g.denops_requests, { { "ddc", "onCompleteDone" } })
 end
 
