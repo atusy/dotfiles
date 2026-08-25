@@ -60,19 +60,21 @@ return {
 		client.server_capabilities.semanticTokensProvider.range = false
 
 		-- attach files skipped by vim.lsp.enable()
-    vim.api.nvim_create_autocmd("FileType", {
-      group = augroup,
-      callback = function(ev_ft)
-        local buftype = vim.bo[ev_ft.buf].buftype
-        if (buftype == "nofile" or buftype == "help") and vim.api.nvim_buf_get_name(ev_ft.buf) ~= "" then
-          vim.lsp.buf_attach_client(ev_ft.buf, client.id)
-        end
-      end,
-    })
+		vim.api.nvim_create_autocmd("FileType", {
+			group = augroup,
+			callback = function(ev_ft)
+				local buftype = vim.bo[ev_ft.buf].buftype
+				if (buftype == "nofile" or buftype == "help") and vim.api.nvim_buf_get_name(ev_ft.buf) ~= "" then
+					vim.lsp.buf_attach_client(ev_ft.buf, client.id)
+				end
+			end,
+		})
 	end,
 	on_exit = function()
-	  vim.api.nvim_clear_autocmds({ group = augroup })
-  end,
+		vim.schedule(function()
+			vim.api.nvim_clear_autocmds({ group = augroup })
+		end)
+	end,
 	on_attach = function(_, bufnr)
 		vim.api.nvim_create_autocmd("LspTokenUpdate", {
 			buffer = bufnr,
