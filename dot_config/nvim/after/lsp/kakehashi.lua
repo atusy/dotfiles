@@ -11,17 +11,6 @@ local function gen_cmd()
 	---@type string[]
 	local cmd = { vim.uv.fs_stat(KAKEHASHI_BIN) and KAKEHASHI_BIN or "kakehashi" }
 
-	for _, path in ipairs({
-		vim.fs.joinpath(home, "ghq/github.com/atusy/kakehashi-lspconfig/lsp.toml"),
-		vim.fs.joinpath(home, ".config/kakehashi/kakehashi.toml"),
-		"kakehashi.toml",
-	}) do
-		if vim.uv.fs_stat(path) then
-			table.insert(cmd, "--config-file")
-			table.insert(cmd, path)
-		end
-	end
-
 	---@type string[]
 	local extra_args = vim.json.decode(vim.env.KAKEHASHI_EXTRA_ARGS or "[]")
 	for _, arg in ipairs(extra_args) do
