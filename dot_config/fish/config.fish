@@ -3,7 +3,6 @@ if ! status is-interactive
         # for Ex-command completions with ddc.vim
         alias Gin=git
         alias GinBuffer=git
-        alias Make=make
         alias lmake=make
     end
     return
