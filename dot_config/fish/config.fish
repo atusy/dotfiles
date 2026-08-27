@@ -1,19 +1,19 @@
 if ! status is-interactive
-  if set -q DDCVIM
-    # for Ex-command completions with ddc.vim
-    alias Gin=git
-    alias GinBuffer=git
-    alias Make=make
-    alias lmake=make
-  end
-  return
+    if set -q DDCVIM
+        # for Ex-command completions with ddc.vim
+        alias Gin=git
+        alias GinBuffer=git
+        alias Make=make
+        alias lmake=make
+    end
+    return
 end
 
 # for interactive shell
 set -U fish_greeting
 
 if test -f /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.fish
-  source /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.fish
+    source /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.fish
 end
 
 source_hook mise activate fish
@@ -21,13 +21,13 @@ source_hook direnv hook fish
 source_hook zoxide init fish --no-cmd
 
 if type -q brew
-  __setup-brew brew
+    __setup-brew brew
 else
-  for brew in "$HOME/.linuxbrew/bin/brew" "/opt/homebrew/bin/brew"
-    if test -x $brew
-      __setup-brew $brew
+    for brew in "$HOME/.linuxbrew/bin/brew" /opt/homebrew/bin/brew
+        if test -x $brew
+            __setup-brew $brew
+        end
     end
-  end
 end
 
 abbr -a kunset 'kubectl config unset current-context'
@@ -47,15 +47,15 @@ bind \t complete-and-search-if-not-empty
 bind \cr set_commandline_from_suggestions
 bind \cc cancel-commandline
 
-if set -q "NVIM"
-  function _nvim-preexec --on-event fish_preexec --wraps __nvim-preexec
-    __nvim-preexec $argv
-  end
-  if type -q nvr
-    set -gx EDITOR 'nvr -c "set bufhidden=delete" --remote-tab-wait'
-  end
+if set -q NVIM
+    function _nvim-preexec --on-event fish_preexec --wraps __nvim-preexec
+        __nvim-preexec $argv
+    end
+    if type -q nvr
+        set -gx EDITOR 'nvr -c "set bufhidden=delete" --remote-tab-wait'
+    end
 else
-  set -gx EDITOR nvim
+    set -gx EDITOR nvim
 end
 
 update_completion gh completion -s fish
@@ -68,5 +68,5 @@ set_gh_config_dir
 
 set -l local_config (status dirname)/local.fish
 if test -f $local_config
-  source $local_config
+    source $local_config
 end
