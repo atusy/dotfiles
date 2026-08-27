@@ -158,17 +158,11 @@ return {
 			vim.keymap.set("n", "gm", function()
 				hover({ providers = { "hover.providers.dictionary" } })
 			end)
-
-			-- gh for github
-			vim.keymap.set("n", "gh", function()
-				hover({ providers = { "hover.providers.gh" } })
-			end)
 		end,
 		config = function()
 			require("hover").config({
 				providers = {
 					"hover.providers.lsp",
-					"hover.providers.gh",
 					"hover.providers.man",
 					"hover.providers.dictionary",
 				},
