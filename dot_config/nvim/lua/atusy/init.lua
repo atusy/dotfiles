@@ -76,7 +76,7 @@ vim.keymap.set("n", "<Plug>(H)H", "<PageUp>H<Plug>(H)")
 vim.keymap.set("n", "L", "L<Plug>(L)")
 vim.keymap.set("n", "<Plug>(L)L", "<PageDown>Lzb<Plug>(L)")
 vim.keymap.set("n", "ZA", "<Cmd>xa<Cr>")
-vim.keymap.set("x", "<C-G>", "<Plug>(C-G)")
+vim.keymap.set({ "i", "x" }, "<C-G>", "<Plug>(C-G)")
 vim.keymap.set("x", "<Plug>(C-G)<C-G>", function()
 	local region = vim.fn.getregionpos(vim.fn.getpos("v"), vim.fn.getpos("."))
 	local s = region[1][1][2]

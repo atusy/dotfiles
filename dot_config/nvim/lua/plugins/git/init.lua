@@ -12,7 +12,6 @@ local function setup_gitsigns()
 			local function save_and(x, cmd)
 				return "<Plug>(save)" .. (cmd or "<Cmd>") .. "Gitsigns " .. x .. "<CR>"
 			end
-			vim.keymap.set("n", "<Plug>(C-G)<C-H>", save_and("preview_hunk"), { buffer = buf }) -- preview hunk
 			vim.keymap.set("n", "<Plug>(C-G)<u>", save_and("undo_stage_hunk"), { buffer = buf }) -- undo add hunk
 			vim.keymap.set(
 				{ "n", "x" },

@@ -22,11 +22,19 @@ function M.setup_mappings(bufnr, client)
 
 		-- mappigns with builtin APIs
 		vim.keymap.set("n", "gD", [[<Cmd>lua vim.lsp.buf.declaration()<CR>]], { silent = true })
-		vim.keymap.set("n", "gs", [[<Cmd>lua vim.lsp.buf.signature_help()<CR>]], { silent = true })
 		vim.keymap.set("n", "gK", [[<Cmd>lua vim.lsp.buf.type_definition()<CR>]], { silent = true }) -- Kata teigi
 		vim.keymap.set("n", "ga", [[<Cmd>lua require('lspsaga.codeaction'):code_action()<CR>]], { silent = true }) -- use :as for original ga
 		vim.keymap.set("n", "K", [[<Cmd>lua vim.lsp.buf.hover()<CR>]], { silent = true })
 		vim.keymap.set("i", "<C-A>", [[<Cmd>lua vim.lsp.inline_completion.get()<CR>]], { silent = true })
+		vim.keymap.set("n", "<Plug>(C-G)<C-H>", [[<Cmd>lua vim.lsp.buf.signature_help()<CR>]], { silent = true })
+		vim.keymap.set("i", "<Plug>(C-G)<C-H>", function()
+			local win = vim.b.lsp_floating_preview
+			if win and vim.api.nvim_win_is_valid(win) and vim.w[win]["textDocument/signatureHelp"] then
+				vim.api.nvim_win_close(win, true)
+			else
+				vim.lsp.buf.signature_help()
+			end
+		end)
 		vim.keymap.set("n", " r", [[<Cmd>lua vim.lsp.buf.rename()<CR>]], { silent = true })
 
 		-- mappings with plugin APIs with fallback
