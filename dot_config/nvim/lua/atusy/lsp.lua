@@ -136,8 +136,20 @@ function M.setup()
 		once = false, -- because of buffer-local configurations
 		callback = function(ctx)
 			local client = vim.lsp.get_client_by_id(ctx.data.client_id)
-			if client then
-				M.setup_mappings(ctx.buf, client)
+			if not client then
+				return
+			end
+
+			M.setup_mappings(ctx.buf, client)
+
+			local bufnr = ctx.buf
+			if client.name ~= "copilot" and vim.bo[bufnr].buftype ~= "nofile" then
+				vim.api.nvim_create_autocmd({ "InsertEnter", "TextChangedI", "CursorMovedI" }, {
+					buffer = bufnr,
+					callback = function()
+						vim.lsp.buf.signature_help({ focus = false })
+					end,
+				})
 			end
 		end,
 	})

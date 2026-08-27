@@ -4,35 +4,6 @@ return {
 	{ "https://github.com/b0o/SchemaStore.nvim", lazy = true }, -- loaded via after/lsp/*.lua
 	--[[ LSP UI ]]
 	{
-		-- "https://github.com/ray-x/lsp_signature.nvim",
-		"https://github.com/atusy/lsp_signature.nvim",
-		branch = "fix-attempt-to-index-field-signatures-a-userdata-value",
-		lazy = true,
-		init = function()
-			vim.api.nvim_create_autocmd("LspAttach", {
-				group = vim.api.nvim_create_augroup("atusy.lsp_signature", {}),
-				callback = function(ctx)
-					local bufnr = ctx.buf
-					local client = vim.lsp.get_client_by_id(ctx.data.client_id)
-					if not client then
-						return
-					end
-					if client.name == "copilot" then
-						return
-					end
-					if vim.bo[bufnr].buftype == "nofile" then
-						return
-					end
-					require("lsp_signature").on_attach(
-						{ hint_enable = false, handler_opts = { border = "none" } },
-						bufnr
-					)
-					vim.keymap.set("i", "<C-G><C-H>", require("lsp_signature").toggle_float_win, { buffer = bufnr })
-				end,
-			})
-		end,
-	},
-	{
 		"https://github.com/j-hui/fidget.nvim",
 		event = "LspAttach",
 		config = function()
