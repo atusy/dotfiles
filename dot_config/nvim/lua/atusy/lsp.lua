@@ -150,6 +150,7 @@ function M.setup()
 
 			M.setup_mappings(ctx.buf, client)
 
+			-- signature help
 			local bufnr = ctx.buf
 			if client.name ~= "copilot" and vim.bo[bufnr].buftype ~= "nofile" then
 				vim.api.nvim_create_autocmd({ "InsertEnter", "TextChangedI", "CursorMovedI" }, {
@@ -159,6 +160,23 @@ function M.setup()
 					end,
 				})
 			end
+		end,
+	})
+
+	vim.api.nvim_create_autocmd("BufWritePre", {
+		group = M.augroup,
+		callback = function(ctx)
+			if vim.v.cmdbang == 1 then
+				return nil
+			end
+
+			local name = vim.api.nvim_buf_get_name(ctx.buf)
+			local basename = vim.fs.basename(name)
+			if basename:match("%.lock$") or basename:match("%plock%p") then
+				return nil -- do not format lock files
+			end
+
+			vim.lsp.buf.format({ async = false, timeout_ms = 1000 })
 		end,
 	})
 
