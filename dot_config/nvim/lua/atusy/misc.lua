@@ -145,13 +145,6 @@ function M.open_cfile(opts)
 	return require("atusy.misc.cfile").open(opts)
 end
 
-function M.require(name)
-	pcall(function()
-		require("plenary.reload").reload_module(name)
-	end)
-	return require(name)
-end
-
 local function notify_error(err)
 	vim.notify(err, vim.log.levels.ERROR)
 end
