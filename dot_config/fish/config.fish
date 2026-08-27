@@ -8,7 +8,11 @@ if ! status is-interactive
     return
 end
 
+# ---------------------
 # for interactive shell
+# ---------------------
+
+# @fish-lsp-disable-next-line 2003
 set -U fish_greeting
 
 if test -f /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.fish
