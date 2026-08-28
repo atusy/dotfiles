@@ -25,6 +25,7 @@ return {
 	cmd = gen_cmd(),
 	cmd_env = {
 		KAKEHASHI_EXPERIMENTAL = vim.env.KAKEHASHI_EXPERIMENTAL or "true",
+		DDCVIM = "1",
 	},
 	root_dir = function(bufnr, on_dir)
 		-- skip terminal buffers (e.g., toggleterm)
