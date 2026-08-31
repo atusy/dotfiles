@@ -5,13 +5,13 @@ Use this structure for all ADRs:
 ```markdown
 # [Short Title of Solved Problem and Solution]
 
-| | |
-|---|---|
-| **Status** | [proposed \| accepted \| deprecated \| superseded by [ADR-XXXX](link)] |
-| **Date** | YYYY-MM-DD |
-| **Decision-makers** | [list names or roles] |
-| **Consulted** | [list or link to consultation] |
-| **Informed** | [list stakeholders to inform] |
+|                     |                                                                        |
+| ------------------- | ---------------------------------------------------------------------- |
+| **Status**          | [proposed \| accepted \| deprecated \| superseded by [ADR-XXXX](link)] |
+| **Date**            | YYYY-MM-DD                                                             |
+| **Decision-makers** | [list names or roles]                                                  |
+| **Consulted**       | [list or link to consultation]                                         |
+| **Informed**        | [list stakeholders to inform]                                          |
 
 ## Context and Problem Statement
 
@@ -19,9 +19,9 @@ Use this structure for all ADRs:
 
 ## Decision Drivers
 
-* [Driver 1: e.g., scalability requirements]
-* [Driver 2: e.g., team expertise]
-* [Driver 3: e.g., maintenance burden]
+- [Driver 1: e.g., scalability requirements]
+- [Driver 2: e.g., team expertise]
+- [Driver 3: e.g., maintenance burden]
 
 ## Considered Options
 
@@ -36,15 +36,18 @@ Use this structure for all ADRs:
 ### Consequences
 
 **Positive:**
-* [Benefit 1]
-* [Benefit 2]
+
+- [Benefit 1]
+- [Benefit 2]
 
 **Negative:**
-* [Trade-off 1]
-* [Trade-off 2]
+
+- [Trade-off 1]
+- [Trade-off 2]
 
 **Neutral:**
-* [Side effect that is neither clearly positive nor negative]
+
+- [Side effect that is neither clearly positive nor negative]
 
 ### Confirmation
 
@@ -56,24 +59,24 @@ Use this structure for all ADRs:
 
 [Brief description]
 
-* Good, because [argument]
-* Good, because [argument]
-* Neutral, because [argument]
-* Bad, because [argument]
+- Good, because [argument]
+- Good, because [argument]
+- Neutral, because [argument]
+- Bad, because [argument]
 
 ### [Option 2]
 
 [Brief description]
 
-* Good, because [argument]
-* Bad, because [argument]
+- Good, because [argument]
+- Bad, because [argument]
 
 ### [Option 3]
 
 [Brief description]
 
-* Good, because [argument]
-* Bad, because [argument]
+- Good, because [argument]
+- Bad, because [argument]
 
 ## More Information
 

@@ -63,7 +63,6 @@ For tasks needing both auto-detection AND manual invocation:
 name: git-commit
 description: Stage meaningful diffs and create commits with WHY-focused messages. Use whenever making git commits.
 ---
-
 Use `/git:commit` slash command to stage meaningful diffs and create commits with WHY-focused messages.
 ```
 
