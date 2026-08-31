@@ -1,6 +1,6 @@
-version: '3'
+version: "3"
 
 tasks:
-  apply:
-    cmds:
-      - chezmoi apply
+    apply:
+        cmds:
+            - chezmoi apply

@@ -1,82 +1,80 @@
 snippets:
-  - name: cd gitroot
-    keyword: gd
-    snippet: cd-gitroot 
-  - name: ping
-    keyword: ping
-    snippet: ping -c 5 
-  - name: free
-    keyword: free
-    snippet: free -m
-  - name: nemo
-    keyword: nemo
-    snippet: 'nohup nemo .{{args}} > /dev/null 2>&1 &!'
-  - name: list colors
-    keyword: ls-colors
-    snippet: for c in {000..255}; do echo -n "\e[38;5;${c}m $c"; [ $(($c%16)) -eq 15 ] && echo; done; echo
-  - name: fzf
-    keyword: fzf
-    snippet: fzf --ansi
-    context:
-      lbuffer: '.+\|\s'
-  - name: fzf-tmux
-    keyword: fzf-tmux
-    snippet: fzf-tmux --ansi
-    context:
-      lbuffer: '.+\|\s'
-  - name: less with colors
-    keyword: less
-    snippet: less -r
-    context:
-      lbuffer: '.+\|\s'
-  - name: ripgrep paged
-    keyword: rgp
-    snippet: 'rg -p {{args}} | nvimpager'
-  - name: yq
-    keyword: yq
-    snippet: 'gojq --yaml-input'
-    context:
-      lbuffer: '.+\|\s*'
-  - name: kubectl unset
-    keyword: kunset
-    snippet: 'command kubectl config unset current-context'
-  - name: vim staruptime
-    keyword: vimtime
-    snippet: STARTUPTIME=$(mktemp) && vim --startuptime $STARTUPTIME +"lua vim.schedule(function() vim.cmd.edit('$STARTUPTIME') end)"
-  - name: curl json
-    keyword: curljson
-    snippet: "curl -H 'Content-Type: application/json'"
-  - name: sheldon update
-    snippet: 'sheldon lock --update'
-  - name: mise fzf plugins
-    snippet: 'mise plugins ls-remote | fzf --ansi --multi'
+    - name: cd gitroot
+      keyword: gd
+      snippet: cd-gitroot
+    - name: ping
+      keyword: ping
+      snippet: ping -c 5
+    - name: free
+      keyword: free
+      snippet: free -m
+    - name: nemo
+      keyword: nemo
+      snippet: "nohup nemo .{{args}} > /dev/null 2>&1 &!"
+    - name: list colors
+      keyword: ls-colors
+      snippet: for c in {000..255}; do echo -n "\e[38;5;${c}m $c"; [ $(($c%16)) -eq 15 ] && echo; done; echo
+    - name: fzf
+      keyword: fzf
+      snippet: fzf --ansi
+      context:
+          lbuffer: '.+\|\s'
+    - name: fzf-tmux
+      keyword: fzf-tmux
+      snippet: fzf-tmux --ansi
+      context:
+          lbuffer: '.+\|\s'
+    - name: less with colors
+      keyword: less
+      snippet: less -r
+      context:
+          lbuffer: '.+\|\s'
+    - name: ripgrep paged
+      keyword: rgp
+      snippet: "rg -p {{args}} | nvimpager"
+    - name: yq
+      keyword: yq
+      snippet: "gojq --yaml-input"
+      context:
+          lbuffer: '.+\|\s*'
+    - name: kubectl unset
+      keyword: kunset
+      snippet: "command kubectl config unset current-context"
+    - name: vim staruptime
+      keyword: vimtime
+      snippet: STARTUPTIME=$(mktemp) && vim --startuptime $STARTUPTIME +"lua vim.schedule(function() vim.cmd.edit('$STARTUPTIME') end)"
+    - name: curl json
+      keyword: curljson
+      snippet: "curl -H 'Content-Type: application/json'"
+    - name: sheldon update
+      snippet: "sheldon lock --update"
+    - name: mise fzf plugins
+      snippet: "mise plugins ls-remote | fzf --ansi --multi"
 
-  # Some aliases that I often forget their real names 
-  - name: htop
-    keyword: top
-    snippet: 'bash -c "command -v top > /dev/null && echo htop || echo top"'
-    evaluate: true
-  - name: duf
-    keyword: df
-    snippet: 'bash -c "command -v duf > /dev/null && echo duf || echo df"'
-    evaluate: true
-  - name: procs
-    keyword: ps
-    snippet: 'bash -c "command -v procs > /dev/null && echo procs || echo ps"'
-    evaluate: true
-  - name: gdu 
-    keyword: du 
-    snippet: 'bash -c "command -v gdu > /dev/null && echo procs || echo du"'
-    evaluate: true
-
-
+    # Some aliases that I often forget their real names
+    - name: htop
+      keyword: top
+      snippet: 'bash -c "command -v top > /dev/null && echo htop || echo top"'
+      evaluate: true
+    - name: duf
+      keyword: df
+      snippet: 'bash -c "command -v duf > /dev/null && echo duf || echo df"'
+      evaluate: true
+    - name: procs
+      keyword: ps
+      snippet: 'bash -c "command -v procs > /dev/null && echo procs || echo ps"'
+      evaluate: true
+    - name: gdu
+      keyword: du
+      snippet: 'bash -c "command -v gdu > /dev/null && echo procs || echo du"'
+      evaluate: true
 
 completions:
-  - name: kill
-    patterns: 
-      - "^kill( -9)? $"
-    sourceCommand: "command ps -ef | sed 1d"
-    options:
-      --multi: true
-      --prompt: "'Kill Process> '"
-    callback: "awk '{print $2}'"
+    - name: kill
+      patterns:
+          - "^kill( -9)? $"
+      sourceCommand: "command ps -ef | sed 1d"
+      options:
+          --multi: true
+          --prompt: "'Kill Process> '"
+      callback: "awk '{print $2}'"

@@ -1,4 +1,4 @@
 interface:
-  display_name: "Review"
-  short_description: "Run multi-perspective review"
-  default_prompt: "Review this change from multiple perspectives and fact-check findings."
+    display_name: "Review"
+    short_description: "Run multi-perspective review"
+    default_prompt: "Review this change from multiple perspectives and fact-check findings."
