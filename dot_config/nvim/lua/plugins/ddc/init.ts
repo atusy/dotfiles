@@ -64,6 +64,8 @@ export class Config extends BaseConfig {
         },
         "nvim-lsp-cmdline": {
           mark: "L",
+          minKeywordLength: 0,
+          minAutoCompleteLength: 0,
           forceCompletionPattern: "(\\.|::|->|/)\\w*",
           dup: "force",
           isVolatile: true,
