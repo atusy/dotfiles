@@ -126,6 +126,8 @@ vim.keymap.set("n", "p", "pmp")
 vim.keymap.set("x", "p", "Pmp") -- intentionally swap p and P
 vim.keymap.set("n", "P", "Pmp")
 vim.keymap.set("x", "P", "pmp") -- intentionally swap P and p
+vim.keymap.set("n", "u", "umu")
+vim.keymap.set("n", "<c-r>", "<c-r>mu")
 
 -- mappings: textobj
 -- vim.keymap.set({ "o", "x" }, "ii", "2i") -- ii' selects 'foo' without outer spaces (:h v_i)
@@ -137,11 +139,6 @@ vim.keymap.set("!", "<LeftMouse>", "<Esc><LeftMouse>")
 vim.keymap.set("n", "<2-LeftMouse>", "gf", { remap = true })
 vim.keymap.set("n", "<LeftDrag>", "<NOP>")
 vim.keymap.set("n", "<LeftRelease>", "<NOP>")
-
--- mappings: undo/redo
--- they are too noisy when using ui2
-vim.keymap.set("n", "u", "<Cmd>silent! undo<CR>mu")
-vim.keymap.set("n", "<C-R>", "<Cmd>silent! redo<CR>mu")
 
 -- mappings: jumplist
 vim.keymap.set("n", "g<C-O>", function()
