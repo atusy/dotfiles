@@ -5,13 +5,13 @@ set -euo pipefail
 INFO="${CLOUDFLARE_EMAIL_ROUTING:-$(bw get notes "cloudflare email routing")}"
 
 if [[ -z "$INFO" ]]; then
-  exit 1
+    exit 1
 fi
 
 if ! command -v jq >/dev/null; then
-  function jq() {
-    gojq "$@"
-  }
+    function jq() {
+        gojq "$@"
+    }
 fi
 
 APIKEY=$(echo "$INFO" | jq -e -r .apikey)
@@ -19,16 +19,16 @@ ZONEID=$(echo "$INFO" | jq -e -r .zoneid)
 DEST=$(echo "$INFO" | jq -e -r .dest)
 
 _curl() {
-  curl \
-    --url "https://api.cloudflare.com/client/v4/zones/$ZONEID/email/routing/rules" \
-    --header "Content-Type: application/json" \
-    --header "Authorization: Bearer $APIKEY" \
-    "$@"
+    curl \
+        --url "https://api.cloudflare.com/client/v4/zones/$ZONEID/email/routing/rules" \
+        --header "Content-Type: application/json" \
+        --header "Authorization: Bearer $APIKEY" \
+        "$@"
 }
 
 post() {
-  _curl --request POST \
-    --data "{
+    _curl --request POST \
+        --data "{
       \"actions\": [
         {
           \"type\": \"forward\",
@@ -51,12 +51,12 @@ post() {
 }
 
 get() {
-  _curl --request GET
+    _curl --request GET
 }
 
 # if cmd argument is provided, do post otherwise do get
 if [[ $# -gt 0 ]]; then
-  post "$1"
+    post "$1"
 else
-  get
+    get
 fi

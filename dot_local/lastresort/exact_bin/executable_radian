@@ -1,20 +1,20 @@
 #!/bin/sh
 
 if ! command -v uv >/dev/null 2>&1; then
-  uv() {
-    mise uv@latest x -- uv tool run radian "$@"
-  }
+    uv() {
+        mise uv@latest x -- uv tool run radian "$@"
+    }
 fi
 
 RADIAN="$(uv tool dir)/radian/bin/radian"
 
 if ! test -x "$RADIAN"; then
-  uv tool install radian
+    uv tool install radian
 fi
 
 if test -x "$RADIAN"; then
-  exec "$RADIAN" "$@"
+    exec "$RADIAN" "$@"
 else
-  echo "File not found: $RADIAN" >&2
-  exec uv tool run radian "$@"
+    echo "File not found: $RADIAN" >&2
+    exec uv tool run radian "$@"
 fi

@@ -2,19 +2,19 @@
 set -eu
 
 fail() {
-  printf 'FAIL: %s\n' "$1" >&2
-  exit 1
+    printf 'FAIL: %s\n' "$1" >&2
+    exit 1
 }
 
 assert_absent() {
-  path=$1
-  [ ! -e "$path" ] || fail "expected $path to be migrated away"
+    path=$1
+    [ ! -e "$path" ] || fail "expected $path to be migrated away"
 }
 
 assert_contains() {
-  path=$1
-  text=$2
-  grep -F "$text" "$path" >/dev/null || fail "expected $path to contain: $text"
+    path=$1
+    text=$2
+    grep -F "$text" "$path" >/dev/null || fail "expected $path to contain: $text"
 }
 
 assert_absent dot_claude/commands/tdd/red.md

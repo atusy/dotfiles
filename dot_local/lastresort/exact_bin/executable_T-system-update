@@ -5,15 +5,15 @@ OS_KERNEL=$(uname -s)
 
 # pacman
 if command -v pacman >/dev/null; then
-  sudo pacman -Syuu
+    sudo pacman -Syuu
 fi
 
 # nix
 chezmoi apply
 nix --extra-experimental-features "nix-command flakes" flake update --flake ~/.config/nix-flake
 if [ "$OS_KERNEL" = "Darwin" ]; then
-  T-darwin-switch
+    T-darwin-switch
 else
-  T-homemanager-switch
+    T-homemanager-switch
 fi
 chezmoi add ~/.config/nix-flake/flake.lock

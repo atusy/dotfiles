@@ -8,7 +8,7 @@ free -h | awk '/Mem:/ {print "Mem: "$2}'
 
 # disk
 if command -v duf >/dev/null; then
-  duf -only local
+    duf -only local
 else
-  df | grep '^/dev/'
+    df | grep '^/dev/'
 fi

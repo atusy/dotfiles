@@ -1,6 +1,6 @@
 #!/bin/sh
 PI="$HOME/.bun/bin/pi"
 if ! test -x "$PI"; then
-  bun add -g --ignore-scripts @earendil-works/pi-coding-agent
+    bun add -g --ignore-scripts @earendil-works/pi-coding-agent
 fi
 exec "$PI" "$@"

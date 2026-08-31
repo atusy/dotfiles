@@ -9,46 +9,46 @@ PLAN="${ROOT}/plan.md"
 SCRUM_DASHBOARD="${ROOT}/scrum.ts"
 
 _test_status() {
-  local query="$1"
-  shift 1
-  local status
-  status=$(git status --porcelain -- "$@")
-  if test -z "$status"; then
-    return 1
-  fi
-  echo "$status" | grep -q "$query"
+    local query="$1"
+    shift 1
+    local status
+    status=$(git status --porcelain -- "$@")
+    if test -z "$status"; then
+        return 1
+    fi
+    echo "$status" | grep -q "$query"
 }
 
 _test_staged() {
-  _test_status '^[^?]' "$@"
+    _test_status '^[^?]' "$@"
 }
 
 # Validate planning files
 # - Only one of plan.md or scrum.ts may exist
 # - Staged files must exclude files other than the planning file being committed
 validate_plan() {
-  if test -f "$PLAN" && test -f "$SCRUM_DASHBOARD"; then
-    echo "ERROR: You have both plan.md and scrum.ts files. Please keep only one as the single source of truth." >&2
-    return 1
-  fi
+    if test -f "$PLAN" && test -f "$SCRUM_DASHBOARD"; then
+        echo "ERROR: You have both plan.md and scrum.ts files. Please keep only one as the single source of truth." >&2
+        return 1
+    fi
 
-  if test "${N_STAGED}" -le 1; then
-    return 0
-  fi
+    if test "${N_STAGED}" -le 1; then
+        return 0
+    fi
 
-  if test -f "$PLAN" && _test_staged "${PLAN}"; then
-    echo "ERROR: Must commit plan.md alone." >&2
-    return 1
-  fi
+    if test -f "$PLAN" && _test_staged "${PLAN}"; then
+        echo "ERROR: Must commit plan.md alone." >&2
+        return 1
+    fi
 
-  if test -f "$SCRUM_DASHBOARD" && _test_staged "${SCRUM_DASHBOARD}"; then
-    echo "ERROR: Must commit scrum.ts alone." >&2
-    return 1
-  fi
+    if test -f "$SCRUM_DASHBOARD" && _test_staged "${SCRUM_DASHBOARD}"; then
+        echo "ERROR: Must commit scrum.ts alone." >&2
+        return 1
+    fi
 }
 
 main() {
-  validate_plan
+    validate_plan
 }
 
 main "$@"
