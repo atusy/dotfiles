@@ -56,6 +56,34 @@
   (#set! injection.include-children)
   (#offset! @injection.content 0 0 0 1))
 
+; kakehashi and its fish_lsp child start with DDCVIM set, so config.fish maps
+; these Vim commands to their native commands. Inject the complete command so
+; fish can resolve the aliases and provide native argument completion. Keep
+; commands with arguments unmodified so cmdline completion stays at the real
+; caret. A command without parsed arguments needs a separate one-column offset:
+; Vim excludes trailing whitespace from user_command, otherwise the caret after
+; `Gin ` falls outside the injected range and never reaches fish completion.
+((user_command
+   (command_name) @_command
+   (arguments)) @injection.content
+  (#any-of? @_command "Gin" "GinBuffer")
+  (#set! injection.language "fish")
+  (#set! injection.include-children))
+
+((script_file
+   (user_command
+     (command_name) @_command .) @injection.content) @_cmdline
+  (#match? @_cmdline "^(Gin|GinBuffer)[[:blank:]]+[[:space:]]$")
+  (#set! injection.language "fish")
+  (#set! injection.include-children)
+  (#offset! @injection.content 0 0 0 1))
+
+((unknown_builtin_statement
+   (unknown_command_name) @_command) @injection.content
+  (#eq? @_command "lmake")
+  (#set! injection.language "fish")
+  (#set! injection.include-children))
+
 ((set_item
   option: (option_name) @_option
   value: (set_value) @injection.content)
