@@ -9,7 +9,7 @@ import type { TsudoiConfigFactory } from "@atusy/tsudoi-language-server/types";
 import { useMyShellCompletion } from "./completion-my-shell.ts";
 import { formatDocument } from "./formatting.ts";
 import { completeEmoji } from "./completion-emoji.ts";
-import { completeGitCommit, isConventionalCommitType } from "./completion-git.ts";
+import { completeGitCommit } from "./completion-git.ts";
 import {
   handleKakehashiBridgeRouting,
   initalizeKakehashiBridgeRouting,
@@ -37,11 +37,7 @@ const config: TsudoiConfigFactory = async () => {
         yield* completePath(context, params);
         yield* completeAround(context, params, { maxLines: 500, scanner });
         yield* completeCorpus(context, params, { scanner, maxItems: 2000 });
-        for await (const items of completeDictionary(context, params, { maxItems: 2000 })) {
-          yield document?.languageId === "gitcommit"
-            ? items.filter((item) => !isConventionalCommitType(item.label))
-            : items;
-        }
+        yield* completeDictionary(context, params, { maxItems: 2000 });
       },
       "textDocument/hover": hoverWordnet,
       "textDocument/formatting": formatDocument,
