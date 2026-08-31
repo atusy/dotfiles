@@ -16,30 +16,26 @@ async function completionItems(text: string): Promise<CompletionItem[]> {
     offsetAt: () => 0,
   };
   const items: CompletionItem[] = [];
-  for await (
-    const batch of completeEmoji(
-      {
-        signal: new AbortController().signal,
-        tsudoi: {
-          documents: {
-            get: (
-              documentUri: string,
-            ) => (documentUri === uri ? document : undefined),
-            values: () => [document],
-          },
-          workspaceFolders: { get: () => [], values: () => [] },
-          rootUri: null,
-          rootPath: null,
-          clientCapabilities: {},
-          notify: () => Promise.resolve(),
+  for await (const batch of completeEmoji(
+    {
+      signal: new AbortController().signal,
+      tsudoi: {
+        documents: {
+          get: (documentUri: string) => (documentUri === uri ? document : undefined),
+          values: () => [document],
         },
-      } as never,
-      {
-        textDocument: { uri },
-        position: { line: 0, character: text.length },
+        workspaceFolders: { get: () => [], values: () => [] },
+        rootUri: null,
+        rootPath: null,
+        clientCapabilities: {},
+        notify: () => Promise.resolve(),
       },
-    )
-  ) {
+    } as never,
+    {
+      textDocument: { uri },
+      position: { line: 0, character: text.length },
+    },
+  )) {
     items.push(...batch);
   }
   return items;

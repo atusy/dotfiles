@@ -1,28 +1,11 @@
 import type { MethodHandler } from "@atusy/tsudoi-language-server/types";
-import {
-  LSPErrorCodes,
-  ResponseError,
-} from "@atusy/tsudoi-language-server/deps/error";
-import {
-  dirname,
-  isAbsolute,
-  join,
-  parse,
-  relative,
-  resolve,
-  sep,
-} from "node:path";
+import { LSPErrorCodes, ResponseError } from "@atusy/tsudoi-language-server/deps/error";
+import { dirname, isAbsolute, join, parse, relative, resolve, sep } from "node:path";
 import { fileURLToPath } from "node:url";
 
-export type FormatFunc = (
-  filePath: string,
-  text: string,
-  signal: AbortSignal,
-) => Promise<string>;
+export type FormatFunc = (filePath: string, text: string, signal: AbortSignal) => Promise<string>;
 
-export type FormatFuncResolver = (
-  directoryPath: string,
-) => Promise<FormatFunc | null>;
+export type FormatFuncResolver = (directoryPath: string) => Promise<FormatFunc | null>;
 
 export async function findFormatFunc(
   filePath: string,
@@ -34,9 +17,10 @@ export async function findFormatFunc(
     .map((rootPath) => resolve(rootPath))
     .filter((rootPath) => {
       const relativePath = relative(rootPath, directory);
-      return relativePath === "" ||
-        (!isAbsolute(relativePath) && relativePath !== ".." &&
-          !relativePath.startsWith(`..${sep}`));
+      return (
+        relativePath === "" ||
+        (!isAbsolute(relativePath) && relativePath !== ".." && !relativePath.startsWith(`..${sep}`))
+      );
     })
     .sort((a, b) => b.length - a.length)[0];
   if (root === undefined) {
@@ -66,8 +50,7 @@ export const resolveTreefmtToml: FormatFuncResolver = async (directoryPath) => {
   const configPath = join(directoryPath, "treefmt.toml");
   try {
     if ((await Deno.stat(configPath)).isFile) {
-      return (filePath, text, signal) =>
-        formatWithTreefmt(filePath, configPath, text, signal);
+      return (filePath, text, signal) => formatWithTreefmt(filePath, configPath, text, signal);
     }
   } catch (error) {
     if (!(error instanceof Deno.errors.NotFound)) {
@@ -77,21 +60,14 @@ export const resolveTreefmtToml: FormatFuncResolver = async (directoryPath) => {
   return null;
 };
 
-export const resolveFlakeTreefmt: FormatFuncResolver = async (
-  directoryPath,
-) => {
+export const resolveFlakeTreefmt: FormatFuncResolver = async (directoryPath) => {
   const flakePath = join(directoryPath, "flake.nix");
   try {
     if ((await Deno.stat(flakePath)).isFile) {
       const flake = await Deno.readTextFile(flakePath);
       if (flake.includes("treefmt")) {
         return (filePath, text, signal) =>
-          formatWithFlakeTreefmt(
-            directoryPath,
-            filePath,
-            text,
-            signal,
-          );
+          formatWithFlakeTreefmt(directoryPath, filePath, text, signal);
       }
     }
   } catch (error) {
@@ -106,8 +82,7 @@ const resolveDprint: FormatFuncResolver = async (directoryPath) => {
   const configPath = join(directoryPath, "dprint.json");
   try {
     if ((await Deno.stat(configPath)).isFile) {
-      return (filePath, text, signal) =>
-        formatWithDprint(filePath, configPath, text, signal);
+      return (filePath, text, signal) => formatWithDprint(filePath, configPath, text, signal);
     }
   } catch (error) {
     if (!(error instanceof Deno.errors.NotFound)) {
@@ -125,14 +100,7 @@ async function formatWithTreefmt(
 ): Promise<string> {
   return await runFormatter(
     "treefmt",
-    [
-      "--config-file",
-      configPath,
-      "--tree-root",
-      dirname(configPath),
-      "--stdin",
-      filePath,
-    ],
+    ["--config-file", configPath, "--tree-root", dirname(configPath), "--stdin", filePath],
     text,
     signal,
   );
@@ -144,13 +112,7 @@ async function formatWithFlakeTreefmt(
   text: string,
   signal: AbortSignal,
 ): Promise<string> {
-  return await runFormatter(
-    "nix",
-    ["fmt", "--", "--stdin", filePath],
-    text,
-    signal,
-    directoryPath,
-  );
+  return await runFormatter("nix", ["fmt", "--", "--stdin", filePath], text, signal, directoryPath);
 }
 
 async function formatWithDprint(
@@ -186,9 +148,7 @@ async function runFormatter(
 
   try {
     const writer = child.stdin.getWriter();
-    const write = writer.write(new TextEncoder().encode(text)).then(() =>
-      writer.close()
-    );
+    const write = writer.write(new TextEncoder().encode(text)).then(() => writer.close());
     const [output] = await Promise.all([child.output(), write]);
     if (!output.success) {
       throw new Error(new TextDecoder().decode(output.stderr).trim());
@@ -204,10 +164,7 @@ function requestFormatterFallback(message: string): never {
   throw new ResponseError(LSPErrorCodes.RequestFailed, message);
 }
 
-export const formatDocument: MethodHandler<"textDocument/formatting"> = async (
-  context,
-  params,
-) => {
+export const formatDocument: MethodHandler<"textDocument/formatting"> = async (context, params) => {
   const document = context.tsudoi.documents.get(params.textDocument.uri);
   if (document === undefined) {
     requestFormatterFallback("Document is not open");
@@ -229,11 +186,7 @@ export const formatDocument: MethodHandler<"textDocument/formatting"> = async (
   });
   const format = await findFormatFunc(
     filePath,
-    [
-      resolveTreefmtToml,
-      resolveFlakeTreefmt,
-      resolveDprint,
-    ],
+    [resolveTreefmtToml, resolveFlakeTreefmt, resolveDprint],
     workspaceFolders.length === 0 ? [Deno.cwd()] : workspaceRootPaths,
   );
   if (format === null) {

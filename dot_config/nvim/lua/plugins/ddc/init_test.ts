@@ -28,12 +28,14 @@ Deno.test("gitcommit completion preserves tsudoi candidate priority", async () =
 
   await new Config().config(args);
 
-  assertEquals(filetypePatches, [[
-    "gitcommit",
-    {
-      sourceOptions: {
-        "nvim-lsp": { sorters: [] },
+  assertEquals(filetypePatches, [
+    [
+      "gitcommit",
+      {
+        sourceOptions: {
+          "nvim-lsp": { sorters: [] },
+        },
       },
-    },
-  ]]);
+    ],
+  ]);
 });

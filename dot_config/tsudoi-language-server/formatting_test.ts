@@ -1,10 +1,7 @@
 import { assertEquals, assertExists, assertRejects } from "@std/assert";
 import { dirname, join } from "node:path";
 import { pathToFileURL } from "node:url";
-import {
-  LSPErrorCodes,
-  ResponseError,
-} from "vscode-languageserver-protocol/node";
+import { LSPErrorCodes, ResponseError } from "vscode-languageserver-protocol/node";
 import {
   findFormatFunc,
   formatDocument,
@@ -83,10 +80,12 @@ Deno.test("formatting does not discover config above a workspace root", async ()
             tsudoi: {
               documents: { get: () => ({ uri }) },
               workspaceFolders: {
-                values: () => [{
-                  name: "workspace",
-                  uri: pathToFileURL(workspace).href,
-                }],
+                values: () => [
+                  {
+                    name: "workspace",
+                    uri: pathToFileURL(workspace).href,
+                  },
+                ],
               },
             },
           } as never,
@@ -162,11 +161,7 @@ Deno.test("findFormatFunc stops after checking the nearest workspace root", asyn
     return null;
   };
 
-  const actual = await findFormatFunc(
-    "/project/src/main.ts",
-    [resolver],
-    ["/", "/project"],
-  );
+  const actual = await findFormatFunc("/project/src/main.ts", [resolver], ["/", "/project"]);
 
   assertEquals(actual, null);
   assertEquals(checked, ["/project/src", "/project"]);

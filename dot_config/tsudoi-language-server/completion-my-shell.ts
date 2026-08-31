@@ -1,7 +1,4 @@
-import {
-  type CompleteShellOptions,
-  useShellCompletion,
-} from "@atusy/tsudoi-completion-shell";
+import { type CompleteShellOptions, useShellCompletion } from "@atusy/tsudoi-completion-shell";
 import type { CompletionParams } from "@atusy/tsudoi-language-server/deps/protocol";
 import type { CompletionItem } from "@atusy/tsudoi-language-server/deps/types";
 import type { RequestContext } from "@atusy/tsudoi-language-server/types";
@@ -37,13 +34,11 @@ export function useMyShellCompletion(): (
   } as const;
 
   return async function* (context, params, options) {
-    const languageId = context.tsudoi.documents.get(params.textDocument.uri)
-      ?.languageId;
+    const languageId = context.tsudoi.documents.get(params.textDocument.uri)?.languageId;
     if (languageId === undefined) {
       return;
     }
-    const completeShell =
-      shellCompletions[languageId as keyof typeof shellCompletions];
+    const completeShell = shellCompletions[languageId as keyof typeof shellCompletions];
     if (completeShell !== undefined) {
       yield* completeShell(context, params, options);
     }

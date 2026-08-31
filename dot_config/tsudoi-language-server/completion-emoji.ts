@@ -28,7 +28,7 @@ const shortcodes: readonly Shortcode[] = gemoji.flatMap((entry) =>
     emoji: entry.emoji,
     description: entry.description,
     tags: entry.tags,
-  }))
+  })),
 );
 
 /** Where the shortcode being typed starts, and what has been typed of it. */
@@ -81,11 +81,7 @@ export function matchShortcodes(query: string, maxItems: number): Shortcode[] {
  * The emoji is NEVER `insertText`: a client that reads an item's text as 🎉
  * stops matching it against the `tada` being typed and drops it before the popup.
  */
-function itemFor(
-  shortcode: Shortcode,
-  params: CompletionParams,
-  start: number,
-): CompletionItem {
+function itemFor(shortcode: Shortcode, params: CompletionParams, start: number): CompletionItem {
   return {
     label: `:${shortcode.name}:${shortcode.emoji}`,
     filterText: `:${shortcode.name}:`,
@@ -118,8 +114,9 @@ export async function* completeEmoji(
   if (found === undefined) {
     return;
   }
-  const items = matchShortcodes(found.query, options.maxItems ?? 200)
-    .map((shortcode) => itemFor(shortcode, params, found.start));
+  const items = matchShortcodes(found.query, options.maxItems ?? 200).map((shortcode) =>
+    itemFor(shortcode, params, found.start),
+  );
   if (items.length > 0) {
     // COMPLETENESS RULING: the table is in memory and scanned whole, so one
     // batch is the whole answer for this query.

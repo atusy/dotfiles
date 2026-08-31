@@ -1,7 +1,4 @@
-import {
-  BaseConfig,
-  type ConfigArguments,
-} from "jsr:@shougo/ddc-vim@~10.2.0/config";
+import { BaseConfig, type ConfigArguments } from "jsr:@shougo/ddc-vim@~10.2.0/config";
 
 export const cmdlineSources = {
   ":": ["nvim-cmdline", "nvim-lsp-cmdline", "nvim-ex-command-history"],
