@@ -1,14 +1,14 @@
 function list_history --description "List command history of Fish and Zsh at once"
-  # Fish history
-  history --null | string collect
+    # Fish history
+    history --null | string collect
 
-  # Zsh history
-  if test -f "$HOME/.zsh_history"
-    # Convert Zsh history to be NULL separated
-    # - Zsh history is separated by linebreaks
-    # - Multilined item is represented by lines ending with backslashes
-    # - Prepends NULL byte to connect with Fish history
-    perl -e '
+    # Zsh history
+    if test -f "$HOME/.zsh_history"
+        # Convert Zsh history to be NULL separated
+        # - Zsh history is separated by linebreaks
+        # - Multilined item is represented by lines ending with backslashes
+        # - Prepends NULL byte to connect with Fish history
+        perl -e '
       my @entries;
       my $current = "";
       while (<STDIN>) {
@@ -23,6 +23,6 @@ function list_history --description "List command history of Fish and Zsh at onc
       }
       push @entries, $current if $current ne "";
       print "\0" . join("\0", reverse @entries);
-    ' < "$HOME/.zsh_history"
-  end
+    ' <"$HOME/.zsh_history"
+    end
 end

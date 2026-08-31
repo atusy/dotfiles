@@ -48,7 +48,7 @@ function fish_prompt --description 'Write out the prompt'
 
     set -l prompt_user
     if test -n "$SSH_CLIENT"
-      set prompt_user (prompt_login)" "
+        set prompt_user (prompt_login)" "
     end
 
     set -l color_file (set_color $color_cwd)
@@ -58,12 +58,12 @@ function fish_prompt --description 'Write out the prompt'
 
     set -l prompt_kubeinfo
     if set -l kubeinfo ( get_kubeinfo | string split " " ); and test -n "$kubeinfo[1]"
-      if test "$PROMPT_KUBEINFO" = "false"
-        set prompt_kubeinfo " ☸️" # At least notify that kubeinfo is available
-      else
-        test -z "$kubeinfo[2]"; and set kubeinfo[2] "N/A"
-        set prompt_kubeinfo " ["(set_color cyan){$kubeinfo[1]}{$normal}":"(set_color cyan){$kubeinfo[2]}{$normal}"]"
-      end
+        if test "$PROMPT_KUBEINFO" = false
+            set prompt_kubeinfo " ☸️" # At least notify that kubeinfo is available
+        else
+            test -z "$kubeinfo[2]"; and set kubeinfo[2] N/A
+            set prompt_kubeinfo " ["(set_color cyan){$kubeinfo[1]}{$normal}":"(set_color cyan){$kubeinfo[2]}{$normal}"]"
+        end
     end
 
     echo -s $prompt_user $prompt_cwd $prompt_vcs $prompt_kubeinfo " " $prompt_status
