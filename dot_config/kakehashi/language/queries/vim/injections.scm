@@ -60,9 +60,10 @@
 ; these Vim commands to their native commands. Inject the complete command so
 ; fish can resolve the aliases and provide native argument completion. Keep
 ; commands with arguments unmodified so cmdline completion stays at the real
-; caret. A command without parsed arguments needs a separate one-column offset:
+; caret. A command ending in whitespace needs a separate one-column offset:
 ; Vim excludes trailing whitespace from user_command, otherwise the caret after
-; `Gin ` falls outside the injected range and never reaches fish completion.
+; `Gin ` or `Gin commit ` falls outside the injected range and never reaches
+; fish completion.
 ((user_command
    (command_name) @_command
    (arguments)) @injection.content
@@ -72,8 +73,8 @@
 
 ((script_file
    (user_command
-     (command_name) @_command .) @injection.content) @_cmdline
-  (#match? @_cmdline "^(Gin|GinBuffer)[[:blank:]]+[[:space:]]$")
+     (command_name) @_command) @injection.content) @_cmdline
+  (#match? @_cmdline "^(Gin|GinBuffer).*[[:blank:]][[:space:]]$")
   (#set! injection.language "fish")
   (#set! injection.include-children)
   (#offset! @injection.content 0 0 0 1))
