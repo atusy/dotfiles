@@ -14,6 +14,24 @@ Deno.test("every command type retains its isolated source order", () => {
   });
 });
 
+Deno.test("command-line LSP completion remains visible for its request timeout", async () => {
+  const globalPatches: unknown[] = [];
+  const args = {
+    setAlias: () => {},
+    contextBuilder: {
+      patchGlobal: (options: unknown) => globalPatches.push(options),
+      patchFiletype: () => {},
+    },
+  } as unknown as ConfigArguments;
+
+  await new Config().config(args);
+
+  const global = globalPatches[0] as {
+    sourceOptions: Record<string, { hideTimeout?: number }>;
+  };
+  assertEquals(global.sourceOptions["nvim-lsp-cmdline"].hideTimeout, 1000);
+});
+
 Deno.test("gitcommit completion preserves tsudoi candidate priority", async () => {
   const filetypePatches: Array<[string, unknown]> = [];
   const args = {
