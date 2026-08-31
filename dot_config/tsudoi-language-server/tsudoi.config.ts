@@ -29,7 +29,7 @@ const config: TsudoiConfigFactory = async () => {
       },
       "textDocument/completion": async function* (context, params) {
         const document = context.tsudoi.documents.get(params.textDocument.uri);
-        yield* completeMyShell(context, params);
+        yield* completeMyShell(context, params, { maxItems: 2000 });
         if (document?.languageId === "gitcommit") {
           yield* completeGitCommit(context, params);
         }

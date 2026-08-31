@@ -1,4 +1,7 @@
-import { useShellCompletion } from "@atusy/tsudoi-completion-shell";
+import {
+  type CompleteShellOptions,
+  useShellCompletion,
+} from "@atusy/tsudoi-completion-shell";
 import type { CompletionParams } from "@atusy/tsudoi-language-server/deps/protocol";
 import type { CompletionItem } from "@atusy/tsudoi-language-server/deps/types";
 import type { RequestContext } from "@atusy/tsudoi-language-server/types";
@@ -14,6 +17,7 @@ const zshFpath = await (async () => {
 export function useMyShellCompletion(): (
   context: RequestContext,
   params: CompletionParams,
+  options?: CompleteShellOptions,
 ) => AsyncGenerator<CompletionItem[], void, void> {
   const completeFish = useShellCompletion("fish", {
     env: { COLUMNS: "200", DDCVIM: "1" },
@@ -32,14 +36,16 @@ export function useMyShellCompletion(): (
     zsh: completeZsh,
   } as const;
 
-  return async function* (context, params) {
-    const languageId = context.tsudoi.documents.get(params.textDocument.uri)?.languageId;
+  return async function* (context, params, options) {
+    const languageId = context.tsudoi.documents.get(params.textDocument.uri)
+      ?.languageId;
     if (languageId === undefined) {
       return;
     }
-    const completeShell = shellCompletions[languageId as keyof typeof shellCompletions];
+    const completeShell =
+      shellCompletions[languageId as keyof typeof shellCompletions];
     if (completeShell !== undefined) {
-      yield* completeShell(context, params);
+      yield* completeShell(context, params, options);
     }
   };
 }
