@@ -163,7 +163,7 @@ function M.setup()
 				vim.api.nvim_create_autocmd({ "InsertEnter", "TextChangedI", "CursorMovedI" }, {
 					buffer = bufnr,
 					callback = function()
-						vim.lsp.buf.signature_help({ focus = false })
+						vim.lsp.buf.signature_help({ focus = false, silent = true })
 					end,
 				})
 			end
