@@ -102,13 +102,6 @@ for _, k in ipairs({ "h", "j", "k", "l" }) do
 	end, { desc = "switch windows or panes of terminal multiplexers" })
 end
 
--- mappings: tab management
--- continue moving around tab (e.g., gtttT gTtT)
-vim.keymap.set("n", "gt", "gt<Plug>(gt)")
-vim.keymap.set("n", "gT", "gT<Plug>(gt)")
-vim.keymap.set("n", "<Plug>(gt)t", "gt<Plug>(gt)")
-vim.keymap.set("n", "<Plug>(gt)T", "gT<Plug>(gt)")
-
 -- mappings: diagnostics
 vim.keymap.set("n", "<Space>d", [[<Cmd>lua vim.diagnostic.open_float({border = "single"})<CR>]])
 
