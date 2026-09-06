@@ -3,11 +3,11 @@
 baseConfigFiles = ["${HOME}/ghq/github.com/atusy/kakehashi-lspconfig/lsp.toml"]
 
 searchPaths = [
-  "${HOME}/.config/kakehashi/language",
   "${HOME}/ghq/github.com/atusy/kakehashi.nvim",
   "${HOME}/.local/share/nvim/lazy/nvim-treesitter-context",
   "${HOME}/ghq/github.com/nvim-orgmode/tree-sitter-org",
   "${KAKEHASHI_DATA_DIR}",
+  "${HOME}/.config/kakehashi/language", # to extend default queries
 ]
 
 [languages.markdown.layers.aggregation."textDocument/formatting"]
