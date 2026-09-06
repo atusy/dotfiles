@@ -122,11 +122,6 @@ vim.keymap.set("x", "P", "pmp") -- intentionally swap P and p
 vim.keymap.set("n", "u", "umu")
 vim.keymap.set("n", "<c-r>", "<c-r>mu")
 
--- mappings: textobj
--- vim.keymap.set({ "o", "x" }, "ii", "2i") -- ii' selects 'foo' without outer spaces (:h v_i)
-vim.keymap.set({ "o", "x" }, "ii", ":<C-U>keepjumps normal! g_v^<Cr>", { silent = true })
-vim.keymap.set({ "o", "x" }, "ae", ":<C-U>keepjumps normal! G$vgo<Cr>", { silent = true })
-
 -- mappings: mouse
 vim.keymap.set("!", "<LeftMouse>", "<Esc><LeftMouse>")
 vim.keymap.set("n", "<2-LeftMouse>", "gf", { remap = true })
