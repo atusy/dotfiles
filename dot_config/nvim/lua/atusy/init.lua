@@ -79,10 +79,14 @@ vim.keymap.set("n", "ZA", "<Cmd>xa<Cr>")
 vim.keymap.set({ "i", "x" }, "<C-G>", "<Plug>(C-G)")
 vim.keymap.set("x", "<Plug>(C-G)<C-G>", function()
 	local region = vim.fn.getregionpos(vim.fn.getpos("v"), vim.fn.getpos("."))
-	local s = region[1][1][2]
-	local e = region[#region][2][2]
 	local path = vim.fn.expand("%:~:.")
-	vim.fn.setreg("+", path .. ":" .. (s == e and s or (s .. "-" .. e)))
+	if #region > 0 then
+		local s = region[1][1][2]
+		local e = region[#region][2][2]
+		vim.fn.setreg("+", path .. ":" .. (s == e and s or (s .. "-" .. e)))
+	else
+		vim.fn.setreg("+", path)
+	end
 end)
 vim.keymap.set("c", "<C-A>", "<Home>")
 vim.keymap.set("t", "<C-W>", [[<C-\><C-N><C-W>]])
