@@ -280,7 +280,7 @@ vim.api.nvim_create_autocmd("TextYankPost", {
 		end)
 
 		-- highlight yanked region
-		if vim.v.event.operator == "y" then
+		if op == "y" then
 			vim.hl.hl_op()
 		end
 	end,
