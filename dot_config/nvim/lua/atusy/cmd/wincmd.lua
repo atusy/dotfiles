@@ -1,3 +1,8 @@
+---@class atusy.cmd.wincmd
+---@field h fun():void
+---@field j fun():void
+---@field k fun():void
+---@field l fun():void
 local M = {}
 
 --- hjkl to switch windows, tmux panes, or wezterm panes
@@ -29,12 +34,12 @@ for k, opts in pairs({
 		if vim.api.nvim_get_current_win() ~= win then
 			return
 		end
-		if
-			vim.env.TMUX ~= nil
-			and vim.system({ "tmux", "display-message", "-p", opts.tmux_display_message }):wait().stdout:match("0")
-		then
-			vim.system({ "tmux", "select-pane", opts.tmux_select_pane })
-			return
+		if vim.env.TMUX ~= nil then
+			local stdout = vim.system({ "tmux", "display-message", "-p", opts.tmux_display_message }):wait().stdout
+			if stdout and stdout:match("0") then
+				vim.system({ "tmux", "select-pane", opts.tmux_select_pane })
+				return
+			end
 		end
 		if vim.env.WEZTERM_PANE ~= nil then
 			if win == vim.api.nvim_get_current_win() then
