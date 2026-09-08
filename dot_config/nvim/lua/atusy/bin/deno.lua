@@ -4,7 +4,8 @@ local M = {}
 function M.install(version, opts, on_exit)
 	opts = opts or {}
 	opts.env = opts.env or {}
-	opts.env.DENO_INSTALL = opts.env.DENO_INSTALL or vim.fs.joinpath(vim.uv.os_homedir(), ".local")
+	local homedir = vim.uv.os_homedir() ---@cast homedir string
+	opts.env.DENO_INSTALL = opts.env.DENO_INSTALL or vim.fs.joinpath(homedir, ".local")
 	local src = [[curl -fsSL https://deno.land/x/install/install.sh | sh /dev/stdin%s]]
 	local args = (version == nil or version == "latest") and "" or (" v" .. version)
 	local obj = vim.system({ "sh", "-c", src:format(args) }, opts, on_exit)
@@ -12,7 +13,7 @@ function M.install(version, opts, on_exit)
 end
 
 M.cache_pending = {} ---@type table<string, string[]>
-M.cache_ongoing = 0
+M.cache_ongoing = 0 ---@type integer
 
 ---Deno cache asyncronously
 ---
@@ -30,6 +31,7 @@ function M.cache(tsfiles, bin, cache, reload)
 	end
 	M.cache_ongoing = M.cache_ongoing + 1
 	return vim.system(
+		---@diagnostic disable-next-line: assign-type-mismatch
 		{ bin or "deno", "cache", unpack(tsfiles), reload and "--reload" or nil },
 		{ env = { DENO_DIR = cache } },
 		function()

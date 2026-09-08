@@ -1,6 +1,7 @@
 local M = {}
 
-local cache_root = vim.fs.joinpath(vim.fn.stdpath("cache"), "deno", "modules")
+local cache_base = vim.fn.stdpath("cache") ---@cast cache_base string
+local cache_root = vim.fs.joinpath(cache_base, "deno", "modules")
 
 ---@param specifier string
 ---@return string?
@@ -9,6 +10,8 @@ local function cache_path(specifier)
 	if not scheme then
 		return nil
 	end
+
+	---@cast path string
 	return vim.fs.joinpath(cache_root, scheme, path)
 end
 
@@ -49,7 +52,7 @@ local function materialize(url)
 		error(result.stderr ~= "" and result.stderr or ("failed to resolve " .. url))
 	end
 
-	local info = vim.json.decode(result.stdout)
+	local info = vim.json.decode(result.stdout or "{}")
 	local target
 	for _, entry in ipairs(info.modules or {}) do
 		local path = entry["local"] and cache_path(entry.specifier)

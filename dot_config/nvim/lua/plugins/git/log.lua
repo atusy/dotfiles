@@ -15,6 +15,7 @@ end
 
 function M.show(...)
 	vim.cmd.GinBuffer({
+		---@diagnostic disable-next-line: call-non-callable
 		args = vim.iter({
 			"++processor=delta --no-gitconfig --color-only",
 			"show",
