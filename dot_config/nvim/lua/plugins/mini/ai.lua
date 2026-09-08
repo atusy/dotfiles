@@ -33,12 +33,12 @@ function M.setup()
 	local mappings = {
 		around = "a",
 		inside = "i",
-		around_next = false,
-		inside_next = false,
-		around_last = false,
-		inside_last = false,
-		goto_left = false,
-		goto_right = false,
+		around_next = "",
+		inside_next = "",
+		around_last = "",
+		inside_last = "",
+		goto_left = "",
+		goto_right = "",
 	}
 
 	local modes = {
