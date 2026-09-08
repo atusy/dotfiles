@@ -25,17 +25,7 @@ return {
 				end
 				vim.fn["pum#map#cancel"]()
 			end)
-			vim.keymap.set({ "i", "c" }, "<C-g>", function()
-				-- Restore the pre-edit before skkelua sees the selected candidate
-				-- as an external edit and resets its conversion state.
-				if vim.fn.exists("*pum#visible") == 1 and vim.fn["pum#visible"]() then
-					return "<Plug>(atusy-skkelua-cancel-completion)"
-				end
-				if require("skkelua").is_enabled() then
-					return "<Cmd>lua require('skkelua').handle('handleKey', { key = '<C-g>' })<CR>"
-				end
-				return "<C-g>"
-			end, { expr = true, desc = "Cancel completion or return SKK conversion to its reading" })
+
 			local register_kanatable = require("skkelua").register_kanatable
 			register_kanatable("rom", require("plugins.skkelua.azik"), true)
 			register_kanatable("rom", {
@@ -63,6 +53,30 @@ return {
 							and not (vim.bo[ctx.buf].filetype == "TelescopePrompt" and key:lower() == "<cr>")
 					end, keys)
 					require("skkelua").config({ mappedKeys = keys })
+				end,
+			})
+
+			vim.api.nvim_create_autocmd("User", {
+				group = augroup,
+				pattern = "skkelua-enable-post",
+				callback = function(ctx)
+					local mode = vim.fn.mode()
+					mode = mode == "n" and "i" or mode
+					if mode ~= "i" and mode ~= "c" then
+						return
+					end
+					-- skkelua has already saved this mode's buffer-local maps.
+					-- Its disable path restores them, revealing the global map too.
+					vim.keymap.set(mode, "<C-g>", function()
+						if vim.fn.exists("*pum#visible") == 1 and vim.fn["pum#visible"]() then
+							return "<Plug>(atusy-skkelua-cancel-completion)"
+						end
+						return "<Cmd>lua require('skkelua').handle('handleKey', { key = '<C-g>' })<CR>"
+					end, {
+						buffer = ctx.buf,
+						expr = true,
+						desc = "Cancel completion or return SKK conversion to its reading",
+					})
 				end,
 			})
 
