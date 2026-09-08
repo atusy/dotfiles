@@ -17,7 +17,8 @@ function M.add()
 					if cnt == 0 then
 						return
 					end
-					return vim.filetype.match({ filename = filename, buf = bufnr })
+					local filetype, modifier, _is_generic = vim.filetype.match({ filename = filename, buf = bufnr })
+					return filetype, modifier
 				end,
 				{ priority = -math.huge },
 			},

@@ -39,13 +39,13 @@ function M.jump_file(forward)
 
 	if forward then
 		for i = 1, #jumps - idx_cur do
-			if is_target(jumps[idx_cur + i].bufnr) then
+			if is_target((jumps[idx_cur + i] or {}).bufnr) then
 				return i .. "<C-I>"
 			end
 		end
 	else
 		for i = 1, idx_cur - 1 do
-			if is_target(jumps[idx_cur - i].bufnr) then
+			if is_target((jumps[idx_cur - i] or {}).bufnr) then
 				return i .. "<C-O>"
 			end
 		end
@@ -54,14 +54,15 @@ end
 
 function M.move_floatwin(row, col)
 	local conf = vim.api.nvim_win_get_config(0)
-	if conf.relative == "" then
+	---@diagnostic disable-next-line: unnecessary-if
+	if conf.relative == "" then -- happens when non-relative window
 		return false
 	end
 	for k, v in pairs({ row = row, col = col }) do
 		if type(conf[k]) == "table" then
 			conf[k][false] = conf[k][false] + v
 		else
-			conf[k] = conf[k] + v
+			conf[k] = (conf[k] or 0) + v
 		end
 	end
 	vim.api.nvim_win_set_config(0, conf)

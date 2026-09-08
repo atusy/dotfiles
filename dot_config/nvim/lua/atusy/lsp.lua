@@ -1,5 +1,5 @@
 local M = {
-	did_setup_mappings = false,
+	did_setup_mappings = false, ---@type bool
 	augroup = vim.api.nvim_create_augroup("atusy.lsp", {}),
 }
 
@@ -13,7 +13,7 @@ function M.delete_default_mappings()
 end
 
 --- Setup buffer-local and global mappings for LSP
-function M.setup_mappings(bufnr, client)
+function M.setup_mappings(_bufnr, _client)
 	-- mappings (global)
 	if not M.did_setup_mappings then
 		-- on init
