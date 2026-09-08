@@ -4,6 +4,38 @@ return {
 		dependencies = { "https://github.com/skk-dev/dict" },
 		config = function()
 			vim.keymap.set({ "i", "c", "t" }, "<C-J>", "<Plug>(skkelua-enable)")
+			vim.keymap.set({ "i", "c" }, "<Plug>(atusy-skkelua-cancel-completion)", function()
+				if vim.api.nvim_get_mode().mode:sub(1, 1) == "i" and require("skkelua").is_enabled() then
+					local pum = vim.fn["pum#_get"]()
+					if pum.cursor > 0 and pum.current_word ~= "" then
+						-- skkelua's guard blocks the <BS> keys used by pum's
+						-- cancellation. Restore the selected span directly instead.
+						local pos = vim.api.nvim_win_get_cursor(0)
+						vim.cmd([[call extend(pum#_get(), #{cursor: -1, current_word: ''})]])
+						vim.api.nvim_buf_set_text(
+							0,
+							pos[1] - 1,
+							pum.startcol - 1,
+							pos[1] - 1,
+							pos[2],
+							{ pum.orig_input }
+						)
+						vim.api.nvim_win_set_cursor(0, { pos[1], pum.startcol - 1 + #pum.orig_input })
+					end
+				end
+				vim.fn["pum#map#cancel"]()
+			end)
+			vim.keymap.set({ "i", "c" }, "<C-g>", function()
+				-- Restore the pre-edit before skkelua sees the selected candidate
+				-- as an external edit and resets its conversion state.
+				if vim.fn.exists("*pum#visible") == 1 and vim.fn["pum#visible"]() then
+					return "<Plug>(atusy-skkelua-cancel-completion)"
+				end
+				if require("skkelua").is_enabled() then
+					return "<Cmd>lua require('skkelua').handle('handleKey', { key = '<C-g>' })<CR>"
+				end
+				return "<C-g>"
+			end, { expr = true, desc = "Cancel completion or return SKK conversion to its reading" })
 			local register_kanatable = require("skkelua").register_kanatable
 			register_kanatable("rom", require("plugins.skkelua.azik"), true)
 			register_kanatable("rom", {
@@ -25,6 +57,7 @@ return {
 					-- Keep ddc selection and confirmation mappings available.
 					keys = vim.tbl_filter(function(key)
 						return key:lower() ~= "<c-y>"
+							and key:lower() ~= "<c-g>"
 							and key:lower() ~= "<tab>"
 							and key:lower() ~= "<s-tab>"
 							and not (vim.bo[ctx.buf].filetype == "TelescopePrompt" and key:lower() == "<cr>")
@@ -40,6 +73,7 @@ return {
 			end
 			require("skkelua").config({
 				kanaTable = "rom",
+				immediatelyCancel = false, -- return a conversion candidate to its reading first
 				sources = { "skk_dictionary" }, -- no google_japanese_input to avoid unwanted candidates on affix
 				markerHenkan = "",
 				markerHenkanSelect = "",
