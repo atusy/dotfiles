@@ -75,7 +75,7 @@ local function telescope_config(_)
 		defaults = {
 			mappings = {
 				i = {
-					["<C-J>"] = false, -- to support skkeleton.vim
+					["<C-J>"] = false, -- to support skkelua.nvim
 					["<C-P>"] = require("telescope.actions.layout").toggle_preview,
 					["<C-S>"] = qfsactions.qfscope_search_filename,
 					["<C-V>"] = false,

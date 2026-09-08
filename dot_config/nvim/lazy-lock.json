@@ -179,9 +179,9 @@
         "branch": "main",
         "commit": "c858a51ffcb658a0d8f1b1a270338f1cc545558d"
     },
-    "skkeleton": {
-        "branch": "main",
-        "commit": "cb6e529dada798929deefd879e32e418dab1c6ac"
+    "skkelua.nvim": {
+        "branch": "master",
+        "commit": "a2fedefc441cd7c1e2b5be7400c47f9a3d45d014"
     },
     "styler.nvim": {
         "branch": "main",

@@ -119,4 +119,19 @@ T["confirming leaves no deferred complete-done to notify ddc again"] = function(
 	expect.equality(vim.g.deferred_complete_dones, 0)
 end
 
+T["typing after a selected SKK candidate preserves dictionary learning"] = function()
+	setup_fakes()
+	vim.fn["pum#_fake_open"]()
+	local previous = package.loaded["atusy.lsp.skkelua"]
+	local learned = 0
+	package.loaded["atusy.lsp.skkelua"] = {
+		on_complete_done = function()
+			learned = learned + 1
+		end,
+	}
+	type_after_inserted_word()
+	package.loaded["atusy.lsp.skkelua"] = previous
+	expect.equality(learned, 1)
+end
+
 return T

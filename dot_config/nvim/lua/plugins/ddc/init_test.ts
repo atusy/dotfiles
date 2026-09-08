@@ -57,3 +57,43 @@ Deno.test("gitcommit completion preserves tsudoi candidate priority", async () =
     ],
   ]);
 });
+
+Deno.test("SKK sources keep kana-to-kanji candidates out of fuzzy filters", async () => {
+  let global = {} as {
+    sources: Array<
+      {
+        options: {
+          matchers: string[];
+          sorters: string[];
+          converters: string[];
+          hideTimeout: number;
+        };
+      }
+    >;
+    cmdlineSources: Record<string, typeof global.sources>;
+    sourceParams: Record<string, { deniedServers: string[] }>;
+  };
+  const aliases: string[][] = [];
+  await new Config().config({
+    setAlias: (...args: string[]) => aliases.push(args),
+    contextBuilder: {
+      patchGlobal: (options: Record<string, unknown>) =>
+        global = options as typeof global,
+      patchFiletype: () => {},
+    },
+  } as unknown as ConfigArguments);
+  assertEquals(aliases.slice(0, 2), [
+    ["source", "skkelua", "nvim-lsp"],
+    ["source", "skkelua-cmdline", "nvim-lsp-cmdline"],
+  ]);
+  for (
+    const sources of [global.sources, ...Object.values(global.cmdlineSources)]
+  ) {
+    const skk = sources[0];
+    assertEquals(skk.options.matchers, []);
+    assertEquals(skk.options.sorters, []);
+    assertEquals(skk.options.converters, []);
+    assertEquals(skk.options.hideTimeout, 1000);
+  }
+  assertEquals(global.sourceParams["nvim-lsp"].deniedServers, ["skkelua"]);
+});

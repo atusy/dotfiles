@@ -39,6 +39,11 @@ function M.confirm()
 	-- whether the buffer still matches the confirmed word.
 	vim.v.completed_item = item
 	pcall(vim.fn["denops#request"], "ddc", "onCompleteDone", { item })
+	-- This path suppresses PumCompleteDone, so forward SKK learning explicitly.
+	local skk = package.loaded["atusy.lsp.skkelua"]
+	if skk then
+		skk.on_complete_done(item)
+	end
 end
 
 function M.setup()
