@@ -32,7 +32,7 @@ function M.complete(params, document)
 	table.sort(entries, function(a, b)
 		return a[1] < b[1]
 	end)
-	local items, seen, order = {}, {}, {}
+	local items, seen = {}, {}
 	for _, entry in ipairs(entries) do
 		for _, candidate in ipairs(entry[2]) do
 			local word = candidate:gsub(";.*", "")
@@ -47,6 +47,7 @@ function M.complete(params, document)
 				candidates[word] = data
 				items[#items + 1] = {
 					label = word,
+					sortText = #items + 1, -- dictionary ordinal until ranks are applied
 					detail = candidate:match(";(.*)$"),
 					textEdit = { range = range, newText = word },
 					data = data,
@@ -54,13 +55,10 @@ function M.complete(params, document)
 			end
 		end
 	end
-	-- Stable dictionary order for unranked candidates.
-	for i, item in ipairs(items) do
-		order[item] = i
-	end
+	-- Preserve dictionary order when ranks tie.
 	table.sort(items, function(a, b)
 		local ar, br = ranks[a.data.word] or 0, ranks[b.data.word] or 0
-		return ar == br and order[a] < order[b] or ar > br
+		return ar == br and a.sortText < b.sortText or ar > br
 	end)
 	for i, item in ipairs(items) do
 		item.sortText = string.format("%06d", i)

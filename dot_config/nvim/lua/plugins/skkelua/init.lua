@@ -46,10 +46,7 @@ return {
 					local keys = require("skkelua").get_default_mapped_keys()
 					-- Keep ddc selection and confirmation mappings available.
 					keys = vim.tbl_filter(function(key)
-						return key:lower() ~= "<c-y>"
-							and key:lower() ~= "<c-g>"
-							and key:lower() ~= "<tab>"
-							and key:lower() ~= "<s-tab>"
+						return not vim.tbl_contains({ "<c-y>", "<c-g>", "<tab>", "<s-tab>" }, key:lower())
 							and not (vim.bo[ctx.buf].filetype == "TelescopePrompt" and key:lower() == "<cr>")
 					end, keys)
 					require("skkelua").config({ mappedKeys = keys })
@@ -94,19 +91,19 @@ return {
 				completion = { enabled = false }, -- ddc owns completion via atusy.lsp.skkelua
 				userDictionary = vim.fn.expand("~/.skkeleton"), -- retain the existing SKK user dictionary
 				lowercaseMap = { [":"] = ";" },
-				globalDictionaries = {
-					dict("L"),
-					dict("propernoun"),
-					dict("geo"),
-					dict("station"),
-					dict("hukugougo"),
-					dict("jinmei"),
-					dict("fullname"),
-					dict("edict2"),
-					dict("assoc"),
-					-- dict("jawiki", "jawiki-kana-kanji-dict"), -- TODO: needs to download from GH Releases
-					dict("emoji"),
-				},
+				-- TODO: add jawiki-kana-kanji-dict after downloading its GitHub release.
+				globalDictionaries = vim.tbl_map(dict, {
+					"L",
+					"propernoun",
+					"geo",
+					"station",
+					"hukugougo",
+					"jinmei",
+					"fullname",
+					"edict2",
+					"assoc",
+					"emoji",
+				}),
 			})
 
 			-- init
