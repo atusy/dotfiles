@@ -123,7 +123,7 @@ export async function routeTypeScript(params: RoutingParams): Promise<RoutingRes
     return null;
   }
 
-  const [denolsNodeRoot, tsgoNodeRoot, denoLockRoot, denoConfigRoot] = await Promise.all([
+  const [denolsNodeRoot, tscNodeRoot, denoLockRoot, denoConfigRoot] = await Promise.all([
     findRoot(filePath, nodeLocks),
     findRoot(filePath, [...nodeLocks, "package.json"]),
     findRoot(filePath, ["deno.lock"]),
@@ -135,24 +135,24 @@ export async function routeTypeScript(params: RoutingParams): Promise<RoutingRes
     isDeeper(denoConfigRoot, denolsNodeRoot)
       ? (denoLockRoot ?? denoConfigRoot)
       : null;
-  const tsgoRoot =
-    tsgoNodeRoot !== null &&
-    !(denoLockRoot !== null && denoLockRoot.length >= tsgoNodeRoot.length) &&
-    !(denoConfigRoot !== null && denoConfigRoot.length >= tsgoNodeRoot.length)
-      ? tsgoNodeRoot
+  const tscRoot =
+    tscNodeRoot !== null &&
+    !(denoLockRoot !== null && denoLockRoot.length >= tscNodeRoot.length) &&
+    !(denoConfigRoot !== null && denoConfigRoot.length >= tscNodeRoot.length)
+      ? tscNodeRoot
       : null;
   const routing: Record<string, { enabled?: boolean; workspaceFolders?: readonly string[] }> = {};
   if (Object.hasOwn(params.languageServers, "denols")) {
     routing.denols =
       denoRoot === null
-        ? { enabled: tsgoRoot === null }
+        ? { enabled: tscRoot === null }
         : { enabled: true, workspaceFolders: [pathToFileURL(denoRoot).href] };
   }
-  if (Object.hasOwn(params.languageServers, "tsgo")) {
-    routing.tsgo =
-      tsgoRoot === null
+  if (Object.hasOwn(params.languageServers, "tsc")) {
+    routing.tsc =
+      tscRoot === null
         ? { enabled: false }
-        : { enabled: true, workspaceFolders: [pathToFileURL(tsgoRoot).href] };
+        : { enabled: true, workspaceFolders: [pathToFileURL(tscRoot).href] };
   }
   return Object.keys(routing).length === 0 ? null : { routing };
 }

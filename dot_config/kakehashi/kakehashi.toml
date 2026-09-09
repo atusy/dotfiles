@@ -45,7 +45,7 @@ enabled = false
 [languages._.bridge._.aggregation]
 "_" = { "priorities" = ["*", "tsudoi"] }
 "textDocument/completion" = { strategy = "concatenated" }
-"textDocument/formatting" = { "priorities" = ["*", "tsudoi", "oxfmt", "denols", "tsgo"] }
+"textDocument/formatting" = { "priorities" = ["*", "tsudoi", "oxfmt", "denols", "tsc"] }
 
 [languages._.bridge._self]
 enabled = true
@@ -98,7 +98,7 @@ r_language_server = { enabled = true }
 ruff = { enabled = true }
 rust_analyzer = { enabled = true }
 terraformls = { enabled = true }
-tsgo = { enabled = true }
+tsc = { enabled = true }
 stylua = { enabled = true }
 yamlls = { enabled = true }
 

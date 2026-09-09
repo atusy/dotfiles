@@ -21,7 +21,7 @@ Deno.test("a nested Deno config selects denols over a parent Node project", asyn
           workspaceMarkers: [],
           preferSharedInstance: true,
         },
-        tsgo: {
+        tsc: {
           languages: ["typescript"],
           workspaceMarkers: [],
           preferSharedInstance: true,
@@ -35,7 +35,7 @@ Deno.test("a nested Deno config selects denols over a parent Node project", asyn
           enabled: true,
           workspaceFolders: [pathToFileURL(denoRoot).href],
         },
-        tsgo: { enabled: false },
+        tsc: { enabled: false },
       },
     });
   } finally {
@@ -43,7 +43,7 @@ Deno.test("a nested Deno config selects denols over a parent Node project", asyn
   }
 });
 
-Deno.test("a package project selects tsgo at the package root", async () => {
+Deno.test("a package project selects tsc at the package root", async () => {
   const root = await Deno.makeTempDir();
   try {
     await Deno.writeTextFile(join(root, "package.json"), "{}");
@@ -59,7 +59,7 @@ Deno.test("a package project selects tsgo at the package root", async () => {
           workspaceMarkers: [],
           preferSharedInstance: true,
         },
-        tsgo: {
+        tsc: {
           languages: ["typescript"],
           workspaceMarkers: [],
           preferSharedInstance: true,
@@ -70,7 +70,7 @@ Deno.test("a package project selects tsgo at the package root", async () => {
     assertEquals(await routeTypeScript(params), {
       routing: {
         denols: { enabled: false },
-        tsgo: { enabled: true, workspaceFolders: [pathToFileURL(root).href] },
+        tsc: { enabled: true, workspaceFolders: [pathToFileURL(root).href] },
       },
     });
   } finally {
@@ -78,7 +78,7 @@ Deno.test("a package project selects tsgo at the package root", async () => {
   }
 });
 
-Deno.test("a loose TypeScript file falls back to denols when tsgo is disabled", async () => {
+Deno.test("a loose TypeScript file falls back to denols when tsc is disabled", async () => {
   const root = await Deno.makeTempDir();
   try {
     const params: RoutingParams = {
@@ -92,7 +92,7 @@ Deno.test("a loose TypeScript file falls back to denols when tsgo is disabled", 
           workspaceMarkers: [],
           preferSharedInstance: true,
         },
-        tsgo: {
+        tsc: {
           languages: ["typescript"],
           workspaceMarkers: [],
           preferSharedInstance: true,
@@ -103,7 +103,7 @@ Deno.test("a loose TypeScript file falls back to denols when tsgo is disabled", 
     assertEquals(await routeTypeScript(params), {
       routing: {
         denols: { enabled: true },
-        tsgo: { enabled: false },
+        tsc: { enabled: false },
       },
     });
   } finally {
@@ -111,7 +111,7 @@ Deno.test("a loose TypeScript file falls back to denols when tsgo is disabled", 
   }
 });
 
-Deno.test("a Deno lock excludes tsgo at the same project root", async () => {
+Deno.test("a Deno lock excludes tsc at the same project root", async () => {
   const root = await Deno.makeTempDir();
   try {
     await Deno.writeTextFile(join(root, "package.json"), "{}");
@@ -127,7 +127,7 @@ Deno.test("a Deno lock excludes tsgo at the same project root", async () => {
           workspaceMarkers: [],
           preferSharedInstance: true,
         },
-        tsgo: {
+        tsc: {
           languages: ["typescript"],
           workspaceMarkers: [],
           preferSharedInstance: true,
@@ -141,7 +141,7 @@ Deno.test("a Deno lock excludes tsgo at the same project root", async () => {
           enabled: true,
           workspaceFolders: [pathToFileURL(root).href],
         },
-        tsgo: { enabled: false },
+        tsc: { enabled: false },
       },
     });
   } finally {
