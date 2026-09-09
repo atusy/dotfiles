@@ -1,6 +1,7 @@
 return {
 	{
 		"https://github.com/kjuq/skkelua.nvim",
+		dev = true, -- use the completion-extension-api work in ghq
 		dependencies = { "https://github.com/skk-dev/dict" },
 		config = function()
 			vim.keymap.set({ "i", "c", "t" }, "<C-J>", "<Plug>(skkelua-enable)")

@@ -21,46 +21,112 @@ for _, key in ipairs({ "K", "a", "n", "j", "i" }) do
 end
 assert(skk.get_pre_edit() == "▽かんじ", skk.get_pre_edit())
 local text = "😀 echo " .. skk.get_pre_edit()
-local params = { position = { line = 0, character = vim.str_utfindex(text, "utf-16") } }
-local result = provider.complete(params, { text = text })
-assert(#result.items == 1, vim.inspect(result))
-assert(result.items[1].textEdit.range.start.character == 8, vim.inspect(result))
+vim.api.nvim_buf_set_lines(0, 0, -1, false, { text })
+local mode = "i"
+local original_mode = vim.fn.mode
+vim.fn.mode = function()
+	return mode
+end
+local function request(client, uri)
+	local response = assert(client:request_sync("textDocument/completion", {
+		textDocument = { uri = uri },
+		position = { line = 0, character = #text },
+	}, 3000, vim.api.nvim_get_current_buf()))
+	assert(not response.err, vim.inspect(response))
+	return response.result
+end
+local attaches = 0
+vim.api.nvim_create_autocmd("LspAttach", {
+	callback = function()
+		attaches = attaches + 1
+	end,
+})
+local id = assert(require("skkelua.lsp").start())
+assert(require("skkelua.lsp").start() == id)
+local client = vim.lsp.get_client_by_id(id)
+assert(vim.wait(3000, function()
+	return client.initialized
+end))
+assert(client.offset_encoding == "utf-8")
+local result = request(client, vim.uri_from_bufnr(0))
+assert(#result.items == 2, vim.inspect(result)) -- candidate plus registration
+assert(result.items[1].textEdit.range.start.character == #"😀 echo ", vim.inspect(result))
+assert(result.items[1].insertText == "漢字")
+assert(result.items[2].insertText == skk.get_pre_edit())
 local learned
 local original = skk.complete_callback
-skk.complete_callback = function(midasi, word)
-	learned = { midasi, word }
-	original(midasi, word)
+skk.complete_callback = function(midasi, word, kind)
+	learned = { midasi, word, kind }
+	original(midasi, word, kind)
 end
--- Normal LSP source serializes the completion item as JSON.
 provider.on_complete_done({ __sourceName = "skkelua", user_data = { lspitem = vim.json.encode(result.items[1]) } })
-assert(learned and learned[1] == "かんじ" and learned[2] == "漢字", "ddc confirmation did not learn the candidate")
-learned = nil
-provider.on_complete_done({ __sourceName = "skkelua-cmdline", abbr = "漢字", word = "echo 漢字" })
 assert(learned and learned[1] == "かんじ" and learned[2] == "漢字")
-assert(#provider.complete(params, { text = "unrelated" }).items == 0)
--- ddc uses cwd/ for an unnamed buffer, while the LSP didOpen URI is file://.
+assert(#request(client, "file:///unrelated.txt").items == 0)
+local alias = vim.uri_from_bufnr(0)
+assert(#request(client, alias).items == 2)
+vim.api.nvim_buf_set_lines(0, 0, -1, false, { "stale" })
+assert(#request(client, alias).items == 0)
 vim.api.nvim_buf_set_lines(0, 0, -1, false, { text })
-params.textDocument = { uri = vim.uri_from_fname(vim.fn.fnamemodify("", ":p")) }
-assert(#provider.complete_buffer(params, nil).items == 1)
-params.textDocument.uri = "file:///unrelated.txt"
-assert(#provider.complete_buffer(params, nil).items == 0)
--- Exercise the real Neovim client and the synchronized document transport.
-local buffer = vim.api.nvim_create_buf(false, true)
-vim.api.nvim_buf_set_lines(buffer, 0, -1, false, { text })
-local id = assert(
-	vim.lsp.start(
-		{ name = "skkelua-test", cmd = require("atusy.lsp.ddc_completion").command(provider.complete) },
-		{ bufnr = buffer }
-	)
+mode = "c"
+assert(#request(client, alias).items == 0)
+local virtual = vim.api.nvim_create_buf(false, true)
+vim.api.nvim_buf_set_name(virtual, "ddc://skkelua-test")
+vim.bo[virtual].filetype = "ddc_skkelua"
+vim.api.nvim_buf_set_lines(virtual, 0, -1, false, { text })
+local cmd_id = assert(require("skkelua.lsp").start(virtual))
+assert(cmd_id == id, "Insert and cmdline must share a single client")
+assert(require("skkelua.lsp").start(virtual) == id)
+assert(attaches == 2, "each buffer should attach only once")
+local cmd_client = client
+local original_getcmdline, original_getcmdpos = vim.fn.getcmdline, vim.fn.getcmdpos
+vim.fn.getcmdline = function()
+	return text
+end
+vim.fn.getcmdpos = function()
+	return #text + 1
+end
+local cmd_result = request(cmd_client, vim.uri_from_bufnr(virtual))
+assert(#cmd_result.items == 2, vim.inspect(cmd_result))
+vim.fn.getcmdline = function()
+	return "stale"
+end
+assert(#request(client, vim.uri_from_bufnr(virtual)).items == 0)
+vim.fn.getcmdline = function()
+	return text
+end
+vim.fn.getcmdpos = function()
+	return 1
+end
+assert(#request(client, vim.uri_from_bufnr(virtual)).items == 0)
+vim.fn.getcmdpos = function()
+	return #text + 1
+end
+learned = nil
+require("skkelua.completion").accept(provider.item({
+	__sourceName = "skkelua-cmdline",
+	user_data = { lspitem = vim.json.encode(cmd_result.items[1]) },
+	abbr = "漢字",
+	word = "😀 echo 漢字",
+}))
+assert(learned and learned[1] == "かんじ" and learned[2] == "漢字", "cmdline candidate did not learn")
+learned = nil
+require("skkelua.completion").accept(
+	provider.item({ __sourceName = "skkelua-cmdline", abbr = "漢字", word = "unrelated 漢字" })
 )
-assert(vim.wait(3000, function()
-	return vim.lsp.get_client_by_id(id).initialized
-end))
-local client = vim.lsp.get_client_by_id(id)
-params.textDocument = { uri = vim.uri_from_bufnr(buffer) }
-local response = assert(client:request_sync("textDocument/completion", params, 3000, buffer))
-assert(not response.err, vim.inspect(response))
-assert(response.result.items[1].label == "漢字", vim.inspect(response))
+assert(learned == nil, "unrelated cmdline candidate was accepted")
+assert(
+	provider.item({ __sourceName = "skkelua-cmdline", user_data = { lspitem = vim.json.encode(cmd_result.items[2]) } }).data.register
+)
+mode = "n"
+assert(#request(client, alias).items == 0)
+mode = "i"
+assert(#request(cmd_client, vim.uri_from_bufnr(virtual)).items == 0)
+skk._handle_request("disable", {}, { mode = "", prevInput = skk.get_pre_edit(), completeInfo = {}, completeType = "" })
+assert(#request(client, alias).items == 0)
+vim.fn.mode = original_mode
+vim.fn.getcmdline, vim.fn.getcmdpos = original_getcmdline, original_getcmdpos
 client:stop(true)
-print("PASS skkelua LSP UTF-16 ranges, stale text rejection, buffer/cmdline learning, real RPC")
+cmd_client:stop(true)
+vim.api.nvim_buf_delete(virtual, { force = true })
 vim.fn.delete(tmp)
+print("PASS SKK shared API: UTF-8 RPC, Insert/cmdline, metadata, stale text and disabled state")

@@ -134,6 +134,7 @@ return {
 	-- source
 	{
 		"https://github.com/atusy/ddc-source-nvim-lsp",
+		dev = true, -- UTF-8 confirmation and cmdline metadata support in ghq
 		lazy = false,
 		config = function()
 			vim.lsp.config("*", {

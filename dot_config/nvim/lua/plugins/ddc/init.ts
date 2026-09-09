@@ -37,7 +37,7 @@ export const skkeluaCmdlineSource = {
   options: skkeluaOptions,
   params: {
     languageId: "ddc_skkelua",
-    allowedServers: ["skkelua-cmdline"],
+    allowedServers: ["skkelua"],
     completePosition: "head",
   },
 };
