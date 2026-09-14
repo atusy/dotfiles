@@ -1,6 +1,6 @@
 ---
 name: revise
-description: Run the full multi-stage review pipeline on the current branch — /review (multi-perspective subagents) → codex MCP → PR — fixing findings at each stage until convergence. Use when the user asks to "revise", run the review pipeline, or prepare a branch/PR for merge review.
+description: Run the full multi-stage review pipeline on the current branch — /review (multi-perspective subagents) → codex exec review → PR — fixing findings at each stage until convergence. Use when the user asks to "revise", run the review pipeline, or prepare a branch/PR for merge review.
 ---
 
 # Revise: staged review pipeline until convergence
@@ -18,7 +18,7 @@ missed; stage 1 must cover its passes so convergence happens locally.
    commit hashes, and the final summary reads `<start-ref>..HEAD`.
 1. **`/review`** (subagent-orchestrated multi-perspective review + fact-check).
    Repeat until no actionable findings.
-2. **codex MCP server** review. Repeat (reply-to-continue on the SAME thread)
+2. **`codex exec review`**. Repeat (`codex exec resume` on the SAME session)
    until it answers "no comments to provide" — then request one FRESH review
    in a NEW session (no thread carryover) and converge that too.
 3. **Create the PR** (or push to the existing one).
@@ -34,7 +34,7 @@ missed; stage 1 must cover its passes so convergence happens locally.
         - CodeRabbit by mentioning `@coderabbitai review`
         - Greptile by mentioning `@greptileai`
         - Qodo by commenting `/agentic_review`
-        - Codex by mentioning `@codex review` (do this regardless of codex MCP stage)
+        - Codex by mentioning `@codex review` (do this regardless of codex exec review stage)
 
 ## Universal rules (every stage)
 
@@ -124,25 +124,37 @@ Fact-check discipline: every finding must be verified against the code at the
 cited line before it reaches you; the orchestrator lists refuted findings so
 you don't re-investigate them.
 
-## Stage 2 — codex MCP
+## Stage 2 — codex exec review
 
-Call the codex tool with: branch + base, instruction to run `git diff
-base...HEAD` AND read the actual files at HEAD, a summary of the change set,
+Run `codex exec review` in the branch's worktree with a custom prompt containing:
+branch + base, instruction to run `git diff base...HEAD` AND read the actual
+files at HEAD, a summary of the change set,
 and a note of what stage-1 already found/fixed ("you are the second
-independent reviewer — look for what they missed"). Use `sandbox:
-"read-only"`, `approval-policy: "never"`.
+independent reviewer — look for what they missed"). Ask it to answer
+"no comments to provide" when there are no actionable findings. For example,
+write the prompt to a scratchpad file and run:
 
-- Continue on the same thread with `codex-reply`: after fixing, reply with the
-  commit hash + what changed + ask it to re-review and continue.
+```sh
+codex exec --sandbox read-only -c approval_policy='"never"' review --json - < "$review_prompt_file"
+```
+
+Keep the session ID from the JSONL output for follow-ups. Put the base in the
+custom prompt; do not combine the prompt with `--base`.
+
+- Continue on the same session with
+  `codex exec --sandbox read-only -c approval_policy='"never"' resume "$review_session_id" - < "$followup_prompt_file"`:
+  after fixing, send the commit hash + what changed + ask it to re-review the
+  updated full diff against the same base and continue. Use the explicit
+  session ID rather than `--last`.
 - When the thread answers **"no comments to provide"**, start a **fresh
-  session** (a new `codex` call, no thread carryover): a continued thread is
+  session** (a new `codex exec review` invocation, no session carryover): a continued thread is
   anchored to its own earlier findings and verifies your fixes rather than
   re-sweeping, so blind spots survive it. Prompt the fresh session as a
   first-time reviewer of the full diff (do NOT enumerate what earlier rounds
   found — that would re-anchor it; at most note the branch has been through
   local review so it hunts for what was missed).
-- If the fresh session finds something: fix on that thread via reply-to-
-  continue until clean, then fresh-session again. Converged when a FRESH
+- If the fresh session finds something: fix and use `codex exec resume` on
+  that session until clean, then fresh-session again. Converged when a FRESH
   session answers "no comments to provide" on its first response.
 - codex findings are usually real (it reads code paths, not patterns) — expect
   design-level items like "this wait isn't observable by supersession" or
