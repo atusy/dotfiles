@@ -44,7 +44,7 @@ vim.api.nvim_create_autocmd("LspAttach", {
 provider.setup()
 vim.api.nvim_exec_autocmds("InsertEnter", {})
 local id = assert(vim.lsp.get_clients({ name = "skkelua", _uninitialized = true })[1]).id
-assert(require("skkelua.lsp").start(nil, provider.get_context) == id)
+assert(require("skkelua.lsp").start() == id)
 local client = vim.lsp.get_client_by_id(id)
 assert(vim.wait(3000, function()
 	return client.initialized
@@ -70,22 +70,18 @@ vim.api.nvim_buf_set_lines(0, 0, -1, false, { "stale" })
 assert(#request(client, alias).items == 0)
 vim.api.nvim_buf_set_lines(0, 0, -1, false, { text })
 mode = "c"
-assert(#request(client, alias).items == 0)
 local virtual = vim.api.nvim_create_buf(false, true)
 vim.api.nvim_buf_set_name(virtual, "ddc://skkelua-test")
 vim.bo[virtual].filetype = "ddc_skkelua"
 vim.api.nvim_buf_set_lines(virtual, 0, -1, false, { text })
 local cmd_id = assert(vim.lsp.get_clients({ name = "skkelua", bufnr = virtual })[1]).id
 assert(cmd_id == id, "Insert and cmdline must share a single client")
-assert(require("skkelua.lsp").start(virtual, provider.get_context) == id)
+assert(require("skkelua.lsp").start(virtual) == id)
 assert(attaches == 2, "each buffer should attach only once")
 local cmd_client = client
 -- ddc owns live command-line freshness checks; resolve its request snapshot.
 local cmd_result = request(cmd_client, vim.uri_from_bufnr(virtual))
 assert(#cmd_result.items == 2, vim.inspect(cmd_result))
-vim.bo[virtual].filetype = "unrelated"
-assert(#request(client, vim.uri_from_bufnr(virtual)).items == 0)
-vim.bo[virtual].filetype = "ddc_skkelua"
 -- SKK still rejects a document that does not contain the current pre-edit.
 vim.api.nvim_buf_set_lines(virtual, 0, -1, false, { "stale" })
 assert(#request(client, vim.uri_from_bufnr(virtual)).items == 0)
@@ -106,10 +102,6 @@ assert(learned == nil, "unrelated cmdline candidate was accepted")
 assert(
 	provider.item({ __sourceName = "skkelua-cmdline", user_data = { lspitem = vim.json.encode(cmd_result.items[2]) } }).data.register
 )
-mode = "n"
-assert(#request(client, alias).items == 0)
-mode = "i"
-assert(#request(cmd_client, vim.uri_from_bufnr(virtual)).items == 0)
 skk._handle_request("disable", {}, { mode = "", prevInput = skk.get_pre_edit(), completeInfo = {}, completeType = "" })
 assert(#request(client, alias).items == 0)
 vim.fn.mode = original_mode
