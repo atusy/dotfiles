@@ -13,6 +13,29 @@ function M.on_complete_done(item)
 	require("skkelua.completion").accept(M.item(item))
 end
 
+-- Resolve ddc-source-nvim-lsp's document representation against the active input.
+function M.get_context(params)
+	local lsp = require("skkelua.lsp")
+	local mode = vim.fn.mode():sub(1, 1)
+	if mode == "i" then
+		if params.textDocument.uri == vim.uri_from_bufnr(0) then
+			return lsp.get_context(params, 0)
+		end
+	elseif mode == "c" then
+		local context, buf = lsp.get_context(params)
+		if
+			context
+			and vim.bo[buf].filetype == "ddc_skkelua"
+			and vim.bo[buf].buftype == "nofile"
+			and context.row == 0
+			and context.line == vim.fn.getcmdline()
+			and context.col == vim.fn.getcmdpos() - 1
+		then
+			return context
+		end
+	end
+end
+
 function M.setup()
 	require("skkelua.completion").set_adapter({
 		state = function()
@@ -36,7 +59,7 @@ function M.setup()
 		group = group,
 		callback = function()
 			if vim.fn.mode():sub(1, 1) ~= "c" then
-				require("skkelua.lsp").start()
+				require("skkelua.lsp").start(nil, M.get_context)
 			end
 		end,
 	})
@@ -44,7 +67,7 @@ function M.setup()
 		group = group,
 		pattern = "ddc_skkelua",
 		callback = function(args)
-			require("skkelua.lsp").start(args.buf)
+			require("skkelua.lsp").start(args.buf, M.get_context)
 		end,
 	})
 	vim.api.nvim_create_autocmd("User", {

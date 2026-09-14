@@ -41,8 +41,10 @@ vim.api.nvim_create_autocmd("LspAttach", {
 		attaches = attaches + 1
 	end,
 })
-local id = assert(require("skkelua.lsp").start())
-assert(require("skkelua.lsp").start() == id)
+provider.setup()
+vim.api.nvim_exec_autocmds("InsertEnter", {})
+local id = assert(vim.lsp.get_clients({ name = "skkelua", _uninitialized = true })[1]).id
+assert(require("skkelua.lsp").start(nil, provider.get_context) == id)
 local client = vim.lsp.get_client_by_id(id)
 assert(vim.wait(3000, function()
 	return client.initialized
@@ -73,9 +75,9 @@ local virtual = vim.api.nvim_create_buf(false, true)
 vim.api.nvim_buf_set_name(virtual, "ddc://skkelua-test")
 vim.bo[virtual].filetype = "ddc_skkelua"
 vim.api.nvim_buf_set_lines(virtual, 0, -1, false, { text })
-local cmd_id = assert(require("skkelua.lsp").start(virtual))
+local cmd_id = assert(vim.lsp.get_clients({ name = "skkelua", bufnr = virtual })[1]).id
 assert(cmd_id == id, "Insert and cmdline must share a single client")
-assert(require("skkelua.lsp").start(virtual) == id)
+assert(require("skkelua.lsp").start(virtual, provider.get_context) == id)
 assert(attaches == 2, "each buffer should attach only once")
 local cmd_client = client
 local original_getcmdline, original_getcmdpos = vim.fn.getcmdline, vim.fn.getcmdpos
@@ -87,6 +89,9 @@ vim.fn.getcmdpos = function()
 end
 local cmd_result = request(cmd_client, vim.uri_from_bufnr(virtual))
 assert(#cmd_result.items == 2, vim.inspect(cmd_result))
+vim.bo[virtual].filetype = "unrelated"
+assert(#request(client, vim.uri_from_bufnr(virtual)).items == 0)
+vim.bo[virtual].filetype = "ddc_skkelua"
 vim.fn.getcmdline = function()
 	return "stale"
 end
