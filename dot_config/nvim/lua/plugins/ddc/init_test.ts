@@ -1,6 +1,6 @@
 import { assertEquals } from "jsr:@std/assert@~1.0.14";
 import type { ConfigArguments } from "jsr:@shougo/ddc-vim@~10.2.0/config";
-import { cmdlineSources, Config } from "./init.ts";
+import { cmdlineSources, Config, skkeluaCompletePosition } from "./init.ts";
 
 Deno.test("every command type retains its isolated source order", () => {
   assertEquals(cmdlineSources, {
@@ -96,4 +96,43 @@ Deno.test("SKK sources keep kana-to-kanji candidates out of fuzzy filters", asyn
     assertEquals(skk.options.hideTimeout, 1000);
   }
   assertEquals(global.sourceParams["nvim-lsp"].deniedServers, ["skkelua"]);
+});
+
+Deno.test("SKK position follows pre-edit after Japanese text in either mode", async () => {
+  for (const mode of ["i", "c"]) {
+    for (
+      const [prefix, preEdit] of [
+        ["# たとえばこういう", "にほんご"],
+        ["😀日本語", "▽かんじ"],
+        ["echo ", "a.b"],
+        ["", "😀かな"],
+      ]
+    ) {
+      const denops = {
+        call: () => Promise.resolve(preEdit),
+      } as unknown as Parameters<typeof skkeluaCompletePosition>[0];
+      const context = { input: prefix + preEdit, mode } as Parameters<
+        typeof skkeluaCompletePosition
+      >[1]["context"];
+      assertEquals(
+        await skkeluaCompletePosition(denops, { context }),
+        prefix.length,
+      );
+      context.input = "stale";
+      assertEquals(await skkeluaCompletePosition(denops, { context }), -1);
+    }
+  }
+  assertEquals(
+    await skkeluaCompletePosition(
+      { call: () => Promise.resolve("") } as unknown as Parameters<
+        typeof skkeluaCompletePosition
+      >[0],
+      {
+        context: { input: "日本語" } as Parameters<
+          typeof skkeluaCompletePosition
+        >[1]["context"],
+      },
+    ),
+    -1,
+  );
 });

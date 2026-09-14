@@ -3,6 +3,9 @@ import {
   type ConfigArguments,
 } from "jsr:@shougo/ddc-vim@~10.2.0/config";
 
+import type { Denops } from "jsr:@denops/std@~8.2.0";
+import type { Context } from "jsr:@shougo/ddc-vim@~10.2.0/types";
+
 export const cmdlineSources = {
   ":": ["nvim-lsp-cmdline", "nvim-cmdline", "nvim-ex-command-history"],
   "@": ["nvim-input", "nvim-cmdline-history", "nvim-lsp-cmdline"],
@@ -26,10 +29,27 @@ const skkeluaOptions = {
   isVolatile: true,
 };
 
+export async function skkeluaCompletePosition(
+  denops: Denops,
+  { context }: { context: Context },
+): Promise<number> {
+  const preEdit = await denops.call(
+    "luaeval",
+    '(function() local skk = package.loaded["skkelua"]; return skk and skk.is_enabled() and skk.get_pre_edit() or "" end)()',
+  ) as string;
+  return preEdit && context.input.endsWith(preEdit)
+    ? context.input.length - preEdit.length
+    : -1;
+}
+
 export const skkeluaSource = {
   name: "skkelua",
   options: skkeluaOptions,
-  params: { allowedServers: ["skkelua"], confirmBehavior: "replace" },
+  params: {
+    allowedServers: ["skkelua"],
+    confirmBehavior: "replace",
+    getCompletePosition: skkeluaCompletePosition,
+  },
 };
 
 export const skkeluaCmdlineSource = {
@@ -37,8 +57,8 @@ export const skkeluaCmdlineSource = {
   options: skkeluaOptions,
   params: {
     languageId: "ddc_skkelua",
+    getCompletePosition: skkeluaCompletePosition,
     allowedServers: ["skkelua"],
-    completePosition: "head",
   },
 };
 
