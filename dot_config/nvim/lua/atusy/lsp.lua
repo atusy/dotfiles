@@ -161,13 +161,15 @@ function M.setup()
 				return
 			end
 
-			M.setup_mappings(ctx.buf, client)
+			local bufnr = ctx.buf
+
+			M.setup_mappings(bufnr, client)
 
 			-- signature help
-			local bufnr = ctx.buf
-			if client.name ~= "copilot" and vim.bo[bufnr].buftype ~= "nofile" then
+			if client.server_capabilities and client.server_capabilities.signatureHelpProvider then
 				vim.api.nvim_create_autocmd({ "InsertEnter", "TextChangedI", "CursorMovedI" }, {
 					buffer = bufnr,
+					group = vim.api.nvim_create_augroup("atusy.lsp.signature_help." .. bufnr, { clear = true }),
 					callback = function()
 						vim.lsp.buf.signature_help({ focus = false, silent = true })
 					end,
