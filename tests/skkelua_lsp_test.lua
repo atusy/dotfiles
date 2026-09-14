@@ -80,32 +80,16 @@ assert(cmd_id == id, "Insert and cmdline must share a single client")
 assert(require("skkelua.lsp").start(virtual, provider.get_context) == id)
 assert(attaches == 2, "each buffer should attach only once")
 local cmd_client = client
-local original_getcmdline, original_getcmdpos = vim.fn.getcmdline, vim.fn.getcmdpos
-vim.fn.getcmdline = function()
-	return text
-end
-vim.fn.getcmdpos = function()
-	return #text + 1
-end
+-- ddc owns live command-line freshness checks; resolve its request snapshot.
 local cmd_result = request(cmd_client, vim.uri_from_bufnr(virtual))
 assert(#cmd_result.items == 2, vim.inspect(cmd_result))
 vim.bo[virtual].filetype = "unrelated"
 assert(#request(client, vim.uri_from_bufnr(virtual)).items == 0)
 vim.bo[virtual].filetype = "ddc_skkelua"
-vim.fn.getcmdline = function()
-	return "stale"
-end
+-- SKK still rejects a document that does not contain the current pre-edit.
+vim.api.nvim_buf_set_lines(virtual, 0, -1, false, { "stale" })
 assert(#request(client, vim.uri_from_bufnr(virtual)).items == 0)
-vim.fn.getcmdline = function()
-	return text
-end
-vim.fn.getcmdpos = function()
-	return 1
-end
-assert(#request(client, vim.uri_from_bufnr(virtual)).items == 0)
-vim.fn.getcmdpos = function()
-	return #text + 1
-end
+vim.api.nvim_buf_set_lines(virtual, 0, -1, false, { text })
 learned = nil
 require("skkelua.completion").accept(provider.item({
 	__sourceName = "skkelua-cmdline",
@@ -129,7 +113,6 @@ assert(#request(cmd_client, vim.uri_from_bufnr(virtual)).items == 0)
 skk._handle_request("disable", {}, { mode = "", prevInput = skk.get_pre_edit(), completeInfo = {}, completeType = "" })
 assert(#request(client, alias).items == 0)
 vim.fn.mode = original_mode
-vim.fn.getcmdline, vim.fn.getcmdpos = original_getcmdline, original_getcmdpos
 client:stop(true)
 cmd_client:stop(true)
 vim.api.nvim_buf_delete(virtual, { force = true })

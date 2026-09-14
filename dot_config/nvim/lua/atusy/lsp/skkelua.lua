@@ -23,14 +23,8 @@ function M.get_context(params)
 		end
 	elseif mode == "c" then
 		local context, buf = lsp.get_context(params)
-		if
-			context
-			and vim.bo[buf].filetype == "ddc_skkelua"
-			and vim.bo[buf].buftype == "nofile"
-			and context.row == 0
-			and context.line == vim.fn.getcmdline()
-			and context.col == vim.fn.getcmdpos() - 1
-		then
+		-- ddc validates freshness before displaying results.
+		if context and vim.bo[buf].filetype == "ddc_skkelua" then
 			return context
 		end
 	end
