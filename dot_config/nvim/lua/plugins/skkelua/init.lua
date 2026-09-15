@@ -6,9 +6,10 @@ return {
 		config = function()
 			vim.keymap.set({ "i", "c", "t" }, "<C-J>", "<Plug>(skkelua-enable)")
 			vim.keymap.set({ "i", "c" }, "<Plug>(atusy-skkelua-cancel-completion)", function()
+				local pum = vim.fn["pum#_get"]()
+				local inserted = pum.cursor > 0 and pum.current_word ~= ""
 				if vim.api.nvim_get_mode().mode:sub(1, 1) == "i" and require("skkelua").is_enabled() then
-					local pum = vim.fn["pum#_get"]()
-					if pum.cursor > 0 and pum.current_word ~= "" then
+					if inserted then
 						-- skkelua's guard blocks the <BS> keys used by pum's
 						-- cancellation. Restore the selected span directly instead.
 						local pos = vim.api.nvim_win_get_cursor(0)
@@ -25,6 +26,11 @@ return {
 					end
 				end
 				vim.fn["pum#map#cancel"]()
+				-- An unselected menu has no inserted candidate to undo.
+				-- Cancel the SKK conversion on the same key press too.
+				if not inserted then
+					require("skkelua").handle("handleKey", { key = "<C-g>" })
+				end
 			end)
 
 			local register_kanatable = require("skkelua").register_kanatable
@@ -68,7 +74,10 @@ return {
 					end
 					-- skkelua has already saved this mode's buffer-local maps.
 					-- Its disable path restores them, revealing the global map too.
-					vim.keymap.set(mode, "<C-g>", function()
+					if mode == "c" then
+						vim.keymap.set(mode, "<C-g>", "<Plug>(C-G)", { buffer = ctx.buf, nowait = true })
+					end
+					vim.keymap.set(mode, "<Plug>(C-G)", function()
 						if vim.fn.exists("*pum#visible") == 1 and vim.fn["pum#visible"]() then
 							return "<Plug>(atusy-skkelua-cancel-completion)"
 						end
@@ -76,6 +85,7 @@ return {
 					end, {
 						buffer = ctx.buf,
 						expr = true,
+						nowait = true,
 						desc = "Cancel completion or return SKK conversion to its reading",
 					})
 				end,
