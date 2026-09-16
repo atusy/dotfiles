@@ -51,7 +51,7 @@ return {
 				pattern = "skkelua-enable-pre",
 				callback = function(ctx)
 					local keys = require("skkelua").get_default_mapped_keys()
-					-- Keep ddc selection and confirmation mappings available.
+					-- Keep pum selection and confirmation mappings available.
 					keys = vim.tbl_filter(function(key)
 						return key:lower() ~= "<c-y>"
 							and key:lower() ~= "<c-g>"
@@ -102,7 +102,7 @@ return {
 				sources = { "skk_dictionary" }, -- no google_japanese_input to avoid unwanted candidates on affix
 				markerHenkan = "",
 				markerHenkanSelect = "",
-				completion = { enabled = false }, -- ddc owns completion via atusy.lsp.skkelua
+				completion = { enabled = false }, -- laser owns completion via atusy.lsp.skkelua
 				userDictionary = vim.fn.expand("~/.skkeleton"), -- retain the existing SKK user dictionary
 				lowercaseMap = { [":"] = ";" },
 				globalDictionaries = {
@@ -121,7 +121,11 @@ return {
 			})
 
 			-- init
-			require("atusy.lsp.skkelua").setup()
+			require("atusy.lsp.skkelua").setup({
+				trigger = function()
+					require("atusy.laser").complete()
+				end,
+			})
 
 			-- system-specific settings
 			if vim.loop.os_uname().sysname == "Linux" then

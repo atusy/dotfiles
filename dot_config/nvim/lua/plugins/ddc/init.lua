@@ -128,7 +128,7 @@ local function config()
 end
 
 return {
-	{ "https://github.com/Shougo/ddc.vim", config = config },
+	{ "https://github.com/Shougo/ddc.vim", config = config, lazy = true },
 	-- ui
 	{ "https://github.com/Shougo/pum.vim" },
 	-- source

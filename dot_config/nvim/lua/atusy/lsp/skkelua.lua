@@ -1,7 +1,11 @@
--- ddc/pum presentation and lifecycle around skkelua's shared completion API.
+-- Completion/pum presentation and lifecycle around skkelua's shared completion API.
 local M = {}
 
 function M.item(item)
+	local laser = vim.tbl_get(item, "user_data", "laser")
+	if laser then
+		return laser.item or {}
+	end
 	if item.__sourceName ~= "skkelua" and item.__sourceName ~= "skkelua-cmdline" then
 		return {}
 	end
@@ -13,7 +17,8 @@ function M.on_complete_done(item)
 	require("skkelua.completion").accept(M.item(item))
 end
 
-function M.setup()
+function M.setup(opts)
+	opts = opts or {}
 	require("skkelua.completion").set_adapter({
 		state = function()
 			local info = vim.fn["pum#complete_info"]()
@@ -28,7 +33,11 @@ function M.setup()
 		end,
 		trigger = function()
 			-- Preserve inline source options (in particular the empty SKK filters).
-			vim.fn["ddc#map#manual_complete"]()
+			if opts.trigger then
+				opts.trigger()
+			else
+				vim.fn["ddc#map#manual_complete"]()
+			end
 		end,
 	})
 	local group = vim.api.nvim_create_augroup("atusy.skkelua.lsp", { clear = true })
@@ -42,9 +51,14 @@ function M.setup()
 	})
 	vim.api.nvim_create_autocmd("FileType", {
 		group = group,
-		pattern = "ddc_skkelua",
+		pattern = "*",
 		callback = function(args)
-			require("skkelua.lsp").start(args.buf)
+			if
+				vim.bo[args.buf].filetype == "ddc_skkelua"
+				or vim.api.nvim_buf_get_name(args.buf):match("^untitled://laser%-cmdline/")
+			then
+				require("skkelua.lsp").start(args.buf)
+			end
 		end,
 	})
 	vim.api.nvim_create_autocmd("User", {
