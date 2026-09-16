@@ -1,8 +1,7 @@
 return {
 	{
-		"https://github.com/kjuq/skkelua.nvim",
-		dev = true, -- use the completion-extension-api work in ghq
-		dependencies = { "https://github.com/skk-dev/dict" },
+		"https://github.com/atusy/skkelua.nvim",
+		branch = "feat/completion-extension-api",
 		config = function()
 			vim.keymap.set({ "i", "c", "t" }, "<C-J>", "<Plug>(skkelua-enable)")
 			vim.keymap.set({ "i", "c" }, "<Plug>(atusy-skkelua-cancel-completion)", function()
