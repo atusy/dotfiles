@@ -1,11 +1,13 @@
 local MiniTest = require("mini.test")
 local expect = MiniTest.expect
 if not pcall(require, "laser.position") then
-	return MiniTest.new_set({ hooks = {
-		pre_case = function()
-			MiniTest.skip("LASER_NVIM_PATH is required")
-		end,
-	} })
+	return MiniTest.new_set({
+		hooks = {
+			pre_case = function()
+				MiniTest.skip("LASER_NVIM_PATH is required")
+			end,
+		},
+	})
 end
 local saved, configs, text, options
 
@@ -79,6 +81,24 @@ T["history completion preserves the command prefix"] = function()
 		end,
 	}, 1000)
 	expect.equality(provider(params, { text = text }).items, { { label = "vim.ui.open()" } })
+end
+
+T["history matches prefixes and preserves recency"] = function()
+	require("atusy.laser").complete()
+	local candidates = vim.tbl_map(function(label)
+		return { abbr = label, word = label, user_data = { laser = { item = { label = label } } } }
+	end, { "vim.z", "vim.a", "view.map" })
+	local filtered = require("laser.filter").apply(
+		candidates,
+		"vim",
+		require("laser.clients").resolve("nvim-cmdline-history", options.clientOptions)
+	)
+	expect.equality(
+		vim.tbl_map(function(item)
+			return item.word
+		end, filtered),
+		{ "vim.z", "vim.a" }
+	)
 end
 
 return T

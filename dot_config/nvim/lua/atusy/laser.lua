@@ -4,6 +4,10 @@ local function refresh()
 	return true
 end
 
+local function match_head(input, candidate)
+	return vim.startswith(candidate.word:lower(), input:lower())
+end
+
 function M.complete()
 	local filter = require("laser.filter")
 	local cmdline = vim.fn.mode():sub(1, 1) == "c"
@@ -30,6 +34,7 @@ function M.complete()
 			["nvim-cmdline-history"] = {
 				enabled = cmdtype == ":" or cmdtype == "@" or cmdtype == ">",
 				refresh = refresh,
+				filters = { { kind = "matcher", callback = match_head } },
 			},
 		},
 	})
