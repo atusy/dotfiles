@@ -165,6 +165,7 @@ T["clients follow the mode and skkelua state"] = function()
 					}
 				or nil
 			require("atusy.laser").complete()
+			expect.equality(options.max_items, state == "enabled" and 30 or nil)
 			local expected = state == "enabled" and { "skkelua" } or case[3]
 			expect.equality(
 				vim.tbl_map(function(client)

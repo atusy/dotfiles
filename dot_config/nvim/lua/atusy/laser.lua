@@ -52,6 +52,7 @@ function M.complete()
 	require("laser").complete({
 		language_id = input and "laser_input" or "vim",
 		clients = clients,
+		max_items = skk_enabled and 30 or nil,
 		clientOptions = {
 			["*"] = {
 				timeout_ms = 1000,
