@@ -1,5 +1,8 @@
 local M = {}
-local fuzzy_sorter = require("laser.filter").fuzzy_sorter()
+local filter = require("laser.filter")
+local fuzzy_matcher = filter.fuzzy_matcher()
+local score_sorter = filter.score_sorter()
+local highlight_converter = filter.highlight_converter()
 
 local function refresh()
 	return true
@@ -26,7 +29,6 @@ local function add_source(candidate)
 end
 
 function M.complete()
-	local filter = require("laser.filter")
 	local cmdline = vim.fn.mode():sub(1, 1) == "c"
 	if not cmdline and vim.bo.filetype == "TelescopePrompt" then
 		return
@@ -40,9 +42,9 @@ function M.complete()
 			["*"] = {
 				timeout_ms = 1000,
 				filters = {
-					{ kind = "matcher", callback = filter.fuzzy },
-					{ kind = "sorter", callback = fuzzy_sorter },
-					{ kind = "converter", callback = filter.highlight },
+					{ kind = "matcher", callback = fuzzy_matcher },
+					{ kind = "sorter", callback = score_sorter },
+					{ kind = "converter", callback = highlight_converter },
 					{ kind = "converter", callback = add_source },
 				},
 			},
