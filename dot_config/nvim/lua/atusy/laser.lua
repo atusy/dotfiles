@@ -8,6 +8,22 @@ local function match_head(input, candidate)
 	return vim.startswith(candidate.word:lower(), input:lower())
 end
 
+local source_marks = {
+	["nvim-cmdline"] = "CMD",
+	["nvim-input"] = "INPUT",
+	["nvim-cmdline-history"] = "HIST",
+	skkelua = "SKK",
+}
+
+local function add_source(candidate)
+	local client = vim.lsp.get_client_by_id(candidate.user_data.laser.client_id)
+	if client then
+		local mark = "[" .. (source_marks[client.name] or client.name) .. "]"
+		candidate.menu = mark .. (candidate.menu and candidate.menu ~= "" and " " .. candidate.menu or "")
+	end
+	return candidate
+end
+
 function M.complete()
 	local filter = require("laser.filter")
 	local cmdline = vim.fn.mode():sub(1, 1) == "c"
@@ -26,15 +42,19 @@ function M.complete()
 					{ kind = "matcher", callback = filter.fuzzy },
 					{ kind = "sorter", callback = filter.by_score },
 					{ kind = "converter", callback = filter.highlight },
+					{ kind = "converter", callback = add_source },
 				},
 			},
-			skkelua = { filters = {}, refresh = refresh },
+			skkelua = { filters = { { kind = "converter", callback = add_source } }, refresh = refresh },
 			["nvim-cmdline"] = { enabled = cmdtype == ":", refresh = refresh },
 			["nvim-input"] = { enabled = input, refresh = refresh },
 			["nvim-cmdline-history"] = {
 				enabled = cmdtype == ":" or cmdtype == "@" or cmdtype == ">",
 				refresh = refresh,
-				filters = { { kind = "matcher", callback = match_head } },
+				filters = {
+					{ kind = "matcher", callback = match_head },
+					{ kind = "converter", callback = add_source },
+				},
 			},
 		},
 	})

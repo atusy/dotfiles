@@ -101,4 +101,36 @@ T["history matches prefixes and preserves recency"] = function()
 	)
 end
 
+T["completion menus identify providers without losing descriptions"] = function()
+	require("atusy.laser").complete()
+	local get_client = vim.lsp.get_client_by_id
+	local names = { "nvim-cmdline", "nvim-input", "nvim-cmdline-history", "skkelua", "kakehashi" }
+	vim.lsp.get_client_by_id = function(id)
+		return { name = names[id] }
+	end
+	local menus = {}
+	for id, name in ipairs(names) do
+		local item = {
+			word = "vim",
+			abbr = "vim",
+			menu = "description",
+			user_data = { laser = { client_id = id, item = { label = "vim" } } },
+		}
+		local filtered = require("laser.filter").apply(
+			{ item },
+			"vim",
+			require("laser.clients").resolve(name, options.clientOptions)
+		)
+		menus[#menus + 1] = filtered[1].menu
+	end
+	vim.lsp.get_client_by_id = get_client
+	expect.equality(menus, {
+		"[CMD] description",
+		"[INPUT] description",
+		"[HIST] description",
+		"[SKK] description",
+		"[kakehashi] description",
+	})
+end
+
 return T
