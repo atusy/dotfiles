@@ -14,10 +14,11 @@ local saved, configs, text, options
 local T = MiniTest.new_set({
 	hooks = {
 		pre_case = function()
-			saved = { config = vim.lsp.config, laser = package.loaded.laser, fn = {} }
+			saved = { config = vim.lsp.config, laser = package.loaded.laser, skkelua = package.loaded.skkelua, fn = {} }
 			for _, name in ipairs({ "mode", "getcmdtype", "getcmdline", "getcmdpos", "pum#set_option" }) do
 				saved.fn[name] = vim.fn[name]
 			end
+			package.loaded.skkelua = nil
 			text = "lua vim"
 			vim.fn.mode = function()
 				return "c"
@@ -59,6 +60,7 @@ local T = MiniTest.new_set({
 		post_case = function()
 			vim.lsp.config = saved.config
 			package.loaded.laser = saved.laser
+			package.loaded.skkelua = saved.skkelua
 			for name, fn in pairs(saved.fn) do
 				vim.fn[name] = fn
 			end
@@ -131,6 +133,47 @@ T["completion menus identify providers without losing descriptions"] = function(
 		"[SKK] description",
 		"[kakehashi] description",
 	})
+end
+
+T["clients follow the mode and skkelua state"] = function()
+	local clients = {}
+	for id, name in ipairs({ "skkelua", "lua_ls", "nvim-cmdline", "nvim-input", "nvim-cmdline-history" }) do
+		clients[id] = { id = id, name = name }
+	end
+	for _, case in ipairs({
+		{ "i", "", { "lua_ls" } },
+		{ "c", ":", { "lua_ls", "nvim-cmdline", "nvim-cmdline-history" } },
+		{ "c", "@", { "lua_ls", "nvim-input", "nvim-cmdline-history" } },
+		{ "c", ">", { "lua_ls", "nvim-input", "nvim-cmdline-history" } },
+		{ "c", "=", { "nvim-input" } },
+		{ "c", "/", { "lua_ls" } },
+		{ "c", "?", { "lua_ls" } },
+		{ "c", "-", { "lua_ls" } },
+	}) do
+		vim.fn.mode = function()
+			return case[1]
+		end
+		vim.fn.getcmdtype = function()
+			return case[2]
+		end
+		for _, state in ipairs({ "unloaded", "disabled", "enabled" }) do
+			package.loaded.skkelua = state ~= "unloaded"
+					and {
+						is_enabled = function()
+							return state == "enabled"
+						end,
+					}
+				or nil
+			require("atusy.laser").complete()
+			local expected = state == "enabled" and { "skkelua" } or case[3]
+			expect.equality(
+				vim.tbl_map(function(client)
+					return client.name
+				end, require("laser.clients").select(clients, options.clients, options.clientOptions)),
+				expected
+			)
+		end
+	end
 end
 
 return T

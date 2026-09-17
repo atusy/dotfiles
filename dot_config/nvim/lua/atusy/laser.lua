@@ -35,9 +35,23 @@ function M.complete()
 	end
 	local cmdtype = cmdline and vim.fn.getcmdtype() or ""
 	local input = cmdtype == "@" or cmdtype == ">" or cmdtype == "="
+	local skk = package.loaded["skkelua"]
+	local skk_enabled = skk and skk.is_enabled() or false
+	local clients
+	if skk_enabled then
+		clients = { "skkelua" }
+	elseif cmdtype == ":" then
+		clients = { "*", "nvim-cmdline", "nvim-cmdline-history" }
+	elseif cmdtype == "@" or cmdtype == ">" then
+		clients = { "*", "nvim-input", "nvim-cmdline-history" }
+	elseif cmdtype == "=" then
+		clients = { "nvim-input" }
+	else
+		clients = { "*" }
+	end
 	require("laser").complete({
 		language_id = input and "laser_input" or "vim",
-		clients = { "skkelua", "nvim-cmdline", "nvim-input", "nvim-cmdline-history", "*" },
+		clients = clients,
 		clientOptions = {
 			["*"] = {
 				timeout_ms = 1000,
@@ -48,7 +62,11 @@ function M.complete()
 					{ kind = "converter", callback = add_source },
 				},
 			},
-			skkelua = { filters = { { kind = "converter", callback = add_source } }, refresh = refresh },
+			skkelua = {
+				enabled = skk_enabled,
+				filters = { { kind = "converter", callback = add_source } },
+				refresh = refresh,
+			},
 			["nvim-cmdline"] = { enabled = cmdtype == ":", refresh = refresh },
 			["nvim-input"] = { enabled = input, refresh = refresh },
 			["nvim-cmdline-history"] = {
