@@ -1,4 +1,5 @@
 local M = {}
+local fuzzy_sorter = require("laser.filter").fuzzy_sorter()
 
 local function refresh()
 	return true
@@ -40,7 +41,7 @@ function M.complete()
 				timeout_ms = 1000,
 				filters = {
 					{ kind = "matcher", callback = filter.fuzzy },
-					{ kind = "sorter", callback = filter.by_score },
+					{ kind = "sorter", callback = fuzzy_sorter },
 					{ kind = "converter", callback = filter.highlight },
 					{ kind = "converter", callback = add_source },
 				},
