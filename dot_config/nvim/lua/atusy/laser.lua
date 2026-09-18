@@ -52,7 +52,6 @@ function M.complete()
 	require("laser").complete({
 		language_id = input and "laser_input" or "vim",
 		clients = clients,
-		max_items = skk_enabled and 30 or nil,
 		clientOptions = {
 			["*"] = {
 				timeout_ms = 1000,
@@ -67,6 +66,7 @@ function M.complete()
 				enabled = skk_enabled,
 				filters = { { kind = "converter", callback = add_source } },
 				refresh = refresh,
+				max_items = 30,
 			},
 			["nvim-cmdline"] = { enabled = cmdtype == ":", refresh = refresh },
 			["nvim-input"] = { enabled = input, refresh = refresh },
