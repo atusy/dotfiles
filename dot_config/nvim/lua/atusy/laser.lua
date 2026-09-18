@@ -35,8 +35,7 @@ function M.complete()
 	end
 	local cmdtype = cmdline and vim.fn.getcmdtype() or ""
 	local input = cmdtype == "@" or cmdtype == ">" or cmdtype == "="
-	local skk = package.loaded["skkelua"]
-	local skk_enabled = skk and skk.is_enabled() or false
+	local skk_enabled = require("skkelua").is_enabled()
 	local clients
 	if skk_enabled then
 		clients = { "skkelua" }
