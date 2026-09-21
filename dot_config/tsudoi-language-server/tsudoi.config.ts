@@ -78,7 +78,14 @@ const config: TsudoiConfigFactory = async () => {
               minQueryLength: minQueryLengths.dictionary,
             }),
         ];
-        const completionListResponse = { items: [], isIncomplete: false };
+        const line = document?.getText().split(/\r?\n/)[params.position.line] ??
+          "";
+        const beforeCursor = line.slice(0, params.position.character);
+        const query = /\S*$/u.exec(beforeCursor)?.[0] ?? "";
+        const completionListResponse = {
+          items: [],
+          isIncomplete: query.length < maxMinQueryLength,
+        };
         for (const source of sources) {
           const result = yield* source();
           if (result && !Array.isArray(result)) {
@@ -86,12 +93,6 @@ const config: TsudoiConfigFactory = async () => {
           }
         }
 
-        const line = document?.getText().split(/\r?\n/)[params.position.line] ??
-          "";
-        const beforeCursor = line.slice(0, params.position.character);
-        const query = /\S*$/u.exec(beforeCursor)?.[0] ?? "";
-        completionListResponse.isIncomplete ||=
-          query.length < maxMinQueryLength;
         return completionListResponse;
       },
       "textDocument/hover": hoverWordnet,
