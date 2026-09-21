@@ -78,11 +78,11 @@ const config: TsudoiConfigFactory = async () => {
               minQueryLength: minQueryLengths.dictionary,
             }),
         ];
-        let isIncomplete = false;
+        const completionListResponse = { items: [], isIncomplete: false };
         for (const source of sources) {
           const result = yield* source();
           if (result && !Array.isArray(result)) {
-            isIncomplete ||= result.isIncomplete;
+            completionListResponse.isIncomplete ||= result.isIncomplete;
           }
         }
 
@@ -90,10 +90,9 @@ const config: TsudoiConfigFactory = async () => {
           "";
         const beforeCursor = line.slice(0, params.position.character);
         const query = /\S*$/u.exec(beforeCursor)?.[0] ?? "";
-        return {
-          items: [],
-          isIncomplete: isIncomplete || query.length < maxMinQueryLength,
-        };
+        completionListResponse.isIncomplete ||=
+          query.length < maxMinQueryLength;
+        return completionListResponse;
       },
       "textDocument/hover": hoverWordnet,
       "textDocument/formatting": formatDocument,
