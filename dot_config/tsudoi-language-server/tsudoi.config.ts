@@ -9,6 +9,7 @@ import {
 } from "@atusy/tsudoi-completion-document";
 import { completePath, resolvePathStat } from "@atusy/tsudoi-completion-path";
 import { hoverWordnet } from "@atusy/tsudoi-hover-wordnet";
+import type { CompletionList } from "@atusy/tsudoi-language-server/deps/protocol";
 import type { TsudoiConfigFactory } from "@atusy/tsudoi-language-server/types";
 import { useMyShellCompletion } from "./completion-my-shell.ts";
 import { formatDocument } from "./formatting.ts";
@@ -26,7 +27,6 @@ const minQueryLengths = {
   corpus: 0,
   dictionary: 2,
 } as const;
-const maxMinQueryLength = Math.max(...Object.values(minQueryLengths));
 
 const config: TsudoiConfigFactory = async () => {
   const scanner = segmentScanner("ja"); // build outside handler for memoization
@@ -78,18 +78,15 @@ const config: TsudoiConfigFactory = async () => {
               minQueryLength: minQueryLengths.dictionary,
             }),
         ];
-        const line = document?.getText().split(/\r?\n/)[params.position.line] ??
-          "";
-        const beforeCursor = line.slice(0, params.position.character);
-        const query = /\S*$/u.exec(beforeCursor)?.[0] ?? "";
-        const completionListResponse = {
+        const completionListResponse: CompletionList = {
           items: [],
-          isIncomplete: query.length < maxMinQueryLength,
+          isIncomplete: false,
         };
         for (const source of sources) {
           const result = yield* source();
-          completionListResponse.isIncomplete ||=
-            result && !Array.isArray(result) ? result.isIncomplete : true;
+          if (result && !Array.isArray(result)) {
+            completionListResponse.isIncomplete ||= result.isIncomplete;
+          }
         }
 
         return completionListResponse;

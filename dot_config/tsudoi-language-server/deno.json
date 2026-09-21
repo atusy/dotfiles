@@ -1,7 +1,7 @@
 {
     "imports": {
         "@atusy/tsudoi-completion-dictionary": "file:///Users/atusy/ghq/github.com/atusy/tsudoi-language-server/packages/tsudoi-completion-dictionary/src/index.ts",
-        "@atusy/tsudoi-completion-document": "https://raw.githubusercontent.com/atusy/tsudoi-language-server/59a91a3721868941ca1cbd922c16fb9646b91886/packages/tsudoi-completion-document/src/index.ts",
+        "@atusy/tsudoi-completion-document": "file:///Users/atusy/ghq/github.com/atusy/tsudoi-language-server/packages/tsudoi-completion-document/src/index.ts",
         "@atusy/tsudoi-completion-path": "file:///Users/atusy/ghq/github.com/atusy/tsudoi-language-server/packages/tsudoi-completion-path/src/index.ts",
         "@atusy/tsudoi-completion-shell": "file:///Users/atusy/ghq/github.com/atusy/tsudoi-language-server/packages/tsudoi-completion-shell/src/index.ts",
         "@atusy/tsudoi-hover-wordnet": "https://raw.githubusercontent.com/atusy/tsudoi-language-server/59a91a3721868941ca1cbd922c16fb9646b91886/packages/tsudoi-hover-wordnet/src/index.ts",

@@ -7,6 +7,7 @@ import { join } from "node:path";
 import { pathToFileURL } from "node:url";
 import { handleKakehashiBridgeRouting } from "./kakehashi-bridge-routing.ts";
 import configFactory from "./tsudoi.config.ts";
+import { useMyShellCompletion } from "./completion-my-shell.ts";
 
 async function completionResponse(
   languageId: string,
@@ -63,7 +64,7 @@ async function completionBatches(
   return (await completionResponse(...args)).batches;
 }
 
-Deno.test("completion stays incomplete when sources return no completeness metadata", async () => {
+Deno.test("completion preserves source incompleteness, including query-gated empty results", async () => {
   for (
     const [text, isIncomplete] of [
       ["e ", true],
@@ -294,4 +295,20 @@ Deno.test("emoji completion precedes the dictionary", async () => {
 
   assertEquals(emojiBatch >= 0, true);
   assertEquals(wordBatch === -1 || emojiBatch < wordBatch, true);
+});
+
+Deno.test("shell wrapper preserves a complete empty result when lookup is disabled", async () => {
+  const complete = useMyShellCompletion();
+  const context = {
+    signal: new AbortController().signal,
+    tsudoi: { documents: { get: () => ({ languageId: "fish" }) } },
+  } as unknown as Parameters<typeof complete>[0];
+  const result = await complete(context, {
+    textDocument: { uri: "file:///buffer.fish" },
+    position: { line: 0, character: 0 },
+  }, { maxItems: 0 }).next();
+  assertEquals(result, {
+    done: true,
+    value: { isIncomplete: false, items: [] },
+  });
 });
