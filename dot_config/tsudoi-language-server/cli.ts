@@ -2,4 +2,4 @@
 // makes deno fail to resolve "vscode-languageserver-protocol/node" from
 // methods.ts via this same import map (measured on deno 2.9.4) -- importing
 // the remote cli.ts from a local file instead resolves it correctly.
-import "https://raw.githubusercontent.com/atusy/tsudoi-language-server/badbca018facb490710e53cb89e357edff5ffc15/packages/tsudoi-language-server/src/cli.ts";
+import "https://raw.githubusercontent.com/atusy/tsudoi-language-server/59a91a3721868941ca1cbd922c16fb9646b91886/packages/tsudoi-language-server/src/cli.ts";
