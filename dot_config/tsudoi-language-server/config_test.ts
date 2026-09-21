@@ -63,13 +63,13 @@ async function completionBatches(
   return (await completionResponse(...args)).batches;
 }
 
-Deno.test("completion stays incomplete until the maximum minimum query length", async () => {
+Deno.test("completion stays incomplete when sources return no completeness metadata", async () => {
   for (
     const [text, isIncomplete] of [
       ["e ", true],
       ["e _", true],
-      ["e __", false],
-      ["e ___", false],
+      ["e __", true],
+      ["e ___", true],
       ["e __ ", true],
     ] as const
   ) {

@@ -88,9 +88,8 @@ const config: TsudoiConfigFactory = async () => {
         };
         for (const source of sources) {
           const result = yield* source();
-          if (result && !Array.isArray(result)) {
-            completionListResponse.isIncomplete ||= result.isIncomplete;
-          }
+          completionListResponse.isIncomplete ||=
+            result && !Array.isArray(result) ? result.isIncomplete : true;
         }
 
         return completionListResponse;
