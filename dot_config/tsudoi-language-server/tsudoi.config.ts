@@ -46,37 +46,54 @@ const config: TsudoiConfigFactory = async () => {
       },
       "textDocument/completion": async function* (context, params) {
         const document = context.tsudoi.documents.get(params.textDocument.uri);
-        yield* completeMyShell(context, params, {
-          maxItems: 2000,
-          minQueryLength: minQueryLengths.shell,
-        });
-        if (document?.languageId === "gitcommit") {
-          yield* completeGitCommit(context, params);
+        const sources = [
+          () =>
+            completeMyShell(context, params, {
+              maxItems: 2000,
+              minQueryLength: minQueryLengths.shell,
+            }),
+          ...(document?.languageId === "gitcommit"
+            ? [() => completeGitCommit(context, params)]
+            : []),
+          () => completeEmoji(context, params),
+          () =>
+            completePath(context, params, {
+              minQueryLength: minQueryLengths.path,
+            }),
+          () =>
+            completeAround(context, params, {
+              maxLines: 500,
+              scanner,
+              minQueryLength: minQueryLengths.around,
+            }),
+          () =>
+            completeCorpus(context, params, {
+              scanner,
+              maxItems: 2000,
+              minQueryLength: minQueryLengths.corpus,
+            }),
+          () =>
+            completeDictionary(context, params, {
+              maxItems: 2000,
+              minQueryLength: minQueryLengths.dictionary,
+            }),
+        ];
+        let isIncomplete = false;
+        for (const source of sources) {
+          const result = yield* source();
+          if (result && !Array.isArray(result)) {
+            isIncomplete ||= result.isIncomplete;
+          }
         }
-        yield* completeEmoji(context, params);
-        yield* completePath(context, params, {
-          minQueryLength: minQueryLengths.path,
-        });
-        yield* completeAround(context, params, {
-          maxLines: 500,
-          scanner,
-          minQueryLength: minQueryLengths.around,
-        });
-        yield* completeCorpus(context, params, {
-          scanner,
-          maxItems: 2000,
-          minQueryLength: minQueryLengths.corpus,
-        });
-        yield* completeDictionary(context, params, {
-          maxItems: 2000,
-          minQueryLength: minQueryLengths.dictionary,
-        });
 
         const line = document?.getText().split(/\r?\n/)[params.position.line] ??
           "";
         const beforeCursor = line.slice(0, params.position.character);
         const query = /\S*$/u.exec(beforeCursor)?.[0] ?? "";
-        return { items: [], isIncomplete: query.length < maxMinQueryLength };
+        return {
+          items: [],
+          isIncomplete: isIncomplete || query.length < maxMinQueryLength,
+        };
       },
       "textDocument/hover": hoverWordnet,
       "textDocument/formatting": formatDocument,
