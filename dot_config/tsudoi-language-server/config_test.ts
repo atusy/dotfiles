@@ -1,15 +1,18 @@
 import { assertEquals } from "@std/assert";
-import type { CustomRequestHandler, MethodHandler } from "@atusy/tsudoi-language-server/types";
+import type {
+  CustomRequestHandler,
+  MethodHandler,
+} from "@atusy/tsudoi-language-server/types";
 import { join } from "node:path";
 import { pathToFileURL } from "node:url";
 import { handleKakehashiBridgeRouting } from "./kakehashi-bridge-routing.ts";
 import configFactory from "./tsudoi.config.ts";
 
-async function completionBatches(
+async function completionResponse(
   languageId: string,
   text: string,
   uri = pathToFileURL("/tmp/COMMIT_EDITMSG").href,
-): Promise<string[][]> {
+) {
   const config = await configFactory();
   const complete = config.methods?.["textDocument/completion"] as
     | MethodHandler<"textDocument/completion">
@@ -25,12 +28,14 @@ async function completionBatches(
   };
   const batches: string[][] = [];
 
-  for await (const batch of complete!(
+  const iterator = complete!(
     {
       signal: new AbortController().signal,
       tsudoi: {
         documents: {
-          get: (documentUri: string) => (documentUri === uri ? document : undefined),
+          get: (
+            documentUri: string,
+          ) => (documentUri === uri ? document : undefined),
           values: () => [document],
         },
         workspaceFolders: { get: () => [], values: () => [] },
@@ -44,11 +49,38 @@ async function completionBatches(
       textDocument: { uri },
       position: { line: 0, character: text.length },
     },
-  )) {
-    batches.push(batch.map((item) => item.label));
+  );
+  while (true) {
+    const next = await iterator.next();
+    if (next.done) return { batches, result: next.value };
+    batches.push(next.value.map((item) => item.label));
   }
-  return batches;
 }
+
+async function completionBatches(
+  ...args: Parameters<typeof completionResponse>
+): Promise<string[][]> {
+  return (await completionResponse(...args)).batches;
+}
+
+Deno.test("completion stays incomplete until the maximum minimum query length", async () => {
+  for (
+    const [text, isIncomplete] of [
+      ["e ", true],
+      ["e _", true],
+      ["e __", false],
+      ["e ___", false],
+      ["e __ ", true],
+    ] as const
+  ) {
+    const { result } = await completionResponse(
+      "vim",
+      text,
+      "untitled://laser-cmdline/vim",
+    );
+    assertEquals(result, { items: [], isIncomplete }, text);
+  }
+});
 
 async function completionLabels(
   languageId: string,
@@ -85,7 +117,9 @@ async function initializeRepository(root: string, subjects: readonly string[]) {
 
 Deno.test("the server advertises and serves bridge routing", async () => {
   const config = await configFactory();
-  const initialize = config.methods?.initialize as MethodHandler<"initialize"> | undefined;
+  const initialize = config.methods?.initialize as
+    | MethodHandler<"initialize">
+    | undefined;
   const route = config.customMethods?.["kakehashi/bridge/routing"] as
     | CustomRequestHandler
     | undefined;
@@ -177,7 +211,10 @@ Deno.test("gitcommit completion uses emoji entries from the commit template", as
   const root = await Deno.makeTempDir();
   try {
     await Deno.mkdir(join(root, ".git"));
-    await Deno.writeTextFile(join(root, ".gitmessage"), "✨ feat:\n─ chore:\nplain\n");
+    await Deno.writeTextFile(
+      join(root, ".gitmessage"),
+      "✨ feat:\n─ chore:\nplain\n",
+    );
     const uri = pathToFileURL(join(root, ".git", "COMMIT_EDITMSG")).href;
 
     const labels = await completionLabels("gitcommit", "", uri);
