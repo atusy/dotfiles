@@ -54,6 +54,11 @@ function M.complete()
 	local completion_type = cmdline and vim.fn.getcmdcompltype() or ""
 	local input = cmdtype == "@" or cmdtype == ">" or cmdtype == "="
 	local skk_enabled = require("skkelua").is_enabled()
+	if skk_enabled and require("skkelua").phase() == "henkan" then
+		-- Conversion uses skkelua's Space/asdfjkl menu, including pending responses.
+		require("laser").close()
+		return
+	end
 	local clients
 	if skk_enabled then
 		clients = { "skkelua" }
@@ -140,6 +145,16 @@ function M.setup()
 		preview_height = 20,
 	})
 	local group = vim.api.nvim_create_augroup("atusy.laser", { clear = true })
+	vim.api.nvim_create_autocmd("User", {
+		group = group,
+		pattern = "skkelua-handled",
+		callback = function()
+			-- Candidate paging need not change the buffer text.
+			if require("skkelua").is_enabled() and require("skkelua").phase() == "henkan" then
+				require("laser").close()
+			end
+		end,
+	})
 	vim.api.nvim_create_autocmd({ "InsertEnter", "TextChangedI", "TextChangedP", "CmdlineEnter", "CmdlineChanged" }, {
 		group = group,
 		callback = M.complete,
