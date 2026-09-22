@@ -14,6 +14,13 @@ local function text_last_score_sorter(a, b)
 	return score_sorter(a, b)
 end
 
+local path_completion_types = {
+	file = true,
+	dir = true,
+	file_in_path = true,
+	dir_in_path = true,
+}
+
 local function refresh()
 	return true
 end
@@ -44,6 +51,7 @@ function M.complete()
 		return
 	end
 	local cmdtype = cmdline and vim.fn.getcmdtype() or ""
+	local completion_type = cmdline and vim.fn.getcmdcompltype() or ""
 	local input = cmdtype == "@" or cmdtype == ">" or cmdtype == "="
 	local skk_enabled = require("skkelua").is_enabled()
 	local clients
@@ -77,7 +85,10 @@ function M.complete()
 				refresh = refresh,
 				max_items = 30,
 			},
-			["nvim-cmdline"] = { enabled = cmdtype == ":", refresh = refresh },
+			["nvim-cmdline"] = {
+				enabled = cmdtype == ":" and not path_completion_types[completion_type],
+				refresh = refresh,
+			},
 			["nvim-input"] = { enabled = input, refresh = refresh },
 			["nvim-cmdline-history"] = {
 				enabled = cmdtype == ":" or cmdtype == "@" or cmdtype == ">",
