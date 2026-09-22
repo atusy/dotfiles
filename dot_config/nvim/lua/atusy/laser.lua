@@ -4,6 +4,16 @@ local fuzzy_matcher = filter.fuzzy_matcher()
 local score_sorter = filter.score_sorter()
 local highlight_converter = filter.highlight_converter()
 
+local function text_last_score_sorter(a, b)
+	local text = vim.lsp.protocol.CompletionItemKind.Text
+	local a_text = a.user_data.laser.item.kind == text
+	local b_text = b.user_data.laser.item.kind == text
+	if a_text ~= b_text then
+		return not a_text
+	end
+	return score_sorter(a, b)
+end
+
 local function refresh()
 	return true
 end
@@ -56,7 +66,7 @@ function M.complete()
 				timeout_ms = 1000,
 				filters = {
 					{ kind = "matcher", callback = fuzzy_matcher },
-					{ kind = "sorter", callback = score_sorter },
+					{ kind = "sorter", callback = text_last_score_sorter },
 					{ kind = "converter", callback = highlight_converter },
 					{ kind = "converter", callback = add_source },
 				},
