@@ -50,9 +50,9 @@ function M.complete()
 	if skk_enabled then
 		clients = { "skkelua" }
 	elseif cmdtype == ":" then
-		clients = { "*", "nvim-cmdline", "nvim-cmdline-history" }
+		clients = { "nvim-cmdline", "*", "nvim-cmdline-history" }
 	elseif cmdtype == "@" or cmdtype == ">" then
-		clients = { "*", "nvim-input", "nvim-cmdline-history" }
+		clients = { "nvim-input", "*", "nvim-cmdline-history" }
 	elseif cmdtype == "=" then
 		clients = { "nvim-input" }
 	else
