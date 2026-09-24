@@ -2,7 +2,6 @@ local M = {}
 local filter = require("laser.filter")
 local fuzzy_matcher = filter.fuzzy_matcher()
 local score_sorter = filter.score_sorter()
-local highlight_converter = filter.highlight_converter()
 
 local function text_last_score_sorter(a, b)
 	local text = vim.lsp.protocol.CompletionItemKind.Text
@@ -74,13 +73,13 @@ function M.complete()
 	require("laser").complete({
 		language_id = input and "laser_input" or "vim",
 		clients = clients,
+		menu = { preview = { border = "single", max_width = 60, max_height = 20 } },
 		clientOptions = {
 			["*"] = {
 				timeout_ms = 1000,
 				filters = {
 					{ kind = "matcher", callback = fuzzy_matcher },
 					{ kind = "sorter", callback = text_last_score_sorter },
-					{ kind = "converter", callback = highlight_converter },
 					{ kind = "converter", callback = add_source },
 				},
 			},
@@ -137,13 +136,6 @@ function M.setup()
 	end
 
 	vim.api.nvim_set_hl(0, "PmenuMatch", { link = "DiagnosticInfo" })
-	vim.fn["pum#set_option"]({
-		highlight_matches = "",
-		preview = true,
-		preview_border = "single",
-		preview_width = 60,
-		preview_height = 20,
-	})
 	local group = vim.api.nvim_create_augroup("atusy.laser", { clear = true })
 	vim.api.nvim_create_autocmd("User", {
 		group = group,
@@ -169,9 +161,11 @@ function M.setup()
 			end)
 		end,
 	})
+	-- Menu actions edit text, so <expr> mappings run them through <Cmd>.
+	local laser = require("laser")
 	vim.keymap.set({ "i", "c" }, "<Tab>", function()
-		if vim.fn["pum#visible"]() then
-			return "<Cmd>call pum#map#insert_relative(1)<CR>"
+		if laser.visible() then
+			return "<Cmd>lua require('laser').select(1)<CR>"
 		end
 		local before = vim.fn.getline("."):sub(1, vim.fn.col(".") - 1)
 		if vim.fn.mode() == "c" or before:match("%S$") then
@@ -180,14 +174,14 @@ function M.setup()
 		return "<Tab>"
 	end, { expr = true })
 	vim.keymap.set({ "i", "c" }, "<S-Tab>", function()
-		return vim.fn["pum#visible"]() and "<Cmd>call pum#map#insert_relative(-1)<CR>" or "<S-Tab>"
+		return laser.visible() and "<Cmd>lua require('laser').select(-1)<CR>" or "<S-Tab>"
 	end, { expr = true })
 	vim.keymap.set({ "i", "c" }, "<C-Y>", function()
-		return vim.fn["pum#visible"]() and "<Cmd>call pum#map#confirm()<CR>" or "<C-Y>"
+		return laser.visible() and "<Cmd>lua require('laser').confirm()<CR>" or "<C-Y>"
 	end, { expr = true })
 	vim.keymap.set({ "i", "c" }, "<C-C>", function()
-		if vim.fn["pum#visible"]() then
-			return "<Cmd>call pum#map#cancel()<CR>"
+		if laser.visible() then
+			return "<Cmd>lua require('laser').cancel()<CR>"
 		end
 		return vim.fn.mode() == "c" and "<C-U><C-C>" or "<C-C>"
 	end, { expr = true })

@@ -15,7 +15,7 @@ local T = MiniTest.new_set({
 	hooks = {
 		pre_case = function()
 			saved = { config = vim.lsp.config, laser = package.loaded.laser, skkelua = package.loaded.skkelua, fn = {} }
-			for _, name in ipairs({ "mode", "getcmdtype", "getcmdline", "getcmdpos", "pum#set_option" }) do
+			for _, name in ipairs({ "mode", "getcmdtype", "getcmdline", "getcmdpos" }) do
 				saved.fn[name] = vim.fn[name]
 			end
 			package.loaded.skkelua = nil
@@ -32,7 +32,6 @@ local T = MiniTest.new_set({
 			vim.fn.getcmdpos = function()
 				return #text + 1
 			end
-			vim.fn["pum#set_option"] = function() end
 			package.loaded.laser = {
 				complete = function(opts)
 					options = opts
