@@ -34,7 +34,6 @@
   "nvim-treesitter-textobjects": { "branch": "main", "commit": "5c7b0263797dfd1bd6202f2b219f3b53a80b2187" },
   "oil.nvim": { "branch": "master", "commit": "b73018b75affd13fa38e2fc94ef753b465f770d7" },
   "plenary.nvim": { "branch": "master", "commit": "74b06c6c75e4eeb3108ec01852001636d85a932b" },
-  "pum.vim": { "branch": "main", "commit": "c7140bef217dbb6bf8f41e8c649d2c6a8a3d6e05" },
   "qfscope.nvim": { "branch": "main", "commit": "c858a51ffcb658a0d8f1b1a270338f1cc545558d" },
   "skkelua.nvim": { "branch": "feat/completion-extension-api", "commit": "88c0f03900f0178a59e32848cdebc8c43e3be58c" },
   "styler.nvim": { "branch": "main", "commit": "d73d868541a2536a96d057c793d53c50e5f407bb" },

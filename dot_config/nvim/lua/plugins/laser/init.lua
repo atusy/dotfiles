@@ -4,7 +4,6 @@ return {
 	{
 		"https://github.com/atusy/laser.nvim",
 		dev = true,
-		dependencies = { "https://github.com/Shougo/pum.vim" },
 		config = function()
 			require("plugins.laser.completion").setup()
 		end,
