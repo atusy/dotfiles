@@ -1,13 +1,7 @@
-local M = {
-	-- Word list consumed by tsudoi-language-server.
-	{ "https://github.com/dwyl/english-words", lazy = true },
-	{
-		"https://github.com/atusy/laser.nvim",
-		dev = true,
-		dependencies = { "https://github.com/Shougo/pum.vim" },
-	},
-}
-local fuzzy_matcher, score_sorter
+local M = {}
+local filter = require("laser.filter")
+local fuzzy_matcher = filter.fuzzy_matcher()
+local score_sorter = filter.score_sorter()
 
 local function text_last_score_sorter(a, b)
 	local text = vim.lsp.protocol.CompletionItemKind.Text
@@ -51,11 +45,6 @@ local function add_source(candidate)
 end
 
 function M.complete()
-	if not fuzzy_matcher then
-		local filter = require("laser.filter")
-		fuzzy_matcher = filter.fuzzy_matcher()
-		score_sorter = filter.score_sorter()
-	end
 	local cmdline = vim.fn.mode():sub(1, 1) == "c"
 	if not cmdline and vim.bo.filetype == "TelescopePrompt" then
 		return
@@ -180,7 +169,7 @@ function M.setup()
 		end
 		local before = vim.fn.getline("."):sub(1, vim.fn.col(".") - 1)
 		if vim.fn.mode() == "c" or before:match("%S$") then
-			return "<Cmd>lua require('plugins.laser').complete()<CR>"
+			return "<Cmd>lua require('plugins.laser.completion').complete()<CR>"
 		end
 		return "<Tab>"
 	end, { expr = true })
@@ -197,7 +186,5 @@ function M.setup()
 		return vim.fn.mode() == "c" and "<C-U><C-C>" or "<C-C>"
 	end, { expr = true })
 end
-
-M[2].config = M.setup
 
 return M

@@ -31,7 +31,7 @@ function M.setup(opts)
 			if opts.trigger then
 				opts.trigger()
 			else
-				require("plugins.laser").complete()
+				require("plugins.laser.completion").complete()
 			end
 		end,
 	})

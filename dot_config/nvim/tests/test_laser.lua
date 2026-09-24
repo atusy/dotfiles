@@ -72,7 +72,7 @@ local T = MiniTest.new_set({
 })
 
 T["history completion preserves the command prefix"] = function()
-	require("plugins.laser").setup()
+	require("plugins.laser.completion").setup()
 	local params = configs["nvim-cmdline-history"].cmd({}).request("textDocument/completion", {
 		position = { line = 0, character = #text },
 	})
@@ -85,7 +85,7 @@ T["history completion preserves the command prefix"] = function()
 end
 
 T["history matches prefixes and preserves recency"] = function()
-	require("plugins.laser").complete()
+	require("plugins.laser.completion").complete()
 	local candidates = vim.tbl_map(function(label)
 		return { abbr = label, word = label, user_data = { laser = { item = { label = label } } } }
 	end, { "vim.z", "vim.a", "view.map" })
@@ -103,7 +103,7 @@ T["history matches prefixes and preserves recency"] = function()
 end
 
 T["completion menus identify providers without losing descriptions"] = function()
-	require("plugins.laser").complete()
+	require("plugins.laser.completion").complete()
 	local get_client = vim.lsp.get_client_by_id
 	local names = { "nvim-cmdline", "nvim-input", "nvim-cmdline-history", "skkelua", "kakehashi" }
 	vim.lsp.get_client_by_id = function(id)
@@ -166,7 +166,7 @@ T["clients follow the mode and skkelua state"] = function()
 						end,
 					}
 				or nil
-			require("plugins.laser").complete()
+			require("plugins.laser.completion").complete()
 			expect.equality(options.clientOptions.skkelua.max_items, 30)
 			local expected = state == "enabled" and { "skkelua" } or case[3]
 			expect.equality(
