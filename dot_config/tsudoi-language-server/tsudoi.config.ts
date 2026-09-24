@@ -2,11 +2,7 @@
 // Unpublished packages are resolved through deno.json's import map.
 
 import { useDictionaryCompletion } from "@atusy/tsudoi-completion-dictionary";
-import {
-  completeAround,
-  completeCorpus,
-  segmentScanner,
-} from "@atusy/tsudoi-completion-document";
+import { completeAround, completeCorpus, segmentScanner } from "@atusy/tsudoi-completion-document";
 import { completePath, resolvePathStat } from "@atusy/tsudoi-completion-path";
 import { hoverWordnet } from "@atusy/tsudoi-hover-wordnet";
 import type { CompletionList } from "@atusy/tsudoi-language-server/deps/protocol";
@@ -32,17 +28,13 @@ const config: TsudoiConfigFactory = async () => {
   const scanner = segmentScanner("ja"); // build outside handler for memoization
   const completeMyShell = useMyShellCompletion();
   const completeDictionary = await useDictionaryCompletion({
-    files: [
-      "/Users/atusy/.local/share/nvim/lazy/english-words/words_alpha.txt",
-    ],
+    files: ["/Users/atusy/.local/share/nvim/lazy/english-words/words_alpha.txt"],
   });
 
   return {
     methods: {
       initialize: (context) => {
-        return Promise.resolve(
-          initalizeKakehashiBridgeRouting(context.preparedResult),
-        );
+        return Promise.resolve(initalizeKakehashiBridgeRouting(context.preparedResult));
       },
       "textDocument/completion": async function* (context, params) {
         const document = context.tsudoi.documents.get(params.textDocument.uri);
