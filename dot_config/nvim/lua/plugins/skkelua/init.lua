@@ -76,7 +76,7 @@ return {
 					if mode == "c" then
 						vim.keymap.set(mode, "<C-g>", "<Plug>(C-G)", { buffer = ctx.buf, nowait = true })
 					end
-					vim.keymap.set(mode, "<Plug>(C-G)", function()
+					vim.keymap.set(mode, "<C-g>", function()
 						if vim.fn.exists("*pum#visible") == 1 and vim.fn["pum#visible"]() then
 							return "<Plug>(atusy-skkelua-cancel-completion)"
 						end
