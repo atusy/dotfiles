@@ -70,16 +70,9 @@ export function matchShortcodes(query: string, maxItems: number): Shortcode[] {
 }
 
 /**
- * The item is shaped so the client can both FILTER and INSERT it.
- *
- * THE LABEL IS WHAT THE POPUP SHOWS AND WHAT SOME CLIENTS FILTER ON, so it
- * carries all three parts of the answer: the colon that a client rebuilding the
- * line from the edit's start needs to see -- ddc's nvim-lsp source does exactly
- * this -- the name being typed, and the emoji, which is otherwise invisible
- * until insertion because `detail` only reaches a menu column ddc leaves off.
- *
- * The emoji is NEVER `insertText`: a client that reads an item's text as 🎉
- * stops matching it against the `tada` being typed and drops it before the popup.
+ * Keep the shortcode and emoji visible even when the menu omits detail.
+ * Match on the shortcode and insert the emoji through textEdit so clients
+ * do not filter the candidate using the emoji instead of the typed name.
  */
 function itemFor(shortcode: Shortcode, params: CompletionParams, start: number): CompletionItem {
   return {

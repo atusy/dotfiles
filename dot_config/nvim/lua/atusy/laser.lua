@@ -122,7 +122,7 @@ function M.setup()
 						local text = vim.fn.getcmdline()
 						local cursor = vim.str_byteindex(text, "utf-16", params.position.character, false)
 						local start = require("laser.position").keyword_start(text, cursor)
-						params.xDdc = {
+						params.xNvimCmdline = {
 							cmdType = vim.fn.getcmdtype(),
 							completionType = vim.fn.exists("*getcmdcompltype") == 1 and vim.fn.getcmdcompltype() or "",
 							completePos = vim.str_utfindex(text, "utf-16", start, false),

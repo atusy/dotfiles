@@ -83,7 +83,7 @@ end
 ---@return fun(params: table, document: table?): table
 function M.make_input_provider(api)
 	return function(params, document)
-		local metadata = params.xDdc or {}
+		local metadata = params.xNvimCmdline or {}
 		local completion_type = metadata.cmdType == "=" and "expression" or metadata.completionType
 		if completion_type == nil or completion_type == "" then
 			return { items = {} }
@@ -98,7 +98,7 @@ end
 ---@return fun(params: table, document: table?): table
 function M.make_history_provider(api, limit)
 	return function(params, document)
-		local metadata = params.xDdc or {}
+		local metadata = params.xNvimCmdline or {}
 		local ok, histories = pcall(api.gethistory, metadata.cmdType or ":", limit)
 		if not ok then
 			return { items = {} }
@@ -137,7 +137,7 @@ local excluded_cmd_types = {
 ---@return fun(params: table, document: table?): table
 function M.make_cmdline_provider(api)
 	return function(params, document)
-		local metadata = params.xDdc or {}
+		local metadata = params.xNvimCmdline or {}
 		if excluded_cmd_types[metadata.cmdType] then
 			return { items = {} }
 		end
@@ -171,11 +171,11 @@ end
 ---@return { name: string, filetype: string, provider: function }[]
 function M.configurations(api)
 	return {
-		{ name = "nvim-cmdline", filetype = "ddc_cmdline", provider = M.make_cmdline_provider(api) },
-		{ name = "nvim-input", filetype = "ddc_input", provider = M.make_input_provider(api) },
+		{ name = "nvim-cmdline", filetype = "nvim_cmdline", provider = M.make_cmdline_provider(api) },
+		{ name = "nvim-input", filetype = "nvim_input", provider = M.make_input_provider(api) },
 		{
 			name = "nvim-cmdline-history",
-			filetype = "ddc_cmdline_history",
+			filetype = "nvim_cmdline_history",
 			provider = M.make_history_provider(api, 1000),
 		},
 	}

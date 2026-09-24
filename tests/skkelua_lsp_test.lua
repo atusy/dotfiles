@@ -61,7 +61,7 @@ skk.complete_callback = function(midasi, word, kind)
 	learned = { midasi, word, kind }
 	original(midasi, word, kind)
 end
-provider.on_complete_done({ __sourceName = "skkelua", user_data = { lspitem = vim.json.encode(result.items[1]) } })
+provider.on_complete_done({ user_data = { laser = { item = result.items[1] } } })
 assert(learned and learned[1] == "かんじ" and learned[2] == "漢字")
 assert(#request(client, "file:///unrelated.txt").items == 0)
 local alias = vim.uri_from_bufnr(0)
@@ -71,15 +71,15 @@ assert(#request(client, alias).items == 0)
 vim.api.nvim_buf_set_lines(0, 0, -1, false, { text })
 mode = "c"
 local virtual = vim.api.nvim_create_buf(false, true)
-vim.api.nvim_buf_set_name(virtual, "ddc://skkelua-test")
-vim.bo[virtual].filetype = "ddc_skkelua"
+vim.api.nvim_buf_set_name(virtual, "untitled://laser-cmdline/skkelua-test")
+vim.bo[virtual].filetype = "vim"
 vim.api.nvim_buf_set_lines(virtual, 0, -1, false, { text })
 local cmd_id = assert(vim.lsp.get_clients({ name = "skkelua", bufnr = virtual })[1]).id
 assert(cmd_id == id, "Insert and cmdline must share a single client")
 assert(require("skkelua.lsp").start(virtual) == id)
 assert(attaches == 2, "each buffer should attach only once")
 local cmd_client = client
--- ddc owns live command-line freshness checks; resolve its request snapshot.
+-- The completion UI owns live command-line freshness checks; resolve its request snapshot.
 local cmd_result = request(cmd_client, vim.uri_from_bufnr(virtual))
 assert(#cmd_result.items == 2, vim.inspect(cmd_result))
 -- SKK still rejects a document that does not contain the current pre-edit.
@@ -88,20 +88,15 @@ assert(#request(client, vim.uri_from_bufnr(virtual)).items == 0)
 vim.api.nvim_buf_set_lines(virtual, 0, -1, false, { text })
 learned = nil
 require("skkelua.completion").accept(provider.item({
-	__sourceName = "skkelua-cmdline",
-	user_data = { lspitem = vim.json.encode(cmd_result.items[1]) },
+	user_data = { laser = { item = cmd_result.items[1] } },
 	abbr = "漢字",
 	word = "😀 echo 漢字",
 }))
 assert(learned and learned[1] == "かんじ" and learned[2] == "漢字", "cmdline candidate did not learn")
 learned = nil
-require("skkelua.completion").accept(
-	provider.item({ __sourceName = "skkelua-cmdline", abbr = "漢字", word = "unrelated 漢字" })
-)
+require("skkelua.completion").accept(provider.item({ abbr = "漢字", word = "unrelated 漢字" }))
 assert(learned == nil, "unrelated cmdline candidate was accepted")
-assert(
-	provider.item({ __sourceName = "skkelua-cmdline", user_data = { lspitem = vim.json.encode(cmd_result.items[2]) } }).data.register
-)
+assert(provider.item({ user_data = { laser = { item = cmd_result.items[2] } } }).data.register)
 skk._handle_request("disable", {}, { mode = "", prevInput = skk.get_pre_edit(), completeInfo = {}, completeType = "" })
 assert(#request(client, alias).items == 0)
 vim.fn.mode = original_mode

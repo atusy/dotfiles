@@ -13,7 +13,7 @@ const zshFpath = await (async () => {
 
 export function useMyShellCompletion(): ShellCompletion {
   const completeFish = useShellCompletion("fish", {
-    env: { COLUMNS: "200", DDCVIM: "1" },
+    env: { COLUMNS: "200", NVIM_EX_COMPLETION: "1" },
   });
   const completeZsh = useShellCompletion("zsh", {
     env: { COLUMNS: "200", FPATH: zshFpath },

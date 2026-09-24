@@ -6,11 +6,7 @@ function M.item(item)
 	if laser then
 		return laser.item or {}
 	end
-	if item.__sourceName ~= "skkelua" and item.__sourceName ~= "skkelua-cmdline" then
-		return {}
-	end
-	local value = vim.tbl_get(item, "user_data", "lspitem")
-	return value and vim.json.decode(value) or {}
+	return {}
 end
 
 function M.on_complete_done(item)
@@ -32,11 +28,10 @@ function M.setup(opts)
 			return vim.keycode("<Cmd>call pum#map#confirm()<CR>")
 		end,
 		trigger = function()
-			-- Preserve inline source options (in particular the empty SKK filters).
 			if opts.trigger then
 				opts.trigger()
 			else
-				vim.fn["ddc#map#manual_complete"]()
+				require("atusy.laser").complete()
 			end
 		end,
 	})
@@ -53,10 +48,7 @@ function M.setup(opts)
 		group = group,
 		pattern = "*",
 		callback = function(args)
-			if
-				vim.bo[args.buf].filetype == "ddc_skkelua"
-				or vim.api.nvim_buf_get_name(args.buf):match("^untitled://laser%-cmdline/")
-			then
+			if vim.api.nvim_buf_get_name(args.buf):match("^untitled://laser%-cmdline/") then
 				require("skkelua.lsp").start(args.buf)
 			end
 		end,

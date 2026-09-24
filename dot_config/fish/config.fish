@@ -1,6 +1,6 @@
 if ! status is-interactive
-    if set -q DDCVIM
-        # for Ex-command completions with ddc.vim
+    if set -q NVIM_EX_COMPLETION
+        # Ex-command aliases for Neovim shell completion
         alias Gin=git
         alias GinBuffer=git
         alias lmake=make

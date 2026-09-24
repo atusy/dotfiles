@@ -15,7 +15,7 @@
   (#set! injection.include-children)
   (#offset! @injection.content 0 0 0 1))
 
-; kakehashi and its fish_lsp child start with DDCVIM set, so config.fish maps
+; kakehashi and its fish_lsp child start with NVIM_EX_COMPLETION set, so config.fish maps
 ; these Vim commands to their native commands. Inject the complete command so
 ; fish can resolve the aliases and provide native argument completion. Keep
 ; commands with arguments unmodified so cmdline completion stays at the real

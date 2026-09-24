@@ -6,7 +6,7 @@ local T = MiniTest.new_set()
 local function new_client(provider)
 	local replies = {}
 	local exits = {}
-	local rpc = require("atusy.lsp.ddc_completion").create({
+	local rpc = require("atusy.lsp.cmdline_completion").create({
 		on_exit = function(code, signal)
 			table.insert(exits, { code, signal })
 		end,
@@ -61,7 +61,7 @@ T["cancelled completion cannot return a stale result"] = function()
 		return { items = { { label = "stale" } } }
 	end)
 	local _, id, await = request(rpc, "textDocument/completion", {
-		textDocument = { uri = "untitled://ddc/test" },
+		textDocument = { uri = "untitled://cmdline/test" },
 		position = { line = 0, character = 1 },
 	})
 	rpc.notify("$/cancelRequest", { id = id })
@@ -78,20 +78,20 @@ T["completion observes the matching document version"] = function()
 		return { items = {} }
 	end)
 	rpc.notify("textDocument/didOpen", {
-		textDocument = { uri = "untitled://ddc/test", version = 1, text = "old" },
+		textDocument = { uri = "untitled://cmdline/test", version = 1, text = "old" },
 	})
 	rpc.notify("textDocument/didChange", {
-		textDocument = { uri = "untitled://ddc/test", version = 2 },
+		textDocument = { uri = "untitled://cmdline/test", version = 2 },
 		contentChanges = { { text = "new" } },
 	})
 	local _, _, await = request(rpc, "textDocument/completion", {
-		textDocument = { uri = "untitled://ddc/test" },
+		textDocument = { uri = "untitled://cmdline/test" },
 		position = { line = 0, character = 3 },
-		xDdc = { cmdType = ":", generation = 2 },
+		xNvimCmdline = { cmdType = ":", generation = 2 },
 	})
 	await()
-	expect.equality(seen.document, { uri = "untitled://ddc/test", version = 2, text = "new" })
-	expect.equality(seen.params.xDdc, { cmdType = ":", generation = 2 })
+	expect.equality(seen.document, { uri = "untitled://cmdline/test", version = 2, text = "new" })
+	expect.equality(seen.params.xNvimCmdline, { cmdType = ":", generation = 2 })
 end
 
 T["incremental UTF-16 changes update the captured document"] = function()
@@ -101,10 +101,10 @@ T["incremental UTF-16 changes update the captured document"] = function()
 		return { items = {} }
 	end)
 	rpc.notify("textDocument/didOpen", {
-		textDocument = { uri = "untitled://ddc/test", version = 1, text = "😀old" },
+		textDocument = { uri = "untitled://cmdline/test", version = 1, text = "😀old" },
 	})
 	rpc.notify("textDocument/didChange", {
-		textDocument = { uri = "untitled://ddc/test", version = 2 },
+		textDocument = { uri = "untitled://cmdline/test", version = 2 },
 		contentChanges = {
 			{
 				range = { start = { line = 0, character = 2 }, ["end"] = { line = 0, character = 5 } },
@@ -113,11 +113,11 @@ T["incremental UTF-16 changes update the captured document"] = function()
 		},
 	})
 	local _, _, await = request(rpc, "textDocument/completion", {
-		textDocument = { uri = "untitled://ddc/test" },
+		textDocument = { uri = "untitled://cmdline/test" },
 		position = { line = 0, character = 5 },
 	})
 	await()
-	expect.equality(seen, { uri = "untitled://ddc/test", version = 2, text = "😀new" })
+	expect.equality(seen, { uri = "untitled://cmdline/test", version = 2, text = "😀new" })
 end
 
 T["terminate closes once and rejects later requests"] = function()

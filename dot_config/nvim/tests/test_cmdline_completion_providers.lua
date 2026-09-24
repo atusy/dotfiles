@@ -4,7 +4,7 @@ local expect = MiniTest.expect
 local T = MiniTest.new_set()
 
 T["local provider configurations have stable independent identities"] = function()
-	local configs = require("atusy.lsp.ddc_completion").configurations({
+	local configs = require("atusy.lsp.cmdline_completion").configurations({
 		getcompletion = function()
 			return {}
 		end,
@@ -23,16 +23,16 @@ T["local provider configurations have stable independent identities"] = function
 			return { config.name, config.filetype }
 		end, configs),
 		{
-			{ "nvim-cmdline", "ddc_cmdline" },
-			{ "nvim-input", "ddc_input" },
-			{ "nvim-cmdline-history", "ddc_cmdline_history" },
+			{ "nvim-cmdline", "nvim_cmdline" },
+			{ "nvim-input", "nvim_input" },
+			{ "nvim-cmdline-history", "nvim_cmdline_history" },
 		}
 	)
 end
 
 local function input_provider(results)
 	local calls = {}
-	local provider = require("atusy.lsp.ddc_completion").make_input_provider({
+	local provider = require("atusy.lsp.cmdline_completion").make_input_provider({
 		getcompletion = function(input, completion_type)
 			table.insert(calls, { input, completion_type })
 			return results
@@ -44,7 +44,7 @@ end
 local function request(cmd_type, completion_type, text)
 	return {
 		position = { line = 0, character = #text },
-		xDdc = {
+		xNvimCmdline = {
 			cmdType = cmd_type,
 			completionType = completion_type,
 			completePos = 0,
@@ -85,7 +85,7 @@ end
 
 local function history_provider(histories, paths)
 	local calls = {}
-	local provider = require("atusy.lsp.ddc_completion").make_history_provider({
+	local provider = require("atusy.lsp.cmdline_completion").make_history_provider({
 		gethistory = function(cmd_type, limit)
 			table.insert(calls, { cmd_type, limit })
 			return histories
@@ -110,7 +110,7 @@ end
 T["history provider returns matching suffixes after a space"] = function()
 	local provider = history_provider({ "git checkout main", "git status", "make test" })
 	local params = request(":", "shellcmd", "git ch")
-	params.xDdc.completePos = 4
+	params.xNvimCmdline.completePos = 4
 	local result = provider(params, { text = "git ch", version = 1 })
 	expect.equality(result.items, { { label = "checkout main" }, { label = "status" } })
 end
@@ -118,7 +118,7 @@ end
 T["history provider rejects multiline entries"] = function()
 	local provider = history_provider({ "git status\nquit", "git status" })
 	local params = request(":", "shellcmd", "git s")
-	params.xDdc.completePos = 4
+	params.xNvimCmdline.completePos = 4
 	local result = provider(params, { text = "git s", version = 1 })
 	expect.equality(result.items, { { label = "status" } })
 end
@@ -126,7 +126,7 @@ end
 T["history provider converts UTF-16 completion positions to Lua bytes"] = function()
 	local provider = history_provider({ "echo あ alpha" })
 	local params = request(":", "command", "echo あ a")
-	params.xDdc.completePos = 7
+	params.xNvimCmdline.completePos = 7
 	local result = provider(params, { text = "echo あ a", version = 1 })
 	expect.equality(result.items, { { label = "alpha" } })
 end
@@ -136,9 +136,9 @@ T["history provider filters file and directory completion types"] = function()
 	local paths = { ["/tmp/file"] = "file", ["/tmp/dir"] = "dir" }
 	local provider = history_provider(histories, paths)
 	local file_params = request(":", "file", "edit /tmp/")
-	file_params.xDdc.completePos = 5
+	file_params.xNvimCmdline.completePos = 5
 	local dir_params = vim.deepcopy(file_params)
-	dir_params.xDdc.completionType = "dir"
+	dir_params.xNvimCmdline.completionType = "dir"
 	local files = provider(file_params, { text = "edit /tmp/", version = 1 })
 	local dirs = provider(dir_params, { text = "edit /tmp/", version = 1 })
 	expect.equality(files.items, { { label = "/tmp/file" }, { label = "/tmp/dir" } })
@@ -147,7 +147,7 @@ end
 
 local function cmdline_provider(results)
 	local calls = {}
-	local provider = require("atusy.lsp.ddc_completion").make_cmdline_provider({
+	local provider = require("atusy.lsp.cmdline_completion").make_cmdline_provider({
 		getcompletion = function(input, completion_type)
 			table.insert(calls, { input, completion_type })
 			return results
@@ -180,7 +180,7 @@ end
 T["cmdline provider restores no-prefixed set options"] = function()
 	local provider = cmdline_provider({ "ignorecase" })
 	local params = request(":", "option", "set noig")
-	params.xDdc.completePos = 4
+	params.xNvimCmdline.completePos = 4
 	local result = provider(params, { text = "set noig", version = 1 })
 	expect.equality(result.items[1].label, "noignorecase")
 end
@@ -199,7 +199,7 @@ end
 T["cmdline provider replaces case-insensitive help prefixes"] = function()
 	local provider = cmdline_provider({ "lua-guide" })
 	local params = request(":", "help", "help LUA")
-	params.xDdc.completePos = 5
+	params.xNvimCmdline.completePos = 5
 	local item = provider(params, { text = "help LUA", version = 1 }).items[1]
 	expect.equality(item.textEdit, {
 		range = { start = { line = 0, character = 5 }, ["end"] = { line = 0, character = 8 } },

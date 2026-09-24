@@ -44,7 +44,7 @@ local T = MiniTest.new_set({
 			})
 			for _, name in ipairs({ "nvim-cmdline", "nvim-input", "nvim-cmdline-history" }) do
 				configs[name] = {
-					filetypes = { "ddc_cmdline" },
+					filetypes = { "nvim_cmdline" },
 					cmd = function()
 						return {
 							request = function(_, params)
@@ -76,7 +76,7 @@ T["history completion preserves the command prefix"] = function()
 	local params = configs["nvim-cmdline-history"].cmd({}).request("textDocument/completion", {
 		position = { line = 0, character = #text },
 	})
-	local provider = require("atusy.lsp.ddc_completion").make_history_provider({
+	local provider = require("atusy.lsp.cmdline_completion").make_history_provider({
 		gethistory = function()
 			return { "lua vim.ui.open()", "checkhealth vim.lsp" }
 		end,
@@ -141,9 +141,9 @@ T["clients follow the mode and skkelua state"] = function()
 	end
 	for _, case in ipairs({
 		{ "i", "", { "lua_ls" } },
-		{ "c", ":", { "lua_ls", "nvim-cmdline", "nvim-cmdline-history" } },
-		{ "c", "@", { "lua_ls", "nvim-input", "nvim-cmdline-history" } },
-		{ "c", ">", { "lua_ls", "nvim-input", "nvim-cmdline-history" } },
+		{ "c", ":", { "nvim-cmdline", "lua_ls", "nvim-cmdline-history" } },
+		{ "c", "@", { "nvim-input", "lua_ls", "nvim-cmdline-history" } },
+		{ "c", ">", { "nvim-input", "lua_ls", "nvim-cmdline-history" } },
 		{ "c", "=", { "nvim-input" } },
 		{ "c", "/", { "lua_ls" } },
 		{ "c", "?", { "lua_ls" } },
@@ -161,10 +161,13 @@ T["clients follow the mode and skkelua state"] = function()
 						is_enabled = function()
 							return state == "enabled"
 						end,
+						phase = function()
+							return "input"
+						end,
 					}
 				or nil
 			require("atusy.laser").complete()
-			expect.equality(options.max_items, state == "enabled" and 30 or nil)
+			expect.equality(options.clientOptions.skkelua.max_items, 30)
 			local expected = state == "enabled" and { "skkelua" } or case[3]
 			expect.equality(
 				vim.tbl_map(function(client)
