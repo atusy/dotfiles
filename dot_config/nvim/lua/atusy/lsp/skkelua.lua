@@ -1,4 +1,4 @@
--- Completion/pum presentation and lifecycle around skkelua's shared completion API.
+-- laser presentation and lifecycle around skkelua's shared completion API.
 local M = {}
 
 function M.item(item)
@@ -13,19 +13,58 @@ function M.on_complete_done(item)
 	require("skkelua.completion").accept(M.item(item))
 end
 
+---@return table? candidate selected in laser's menu
+local function selected()
+	local laser = require("laser")
+	if not laser.visible() then
+		return nil
+	end
+	-- laser has no public accessor for its selection yet.
+	local ui = laser._engine().ui
+	return ui.items()[ui.selected()]
+end
+
+---Confirm laser's selection and let skkelua learn from it.
+---laser fires no event on confirmation, so acceptance follows the call instead.
+---@return boolean confirmed
+function M.confirm()
+	local candidate = selected()
+	local confirmed = require("laser").confirm()
+	if confirmed and candidate then
+		M.on_complete_done(candidate)
+	end
+	return confirmed
+end
+
+---Keys for SKK's <C-g>: restore a selected candidate's reading first, and
+---otherwise close the menu and cancel the conversion on the same key press.
+---@return string
+function M.cancel_keys()
+	local laser_cancel = "<Cmd>lua require('laser').cancel()<CR>"
+	local skk_cancel = "<Cmd>lua require('skkelua').handle('handleKey', { key = '<C-g>' })<CR>"
+	if not require("laser").visible() then
+		return skk_cancel
+	end
+	if selected() then
+		return laser_cancel
+	end
+	return laser_cancel .. skk_cancel
+end
+
 function M.setup(opts)
 	opts = opts or {}
 	require("skkelua.completion").set_adapter({
 		state = function()
-			local info = vim.fn["pum#complete_info"]()
-			local selected = (info.selected or -1) >= 0 and info.items[info.selected + 1]
+			local candidate = selected()
 			return {
-				visible = info.pum_visible == true or info.pum_visible == 1,
-				selected = selected and { word = info.inserted or "", item = M.item(selected) } or nil,
+				visible = require("laser").visible(),
+				-- Selecting inserts the word unless it would split the line;
+				-- skkelua checks the text before the cursor for it anyway.
+				selected = candidate and { word = candidate.word, item = M.item(candidate) } or nil,
 			}
 		end,
 		confirm = function()
-			return vim.keycode("<Cmd>call pum#map#confirm()<CR>")
+			return vim.keycode("<Cmd>lua require('atusy.lsp.skkelua').confirm()<CR>")
 		end,
 		trigger = function()
 			if opts.trigger then
@@ -50,15 +89,6 @@ function M.setup(opts)
 		callback = function(args)
 			if vim.api.nvim_buf_get_name(args.buf):match("^untitled://laser%-cmdline/") then
 				require("skkelua.lsp").start(args.buf)
-			end
-		end,
-	})
-	vim.api.nvim_create_autocmd("User", {
-		group = group,
-		pattern = "PumCompleteDone",
-		callback = function()
-			if vim.g["pum#completed_event"] == "confirm" then
-				M.on_complete_done(vim.g["pum#completed_item"] or {})
 			end
 		end,
 	})

@@ -4,34 +4,6 @@ return {
 		branch = "feat/completion-extension-api",
 		config = function()
 			vim.keymap.set({ "i", "c", "t" }, "<C-J>", "<Plug>(skkelua-enable)")
-			vim.keymap.set({ "i", "c" }, "<Plug>(atusy-skkelua-cancel-completion)", function()
-				local pum = vim.fn["pum#_get"]()
-				local inserted = pum.cursor > 0 and pum.current_word ~= ""
-				if vim.api.nvim_get_mode().mode:sub(1, 1) == "i" and require("skkelua").is_enabled() then
-					if inserted then
-						-- skkelua's guard blocks the <BS> keys used by pum's
-						-- cancellation. Restore the selected span directly instead.
-						local pos = vim.api.nvim_win_get_cursor(0)
-						vim.cmd([[call extend(pum#_get(), #{cursor: -1, current_word: ''})]])
-						vim.api.nvim_buf_set_text(
-							0,
-							pos[1] - 1,
-							pum.startcol - 1,
-							pos[1] - 1,
-							pos[2],
-							{ pum.orig_input }
-						)
-						vim.api.nvim_win_set_cursor(0, { pos[1], pum.startcol - 1 + #pum.orig_input })
-					end
-				end
-				vim.fn["pum#map#cancel"]()
-				-- An unselected menu has no inserted candidate to undo.
-				-- Cancel the SKK conversion on the same key press too.
-				if not inserted then
-					require("skkelua").handle("handleKey", { key = "<C-g>" })
-				end
-			end)
-
 			local register_kanatable = require("skkelua").register_kanatable
 			register_kanatable("rom", require("plugins.skkelua.azik"), true)
 			register_kanatable("rom", {
@@ -50,7 +22,7 @@ return {
 				pattern = "skkelua-enable-pre",
 				callback = function(ctx)
 					local keys = require("skkelua").get_default_mapped_keys()
-					-- Keep pum selection and confirmation mappings available.
+					-- Keep laser selection and confirmation mappings available.
 					keys = vim.tbl_filter(function(key)
 						return key:lower() ~= "<c-y>"
 							and key:lower() ~= "<c-g>"
@@ -76,12 +48,7 @@ return {
 					if mode == "c" then
 						vim.keymap.set(mode, "<C-g>", "<Plug>(C-G)", { buffer = ctx.buf, nowait = true })
 					end
-					vim.keymap.set(mode, "<C-g>", function()
-						if vim.fn.exists("*pum#visible") == 1 and vim.fn["pum#visible"]() then
-							return "<Plug>(atusy-skkelua-cancel-completion)"
-						end
-						return "<Cmd>lua require('skkelua').handle('handleKey', { key = '<C-g>' })<CR>"
-					end, {
+					vim.keymap.set(mode, "<C-g>", require("atusy.lsp.skkelua").cancel_keys, {
 						buffer = ctx.buf,
 						expr = true,
 						nowait = true,
