@@ -122,7 +122,7 @@ return {
 			-- init
 			require("atusy.lsp.skkelua").setup({
 				trigger = function()
-					require("atusy.laser").complete()
+					require("plugins.laser").complete()
 				end,
 			})
 

@@ -31,7 +31,7 @@ function M.setup(opts)
 			if opts.trigger then
 				opts.trigger()
 			else
-				require("atusy.laser").complete()
+				require("plugins.laser").complete()
 			end
 		end,
 	})
