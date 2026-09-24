@@ -14,6 +14,7 @@ local T = MiniTest.new_set({
 				"laser",
 				"skkelua",
 				"skkelua.completion",
+				"skkelua.guard",
 				"skkelua.lsp",
 				"atusy.lsp.skkelua",
 			}) do
@@ -103,6 +104,33 @@ T["<C-g> restores a selected candidate before cancelling SKK"] = function()
 	expect.equality(provider.cancel_keys(), laser_cancel .. skk_cancel)
 	menu.selected = 1
 	expect.equality(provider.cancel_keys(), laser_cancel)
+end
+
+T["guard lets completion UIs replace the pre-edit with fed <BS>"] = function()
+	local guarded = {}
+	package.loaded["skkelua.guard"] = {
+		_on_key = function(key, typed)
+			table.insert(guarded, { key, typed })
+			return ""
+		end,
+	}
+	local provider = require("atusy.lsp.skkelua")
+	provider.allow_fed_backspace()
+	provider.allow_fed_backspace()
+	local on_key = package.loaded["skkelua.guard"]._on_key
+	local bs, left = vim.keycode("<BS>"), vim.keycode("<Left>")
+	expect.equality(on_key(bs, ""), nil)
+	expect.equality(guarded, {})
+	expect.equality(on_key(bs, bs), "")
+	expect.equality(on_key(left, ""), "")
+	local reg_executing = vim.fn.reg_executing
+	vim.fn.reg_executing = function()
+		return "q"
+	end
+	local ok, result = pcall(on_key, bs, "")
+	vim.fn.reg_executing = reg_executing
+	expect.equality({ ok, result }, { true, "" })
+	expect.equality(guarded, { { bs, bs }, { left, "" }, { bs, "" } })
 end
 
 return T

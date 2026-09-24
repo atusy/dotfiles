@@ -87,6 +87,7 @@ return {
 			})
 
 			-- init
+			require("atusy.lsp.skkelua").allow_fed_backspace()
 			require("atusy.lsp.skkelua").setup({
 				trigger = function()
 					require("plugins.laser.completion").complete()

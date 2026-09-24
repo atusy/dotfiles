@@ -51,6 +51,29 @@ function M.cancel_keys()
 	return laser_cancel .. skk_cancel
 end
 
+local fed_backspace_allowed = false
+
+---Let fed <BS> replace the pre-edit while skkelua's guard is active.
+---laser types candidates as <BS> and text, but the guard treats any <BS> as a
+---physical key. Remove once skkelua's guard passes fed keys by itself.
+---Call before skkelua's first enable, which registers the guard's callback.
+function M.allow_fed_backspace()
+	if fed_backspace_allowed then
+		return
+	end
+	fed_backspace_allowed = true
+	local guard = require("skkelua.guard")
+	local on_key = guard._on_key
+	local bs = vim.keycode("<BS>")
+	guard._on_key = function(key, typed)
+		-- Macros replay keys untyped too; keep guarding them.
+		if key == bs and typed == "" and vim.fn.reg_executing() == "" then
+			return
+		end
+		return on_key(key, typed)
+	end
+end
+
 function M.setup(opts)
 	opts = opts or {}
 	require("skkelua.completion").set_adapter({
