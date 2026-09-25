@@ -75,7 +75,7 @@ function M.complete()
 		clients = clients,
 		menu = { preview = { border = "single", max_width = 60, max_height = 20 } },
 		clientOptions = {
-			["*"] = {
+			["_"] = {
 				timeout_ms = 1000,
 				filters = {
 					{ kind = "matcher", callback = fuzzy_matcher },
