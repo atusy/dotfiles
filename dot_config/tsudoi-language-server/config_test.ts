@@ -8,6 +8,7 @@ import { pathToFileURL } from "node:url";
 import { handleKakehashiBridgeRouting } from "./kakehashi-bridge-routing.ts";
 import configFactory from "./tsudoi.config.ts";
 import { useMyShellCompletion } from "./completion-my-shell.ts";
+import { completeGitCommit } from "./completion-git.ts";
 
 async function completionResponse(
   languageId: string,
@@ -313,4 +314,57 @@ Deno.test("shell wrapper preserves a complete empty result when lookup is disabl
     done: true,
     value: { isIncomplete: false, items: [] },
   });
+});
+
+Deno.test("shell wrapper is complete where no shell answers", async () => {
+  const complete = useMyShellCompletion();
+  const context = {
+    signal: new AbortController().signal,
+    tsudoi: { documents: { get: () => ({ languageId: "markdown" }) } },
+  } as unknown as Parameters<typeof complete>[0];
+  const result = await complete(context, {
+    textDocument: { uri: "file:///buffer.md" },
+    position: { line: 0, character: 0 },
+  }).next();
+  assertEquals(result, {
+    done: true,
+    value: { isIncomplete: false, items: [] },
+  });
+});
+
+Deno.test("gitcommit completion is complete below the subject line", async () => {
+  const uri = pathToFileURL("/tmp/COMMIT_EDITMSG").href;
+  const context = {
+    signal: new AbortController().signal,
+    tsudoi: { documents: { get: () => ({ uri, getText: () => "feat: x\n\nfe" }) } },
+  } as unknown as Parameters<typeof completeGitCommit>[0];
+  const result = await completeGitCommit(context, {
+    textDocument: { uri },
+    position: { line: 2, character: 2 },
+  }).next();
+  assertEquals(result, {
+    done: true,
+    value: { isIncomplete: false, items: [] },
+  });
+});
+
+Deno.test("gitcommit completion re-asks on the subject line", async () => {
+  // Labels are cut at the word being typed, so a new word brings new labels.
+  const iterator = completeGitCommit(
+    {
+      signal: new AbortController().signal,
+      tsudoi: {
+        documents: {
+          get: () => ({ uri: pathToFileURL("/tmp/COMMIT_EDITMSG").href, getText: () => "feat: x" }),
+        },
+      },
+    } as unknown as Parameters<typeof completeGitCommit>[0],
+    {
+      textDocument: { uri: pathToFileURL("/tmp/COMMIT_EDITMSG").href },
+      position: { line: 0, character: 7 },
+    },
+  );
+  let next = await iterator.next();
+  while (!next.done) next = await iterator.next();
+  assertEquals(next.value, { isIncomplete: true, items: [] });
 });

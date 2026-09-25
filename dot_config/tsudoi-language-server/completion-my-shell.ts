@@ -40,5 +40,7 @@ export function useMyShellCompletion(): ShellCompletion {
     if (completeShell !== undefined) {
       return yield* completeShell(context, params, options);
     }
+    // Typing never changes a document's language, so no shell will answer.
+    return { isIncomplete: false, items: [] };
   };
 }

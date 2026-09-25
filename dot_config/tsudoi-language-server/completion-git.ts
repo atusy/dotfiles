@@ -1,4 +1,7 @@
-import type { CompletionParams } from "@atusy/tsudoi-language-server/deps/protocol";
+import type {
+  CompletionList,
+  CompletionParams,
+} from "@atusy/tsudoi-language-server/deps/protocol";
 import type { CompletionItem } from "@atusy/tsudoi-language-server/deps/types";
 import type { RequestContext } from "@atusy/tsudoi-language-server/types";
 import { basename, dirname, isAbsolute, join } from "node:path";
@@ -130,17 +133,20 @@ function prefixesFrom(logs: readonly string[]): CompletionItem[] {
 export async function* completeGitCommit(
   context: RequestContext,
   params: CompletionParams,
-): AsyncGenerator<CompletionItem[], void, void> {
+): AsyncGenerator<CompletionItem[], CompletionList, void> {
+  // Labels are cut at the word being typed, so a new word brings labels the
+  // client never saw; only lines this source never answers are complete.
+  const reask = { isIncomplete: true, items: [] };
   if (params.position.line !== 0) {
-    return;
+    return { isIncomplete: false, items: [] };
   }
   const document = context.tsudoi.documents.get(params.textDocument.uri);
   if (document === undefined) {
-    return;
+    return reask;
   }
   const line = document.getText().split(/\r?\n/)[params.position.line];
   if (line === undefined) {
-    return;
+    return reask;
   }
   const subject = line.slice(0, params.position.character);
   const root = await gitRoot(document.uri);
@@ -161,4 +167,5 @@ export async function* completeGitCommit(
   if (logItems.length > 0) {
     yield logItems;
   }
+  return reask;
 }
