@@ -133,6 +133,7 @@ Deno.test("the server advertises and serves bridge routing", async () => {
       preparedResult: {
         capabilities: {
           hoverProvider: true,
+          completionProvider: { resolveProvider: true, triggerCharacters: ["."] },
           experimental: {
             anotherExtension: true,
             kakehashi: { anotherCapability: true },
@@ -148,6 +149,7 @@ Deno.test("the server advertises and serves bridge routing", async () => {
   assertEquals(result, {
     capabilities: {
       hoverProvider: true,
+      completionProvider: { resolveProvider: true, triggerCharacters: [".", ":"] },
       experimental: {
         anotherExtension: true,
         kakehashi: {

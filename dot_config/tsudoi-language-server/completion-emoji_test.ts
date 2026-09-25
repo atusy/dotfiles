@@ -1,11 +1,15 @@
 import { assertEquals } from "@std/assert";
 import { pathToFileURL } from "node:url";
+import type { CompletionList } from "@atusy/tsudoi-language-server/deps/protocol";
 import type { CompletionItem } from "@atusy/tsudoi-language-server/deps/types";
 import { completeEmoji, shortcodeQuery } from "./completion-emoji.ts";
 
 const uri = pathToFileURL("/tmp/note.md").href;
 
-async function completionItems(text: string): Promise<CompletionItem[]> {
+async function completion(
+  text: string,
+  options?: { maxItems?: number },
+): Promise<{ items: CompletionItem[]; result: CompletionList | void }> {
   const document = {
     uri,
     languageId: "markdown",
@@ -16,7 +20,7 @@ async function completionItems(text: string): Promise<CompletionItem[]> {
     offsetAt: () => 0,
   };
   const items: CompletionItem[] = [];
-  for await (const batch of completeEmoji(
+  const iterator = completeEmoji(
     {
       signal: new AbortController().signal,
       tsudoi: {
@@ -35,10 +39,17 @@ async function completionItems(text: string): Promise<CompletionItem[]> {
       textDocument: { uri },
       position: { line: 0, character: text.length },
     },
-  )) {
-    items.push(...batch);
+    options,
+  );
+  while (true) {
+    const next = await iterator.next();
+    if (next.done) return { items, result: next.value };
+    items.push(...next.value);
   }
-  return items;
+}
+
+async function completionItems(text: string): Promise<CompletionItem[]> {
+  return (await completion(text)).items;
 }
 
 Deno.test("a shortcode query starts at a colon that opens a word", () => {
@@ -95,4 +106,34 @@ Deno.test("a query nothing answers completes nothing", async () => {
 
 Deno.test("completion is skipped outside a shortcode", async () => {
   assertEquals(await completionItems("no colon here"), []);
+});
+
+Deno.test("a query answered in full is complete, so narrowing it stays client-side", async () => {
+  assertEquals((await completion(":tad")).result, { isIncomplete: false, items: [] });
+  assertEquals((await completion(":zzzzzzz")).result, { isIncomplete: false, items: [] });
+});
+
+Deno.test("a truncated answer is incomplete, so narrowing it asks again", async () => {
+  assertEquals((await completion(":a")).result, { isIncomplete: true, items: [] });
+  // `:tad` has exactly two answers: the bound distinguishes truncation from an exact fit
+  assertEquals((await completion(":tad", { maxItems: 1 })).result, {
+    isIncomplete: true,
+    items: [],
+  });
+  assertEquals((await completion(":tad", { maxItems: 2 })).result, {
+    isIncomplete: false,
+    items: [],
+  });
+});
+
+Deno.test("a colon that may still open a shortcode is incomplete", async () => {
+  assertEquals((await completion(":")).result, { isIncomplete: true, items: [] });
+  assertEquals((await completion("Yay :")).result, { isIncomplete: true, items: [] });
+});
+
+Deno.test("text only a new colon can turn into a query is complete", async () => {
+  // Typing that colon is what asks again: `:` is a completion trigger character.
+  for (const text of ["", "no colon here", "fix:", "http:", ":tada: done"]) {
+    assertEquals((await completion(text)).result, { isIncomplete: false, items: [] }, text);
+  }
 });

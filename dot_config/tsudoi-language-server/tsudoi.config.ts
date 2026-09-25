@@ -34,7 +34,23 @@ const config: TsudoiConfigFactory = async () => {
   return {
     methods: {
       initialize: (context) => {
-        return Promise.resolve(initalizeKakehashiBridgeRouting(context.preparedResult));
+        const result = initalizeKakehashiBridgeRouting(context.preparedResult);
+        const completionProvider = result.capabilities.completionProvider;
+        const triggerCharacters = completionProvider?.triggerCharacters ?? [];
+        return Promise.resolve({
+          ...result,
+          capabilities: {
+            ...result.capabilities,
+            completionProvider: {
+              ...completionProvider,
+              // Emoji completion relies on a typed colon asking again, since a
+              // colon is the only keystroke that opens a shortcode query.
+              triggerCharacters: triggerCharacters.includes(":")
+                ? triggerCharacters
+                : [...triggerCharacters, ":"],
+            },
+          },
+        });
       },
       "textDocument/completion": async function* (context, params) {
         const document = context.tsudoi.documents.get(params.textDocument.uri);
