@@ -3,6 +3,7 @@ import { dirname, join } from "node:path";
 import { pathToFileURL } from "node:url";
 import { LSPErrorCodes, ResponseError } from "vscode-languageserver-protocol/node";
 import {
+  documentFilePath,
   findFormatFunc,
   formatDocument,
   type FormatFunc,
@@ -24,7 +25,7 @@ Deno.test("formatting without an open document requests fallback", async () => {
   assertEquals(error.code, LSPErrorCodes.RequestFailed);
 });
 
-Deno.test("formatting a non-file document requests fallback", async () => {
+Deno.test("formatting a document without a file path requests fallback", async () => {
   const uri = "untitled:buffer";
   const error = await assertRejects(
     () =>
@@ -32,6 +33,7 @@ Deno.test("formatting a non-file document requests fallback", async () => {
         {
           tsudoi: {
             documents: { get: () => ({ uri }) },
+            workspaceFolders: { values: () => [] },
           },
         } as never,
         { textDocument: { uri } } as never,
@@ -40,6 +42,19 @@ Deno.test("formatting a non-file document requests fallback", async () => {
   );
 
   assertEquals(error.code, LSPErrorCodes.RequestFailed);
+});
+
+Deno.test("a kakehashi virtual document resolves in the workspace root under its own name", () => {
+  const uri = "kakehashi:///virtual/untitled%3AUntitled-1/kakehashi-virtual-uri-01J0.sh";
+  assertEquals(documentFilePath(uri, ["/work"]), join("/work", "kakehashi-virtual-uri-01J0.sh"));
+});
+
+Deno.test("a file document resolves to its own path", () => {
+  assertEquals(documentFilePath(pathToFileURL("/work/a.ts").href, ["/elsewhere"]), "/work/a.ts");
+});
+
+Deno.test("a document with no file path resolves to none", () => {
+  assertEquals(documentFilePath("untitled:buffer", ["/work"]), null);
 });
 
 Deno.test("formatting without a formatter config requests fallback", async () => {

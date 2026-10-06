@@ -159,7 +159,38 @@ async function runFormatter(
   }
 }
 
-/** Lets kakehashi continue to a lower-priority formatter such as oxfmt. */
+/**
+ * The path a document is formatted as: its own, for a file; for a kakehashi
+ * virtual document of a host with no file path
+ * (`kakehashi:///virtual/<host>/<name>`), its name in the first root, so its
+ * extension selects the formatter and the configuration is found from there.
+ * `null` for anything else.
+ */
+export function documentFilePath(uri: string, rootPaths: readonly string[]): string | null {
+  let url: URL;
+  try {
+    url = new URL(uri);
+  } catch {
+    return null;
+  }
+  if (url.protocol === "file:") {
+    return fileURLToPath(url);
+  }
+  if (
+    url.protocol === "kakehashi:" &&
+    url.pathname.startsWith("/virtual/") &&
+    rootPaths.length > 0
+  ) {
+    const name = decodeURIComponent(url.pathname.slice(url.pathname.lastIndexOf("/") + 1));
+    return name === "" ? null : join(rootPaths[0], name);
+  }
+  return null;
+}
+
+/**
+ * Lets kakehashi continue to a lower-priority formatter such as oxfmt. A
+ * `null` answer would not: kakehashi takes it as "no edits needed".
+ */
 function requestFormatterFallback(message: string): never {
   throw new ResponseError(LSPErrorCodes.RequestFailed, message);
 }
@@ -170,12 +201,6 @@ export const formatDocument: MethodHandler<"textDocument/formatting"> = async (c
     requestFormatterFallback("Document is not open");
   }
 
-  let filePath: string;
-  try {
-    filePath = fileURLToPath(document.uri);
-  } catch {
-    requestFormatterFallback("Document URI is not a file URI");
-  }
   const workspaceFolders = Array.from(context.tsudoi.workspaceFolders.values());
   const workspaceRootPaths = workspaceFolders.flatMap(({ uri }) => {
     try {
@@ -184,10 +209,15 @@ export const formatDocument: MethodHandler<"textDocument/formatting"> = async (c
       return [];
     }
   });
+  const rootPaths = workspaceFolders.length === 0 ? [Deno.cwd()] : workspaceRootPaths;
+  const filePath = documentFilePath(document.uri, rootPaths);
+  if (filePath === null) {
+    requestFormatterFallback("Document has no file path");
+  }
   const format = await findFormatFunc(
     filePath,
     [resolveTreefmtToml, resolveFlakeTreefmt, resolveDprint],
-    workspaceFolders.length === 0 ? [Deno.cwd()] : workspaceRootPaths,
+    rootPaths,
   );
   if (format === null) {
     requestFormatterFallback("No formatter configuration found");
