@@ -52,11 +52,11 @@ enabled = true
 
 [languages.python.bridge._self.aggregation]
 "textDocument/completion" = { "priorities" = ["basedpyright", "tsudoi"], strategy = "concatenated" }
-"textDocument/formatting" = { "priorities" = ["basedpyright"] }
+"textDocument/formatting" = { "priorities" = ["ruff"] }
 
 [languages._.bridge.python.aggregation]
 "textDocument/completion" = { "priorities" = ["basedpyright", "tsudoi"], strategy = "concatenated" }
-"textDocument/formatting" = { "priorities" = ["basedpyright"] }
+"textDocument/formatting" = { "priorities" = ["ruff"] }
 
 [languages.lua.bridge._self.aggregation]
 "_" = { "priorities" = ["emmylua_ls"] }
