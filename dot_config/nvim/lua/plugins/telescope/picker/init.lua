@@ -147,7 +147,7 @@ end
 ---git_status picker with branch and traffic info in the prompt title
 function M.git_status()
 	local function _make_title()
-		local branch = vim.fn["gin#component#branch#unicode"]()
+		local branch = require("gin.component.branch").unicode()
 		if branch == "" or branch == nil then
 			local alt = vim.system({ "git", "branch", "--points-at", "HEAD", "--all", "--format=%(refname:short)" })
 				:wait()
@@ -157,7 +157,7 @@ function M.git_status()
 			local title = alt.stdout:gsub("\n", " ")
 			return title
 		end
-		local traffic = vim.fn["gin#component#traffic#unicode"]()
+		local traffic = require("gin.component.traffic").unicode()
 		local title = branch .. " " .. traffic
 		return title ~= " " and title or nil
 	end

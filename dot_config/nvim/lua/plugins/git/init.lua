@@ -88,7 +88,7 @@ local function setup_gin()
 		group = augroup,
 		pattern = { "gin*://*" },
 		callback = function(ctx)
-			vim.keymap.set("n", "<F5>", "<Cmd>call gin#util#reload()<CR>", { buffer = ctx.buf })
+			vim.keymap.set("n", "<F5>", "<Cmd>edit<CR>", { buffer = ctx.buf })
 			if ctx.match:match("^ginedit://") then
 				vim.keymap.set("n", "<Plug>(C-G)<C-A>", "<Plug>(gin-diffget-r)", { buffer = ctx.buf }) -- git add
 				vim.keymap.set("n", "<Plug>(C-G)<C-R>", "<Plug>(gin-diffget-l)", { buffer = ctx.buf }) -- git reset
@@ -192,9 +192,7 @@ end
 -- return
 return {
 	{
-		-- "https://github.com/lambdalisue/vim-gin", -- denops
-		"https://github.com/atusy/gin.vim", -- denops
-		branch = "bufname",
+		"https://github.com/atusy/gin.nvim",
 		config = setup_gin,
 	},
 	{
