@@ -15,6 +15,10 @@ import {
   handleKakehashiBridgeRouting,
   initalizeKakehashiBridgeRouting,
 } from "./kakehashi-bridge-routing.ts";
+import {
+  handleKakehashiVirtualDocumentPrepare,
+  initializeKakehashiVirtualDocumentPrepare,
+} from "./kakehashi-virtual-document-prepare.ts";
 
 const minQueryLengths = {
   shell: 0,
@@ -34,7 +38,9 @@ const config: TsudoiConfigFactory = async () => {
   return {
     methods: {
       initialize: (context) => {
-        const result = initalizeKakehashiBridgeRouting(context.preparedResult);
+        const result = initializeKakehashiVirtualDocumentPrepare(
+          initalizeKakehashiBridgeRouting(context.preparedResult),
+        );
         const completionProvider = result.capabilities.completionProvider;
         const triggerCharacters = completionProvider?.triggerCharacters ?? [];
         return Promise.resolve({
@@ -104,6 +110,7 @@ const config: TsudoiConfigFactory = async () => {
     },
     customMethods: {
       "kakehashi/bridge/routing": handleKakehashiBridgeRouting,
+      "kakehashi/virtualDocument/prepare": handleKakehashiVirtualDocumentPrepare,
     },
   };
 };

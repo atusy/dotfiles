@@ -6,6 +6,7 @@ import type {
 import { join } from "node:path";
 import { pathToFileURL } from "node:url";
 import { handleKakehashiBridgeRouting } from "./kakehashi-bridge-routing.ts";
+import { handleKakehashiVirtualDocumentPrepare } from "./kakehashi-virtual-document-prepare.ts";
 import configFactory from "./tsudoi.config.ts";
 import { useMyShellCompletion } from "./completion-my-shell.ts";
 import { completeGitCommit } from "./completion-git.ts";
@@ -117,7 +118,7 @@ async function initializeRepository(root: string, subjects: readonly string[]) {
   }
 }
 
-Deno.test("the server advertises and serves bridge routing", async () => {
+Deno.test("the server advertises and serves bridge routing and prepare", async () => {
   const config = await configFactory();
   const initialize = config.methods?.initialize as
     | MethodHandler<"initialize">
@@ -128,6 +129,10 @@ Deno.test("the server advertises and serves bridge routing", async () => {
 
   assertEquals(typeof initialize, "function");
   assertEquals(route, handleKakehashiBridgeRouting);
+  assertEquals(
+    config.customMethods?.["kakehashi/virtualDocument/prepare"],
+    handleKakehashiVirtualDocumentPrepare,
+  );
 
   const result = await initialize!(
     {
@@ -156,6 +161,7 @@ Deno.test("the server advertises and serves bridge routing", async () => {
         kakehashi: {
           anotherCapability: true,
           bridgeRouting: true,
+          virtualDocumentPrepare: true,
         },
       },
     },

@@ -44,6 +44,8 @@ enabled = false
 
 [languages._.bridge._.aggregation]
 "_" = { "priorities" = ["*", "tsudoi"] }
+# to require explicit opt-in per language
+"kakehashi/virtualDocument/prepare" = { "priorities" = [] }
 "textDocument/completion" = { strategy = "concatenated" }
 "textDocument/formatting" = { "priorities" = ["*", "tsudoi", "oxfmt", "denols", "tsc"] }
 
@@ -77,6 +79,9 @@ autoInstall = true
 
 [languages.sh]
 base = "bash" # because Neovim maps bash filetype to sh languageId
+
+[languages.nix.bridge._.aggregation]
+"kakehashi/virtualDocument/prepare" = { "priorities" = ["tsudoi"] }
 
 [languageServers._]
 preferSharedInstance = true
