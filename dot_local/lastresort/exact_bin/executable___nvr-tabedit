@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+
+nvr -c "set bufhidden=delete" --remote-tab-wait "$@"

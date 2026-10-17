@@ -55,7 +55,7 @@ if set -q NVIM
         __nvim-preexec $argv
     end
     if type -q nvr
-        set -gx EDITOR 'nvr -c "set bufhidden=delete" --remote-tab-wait'
+        set -gx EDITOR __nvr-tabedit
     end
 else
     set -gx EDITOR nvim
