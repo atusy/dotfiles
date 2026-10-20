@@ -1,6 +1,6 @@
 local MiniTest = require("mini.test")
 local expect = MiniTest.expect
-local saved, menu, adapter, calls
+local saved, menu, adapter
 
 local function candidate(label)
 	return { word = label, user_data = { laser = { item = { label = label, data = { skkelua = true } } } } }
@@ -20,15 +20,10 @@ local T = MiniTest.new_set({
 			}) do
 				saved[name] = package.loaded[name]
 			end
-			menu = { visible = false, selected = 0, items = {}, confirmed = true }
-			calls = {}
+			menu = { visible = false, selected = 0, items = {} }
 			package.loaded.laser = {
 				visible = function()
 					return menu.visible
-				end,
-				confirm = function()
-					table.insert(calls, "confirm")
-					return menu.confirmed
 				end,
 				_engine = function()
 					return {
@@ -84,16 +79,7 @@ T["a restored pre-edit makes laser complete again"] = function()
 end
 
 T["adapter confirms through laser"] = function()
-	expect.equality(adapter.confirm(), vim.keycode("<Cmd>lua require('atusy.lsp.skkelua').confirm()<CR>"))
-end
-
-T["confirming delegates to laser, whose candidate command lets skkelua learn"] = function()
-	local provider = require("atusy.lsp.skkelua")
-	menu.visible, menu.items, menu.selected = true, { candidate("漢字") }, 1
-	expect.equality(provider.confirm(), true)
-	expect.equality(calls, { "confirm" })
-	menu.confirmed = false
-	expect.equality(provider.confirm(), false)
+	expect.equality(adapter.confirm(), vim.keycode("<Cmd>lua require('laser').confirm()<CR>"))
 end
 
 T["<C-g> restores a selected candidate before cancelling SKK"] = function()

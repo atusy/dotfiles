@@ -20,13 +20,6 @@ local function selected()
 	return ui.items()[ui.selected()]
 end
 
----Confirm laser's selection. laser runs the candidate's command, through which
----skkelua learns, so nothing else is needed here.
----@return boolean confirmed
-function M.confirm()
-	return require("laser").confirm()
-end
-
 ---Keys for SKK's <C-g>: restore a selected candidate's reading first, and
 ---otherwise close the menu and cancel the conversion on the same key press.
 ---@return string
@@ -73,7 +66,7 @@ function M.setup(opts)
 			return candidate and M.item(candidate) or nil
 		end,
 		confirm = function()
-			return vim.keycode("<Cmd>lua require('atusy.lsp.skkelua').confirm()<CR>")
+			return vim.keycode("<Cmd>lua require('laser').confirm()<CR>")
 		end,
 	})
 	local group = vim.api.nvim_create_augroup("atusy.skkelua.lsp", { clear = true })

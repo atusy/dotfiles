@@ -177,8 +177,8 @@ function M.setup()
 		return laser.visible() and "<Cmd>lua require('laser').select(-1)<CR>" or "<S-Tab>"
 	end, { expr = true })
 	vim.keymap.set({ "i", "c" }, "<C-Y>", function()
-		-- Confirmation through the SKK adapter lets skkelua learn the candidate.
-		return laser.visible() and "<Cmd>lua require('atusy.lsp.skkelua').confirm()<CR>" or "<C-Y>"
+		-- Confirming runs the candidate's command, through which skkelua learns.
+		return laser.visible() and "<Cmd>lua require('laser').confirm()<CR>" or "<C-Y>"
 	end, { expr = true })
 	vim.keymap.set({ "i", "c" }, "<C-C>", function()
 		if laser.visible() then
