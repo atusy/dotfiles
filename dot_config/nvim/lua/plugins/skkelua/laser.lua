@@ -1,14 +1,6 @@
 -- laser presentation and lifecycle around skkelua's completion adapter.
 local M = {}
 
-function M.item(item)
-	local laser = vim.tbl_get(item, "user_data", "laser")
-	if laser then
-		return laser.item or {}
-	end
-	return {}
-end
-
 ---@return table? candidate selected in laser's menu
 local function selected()
 	local laser = require("laser")
@@ -40,7 +32,11 @@ function M.setup(opts)
 	require("skkelua.completion").set_adapter({
 		selected = function()
 			local candidate = selected()
-			return candidate and M.item(candidate) or nil
+			if not candidate then
+				return nil
+			end
+			local laser = vim.tbl_get(candidate, "user_data", "laser")
+			return laser and laser.item or {}
 		end,
 		confirm = function()
 			return vim.keycode("<Cmd>lua require('laser').confirm()<CR>")
