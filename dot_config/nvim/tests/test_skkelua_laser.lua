@@ -16,7 +16,7 @@ local T = MiniTest.new_set({
 				"skkelua.completion",
 				"skkelua.guard",
 				"skkelua.lsp",
-				"atusy.lsp.skkelua",
+				"plugins.skkelua.laser",
 			}) do
 				saved[name] = package.loaded[name]
 			end
@@ -44,14 +44,14 @@ local T = MiniTest.new_set({
 				end,
 			}
 			package.loaded["skkelua.lsp"] = { start = function() end }
-			package.loaded["atusy.lsp.skkelua"] = nil
-			require("atusy.lsp.skkelua").setup()
+			package.loaded["plugins.skkelua.laser"] = nil
+			require("plugins.skkelua.laser").setup()
 		end,
 		post_case = function()
 			for name, value in pairs(saved) do
 				package.loaded[name] = value
 			end
-			pcall(vim.api.nvim_del_augroup_by_name, "atusy.skkelua.lsp")
+			pcall(vim.api.nvim_del_augroup_by_name, "atusy.skkelua.laser")
 		end,
 	},
 })
@@ -83,7 +83,7 @@ T["adapter confirms through laser"] = function()
 end
 
 T["<C-g> restores a selected candidate before cancelling SKK"] = function()
-	local provider = require("atusy.lsp.skkelua")
+	local provider = require("plugins.skkelua.laser")
 	local laser_cancel = "<Cmd>lua require('laser').cancel()<CR>"
 	local skk_cancel = "<Cmd>lua require('skkelua').handle('handleKey', { key = '<C-g>' })<CR>"
 	expect.equality(provider.cancel_keys(), skk_cancel)

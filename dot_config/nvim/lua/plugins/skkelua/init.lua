@@ -48,7 +48,7 @@ return {
 					if mode == "c" then
 						vim.keymap.set(mode, "<C-g>", "<Plug>(C-G)", { buffer = ctx.buf, nowait = true })
 					end
-					vim.keymap.set(mode, "<C-g>", require("atusy.lsp.skkelua").cancel_keys, {
+					vim.keymap.set(mode, "<C-g>", require("plugins.skkelua.laser").cancel_keys, {
 						buffer = ctx.buf,
 						expr = true,
 						nowait = true,
@@ -68,7 +68,7 @@ return {
 				sources = { "skk_dictionary" }, -- no google_japanese_input to avoid unwanted candidates on affix
 				markerHenkan = "",
 				markerHenkanSelect = "",
-				completion = { enabled = false }, -- laser owns completion via atusy.lsp.skkelua
+				completion = { enabled = false }, -- laser owns completion via plugins.skkelua.laser
 				userDictionary = vim.fn.expand("~/.skkeleton"), -- retain the existing SKK user dictionary
 				lowercaseMap = { [":"] = ";" },
 				globalDictionaries = {
@@ -87,7 +87,7 @@ return {
 			})
 
 			-- init
-			require("atusy.lsp.skkelua").setup({
+			require("plugins.skkelua.laser").setup({
 				trigger = function()
 					require("plugins.laser.completion").complete()
 				end,

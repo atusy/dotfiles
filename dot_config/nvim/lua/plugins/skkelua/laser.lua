@@ -46,7 +46,7 @@ function M.setup(opts)
 			return vim.keycode("<Cmd>lua require('laser').confirm()<CR>")
 		end,
 	})
-	local group = vim.api.nvim_create_augroup("atusy.skkelua.lsp", { clear = true })
+	local group = vim.api.nvim_create_augroup("atusy.skkelua.laser", { clear = true })
 	-- Restoring the pre-edit involves no typing, so laser does not complete by itself.
 	vim.api.nvim_create_autocmd("User", {
 		group = group,
