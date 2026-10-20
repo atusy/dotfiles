@@ -1,7 +1,7 @@
 return {
 	{
 		"https://github.com/atusy/skkelua.nvim",
-		branch = "feat/completion-extension-api",
+		branch = "feat/lsp-external-completion",
 		config = function()
 			vim.keymap.set({ "i", "c", "t" }, "<C-J>", "<Plug>(skkelua-enable)")
 			local register_kanatable = require("skkelua").register_kanatable

@@ -1,4 +1,4 @@
--- laser presentation and lifecycle around skkelua's shared completion API.
+-- laser presentation and lifecycle around skkelua's completion adapter.
 local M = {}
 
 function M.item(item)
@@ -7,10 +7,6 @@ function M.item(item)
 		return laser.item or {}
 	end
 	return {}
-end
-
-function M.on_complete_done(item)
-	require("skkelua.completion").accept(M.item(item))
 end
 
 ---@return table? candidate selected in laser's menu
@@ -24,16 +20,11 @@ local function selected()
 	return ui.items()[ui.selected()]
 end
 
----Confirm laser's selection and let skkelua learn from it.
----laser fires no event on confirmation, so acceptance follows the call instead.
+---Confirm laser's selection. laser runs the candidate's command, through which
+---skkelua learns, so nothing else is needed here.
 ---@return boolean confirmed
 function M.confirm()
-	local candidate = selected()
-	local confirmed = require("laser").confirm()
-	if confirmed and candidate then
-		M.on_complete_done(candidate)
-	end
-	return confirmed
+	return require("laser").confirm()
 end
 
 ---Keys for SKK's <C-g>: restore a selected candidate's reading first, and
@@ -77,19 +68,20 @@ end
 function M.setup(opts)
 	opts = opts or {}
 	require("skkelua.completion").set_adapter({
-		state = function()
+		selected = function()
 			local candidate = selected()
-			return {
-				visible = require("laser").visible(),
-				-- Selecting inserts the word unless it would split the line;
-				-- skkelua checks the text before the cursor for it anyway.
-				selected = candidate and { word = candidate.word, item = M.item(candidate) } or nil,
-			}
+			return candidate and M.item(candidate) or nil
 		end,
 		confirm = function()
 			return vim.keycode("<Cmd>lua require('atusy.lsp.skkelua').confirm()<CR>")
 		end,
-		trigger = function()
+	})
+	local group = vim.api.nvim_create_augroup("atusy.skkelua.lsp", { clear = true })
+	-- Restoring the pre-edit involves no typing, so laser does not complete by itself.
+	vim.api.nvim_create_autocmd("User", {
+		group = group,
+		pattern = "skkelua-pre-edit-restored",
+		callback = function()
 			if opts.trigger then
 				opts.trigger()
 			else
@@ -97,7 +89,6 @@ function M.setup(opts)
 			end
 		end,
 	})
-	local group = vim.api.nvim_create_augroup("atusy.skkelua.lsp", { clear = true })
 	vim.api.nvim_create_autocmd("InsertEnter", {
 		group = group,
 		callback = function()
