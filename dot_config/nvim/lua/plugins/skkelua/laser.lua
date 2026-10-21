@@ -1,17 +1,6 @@
 -- laser presentation and lifecycle around skkelua's completion adapter.
 local M = {}
 
----@return table? candidate selected in laser's menu
-local function selected()
-	local laser = require("laser")
-	if not laser.visible() then
-		return nil
-	end
-	-- laser has no public accessor for its selection yet.
-	local ui = laser._engine().ui
-	return ui.items()[ui.selected()]
-end
-
 ---Keys for SKK's <C-g>: restore a selected candidate's reading first, and
 ---otherwise close the menu and cancel the conversion on the same key press.
 ---@return string
@@ -21,7 +10,7 @@ function M.cancel_keys()
 	if not require("laser").visible() then
 		return skk_cancel
 	end
-	if selected() then
+	if require("laser").get_selected() then
 		return laser_cancel
 	end
 	return laser_cancel .. skk_cancel
@@ -31,12 +20,7 @@ function M.setup(opts)
 	opts = opts or {}
 	require("skkelua.completion").set_adapter({
 		selected = function()
-			local candidate = selected()
-			if not candidate then
-				return nil
-			end
-			local laser = vim.tbl_get(candidate, "user_data", "laser")
-			return laser and laser.item or {}
+			return require("laser").get_selected()
 		end,
 		confirm = function()
 			return vim.keycode("<Cmd>lua require('laser').confirm()<CR>")
