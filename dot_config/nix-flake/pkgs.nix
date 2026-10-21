@@ -49,7 +49,6 @@ let
     pkgs.jq
     pkgs.just
     pkgs.kind
-    pkgs.kitty
     pkgs.kubectl
     pkgs.kubectx
     pkgs.lnav
@@ -131,6 +130,7 @@ let
 in
 {
   x86_64-linux = common ++ [
+    pkgs.kitty
     pkgs.paru
     pkgs.podman
     pkgs.podman-compose
@@ -139,6 +139,11 @@ in
     pkgs.docker-compose
     pkgs.mas
     pkgs.terminal-notifier
+  ];
+
+  # Installed through system.appIdentity.apps to preserve macOS permissions.
+  aarch64-darwin-apps = [
+    pkgs.kitty
 
     # https://github.com/BatteredBunny/brew-nix
     pkgs.brewCasks.bitwarden

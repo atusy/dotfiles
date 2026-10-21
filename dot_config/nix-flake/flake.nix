@@ -8,6 +8,10 @@
     nixpkgs-oxlint.url = "github:nixos/nixpkgs/241313f4e8e508cb9b13278c2b0fa25b9ca27163";
     nix-darwin.url = "github:nix-darwin/nix-darwin/master";
     nix-darwin.inputs.nixpkgs.follows = "nixpkgs";
+    nix-mac-app-identity = {
+      url = "github:natsukium/nix-mac-app-identity";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     home-manager = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -61,6 +65,7 @@
         in
         {
           environment.systemPackages = pkgs2.aarch64-darwin;
+          system.appIdentity.apps = pkgs2.aarch64-darwin-apps;
           environment.pathsToLink = [ "/share/nix-direnv" ];
           fonts.packages = pkgs2.fonts;
           homebrew = {
@@ -142,7 +147,10 @@
     else
       {
         darwinConfigurations.${darwinHost} = nix-darwin.lib.darwinSystem {
-          modules = [ darwinConfiguration ];
+          modules = [
+            inputs.nix-mac-app-identity.darwinModules.default
+            darwinConfiguration
+          ];
         };
       };
 }
