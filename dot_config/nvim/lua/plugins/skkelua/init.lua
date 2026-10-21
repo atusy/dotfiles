@@ -94,7 +94,7 @@ return {
 			})
 
 			-- system-specific settings
-			if vim.loop.os_uname().sysname == "Linux" then
+			if vim.uv.os_uname().sysname == "Linux" then
 				local focused = false
 				vim.api.nvim_create_autocmd({ "FocusGained", "InsertEnter", "User" }, {
 					group = augroup,
