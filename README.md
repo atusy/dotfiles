@@ -2,6 +2,12 @@
 
 Version controlled by chezmoi
 
+## Hammerspoon
+
+Configuration lives in `~/.config/hammerspoon`. On macOS, `chezmoi apply`
+sets Hammerspoon's `MJConfigFile` preference to that directory's `init.lua`.
+Restart Hammerspoon after changing this preference.
+
 ## Git
 
 ### Git Hooks

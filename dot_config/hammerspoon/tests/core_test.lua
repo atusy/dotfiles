@@ -1,4 +1,4 @@
--- Run: luajit tests/core_test.lua  (from ~/.hammerspoon)
+-- Run: luajit tests/core_test.lua  (from ~/.config/hammerspoon)
 package.path = "./?.lua;./?/init.lua;" .. package.path
 local core = require("dockswitcher.core")
 
