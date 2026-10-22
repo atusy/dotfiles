@@ -35,6 +35,7 @@ let
     pkgs.gh
     pkgs.ghq
     pkgs.git
+    pkgs.git-lfs
     pkgs.glab
     pkgs.gnugrep
     pkgs.gnumake
