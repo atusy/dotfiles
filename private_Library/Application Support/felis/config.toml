@@ -1,0 +1,25 @@
+[font]
+family = "UDEV Gothic NF"
+size = 15.0
+
+[clipboard]
+use_os_clipboard = true
+osc_52 = "system"
+
+[window]
+decorations = true
+
+[keymap]
+# Kitty-equivalent basics from ~/.config/kitty/kitty.conf.
+"alt+shift+r" = { kind = "reload" }
+"ctrl+shift+v" = { kind = "paste", from = "system" }
+"cmd+0" = { kind = "reset_font_size" }
+"cmd+=" = { kind = "increase_font_size" }
+"cmd+-" = { kind = "decrease_font_size" }
+
+# Kitty tabs map to felis sessions. felis intentionally has no in-terminal
+# splits/panes; use the window manager for that layer.
+"alt+c" = { kind = "new_session" }
+"alt+t" = { kind = "switch_next_session" }
+"alt+shift+t" = { kind = "switch_previous_session" }
+"ctrl+shift+n" = { kind = "run", command = ["open", "-n", "-a", "felis"] }

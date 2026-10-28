@@ -1,0 +1,27 @@
+# nekomata application settings (PR #22). Terminal settings stay in
+# ~/Library/Application Support/felis/config.toml.
+
+[appearance.base.font]
+# Tabs, menus, the search field, the command palette and dialogs.
+family = "UDEV Gothic NF"
+size_px = 13
+
+[keymap]
+# Preserve the former default application bindings.
+"alt+c" = { kind = "tab:create" }
+"alt+t" = { kind = "tab:switch_next" }
+"alt+shift+t" = { kind = "tab:switch_previous" }
+"alt+shift+p" = { kind = "command_palette:open" }
+"alt+w alt+s" = { kind = "pane:split_below" }
+"alt+w alt+v" = { kind = "pane:split_right" }
+"alt+w c" = { kind = "pane:close" }
+"alt+w h" = { kind = "pane:focus_left" }
+"alt+w j" = { kind = "pane:focus_down" }
+"alt+w k" = { kind = "pane:focus_up" }
+"alt+w l" = { kind = "pane:focus_right" }
+
+# Personal bindings.
+"alt+shift+w" = { kind = "tab:close" }
+"alt+w w" = { kind = "pane:focus_next" }
+"alt+shift+n" = { kind = "workspace:create" }
+"alt+shift+o" = { kind = "workspace:switch" }
