@@ -7,21 +7,21 @@ family = "UDEV Gothic NF"
 size_px = 13
 
 [keymap]
-# Preserve the former default application bindings.
-"alt+c" = { kind = "tab:create" }
-"alt+t" = { kind = "tab:switch_next" }
-"alt+shift+t" = { kind = "tab:switch_previous" }
 "alt+shift+p" = { kind = "command_palette:open" }
-"alt+w alt+s" = { kind = "pane:split_below" }
-"alt+w alt+v" = { kind = "pane:split_right" }
-"alt+w c" = { kind = "pane:close" }
-"alt+w h" = { kind = "pane:focus_left" }
-"alt+w j" = { kind = "pane:focus_down" }
-"alt+w k" = { kind = "pane:focus_up" }
-"alt+w l" = { kind = "pane:focus_right" }
 
-# Personal bindings.
-"alt+shift+w" = { kind = "tab:close" }
-"alt+w w" = { kind = "pane:focus_next" }
 "alt+shift+n" = { kind = "workspace:create" }
 "alt+shift+o" = { kind = "workspace:switch" }
+
+"alt+c" = { kind = "tab:create" }
+"alt+shift+w" = { kind = "tab:close" }
+"alt+t" = { kind = "tab:switch", target = "next" }
+"alt+shift+t" = { kind = "tab:switch", target = "previous" }
+
+"alt+w alt+s" = { kind = "pane:split", direction = "below" }
+"alt+w alt+v" = { kind = "pane:split", direction = "right" }
+"alt+w c" = { kind = "pane:close" }
+"alt+w h" = { kind = "pane:focus", target = "left" }
+"alt+w j" = { kind = "pane:focus", target = "down" }
+"alt+w k" = { kind = "pane:focus", target = "up" }
+"alt+w l" = { kind = "pane:focus", target = "right" }
+"alt+w w" = { kind = "pane:focus", target = "next" }
