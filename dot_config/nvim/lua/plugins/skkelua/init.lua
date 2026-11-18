@@ -6,6 +6,8 @@ return {
 			vim.keymap.set({ "i", "c", "t" }, "<C-J>", "<Plug>(skkelua-enable)")
 			local register_kanatable = require("skkelua").register_kanatable
 			register_kanatable("rom", require("plugins.skkelua.azik"), true)
+			-- AZIK uses X to begin readings such as Xa (しゃ).
+			require("skkelua").register_keymap("input", "X", nil)
 			register_kanatable("rom", {
 				["\\"] = "disable",
 				["<s-l>"] = "zenkaku",
