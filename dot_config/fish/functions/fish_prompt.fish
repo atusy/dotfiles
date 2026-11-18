@@ -27,6 +27,7 @@ function __prompt_async_start --on-event fish_prompt
     __prompt_async_cleanup
     set -g __prompt_async_dir (command mktemp -d)
     or return
+    set -g __prompt_async_pwd "$PWD"
 
     for name in PROMPT_KUBEINFO __kubeinfo_cmd __kubeinfo_cache
         if set -q $name
@@ -46,6 +47,11 @@ function __prompt_async_start --on-event fish_prompt
 end
 
 function __prompt_async_render --argument-names dir segment parent
+    if test "$segment" = git
+        __prompt_git_title >"$dir/title.tmp"
+        __prompt_async_publish "$dir/title" $parent
+    end
+
     begin
         switch $segment
             case git
@@ -54,9 +60,26 @@ function __prompt_async_render --argument-names dir segment parent
                 __prompt_kubeinfo
         end
     end >"$dir/$segment.tmp"
-    test -s "$dir/$segment.tmp"
-    and command mv -- "$dir/$segment.tmp" "$dir/$segment"
+    __prompt_async_publish "$dir/$segment" $parent
+end
+
+function __prompt_async_publish --argument-names file parent
+    test -s "$file.tmp"
+    and command mv -- "$file.tmp" "$file"
     and kill -s USR1 $parent
+end
+
+function __prompt_git_title
+    if set -l root (git rev-parse --show-toplevel 2>/dev/null)
+        set -l parent (path dirname -- "$root")
+        set -l prefix (string replace -r '/$' '' -- "$parent")/
+        set -l prefix_length (string length -- "$prefix")
+        if test (string sub --length $prefix_length -- "$PWD") = "$prefix"
+            string sub --start (math $prefix_length + 1) -- "$PWD"
+            return
+        end
+    end
+    path basename -- "$PWD"
 end
 
 function __prompt_async_repaint --on-signal USR1
