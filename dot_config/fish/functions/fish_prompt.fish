@@ -17,6 +17,74 @@ set -g ___fish_git_prompt_char_upstream_diverged '<>'
 set -g ___fish_git_prompt_char_upstream_equal '='
 set -g ___fish_git_prompt_char_upstream_prefix ''
 
+# A new prompt gets its own directory, so a worker from a previous prompt
+# cannot publish into it. Repainting does not start another round of workers.
+set -g __prompt_async_source (path resolve (status filename))
+
+function __prompt_async_start --on-event fish_prompt
+    set -g __prompt_async_started
+    set -e __prompt_status_bold_flag
+    __prompt_async_cleanup
+    set -g __prompt_async_dir (command mktemp -d)
+    or return
+
+    for name in PROMPT_KUBEINFO __kubeinfo_cmd __kubeinfo_cache
+        if set -q $name
+            set -fx $name $$name
+        end
+    end
+
+    set -l fish_executable (status fish-path)
+    for segment in git kube
+        $fish_executable --no-config -c '
+            set -g fish_function_path $argv[5..]
+            source "$argv[1]"
+            __prompt_async_render $argv[2..4]
+        ' -- "$__prompt_async_source" "$__prompt_async_dir" $segment $fish_pid $fish_function_path </dev/null >/dev/null 2>&1 &
+        disown $last_pid
+    end
+end
+
+function __prompt_async_render --argument-names dir segment parent
+    begin
+        switch $segment
+            case git
+                printf '%s' (fish_vcs_prompt)
+            case kube
+                __prompt_kubeinfo
+        end
+    end >"$dir/$segment.tmp"
+    test -s "$dir/$segment.tmp"
+    and command mv -- "$dir/$segment.tmp" "$dir/$segment"
+    and kill -s USR1 $parent
+end
+
+function __prompt_async_repaint --on-signal USR1
+    commandline -f repaint 2>/dev/null
+end
+
+function __prompt_async_cleanup --on-event fish_exit
+    if set -q __prompt_async_dir[1]
+        command rm -rf -- "$__prompt_async_dir"
+        set -e __prompt_async_dir
+    end
+end
+
+function __prompt_kubeinfo
+    set -l prompt_kubeinfo
+    if set -l kubeinfo ( get_kubeinfo | string split " " ); and test -n "$kubeinfo[1]"
+        set -l normal (set_color normal)
+        if test "$PROMPT_KUBEINFO" = false
+            set prompt_kubeinfo " ☸️" # At least notify that kubeinfo is available
+        else
+            test -z "$kubeinfo[2]"; and set kubeinfo[2] N/A
+            set prompt_kubeinfo " ["(set_color cyan){$kubeinfo[1]}{$normal}":"(set_color cyan){$kubeinfo[2]}{$normal}"]"
+        end
+    end
+
+    printf '%s' "$prompt_kubeinfo"
+end
+
 function fish_prompt --description 'Write out the prompt'
     set -l last_pipestatus $pipestatus
     set -lx __fish_last_status $status # Export for __fish_print_pipestatus.
@@ -36,14 +104,19 @@ function fish_prompt --description 'Write out the prompt'
 
     # Write pipestatus
     # If the status was carried over (if no command is issued or if `set` leaves the status untouched), don't bold it.
-    set -l bold_flag --bold
-    set -q __fish_prompt_status_generation; or set -g __fish_prompt_status_generation $status_generation
-    if test $__fish_prompt_status_generation = $status_generation
-        set bold_flag
+    if status is-interactive; and not set -q __prompt_async_started
+        __prompt_async_start
     end
-    set __fish_prompt_status_generation $status_generation
+    if not status is-interactive; or not set -q __prompt_status_bold_flag
+        set -g __prompt_status_bold_flag --bold
+        set -q __fish_prompt_status_generation; or set -g __fish_prompt_status_generation $status_generation
+        if test $__fish_prompt_status_generation = $status_generation
+            set __prompt_status_bold_flag
+        end
+        set __fish_prompt_status_generation $status_generation
+    end
     set -l status_color (set_color $fish_color_status)
-    set -l statusb_color (set_color $bold_flag $fish_color_status)
+    set -l statusb_color (set_color $__prompt_status_bold_flag $fish_color_status)
     set -l prompt_status (__fish_print_pipestatus "[" "]" "|" "$status_color" "$statusb_color" $last_pipestatus)
 
     set -l prompt_user
@@ -54,16 +127,18 @@ function fish_prompt --description 'Write out the prompt'
     set -l color_file (set_color $color_cwd)
     set -l slash "$(set_color "#d2691e")/$color_file"
     set -l prompt_cwd $color_file(prompt_pwd -D 8 | string replace -ar "/" $slash)$normal
-    set -l prompt_vcs (fish_vcs_prompt)
-
+    set -l prompt_vcs
     set -l prompt_kubeinfo
-    if set -l kubeinfo ( get_kubeinfo | string split " " ); and test -n "$kubeinfo[1]"
-        if test "$PROMPT_KUBEINFO" = false
-            set prompt_kubeinfo " ☸️" # At least notify that kubeinfo is available
-        else
-            test -z "$kubeinfo[2]"; and set kubeinfo[2] N/A
-            set prompt_kubeinfo " ["(set_color cyan){$kubeinfo[1]}{$normal}":"(set_color cyan){$kubeinfo[2]}{$normal}"]"
+    if status is-interactive
+        if set -q __prompt_async_dir[1]; and test -f "$__prompt_async_dir/git"
+            read -z prompt_vcs <"$__prompt_async_dir/git"
         end
+        if set -q __prompt_async_dir[1]; and test -f "$__prompt_async_dir/kube"
+            read -z prompt_kubeinfo <"$__prompt_async_dir/kube"
+        end
+    else
+        set prompt_vcs (fish_vcs_prompt)
+        set prompt_kubeinfo (__prompt_kubeinfo)
     end
 
     echo -s $prompt_user $prompt_cwd $prompt_vcs $prompt_kubeinfo " " $prompt_status
