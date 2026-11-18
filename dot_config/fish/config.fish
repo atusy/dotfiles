@@ -41,8 +41,13 @@ abbr -a checkout-detach --function __abbr-checkout-detach --position anywhere
 abbr -a pick-token --regex ',[-+]?[0-9]+' --function __abbr-pick-token --position anywhere
 
 bind \t complete-and-search-if-not-empty
+bind \cx\cf complete-path-with-fzf
 bind \cr set_commandline_from_suggestions
 bind \cc cancel-commandline
+
+if not string match -q -r '(^| )--bind=ctrl-y:replace-query($| )' -- "$FZF_DEFAULT_OPTS"
+    set -gx FZF_DEFAULT_OPTS (string join ' ' -- $FZF_DEFAULT_OPTS --bind=ctrl-y:replace-query)
+end
 
 if set -q NVIM
     function _nvim-preexec --on-event fish_preexec --wraps __nvim-preexec
