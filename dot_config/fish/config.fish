@@ -33,18 +33,12 @@ else
     end
 end
 
-abbr -a kunset 'kubectl config unset current-context'
 abbr -a ping 'ping -c 5'
-abbr -a top htop
-abbr -a df duf
-abbr -a ps procs
-abbr -a du gdu
 abbr -a vim nvim
 abbr -a --set-cursor math 'math "%"'
 abbr -a ll 'eza --long --group --time-style=long-iso'
-abbr -a git-switch-detach --regex '^(dev|main|master)$' --function __abbr-git-switch-detach --position anywhere
-abbr -a checkout --function __abbr-checkout --position anywhere
-abbr -a token --regex ',[-+]?[0-9]+' --function __abbr-token --position anywhere
+abbr -a checkout-detach --function __abbr-checkout-detach --position anywhere
+abbr -a pick-token --regex ',[-+]?[0-9]+' --function __abbr-pick-token --position anywhere
 
 bind \t complete-and-search-if-not-empty
 bind \cr set_commandline_from_suggestions

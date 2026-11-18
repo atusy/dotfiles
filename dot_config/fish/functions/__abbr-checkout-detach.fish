@@ -1,4 +1,4 @@
-function __abbr-checkout
+function __abbr-checkout-detach
     set -l buf (commandline --current-process | string trim)
     if test "$buf" = "gh pr checkout"
         echo "checkout --detach"

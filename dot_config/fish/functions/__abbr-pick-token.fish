@@ -1,4 +1,4 @@
-function __abbr-token-base
+function __abbr-pick-token-base
     commandline --cut-at-cursor | read --tokenize --list --local tokens_left
 
     set -l idx ( echo $tokens_left[-1] | string sub --start 2 )
@@ -24,6 +24,6 @@ function __abbr-token-base
     echo $tokens_all[$idx]
 end
 
-function __abbr-token
-    __abbr-token-base | string escape
+function __abbr-pick-token
+    __abbr-pick-token-base | string escape
 end
