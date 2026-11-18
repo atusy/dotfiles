@@ -1,5 +1,6 @@
 function set_gh_config_dir --on-variable PWD
-    if set -l ghq_root (ghq root)
+    set -l profiles "$HOME"/.config/gh_*
+    if set -q profiles[1]; and path filter -qd -- $profiles; and set -l ghq_root (__ghq_root)
         set -l pattern ^(string escape --style regex "$ghq_root"/github.com/)"([^/]+)"
         if set -l candidate "$HOME/.config/gh_"(string match --groups-only --regex "$pattern" "$PWD"); and test -d "$candidate"
             set -gx GH_CONFIG_DIR "$candidate"

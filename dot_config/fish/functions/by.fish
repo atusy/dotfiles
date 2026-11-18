@@ -1,4 +1,4 @@
-set -l root (ghq root)
+set -l root (__ghq_root); or return
 set -l repo "github.com/atusy/by-binds-yourself"
 set -l dir "$root/$repo"
 
