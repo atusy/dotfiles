@@ -1,4 +1,4 @@
--- laser presentation and lifecycle around skkelua's completion adapter.
+-- laser presentation and lifecycle around skkelua's in-process LSP server.
 local M = {}
 
 ---Keys for SKK's <C-g>: restore a selected candidate's reading first, and
@@ -16,29 +16,8 @@ function M.cancel_keys()
 	return laser_cancel .. skk_cancel
 end
 
-function M.setup(opts)
-	opts = opts or {}
-	require("skkelua.completion").set_adapter({
-		selected = function()
-			return require("laser").get_selected()
-		end,
-		confirm = function()
-			return vim.keycode("<Cmd>lua require('laser').confirm()<CR>")
-		end,
-	})
+function M.setup()
 	local group = vim.api.nvim_create_augroup("atusy.skkelua.laser", { clear = true })
-	-- Restoring the pre-edit involves no typing, so laser does not complete by itself.
-	vim.api.nvim_create_autocmd("User", {
-		group = group,
-		pattern = "skkelua-pre-edit-restored",
-		callback = function()
-			if opts.trigger then
-				opts.trigger()
-			else
-				require("plugins.laser.completion").complete()
-			end
-		end,
-	})
 	vim.api.nvim_create_autocmd("InsertEnter", {
 		group = group,
 		callback = function()

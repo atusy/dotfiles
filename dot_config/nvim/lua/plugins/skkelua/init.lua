@@ -1,7 +1,6 @@
 return {
 	{
-		"https://github.com/atusy/skkelua.nvim",
-		branch = "feat/lsp-external-completion",
+		"https://github.com/kjuq/skkelua.nvim",
 		config = function()
 			vim.keymap.set({ "i", "c", "t" }, "<C-J>", "<Plug>(skkelua-enable)")
 			local register_kanatable = require("skkelua").register_kanatable
@@ -89,11 +88,7 @@ return {
 			})
 
 			-- init
-			require("plugins.skkelua.laser").setup({
-				trigger = function()
-					require("plugins.laser.completion").complete()
-				end,
-			})
+			require("plugins.skkelua.laser").setup()
 
 			-- system-specific settings
 			if vim.uv.os_uname().sysname == "Linux" then

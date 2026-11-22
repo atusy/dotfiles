@@ -1,6 +1,6 @@
 local MiniTest = require("mini.test")
 local expect = MiniTest.expect
-local saved, menu, adapter
+local saved, menu
 
 local function candidate(label)
 	return { word = label, user_data = { laser = { item = { label = label, data = { skkelua = true } } } } }
@@ -13,7 +13,6 @@ local T = MiniTest.new_set({
 			for _, name in ipairs({
 				"laser",
 				"skkelua",
-				"skkelua.completion",
 				"skkelua.guard",
 				"skkelua.lsp",
 				"plugins.skkelua.laser",
@@ -25,22 +24,9 @@ local T = MiniTest.new_set({
 				visible = function()
 					return menu.visible
 				end,
-				_engine = function()
-					return {
-						ui = {
-							selected = function()
-								return menu.selected
-							end,
-							items = function()
-								return menu.items
-							end,
-						},
-					}
-				end,
-			}
-			package.loaded["skkelua.completion"] = {
-				set_adapter = function(value)
-					adapter = value
+				get_selected = function()
+					local selected = menu.visible and menu.items[menu.selected]
+					return selected and selected.user_data.laser.item or nil
 				end,
 			}
 			package.loaded["skkelua.lsp"] = { start = function() end }
@@ -55,32 +41,6 @@ local T = MiniTest.new_set({
 		end,
 	},
 })
-
-T["adapter reports laser's selected item"] = function()
-	expect.equality(adapter.selected(), nil)
-	menu.visible, menu.items = true, { candidate("漢字"), candidate("感じ") }
-	expect.equality(adapter.selected(), nil)
-	menu.selected = 2
-	expect.equality(adapter.selected(), menu.items[2].user_data.laser.item)
-	menu.visible = false
-	expect.equality(adapter.selected(), nil)
-end
-
-T["a restored pre-edit makes laser complete again"] = function()
-	local completed = 0
-	package.loaded["plugins.laser.completion"] = {
-		complete = function()
-			completed = completed + 1
-		end,
-	}
-	vim.api.nvim_exec_autocmds("User", { pattern = "skkelua-pre-edit-restored" })
-	package.loaded["plugins.laser.completion"] = nil
-	expect.equality(completed, 1)
-end
-
-T["adapter confirms through laser"] = function()
-	expect.equality(adapter.confirm(), vim.keycode("<Cmd>lua require('laser').confirm()<CR>"))
-end
 
 T["<C-g> restores a selected candidate before cancelling SKK"] = function()
 	local provider = require("plugins.skkelua.laser")
