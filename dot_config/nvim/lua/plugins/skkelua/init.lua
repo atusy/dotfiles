@@ -1,6 +1,7 @@
 return {
 	{
-		"https://github.com/kjuq/skkelua.nvim",
+		"https://github.com/atusy/skkelua.nvim",
+		branch = "fix/indicator-ctrl-c", -- kjuq/skkelua.nvim#5
 		config = function()
 			vim.keymap.set({ "i", "c", "t" }, "<C-J>", "<Plug>(skkelua-enable)")
 			local register_kanatable = require("skkelua").register_kanatable
