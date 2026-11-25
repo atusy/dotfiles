@@ -8,12 +8,10 @@
 let
   common = [
     pkgs.agent-browser
-    pkgs.aha # Converet ANSI escape sequences to HTML
     pkgs.avahi
     pkgs.bash
     pkgs.bat
     pkgs.bitwarden-cli
-    pkgs.buf
     pkgs.bun
     pkgs.chezmoi
     pkgs.claude-agent-acp
@@ -21,7 +19,6 @@ let
     pkgs.copilot-language-server
     pkgs.coreutils-full
     pkgs.delta
-    pkgs.deno
     pkgs.direnv
     pkgs.duf
     pkgs.eza
@@ -36,7 +33,6 @@ let
     pkgs.ghq
     pkgs.git
     pkgs.git-lfs
-    pkgs.glab
     pkgs.gnugrep
     pkgs.gnumake
     pkgs.gnused
@@ -52,9 +48,7 @@ let
     pkgs.kind
     pkgs.kubectl
     pkgs.kubectx
-    pkgs.lnav
     pkgs-master.mise
-    pkgs.mypy
     pkgs.neovim # nightly
     pkgs.neovim-remote
     pkgs.ninja
@@ -64,14 +58,11 @@ let
     pkgs.pandoc
     pkgs.pnpm
     pkgs.procs
-    pkgs.python312
+    pkgs.python316
     pkgs.quarto
     pkgs.ripgrep
     pkgs.rsync
     pkgs.sheldon
-    pkgs.silicon
-    pkgs.skim
-    pkgs.sqlx-cli
     pkgs.terraform
     pkgs.tmux
     pkgs.trash-cli
@@ -79,7 +70,6 @@ let
     pkgs.uv
     pkgs.watch
     pkgs.wget2
-    pkgs.zig
     pkgs.zoxide
 
     # language servers
@@ -102,7 +92,6 @@ let
     # formatters/linters
     # pkgs.actionlint
     pkgs.air-formatter
-    pkgs.biome
     pkgs.checkmate
     pkgs.dprint
     pkgs.gotools
@@ -113,7 +102,6 @@ let
     # hard-coded /bin/ps that the nix build context refuses (EPERM).
     # Unpin once nixpkgs builds it again.
     pkgs-oxlint.oxlint
-    pkgs.prettierd
     pkgs.ruff
     pkgs.shellcheck
     pkgs.shfmt
@@ -133,8 +121,6 @@ in
   x86_64-linux = common ++ [
     pkgs.kitty
     pkgs.paru
-    pkgs.podman
-    pkgs.podman-compose
   ];
   aarch64-darwin = common ++ [
     pkgs.docker-compose
